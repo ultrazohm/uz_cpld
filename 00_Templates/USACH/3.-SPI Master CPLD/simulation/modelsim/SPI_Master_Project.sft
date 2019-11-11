@@ -1,0 +1,4 @@
+set tool_name "ModelSim-Altera (VHDL)"
+set corner_file_list {
+    {{"Slow Model"} {SPI_Master_Project.vho SPI_Master_Project_vhd.sdo}}
+}

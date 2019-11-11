@@ -1,0 +1,152 @@
+--------------------------------------------------------------------------------
+--
+--  ·························································
+--  · FileName:         main.vhd                            ·
+--  · Dependencies:     spi_slave.vhd (v1.1)                ·
+--  ·                   spi_bridge.vhd (v1.0)               ·
+--  · Design Software:  Quartus II Version 16.0.0 build 211 ·
+--  ·························································
+--
+--   Version History
+--   Version 1.0 05/02/2017 M. Medel
+--	  Version 2.0 21/07/2017 D. Arancibia
+--------------------------------------------------------------------------------
+
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+--USE ieee.std_logic_arith.all;
+USE ieee.numeric_std.all;
+
+ENTITY main IS
+	PORT
+	(
+		clock			: IN	STD_LOGIC;  		--system clock
+		reset_n		: IN	STD_LOGIC;
+		trip			: IN	STD_LOGIC;
+
+		PWM1			: OUT STD_LOGIC;
+		PWM2			: OUT STD_LOGIC;
+		PWM3			: OUT STD_LOGIC;
+		PWM4			: OUT STD_LOGIC;
+		PWM5			: OUT STD_LOGIC;
+		PWM6			: OUT STD_LOGIC;
+		PWM7			: OUT STD_LOGIC;
+		PWM8			: OUT STD_LOGIC;
+		PWM9			: OUT STD_LOGIC;
+		PWM10			: OUT STD_LOGIC;
+		PWM11			: OUT STD_LOGIC;
+		PWM12			: OUT STD_LOGIC;
+		PWM13			: OUT STD_LOGIC;
+		PWM14			: OUT STD_LOGIC;
+		PWM15			: OUT STD_LOGIC;
+		PWM16			: OUT STD_LOGIC;
+		PWM17			: OUT STD_LOGIC;
+		PWM18			: OUT STD_LOGIC;
+		PWM19			: OUT STD_LOGIC;
+		PWM20			: OUT STD_LOGIC;
+		PWM21			: OUT STD_LOGIC;
+		PWM22			: OUT STD_LOGIC;
+		PWM23			: OUT STD_LOGIC;
+		PWM24			: OUT STD_LOGIC;
+		
+		DATA1			: inout STD_LOGIC;
+		DATA2			: inout STD_LOGIC;
+		DATA3			: in	STD_LOGIC;
+		DATA4			: in	STD_LOGIC;
+		DATA5			: OUT STD_LOGIC;
+		DATA6			: OUT STD_LOGIC;
+		DATA7			: OUT STD_LOGIC;
+		DATA8			: OUT STD_LOGIC
+	);
+
+END main;
+
+ARCHITECTURE logic OF main IS
+
+	SIGNAL ena_S			: STD_LOGIC := '0';
+	SIGNAL busy_S     	: STD_LOGIC;
+	SIGNAL reset_S    	: STD_LOGIC;
+   SIGNAL ack_error_S	: STD_LOGIC;
+	
+   SIGNAL data_rd_S   : STD_LOGIC_VECTOR(7 downto 0);
+	 
+	
+	COMPONENT i2c_master IS
+	GENERIC
+	(
+		input_clk : INTEGER := 40_000_000; --input clock speed from user logic in Hz
+		bus_clk   : INTEGER := 100_000     --speed the i2c bus (scl) will run at in Hz
+	);
+	PORT
+	(
+		clk       : IN     STD_LOGIC;                    --system clock
+		reset_n   : IN     STD_LOGIC;                    --active low reset
+		ena       : IN     STD_LOGIC;                    --latch in command
+		addr      : IN     STD_LOGIC_VECTOR(6 DOWNTO 0); --address of target slave
+		rw        : IN     STD_LOGIC;                    --'0' is write, '1' is read
+		data_wr   : IN     STD_LOGIC_VECTOR(7 DOWNTO 0); --data to write to slave
+		busy      : OUT    STD_LOGIC;                    --indicates transaction in progress
+		data_rd   : OUT    STD_LOGIC_VECTOR(7 DOWNTO 0); --data read from slave
+		ack_error : BUFFER STD_LOGIC;                    --flag if improper acknowledge from slave
+		sda       : INOUT  STD_LOGIC;                    --serial data output of i2c bus
+		scl       : INOUT  STD_LOGIC                     --serial clock output of i2c bus
+	);
+	END COMPONENT i2c_master;
+  
+--=========================================================================================================================   
+BEGIN
+
+
+	i2c_master_0 : i2c_master
+	PORT MAP
+	(
+		clk         => clock,            --system clock
+		reset_n     => reset_S,          --active low reset
+		ena         => ena_S,            --latch in command
+		addr        => "1101000",
+		rw          => '0',--rw_S,       --'0' is write, '1' is read
+		data_wr     => "00000000", 		--data to write to slave
+		busy        => busy_S,           --indicates transaction in progress
+		data_rd		=> data_rd_S, 			--data read from slave
+		ack_error	=> ack_error_S,      --flag if improper acknowledge from slave
+		sda			=> DATA2,            --serial data output of i2c bus
+		scl			=> DATA1    	      --serial clock output of i2c bus
+	);
+
+
+	PWM1	<= NOT data_rd_S(0);
+	PWM2	<= NOT data_rd_S(1);
+	PWM3	<= NOT data_rd_S(2);
+	PWM4	<= NOT data_rd_S(3);
+	PWM5	<= NOT data_rd_S(4);
+	PWM6	<= NOT data_rd_S(5);
+	PWM7	<= NOT data_rd_S(6);
+	PWM8	<= NOT data_rd_S(7);
+	PWM9	<= NOT '0';
+	PWM10	<= NOT '0';
+	PWM11	<= NOT '0';
+	PWM12	<= NOT '0';
+	
+	PWM13	<= NOT ack_error_S;
+	PWM14	<= NOT busy_S;
+	PWM15	<= NOT '0';
+	PWM16	<= NOT '0';
+	PWM17	<= NOT '0';
+	PWM18	<= NOT '0';
+	PWM19	<= NOT '0';
+	PWM20	<= NOT '0';
+	PWM21	<= NOT '0';
+	PWM22	<= NOT '0';
+	PWM23	<= NOT '0';
+	PWM24	<= NOT '0';
+	
+--	DATA1	<= '1';
+--	DATA2	<= '1';
+	ena_S <= DATA3;
+	reset_S <= DATA4;
+	DATA5	<= '1';
+	DATA6	<= '1';
+	DATA7	<= '1';
+	DATA8	<= '1';
+	
+END logic;

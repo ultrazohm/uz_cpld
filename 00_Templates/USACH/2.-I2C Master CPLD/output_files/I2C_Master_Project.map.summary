@@ -1,0 +1,9 @@
+Analysis & Synthesis Status : Successful - Wed Aug 08 19:28:28 2018
+Quartus Prime Version : 16.0.0 Build 211 04/27/2016 SJ Standard Edition
+Revision Name : I2C_Master_Project
+Top-level Entity Name : main
+Family : MAX II
+Total logic elements : 100
+Total pins : 35
+Total virtual pins : 0
+UFM blocks : 0 / 1 ( 0 % )

@@ -1,0 +1,3 @@
+D:\Work_Lattice\UltraZohm_CarrierBoard\UltraZohm_CarrierBoard_GatePWMthroughCPLD_DigInput\la128v_io_example.lct : <W0104> : Location Assignment 'enable_in' : Can not find this signal name.
+D:\Work_Lattice\UltraZohm_CarrierBoard\UltraZohm_CarrierBoard_GatePWMthroughCPLD_DigInput\la128v_io_example.lct : <W0601> : IO Types Setting 'enable_in' : Invalid signal name.
+Loading Lattice Constraint File 'D:\Work_Lattice\UltraZohm_CarrierBoard\UltraZohm_CarrierBoard_GatePWMthroughCPLD_DigInput\la128v_io_example.lct' done!

@@ -1,0 +1,67 @@
+|--------------------------------------------------- ----------|
+|- ispLEVER Classic 2.0.00.17.20.15 Equations File            -|
+|- Copyright(C), 1992-2012, Lattice Semiconductor Corporation -|
+|- All Rights Reserved.                                       -|
+|--------------------------------------------------------------|
+
+
+Equations:
+
+out_0_ = in_0_ & enable_in ; (1 pterm, 2 signals)
+
+out_10_ = in_10_ & enable_in ; (1 pterm, 2 signals)
+
+out_11_ = in_11_ & enable_in ; (1 pterm, 2 signals)
+
+out_12_ = in_12_ & enable_in ; (1 pterm, 2 signals)
+
+out_13_ = in_13_ & enable_in ; (1 pterm, 2 signals)
+
+out_14_ = in_14_ & enable_in ; (1 pterm, 2 signals)
+
+out_15_ = in_15_ & enable_in ; (1 pterm, 2 signals)
+
+out_16_ = in_16_ & enable_in ; (1 pterm, 2 signals)
+
+out_17_ = in_17_ & enable_in ; (1 pterm, 2 signals)
+
+out_18_ = in_18_ & enable_in ; (1 pterm, 2 signals)
+
+out_19_ = in_19_ & enable_in ; (1 pterm, 2 signals)
+
+out_1_ = in_1_ & enable_in ; (1 pterm, 2 signals)
+
+out_20_ = in_20_ & enable_in ; (1 pterm, 2 signals)
+
+out_21_ = in_21_ & enable_in ; (1 pterm, 2 signals)
+
+out_22_ = in_22_ & enable_in ; (1 pterm, 2 signals)
+
+out_23_ = in_23_ & enable_in ; (1 pterm, 2 signals)
+
+out_24_ = in_24_ & enable_in ; (1 pterm, 2 signals)
+
+out_25_ = in_25_ & enable_in ; (1 pterm, 2 signals)
+
+out_26_ = in_26_ & enable_in ; (1 pterm, 2 signals)
+
+out_27_ = in_27_ & enable_in ; (1 pterm, 2 signals)
+
+out_28_ = in_28_ & enable_in ; (1 pterm, 2 signals)
+
+out_2_ = in_2_ & enable_in ; (1 pterm, 2 signals)
+
+out_3_ = in_3_ & enable_in ; (1 pterm, 2 signals)
+
+out_4_ = in_4_ & enable_in ; (1 pterm, 2 signals)
+
+out_5_ = in_5_ & enable_in ; (1 pterm, 2 signals)
+
+out_6_ = in_6_ & enable_in ; (1 pterm, 2 signals)
+
+out_7_ = in_7_ & enable_in ; (1 pterm, 2 signals)
+
+out_8_ = in_8_ & enable_in ; (1 pterm, 2 signals)
+
+out_9_ = in_9_ & enable_in ; (1 pterm, 2 signals)
+

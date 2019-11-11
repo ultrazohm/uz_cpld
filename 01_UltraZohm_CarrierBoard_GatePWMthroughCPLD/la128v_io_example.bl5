@@ -1,0 +1,78 @@
+#$ TOOL  ispLEVER Classic 2.0.00.17.20.15
+#$ DATE  Thu Apr 04 09:39:59 2019
+#$ MODULE  top_level
+#$ TITLE  top_level.bls 
+#$ PINS 59 out_28_ out_27_ out_26_ out_25_ out_24_ out_23_ out_22_ out_21_
+ out_20_ out_19_ out_18_ out_17_ out_16_ out_15_ out_14_ out_13_ out_12_ out_11_
+ out_10_ out_9_ out_8_ out_7_ out_6_ out_5_ out_4_ in_13_ in_4_ in_28_ in_27_
+ in_26_ in_25_ in_24_ in_23_ in_22_ in_21_ in_20_ in_19_ in_18_ in_17_ in_16_
+ in_15_ in_14_ in_12_ in_11_ in_10_ in_9_ in_8_ in_7_ in_6_ in_5_ out_3_ out_2_
+ out_1_ out_0_ in_3_ in_2_ in_1_ in_0_ enable_in
+.model top_level 
+.inputs enable_in.BLIF in_28_.BLIF in_27_.BLIF in_26_.BLIF in_25_.BLIF \
+ in_24_.BLIF in_23_.BLIF in_22_.BLIF in_21_.BLIF in_20_.BLIF in_19_.BLIF \
+ in_18_.BLIF in_17_.BLIF in_16_.BLIF in_15_.BLIF in_14_.BLIF in_13_.BLIF \
+ in_12_.BLIF in_11_.BLIF in_10_.BLIF in_9_.BLIF in_8_.BLIF in_7_.BLIF in_6_.BLIF \
+ in_5_.BLIF in_3_.BLIF in_0_.BLIF in_4_.BLIF in_1_.BLIF in_2_.BLIF
+.outputs out_28_ out_27_ out_26_ out_25_ out_24_ out_23_ out_22_ out_21_ out_20_ \
+ out_19_ out_18_ out_17_ out_16_ out_15_ out_14_ out_13_ out_12_ out_11_ out_10_ \
+ out_9_ out_8_ out_7_ out_6_ out_5_ out_4_ out_3_ out_2_ out_1_ out_0_
+.names enable_in.BLIF in_28_.BLIF out_28_
+11 1
+.names enable_in.BLIF in_27_.BLIF out_27_
+11 1
+.names enable_in.BLIF in_26_.BLIF out_26_
+11 1
+.names enable_in.BLIF in_25_.BLIF out_25_
+11 1
+.names enable_in.BLIF in_24_.BLIF out_24_
+11 1
+.names enable_in.BLIF in_23_.BLIF out_23_
+11 1
+.names enable_in.BLIF in_22_.BLIF out_22_
+11 1
+.names enable_in.BLIF in_21_.BLIF out_21_
+11 1
+.names enable_in.BLIF in_20_.BLIF out_20_
+11 1
+.names enable_in.BLIF in_19_.BLIF out_19_
+11 1
+.names enable_in.BLIF in_18_.BLIF out_18_
+11 1
+.names enable_in.BLIF in_17_.BLIF out_17_
+11 1
+.names enable_in.BLIF in_16_.BLIF out_16_
+11 1
+.names enable_in.BLIF in_15_.BLIF out_15_
+11 1
+.names enable_in.BLIF in_14_.BLIF out_14_
+11 1
+.names enable_in.BLIF in_13_.BLIF out_13_
+11 1
+.names enable_in.BLIF in_12_.BLIF out_12_
+11 1
+.names enable_in.BLIF in_11_.BLIF out_11_
+11 1
+.names enable_in.BLIF in_10_.BLIF out_10_
+11 1
+.names enable_in.BLIF in_9_.BLIF out_9_
+11 1
+.names enable_in.BLIF in_8_.BLIF out_8_
+11 1
+.names enable_in.BLIF in_7_.BLIF out_7_
+11 1
+.names enable_in.BLIF in_6_.BLIF out_6_
+11 1
+.names enable_in.BLIF in_5_.BLIF out_5_
+11 1
+.names enable_in.BLIF in_4_.BLIF out_4_
+11 1
+.names enable_in.BLIF in_3_.BLIF out_3_
+11 1
+.names enable_in.BLIF in_2_.BLIF out_2_
+11 1
+.names enable_in.BLIF in_1_.BLIF out_1_
+11 1
+.names enable_in.BLIF in_0_.BLIF out_0_
+11 1
+.end

@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE		ispXCF	SYSTEM	"IspXCF.dtd" >
+<ispXCF version="3.11.0">
+	<Comment></Comment>
+	<Chain>
+		<Comm>JTAG</Comm>
+		<Device>
+			<SelectedProg value="TRUE"/>
+			<Pos>1</Pos>
+			<Vendor>Lattice</Vendor>
+			<Family>ispMACH4000</Family>
+			<Name>LA4128V</Name>
+			<IDCode>0x01811043</IDCode>
+			<Package>All</Package>
+			<PON>LA4128V</PON>
+			<Bypass>
+				<InstrLen>8</InstrLen>
+				<InstrVal>11111111</InstrVal>
+				<BScanLen>1</BScanLen>
+				<BScanVal>0</BScanVal>
+			</Bypass>
+			<File>C:/XilinxEyke/CPLDs/Work_Lattice/03_UltraZohm_CarrierBoard_GatePWMthroughCPLD_withEnable/cpld_digital_opticalv2.jed</File>
+			<FileTime>12/20/19 17:48:38</FileTime>
+			<JedecChecksum>0x204C</JedecChecksum>
+			<Operation>Erase,Program,Verify</Operation>
+			<Option>
+				<SVFVendor>JTAG STANDARD</SVFVendor>
+				<IOState>HighZ</IOState>
+				<PreloadLength>196</PreloadLength>
+				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
+				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<SVFProcessor>SVF Processor</SVFProcessor>
+				<Usercode>0xFFFFFFFF</Usercode>
+				<AccessMode>JTAG</AccessMode>
+			</Option>
+		</Device>
+		<Device>
+			<SelectedProg value="TRUE"/>
+			<Pos>2</Pos>
+			<Vendor>Lattice</Vendor>
+			<Family>ispMACH4000</Family>
+			<Name>LA4128V</Name>
+			<IDCode>0x01811043</IDCode>
+			<Package>All</Package>
+			<PON>LA4128V</PON>
+			<Bypass>
+				<InstrLen>8</InstrLen>
+				<InstrVal>11111111</InstrVal>
+				<BScanLen>1</BScanLen>
+				<BScanVal>0</BScanVal>
+			</Bypass>
+			<File>C:/XilinxEyke/CPLDs/Work_Lattice/03_UltraZohm_CarrierBoard_GatePWMthroughCPLD_withEnable/cpld_digital_opticalv2.jed</File>
+			<FileTime>12/20/19 17:48:38</FileTime>
+			<JedecChecksum>0x204C</JedecChecksum>
+			<Operation>Erase,Program,Verify</Operation>
+			<Option>
+				<SVFVendor>JTAG STANDARD</SVFVendor>
+				<IOState>HighZ</IOState>
+				<PreloadLength>196</PreloadLength>
+				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
+				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<SVFProcessor>SVF Processor</SVFProcessor>
+				<Usercode>0xFFFFFFFF</Usercode>
+				<AccessMode>JTAG</AccessMode>
+			</Option>
+		</Device>
+		<Device>
+			<SelectedProg value="TRUE"/>
+			<Pos>3</Pos>
+			<Vendor>Lattice</Vendor>
+			<Family>ispMACH4000</Family>
+			<Name>LA4128V</Name>
+			<IDCode>0x01811043</IDCode>
+			<Package>All</Package>
+			<PON>LA4128V</PON>
+			<Bypass>
+				<InstrLen>8</InstrLen>
+				<InstrVal>11111111</InstrVal>
+				<BScanLen>1</BScanLen>
+				<BScanVal>0</BScanVal>
+			</Bypass>
+			<File>C:/XilinxEyke/CPLDs/Work_Lattice/03_UltraZohm_CarrierBoard_GatePWMthroughCPLD_withEnable/cpld_digital_opticalv2.jed</File>
+			<FileTime>12/20/19 17:48:38</FileTime>
+			<JedecChecksum>0x204C</JedecChecksum>
+			<Operation>Erase,Program,Verify</Operation>
+			<Option>
+				<SVFVendor>JTAG STANDARD</SVFVendor>
+				<IOState>HighZ</IOState>
+				<PreloadLength>196</PreloadLength>
+				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
+				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<SVFProcessor>SVF Processor</SVFProcessor>
+				<Usercode>0xFFFFFFFF</Usercode>
+				<AccessMode>JTAG</AccessMode>
+			</Option>
+		</Device>
+		<Device>
+			<SelectedProg value="TRUE"/>
+			<Pos>4</Pos>
+			<Vendor>Lattice</Vendor>
+			<Family>ispMACH4000</Family>
+			<Name>LA4128V</Name>
+			<IDCode>0x01811043</IDCode>
+			<Package>All</Package>
+			<PON>LA4128V</PON>
+			<Bypass>
+				<InstrLen>8</InstrLen>
+				<InstrVal>11111111</InstrVal>
+				<BScanLen>1</BScanLen>
+				<BScanVal>0</BScanVal>
+			</Bypass>
+			<File>C:/XilinxEyke/CPLDs/Work_Lattice/03_UltraZohm_CarrierBoard_GatePWMthroughCPLD_withEnable/cpld_digital_opticalv2.jed</File>
+			<FileTime>12/20/19 17:48:38</FileTime>
+			<JedecChecksum>0x204C</JedecChecksum>
+			<Operation>Erase,Program,Verify</Operation>
+			<Option>
+				<SVFVendor>JTAG STANDARD</SVFVendor>
+				<IOState>HighZ</IOState>
+				<PreloadLength>196</PreloadLength>
+				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
+				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<SVFProcessor>SVF Processor</SVFProcessor>
+				<Usercode>0xFFFFFFFF</Usercode>
+				<AccessMode>JTAG</AccessMode>
+			</Option>
+		</Device>
+		<Device>
+			<SelectedProg value="TRUE"/>
+			<Pos>5</Pos>
+			<Vendor>Lattice</Vendor>
+			<Family>ispMACH4000</Family>
+			<Name>LA4128V</Name>
+			<IDCode>0x01811043</IDCode>
+			<Package>All</Package>
+			<PON>LA4128V</PON>
+			<Bypass>
+				<InstrLen>8</InstrLen>
+				<InstrVal>11111111</InstrVal>
+				<BScanLen>1</BScanLen>
+				<BScanVal>0</BScanVal>
+			</Bypass>
+			<File>C:/XilinxEyke/CPLDs/Work_Lattice/02_UltraZohm_CarrierBoard_Encoder_DigInput/la128v_io_example.jed</File>
+			<FileTime>04/05/19 17:27:48</FileTime>
+			<JedecChecksum>0x2378</JedecChecksum>
+			<Operation>Erase,Program,Verify</Operation>
+			<Option>
+				<SVFVendor>JTAG STANDARD</SVFVendor>
+				<IOState>HighZ</IOState>
+				<PreloadLength>196</PreloadLength>
+				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
+				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<SVFProcessor>SVF Processor</SVFProcessor>
+				<Usercode>0xFFFFFFFF</Usercode>
+				<AccessMode>JTAG</AccessMode>
+			</Option>
+		</Device>
+	</Chain>
+	<ProjectOptions>
+		<Program>SEQUENTIAL</Program>
+		<Process>ENTIRED CHAIN</Process>
+		<OperationOverride>No Override</OperationOverride>
+		<StartTAP>TLR</StartTAP>
+		<EndTAP>TLR</EndTAP>
+		<VerifyUsercode value="FALSE"/>
+		<TCKDelay>1</TCKDelay>
+	</ProjectOptions>
+	<CableOptions>
+		<CableName>USB2</CableName>
+		<PortAdd>FTUSB-0</PortAdd>
+		<USBID>Dual RS232-HS A Location 0000 Serial A</USBID>
+	</CableOptions>
+</ispXCF>

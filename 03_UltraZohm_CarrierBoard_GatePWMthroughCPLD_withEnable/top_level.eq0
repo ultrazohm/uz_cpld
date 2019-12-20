@@ -1,0 +1,499 @@
+ispLEVER Classic 2.0.00.17.20.15 Linked Equations File
+Copyright(C), 1992-2015, Lattice Semiconductor Corp.
+All Rights Reserved.
+
+Design top_level created Tue Nov 05 11:19:38 2019
+
+Title: top_level.bls 
+
+ P-Terms   Fan-in  Fan-out  Type  Name (attributes)
+---------  ------  -------  ----  -----------------
+   1/1        1        1    Pin   out_28_ 
+   1/1        1        1    Pin   out_27_ 
+   1/1        1        1    Pin   out_26_ 
+   1/1        1        1    Pin   out_25_ 
+   1/1        1        1    Pin   out_24_ 
+   1/1        1        1    Pin   out_23_ 
+   1/1        1        1    Pin   out_22_ 
+   1/1        1        1    Pin   out_21_ 
+   1/1        1        1    Pin   out_20_ 
+   1/1        1        1    Pin   out_19_ 
+   1/1        1        1    Pin   out_18_ 
+   1/1        1        1    Pin   out_17_ 
+   1/1        1        1    Pin   out_16_ 
+   1/1        1        1    Pin   out_15_ 
+   1/1        1        1    Pin   out_14_ 
+   1/1        1        1    Pin   out_13_ 
+   1/1        1        1    Pin   out_12_ 
+   1/1        1        1    Pin   out_11_ 
+   1/1        1        1    Pin   out_10_ 
+   1/1        1        1    Pin   out_9_ 
+   1/1        1        1    Pin   out_8_ 
+   1/1        1        1    Pin   out_7_ 
+   1/1        1        1    Pin   out_6_ 
+   1/1        1        1    Pin   out_5_ 
+   1/1        1        1    Pin   out_4_ 
+   1/1        1        1    Pin   out_3_ 
+   1/1        1        1    Pin   out_2_ 
+   1/1        1        1    Pin   out_1_ 
+   1/1        1        1    Pin   out_0_ 
+   1/4        4        1    Node  ENABLE 
+   1/2        2        1    Node  DOUT_4_ 
+   1/2        2        1    Node  DOUT_5_ 
+   1/2        2        1    Node  DOUT_6_ 
+   1/2        2        1    Node  DOUT_7_ 
+   1/2        2        1    Node  DOUT_8_ 
+   1/2        2        1    Node  DOUT_9_ 
+   1/2        2        1    Node  DOUT_10_ 
+   1/2        2        1    Node  DOUT_11_ 
+   1/2        2        1    Node  DOUT_12_ 
+   1/2        2        1    Node  DOUT_13_ 
+   1/2        2        1    Node  DOUT_14_ 
+   1/2        2        1    Node  DOUT_15_ 
+   1/2        2        1    Node  DOUT_16_ 
+   1/2        2        1    Node  DOUT_17_ 
+   1/2        2        1    Node  DOUT_18_ 
+   1/2        2        1    Node  DOUT_19_ 
+   1/2        2        1    Node  DOUT_20_ 
+   1/2        2        1    Node  DOUT_21_ 
+   1/2        2        1    Node  DOUT_22_ 
+   1/2        2        1    Node  DOUT_23_ 
+   1/2        2        1    Node  DOUT_24_ 
+   1/2        2        1    Node  DOUT_25_ 
+   1/2        2        1    Node  DOUT_26_ 
+   1/2        2        1    Node  DOUT_27_ 
+   1/2        2        1    Node  DOUT_28_ 
+   1/1        1        1    Node  DIN_4_ 
+   1/1        1        1    Node  DIN_5_ 
+   1/1        1        1    Node  DIN_6_ 
+   1/1        1        1    Node  DIN_7_ 
+   1/1        1        1    Node  DIN_8_ 
+   1/1        1        1    Node  DIN_9_ 
+   1/1        1        1    Node  DIN_10_ 
+   1/1        1        1    Node  DIN_11_ 
+   1/1        1        1    Node  DIN_12_ 
+   1/1        1        1    Node  DIN_13_ 
+   1/1        1        1    Node  DIN_14_ 
+   1/1        1        1    Node  DIN_15_ 
+   1/1        1        1    Node  DIN_16_ 
+   1/1        1        1    Node  DIN_17_ 
+   1/1        1        1    Node  DIN_18_ 
+   1/1        1        1    Node  DIN_19_ 
+   1/1        1        1    Node  DIN_20_ 
+   1/1        1        1    Node  DIN_21_ 
+   1/1        1        1    Node  DIN_22_ 
+   1/1        1        1    Node  DIN_23_ 
+   1/1        1        1    Node  DIN_24_ 
+   1/1        1        1    Node  DIN_25_ 
+   1/1        1        1    Node  DIN_26_ 
+   1/1        1        1    Node  DIN_27_ 
+   1/1        1        1    Node  DIN_28_ 
+   1/1        1        1    Node  DIN_0_ 
+   1/1        1        1    Node  DIN_1_ 
+   1/1        1        1    Node  DIN_2_ 
+   1/1        1        1    Node  DIN_3_ 
+   1/2        2        1    Node  DOUT_0_ 
+   1/2        2        1    Node  DOUT_1_ 
+   1/2        2        1    Node  DOUT_2_ 
+   1/2        2        1    Node  DOUT_3_ 
+   1/1        1        1    Node  I10>O 
+=========
+  89/121        Best P-Term Total: 89
+                       Total Pins: 59
+                      Total Nodes: 60
+            Average P-Term/Output: 1
+
+
+Equations:
+
+out_28_ = (DOUT_28_);
+
+out_27_ = (DOUT_27_);
+
+out_26_ = (DOUT_26_);
+
+out_25_ = (DOUT_25_);
+
+out_24_ = (DOUT_24_);
+
+out_23_ = (DOUT_23_);
+
+out_22_ = (DOUT_22_);
+
+out_21_ = (DOUT_21_);
+
+out_20_ = (DOUT_20_);
+
+out_19_ = (DOUT_19_);
+
+out_18_ = (DOUT_18_);
+
+out_17_ = (DOUT_17_);
+
+out_16_ = (DOUT_16_);
+
+out_15_ = (DOUT_15_);
+
+out_14_ = (DOUT_14_);
+
+out_13_ = (DOUT_13_);
+
+out_12_ = (DOUT_12_);
+
+out_11_ = (DOUT_11_);
+
+out_10_ = (DOUT_10_);
+
+out_9_ = (DOUT_9_);
+
+out_8_ = (DOUT_8_);
+
+out_7_ = (DOUT_7_);
+
+out_6_ = (DOUT_6_);
+
+out_5_ = (DOUT_5_);
+
+out_4_ = (DOUT_4_);
+
+out_3_ = (DOUT_3_);
+
+out_2_ = (DOUT_2_);
+
+out_1_ = (DOUT_1_);
+
+out_0_ = (DOUT_0_);
+
+ENABLE = (!DIN_25_ & !DIN_24_ & DIN_27_ & DIN_26_);
+
+DOUT_4_ = (ENABLE & DIN_4_);
+
+DOUT_5_ = (ENABLE & DIN_5_);
+
+DOUT_6_ = (ENABLE & DIN_6_);
+
+DOUT_7_ = (ENABLE & DIN_7_);
+
+DOUT_8_ = (ENABLE & DIN_8_);
+
+DOUT_9_ = (ENABLE & DIN_9_);
+
+DOUT_10_ = (ENABLE & DIN_10_);
+
+DOUT_11_ = (ENABLE & DIN_11_);
+
+DOUT_12_ = (ENABLE & DIN_12_);
+
+DOUT_13_ = (ENABLE & DIN_13_);
+
+DOUT_14_ = (ENABLE & DIN_14_);
+
+DOUT_15_ = (ENABLE & DIN_15_);
+
+DOUT_16_ = (ENABLE & DIN_16_);
+
+DOUT_17_ = (ENABLE & DIN_17_);
+
+DOUT_18_ = (ENABLE & DIN_18_);
+
+DOUT_19_ = (ENABLE & DIN_19_);
+
+DOUT_20_ = (ENABLE & DIN_20_);
+
+DOUT_21_ = (ENABLE & DIN_21_);
+
+DOUT_22_ = (ENABLE & DIN_22_);
+
+DOUT_23_ = (ENABLE & DIN_23_);
+
+DOUT_24_ = (ENABLE & DIN_24_);
+
+DOUT_25_ = (ENABLE & DIN_25_);
+
+DOUT_26_ = (ENABLE & DIN_26_);
+
+DOUT_27_ = (ENABLE & DIN_27_);
+
+DOUT_28_ = (ENABLE & DIN_28_);
+
+DIN_4_ = (in_4_);
+
+DIN_5_ = (in_5_);
+
+DIN_6_ = (in_6_);
+
+DIN_7_ = (in_7_);
+
+DIN_8_ = (in_8_);
+
+DIN_9_ = (in_9_);
+
+DIN_10_ = (in_10_);
+
+DIN_11_ = (in_11_);
+
+DIN_12_ = (in_12_);
+
+DIN_13_ = (in_13_);
+
+DIN_14_ = (in_14_);
+
+DIN_15_ = (in_15_);
+
+DIN_16_ = (in_16_);
+
+DIN_17_ = (in_17_);
+
+DIN_18_ = (in_18_);
+
+DIN_19_ = (in_19_);
+
+DIN_20_ = (in_20_);
+
+DIN_21_ = (in_21_);
+
+DIN_22_ = (in_22_);
+
+DIN_23_ = (in_23_);
+
+DIN_24_ = (in_24_);
+
+DIN_25_ = (in_25_);
+
+DIN_26_ = (in_26_);
+
+DIN_27_ = (in_27_);
+
+DIN_28_ = (in_28_);
+
+DIN_0_ = (in_0_);
+
+DIN_1_ = (in_1_);
+
+DIN_2_ = (in_2_);
+
+DIN_3_ = (in_3_);
+
+DOUT_0_ = (ENABLE & DIN_0_);
+
+DOUT_1_ = (ENABLE & DIN_1_);
+
+DOUT_2_ = (ENABLE & DIN_2_);
+
+DOUT_3_ = (ENABLE & DIN_3_);
+
+I10>O = (enable_in);
+
+
+Reverse-Polarity Equations:
+
+!out_28_ = (!DOUT_28_);
+
+!out_27_ = (!DOUT_27_);
+
+!out_26_ = (!DOUT_26_);
+
+!out_25_ = (!DOUT_25_);
+
+!out_24_ = (!DOUT_24_);
+
+!out_23_ = (!DOUT_23_);
+
+!out_22_ = (!DOUT_22_);
+
+!out_21_ = (!DOUT_21_);
+
+!out_20_ = (!DOUT_20_);
+
+!out_19_ = (!DOUT_19_);
+
+!out_18_ = (!DOUT_18_);
+
+!out_17_ = (!DOUT_17_);
+
+!out_16_ = (!DOUT_16_);
+
+!out_15_ = (!DOUT_15_);
+
+!out_14_ = (!DOUT_14_);
+
+!out_13_ = (!DOUT_13_);
+
+!out_12_ = (!DOUT_12_);
+
+!out_11_ = (!DOUT_11_);
+
+!out_10_ = (!DOUT_10_);
+
+!out_9_ = (!DOUT_9_);
+
+!out_8_ = (!DOUT_8_);
+
+!out_7_ = (!DOUT_7_);
+
+!out_6_ = (!DOUT_6_);
+
+!out_5_ = (!DOUT_5_);
+
+!out_4_ = (!DOUT_4_);
+
+!out_3_ = (!DOUT_3_);
+
+!out_2_ = (!DOUT_2_);
+
+!out_1_ = (!DOUT_1_);
+
+!out_0_ = (!DOUT_0_);
+
+!ENABLE = (!DIN_27_
+     # DIN_24_
+     # DIN_25_
+     # !DIN_26_);
+
+!DOUT_4_ = (!ENABLE
+     # !DIN_4_);
+
+!DOUT_5_ = (!ENABLE
+     # !DIN_5_);
+
+!DOUT_6_ = (!ENABLE
+     # !DIN_6_);
+
+!DOUT_7_ = (!ENABLE
+     # !DIN_7_);
+
+!DOUT_8_ = (!ENABLE
+     # !DIN_8_);
+
+!DOUT_9_ = (!ENABLE
+     # !DIN_9_);
+
+!DOUT_10_ = (!ENABLE
+     # !DIN_10_);
+
+!DOUT_11_ = (!ENABLE
+     # !DIN_11_);
+
+!DOUT_12_ = (!ENABLE
+     # !DIN_12_);
+
+!DOUT_13_ = (!ENABLE
+     # !DIN_13_);
+
+!DOUT_14_ = (!ENABLE
+     # !DIN_14_);
+
+!DOUT_15_ = (!ENABLE
+     # !DIN_15_);
+
+!DOUT_16_ = (!ENABLE
+     # !DIN_16_);
+
+!DOUT_17_ = (!ENABLE
+     # !DIN_17_);
+
+!DOUT_18_ = (!ENABLE
+     # !DIN_18_);
+
+!DOUT_19_ = (!ENABLE
+     # !DIN_19_);
+
+!DOUT_20_ = (!ENABLE
+     # !DIN_20_);
+
+!DOUT_21_ = (!ENABLE
+     # !DIN_21_);
+
+!DOUT_22_ = (!ENABLE
+     # !DIN_22_);
+
+!DOUT_23_ = (!ENABLE
+     # !DIN_23_);
+
+!DOUT_24_ = (!ENABLE
+     # !DIN_24_);
+
+!DOUT_25_ = (!ENABLE
+     # !DIN_25_);
+
+!DOUT_26_ = (!ENABLE
+     # !DIN_26_);
+
+!DOUT_27_ = (!ENABLE
+     # !DIN_27_);
+
+!DOUT_28_ = (!ENABLE
+     # !DIN_28_);
+
+!DIN_4_ = (!in_4_);
+
+!DIN_5_ = (!in_5_);
+
+!DIN_6_ = (!in_6_);
+
+!DIN_7_ = (!in_7_);
+
+!DIN_8_ = (!in_8_);
+
+!DIN_9_ = (!in_9_);
+
+!DIN_10_ = (!in_10_);
+
+!DIN_11_ = (!in_11_);
+
+!DIN_12_ = (!in_12_);
+
+!DIN_13_ = (!in_13_);
+
+!DIN_14_ = (!in_14_);
+
+!DIN_15_ = (!in_15_);
+
+!DIN_16_ = (!in_16_);
+
+!DIN_17_ = (!in_17_);
+
+!DIN_18_ = (!in_18_);
+
+!DIN_19_ = (!in_19_);
+
+!DIN_20_ = (!in_20_);
+
+!DIN_21_ = (!in_21_);
+
+!DIN_22_ = (!in_22_);
+
+!DIN_23_ = (!in_23_);
+
+!DIN_24_ = (!in_24_);
+
+!DIN_25_ = (!in_25_);
+
+!DIN_26_ = (!in_26_);
+
+!DIN_27_ = (!in_27_);
+
+!DIN_28_ = (!in_28_);
+
+!DIN_0_ = (!in_0_);
+
+!DIN_1_ = (!in_1_);
+
+!DIN_2_ = (!in_2_);
+
+!DIN_3_ = (!in_3_);
+
+!DOUT_0_ = (!ENABLE
+     # !DIN_0_);
+
+!DOUT_1_ = (!ENABLE
+     # !DIN_1_);
+
+!DOUT_2_ = (!ENABLE
+     # !DIN_2_);
+
+!DOUT_3_ = (!ENABLE
+     # !DIN_3_);
+
+!I10>O = (!enable_in);
+

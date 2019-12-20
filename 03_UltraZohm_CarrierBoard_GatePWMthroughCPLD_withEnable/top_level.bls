@@ -1,0 +1,119 @@
+#$ TOOL SCH2BLF 2.0.00.17 
+#$ TITLE top_level.bls 
+#$ MODULE top_level 
+#$ PINS 66  in19 out19 out18 out17 in18 in17 in_19_ in_18_ in_17_ \
+#   out_19_ out_18_ out_17_ out_12_ out_11_ out_10_ out_9_ out_8_ \
+#   out_7_ out_6_ out_5_ out_4_ out_3_ out_2_ out_1_ out_30_ out_29_ \
+#   out_28_ out_27_ in_29_ in_30_ in_28_ in_27_ in_26_ in_25_ \
+#   out_26_ out_25_ out_24_ out_23_ out_22_ out_21_ out_20_ out_16_ \
+#   out_15_ out_14_ out_13_ in_13_ in_4_ in_24_ in_23_ in_22_ in_21_ \
+#   in_20_ in_16_ in_15_ in_14_ in_12_ in_11_ in_10_ in_9_ in_8_ \
+#   in_7_ in_6_ in_5_ in_3_ in_2_ in_1_
+#$ NODES 63 N_1 N_2 N_3 DOUT_29_ DIN_29_ DIN_30_ ENABLE DOUT_4_  \
+#  DOUT_5_ DOUT_6_ DOUT_7_ DOUT_8_ DOUT_9_ DOUT_10_ DOUT_11_  \
+#  DOUT_12_ DOUT_13_ DOUT_14_ DOUT_15_ DOUT_16_ DOUT_17_ DOUT_18_  \
+#  DOUT_19_ DOUT_20_ DOUT_21_ DOUT_22_ DOUT_23_ DOUT_24_ DOUT_25_  \
+#  DOUT_26_ DOUT_27_ DOUT_28_ DIN_4_ DIN_5_ DIN_6_ DIN_7_ DIN_8_  \
+#  DIN_9_ DIN_10_ DIN_11_ DIN_12_ DIN_13_ DIN_14_ DIN_15_ DIN_16_  \
+#  DIN_17_ DIN_18_ DIN_19_ DIN_20_ DIN_21_ DIN_22_ DIN_23_ DIN_24_  \
+#  DIN_25_ DIN_26_ DIN_27_ DIN_28_ DIN_1_ DIN_2_ DIN_3_ DOUT_1_  \
+#  DOUT_2_ DOUT_3_ 
+#$ INTERFACE g_2and 3 A'i' B'i' Y'o'
+#$ INTERFACE g_4and2 5 AN'i' BN'i' C'i' D'i' Y'o'
+#$ INTERFACE g_input 2 I'i' O'o'
+#$ INTERFACE g_output 2 I'i' O'o'
+#$ PRIMITIVE OE_0_ g_2and 3 ENABLE DIN_29_ DOUT_29_
+#$ PRIMITIVE OE_10_ g_2and 3 ENABLE DIN_19_ DOUT_19_
+#$ PRIMITIVE OE_11_ g_2and 3 ENABLE DIN_18_ DOUT_18_
+#$ PRIMITIVE OE_12_ g_2and 3 ENABLE DIN_17_ DOUT_17_
+#$ PRIMITIVE OE_13_ g_2and 3 ENABLE DIN_16_ DOUT_16_
+#$ PRIMITIVE OE_14_ g_2and 3 ENABLE DIN_15_ DOUT_15_
+#$ PRIMITIVE OE_15_ g_2and 3 ENABLE DIN_14_ DOUT_14_
+#$ PRIMITIVE OE_16_ g_2and 3 ENABLE DIN_13_ DOUT_13_
+#$ PRIMITIVE OE_17_ g_2and 3 ENABLE DIN_12_ DOUT_12_
+#$ PRIMITIVE OE_18_ g_2and 3 ENABLE DIN_11_ DOUT_11_
+#$ PRIMITIVE OE_19_ g_2and 3 ENABLE DIN_10_ DOUT_10_
+#$ PRIMITIVE OE_1_ g_2and 3 ENABLE DIN_28_ DOUT_28_
+#$ PRIMITIVE OE_20_ g_2and 3 ENABLE DIN_9_ DOUT_9_
+#$ PRIMITIVE OE_21_ g_2and 3 ENABLE DIN_8_ DOUT_8_
+#$ PRIMITIVE OE_22_ g_2and 3 ENABLE DIN_7_ DOUT_7_
+#$ PRIMITIVE OE_23_ g_2and 3 ENABLE DIN_6_ DOUT_6_
+#$ PRIMITIVE OE_24_ g_2and 3 ENABLE DIN_5_ DOUT_5_
+#$ PRIMITIVE OE_25_ g_2and 3 ENABLE DIN_4_ DOUT_4_
+#$ PRIMITIVE OE_26_ g_2and 3 ENABLE DIN_3_ DOUT_3_
+#$ PRIMITIVE OE_27_ g_2and 3 ENABLE DIN_2_ DOUT_2_
+#$ PRIMITIVE OE_28_ g_2and 3 ENABLE DIN_1_ DOUT_1_
+#$ PRIMITIVE OE_2_ g_2and 3 ENABLE DIN_27_ DOUT_27_
+#$ PRIMITIVE OE_3_ g_2and 3 ENABLE DIN_26_ DOUT_26_
+#$ PRIMITIVE OE_4_ g_2and 3 ENABLE DIN_25_ DOUT_25_
+#$ PRIMITIVE OE_5_ g_2and 3 ENABLE DIN_24_ DOUT_24_
+#$ PRIMITIVE OE_6_ g_2and 3 ENABLE DIN_23_ DOUT_23_
+#$ PRIMITIVE OE_7_ g_2and 3 ENABLE DIN_22_ DOUT_22_
+#$ PRIMITIVE OE_8_ g_2and 3 ENABLE DIN_21_ DOUT_21_
+#$ PRIMITIVE OE_9_ g_2and 3 ENABLE DIN_20_ DOUT_20_
+#$ PRIMITIVE I62 g_4and2 5 DIN_27_ DIN_28_ DIN_29_ DIN_30_ ENABLE
+#$ PRIMITIVE I12 g_input 2 in_28_ DIN_28_
+#$ PRIMITIVE I13 g_input 2 in_27_ DIN_27_
+#$ PRIMITIVE I14 g_input 2 in_26_ DIN_26_
+#$ PRIMITIVE I15 g_input 2 in_25_ DIN_25_
+#$ PRIMITIVE I16 g_input 2 in_24_ DIN_24_
+#$ PRIMITIVE I17 g_input 2 in_23_ DIN_23_
+#$ PRIMITIVE I18 g_input 2 in_22_ DIN_22_
+#$ PRIMITIVE I19 g_input 2 in_21_ DIN_21_
+#$ PRIMITIVE I20 g_input 2 in_20_ DIN_20_
+#$ PRIMITIVE I21 g_input 2 in_19_ DIN_19_
+#$ PRIMITIVE I22 g_input 2 in_18_ DIN_18_
+#$ PRIMITIVE I23 g_input 2 in_17_ DIN_17_
+#$ PRIMITIVE I24 g_input 2 in_16_ DIN_16_
+#$ PRIMITIVE I25 g_input 2 in_15_ DIN_15_
+#$ PRIMITIVE I26 g_input 2 in_14_ DIN_14_
+#$ PRIMITIVE I27 g_input 2 in_13_ DIN_13_
+#$ PRIMITIVE I28 g_input 2 in_12_ DIN_12_
+#$ PRIMITIVE I29 g_input 2 in_11_ DIN_11_
+#$ PRIMITIVE I30 g_input 2 in_10_ DIN_10_
+#$ PRIMITIVE I31 g_input 2 in_9_ DIN_9_
+#$ PRIMITIVE I32 g_input 2 in_8_ DIN_8_
+#$ PRIMITIVE I33 g_input 2 in_7_ DIN_7_
+#$ PRIMITIVE I34 g_input 2 in_6_ DIN_6_
+#$ PRIMITIVE I35 g_input 2 in_5_ DIN_5_
+#$ PRIMITIVE I5 g_input 2 in_3_ DIN_3_
+#$ PRIMITIVE I61 g_input 2 in_4_ DIN_4_
+#$ PRIMITIVE I63 g_input 2 in_29_ DIN_29_
+#$ PRIMITIVE I64 g_input 2 in_30_ DIN_30_
+#$ PRIMITIVE I7 g_input 2 in_1_ DIN_1_
+#$ PRIMITIVE I71 g_input 2 in19 N_1
+#$ PRIMITIVE I72 g_input 2 in18 N_2
+#$ PRIMITIVE I73 g_input 2 in17 N_3
+#$ PRIMITIVE I8 g_input 2 in_2_ DIN_2_
+#$ PRIMITIVE I2 g_output 2 DOUT_1_ out_1_
+#$ PRIMITIVE I3 g_output 2 DOUT_2_ out_2_
+#$ PRIMITIVE I36 g_output 2 DOUT_4_ out_4_
+#$ PRIMITIVE I37 g_output 2 DOUT_5_ out_5_
+#$ PRIMITIVE I38 g_output 2 DOUT_12_ out_12_
+#$ PRIMITIVE I39 g_output 2 DOUT_11_ out_11_
+#$ PRIMITIVE I4 g_output 2 DOUT_3_ out_3_
+#$ PRIMITIVE I40 g_output 2 DOUT_10_ out_10_
+#$ PRIMITIVE I41 g_output 2 DOUT_9_ out_9_
+#$ PRIMITIVE I42 g_output 2 DOUT_8_ out_8_
+#$ PRIMITIVE I43 g_output 2 DOUT_7_ out_7_
+#$ PRIMITIVE I44 g_output 2 DOUT_6_ out_6_
+#$ PRIMITIVE I45 g_output 2 DOUT_22_ out_22_
+#$ PRIMITIVE I46 g_output 2 DOUT_21_ out_21_
+#$ PRIMITIVE I47 g_output 2 DOUT_20_ out_20_
+#$ PRIMITIVE I48 g_output 2 DOUT_19_ out_19_
+#$ PRIMITIVE I49 g_output 2 DOUT_18_ out_18_
+#$ PRIMITIVE I50 g_output 2 DOUT_17_ out_17_
+#$ PRIMITIVE I51 g_output 2 DOUT_16_ out_16_
+#$ PRIMITIVE I52 g_output 2 DOUT_15_ out_15_
+#$ PRIMITIVE I53 g_output 2 DOUT_14_ out_14_
+#$ PRIMITIVE I54 g_output 2 DOUT_13_ out_13_
+#$ PRIMITIVE I57 g_output 2 DOUT_26_ out_26_
+#$ PRIMITIVE I58 g_output 2 DOUT_25_ out_25_
+#$ PRIMITIVE I59 g_output 2 DOUT_24_ out_24_
+#$ PRIMITIVE I60 g_output 2 DOUT_23_ out_23_
+#$ PRIMITIVE I68 g_output 2 N_1 out19
+#$ PRIMITIVE I69 g_output 2 N_2 out18
+#$ PRIMITIVE I70 g_output 2 N_3 out17
+.model top_level
+
+.end

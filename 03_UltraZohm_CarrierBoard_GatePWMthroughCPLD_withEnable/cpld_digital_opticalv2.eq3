@@ -1,0 +1,67 @@
+|--------------------------------------------------- ----------|
+|- ispLEVER Classic 2.0.00.17.20.15 Equations File            -|
+|- Copyright(C), 1992-2012, Lattice Semiconductor Corporation -|
+|- All Rights Reserved.                                       -|
+|--------------------------------------------------------------|
+
+
+Equations:
+
+out17 = in17 ; (1 pterm, 1 signal)
+
+out18 = in18 ; (1 pterm, 1 signal)
+
+out19 = in19 ; (1 pterm, 1 signal)
+
+out_10_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_10_ ; (1 pterm, 5 signals)
+
+out_11_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_11_ ; (1 pterm, 5 signals)
+
+out_12_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_12_ ; (1 pterm, 5 signals)
+
+out_13_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_13_ ; (1 pterm, 5 signals)
+
+out_14_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_14_ ; (1 pterm, 5 signals)
+
+out_15_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_15_ ; (1 pterm, 5 signals)
+
+out_16_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_16_ ; (1 pterm, 5 signals)
+
+out_17_ = in_17_ & in_29_ & in_30_ & !in_28_ & !in_27_ ; (1 pterm, 5 signals)
+
+out_18_ = in_18_ & in_29_ & in_30_ & !in_28_ & !in_27_ ; (1 pterm, 5 signals)
+
+out_19_ = in_19_ & in_29_ & in_30_ & !in_28_ & !in_27_ ; (1 pterm, 5 signals)
+
+out_1_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_1_ ; (1 pterm, 5 signals)
+
+out_20_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_20_ ; (1 pterm, 5 signals)
+
+out_21_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_21_ ; (1 pterm, 5 signals)
+
+out_22_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_22_ ; (1 pterm, 5 signals)
+
+out_23_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_23_ ; (1 pterm, 5 signals)
+
+out_24_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_24_ ; (1 pterm, 5 signals)
+
+out_25_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_25_ ; (1 pterm, 5 signals)
+
+out_26_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_26_ ; (1 pterm, 5 signals)
+
+out_2_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_2_ ; (1 pterm, 5 signals)
+
+out_3_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_3_ ; (1 pterm, 5 signals)
+
+out_4_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_4_ ; (1 pterm, 5 signals)
+
+out_5_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_5_ ; (1 pterm, 5 signals)
+
+out_6_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_6_ ; (1 pterm, 5 signals)
+
+out_7_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_7_ ; (1 pterm, 5 signals)
+
+out_8_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_8_ ; (1 pterm, 5 signals)
+
+out_9_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_9_ ; (1 pterm, 5 signals)
+

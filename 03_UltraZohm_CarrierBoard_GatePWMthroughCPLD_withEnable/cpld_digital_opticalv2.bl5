@@ -1,0 +1,79 @@
+#$ TOOL  ispLEVER Classic 2.0.00.17.20.15
+#$ DATE  Fri Dec 20 17:48:36 2019
+#$ MODULE  top_level
+#$ TITLE  top_level.bls 
+#$ PINS 62 in19 out19 out18 out17 in18 in17 in_19_ in_18_ in_17_ out_19_
+ out_18_ out_17_ out_12_ out_11_ out_10_ out_9_ out_8_ out_7_ out_6_ out_5_
+ out_4_ out_3_ out_2_ out_1_ in_29_ in_30_ in_28_ in_27_ in_26_ in_25_ out_26_
+ out_25_ out_24_ out_23_ out_22_ out_21_ out_20_ out_16_ out_15_ out_14_ out_13_
+ in_13_ in_4_ in_24_ in_23_ in_22_ in_21_ in_20_ in_16_ in_15_ in_14_ in_12_
+ in_11_ in_10_ in_9_ in_8_ in_7_ in_6_ in_5_ in_3_ in_2_ in_1_
+.model top_level 
+.inputs in_28_.BLIF in_27_.BLIF in_26_.BLIF in_25_.BLIF in_24_.BLIF in_23_.BLIF \
+ in_22_.BLIF in_21_.BLIF in_20_.BLIF in_19_.BLIF in_18_.BLIF in_17_.BLIF \
+ in_16_.BLIF in_15_.BLIF in_14_.BLIF in_13_.BLIF in_12_.BLIF in_11_.BLIF \
+ in_10_.BLIF in_9_.BLIF in_8_.BLIF in_7_.BLIF in_6_.BLIF in_5_.BLIF in_3_.BLIF \
+ in_4_.BLIF in_29_.BLIF in_30_.BLIF in_1_.BLIF in19.BLIF in18.BLIF in17.BLIF \
+ in_2_.BLIF
+.outputs out19 out18 out17 out_19_ out_18_ out_17_ out_12_ out_11_ out_10_ \
+ out_9_ out_8_ out_7_ out_6_ out_5_ out_4_ out_3_ out_2_ out_1_ out_26_ out_25_ \
+ out_24_ out_23_ out_22_ out_21_ out_20_ out_16_ out_15_ out_14_ out_13_
+.names in19.BLIF out19
+1 1
+.names in18.BLIF out18
+1 1
+.names in17.BLIF out17
+1 1
+.names in_28_.BLIF in_27_.BLIF in_19_.BLIF in_29_.BLIF in_30_.BLIF out_19_
+00111 1
+.names in_28_.BLIF in_27_.BLIF in_18_.BLIF in_29_.BLIF in_30_.BLIF out_18_
+00111 1
+.names in_28_.BLIF in_27_.BLIF in_17_.BLIF in_29_.BLIF in_30_.BLIF out_17_
+00111 1
+.names in_28_.BLIF in_27_.BLIF in_12_.BLIF in_29_.BLIF in_30_.BLIF out_12_
+00111 1
+.names in_28_.BLIF in_27_.BLIF in_11_.BLIF in_29_.BLIF in_30_.BLIF out_11_
+00111 1
+.names in_28_.BLIF in_27_.BLIF in_10_.BLIF in_29_.BLIF in_30_.BLIF out_10_
+00111 1
+.names in_28_.BLIF in_27_.BLIF in_9_.BLIF in_29_.BLIF in_30_.BLIF out_9_
+00111 1
+.names in_28_.BLIF in_27_.BLIF in_8_.BLIF in_29_.BLIF in_30_.BLIF out_8_
+00111 1
+.names in_28_.BLIF in_27_.BLIF in_7_.BLIF in_29_.BLIF in_30_.BLIF out_7_
+00111 1
+.names in_28_.BLIF in_27_.BLIF in_6_.BLIF in_29_.BLIF in_30_.BLIF out_6_
+00111 1
+.names in_28_.BLIF in_27_.BLIF in_5_.BLIF in_29_.BLIF in_30_.BLIF out_5_
+00111 1
+.names in_28_.BLIF in_27_.BLIF in_4_.BLIF in_29_.BLIF in_30_.BLIF out_4_
+00111 1
+.names in_28_.BLIF in_27_.BLIF in_3_.BLIF in_29_.BLIF in_30_.BLIF out_3_
+00111 1
+.names in_28_.BLIF in_27_.BLIF in_29_.BLIF in_30_.BLIF in_2_.BLIF out_2_
+00111 1
+.names in_28_.BLIF in_27_.BLIF in_29_.BLIF in_30_.BLIF in_1_.BLIF out_1_
+00111 1
+.names in_28_.BLIF in_27_.BLIF in_26_.BLIF in_29_.BLIF in_30_.BLIF out_26_
+00111 1
+.names in_28_.BLIF in_27_.BLIF in_25_.BLIF in_29_.BLIF in_30_.BLIF out_25_
+00111 1
+.names in_28_.BLIF in_27_.BLIF in_24_.BLIF in_29_.BLIF in_30_.BLIF out_24_
+00111 1
+.names in_28_.BLIF in_27_.BLIF in_23_.BLIF in_29_.BLIF in_30_.BLIF out_23_
+00111 1
+.names in_28_.BLIF in_27_.BLIF in_22_.BLIF in_29_.BLIF in_30_.BLIF out_22_
+00111 1
+.names in_28_.BLIF in_27_.BLIF in_21_.BLIF in_29_.BLIF in_30_.BLIF out_21_
+00111 1
+.names in_28_.BLIF in_27_.BLIF in_20_.BLIF in_29_.BLIF in_30_.BLIF out_20_
+00111 1
+.names in_28_.BLIF in_27_.BLIF in_16_.BLIF in_29_.BLIF in_30_.BLIF out_16_
+00111 1
+.names in_28_.BLIF in_27_.BLIF in_15_.BLIF in_29_.BLIF in_30_.BLIF out_15_
+00111 1
+.names in_28_.BLIF in_27_.BLIF in_14_.BLIF in_29_.BLIF in_30_.BLIF out_14_
+00111 1
+.names in_28_.BLIF in_27_.BLIF in_13_.BLIF in_29_.BLIF in_30_.BLIF out_13_
+00111 1
+.end

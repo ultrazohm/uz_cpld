@@ -1,5 +1,5 @@
 #$ TOOL ispLEVER Classic 2.0.00.17.20.15
-#$ DATE Fri Dec 20 17:48:36 2019
+#$ DATE Tue Feb 04 08:59:48 2020
 #$ TITLE top_level.bls 
 #$ MODULE cpld_digital_opticalv2
 #$ PINS 62 in19 out19'o'  out18'o'  out17'o'  in18 in17 in_19_ in_18_ in_17_ out_19_'o'  out_18_'o'  \

@@ -13,8 +13,8 @@ Tools->Fitter Report File Format...
 Project_Summary
 ~~~~~~~~~~~~~~~
 Project Name         :  cpld_digital_opticalv2
-Project Path         :  C:\XilinxEyke\CPLDs\Work_Lattice\03_UltraZohm_CarrierBoard_GatePWMthroughCPLD_withEnable
-Project Fitted on    :  Fri Dec 20 17:48:38 2019
+Project Path         :  C:\Users\ga92wum\git\UltraZohm\Software\CPLD\03_UltraZohm_CarrierBoard_GatePWMthroughCPLD_withEnable
+Project Fitted on    :  Tue Feb 04 08:59:50 2020
 
 Device               :  M4128_64
 Package              :  100
@@ -32,7 +32,7 @@ Compilation_Times
 ~~~~~~~~~~~~~~~~~
 Prefit Time                     0 secs
 Load Design Time                0.03 secs
-Partition Time                  0.01 secs
+Partition Time                  0.02 secs
 Place Time                      0.00 secs
 Route Time                      0.00 secs
 Total Fit Time                  00:00:01

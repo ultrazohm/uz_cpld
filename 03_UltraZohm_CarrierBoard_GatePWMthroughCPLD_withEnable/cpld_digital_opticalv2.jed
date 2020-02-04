@@ -1,10 +1,10 @@
 ABEL MACH4128S64
 *
 NOTE  ispLEVER Classic 2.0.00.17.20.15JEDEC Compatible Fuse File.*
-NOTE Copyright (C), 1992-2019, Lattice Semiconductor Corporation.*
+NOTE Copyright (C), 1992-2020, Lattice Semiconductor Corporation.*
 NOTE All Rights Reserved.     :*
 NOTE DESIGN NAME         :cpld_digital_opticalv2*
-NOTE DATE CREATED        :Fri Dec 20 17:48:38 2019*
+NOTE DATE CREATED        :Tue Feb 04 08:59:50 2020*
 NOTE DEVICE NAME         :LA4128V-75TN100E*
 NOTE DEVICE TEMPLATE     :M4S_128_64*
 NOTE PIN ASSIGNMENTS*
@@ -1077,4 +1077,4 @@ L00000
 11111111111111111111
 *
 C204C*
-E685
+E681

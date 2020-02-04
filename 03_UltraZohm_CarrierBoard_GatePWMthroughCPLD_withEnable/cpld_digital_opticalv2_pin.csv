@@ -1,7 +1,7 @@
  ispLEVER Classic 2.0.00.17.20.15 Fitter Report File 
 Project Name,cpld_digital_opticalv2
-Project Path,C:\XilinxEyke\CPLDs\Work_Lattice\03_UltraZohm_CarrierBoard_GatePWMthroughCPLD_withEnable
-Project Fitted on,Fri Dec 20 17:48:38 2019
+Project Path,C:\Users\ga92wum\git\UltraZohm\Software\CPLD\03_UltraZohm_CarrierBoard_GatePWMthroughCPLD_withEnable
+Project Fitted on,Tue Feb 04 08:59:50 2020
 
 Pin,Pin_Type,Bank,GLB_Pad,Assigned,I/O_Type,Signal_Type,Signal_Name
 1,GND,-,,,,,

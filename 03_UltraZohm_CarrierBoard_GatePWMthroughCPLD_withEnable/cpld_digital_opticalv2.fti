@@ -1,5 +1,5 @@
 #PLAFILE     cpld_digital_opticalv2.bl5
-#DATE        Tue Feb 04 08:59:50 2020
+#DATE        Tue Feb 11 18:03:50 2020
 
 #DESIGN      cpld_digital_opticalv2
 #DEVICE      MACH4S-128
@@ -28,7 +28,6 @@ DATA LOCATION in_24_:D_*_37
 DATA LOCATION in_23_:D_*_36
 DATA LOCATION in_22_:D_*_35
 DATA LOCATION in_21_:D_*_34
-DATA LOCATION in_20_:D_*_31
 DATA LOCATION in_16_:C_*_22
 DATA LOCATION in_15_:C_*_21
 DATA LOCATION in_14_:C_*_20
@@ -92,7 +91,6 @@ DATA IO_DIR in_24_:IN
 DATA IO_DIR in_23_:IN
 DATA IO_DIR in_22_:IN
 DATA IO_DIR in_21_:IN
-DATA IO_DIR in_20_:IN
 DATA IO_DIR in_16_:IN
 DATA IO_DIR in_15_:IN
 DATA IO_DIR in_14_:IN

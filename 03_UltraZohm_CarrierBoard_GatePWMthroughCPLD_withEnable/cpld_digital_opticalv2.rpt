@@ -14,7 +14,7 @@ Project_Summary
 ~~~~~~~~~~~~~~~
 Project Name         :  cpld_digital_opticalv2
 Project Path         :  C:\Users\ga92wum\git\UltraZohm\Software\CPLD\03_UltraZohm_CarrierBoard_GatePWMthroughCPLD_withEnable
-Project Fitted on    :  Tue Feb 04 08:59:50 2020
+Project Fitted on    :  Tue Feb 11 18:03:50 2020
 
 Device               :  M4128_64
 Package              :  100
@@ -31,8 +31,8 @@ Source Format        :  ABEL_Schematic
 Compilation_Times
 ~~~~~~~~~~~~~~~~~
 Prefit Time                     0 secs
-Load Design Time                0.03 secs
-Partition Time                  0.02 secs
+Load Design Time                0.00 secs
+Partition Time                  0.01 secs
 Place Time                      0.00 secs
 Route Time                      0.00 secs
 Total Fit Time                  00:00:01
@@ -40,7 +40,7 @@ Total Fit Time                  00:00:01
 
 Design_Summary
 ~~~~~~~~~~~~~~
-Total Input Pins                33
+Total Input Pins                32
 Total Logic Functions           29
   Total Output Pins             29
   Total Bidir I/O Pins          0
@@ -52,7 +52,7 @@ Total Flip-Flops                0
 Total Product Terms             29
 
 Total Reserved Pins             0
-Total Locked Pins               59
+Total Locked Pins               58
 Total Locked Nodes              0
 
 Total Unique Output Enables     0
@@ -73,11 +73,11 @@ Dedicated Pins
   Clock/Input Pins                  4        3      1    -->    75
   Input-Only Pins                   6        0      6    -->     0
   I/O / Enable Pins                 2        2      0    -->   100
-I/O Pins                           62       57      5    -->    91
+I/O Pins                           62       56      6    -->    90
 Logic Functions                   128       29     99    -->    22
   Input Registers                  64        0     64    -->     0
 
-GLB Inputs                        288       45    243    -->    15
+GLB Inputs                        288       44    244    -->    15
 Logical Product Terms             640       29    611    -->     4
 Occupied GLBs                       8        8      0    -->   100
 Macrocells                        128       29     99    -->    22
@@ -91,9 +91,9 @@ Control Product Terms:
   Macrocell Resets                128        0    128    -->     0
   Macrocell Presets               128        0    128    -->     0
 
-Global Routing Pool               220       33    187    -->    15
-  GRP from IFB                     ..       33     ..    -->    ..
-    (from input signals)           ..       33     ..    -->    ..
+Global Routing Pool               220       32    188    -->    14
+  GRP from IFB                     ..       32     ..    -->    ..
+    (from input signals)           ..       32     ..    -->    ..
     (from output signals)          ..        0     ..    -->    ..
     (from bidir signals)           ..        0     ..    -->    ..
   GRP from MFB                     ..        0     ..    -->    ..
@@ -117,14 +117,14 @@ Maximum
   GLB    A      0     0     0      5/8      0    0      0             16        0        0
   GLB    B      0     0     0      8/8      0    0      0             16        0        0
   GLB    C      0     0     0      8/8      0    0      0             16        0        0
-  GLB    D      3     0     3      8/8      0    3      0             13        3        3
+  GLB    D      3     0     3      7/8      0    3      0             13        3        3
 -------------------------------------------------------------------------------------------
   GLB    E      8     4    12      8/8      0    8      0              8        8        8
   GLB    F      8     4    12      8/8      0    8      0              8        8        8
-  GLB    G      6     4    10      7/8      0    6      0             10        6        6
+  GLB    G      5     4     9      7/8      0    6      0             10        6        6
   GLB    H      4     4     8      5/8      0    4      0             12        4        4
 -------------------------------------------------------------------------------------------
-TOTALS:        29    16    45     57/64     0   29      0             99       29       29
+TOTALS:        28    16    44     56/64     0   29      0             99       29       29
 
 <Note> 1 : For ispMACH 4000 devices, the number of IOs depends on the GLB.
 <Note> 2 : Four rightmost columns above reflect last status of the placement process.
@@ -254,7 +254,7 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name
 28    |  I_O  |   0  |D13 |    *   |LVCMOS18         | Output|out17
 29    |  I_O  |   0  |D12 |    *   |LVCMOS18         | Output|out18
 30    |  I_O  |   0  |D10 |    *   |LVCMOS18         | Output|out19
-31    |  I_O  |   0  |D8  |    *   |LVCMOS18         | Input |in_20_
+31    |  I_O  |   0  |D8  |        |                 |       |
 32    |GNDIO0 |   -  |    |        |                 |       |
 33    |VCCIO0 |   -  |    |        |                 |       |
 34    |  I_O  |   0  |D6  |    *   |LVCMOS18         | Input |in_21_
@@ -358,7 +358,6 @@ Input_Signal_List
   38  -- INCLK  1 ------G-      Up in_18_
   89  -- INCLK  1 ------G-      Up in_19_
    3   B  I/O   1 ----E---      Up in_1_
-  31   D  I/O   1 ------G-      Up in_20_
   34   D  I/O   1 -------H      Up in_21_
   35   D  I/O   1 ------G-      Up in_22_
   36   D  I/O   1 -------H      Up in_23_
@@ -401,7 +400,7 @@ Output_Signal_List
   70   G  5  1   1  1 COM                  --------  Fast     Up out_18_
   71   G  5  1   1  1 COM                  --------  Fast     Up out_19_
   50   E  5  1   1  1 COM                  --------  Fast     Up out_1_
-  65   G  5  1   1  1 COM                  --------  Fast     Up out_20_
+  65   G  4  1   1  1 COM                  --------  Fast     Up out_20_
   86   H  5  1   1  1 COM                  --------  Fast     Up out_21_
   66   G  5  1   1  1 COM                  --------  Fast     Up out_22_
   87   H  5  1   1  1 COM                  --------  Fast     Up out_23_
@@ -489,7 +488,7 @@ out_19_ = in_19_ & in_29_ & in_30_ & !in_28_ & !in_27_ ; (1 pterm, 5 signals)
 
 out_1_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_1_ ; (1 pterm, 5 signals)
 
-out_20_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_20_ ; (1 pterm, 5 signals)
+out_20_ = in_29_ & in_30_ & !in_28_ & !in_27_ ; (1 pterm, 4 signals)
 
 out_21_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_21_ ; (1 pterm, 5 signals)
 

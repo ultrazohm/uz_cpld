@@ -99,7 +99,7 @@
 #$ PRIMITIVE I44 g_output 2 DOUT_6_ out_6_
 #$ PRIMITIVE I45 g_output 2 DOUT_22_ out_22_
 #$ PRIMITIVE I46 g_output 2 DOUT_21_ out_21_
-#$ PRIMITIVE I47 g_output 2 DOUT_20_ out_20_
+#$ PRIMITIVE I47 g_output 2 ENABLE out_20_
 #$ PRIMITIVE I48 g_output 2 DOUT_19_ out_19_
 #$ PRIMITIVE I49 g_output 2 DOUT_18_ out_18_
 #$ PRIMITIVE I50 g_output 2 DOUT_17_ out_17_

@@ -35,7 +35,7 @@ out_19_ = in_19_ & in_29_ & in_30_ & !in_28_ & !in_27_ ; (1 pterm, 5 signals)
 
 out_1_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_1_ ; (1 pterm, 5 signals)
 
-out_20_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_20_ ; (1 pterm, 5 signals)
+out_20_ = in_29_ & in_30_ & !in_28_ & !in_27_ ; (1 pterm, 4 signals)
 
 out_21_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_21_ ; (1 pterm, 5 signals)
 

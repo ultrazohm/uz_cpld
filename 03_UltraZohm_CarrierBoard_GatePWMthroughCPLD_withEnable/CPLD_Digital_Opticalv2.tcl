@@ -592,3 +592,319 @@ if [runCmd "\"$cpld_bin/synsvf\" -exe \"$install_dir/ispvmsystem/ispufw\" -prj c
 
 ########## Tcl recorder end at 02/04/20 08:59:48 ###########
 
+
+########## Tcl recorder starts at 02/11/20 15:51:25 ##########
+
+# Commands to make the Process: 
+# Hierarchy
+if [runCmd "\"$cpld_bin/sch2jhd\" top_level.sch "] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+
+########## Tcl recorder end at 02/11/20 15:51:25 ###########
+
+
+########## Tcl recorder starts at 02/11/20 15:51:45 ##########
+
+# Commands to make the Process: 
+# Compile Schematic
+if [runCmd "\"$cpld_bin/sch2blf\" -dev Lattice -sup top_level.sch  -err automake.err"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/mblflink\" \"top_level.bls\" -o \"top_level.bl0\" -ipo  -family -err \"automake.err\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+
+########## Tcl recorder end at 02/11/20 15:51:45 ###########
+
+
+########## Tcl recorder starts at 02/11/20 15:51:49 ##########
+
+# Commands to make the Process: 
+# Fit Design
+if [runCmd "\"$cpld_bin/mblifopt\" -i top_level.bl0 -o top_level.bl1 -collapse none -reduce none  -err automake.err -keepwires -family"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/mblflink\" \"top_level.bl1\" -o \"cpld_digital_opticalv2.bl2\" -omod \"cpld_digital_opticalv2\"  -err \"automake.err\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/impsrc\"  -prj cpld_digital_opticalv2 -lci cpld_digital_opticalv2.lct -log cpld_digital_opticalv2.imp -err automake.err -tti cpld_digital_opticalv2.bl2 -dir $proj_dir"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/abelvci\" -vci cpld_digital_opticalv2.lct -blifopt cpld_digital_opticalv2.b2_"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/mblifopt\" cpld_digital_opticalv2.bl2 -sweep -mergefb -err automake.err -o cpld_digital_opticalv2.bl3 @cpld_digital_opticalv2.b2_ "] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/abelvci\" -vci cpld_digital_opticalv2.lct -dev lc4k -diofft cpld_digital_opticalv2.d0"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/mdiofft\" cpld_digital_opticalv2.bl3 -family AMDMACH -idev van -o cpld_digital_opticalv2.bl4 -oxrf cpld_digital_opticalv2.xrf -err automake.err @cpld_digital_opticalv2.d0 "] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/abelvci\" -vci cpld_digital_opticalv2.lct -dev lc4k -prefit cpld_digital_opticalv2.l0"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/prefit\" -blif -inp cpld_digital_opticalv2.bl4 -out cpld_digital_opticalv2.bl5 -err automake.err -log cpld_digital_opticalv2.log -mod top_level @cpld_digital_opticalv2.l0  -sc"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [catch {open cpld_digital_opticalv2.rs1 w} rspFile] {
+	puts stderr "Cannot create response file cpld_digital_opticalv2.rs1: $rspFile"
+} else {
+	puts $rspFile "-i cpld_digital_opticalv2.bl5 -lci cpld_digital_opticalv2.lct -d m4s_128_64 -lco cpld_digital_opticalv2.lco -html_rpt -fti cpld_digital_opticalv2.fti -fmt PLA -tto cpld_digital_opticalv2.tt4 -nojed -eqn cpld_digital_opticalv2.eq3 -tmv NoInput.tmv
+-rpt_num 1
+"
+	close $rspFile
+}
+if [catch {open cpld_digital_opticalv2.rs2 w} rspFile] {
+	puts stderr "Cannot create response file cpld_digital_opticalv2.rs2: $rspFile"
+} else {
+	puts $rspFile "-i cpld_digital_opticalv2.bl5 -lci cpld_digital_opticalv2.lct -d m4s_128_64 -lco cpld_digital_opticalv2.lco -html_rpt -fti cpld_digital_opticalv2.fti -fmt PLA -tto cpld_digital_opticalv2.tt4 -eqn cpld_digital_opticalv2.eq3 -tmv NoInput.tmv
+-rpt_num 1
+"
+	close $rspFile
+}
+if [runCmd "\"$cpld_bin/lpf4k\" \"@cpld_digital_opticalv2.rs2\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+file delete cpld_digital_opticalv2.rs1
+file delete cpld_digital_opticalv2.rs2
+if [runCmd "\"$cpld_bin/tda\" -i cpld_digital_opticalv2.bl5 -o cpld_digital_opticalv2.tda -lci cpld_digital_opticalv2.lct -dev m4s_128_64 -family lc4k -mod top_level -ovec NoInput.tmv -err tda.err "] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/synsvf\" -exe \"$install_dir/ispvmsystem/ispufw\" -prj cpld_digital_opticalv2 -if cpld_digital_opticalv2.jed -j2s -log cpld_digital_opticalv2.svl "] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+
+########## Tcl recorder end at 02/11/20 15:51:49 ###########
+
+
+########## Tcl recorder starts at 02/11/20 18:03:43 ##########
+
+# Commands to make the Process: 
+# Hierarchy
+if [runCmd "\"$cpld_bin/sch2jhd\" top_level.sch "] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+
+########## Tcl recorder end at 02/11/20 18:03:43 ###########
+
+
+########## Tcl recorder starts at 02/11/20 18:03:49 ##########
+
+# Commands to make the Process: 
+# Fit Design
+if [runCmd "\"$cpld_bin/sch2blf\" -dev Lattice -sup top_level.sch  -err automake.err"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/mblflink\" \"top_level.bls\" -o \"top_level.bl0\" -ipo  -family -err \"automake.err\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/mblifopt\" -i top_level.bl0 -o top_level.bl1 -collapse none -reduce none  -err automake.err -keepwires -family"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/mblflink\" \"top_level.bl1\" -o \"cpld_digital_opticalv2.bl2\" -omod \"cpld_digital_opticalv2\"  -err \"automake.err\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/impsrc\"  -prj cpld_digital_opticalv2 -lci cpld_digital_opticalv2.lct -log cpld_digital_opticalv2.imp -err automake.err -tti cpld_digital_opticalv2.bl2 -dir $proj_dir"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/abelvci\" -vci cpld_digital_opticalv2.lct -blifopt cpld_digital_opticalv2.b2_"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/mblifopt\" cpld_digital_opticalv2.bl2 -sweep -mergefb -err automake.err -o cpld_digital_opticalv2.bl3 @cpld_digital_opticalv2.b2_ "] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/abelvci\" -vci cpld_digital_opticalv2.lct -dev lc4k -diofft cpld_digital_opticalv2.d0"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/mdiofft\" cpld_digital_opticalv2.bl3 -family AMDMACH -idev van -o cpld_digital_opticalv2.bl4 -oxrf cpld_digital_opticalv2.xrf -err automake.err @cpld_digital_opticalv2.d0 "] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/abelvci\" -vci cpld_digital_opticalv2.lct -dev lc4k -prefit cpld_digital_opticalv2.l0"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/prefit\" -blif -inp cpld_digital_opticalv2.bl4 -out cpld_digital_opticalv2.bl5 -err automake.err -log cpld_digital_opticalv2.log -mod top_level @cpld_digital_opticalv2.l0  -sc"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [catch {open cpld_digital_opticalv2.rs1 w} rspFile] {
+	puts stderr "Cannot create response file cpld_digital_opticalv2.rs1: $rspFile"
+} else {
+	puts $rspFile "-i cpld_digital_opticalv2.bl5 -lci cpld_digital_opticalv2.lct -d m4s_128_64 -lco cpld_digital_opticalv2.lco -html_rpt -fti cpld_digital_opticalv2.fti -fmt PLA -tto cpld_digital_opticalv2.tt4 -nojed -eqn cpld_digital_opticalv2.eq3 -tmv NoInput.tmv
+-rpt_num 1
+"
+	close $rspFile
+}
+if [catch {open cpld_digital_opticalv2.rs2 w} rspFile] {
+	puts stderr "Cannot create response file cpld_digital_opticalv2.rs2: $rspFile"
+} else {
+	puts $rspFile "-i cpld_digital_opticalv2.bl5 -lci cpld_digital_opticalv2.lct -d m4s_128_64 -lco cpld_digital_opticalv2.lco -html_rpt -fti cpld_digital_opticalv2.fti -fmt PLA -tto cpld_digital_opticalv2.tt4 -eqn cpld_digital_opticalv2.eq3 -tmv NoInput.tmv
+-rpt_num 1
+"
+	close $rspFile
+}
+if [runCmd "\"$cpld_bin/lpf4k\" \"@cpld_digital_opticalv2.rs2\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+file delete cpld_digital_opticalv2.rs1
+file delete cpld_digital_opticalv2.rs2
+if [runCmd "\"$cpld_bin/tda\" -i cpld_digital_opticalv2.bl5 -o cpld_digital_opticalv2.tda -lci cpld_digital_opticalv2.lct -dev m4s_128_64 -family lc4k -mod top_level -ovec NoInput.tmv -err tda.err "] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/synsvf\" -exe \"$install_dir/ispvmsystem/ispufw\" -prj cpld_digital_opticalv2 -if cpld_digital_opticalv2.jed -j2s -log cpld_digital_opticalv2.svl "] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+
+########## Tcl recorder end at 02/11/20 18:03:49 ###########
+

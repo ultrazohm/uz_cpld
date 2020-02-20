@@ -2,7 +2,7 @@
 // Software Version :  ispLEVER Classic 2.0.00.17.20.15  
 // Project Name	    :  cpld_digital_opticalv2
 // Targeted Device  :  LA4128V-75TN100E
-// Date             :  Tue Feb 04 08:59:50 2020
+// Date             :  Tue Feb 11 18:03:50 2020
 //
                       GND          SYS           1
                     in_1_          IN            3
@@ -29,7 +29,6 @@
                     out17          OUT           28
                     out18          OUT           29
                     out19          OUT           30
-                   in_20_          IN            31
                    GNDIO0          SYS           32
                    VCCIO0          SYS           33
                    in_21_          IN            34

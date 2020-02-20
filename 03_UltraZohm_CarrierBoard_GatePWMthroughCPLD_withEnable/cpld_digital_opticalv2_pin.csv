@@ -1,7 +1,7 @@
  ispLEVER Classic 2.0.00.17.20.15 Fitter Report File 
 Project Name,cpld_digital_opticalv2
 Project Path,C:\Users\ga92wum\git\UltraZohm\Software\CPLD\03_UltraZohm_CarrierBoard_GatePWMthroughCPLD_withEnable
-Project Fitted on,Tue Feb 04 08:59:50 2020
+Project Fitted on,Tue Feb 11 18:03:50 2020
 
 Pin,Pin_Type,Bank,GLB_Pad,Assigned,I/O_Type,Signal_Type,Signal_Name
 1,GND,-,,,,,
@@ -34,7 +34,7 @@ Pin,Pin_Type,Bank,GLB_Pad,Assigned,I/O_Type,Signal_Type,Signal_Name
 28,I_O,0,D13,*,LVCMOS18,Output,out17
 29,I_O,0,D12,*,LVCMOS18,Output,out18
 30,I_O,0,D10,*,LVCMOS18,Output,out19
-31,I_O,0,D8,*,LVCMOS18,Input,in_20_
+31,I_O,0,D8,,,,
 32,GNDIO0,-,,,,,
 33,VCCIO0,-,,,,,
 34,I_O,0,D6,*,LVCMOS18,Input,in_21_

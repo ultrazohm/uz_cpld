@@ -1,20 +1,19 @@
 #$ TOOL  ispLEVER Classic 2.0.00.17.20.15
-#$ DATE  Tue Feb 04 08:59:48 2020
+#$ DATE  Tue Feb 11 18:03:49 2020
 #$ MODULE  top_level
 #$ TITLE  top_level.bls 
-#$ PINS 62 in19 out19 out18 out17 in18 in17 in_19_ in_18_ in_17_ out_19_
+#$ PINS 61 in19 out19 out18 out17 in18 in17 in_19_ in_18_ in_17_ out_19_
  out_18_ out_17_ out_12_ out_11_ out_10_ out_9_ out_8_ out_7_ out_6_ out_5_
  out_4_ out_3_ out_2_ out_1_ in_29_ in_30_ in_28_ in_27_ in_26_ in_25_ out_26_
  out_25_ out_24_ out_23_ out_22_ out_21_ out_20_ out_16_ out_15_ out_14_ out_13_
- in_13_ in_4_ in_24_ in_23_ in_22_ in_21_ in_20_ in_16_ in_15_ in_14_ in_12_
- in_11_ in_10_ in_9_ in_8_ in_7_ in_6_ in_5_ in_3_ in_2_ in_1_
+ in_13_ in_4_ in_24_ in_23_ in_22_ in_21_ in_16_ in_15_ in_14_ in_12_ in_11_
+ in_10_ in_9_ in_8_ in_7_ in_6_ in_5_ in_3_ in_2_ in_1_
 .model top_level 
 .inputs in_28_.BLIF in_27_.BLIF in_26_.BLIF in_25_.BLIF in_24_.BLIF in_23_.BLIF \
- in_22_.BLIF in_21_.BLIF in_20_.BLIF in_19_.BLIF in_18_.BLIF in_17_.BLIF \
- in_16_.BLIF in_15_.BLIF in_14_.BLIF in_13_.BLIF in_12_.BLIF in_11_.BLIF \
- in_10_.BLIF in_9_.BLIF in_8_.BLIF in_7_.BLIF in_6_.BLIF in_5_.BLIF in_3_.BLIF \
- in_4_.BLIF in_29_.BLIF in_30_.BLIF in_1_.BLIF in19.BLIF in18.BLIF in17.BLIF \
- in_2_.BLIF
+ in_22_.BLIF in_21_.BLIF in_19_.BLIF in_18_.BLIF in_17_.BLIF in_16_.BLIF \
+ in_15_.BLIF in_14_.BLIF in_13_.BLIF in_12_.BLIF in_11_.BLIF in_10_.BLIF \
+ in_9_.BLIF in_8_.BLIF in_7_.BLIF in_6_.BLIF in_5_.BLIF in_3_.BLIF in_4_.BLIF \
+ in_29_.BLIF in_30_.BLIF in_1_.BLIF in19.BLIF in18.BLIF in17.BLIF in_2_.BLIF
 .outputs out19 out18 out17 out_19_ out_18_ out_17_ out_12_ out_11_ out_10_ \
  out_9_ out_8_ out_7_ out_6_ out_5_ out_4_ out_3_ out_2_ out_1_ out_26_ out_25_ \
  out_24_ out_23_ out_22_ out_21_ out_20_ out_16_ out_15_ out_14_ out_13_
@@ -66,8 +65,8 @@
 00111 1
 .names in_28_.BLIF in_27_.BLIF in_21_.BLIF in_29_.BLIF in_30_.BLIF out_21_
 00111 1
-.names in_28_.BLIF in_27_.BLIF in_20_.BLIF in_29_.BLIF in_30_.BLIF out_20_
-00111 1
+.names in_28_.BLIF in_27_.BLIF in_29_.BLIF in_30_.BLIF out_20_
+0011 1
 .names in_28_.BLIF in_27_.BLIF in_16_.BLIF in_29_.BLIF in_30_.BLIF out_16_
 00111 1
 .names in_28_.BLIF in_27_.BLIF in_15_.BLIF in_29_.BLIF in_30_.BLIF out_15_

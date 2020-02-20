@@ -19,9 +19,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/XilinxEyke/CPLDs/Work_Lattice/03_UltraZohm_CarrierBoard_GatePWMthroughCPLD_withEnable/cpld_digital_opticalv2.jed</File>
-			<FileTime>12/20/19 17:48:38</FileTime>
-			<JedecChecksum>0x204C</JedecChecksum>
+			<File>C:/Users/ga92wum/git/UltraZohm/Software/CPLD/03_UltraZohm_CarrierBoard_GatePWMthroughCPLD_withEnable/cpld_digital_opticalv2.jed</File>
+			<FileTime>02/11/20 18:03:50</FileTime>
+			<JedecChecksum>0x20D0</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -49,9 +49,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/XilinxEyke/CPLDs/Work_Lattice/03_UltraZohm_CarrierBoard_GatePWMthroughCPLD_withEnable/cpld_digital_opticalv2.jed</File>
-			<FileTime>12/20/19 17:48:38</FileTime>
-			<JedecChecksum>0x204C</JedecChecksum>
+			<File>C:/Users/ga92wum/git/UltraZohm/Software/CPLD/03_UltraZohm_CarrierBoard_GatePWMthroughCPLD_withEnable/cpld_digital_opticalv2.jed</File>
+			<FileTime>02/11/20 18:03:50</FileTime>
+			<JedecChecksum>0x20D0</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -79,9 +79,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/XilinxEyke/CPLDs/Work_Lattice/03_UltraZohm_CarrierBoard_GatePWMthroughCPLD_withEnable/cpld_digital_opticalv2.jed</File>
-			<FileTime>12/20/19 17:48:38</FileTime>
-			<JedecChecksum>0x204C</JedecChecksum>
+			<File>C:/Users/ga92wum/git/UltraZohm/Software/CPLD/03_UltraZohm_CarrierBoard_GatePWMthroughCPLD_withEnable/cpld_digital_opticalv2.jed</File>
+			<FileTime>02/11/20 18:03:50</FileTime>
+			<JedecChecksum>0x20D0</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -109,9 +109,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/XilinxEyke/CPLDs/Work_Lattice/03_UltraZohm_CarrierBoard_GatePWMthroughCPLD_withEnable/cpld_digital_opticalv2.jed</File>
-			<FileTime>12/20/19 17:48:38</FileTime>
-			<JedecChecksum>0x204C</JedecChecksum>
+			<File>C:/Users/ga92wum/git/UltraZohm/Software/CPLD/03_UltraZohm_CarrierBoard_GatePWMthroughCPLD_withEnable/cpld_digital_opticalv2.jed</File>
+			<FileTime>02/11/20 18:03:50</FileTime>
+			<JedecChecksum>0x20D0</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -139,8 +139,8 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/XilinxEyke/CPLDs/Work_Lattice/02_UltraZohm_CarrierBoard_Encoder_DigInput/la128v_io_example.jed</File>
-			<FileTime>04/05/19 17:27:48</FileTime>
+			<File>C:/Users/ga92wum/git/UltraZohm/Software/CPLD/02_UltraZohm_CarrierBoard_Encoder_DigInput/la128v_io_example.jed</File>
+			<FileTime>12/20/19 17:39:15</FileTime>
 			<JedecChecksum>0x2378</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>

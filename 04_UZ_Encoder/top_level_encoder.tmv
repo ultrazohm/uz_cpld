@@ -1,0 +1,6 @@
+#$ TOOL ispLEVER Classic 2.0.00.17.20.15
+#$ MODULE cpld_encoder
+#$ TITLE top_level_encoder
+S0;
+-> 
+$

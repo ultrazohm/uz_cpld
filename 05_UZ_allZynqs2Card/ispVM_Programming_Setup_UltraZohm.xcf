@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE		ispXCF	SYSTEM	"IspXCF.dtd" >
+<ispXCF version="3.11.0">
+	<Comment></Comment>
+	<Chain>
+		<Comm>JTAG</Comm>
+		<Device>
+			<SelectedProg value="FALSE"/>
+			<Pos>1</Pos>
+			<Vendor>Lattice</Vendor>
+			<Family>ispMACH4000</Family>
+			<Name>LA4128V</Name>
+			<IDCode>0x01811043</IDCode>
+			<Package>All</Package>
+			<PON>LA4128V</PON>
+			<Bypass>
+				<InstrLen>8</InstrLen>
+				<InstrVal>11111111</InstrVal>
+				<BScanLen>1</BScanLen>
+				<BScanVal>0</BScanVal>
+			</Bypass>
+			<Operation>Erase,Program,Verify</Operation>
+			<Option>
+				<SVFVendor>JTAG STANDARD</SVFVendor>
+				<IOState>HighZ</IOState>
+				<PreloadLength>196</PreloadLength>
+				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
+				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<AccessMode>JTAG</AccessMode>
+			</Option>
+		</Device>
+		<Device>
+			<SelectedProg value="FALSE"/>
+			<Pos>2</Pos>
+			<Vendor>Lattice</Vendor>
+			<Family>ispMACH4000</Family>
+			<Name>LA4128V</Name>
+			<IDCode>0x01811043</IDCode>
+			<Package>All</Package>
+			<PON>LA4128V</PON>
+			<Bypass>
+				<InstrLen>8</InstrLen>
+				<InstrVal>11111111</InstrVal>
+				<BScanLen>1</BScanLen>
+				<BScanVal>0</BScanVal>
+			</Bypass>
+			<Operation>Erase,Program,Verify</Operation>
+			<Option>
+				<SVFVendor>JTAG STANDARD</SVFVendor>
+				<IOState>HighZ</IOState>
+				<PreloadLength>196</PreloadLength>
+				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
+				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<AccessMode>JTAG</AccessMode>
+			</Option>
+		</Device>
+		<Device>
+			<SelectedProg value="FALSE"/>
+			<Pos>3</Pos>
+			<Vendor>Lattice</Vendor>
+			<Family>ispMACH4000</Family>
+			<Name>LA4128V</Name>
+			<IDCode>0x01811043</IDCode>
+			<Package>All</Package>
+			<PON>LA4128V</PON>
+			<Bypass>
+				<InstrLen>8</InstrLen>
+				<InstrVal>11111111</InstrVal>
+				<BScanLen>1</BScanLen>
+				<BScanVal>0</BScanVal>
+			</Bypass>
+			<Operation>Erase,Program,Verify</Operation>
+			<Option>
+				<SVFVendor>JTAG STANDARD</SVFVendor>
+				<IOState>HighZ</IOState>
+				<PreloadLength>196</PreloadLength>
+				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
+				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<AccessMode>JTAG</AccessMode>
+			</Option>
+		</Device>
+		<Device>
+			<SelectedProg value="TRUE"/>
+			<Pos>4</Pos>
+			<Vendor>Lattice</Vendor>
+			<Family>ispMACH4000</Family>
+			<Name>LA4128V</Name>
+			<IDCode>0x01811043</IDCode>
+			<Package>All</Package>
+			<PON>LA4128V</PON>
+			<Bypass>
+				<InstrLen>8</InstrLen>
+				<InstrVal>11111111</InstrVal>
+				<BScanLen>1</BScanLen>
+				<BScanVal>0</BScanVal>
+			</Bypass>
+			<File>C:/Users/ga92wum/git/UltraZohm/Software/CPLD/05_UZ_allZynqs2Card/uz_zynq2adapter.jed</File>
+			<FileTime>01/22/21 17:58:59</FileTime>
+			<JedecChecksum>0x3114</JedecChecksum>
+			<Operation>Erase,Program,Verify</Operation>
+			<Option>
+				<SVFVendor>JTAG STANDARD</SVFVendor>
+				<IOState>HighZ</IOState>
+				<PreloadLength>196</PreloadLength>
+				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
+				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<Usercode>0xFFFFFFFF</Usercode>
+				<AccessMode>JTAG</AccessMode>
+			</Option>
+		</Device>
+		<Device>
+			<SelectedProg value="FALSE"/>
+			<Pos>5</Pos>
+			<Vendor>Lattice</Vendor>
+			<Family>ispMACH4000</Family>
+			<Name>LA4128V</Name>
+			<IDCode>0x01811043</IDCode>
+			<Package>All</Package>
+			<PON>LA4128V</PON>
+			<Bypass>
+				<InstrLen>8</InstrLen>
+				<InstrVal>11111111</InstrVal>
+				<BScanLen>1</BScanLen>
+				<BScanVal>0</BScanVal>
+			</Bypass>
+			<Operation>Erase,Program,Verify</Operation>
+			<Option>
+				<SVFVendor>JTAG STANDARD</SVFVendor>
+				<IOState>HighZ</IOState>
+				<PreloadLength>196</PreloadLength>
+				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
+				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<AccessMode>JTAG</AccessMode>
+			</Option>
+		</Device>
+	</Chain>
+	<ProjectOptions>
+		<Program>SEQUENTIAL</Program>
+		<Process>ENTIRED CHAIN</Process>
+		<OperationOverride>No Override</OperationOverride>
+		<StartTAP>TLR</StartTAP>
+		<EndTAP>TLR</EndTAP>
+		<VerifyUsercode value="FALSE"/>
+		<TCKDelay>1</TCKDelay>
+	</ProjectOptions>
+	<CableOptions>
+		<CableName>USB2</CableName>
+		<PortAdd>FTUSB-1</PortAdd>
+		<USBID>Digilent USB Device B Location 0001 Serial 2516330053FCB</USBID>
+		<JTAGPinSetting>
+			TMS	LOW;
+			TCK	LOW;
+			TDI	LOW;
+			TDO	LOW;
+		</JTAGPinSetting>
+	</CableOptions>
+</ispXCF>

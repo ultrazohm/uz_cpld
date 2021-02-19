@@ -1,0 +1,125 @@
+MODULE CPLD_Encoder
+
+TITLE 'top_level_encoder'
+
+" ----------------------------
+" NOTE 1: Comments begin with
+" double-quote
+
+" NOTE 2: ABEL keywords are not
+" case sensitive.
+
+" NOTE 3: Your identifiers (signal
+" names) ARE case sensitive.
+" ----------------------------
+
+" Zynq pins
+zynq_0  pin 3;
+zynq_1  pin 4;
+zynq_2  pin 5;
+zynq_3  pin 6;
+zynq_4  pin 8;
+zynq_5  pin 9;
+zynq_6  pin 10;
+zynq_7  pin 11;
+zynq_8  pin 14;
+zynq_9  pin 15;
+zynq_10 pin 16;
+zynq_11 pin 17;
+zynq_12 pin 19;
+zynq_13 pin 20;
+zynq_14 pin 21;
+zynq_15 pin 22;
+zynq_16 pin 28;
+zynq_17 pin 29;
+zynq_18 pin 30;
+zynq_19 pin 31;
+zynq_20 pin 34;
+zynq_21 pin 35;
+zynq_22 pin 36;
+zynq_23 pin 37;
+zynq_24 pin 91;
+zynq_25 pin 92;
+zynq_26 pin 93;
+zynq_27 pin 94;
+zynq_28 pin 97;
+zynq_29 pin 98;
+
+
+" Digital Adapter pins
+d_0  pin 50;
+d_1  pin 53;
+d_2  pin 49;
+d_3  pin 54;
+d_4  pin 48;
+d_5  pin 55;
+d_6  pin 47;
+d_7  pin 56;
+d_8  pin 41;
+d_9  pin 58;
+d_10 pin 42;
+d_11 pin 59;
+d_12 pin 43;
+d_13 pin 60;
+d_14 pin 44;
+d_15 pin 61;
+d_16 pin 84;
+d_17 pin 64;
+d_18 pin 85;
+d_19 pin 65;
+d_20 pin 86;
+d_21 pin 66;
+d_22 pin 87;
+d_23 pin 67;
+d_24 pin 81;
+d_25 pin 72;
+d_26 pin 80;
+d_27 pin 71;
+d_28 pin 79;
+d_29 pin 70;
+
+" ----------------------------
+" Circuit functionality
+EQUATIONS
+d_0  =zynq_0 ; 
+d_1  =zynq_1 ; 
+d_2  =zynq_2 ; 
+d_3  =zynq_3 ; 
+d_4  =zynq_4 ; 
+d_5  =zynq_5 ; 
+d_6  =zynq_6 ; 
+d_7  =zynq_7 ; 
+d_8  =zynq_8 ; 
+d_9  =zynq_9 ; 
+d_10 =zynq_10; 
+d_11 =zynq_11; 
+d_12 =zynq_12; 
+d_13 =zynq_13; 
+d_14 =zynq_14; 
+d_15 =zynq_15; 
+d_16 =zynq_16; 
+d_17 =zynq_17; 
+d_18 =zynq_18; 
+d_19 =zynq_19; 
+d_20 =zynq_20; 
+d_21 =zynq_21; 
+d_22 =zynq_22; 
+d_23 =zynq_23; 
+d_24 =zynq_24; 
+d_25 =zynq_25; 
+d_26 =zynq_26; 
+d_27 =zynq_27; 
+d_28 =zynq_28; 
+d_29 =zynq_29; 
+
+
+" ----------------------------
+" Test inputs for simulation
+"TEST_VECTORS()
+
+" ----------------------------
+" All done!
+
+END
+
+

@@ -1,4 +1,0 @@
-Part Number: LA4128V-75TN100E
-C:\ispLEVER_Classic2_0\ispvmsystem/ispufw -dev LA4128V-XXTN100 -if la128v_io_example.jed -oft -isc -lever
-Invoke process : C:\ispLEVER_Classic2_0\ispvmsystem/ispufw -dev LA4128V-XXTN100 -if la128v_io_example.jed -oft -isc -lever
-ISC file is generated successfully

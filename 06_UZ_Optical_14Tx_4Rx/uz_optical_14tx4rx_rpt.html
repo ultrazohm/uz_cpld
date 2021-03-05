@@ -21,7 +21,7 @@ Tools->Fitter Report File Format...
 <BR>
 Project Name         :  uz_optical_14tx4rx
 Project Path         :  C:\Users\ga92wum\git\UltraZohm\Software\CPLD\06_UZ_Optical_14Tx_4Rx
-Project Fitted on    :  Fri Mar 05 20:42:31 2021
+Project Fitted on    :  Fri Mar 05 21:02:12 2021
 
 Device               :  M4128_64
 Package              :  100
@@ -38,8 +38,8 @@ Source Format        :  ABEL_Schematic
 <A name="Compilation_Times"></A><FONT COLOR=maroon><U><B><big>Compilation_Times</big></B></U></FONT>
 <BR>
 Prefit Time                     0 secs
-Load Design Time                0.03 secs
-Partition Time                  0.01 secs
+Load Design Time                0.05 secs
+Partition Time                  0.00 secs
 Place Time                      0.00 secs
 Route Time                      0.00 secs
 Total Fit Time                  00:00:01
@@ -47,19 +47,19 @@ Total Fit Time                  00:00:01
 
 <A name="Design_Summary"></A><FONT COLOR=maroon><U><B><big>Design_Summary</big></B></U></FONT>
 <BR>
-Total Input Pins                34
-Total Logic Functions           30
-  Total Output Pins             30
+Total Input Pins                30
+Total Logic Functions           26
+  Total Output Pins             26
   Total Bidir I/O Pins          0
   Total Buried Nodes            0
 Total Flip-Flops                0
   Total D Flip-Flops            0
   Total T Flip-Flops            0
   Total Latches                 0
-Total Product Terms             30
+Total Product Terms             26
 
 Total Reserved Pins             0
-Total Locked Pins               60
+Total Locked Pins               56
 Total Locked Nodes              0
 
 Total Unique Output Enables     0
@@ -77,17 +77,17 @@ Fmax Logic Levels               -
                                  Total    Used   Not Used   Utilization
 -----------------------------------------------------------------------
 </B>Dedicated Pins
-  Clock/Input Pins                  4        4      0    -->   100
+  Clock/Input Pins                  4        0      4    -->     0
   Input-Only Pins                   6        0      6    -->     0
   I/O / Enable Pins                 2        2      0    -->   100
-I/O Pins                           62       58      4    -->    93
-Logic Functions                   128       30     98    -->    23
+I/O Pins                           62       54      8    -->    87
+Logic Functions                   128       26    102    -->    20
   Input Registers                  64        0     64    -->     0
 
-GLB Inputs                        288       46    242    -->    15
-Logical Product Terms             640       30    610    -->     4
+GLB Inputs                        288       42    246    -->    14
+Logical Product Terms             640       26    614    -->     4
 Occupied GLBs                       8        8      0    -->   100
-Macrocells                        128       30     98    -->    23
+Macrocells                        128       26    102    -->    20
 
 Control Product Terms:
   GLB Clock/Clock Enables           8        0      8    -->     0
@@ -98,9 +98,9 @@ Control Product Terms:
   Macrocell Resets                128        0    128    -->     0
   Macrocell Presets               128        0    128    -->     0
 
-Global Routing Pool               220       34    186    -->    15
-  GRP from IFB                     ..       34     ..    -->    ..
-    (from input signals)           ..       34     ..    -->    ..
+Global Routing Pool               220       30    190    -->    13
+  GRP from IFB                     ..       30     ..    -->    ..
+    (from input signals)           ..       30     ..    -->    ..
     (from output signals)          ..        0     ..    -->    ..
     (from bidir signals)           ..        0     ..    -->    ..
   GRP from MFB                     ..        0     ..    -->    ..
@@ -127,10 +127,10 @@ Maximum
 -------------------------------------------------------------------------------------------
   GLB    E      7     4    11      8/8      0    7      0              9        7        7
   GLB    F      7     4    11      8/8      0    7      0              9        7        7
-  GLB    G      6     4    10      7/8      0    6      0             10        6        6
-  GLB    H      6     4    10      6/8      0    6      0             10        6        6
+  GLB    G      4     4     8      5/8      0    4      0             12        4        4
+  GLB    H      4     4     8      4/8      0    4      0             12        4        4
 -------------------------------------------------------------------------------------------
-TOTALS:        30    16    46     58/64     0   30      0             98       30       30
+TOTALS:        26    16    42     54/64     0   26      0            102       26       26
 
 &lt;Note&gt; 1 : For ispMACH 4000 devices, the number of IOs depends on the GLB.
 &lt;Note&gt; 2 : Four rightmost columns above reflect last status of the placement process.
@@ -229,24 +229,24 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name
 </B>--------------------------------------------------------------------------
 1     | GND   |   -  |    |        |                 |       |
 2     | TDI   |   -  |    |        |                 |       |
-3     |  I_O  |   0  |B0  |    *   |LVCMOS18         | Input |<A href=#69>in_1_</A>
-4     |  I_O  |   0  |B2  |    *   |LVCMOS18         | Input |<A href=#68>in_2_</A>
-5     |  I_O  |   0  |B4  |    *   |LVCMOS18         | Input |<A href=#67>in_3_</A>
-6     |  I_O  |   0  |B6  |    *   |LVCMOS18         | Input |<A href=#50>in_4_</A>
+3     |  I_O  |   0  |B0  |    *   |LVCMOS18         | Input |<A href=#61>in_1_</A>
+4     |  I_O  |   0  |B2  |    *   |LVCMOS18         | Input |<A href=#60>in_2_</A>
+5     |  I_O  |   0  |B4  |    *   |LVCMOS18         | Input |<A href=#59>in_3_</A>
+6     |  I_O  |   0  |B6  |    *   |LVCMOS18         | Input |<A href=#44>in_4_</A>
 7     |GNDIO0 |   -  |    |        |                 |       |
-8     |  I_O  |   0  |B8  |    *   |LVCMOS18         | Input |<A href=#66>in_5_</A>
-9     |  I_O  |   0  |B10 |    *   |LVCMOS18         | Input |<A href=#65>in_6_</A>
-10    |  I_O  |   0  |B12 |    *   |LVCMOS18         | Input |<A href=#64>in_7_</A>
-11    |  I_O  |   0  |B13 |    *   |LVCMOS18         | Input |<A href=#63>in_8_</A>
+8     |  I_O  |   0  |B8  |    *   |LVCMOS18         | Input |<A href=#58>in_5_</A>
+9     |  I_O  |   0  |B10 |    *   |LVCMOS18         | Input |<A href=#57>in_6_</A>
+10    |  I_O  |   0  |B12 |    *   |LVCMOS18         | Input |<A href=#56>in_7_</A>
+11    |  I_O  |   0  |B13 |    *   |LVCMOS18         | Input |<A href=#55>in_8_</A>
 12    | IN0   |   0  |    |        |                 |       |
 13    |VCCIO0 |   -  |    |        |                 |       |
-14    |  I_O  |   0  |C14 |    *   |LVCMOS18         | Input |<A href=#62>in_9_</A>
-15    |  I_O  |   0  |C12 |    *   |LVCMOS18         | Input |<A href=#61>in_10_</A>
-16    |  I_O  |   0  |C10 |    *   |LVCMOS18         | Input |<A href=#60>in_11_</A>
-17    |  I_O  |   0  |C8  |    *   |LVCMOS18         | Input |<A href=#59>in_12_</A>
+14    |  I_O  |   0  |C14 |    *   |LVCMOS18         | Input |<A href=#54>in_9_</A>
+15    |  I_O  |   0  |C12 |    *   |LVCMOS18         | Input |<A href=#53>in_10_</A>
+16    |  I_O  |   0  |C10 |    *   |LVCMOS18         | Input |<A href=#52>in_11_</A>
+17    |  I_O  |   0  |C8  |    *   |LVCMOS18         | Input |<A href=#51>in_12_</A>
 18    |GNDIO0 |   -  |    |        |                 |       |
-19    |  I_O  |   0  |C6  |    *   |LVCMOS18         | Input |<A href=#49>in_13_</A>
-20    |  I_O  |   0  |C5  |    *   |LVCMOS18         | Input |<A href=#58>in_14_</A>
+19    |  I_O  |   0  |C6  |    *   |LVCMOS18         | Input |<A href=#43>in_13_</A>
+20    |  I_O  |   0  |C5  |    *   |LVCMOS18         | Input |<A href=#50>in_14_</A>
 21    |  I_O  |   0  |C4  |    *   |LVCMOS18         | Output|<A href=#8>Out15</A>
 22    |  I_O  |   0  |C2  |    *   |LVCMOS18         | Output|<A href=#7>Out16</A>
 23    | IN1   |   0  |    |        |                 |       |
@@ -257,74 +257,74 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name
 28    |  I_O  |   0  |D13 |    *   |LVCMOS18         | Output|<A href=#11>out17</A>
 29    |  I_O  |   0  |D12 |    *   |LVCMOS18         | Output|<A href=#13>out18</A>
 30    |  I_O  |   0  |D10 |    *   |LVCMOS18         | Input |<A href=#14>in_19_</A>
-31    |  I_O  |   0  |D8  |    *   |LVCMOS18         | Input |<A href=#55>in_20_</A>
+31    |  I_O  |   0  |D8  |    *   |LVCMOS18         | Input |<A href=#49>in_20_</A>
 32    |GNDIO0 |   -  |    |        |                 |       |
 33    |VCCIO0 |   -  |    |        |                 |       |
-34    |  I_O  |   0  |D6  |    *   |LVCMOS18         | Input |<A href=#54>in_21_</A>
-35    |  I_O  |   0  |D4  |    *   |LVCMOS18         | Input |<A href=#53>in_22_</A>
-36    |  I_O  |   0  |D2  |    *   |LVCMOS18         | Input |<A href=#52>in_23_</A>
-37    |  I_O  |   0  |D0  |    *   |LVCMOS18         | Input |<A href=#51>in_24_</A>
-38    |INCLK1 |   0  |    |    *   |LVCMOS18         | Input |<A href=#16>in_17_</A>
-39    |INCLK2 |   1  |    |    *   |LVCMOS18         | Input |<A href=#56>in_16_</A>
+34    |  I_O  |   0  |D6  |    *   |LVCMOS18         | Input |<A href=#48>in_21_</A>
+35    |  I_O  |   0  |D4  |    *   |LVCMOS18         | Input |<A href=#47>in_22_</A>
+36    |  I_O  |   0  |D2  |    *   |LVCMOS18         | Input |<A href=#46>in_23_</A>
+37    |  I_O  |   0  |D0  |    *   |LVCMOS18         | Input |<A href=#45>in_24_</A>
+38    |INCLK1 |   0  |    |        |                 |       |
+39    |INCLK2 |   1  |    |        |                 |       |
 40    | VCC   |   -  |    |        |                 |       |
-41    |  I_O  |   1  |E0  |    *   |LVCMOS18         | Output|<A href=#23>out_9_</A>
-42    |  I_O  |   1  |E2  |    *   |LVCMOS18         | Output|<A href=#21>out_11_</A>
-43    |  I_O  |   1  |E4  |    *   |LVCMOS18         | Output|<A href=#48>out_13_</A>
+41    |  I_O  |   1  |E0  |    *   |LVCMOS18         | Output|<A href=#19>out_9_</A>
+42    |  I_O  |   1  |E2  |    *   |LVCMOS18         | Output|<A href=#17>out_11_</A>
+43    |  I_O  |   1  |E4  |    *   |LVCMOS18         | Output|<A href=#42>out_13_</A>
 44    |  I_O  |   1  |E6  |    *   |LVCMOS18         | Input |<A href=#6>In15</A>
 45    |VCCIO1 |   -  |    |        |                 |       |
 46    |GNDIO1 |   -  |    |        |                 |       |
-47    |  I_O  |   1  |E8  |    *   |LVCMOS18         | Output|<A href=#25>out_7_</A>
-48    |  I_O  |   1  |E10 |    *   |LVCMOS18         | Output|<A href=#27>out_5_</A>
-49    |  I_O  |   1  |E12 |    *   |LVCMOS18         | Output|<A href=#29>out_3_</A>
-50    |  I_O  |   1  |E14 |    *   |LVCMOS18         | Output|<A href=#31>out_1_</A>
+47    |  I_O  |   1  |E8  |    *   |LVCMOS18         | Output|<A href=#21>out_7_</A>
+48    |  I_O  |   1  |E10 |    *   |LVCMOS18         | Output|<A href=#23>out_5_</A>
+49    |  I_O  |   1  |E12 |    *   |LVCMOS18         | Output|<A href=#25>out_3_</A>
+50    |  I_O  |   1  |E14 |    *   |LVCMOS18         | Output|<A href=#27>out_1_</A>
 51    | GND   |   -  |    |        |                 |       |
 52    | TMS   |   -  |    |        |                 |       |
-53    |  I_O  |   1  |F0  |    *   |LVCMOS18         | Output|<A href=#30>out_2_</A>
-54    |  I_O  |   1  |F2  |    *   |LVCMOS18         | Output|<A href=#28>out_4_</A>
-55    |  I_O  |   1  |F4  |    *   |LVCMOS18         | Output|<A href=#26>out_6_</A>
-56    |  I_O  |   1  |F6  |    *   |LVCMOS18         | Output|<A href=#24>out_8_</A>
+53    |  I_O  |   1  |F0  |    *   |LVCMOS18         | Output|<A href=#26>out_2_</A>
+54    |  I_O  |   1  |F2  |    *   |LVCMOS18         | Output|<A href=#24>out_4_</A>
+55    |  I_O  |   1  |F4  |    *   |LVCMOS18         | Output|<A href=#22>out_6_</A>
+56    |  I_O  |   1  |F6  |    *   |LVCMOS18         | Output|<A href=#20>out_8_</A>
 57    |GNDIO1 |   -  |    |        |                 |       |
-58    |  I_O  |   1  |F8  |    *   |LVCMOS18         | Output|<A href=#22>out_10_</A>
-59    |  I_O  |   1  |F10 |    *   |LVCMOS18         | Output|<A href=#20>out_12_</A>
-60    |  I_O  |   1  |F12 |    *   |LVCMOS18         | Output|<A href=#47>out_14_</A>
+58    |  I_O  |   1  |F8  |    *   |LVCMOS18         | Output|<A href=#18>out_10_</A>
+59    |  I_O  |   1  |F10 |    *   |LVCMOS18         | Output|<A href=#16>out_12_</A>
+60    |  I_O  |   1  |F12 |    *   |LVCMOS18         | Output|<A href=#41>out_14_</A>
 61    |  I_O  |   1  |F13 |    *   |LVCMOS18         | Input |<A href=#9>In16</A>
 62    | IN3   |   1  |    |        |                 |       |
 63    |VCCIO1 |   -  |    |        |                 |       |
 64    |  I_O  |   1  |G14 |    *   |LVCMOS18         | Input |<A href=#12>in18</A>
-65    |  I_O  |   1  |G12 |    *   |LVCMOS18         | Output|<A href=#44>out_20_</A>
-66    |  I_O  |   1  |G10 |    *   |LVCMOS18         | Output|<A href=#42>out_22_</A>
-67    |  I_O  |   1  |G8  |    *   |LVCMOS18         | Output|<A href=#40>out_24_</A>
+65    |  I_O  |   1  |G12 |    *   |LVCMOS18         | Output|<A href=#40>out_20_</A>
+66    |  I_O  |   1  |G10 |    *   |LVCMOS18         | Output|<A href=#38>out_22_</A>
+67    |  I_O  |   1  |G8  |    *   |LVCMOS18         | Output|<A href=#36>out_24_</A>
 68    |GNDIO1 |   -  |    |        |                 |       |
 69    |  I_O  |   1  |G6  |        |                 |       |
-70    |  I_O  |   1  |G5  |        |LVCMOS18         | Output|<A href=#45>out_16_</A>
-71    |  I_O  |   1  |G4  |        |LVCMOS18         | Output|<A href=#19>out_17_</A>
-72    |  I_O  |   1  |G2  |    *   |LVCMOS18         | Output|<A href=#38>out_26_</A>
+70    |  I_O  |   1  |G5  |        |                 |       |
+71    |  I_O  |   1  |G4  |        |                 |       |
+72    |  I_O  |   1  |G2  |    *   |LVCMOS18         | Output|<A href=#34>out_26_</A>
 73    | IN4   |   1  |    |        |                 |       |
 74    | TDO   |   -  |    |        |                 |       |
 75    | VCC   |   -  |    |        |                 |       |
 76    | GND   |   -  |    |        |                 |       |
 77    | IN5   |   1  |    |        |                 |       |
 78    |  I_O  |   1  |H13 |        |                 |       |
-79    |  I_O  |   1  |H12 |        |LVCMOS18         | Output|<A href=#46>out_15_</A>
-80    |  I_O  |   1  |H10 |        |LVCMOS18         | Output|<A href=#18>out_18_</A>
-81    |  I_O  |   1  |H8  |    *   |LVCMOS18         | Output|<A href=#39>out_25_</A>
+79    |  I_O  |   1  |H12 |        |                 |       |
+80    |  I_O  |   1  |H10 |        |                 |       |
+81    |  I_O  |   1  |H8  |    *   |LVCMOS18         | Output|<A href=#35>out_25_</A>
 82    |GNDIO1 |   -  |    |        |                 |       |
 83    |VCCIO1 |   -  |    |        |                 |       |
 84    |  I_O  |   1  |H6  |    *   |LVCMOS18         | Input |<A href=#10>in17</A>
-85    |  I_O  |   1  |H4  |    *   |LVCMOS18         | Output|<A href=#17>out_19_</A>
-86    |  I_O  |   1  |H2  |    *   |LVCMOS18         | Output|<A href=#43>out_21_</A>
-87    | I_O/OE|   1  |H0  |    *   |LVCMOS18         | Output|<A href=#41>out_23_</A>
-88    |INCLK3 |   1  |    |    *   |LVCMOS18         | Input |<A href=#57>in_15_</A>
-89    |INCLK0 |   0  |    |    *   |LVCMOS18         | Input |<A href=#15>in_18_</A>
+85    |  I_O  |   1  |H4  |    *   |LVCMOS18         | Output|<A href=#15>out_19_</A>
+86    |  I_O  |   1  |H2  |    *   |LVCMOS18         | Output|<A href=#39>out_21_</A>
+87    | I_O/OE|   1  |H0  |    *   |LVCMOS18         | Output|<A href=#37>out_23_</A>
+88    |INCLK3 |   1  |    |        |                 |       |
+89    |INCLK0 |   0  |    |        |                 |       |
 90    | VCC   |   -  |    |        |                 |       |
-91    | I_O/OE|   0  |A0  |    *   |LVCMOS18         | Input |<A href=#37>in_25_</A>
-92    |  I_O  |   0  |A2  |    *   |LVCMOS18         | Input |<A href=#36>in_26_</A>
-93    |  I_O  |   0  |A4  |    *   |LVCMOS18         | Input |<A href=#35>in_27_</A>
-94    |  I_O  |   0  |A6  |    *   |LVCMOS18         | Input |<A href=#34>in_28_</A>
+91    | I_O/OE|   0  |A0  |    *   |LVCMOS18         | Input |<A href=#33>in_25_</A>
+92    |  I_O  |   0  |A2  |    *   |LVCMOS18         | Input |<A href=#32>in_26_</A>
+93    |  I_O  |   0  |A4  |    *   |LVCMOS18         | Input |<A href=#31>in_27_</A>
+94    |  I_O  |   0  |A6  |    *   |LVCMOS18         | Input |<A href=#30>in_28_</A>
 95    |VCCIO0 |   -  |    |        |                 |       |
 96    |GNDIO0 |   -  |    |        |                 |       |
-97    |  I_O  |   0  |A8  |    *   |LVCMOS18         | Input |<A href=#32>in_29_</A>
-98    |  I_O  |   0  |A10 |    *   |LVCMOS18         | Input |<A href=#33>in_30_</A>
+97    |  I_O  |   0  |A8  |    *   |LVCMOS18         | Input |<A href=#28>in_29_</A>
+98    |  I_O  |   0  |A10 |    *   |LVCMOS18         | Input |<A href=#29>in_30_</A>
 99    |  I_O  |   0  |A12 |        |                 |       |
 100   |  I_O  |   0  |A14 |        |                 |       |
 --------------------------------------------------------------------------
@@ -350,36 +350,32 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name
   61   F  I/O   1 --C-----      Up <A name=9>In16</A>
   84   H  I/O   1 ---D----      Up <A name=10>in17</A>
   64   G  I/O   1 ---D----      Up <A name=12>in18</A>
-  15   C  I/O   1 -----F--      Up <A name=61>in_10_</A>
-  16   C  I/O   1 ----E---      Up <A name=60>in_11_</A>
-  17   C  I/O   1 -----F--      Up <A name=59>in_12_</A>
-  19   C  I/O   1 ----E---      Up <A name=49>in_13_</A>
-  20   C  I/O   1 -----F--      Up <A name=58>in_14_</A>
-  88  -- INCLK  1 -------H      Up <A name=57>in_15_</A>
-  39  -- INCLK  1 ------G-      Up <A name=56>in_16_</A>
-  38  -- INCLK  1 ------G-      Up <A name=16>in_17_</A>
-  89  -- INCLK  1 -------H      Up <A name=15>in_18_</A>
+  15   C  I/O   1 -----F--      Up <A name=53>in_10_</A>
+  16   C  I/O   1 ----E---      Up <A name=52>in_11_</A>
+  17   C  I/O   1 -----F--      Up <A name=51>in_12_</A>
+  19   C  I/O   1 ----E---      Up <A name=43>in_13_</A>
+  20   C  I/O   1 -----F--      Up <A name=50>in_14_</A>
   30   D  I/O   1 -------H      Up <A name=14>in_19_</A>
-   3   B  I/O   1 ----E---      Up <A name=69>in_1_</A>
-  31   D  I/O   1 ------G-      Up <A name=55>in_20_</A>
-  34   D  I/O   1 -------H      Up <A name=54>in_21_</A>
-  35   D  I/O   1 ------G-      Up <A name=53>in_22_</A>
-  36   D  I/O   1 -------H      Up <A name=52>in_23_</A>
-  37   D  I/O   1 ------G-      Up <A name=51>in_24_</A>
-  91   A  I/O   1 -------H      Up <A name=37>in_25_</A>
-  92   A  I/O   1 ------G-      Up <A name=36>in_26_</A>
-  93   A  I/O   4 ----EFGH      Up <A name=35>in_27_</A>
-  94   A  I/O   4 ----EFGH      Up <A name=34>in_28_</A>
-  97   A  I/O   4 ----EFGH      Up <A name=32>in_29_</A>
-   4   B  I/O   1 -----F--      Up <A name=68>in_2_</A>
-  98   A  I/O   4 ----EFGH      Up <A name=33>in_30_</A>
-   5   B  I/O   1 ----E---      Up <A name=67>in_3_</A>
-   6   B  I/O   1 -----F--      Up <A name=50>in_4_</A>
-   8   B  I/O   1 ----E---      Up <A name=66>in_5_</A>
-   9   B  I/O   1 -----F--      Up <A name=65>in_6_</A>
-  10   B  I/O   1 ----E---      Up <A name=64>in_7_</A>
-  11   B  I/O   1 -----F--      Up <A name=63>in_8_</A>
-  14   C  I/O   1 ----E---      Up <A name=62>in_9_</A>
+   3   B  I/O   1 ----E---      Up <A name=61>in_1_</A>
+  31   D  I/O   1 ------G-      Up <A name=49>in_20_</A>
+  34   D  I/O   1 -------H      Up <A name=48>in_21_</A>
+  35   D  I/O   1 ------G-      Up <A name=47>in_22_</A>
+  36   D  I/O   1 -------H      Up <A name=46>in_23_</A>
+  37   D  I/O   1 ------G-      Up <A name=45>in_24_</A>
+  91   A  I/O   1 -------H      Up <A name=33>in_25_</A>
+  92   A  I/O   1 ------G-      Up <A name=32>in_26_</A>
+  93   A  I/O   4 ----EFGH      Up <A name=31>in_27_</A>
+  94   A  I/O   4 ----EFGH      Up <A name=30>in_28_</A>
+  97   A  I/O   4 ----EFGH      Up <A name=28>in_29_</A>
+   4   B  I/O   1 -----F--      Up <A name=60>in_2_</A>
+  98   A  I/O   4 ----EFGH      Up <A name=29>in_30_</A>
+   5   B  I/O   1 ----E---      Up <A name=59>in_3_</A>
+   6   B  I/O   1 -----F--      Up <A name=44>in_4_</A>
+   8   B  I/O   1 ----E---      Up <A name=58>in_5_</A>
+   9   B  I/O   1 -----F--      Up <A name=57>in_6_</A>
+  10   B  I/O   1 ----E---      Up <A name=56>in_7_</A>
+  11   B  I/O   1 -----F--      Up <A name=55>in_8_</A>
+  14   C  I/O   1 ----E---      Up <A name=54>in_9_</A>
 -----------------------------------------
 
 
@@ -393,32 +389,28 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name
   22   C  1  1   1  1 COM                  --------  Fast     Up <A href=#7>Out16</A>
   28   D  1  1   1  1 COM                  --------  Fast     Up <A href=#11>out17</A>
   29   D  1  1   1  1 COM                  --------  Fast     Up <A href=#13>out18</A>
-  58   F  5  1   1  1 COM                  --------  Fast     Up <A href=#22>out_10_</A>
-  42   E  5  1   1  1 COM                  --------  Fast     Up <A href=#21>out_11_</A>
-  59   F  5  1   1  1 COM                  --------  Fast     Up <A href=#20>out_12_</A>
-  43   E  5  1   1  1 COM                  --------  Fast     Up <A href=#48>out_13_</A>
-  60   F  5  1   1  1 COM                  --------  Fast     Up <A href=#47>out_14_</A>
-  79   H  5  1   1  1 COM                  --------  Fast     Up <A href=#46>out_15_</A>
-  70   G  5  1   1  1 COM                  --------  Fast     Up <A href=#45>out_16_</A>
-  71   G  5  1   1  1 COM                  --------  Fast     Up <A href=#19>out_17_</A>
-  80   H  5  1   1  1 COM                  --------  Fast     Up <A href=#18>out_18_</A>
-  85   H  5  1   1  1 COM                  --------  Fast     Up <A href=#17>out_19_</A>
-  50   E  5  1   1  1 COM                  --------  Fast     Up <A href=#31>out_1_</A>
-  65   G  5  1   1  1 COM                  --------  Fast     Up <A href=#44>out_20_</A>
-  86   H  5  1   1  1 COM                  --------  Fast     Up <A href=#43>out_21_</A>
-  66   G  5  1   1  1 COM                  --------  Fast     Up <A href=#42>out_22_</A>
-  87   H  5  1   1  1 COM                  --------  Fast     Up <A href=#41>out_23_</A>
-  67   G  5  1   1  1 COM                  --------  Fast     Up <A href=#40>out_24_</A>
-  81   H  5  1   1  1 COM                  --------  Fast     Up <A href=#39>out_25_</A>
-  72   G  5  1   1  1 COM                  --------  Fast     Up <A href=#38>out_26_</A>
-  53   F  5  1   1  1 COM                  --------  Fast     Up <A href=#30>out_2_</A>
-  49   E  5  1   1  1 COM                  --------  Fast     Up <A href=#29>out_3_</A>
-  54   F  5  1   1  1 COM                  --------  Fast     Up <A href=#28>out_4_</A>
-  48   E  5  1   1  1 COM                  --------  Fast     Up <A href=#27>out_5_</A>
-  55   F  5  1   1  1 COM                  --------  Fast     Up <A href=#26>out_6_</A>
-  47   E  5  1   1  1 COM                  --------  Fast     Up <A href=#25>out_7_</A>
-  56   F  5  1   1  1 COM                  --------  Fast     Up <A href=#24>out_8_</A>
-  41   E  5  1   1  1 COM                  --------  Fast     Up <A href=#23>out_9_</A>
+  58   F  5  1   1  1 COM                  --------  Fast     Up <A href=#18>out_10_</A>
+  42   E  5  1   1  1 COM                  --------  Fast     Up <A href=#17>out_11_</A>
+  59   F  5  1   1  1 COM                  --------  Fast     Up <A href=#16>out_12_</A>
+  43   E  5  1   1  1 COM                  --------  Fast     Up <A href=#42>out_13_</A>
+  60   F  5  1   1  1 COM                  --------  Fast     Up <A href=#41>out_14_</A>
+  85   H  5  1   1  1 COM                  --------  Fast     Up <A href=#15>out_19_</A>
+  50   E  5  1   1  1 COM                  --------  Fast     Up <A href=#27>out_1_</A>
+  65   G  5  1   1  1 COM                  --------  Fast     Up <A href=#40>out_20_</A>
+  86   H  5  1   1  1 COM                  --------  Fast     Up <A href=#39>out_21_</A>
+  66   G  5  1   1  1 COM                  --------  Fast     Up <A href=#38>out_22_</A>
+  87   H  5  1   1  1 COM                  --------  Fast     Up <A href=#37>out_23_</A>
+  67   G  5  1   1  1 COM                  --------  Fast     Up <A href=#36>out_24_</A>
+  81   H  5  1   1  1 COM                  --------  Fast     Up <A href=#35>out_25_</A>
+  72   G  5  1   1  1 COM                  --------  Fast     Up <A href=#34>out_26_</A>
+  53   F  5  1   1  1 COM                  --------  Fast     Up <A href=#26>out_2_</A>
+  49   E  5  1   1  1 COM                  --------  Fast     Up <A href=#25>out_3_</A>
+  54   F  5  1   1  1 COM                  --------  Fast     Up <A href=#24>out_4_</A>
+  48   E  5  1   1  1 COM                  --------  Fast     Up <A href=#23>out_5_</A>
+  55   F  5  1   1  1 COM                  --------  Fast     Up <A href=#22>out_6_</A>
+  47   E  5  1   1  1 COM                  --------  Fast     Up <A href=#21>out_7_</A>
+  56   F  5  1   1  1 COM                  --------  Fast     Up <A href=#20>out_8_</A>
+  41   E  5  1   1  1 COM                  --------  Fast     Up <A href=#19>out_9_</A>
 ------------------------------------------------------------------------
 
 &lt;Note&gt; CLS = Number of clusters used
@@ -469,57 +461,49 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name
 
 <A name=13>out18</A> = <A href=#12>in18</A> ; (1 pterm, 1 signal)
 
-<A name=22>out_10_</A> = <A href=#32>in_29_</A> & <A href=#33>in_30_</A> & !<A href=#34>in_28_</A> & !<A href=#35>in_27_</A> & <A href=#61>in_10_</A> ; (1 pterm, 5 signals)
+<A name=18>out_10_</A> = <A href=#28>in_29_</A> & <A href=#29>in_30_</A> & !<A href=#30>in_28_</A> & !<A href=#31>in_27_</A> & <A href=#53>in_10_</A> ; (1 pterm, 5 signals)
 
-<A name=21>out_11_</A> = <A href=#32>in_29_</A> & <A href=#33>in_30_</A> & !<A href=#34>in_28_</A> & !<A href=#35>in_27_</A> & <A href=#60>in_11_</A> ; (1 pterm, 5 signals)
+<A name=17>out_11_</A> = <A href=#28>in_29_</A> & <A href=#29>in_30_</A> & !<A href=#30>in_28_</A> & !<A href=#31>in_27_</A> & <A href=#52>in_11_</A> ; (1 pterm, 5 signals)
 
-<A name=20>out_12_</A> = <A href=#32>in_29_</A> & <A href=#33>in_30_</A> & !<A href=#34>in_28_</A> & !<A href=#35>in_27_</A> & <A href=#59>in_12_</A> ; (1 pterm, 5 signals)
+<A name=16>out_12_</A> = <A href=#28>in_29_</A> & <A href=#29>in_30_</A> & !<A href=#30>in_28_</A> & !<A href=#31>in_27_</A> & <A href=#51>in_12_</A> ; (1 pterm, 5 signals)
 
-<A name=48>out_13_</A> = <A href=#32>in_29_</A> & <A href=#33>in_30_</A> & !<A href=#34>in_28_</A> & !<A href=#35>in_27_</A> & <A href=#49>in_13_</A> ; (1 pterm, 5 signals)
+<A name=42>out_13_</A> = <A href=#28>in_29_</A> & <A href=#29>in_30_</A> & !<A href=#30>in_28_</A> & !<A href=#31>in_27_</A> & <A href=#43>in_13_</A> ; (1 pterm, 5 signals)
 
-<A name=47>out_14_</A> = <A href=#32>in_29_</A> & <A href=#33>in_30_</A> & !<A href=#34>in_28_</A> & !<A href=#35>in_27_</A> & <A href=#58>in_14_</A> ; (1 pterm, 5 signals)
+<A name=41>out_14_</A> = <A href=#28>in_29_</A> & <A href=#29>in_30_</A> & !<A href=#30>in_28_</A> & !<A href=#31>in_27_</A> & <A href=#50>in_14_</A> ; (1 pterm, 5 signals)
 
-<A name=46>out_15_</A> = <A href=#32>in_29_</A> & <A href=#33>in_30_</A> & !<A href=#34>in_28_</A> & !<A href=#35>in_27_</A> & <A href=#57>in_15_</A> ; (1 pterm, 5 signals)
+<A name=15>out_19_</A> = <A href=#14>in_19_</A> & <A href=#28>in_29_</A> & <A href=#29>in_30_</A> & !<A href=#30>in_28_</A> & !<A href=#31>in_27_</A> ; (1 pterm, 5 signals)
 
-<A name=45>out_16_</A> = <A href=#32>in_29_</A> & <A href=#33>in_30_</A> & !<A href=#34>in_28_</A> & !<A href=#35>in_27_</A> & <A href=#56>in_16_</A> ; (1 pterm, 5 signals)
+<A name=27>out_1_</A> = <A href=#28>in_29_</A> & <A href=#29>in_30_</A> & !<A href=#30>in_28_</A> & !<A href=#31>in_27_</A> & <A href=#61>in_1_</A> ; (1 pterm, 5 signals)
 
-<A name=19>out_17_</A> = <A href=#16>in_17_</A> & <A href=#32>in_29_</A> & <A href=#33>in_30_</A> & !<A href=#34>in_28_</A> & !<A href=#35>in_27_</A> ; (1 pterm, 5 signals)
+<A name=40>out_20_</A> = <A href=#28>in_29_</A> & <A href=#29>in_30_</A> & !<A href=#30>in_28_</A> & !<A href=#31>in_27_</A> & <A href=#49>in_20_</A> ; (1 pterm, 5 signals)
 
-<A name=18>out_18_</A> = <A href=#15>in_18_</A> & <A href=#32>in_29_</A> & <A href=#33>in_30_</A> & !<A href=#34>in_28_</A> & !<A href=#35>in_27_</A> ; (1 pterm, 5 signals)
+<A name=39>out_21_</A> = <A href=#28>in_29_</A> & <A href=#29>in_30_</A> & !<A href=#30>in_28_</A> & !<A href=#31>in_27_</A> & <A href=#48>in_21_</A> ; (1 pterm, 5 signals)
 
-<A name=17>out_19_</A> = <A href=#14>in_19_</A> & <A href=#32>in_29_</A> & <A href=#33>in_30_</A> & !<A href=#34>in_28_</A> & !<A href=#35>in_27_</A> ; (1 pterm, 5 signals)
+<A name=38>out_22_</A> = <A href=#28>in_29_</A> & <A href=#29>in_30_</A> & !<A href=#30>in_28_</A> & !<A href=#31>in_27_</A> & <A href=#47>in_22_</A> ; (1 pterm, 5 signals)
 
-<A name=31>out_1_</A> = <A href=#32>in_29_</A> & <A href=#33>in_30_</A> & !<A href=#34>in_28_</A> & !<A href=#35>in_27_</A> & <A href=#69>in_1_</A> ; (1 pterm, 5 signals)
+<A name=37>out_23_</A> = <A href=#28>in_29_</A> & <A href=#29>in_30_</A> & !<A href=#30>in_28_</A> & !<A href=#31>in_27_</A> & <A href=#46>in_23_</A> ; (1 pterm, 5 signals)
 
-<A name=44>out_20_</A> = <A href=#32>in_29_</A> & <A href=#33>in_30_</A> & !<A href=#34>in_28_</A> & !<A href=#35>in_27_</A> & <A href=#55>in_20_</A> ; (1 pterm, 5 signals)
+<A name=36>out_24_</A> = <A href=#28>in_29_</A> & <A href=#29>in_30_</A> & !<A href=#30>in_28_</A> & !<A href=#31>in_27_</A> & <A href=#45>in_24_</A> ; (1 pterm, 5 signals)
 
-<A name=43>out_21_</A> = <A href=#32>in_29_</A> & <A href=#33>in_30_</A> & !<A href=#34>in_28_</A> & !<A href=#35>in_27_</A> & <A href=#54>in_21_</A> ; (1 pterm, 5 signals)
+<A name=35>out_25_</A> = <A href=#28>in_29_</A> & <A href=#29>in_30_</A> & !<A href=#30>in_28_</A> & !<A href=#31>in_27_</A> & <A href=#33>in_25_</A> ; (1 pterm, 5 signals)
 
-<A name=42>out_22_</A> = <A href=#32>in_29_</A> & <A href=#33>in_30_</A> & !<A href=#34>in_28_</A> & !<A href=#35>in_27_</A> & <A href=#53>in_22_</A> ; (1 pterm, 5 signals)
+<A name=34>out_26_</A> = <A href=#28>in_29_</A> & <A href=#29>in_30_</A> & !<A href=#30>in_28_</A> & !<A href=#31>in_27_</A> & <A href=#32>in_26_</A> ; (1 pterm, 5 signals)
 
-<A name=41>out_23_</A> = <A href=#32>in_29_</A> & <A href=#33>in_30_</A> & !<A href=#34>in_28_</A> & !<A href=#35>in_27_</A> & <A href=#52>in_23_</A> ; (1 pterm, 5 signals)
+<A name=26>out_2_</A> = <A href=#28>in_29_</A> & <A href=#29>in_30_</A> & !<A href=#30>in_28_</A> & !<A href=#31>in_27_</A> & <A href=#60>in_2_</A> ; (1 pterm, 5 signals)
 
-<A name=40>out_24_</A> = <A href=#32>in_29_</A> & <A href=#33>in_30_</A> & !<A href=#34>in_28_</A> & !<A href=#35>in_27_</A> & <A href=#51>in_24_</A> ; (1 pterm, 5 signals)
+<A name=25>out_3_</A> = <A href=#28>in_29_</A> & <A href=#29>in_30_</A> & !<A href=#30>in_28_</A> & !<A href=#31>in_27_</A> & <A href=#59>in_3_</A> ; (1 pterm, 5 signals)
 
-<A name=39>out_25_</A> = <A href=#32>in_29_</A> & <A href=#33>in_30_</A> & !<A href=#34>in_28_</A> & !<A href=#35>in_27_</A> & <A href=#37>in_25_</A> ; (1 pterm, 5 signals)
+<A name=24>out_4_</A> = <A href=#28>in_29_</A> & <A href=#29>in_30_</A> & !<A href=#30>in_28_</A> & !<A href=#31>in_27_</A> & <A href=#44>in_4_</A> ; (1 pterm, 5 signals)
 
-<A name=38>out_26_</A> = <A href=#32>in_29_</A> & <A href=#33>in_30_</A> & !<A href=#34>in_28_</A> & !<A href=#35>in_27_</A> & <A href=#36>in_26_</A> ; (1 pterm, 5 signals)
+<A name=23>out_5_</A> = <A href=#28>in_29_</A> & <A href=#29>in_30_</A> & !<A href=#30>in_28_</A> & !<A href=#31>in_27_</A> & <A href=#58>in_5_</A> ; (1 pterm, 5 signals)
 
-<A name=30>out_2_</A> = <A href=#32>in_29_</A> & <A href=#33>in_30_</A> & !<A href=#34>in_28_</A> & !<A href=#35>in_27_</A> & <A href=#68>in_2_</A> ; (1 pterm, 5 signals)
+<A name=22>out_6_</A> = <A href=#28>in_29_</A> & <A href=#29>in_30_</A> & !<A href=#30>in_28_</A> & !<A href=#31>in_27_</A> & <A href=#57>in_6_</A> ; (1 pterm, 5 signals)
 
-<A name=29>out_3_</A> = <A href=#32>in_29_</A> & <A href=#33>in_30_</A> & !<A href=#34>in_28_</A> & !<A href=#35>in_27_</A> & <A href=#67>in_3_</A> ; (1 pterm, 5 signals)
+<A name=21>out_7_</A> = <A href=#28>in_29_</A> & <A href=#29>in_30_</A> & !<A href=#30>in_28_</A> & !<A href=#31>in_27_</A> & <A href=#56>in_7_</A> ; (1 pterm, 5 signals)
 
-<A name=28>out_4_</A> = <A href=#32>in_29_</A> & <A href=#33>in_30_</A> & !<A href=#34>in_28_</A> & !<A href=#35>in_27_</A> & <A href=#50>in_4_</A> ; (1 pterm, 5 signals)
+<A name=20>out_8_</A> = <A href=#28>in_29_</A> & <A href=#29>in_30_</A> & !<A href=#30>in_28_</A> & !<A href=#31>in_27_</A> & <A href=#55>in_8_</A> ; (1 pterm, 5 signals)
 
-<A name=27>out_5_</A> = <A href=#32>in_29_</A> & <A href=#33>in_30_</A> & !<A href=#34>in_28_</A> & !<A href=#35>in_27_</A> & <A href=#66>in_5_</A> ; (1 pterm, 5 signals)
-
-<A name=26>out_6_</A> = <A href=#32>in_29_</A> & <A href=#33>in_30_</A> & !<A href=#34>in_28_</A> & !<A href=#35>in_27_</A> & <A href=#65>in_6_</A> ; (1 pterm, 5 signals)
-
-<A name=25>out_7_</A> = <A href=#32>in_29_</A> & <A href=#33>in_30_</A> & !<A href=#34>in_28_</A> & !<A href=#35>in_27_</A> & <A href=#64>in_7_</A> ; (1 pterm, 5 signals)
-
-<A name=24>out_8_</A> = <A href=#32>in_29_</A> & <A href=#33>in_30_</A> & !<A href=#34>in_28_</A> & !<A href=#35>in_27_</A> & <A href=#63>in_8_</A> ; (1 pterm, 5 signals)
-
-<A name=23>out_9_</A> = <A href=#32>in_29_</A> & <A href=#33>in_30_</A> & !<A href=#34>in_28_</A> & !<A href=#35>in_27_</A> & <A href=#62>in_9_</A> ; (1 pterm, 5 signals)
+<A name=19>out_9_</A> = <A href=#28>in_29_</A> & <A href=#29>in_30_</A> & !<A href=#30>in_28_</A> & !<A href=#31>in_27_</A> & <A href=#54>in_9_</A> ; (1 pterm, 5 signals)
 
 <BR>
 <BR>

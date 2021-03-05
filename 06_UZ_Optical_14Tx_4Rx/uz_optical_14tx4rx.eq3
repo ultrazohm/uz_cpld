@@ -25,14 +25,6 @@ out_13_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_13_ ; (1 pterm, 5 signals)
 
 out_14_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_14_ ; (1 pterm, 5 signals)
 
-out_15_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_15_ ; (1 pterm, 5 signals)
-
-out_16_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_16_ ; (1 pterm, 5 signals)
-
-out_17_ = in_17_ & in_29_ & in_30_ & !in_28_ & !in_27_ ; (1 pterm, 5 signals)
-
-out_18_ = in_18_ & in_29_ & in_30_ & !in_28_ & !in_27_ ; (1 pterm, 5 signals)
-
 out_19_ = in_19_ & in_29_ & in_30_ & !in_28_ & !in_27_ ; (1 pterm, 5 signals)
 
 out_1_ = in_29_ & in_30_ & !in_28_ & !in_27_ & in_1_ ; (1 pterm, 5 signals)

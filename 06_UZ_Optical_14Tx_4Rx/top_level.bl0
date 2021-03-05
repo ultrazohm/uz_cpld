@@ -1,20 +1,21 @@
 #$ TOOL ispLEVER Classic 2.0.00.17.20.15
-#$ DATE Fri Mar 05 20:26:13 2021
+#$ DATE Fri Mar 05 21:02:06 2021
 #$ TITLE top_level.bls 
 #$ MODULE top_level
-#$ PINS 68 In15 Out16'o'  Out15'o'  In16 in17 out17'o'  in18 out18'o'  in_19_ in_18_ in_17_ out_19_'o'  \
-#  out_18_'o'  out_17_'o'  out_12_'o'  out_11_'o'  out_10_'o'  out_9_'o'  out_8_'o'  out_7_'o'  out_6_'o'  out_5_'o'  \
-#  out_4_'o'  out_3_'o'  out_2_'o'  out_1_'o'  out_30_ out_29_ out_28_ out_27_ in_29_ in_30_ in_28_ \
-#  in_27_ in_26_ in_25_ out_26_'o'  out_25_'o'  out_24_'o'  out_23_'o'  out_22_'o'  out_21_'o'  out_20_'o'  \
-#  out_16_'o'  out_15_'o'  out_14_'o'  out_13_'o'  in_13_ in_4_ in_24_ in_23_ in_22_ in_21_ in_20_ \
-#  in_16_ in_15_ in_14_ in_12_ in_11_ in_10_ in_9_ in_8_ in_7_ in_6_ in_5_ in_3_ in_2_ in_1_
-#$ NODES 64 N_1'o'  N_2'o'  N_3'o'  N_4'o'  DOUT_29_'o'  DIN_29_'o'  DIN_30_'o'  ENABLE'o'  DOUT_4_'o'  DOUT_5_'o'  \
-#  DOUT_6_'o'  DOUT_7_'o'  DOUT_8_'o'  DOUT_9_'o'  DOUT_10_'o'  DOUT_11_'o'  DOUT_12_'o'  DOUT_13_'o'  DOUT_14_'o'  \
-#  DOUT_15_'o'  DOUT_16_'o'  DOUT_17_'o'  DOUT_18_'o'  DOUT_19_'o'  DOUT_20_'o'  DOUT_21_'o'  DOUT_22_'o'  \
-#  DOUT_23_'o'  DOUT_24_'o'  DOUT_25_'o'  DOUT_26_'o'  DOUT_27_'o'  DOUT_28_'o'  DIN_4_'o'  DIN_5_'o'  DIN_6_'o'  \
-#  DIN_7_'o'  DIN_8_'o'  DIN_9_'o'  DIN_10_'o'  DIN_11_'o'  DIN_12_'o'  DIN_13_'o'  DIN_14_'o'  DIN_15_'o'  DIN_16_'o'  \
-#  DIN_17_'o'  DIN_18_'o'  DIN_19_'o'  DIN_20_'o'  DIN_21_'o'  DIN_22_'o'  DIN_23_'o'  DIN_24_'o'  DIN_25_'o'  \
-#  DIN_26_'o'  DIN_27_'o'  DIN_28_'o'  DIN_1_'o'  DIN_2_'o'  DIN_3_'o'  DOUT_1_'o'  DOUT_2_'o'  DOUT_3_'o' 
+#$ PINS 60 In15 Out16'o'  Out15'o'  In16 in17 out17'o'  in18 out18'o'  in_19_ out_19_'o'  out_12_'o'  \
+#  out_11_'o'  out_10_'o'  out_9_'o'  out_8_'o'  out_7_'o'  out_6_'o'  out_5_'o'  out_4_'o'  out_3_'o'  out_2_'o'  \
+#  out_1_'o'  out_30_ out_29_ out_28_ out_27_ in_29_ in_30_ in_28_ in_27_ in_26_ in_25_ \
+#  out_26_'o'  out_25_'o'  out_24_'o'  out_23_'o'  out_22_'o'  out_21_'o'  out_20_'o'  out_14_'o'  out_13_'o'  in_13_ \
+#  in_4_ in_24_ in_23_ in_22_ in_21_ in_20_ in_14_ in_12_ in_11_ in_10_ in_9_ in_8_ in_7_ \
+#  in_6_ in_5_ in_3_ in_2_ in_1_
+#$ NODES 72 N_7'o'  N_8'o'  N_9'o'  N_10 N_11 N_12 N_5'o'  N_6 N_1'o'  N_2'o'  N_3'o'  N_4'o'  DOUT_29_'o'  DIN_29_'o'  \
+#  DIN_30_'o'  ENABLE'o'  DOUT_4_'o'  DOUT_5_'o'  DOUT_6_'o'  DOUT_7_'o'  DOUT_8_'o'  DOUT_9_'o'  DOUT_10_'o'  \
+#  DOUT_11_'o'  DOUT_12_'o'  DOUT_13_'o'  DOUT_14_'o'  DOUT_15_'o'  DOUT_16_'o'  DOUT_17_'o'  DOUT_18_'o'  \
+#  DOUT_19_'o'  DOUT_20_'o'  DOUT_21_'o'  DOUT_22_'o'  DOUT_23_'o'  DOUT_24_'o'  DOUT_25_'o'  DOUT_26_'o'  \
+#  DOUT_27_'o'  DOUT_28_'o'  DIN_4_'o'  DIN_5_'o'  DIN_6_'o'  DIN_7_'o'  DIN_8_'o'  DIN_9_'o'  DIN_10_'o'  DIN_11_'o'  \
+#  DIN_12_'o'  DIN_13_'o'  DIN_14_'o'  DIN_15_'o'  DIN_16_'o'  DIN_17_'o'  DIN_18_'o'  DIN_19_'o'  DIN_20_'o'  \
+#  DIN_21_'o'  DIN_22_'o'  DIN_23_'o'  DIN_24_'o'  DIN_25_'o'  DIN_26_'o'  DIN_27_'o'  DIN_28_'o'  DIN_1_'o'  DIN_2_'o'  \
+#  DIN_3_'o'  DOUT_1_'o'  DOUT_2_'o'  DOUT_3_'o' 
 .model top_level
 .inputs ENABLE.BLIF DIN_29_.BLIF DIN_19_.BLIF DIN_18_.BLIF DIN_17_.BLIF \
 DIN_16_.BLIF DIN_15_.BLIF DIN_14_.BLIF DIN_13_.BLIF DIN_12_.BLIF DIN_11_.BLIF \
@@ -23,16 +24,15 @@ DIN_5_.BLIF DIN_4_.BLIF DIN_3_.BLIF DIN_2_.BLIF DIN_1_.BLIF DIN_27_.BLIF \
 DIN_26_.BLIF DIN_25_.BLIF DIN_24_.BLIF DIN_23_.BLIF DIN_22_.BLIF DIN_21_.BLIF \
 DIN_20_.BLIF DIN_30_.BLIF in_28_.BLIF in_27_.BLIF in_26_.BLIF in_25_.BLIF \
 in_24_.BLIF in_23_.BLIF in_22_.BLIF in_21_.BLIF in_20_.BLIF in_19_.BLIF \
-in_18_.BLIF in_17_.BLIF in_16_.BLIF in_15_.BLIF in_14_.BLIF in_13_.BLIF \
-in_12_.BLIF in_11_.BLIF in_10_.BLIF in_9_.BLIF in_8_.BLIF in_7_.BLIF \
-in_6_.BLIF in_5_.BLIF in_3_.BLIF in_4_.BLIF in_29_.BLIF in_30_.BLIF in_1_.BLIF \
-in18.BLIF in17.BLIF In16.BLIF In15.BLIF in_2_.BLIF DOUT_1_.BLIF DOUT_2_.BLIF \
-DOUT_4_.BLIF DOUT_5_.BLIF DOUT_12_.BLIF DOUT_11_.BLIF DOUT_3_.BLIF \
-DOUT_10_.BLIF DOUT_9_.BLIF DOUT_8_.BLIF DOUT_7_.BLIF DOUT_6_.BLIF \
-DOUT_22_.BLIF DOUT_21_.BLIF DOUT_20_.BLIF DOUT_19_.BLIF DOUT_18_.BLIF \
-DOUT_17_.BLIF DOUT_16_.BLIF DOUT_15_.BLIF DOUT_14_.BLIF DOUT_13_.BLIF \
-DOUT_26_.BLIF DOUT_25_.BLIF DOUT_24_.BLIF DOUT_23_.BLIF N_4.BLIF N_3.BLIF \
-N_2.BLIF N_1.BLIF
+N_10.BLIF N_12.BLIF N_6.BLIF N_11.BLIF in_14_.BLIF in_13_.BLIF in_12_.BLIF \
+in_11_.BLIF in_10_.BLIF in_9_.BLIF in_8_.BLIF in_7_.BLIF in_6_.BLIF in_5_.BLIF \
+in_3_.BLIF in_4_.BLIF in_29_.BLIF in_30_.BLIF in_1_.BLIF in18.BLIF in17.BLIF \
+In16.BLIF In15.BLIF in_2_.BLIF DOUT_1_.BLIF DOUT_2_.BLIF DOUT_4_.BLIF \
+DOUT_5_.BLIF DOUT_12_.BLIF DOUT_11_.BLIF DOUT_3_.BLIF DOUT_10_.BLIF \
+DOUT_9_.BLIF DOUT_8_.BLIF DOUT_7_.BLIF DOUT_6_.BLIF DOUT_22_.BLIF \
+DOUT_21_.BLIF DOUT_20_.BLIF DOUT_19_.BLIF DOUT_18_.BLIF DOUT_17_.BLIF \
+DOUT_16_.BLIF DOUT_15_.BLIF DOUT_14_.BLIF DOUT_13_.BLIF DOUT_26_.BLIF \
+DOUT_25_.BLIF DOUT_24_.BLIF DOUT_23_.BLIF N_4.BLIF N_3.BLIF N_2.BLIF N_1.BLIF
 .outputs DOUT_29_ DOUT_19_ DOUT_18_ DOUT_17_ DOUT_16_ DOUT_15_ DOUT_14_ \
 DOUT_13_ DOUT_12_ DOUT_11_ DOUT_10_ DOUT_28_ DOUT_9_ DOUT_8_ DOUT_7_ DOUT_6_ \
 DOUT_5_ DOUT_4_ DOUT_3_ DOUT_2_ DOUT_1_ DOUT_27_ DOUT_26_ DOUT_25_ DOUT_24_ \
@@ -41,8 +41,8 @@ DIN_24_ DIN_23_ DIN_22_ DIN_21_ DIN_20_ DIN_19_ DIN_18_ DIN_17_ DIN_16_ \
 DIN_15_ DIN_14_ DIN_13_ DIN_12_ DIN_11_ DIN_10_ DIN_9_ DIN_8_ DIN_7_ DIN_6_ \
 DIN_5_ DIN_3_ DIN_4_ DIN_29_ DIN_30_ DIN_1_ N_4 N_3 N_2 N_1 DIN_2_ out_1_ \
 out_2_ out_4_ out_5_ out_12_ out_11_ out_3_ out_10_ out_9_ out_8_ out_7_ \
-out_6_ out_22_ out_21_ out_20_ out_19_ out_18_ out_17_ out_16_ out_15_ out_14_ \
-out_13_ out_26_ out_25_ out_24_ out_23_ out18 out17 Out16 Out15
+out_6_ out_22_ out_21_ out_20_ out_19_ N_7 N_8 N_5 N_9 out_14_ out_13_ out_26_ \
+out_25_ out_24_ out_23_ out18 out17 Out16 Out15
 
 .subckt g_2and A.BLIF=ENABLE.BLIF B.BLIF=DIN_29_.BLIF Y=DOUT_29_
 
@@ -126,13 +126,13 @@ out_13_ out_26_ out_25_ out_24_ out_23_ out18 out17 Out16 Out15
 
 .subckt g_input I.BLIF=in_19_.BLIF O=DIN_19_
 
-.subckt g_input I.BLIF=in_18_.BLIF O=DIN_18_
+.subckt g_input I.BLIF=N_10.BLIF O=DIN_18_
 
-.subckt g_input I.BLIF=in_17_.BLIF O=DIN_17_
+.subckt g_input I.BLIF=N_12.BLIF O=DIN_17_
 
-.subckt g_input I.BLIF=in_16_.BLIF O=DIN_16_
+.subckt g_input I.BLIF=N_6.BLIF O=DIN_16_
 
-.subckt g_input I.BLIF=in_15_.BLIF O=DIN_15_
+.subckt g_input I.BLIF=N_11.BLIF O=DIN_15_
 
 .subckt g_input I.BLIF=in_14_.BLIF O=DIN_14_
 
@@ -206,13 +206,13 @@ out_13_ out_26_ out_25_ out_24_ out_23_ out18 out17 Out16 Out15
 
 .subckt g_output I.BLIF=DOUT_19_.BLIF O=out_19_
 
-.subckt g_output I.BLIF=DOUT_18_.BLIF O=out_18_
+.subckt g_output I.BLIF=DOUT_18_.BLIF O=N_7
 
-.subckt g_output I.BLIF=DOUT_17_.BLIF O=out_17_
+.subckt g_output I.BLIF=DOUT_17_.BLIF O=N_8
 
-.subckt g_output I.BLIF=DOUT_16_.BLIF O=out_16_
+.subckt g_output I.BLIF=DOUT_16_.BLIF O=N_5
 
-.subckt g_output I.BLIF=DOUT_15_.BLIF O=out_15_
+.subckt g_output I.BLIF=DOUT_15_.BLIF O=N_9
 
 .subckt g_output I.BLIF=DOUT_14_.BLIF O=out_14_
 

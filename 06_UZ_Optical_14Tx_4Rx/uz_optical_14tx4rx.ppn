@@ -2,7 +2,7 @@
 // Software Version :  ispLEVER Classic 2.0.00.17.20.15  
 // Project Name	    :  uz_optical_14tx4rx
 // Targeted Device  :  LA4128V-75TN100E
-// Date             :  Fri Mar 05 20:42:31 2021
+// Date             :  Fri Mar 05 21:02:12 2021
 //
                       GND          SYS           1
                     in_1_          IN            3
@@ -36,8 +36,6 @@
                    in_22_          IN            35
                    in_23_          IN            36
                    in_24_          IN            37
-                   in_17_          IN            38
-                   in_16_          IN            39
                       VCC          SYS           40
                    out_9_          OUT           41
                   out_11_          OUT           42
@@ -65,13 +63,9 @@
                   out_22_          OUT           66
                   out_24_          OUT           67
                    GNDIO1          SYS           68
-                  out_16_          OUT           70
-                  out_17_          OUT           71
                   out_26_          OUT           72
                       VCC          SYS           75
                       GND          SYS           76
-                  out_15_          OUT           79
-                  out_18_          OUT           80
                   out_25_          OUT           81
                    GNDIO1          SYS           82
                    VCCIO1          SYS           83
@@ -79,8 +73,6 @@
                   out_19_          OUT           85
                   out_21_          OUT           86
                   out_23_          OUT           87
-                   in_15_          IN            88
-                   in_18_          IN            89
                       VCC          SYS           90
                    in_25_          IN            91
                    in_26_          IN            92

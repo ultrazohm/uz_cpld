@@ -13,7 +13,7 @@ EN_PinMacrocell = yes;
 [Revision]
 Parent = lc4k128v.lci;
 DATE = 03/05/2021;
-TIME = 20:39:42;
+TIME = 20:42:27;
 Source_Format = ABEL_Schematic;
 Synthesis = Synplify;
 

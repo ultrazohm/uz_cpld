@@ -149,16 +149,24 @@ out_2_=pin,53,-,F,1;
 out_14_=pin,60,-,F,12;
 // Block G
 in18=pin,64,-,G,14;
+out_17_=pin,71,-,G,5;
 out_26_=pin,72,-,G,3;
-out_24_=pin,67,-,G,8;
+out_24_=pin,67,-,G,9;
 out_22_=pin,66,-,G,1;
-out_20_=pin,65,-,G,13;
+out_20_=pin,65,-,G,12;
+out_15_=pin,70,-,G,7;
 // Block H
 in17=pin,84,-,H,6;
-out_19_=pin,85,-,H,6;
-out_25_=pin,81,-,H,10;
+out_19_=pin,85,-,H,5;
+out_18_=pin,80,-,H,12;
+out_25_=pin,81,-,H,9;
 out_23_=pin,87,-,H,1;
 out_21_=pin,86,-,H,3;
+// Input/Clock Pins
+in_18_=pin,89,-,-,-;
+in_17_=pin,38,-,-,-;
+in_15_=pin,39,-,-,-;
+
 [PTOE ASSIGNMENTS]
 
 [FAST BYPASS]
@@ -178,6 +186,8 @@ In16=LVCMOS18,pin,-,-;
 in17=LVCMOS18,pin,-,-;
 in18=LVCMOS18,pin,-,-;
 in_19_=LVCMOS18,pin,-,-;
+in_18_=LVCMOS18,pin,-,-;
+in_17_=LVCMOS18,pin,-,-;
 in_29_=LVCMOS18,pin,-,-;
 in_30_=LVCMOS18,pin,-,-;
 in_28_=LVCMOS18,pin,-,-;
@@ -191,6 +201,7 @@ in_23_=LVCMOS18,pin,-,-;
 in_22_=LVCMOS18,pin,-,-;
 in_21_=LVCMOS18,pin,-,-;
 in_20_=LVCMOS18,pin,-,-;
+in_15_=LVCMOS18,pin,-,-;
 in_14_=LVCMOS18,pin,-,-;
 in_12_=LVCMOS18,pin,-,-;
 in_11_=LVCMOS18,pin,-,-;
@@ -208,6 +219,8 @@ Out15=LVCMOS18,pin,0,-;
 out17=LVCMOS18,pin,0,-;
 out18=LVCMOS18,pin,0,-;
 out_19_=LVCMOS18,pin,1,-;
+out_18_=LVCMOS18,pin,1,-;
+out_17_=LVCMOS18,pin,1,-;
 out_12_=LVCMOS18,pin,1,-;
 out_11_=LVCMOS18,pin,1,-;
 out_10_=LVCMOS18,pin,1,-;
@@ -227,6 +240,7 @@ out_23_=LVCMOS18,pin,1,-;
 out_22_=LVCMOS18,pin,1,-;
 out_21_=LVCMOS18,pin,1,-;
 out_20_=LVCMOS18,pin,1,-;
+out_15_=LVCMOS18,pin,1,-;
 out_14_=LVCMOS18,pin,1,-;
 out_13_=LVCMOS18,pin,1,-;
 
@@ -242,16 +256,16 @@ Default=FAST;
 Default=UP;
 
 [FITTER RESULTS]
-I/O_pin_util = 84;
-I/O_pin = 54;
+I/O_pin_util = 89;
+I/O_pin = 57;
 Logic_PT_util = 4;
-Logic_PT = 26;
-Occupied_MC_util = 20;
-Occupied_MC = 26;
-Occupied_PT_util = 3;
-Occupied_PT = 26;
-GLB_input_util = 14;
-GLB_input = 42;
+Logic_PT = 29;
+Occupied_MC_util = 22;
+Occupied_MC = 29;
+Occupied_PT_util = 4;
+Occupied_PT = 29;
+GLB_input_util = 15;
+GLB_input = 45;
 
 [TIMING CONSTRAINTS]
 layer=OFF;

@@ -1,6 +1,6 @@
 // Node Statistic Information File
 // Tool:  ispLEVER Classic 2.0.00.17.20.15
-// Design 'top_level' created   Fri Mar 05 20:26:13 2021
+// Design 'top_level' created   Fri Mar 05 21:00:43 2021
 
 // Fmax Logic Level: 0.
 
@@ -376,21 +376,6 @@ Logic Levels		N/A
 Fanin Input     	in_28_.BLIF         	0
 Fanin Input     	in_27_.BLIF         	0
 Fanin Input     	in_20_.BLIF         	0
-Fanin Input     	in_29_.BLIF         	0
-Fanin Input     	in_30_.BLIF         	0
-END
-
-// Signal Name: out_16_
-// Type: Output
-BEGIN out_16_
-Fanin Number		5
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	in_28_.BLIF         	0
-Fanin Input     	in_27_.BLIF         	0
-Fanin Input     	in_16_.BLIF         	0
 Fanin Input     	in_29_.BLIF         	0
 Fanin Input     	in_30_.BLIF         	0
 END

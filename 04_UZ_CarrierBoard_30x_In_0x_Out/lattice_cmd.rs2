@@ -1,0 +1,1 @@
+-nodal -src cpld_30x_in_0x_out.bl5 -type BLIF -presrc cpld_30x_in_0x_out.bl3 -crf cpld_30x_in_0x_out.crf -sif cpld_30x_in_0x_out.sif -devfile "C:/ispLEVER_Classic2_0/ispcpld/dat/lc4k/m4s_128_64.dev" -lci cpld_30x_in_0x_out.lct

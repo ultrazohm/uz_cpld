@@ -1,0 +1,26 @@
+ispLEVER Auto-Make Log File
+---------------------------
+
+Updating: JEDEC File
+Start to record tcl script...
+Finished recording TCL script.
+
+Starting: 'C:\ispLEVER_Classic2_0\ispcpld\bin\lpf4k.exe @"cpld_30x_in_0x_out.rs2"'
+
+Project 'cpld_30x_in_0x_out' was Fitted Successfully!
+
+Done: completed successfully.
+
+Starting: 'C:\ispLEVER_Classic2_0\ispcpld\bin\tda.exe -i cpld_30x_in_0x_out.bl5 -o cpld_30x_in_0x_out.tda -lci cpld_30x_in_0x_out.lct -dev m4s_128_64 -family lc4k -mod top_level -ovec NoInput.tmv -err tda.err -gui'
+
+TDA  - Timing Driven Analyze 
+Ver. 1.0, supported by Lattice Semiconductor
+ispLEVER Classic 2.0 Copyright 1992-2015 Lattice Semiconductor. All Rights Reserved.
+
+TDA complete - Time 1 seconds
+Done: completed successfully.
+
+Starting: 'C:\ispLEVER_Classic2_0\ispcpld\bin\synsvf.exe -exe "C:\ispLEVER_Classic2_0\ispvmsystem/ispufw" -prj cpld_30x_in_0x_out -if cpld_30x_in_0x_out.jed -j2s -log cpld_30x_in_0x_out.svl -gui'
+
+Need not generate svf file according to the constraints, exit
+Done: completed successfully.

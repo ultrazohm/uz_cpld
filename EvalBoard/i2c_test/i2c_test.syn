@@ -1,0 +1,13 @@
+JDF B
+// Created by Version 2.1 
+PROJECT i2c_test
+DESIGN i2c_test Normal
+DEVKIT LC4256ZE-5TN144C
+ENTRY Schematic/VHDL
+MODULE i2c_slave.vhd
+MODSTYLE i2c_slave Normal
+MODULE io_pins.sch
+MODSTYLE io_pins Normal
+SYNTHESIS_TOOL Synplify
+SIMULATOR_TOOL ModelSim
+TOPMODULE i2c_slave

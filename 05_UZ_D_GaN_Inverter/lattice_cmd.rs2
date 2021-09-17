@@ -1,0 +1,1 @@
+-src uz_d_gan_inverter.tt4 -type PLA -devfile "C:/ispLEVER_Classic2_1/ispcpld/dat/lc4k/m4s_128_64.dev" -postfit -lci uz_d_gan_inverter.lco

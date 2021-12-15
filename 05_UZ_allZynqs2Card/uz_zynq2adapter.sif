@@ -1,0 +1,340 @@
+// Node Statistic Information File
+// Tool:  ispLEVER Classic 2.0.00.17.20.15
+// Design 'cpld_encoder' created   Fri Jan 22 17:52:27 2021
+
+// Fmax Logic Level: 0.
+
+// Path: 
+
+// Signal Name: d_0
+// Type: Output
+BEGIN d_0
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_0.BLIF         	0
+END
+
+// Signal Name: d_1
+// Type: Output
+BEGIN d_1
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_1.BLIF         	0
+END
+
+// Signal Name: d_2
+// Type: Output
+BEGIN d_2
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_2.BLIF         	0
+END
+
+// Signal Name: d_3
+// Type: Output
+BEGIN d_3
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_3.BLIF         	0
+END
+
+// Signal Name: d_4
+// Type: Output
+BEGIN d_4
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_4.BLIF         	0
+END
+
+// Signal Name: d_5
+// Type: Output
+BEGIN d_5
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_5.BLIF         	0
+END
+
+// Signal Name: d_6
+// Type: Output
+BEGIN d_6
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_6.BLIF         	0
+END
+
+// Signal Name: d_7
+// Type: Output
+BEGIN d_7
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_7.BLIF         	0
+END
+
+// Signal Name: d_8
+// Type: Output
+BEGIN d_8
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_8.BLIF         	0
+END
+
+// Signal Name: d_9
+// Type: Output
+BEGIN d_9
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_9.BLIF         	0
+END
+
+// Signal Name: d_10
+// Type: Output
+BEGIN d_10
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_10.BLIF        	0
+END
+
+// Signal Name: d_11
+// Type: Output
+BEGIN d_11
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_11.BLIF        	0
+END
+
+// Signal Name: d_12
+// Type: Output
+BEGIN d_12
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_12.BLIF        	0
+END
+
+// Signal Name: d_13
+// Type: Output
+BEGIN d_13
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_13.BLIF        	0
+END
+
+// Signal Name: d_14
+// Type: Output
+BEGIN d_14
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_14.BLIF        	0
+END
+
+// Signal Name: d_15
+// Type: Output
+BEGIN d_15
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_15.BLIF        	0
+END
+
+// Signal Name: d_16
+// Type: Output
+BEGIN d_16
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_16.BLIF        	0
+END
+
+// Signal Name: d_17
+// Type: Output
+BEGIN d_17
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_17.BLIF        	0
+END
+
+// Signal Name: d_18
+// Type: Output
+BEGIN d_18
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_18.BLIF        	0
+END
+
+// Signal Name: d_19
+// Type: Output
+BEGIN d_19
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_19.BLIF        	0
+END
+
+// Signal Name: d_20
+// Type: Output
+BEGIN d_20
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_20.BLIF        	0
+END
+
+// Signal Name: d_21
+// Type: Output
+BEGIN d_21
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_21.BLIF        	0
+END
+
+// Signal Name: d_22
+// Type: Output
+BEGIN d_22
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_22.BLIF        	0
+END
+
+// Signal Name: d_23
+// Type: Output
+BEGIN d_23
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_23.BLIF        	0
+END
+
+// Signal Name: d_24
+// Type: Output
+BEGIN d_24
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_24.BLIF        	0
+END
+
+// Signal Name: d_25
+// Type: Output
+BEGIN d_25
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_25.BLIF        	0
+END
+
+// Signal Name: d_26
+// Type: Output
+BEGIN d_26
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_26.BLIF        	0
+END
+
+// Signal Name: d_27
+// Type: Output
+BEGIN d_27
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_27.BLIF        	0
+END
+
+// Signal Name: d_28
+// Type: Output
+BEGIN d_28
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_28.BLIF        	0
+END
+
+// Signal Name: d_29
+// Type: Output
+BEGIN d_29
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	zynq_29.BLIF        	0
+END
+
+// Design 'cpld_encoder' used clock signal list:
+

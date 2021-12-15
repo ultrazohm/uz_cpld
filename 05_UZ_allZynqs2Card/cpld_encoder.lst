@@ -1,0 +1,124 @@
+0002 |
+0003 |TITLE 'top_level_encoder'
+0004 |
+0005 |" ----------------------------
+0006 |" NOTE 1: Comments begin with
+0007 |" double-quote
+0008 |
+0009 |" NOTE 2: ABEL keywords are not
+0010 |" case sensitive.
+0011 |
+0012 |" NOTE 3: Your identifiers (signal
+0013 |" names) ARE case sensitive.
+0014 |" ----------------------------
+0015 |
+0016 |" Zynq pins
+0017 |zynq_0  pin 3;
+0018 |zynq_1  pin 4;
+0019 |zynq_2  pin 5;
+0020 |zynq_3  pin 6;
+0021 |zynq_4  pin 8;
+0022 |zynq_5  pin 9;
+0023 |zynq_6  pin 10;
+0024 |zynq_7  pin 11;
+0025 |zynq_8  pin 14;
+0026 |zynq_9  pin 15;
+0027 |zynq_10 pin 16;
+0028 |zynq_11 pin 17;
+0029 |zynq_12 pin 19;
+0030 |zynq_13 pin 20;
+0031 |zynq_14 pin 21;
+0032 |zynq_15 pin 22;
+0033 |zynq_16 pin 28;
+0034 |zynq_17 pin 29;
+0035 |zynq_18 pin 30;
+0036 |zynq_19 pin 31;
+0037 |zynq_20 pin 34;
+0038 |zynq_21 pin 35;
+0039 |zynq_22 pin 36;
+0040 |zynq_23 pin 37;
+0041 |zynq_24 pin 91;
+0042 |zynq_25 pin 92;
+0043 |zynq_26 pin 93;
+0044 |zynq_27 pin 94;
+0045 |zynq_28 pin 97;
+0046 |zynq_29 pin 98;
+0047 |
+0048 |
+0049 |" Digital Adapter pins
+0050 |d_0  pin 50;
+0051 |d_1  pin 53;
+0052 |d_2  pin 49;
+0053 |d_3  pin 54;
+0054 |d_4  pin 48;
+0055 |d_5  pin 55;
+0056 |d_6  pin 47;
+0057 |d_7  pin 56;
+0058 |d_8  pin 41;
+0059 |d_9  pin 58;
+0060 |d_10 pin 42;
+0061 |d_11 pin 59;
+0062 |d_12 pin 43;
+0063 |d_13 pin 60;
+0064 |d_14 pin 44;
+0065 |d_15 pin 61;
+0066 |d_16 pin 84;
+0067 |d_17 pin 64;
+0068 |d_18 pin 85;
+0069 |d_19 pin 65;
+0070 |d_20 pin 86;
+0071 |d_21 pin 66;
+0072 |d_22 pin 87;
+0073 |d_23 pin 67;
+0074 |d_24 pin 81;
+0075 |d_25 pin 72;
+0076 |d_26 pin 80;
+0077 |d_27 pin 71;
+0078 |d_28 pin 79;
+0079 |d_29 pin 70;
+0080 |
+0081 |" ----------------------------
+0082 |" Circuit functionality
+0083 |EQUATIONS
+0084 |d_0  =zynq_0 ; 
+0085 |d_1  =zynq_1 ; 
+0086 |d_2  =zynq_2 ; 
+0087 |d_3  =zynq_3 ; 
+0088 |d_4  =zynq_4 ; 
+0089 |d_5  =zynq_5 ; 
+0090 |d_6  =zynq_6 ; 
+0091 |d_7  =zynq_7 ; 
+0092 |d_8  =zynq_8 ; 
+0093 |d_9  =zynq_9 ; 
+0094 |d_10 =zynq_10; 
+0095 |d_11 =zynq_11; 
+0096 |d_12 =zynq_12; 
+0097 |d_13 =zynq_13; 
+0098 |d_14 =zynq_14; 
+0099 |d_15 =zynq_15; 
+0100 |d_16 =zynq_16; 
+0101 |d_17 =zynq_17; 
+0102 |d_18 =zynq_18; 
+0103 |d_19 =zynq_19; 
+0104 |d_20 =zynq_20; 
+0105 |d_21 =zynq_21; 
+0106 |d_22 =zynq_22; 
+0107 |d_23 =zynq_23; 
+0108 |d_24 =zynq_24; 
+0109 |d_25 =zynq_25; 
+0110 |d_26 =zynq_26; 
+0111 |d_27 =zynq_27; 
+0112 |d_28 =zynq_28; 
+0113 |d_29 =zynq_29; 
+0114 |
+0115 |
+0116 |" ----------------------------
+0117 |" Test inputs for simulation
+0118 |"TEST_VECTORS()
+0119 |
+0120 |" ----------------------------
+0121 |" All done!
+0122 |
+0123 |END
+0124 |
+0125 |

@@ -1,0 +1,1 @@
+-nodal -src uz_zynq2adapter.bl5 -type BLIF -presrc uz_zynq2adapter.bl3 -crf uz_zynq2adapter.crf -sif uz_zynq2adapter.sif -devfile "C:/ispLEVER_Classic2_0/ispcpld/dat/lc4k/m4s_128_64.dev" -lci uz_zynq2adapter.lct

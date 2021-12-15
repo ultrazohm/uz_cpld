@@ -2,6 +2,7 @@ unclear
 *.vho
 *.eq*   
 *.ini
+*.csv
 
 not important
 *.abt

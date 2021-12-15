@@ -1,0 +1,26 @@
+unclear 
+*.vho
+*.eq*   
+*.ini
+
+not important
+*.b2
+*.bl*
+*.cmi
+*.crf
+*.d0
+*.dum
+*.err
+*.fti
+*.imp
+*.ini
+*.ipr
+*.lst
+*.rev
+*.sdf
+*.sty
+*.STY
+*.sym
+*.tda
+*.tt4
+*.xrf

@@ -4,7 +4,8 @@ unclear
 *.ini
 
 not important
-*.b2
+*.abt
+*.b2*
 *.bl*
 *.cmi
 *.crf
@@ -16,6 +17,7 @@ not important
 *.ini
 *.ipr
 *.lst
+*.lci
 *.rev
 *.sdf
 *.sty
@@ -24,3 +26,11 @@ not important
 *.tda
 *.tt4
 *.xrf
+*.jhd
+*.rs*
+*.log
+*.lco
+*.ppn
+*.rpt
+*.svl
+*.l0*

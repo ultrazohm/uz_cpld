@@ -4,7 +4,7 @@ NOTE  ispLEVER Classic 2.0.00.17.20.15JEDEC Compatible Fuse File.*
 NOTE Copyright (C), 1992-2021, Lattice Semiconductor Corporation.*
 NOTE All Rights Reserved.     :*
 NOTE DESIGN NAME         :uz_zynq2adapter*
-NOTE DATE CREATED        :Wed Dec 15 16:46:55 2021*
+NOTE DATE CREATED        :Wed Dec 15 16:59:25 2021*
 NOTE DEVICE NAME         :LA4128V-75TN100E*
 NOTE DEVICE TEMPLATE     :M4S_128_64*
 NOTE PIN ASSIGNMENTS*
@@ -1075,4 +1075,4 @@ L00000
 11111111111111111111
 *
 C3114*
-C588
+C589

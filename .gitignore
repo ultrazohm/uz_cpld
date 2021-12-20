@@ -1,11 +1,9 @@
 
-unclear 
+*.lct
 *.vho
 *.eq*   
 *.ini
 *.csv
-
-not important
 *.abt
 *.b2*
 *.bl*

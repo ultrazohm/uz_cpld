@@ -2,6 +2,9 @@ MODULE UZ_CPLD
 
 TITLE 'top_level'
 
+library 'lattice';
+
+
 " ----------------------------
 " NOTE 1: Comments begin with
 " double-quote
@@ -13,6 +16,13 @@ TITLE 'top_level'
 " names) ARE case sensitive.
 " ----------------------------
 
+
+" ----------------------------
+" Default Pull Assignment
+LAT_PULL_DEFAULT(DOWN);
+
+
+" ----------------------------
 " FPGA pins
 fpga_00 pin 3;
 fpga_01 pin 4;
@@ -78,6 +88,7 @@ d_27 pin 71;
 d_28 pin 79;
 d_29 pin 70;
 
+
 " ----------------------------
 " Circuit functionality
 EQUATIONS
@@ -113,9 +124,7 @@ d_28 = fpga_28;
 d_29 = fpga_29; 
 
 
-" ----------------------------
-" Test inputs for simulation
-"TEST_VECTORS()
+
 
 " ----------------------------
 " All done!

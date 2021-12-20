@@ -1,0 +1,249 @@
+
+[Device]
+Family = lc4k;
+PartNumber = LA4128V-75TN100E;
+Package = 100TQFP;
+PartType = LA4128V;
+Speed = -7.5;
+Operating_condition = AUTO;
+Status = Production;
+EN_PinGLB = yes;
+EN_PinMacrocell = yes;
+
+[Revision]
+Parent = lc4k128v.lci;
+DATE = 12/20/2021;
+TIME = 13:08:10;
+Source_Format = ABEL_Schematic;
+Synthesis = Synplify;
+
+[Ignore Assignments]
+
+[Clear Assignments]
+
+[Backannotate Assignments]
+
+[Global Constraints]
+
+[Location Assignments]
+layer = OFF;
+fpga_00 = Pin, 3, -, -, -;
+fpga_01 = Pin, 4, -, -, -;
+fpga_02 = Pin, 5, -, -, -;
+fpga_03 = Pin, 6, -, -, -;
+fpga_04 = Pin, 8, -, -, -;
+fpga_05 = Pin, 9, -, -, -;
+fpga_06 = Pin, 10, -, -, -;
+fpga_07 = Pin, 11, -, -, -;
+fpga_08 = Pin, 14, -, -, -;
+fpga_09 = Pin, 15, -, -, -;
+fpga_10 = Pin, 16, -, -, -;
+fpga_11 = Pin, 17, -, -, -;
+fpga_12 = Pin, 19, -, -, -;
+fpga_13 = Pin, 20, -, -, -;
+fpga_14 = Pin, 21, -, -, -;
+fpga_15 = Pin, 22, -, -, -;
+fpga_16 = Pin, 28, -, -, -;
+fpga_17 = Pin, 29, -, -, -;
+fpga_18 = Pin, 30, -, -, -;
+fpga_19 = Pin, 31, -, -, -;
+fpga_20 = Pin, 34, -, -, -;
+fpga_21 = Pin, 35, -, -, -;
+fpga_22 = Pin, 36, -, -, -;
+fpga_23 = Pin, 37, -, -, -;
+fpga_24 = Pin, 91, -, -, -;
+fpga_25 = Pin, 92, -, -, -;
+fpga_26 = Pin, 93, -, -, -;
+fpga_27 = Pin, 94, -, -, -;
+fpga_28 = Pin, 97, -, -, -;
+fpga_29 = Pin, 98, -, -, -;
+d_00 = Pin, 50, -, -, -;
+d_01 = Pin, 53, -, -, -;
+d_02 = Pin, 49, -, -, -;
+d_03 = Pin, 54, -, -, -;
+d_04 = Pin, 48, -, -, -;
+d_05 = Pin, 55, -, -, -;
+d_06 = Pin, 47, -, -, -;
+d_07 = Pin, 56, -, -, -;
+d_08 = Pin, 41, -, -, -;
+d_09 = Pin, 58, -, -, -;
+d_10 = Pin, 42, -, -, -;
+d_11 = Pin, 59, -, -, -;
+d_12 = Pin, 43, -, -, -;
+d_13 = Pin, 60, -, -, -;
+d_14 = Pin, 44, -, -, -;
+d_15 = Pin, 61, -, -, -;
+d_16 = Pin, 84, -, -, -;
+d_17 = Pin, 64, -, -, -;
+d_18 = Pin, 85, -, -, -;
+d_19 = Pin, 65, -, -, -;
+d_20 = Pin, 86, -, -, -;
+d_21 = Pin, 66, -, -, -;
+d_22 = Pin, 87, -, -, -;
+d_23 = Pin, 67, -, -, -;
+d_24 = Pin, 81, -, -, -;
+d_25 = Pin, 72, -, -, -;
+d_26 = Pin, 80, -, -, -;
+d_27 = Pin, 71, -, -, -;
+d_28 = Pin, 79, -, -, -;
+d_29 = Pin, 70, -, -, -;
+
+[Group Assignments]
+layer = OFF;
+
+[Resource Reservations]
+layer = OFF;
+
+[Fitter Report Format]
+
+[Power]
+
+[Source Constraint Option]
+
+[Fast Bypass]
+
+[OSM Bypass]
+
+[Input Registers]
+
+[Netlist/Delay Format]
+
+[IO Types]
+layer = OFF;
+d_00 = LVCMOS33, PIN, 1, -;
+d_01 = LVCMOS33, PIN, 1, -;
+d_02 = LVCMOS33, PIN, 1, -;
+d_03 = LVCMOS33, PIN, 1, -;
+d_04 = LVCMOS33, PIN, 1, -;
+d_05 = LVCMOS33, PIN, 1, -;
+d_06 = LVCMOS33, PIN, 1, -;
+d_07 = LVCMOS33, PIN, 1, -;
+d_08 = LVCMOS33, PIN, 1, -;
+d_09 = LVCMOS33, PIN, 1, -;
+d_10 = LVCMOS33, PIN, 1, -;
+d_11 = LVCMOS33, PIN, 1, -;
+d_12 = LVCMOS33, PIN, 1, -;
+d_13 = LVCMOS33, PIN, 1, -;
+d_14 = LVCMOS33, PIN, 1, -;
+d_15 = LVCMOS33, PIN, 1, -;
+d_16 = LVCMOS33, PIN, 1, -;
+d_17 = LVCMOS33, PIN, 1, -;
+d_18 = LVCMOS33, PIN, 1, -;
+d_19 = LVCMOS33, PIN, 1, -;
+d_20 = LVCMOS33, PIN, 1, -;
+d_21 = LVCMOS33, PIN, 1, -;
+d_22 = LVCMOS33, PIN, 1, -;
+d_23 = LVCMOS33, PIN, 1, -;
+d_24 = LVCMOS33, PIN, 1, -;
+d_25 = LVCMOS33, PIN, 1, -;
+d_26 = LVCMOS33, PIN, 1, -;
+d_27 = LVCMOS33, PIN, 1, -;
+d_28 = LVCMOS33, PIN, 1, -;
+d_29 = LVCMOS33, PIN, 1, -;
+fpga_00 = LVCMOS18, PIN, 0, -;
+fpga_01 = LVCMOS18, PIN, 0, -;
+fpga_02 = LVCMOS18, PIN, 0, -;
+fpga_03 = LVCMOS18, PIN, 0, -;
+fpga_04 = LVCMOS18, PIN, 0, -;
+fpga_05 = LVCMOS18, PIN, 0, -;
+fpga_06 = LVCMOS18, PIN, 0, -;
+fpga_07 = LVCMOS18, PIN, 0, -;
+fpga_08 = LVCMOS18, PIN, 0, -;
+fpga_09 = LVCMOS18, PIN, 0, -;
+fpga_10 = LVCMOS18, PIN, 0, -;
+fpga_11 = LVCMOS18, PIN, 0, -;
+fpga_12 = LVCMOS18, PIN, 0, -;
+fpga_13 = LVCMOS18, PIN, 0, -;
+fpga_14 = LVCMOS18, PIN, 0, -;
+fpga_15 = LVCMOS18, PIN, 0, -;
+fpga_16 = LVCMOS18, PIN, 0, -;
+fpga_17 = LVCMOS18, PIN, 0, -;
+fpga_18 = LVCMOS18, PIN, 0, -;
+fpga_19 = LVCMOS18, PIN, 0, -;
+fpga_20 = LVCMOS18, PIN, 0, -;
+fpga_21 = LVCMOS18, PIN, 0, -;
+fpga_22 = LVCMOS18, PIN, 0, -;
+fpga_23 = LVCMOS18, PIN, 0, -;
+fpga_24 = LVCMOS18, PIN, 0, -;
+fpga_25 = LVCMOS18, PIN, 0, -;
+fpga_26 = LVCMOS18, PIN, 0, -;
+fpga_27 = LVCMOS18, PIN, 0, -;
+fpga_28 = LVCMOS18, PIN, 0, -;
+fpga_29 = LVCMOS18, PIN, 0, -;
+
+[Pullup]
+Default = DOWN;
+
+[Slewrate]
+
+[Region]
+
+[Timing Constraints]
+layer = OFF;
+
+[HSI Attributes]
+
+[Input Delay]
+
+[opt global constraints list]
+
+[Explorer User Settings]
+
+[Pin attributes list]
+
+[global constraints list]
+
+[Global Constraints Process Update]
+
+[pin lock limitation]
+
+[LOCATION ASSIGNMENTS LIST]
+
+[RESOURCE RESERVATIONS LIST]
+
+[individual constraints list]
+
+[Attributes list setting]
+
+[Timing Analyzer]
+
+[PLL Assignments]
+
+[Dual Function Macrocell]
+
+[Explorer Results]
+
+[VHDL synplify constraints]
+
+[VHDL spectrum constraints]
+
+[verilog synplify constraints]
+
+[verilog spectrum constraints]
+
+[VHDL synplify constraints list]
+
+[VHDL spectrum constraints list]
+
+[verilog synplify constraints list]
+
+[verilog spectrum constraints list]
+
+[ORP Bypass]
+
+[Register Powerup]
+
+[Constraint Version]
+version = 1.0;
+
+[ORP ASSIGNMENTS]
+layer = OFF;
+
+[Node attribute]
+layer = OFF;
+
+[SYMBOL/MODULE attribute]
+layer = OFF;
+
+[Nodal Constraints]
+layer = OFF;

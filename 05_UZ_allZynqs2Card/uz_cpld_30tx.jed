@@ -3,51 +3,51 @@
 NOTE  ispLEVER Classic 2.0.00.17.20.15JEDEC Compatible Fuse File.*
 NOTE Copyright (C), 1992-2021, Lattice Semiconductor Corporation.*
 NOTE All Rights Reserved.     :*
-NOTE DESIGN NAME         :uz_zynq2adapter*
-NOTE DATE CREATED        :Wed Dec 15 16:59:25 2021*
+NOTE DESIGN NAME         :uz_cpld_30tx*
+NOTE DATE CREATED        :Mon Dec 20 15:46:47 2021*
 NOTE DEVICE NAME         :LA4128V-75TN100E*
 NOTE DEVICE TEMPLATE     :M4S_128_64*
 NOTE PIN ASSIGNMENTS*
-NOTE PINS zynq_0 : 3 : in*
-NOTE PINS zynq_1 : 4 : in*
-NOTE PINS zynq_2 : 5 : in*
-NOTE PINS zynq_3 : 6 : in*
-NOTE PINS zynq_4 : 8 : in*
-NOTE PINS zynq_5 : 9 : in*
-NOTE PINS zynq_6 : 10 : in*
-NOTE PINS zynq_7 : 11 : in*
-NOTE PINS zynq_8 : 14 : in*
-NOTE PINS zynq_9 : 15 : in*
-NOTE PINS zynq_10 : 16 : in*
-NOTE PINS zynq_11 : 17 : in*
-NOTE PINS zynq_12 : 19 : in*
-NOTE PINS zynq_13 : 20 : in*
-NOTE PINS zynq_14 : 21 : in*
-NOTE PINS zynq_15 : 22 : in*
-NOTE PINS zynq_16 : 28 : in*
-NOTE PINS zynq_17 : 29 : in*
-NOTE PINS zynq_18 : 30 : in*
-NOTE PINS zynq_19 : 31 : in*
-NOTE PINS zynq_20 : 34 : in*
-NOTE PINS zynq_21 : 35 : in*
-NOTE PINS zynq_22 : 36 : in*
-NOTE PINS zynq_23 : 37 : in*
-NOTE PINS zynq_24 : 91 : in*
-NOTE PINS zynq_25 : 92 : in*
-NOTE PINS zynq_26 : 93 : in*
-NOTE PINS zynq_27 : 94 : in*
-NOTE PINS zynq_28 : 97 : in*
-NOTE PINS zynq_29 : 98 : in*
-NOTE PINS d_0 : 50 : out*
-NOTE PINS d_1 : 53 : out*
-NOTE PINS d_2 : 49 : out*
-NOTE PINS d_3 : 54 : out*
-NOTE PINS d_4 : 48 : out*
-NOTE PINS d_5 : 55 : out*
-NOTE PINS d_6 : 47 : out*
-NOTE PINS d_7 : 56 : out*
-NOTE PINS d_8 : 41 : out*
-NOTE PINS d_9 : 58 : out*
+NOTE PINS fpga_00 : 3 : in*
+NOTE PINS fpga_01 : 4 : in*
+NOTE PINS fpga_02 : 5 : in*
+NOTE PINS fpga_03 : 6 : in*
+NOTE PINS fpga_04 : 8 : in*
+NOTE PINS fpga_05 : 9 : in*
+NOTE PINS fpga_06 : 10 : in*
+NOTE PINS fpga_07 : 11 : in*
+NOTE PINS fpga_08 : 14 : in*
+NOTE PINS fpga_09 : 15 : in*
+NOTE PINS fpga_10 : 16 : in*
+NOTE PINS fpga_11 : 17 : in*
+NOTE PINS fpga_12 : 19 : in*
+NOTE PINS fpga_13 : 20 : in*
+NOTE PINS fpga_14 : 21 : in*
+NOTE PINS fpga_15 : 22 : in*
+NOTE PINS fpga_16 : 28 : in*
+NOTE PINS fpga_17 : 29 : in*
+NOTE PINS fpga_18 : 30 : in*
+NOTE PINS fpga_19 : 31 : in*
+NOTE PINS fpga_20 : 34 : in*
+NOTE PINS fpga_21 : 35 : in*
+NOTE PINS fpga_22 : 36 : in*
+NOTE PINS fpga_23 : 37 : in*
+NOTE PINS fpga_24 : 91 : in*
+NOTE PINS fpga_25 : 92 : in*
+NOTE PINS fpga_26 : 93 : in*
+NOTE PINS fpga_27 : 94 : in*
+NOTE PINS fpga_28 : 97 : in*
+NOTE PINS fpga_29 : 98 : in*
+NOTE PINS d_00 : 50 : out*
+NOTE PINS d_01 : 53 : out*
+NOTE PINS d_02 : 49 : out*
+NOTE PINS d_03 : 54 : out*
+NOTE PINS d_04 : 48 : out*
+NOTE PINS d_05 : 55 : out*
+NOTE PINS d_06 : 47 : out*
+NOTE PINS d_07 : 56 : out*
+NOTE PINS d_08 : 41 : out*
+NOTE PINS d_09 : 58 : out*
 NOTE PINS d_10 : 42 : out*
 NOTE PINS d_11 : 59 : out*
 NOTE PINS d_12 : 43 : out*
@@ -1075,4 +1075,4 @@ L00000
 11111111111111111111
 *
 C3114*
-C589
+C1A2

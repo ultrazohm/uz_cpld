@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BaliProject version="3.2" title="ecp5_vhdl" device="LFE5U-45F-6MG285C" default_implementation="ecp5_vhdl">
+    <Options/>
+    <Implementation title="ecp5_vhdl" dir="ecp5_vhdl" description="ecp5_vhdl" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="i2c_slave"/>
+        <Source name="../../../testbench/verilog/i2c_peri_tf.v" type="Verilog" type_short="Verilog" syn_sim="SimOnly">
+            <Options/>
+        </Source>
+        <Source name="../../../testbench/verilog/i2c_mstr.v" type="Verilog" type_short="Verilog" syn_sim="SimOnly">
+            <Options/>
+        </Source>
+        <Source name="../../../source/vhdl/i2c_slave.vhd" type="VHDL" type_short="VHDL">
+            <Options top_module="i2c_slave"/>
+        </Source>
+        <Source name="ecp5_vhdl.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Strategy name="Strategy1" file="ecp5_vhdl1.sty"/>
+</BaliProject>

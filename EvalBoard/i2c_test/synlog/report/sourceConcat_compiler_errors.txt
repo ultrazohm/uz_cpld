@@ -1,0 +1,4 @@
+@E: CG103 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\sourceconcat.vhd":13:54:13:54|Expecting expression
+@E: CD255 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\sourceconcat.vhd":15:17:15:17|No identifier "temp_data" in scope
+@E|Parse errors encountered - exiting
+

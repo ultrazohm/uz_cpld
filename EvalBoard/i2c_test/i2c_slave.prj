@@ -1,6 +1,6 @@
 #-- Lattice Semiconductor Corporation Ltd.
-#-- Synplify OEM project file c:/zynqultra/60_software/cpld_lattice/evalboard/i2c_test\i2c_slave.prj
-#-- Written on Sun Mar 21 12:44:08 2021
+#-- Synplify OEM project file c:/git/ultrazohm/software/cpld_lattice/evalboard/i2c_test\i2c_slave.prj
+#-- Written on Tue Dec 28 17:46:13 2021
 
 
 #device options
@@ -34,7 +34,7 @@ set_option -areadelay 0
 set_option -synthesis_onoff_pragma false
 
 #-- add_file options
-add_file -vhdl -lib work "i2c_slave.vhd"
+add_file -vhdl -lib work "uz_i2c_slave_D1.vhd"
 
 #-- top module name
 set_option -top_module i2c_slave

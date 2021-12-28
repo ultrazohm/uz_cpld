@@ -1,0 +1,12 @@
+JDF B
+// Created by Version 2.1 
+PROJECT i2c
+DESIGN i2c Normal
+DEVKIT LC4256ZE-5TN144C
+ENTRY Schematic/VHDL
+DOCUMENT ..\..\testbench\verilog\i2c.mem
+MODULE i2c_slave.vhd
+MODSTYLE i2c_slave Normal
+SYNTHESIS_TOOL Synplify
+SIMULATOR_TOOL ModelSim
+TOPMODULE i2c_slave

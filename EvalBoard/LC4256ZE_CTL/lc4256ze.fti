@@ -1,0 +1,59 @@
+#PLAFILE     lc4256ze.bl5
+#DATE        Thu Dec 23 19:33:26 2021
+
+#DESIGN      lc4256ze
+#DEVICE      MACH4S-256
+
+
+// Default settings.
+DATA GLOBAL tINDIO:0
+
+
+// Signal locations
+DATA LOCATION led_7_:I_1_63
+DATA LOCATION led_6_:I_12_62
+DATA LOCATION led_5_:I_9_61
+DATA LOCATION led_4_:I_7_60
+DATA LOCATION led_3_:I_5_59
+DATA LOCATION led_2_:I_3_58
+DATA LOCATION led_1_:J_3_71
+DATA LOCATION led_0_:J_12_70
+DATA LOCATION gnd_n_n:C_15
+DATA LOCATION c_delay_0_:A_9
+DATA LOCATION c_delay_2_:C_2
+DATA LOCATION c_delay_1_:C_5
+DATA LOCATION c_delay_3_:A_3
+DATA LOCATION _dup_gnd_n_n:F_15
+
+// Signals direction
+DATA IO_DIR led_7_:OUT
+DATA IO_DIR led_6_:OUT
+DATA IO_DIR led_5_:OUT
+DATA IO_DIR led_4_:OUT
+DATA IO_DIR led_3_:OUT
+DATA IO_DIR led_2_:OUT
+DATA IO_DIR led_1_:OUT
+DATA IO_DIR led_0_:OUT
+
+// Signals using Shared Clock or CE
+DATA tBCLK c_delay_0_.C
+DATA tBCLK c_delay_2_.C
+DATA tBCLK c_delay_1_.C
+DATA tBCLK c_delay_3_.C
+
+// Block Load Adders
+DATA tBLA c_delay_3_:3
+DATA tBLA c_delay_1_:3
+DATA tBLA c_delay_2_:3
+DATA tBLA c_delay_0_:1
+DATA tBLA tmr_clk:1
+
+// Signals using OSM or fast 5-PTs path
+DATA tOSM led_7_
+DATA tOSM led_6_
+DATA tOSM led_5_
+DATA tOSM led_4_
+DATA tOSM led_3_
+DATA tOSM led_2_
+DATA tOSM led_1_
+DATA tOSM led_0_

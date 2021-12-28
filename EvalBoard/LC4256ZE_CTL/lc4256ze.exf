@@ -1,0 +1,61 @@
+Section Type   Array Num   Name                     Real Name          Base     Number     Increment
+// ------------------------------------------------------------------------------------------
+      Port          1      led[7:0]                      led                  7          8            -1
+End
+Section Member   Rename                   Array-Notation          Array Number     Index
+// -------------------------------------------------------------------------------------
+        Port      led_7_                      led[7]                       1            0            
+        Port      led_6_                      led[6]                       1            1            
+        Port      led_5_                      led[5]                       1            2            
+        Port      led_4_                      led[4]                       1            3            
+        Port      led_3_                      led[3]                       1            4            
+        Port      led_2_                      led[2]                       1            5            
+        Port      led_1_                      led[1]                       1            6            
+        Port      led_0_                      led[0]                       1            7            
+End
+Section Cross Reference File
+Design 'lc4256ze' created Fri Oct 29 19:05:24 2010
+   Type              New Name                               Original Name
+// ----------------------------------------------------------------------
+   Inst           cnt_500ms_0_                              cnt_500ms[0]
+   Inst           cnt_500ms_1_                              cnt_500ms[1]
+   Inst           cnt_500ms_7_                              cnt_500ms[7]
+   Inst                 led_0_                                    led[0]
+   Inst                 led_1_                                    led[1]
+   Inst                 led_2_                                    led[2]
+   Inst                 led_3_                                    led[3]
+   Inst                 led_4_                                    led[4]
+   Inst                 led_5_                                    led[5]
+   Inst                 led_6_                                    led[6]
+   Inst                 led_7_                                    led[7]
+   Inst         cnt_500ms_i_0_                            cnt_500ms_i[0]
+   Inst         cnt_500ms_3_0_                            cnt_500ms_3[0]
+   Inst         cnt_500ms_i_8_                            cnt_500ms_i[8]
+   Inst         cnt_500ms_i_1_                            cnt_500ms_i[1]
+   Net                 gnd_n_n                                       GND
+   Net          cnt_500ms_0__n                              cnt_500ms[0]
+   Net          cnt_500ms_1__n                              cnt_500ms[1]
+   Net          cnt_500ms_8__n                              cnt_500ms[8]
+   Net        cnt_500ms_3_0__n                            cnt_500ms_3[0]
+   Net        cnt_500ms_i_8__n                            cnt_500ms_i[8]
+   Net        cnt_500ms_i_1__n                            cnt_500ms_i[1]
+   Net        cnt_500ms_i_0__n                            cnt_500ms_i[0]
+   Net                led_0__n                                    led[0]
+   Net                led_1__n                                    led[1]
+   Net                led_2__n                                    led[2]
+   Net                led_3__n                                    led[3]
+   Net                led_4__n                                    led[4]
+   Net                led_5__n                                    led[5]
+   Net                led_6__n                                    led[6]
+End
+Section Type      Name
+// ----------------------------------------------------------------------
+        Output     led_7_
+        Output     led_6_
+        Output     led_5_
+        Output     led_4_
+        Output     led_3_
+        Output     led_2_
+        Output     led_1_
+        Output     led_0_
+End

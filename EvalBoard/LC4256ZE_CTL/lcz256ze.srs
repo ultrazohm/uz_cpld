@@ -1,0 +1,36 @@
+%%% protect protected_file
+@E
+@ 
+#
+#
+#
+# Created by Synplify Verilog HDL Compiler version comp500rc, Build 070R from Synplicity, Inc.
+# Copyright 1994-2010 Synopsys, Inc. , All rights reserved.
+# Synthesis Netlist written on Fri Oct 29 18:01:23 2010
+#
+#
+#OPTIONS:"|-top|lcz256ze|-I|d:\\mike\\noe\\lscc2\\b2\\design\\|-I|C:\\ISPLEVER_CLASSIC1_4\\synpbase\\lib|-v2001|-encrypt|-pro|-ll|2000|-compiler_compatible|-ui|-fid2|-ram|-sharing|on|-autosm|-lib|work|-lib|work|-lib|work"
+#CUR:"C:\\ISPLEVER_CLASSIC1_4\\synpbase\\bin\\c_ver.exe":1271995592
+#CUR:"C:\\ispLEVER_Classic1_4\\ispcpld\\..\\cae_library\\synthesis\\verilog\\mach.v":1244610000
+#CUR:"D:\\mike\\noe\\lscc2\\b2\\design\\lc4256ze.h":1288155322
+#CUR:"D:\\mike\\noe\\lscc2\\b2\\design\\lc4256ze.v":1288160388
+f "C:\ispLEVER_Classic1_4\ispcpld\..\cae_library\synthesis\verilog\mach.v"; # file 0
+af .is_verilog 1;
+f "D:\mike\noe\lscc2\b2\design\lc4256ze.h"; # file 1
+af .is_verilog 1;
+f "D:\mike\noe\lscc2\b2\design\lc4256ze.v"; # file 2
+af .is_verilog 1;
+@E
+@ 
+ftell;
+@E@MR@d.::dU::R46I	FsRxDO.x6nCCRPsFHDoN;
+PHR3#sPCHoDFR
+4;N3PRHP#_CDsHF4oR;P
+NRs3FHNohl"CRD.Ox6Cnx"
+;
+
+@FR@c.:::46c(:4R8DCrj(:9sR0kVC,NCD#,k0sCN,VD,#C0Csk,DVN#0C,s,kCV#NDCN;
+HsR30FD_sMHoNRlC"8DC"b;
+Rj@@:44::.4:Rk0sCsR0k0CRs;kC
+@bR@4j::44::V.RNCD#RDVN#VCRNCD#;;
+C

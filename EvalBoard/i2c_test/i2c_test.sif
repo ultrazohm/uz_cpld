@@ -1,1940 +1,1148 @@
 // Node Statistic Information File
 // Tool:  ispLEVER Classic 2.1.00.02.49.20
-// Design 'i2c_slave' created   Sun Mar 21 12:44:37 2021
+// Design 'io_pins' created   Tue Dec 28 18:08:09 2021
 
 // Fmax Logic Level: 2.
 
-// Path: start.Q
-//    -> shift_0__0
-//    -> shift_7_.CE-
+// Path: I0_bits_processed_reg_0_.Q
+//    -> I0_bits_processed_reg_0__0
+//    -> I0_bits_processed_reg_3_.CE
 
-// Signal Name: scl_oe
-// Type: Output
-BEGIN scl_oe
-Fanin Number		2
+// Signal Name: sda
+// Type: Bidi
+BEGIN sda
+Fanin Number		0
+Pterm Number		0
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+END
+
+// Signal Name: sda.OE
+// Type: Bidi
+BEGIN sda.OE
+Fanin Number		1
 Pterm Number		1
 Fanin per Macrocell	N/A
 Cluster PT		N/A
 Logic Levels		N/A
-Fanin Input     	ready.BLIF          	0
-Fanin Node      	sm_state_8_.Q       	2
+Fanin Node      	I0_inst_sda_wen_reg.Q	1
 END
 
-// Signal Name: sda_oe
-// Type: Output
-BEGIN sda_oe
-Fanin Number		2
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Node      	inst_ack_out.Q      	2
-Fanin Node      	inst_sda_en.Q       	8
-END
-
-// Signal Name: data_out_7_.D
+// Signal Name: y0.D
 // Type: Output_reg
-BEGIN data_out_7_.D
+BEGIN y0.D
 Fanin Number		1
 Pterm Number		1
 Fanin per Macrocell	N/A
 Cluster PT		N/A
 Logic Levels		1
-Fanin Node      	shift_7_.Q          	7
+Fanin Output    	y2.Q                	1
 END
 
-// Signal Name: data_out_7_.C
+// Signal Name: y0.C
 // Type: Output_reg
-BEGIN data_out_7_.C
+BEGIN y0.C
 Fanin Number		1
 Pterm Number		1
 Fanin per Macrocell	N/A
 Cluster PT		N/A
 Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
+Fanin Input     	TIMEROUT.BLIF       	0
 END
 
-// Signal Name: data_out_7_.CE
+// Signal Name: y1.D
 // Type: Output_reg
-BEGIN data_out_7_.CE
+BEGIN y1.D
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Output    	y2.Q                	1
+END
+
+// Signal Name: y1.C
+// Type: Output_reg
+BEGIN y1.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	TIMEROUT.BLIF       	0
+END
+
+// Signal Name: y2.D
+// Type: Output_reg
+BEGIN y2.D
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Output    	y2.Q                	1
+END
+
+// Signal Name: y2.C
+// Type: Output_reg
+BEGIN y2.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	TIMEROUT.BLIF       	0
+END
+
+// Signal Name: y3
+// Type: Output
+BEGIN y3
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Output    	y2.Q                	1
+END
+
+// Signal Name: y4
+// Type: Output
+BEGIN y4
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Output    	y2.Q                	1
+END
+
+// Signal Name: y5
+// Type: Output
+BEGIN y5
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Output    	y2.Q                	1
+END
+
+// Signal Name: y6.D
+// Type: Output_reg
+BEGIN y6.D
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Output    	y2.Q                	1
+END
+
+// Signal Name: y6.C
+// Type: Output_reg
+BEGIN y6.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	TIMEROUT.BLIF       	0
+END
+
+// Signal Name: Adapter
+// Type: Bidi
+BEGIN Adapter
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Output    	FPGA.PIN            	1
+END
+
+// Signal Name: Adapter.OE
+// Type: Bidi
+BEGIN Adapter.OE
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	IOselector.BLIF     	0
+END
+
+// Signal Name: FPGA
+// Type: Bidi
+BEGIN FPGA
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Output    	Adapter.PIN         	1
+END
+
+// Signal Name: FPGA.OE
+// Type: Bidi
+BEGIN FPGA.OE
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	IOselector.BLIF     	0
+END
+
+// Signal Name: y7.D
+// Type: Output_reg
+BEGIN y7.D
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Output    	y2.Q                	1
+END
+
+// Signal Name: y7.C
+// Type: Output_reg
+BEGIN y7.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	TIMEROUT.BLIF       	0
+END
+
+// Signal Name: I0_bits_processed_reg_0_.D
+// Type: Node_reg
+BEGIN I0_bits_processed_reg_0_.D
+Fanin Number		7
+Pterm Number		4
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Node      	I0_bits_processed_reg_0_.Q	4
+Fanin Node      	I0_bits_processed_reg_1_.Q	2
+Fanin Node      	I0_bits_processed_reg_2_.Q	3
+Fanin Node      	I0_bits_processed_reg_3_.Q	4
+Fanin Node      	I0_inst_stop_reg.Q  	1
+Fanin Node      	I0_inst_scl_falling_reg.Q	1
+Fanin Node      	I0_inst_start_reg.Q 	1
+END
+
+// Signal Name: I0_bits_processed_reg_0_.C
+// Type: Node_reg
+BEGIN I0_bits_processed_reg_0_.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	OSCOUT.BLIF         	0
+END
+
+// Signal Name: I0_bits_processed_reg_0_.CE
+// Type: Node_reg
+BEGIN I0_bits_processed_reg_0_.CE
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		2
+Fanin Node      	I0_bits_processed_reg_0__0.BLIF	7
+END
+
+// Signal Name: I0_bits_processed_reg_1_.D
+// Type: Node_reg
+BEGIN I0_bits_processed_reg_1_.D
+Fanin Number		4
+Pterm Number		2
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Node      	I0_bits_processed_reg_0_.Q	4
+Fanin Node      	I0_bits_processed_reg_1_.Q	2
+Fanin Node      	I0_inst_stop_reg.Q  	1
+Fanin Node      	I0_inst_start_reg.Q 	1
+END
+
+// Signal Name: I0_bits_processed_reg_1_.C
+// Type: Node_reg
+BEGIN I0_bits_processed_reg_1_.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	OSCOUT.BLIF         	0
+END
+
+// Signal Name: I0_bits_processed_reg_1_.CE
+// Type: Node_reg
+BEGIN I0_bits_processed_reg_1_.CE
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		2
+Fanin Node      	I0_bits_processed_reg_0__0.BLIF	7
+END
+
+// Signal Name: I0_bits_processed_reg_2_.D
+// Type: Node_reg
+BEGIN I0_bits_processed_reg_2_.D
+Fanin Number		5
+Pterm Number		3
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Node      	I0_bits_processed_reg_0_.Q	4
+Fanin Node      	I0_bits_processed_reg_1_.Q	2
+Fanin Node      	I0_bits_processed_reg_2_.Q	3
+Fanin Node      	I0_inst_stop_reg.Q  	1
+Fanin Node      	I0_inst_start_reg.Q 	1
+END
+
+// Signal Name: I0_bits_processed_reg_2_.C
+// Type: Node_reg
+BEGIN I0_bits_processed_reg_2_.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	OSCOUT.BLIF         	0
+END
+
+// Signal Name: I0_bits_processed_reg_2_.CE
+// Type: Node_reg
+BEGIN I0_bits_processed_reg_2_.CE
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		2
+Fanin Node      	I0_bits_processed_reg_0__0.BLIF	7
+END
+
+// Signal Name: I0_bits_processed_reg_3_.D.X1
+// Type: Node_reg
+BEGIN I0_bits_processed_reg_3_.D.X1
+Fanin Number		8
+Pterm Number		4
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Node      	I0_bits_processed_reg_0_.Q	4
+Fanin Node      	I0_bits_processed_reg_1_.Q	2
+Fanin Node      	I0_bits_processed_reg_2_.Q	3
+Fanin Node      	I0_bits_processed_reg_3_.Q	4
+Fanin Node      	I0_inst_stop_reg.Q  	1
+Fanin Node      	I0_inst_scl_falling_reg.Q	1
+Fanin Node      	I0_inst_start_reg.Q 	1
+Fanin Node      	I0_state_reg_3_.Q   	5
+END
+
+// Signal Name: I0_bits_processed_reg_3_.D.X2
+// Type: Node_reg
+BEGIN I0_bits_processed_reg_3_.D.X2
 Fanin Number		3
 Pterm Number		1
 Fanin per Macrocell	N/A
 Cluster PT		N/A
 Logic Levels		1
-Fanin Output    	r_w.Q               	3
-Fanin Output    	data_vld.Q          	1
-Fanin Node      	inst_ack_out.Q      	2
+Fanin Node      	I0_bits_processed_reg_3_.Q	4
+Fanin Node      	I0_inst_stop_reg.Q  	1
+Fanin Node      	I0_inst_start_reg.Q 	1
 END
 
-// Signal Name: data_out_7_.AR
-// Type: Output_reg
-BEGIN data_out_7_.AR
+// Signal Name: I0_bits_processed_reg_3_.C
+// Type: Node_reg
+BEGIN I0_bits_processed_reg_3_.C
 Fanin Number		1
 Pterm Number		1
 Fanin per Macrocell	N/A
 Cluster PT		N/A
 Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
+Fanin Input     	OSCOUT.BLIF         	0
 END
 
-// Signal Name: start.D
-// Type: Output_reg
-BEGIN start.D
+// Signal Name: I0_bits_processed_reg_3_.CE
+// Type: Node_reg
+BEGIN I0_bits_processed_reg_3_.CE
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		2
+Fanin Node      	I0_bits_processed_reg_0__0.BLIF	7
+END
+
+// Signal Name: I0_inst_sda_pre_internal.D
+// Type: Node_reg
+BEGIN I0_inst_sda_pre_internal.D
 Fanin Number		1
 Pterm Number		1
 Fanin per Macrocell	N/A
 Cluster PT		N/A
 Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
+Fanin Output    	sda.PIN             	0
 END
 
-// Signal Name: start.C
-// Type: Output_reg
-BEGIN start.C
+// Signal Name: I0_inst_sda_pre_internal.C
+// Type: Node_reg
+BEGIN I0_inst_sda_pre_internal.C
 Fanin Number		1
 Pterm Number		1
 Fanin per Macrocell	N/A
 Cluster PT		N/A
 Logic Levels		N/A
-Fanin Node      	inst_sda_f.Q        	1
+Fanin Input     	OSCOUT.BLIF         	0
 END
 
-// Signal Name: start.AR
-// Type: Output_reg
-BEGIN start.AR
+// Signal Name: I0_inst_scl_pre_internal.D
+// Type: Node_reg
+BEGIN I0_inst_scl_pre_internal.D
 Fanin Number		1
 Pterm Number		1
 Fanin per Macrocell	N/A
 Cluster PT		N/A
 Logic Levels		N/A
-Fanin Node      	start_async_rst.BLIF	1
+Fanin Input     	scl.BLIF            	0
 END
 
-// Signal Name: stop.D
-// Type: Output_reg
-BEGIN stop.D
+// Signal Name: I0_inst_scl_pre_internal.C
+// Type: Node_reg
+BEGIN I0_inst_scl_pre_internal.C
 Fanin Number		1
 Pterm Number		1
 Fanin per Macrocell	N/A
 Cluster PT		N/A
 Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
+Fanin Input     	OSCOUT.BLIF         	0
 END
 
-// Signal Name: stop.C
-// Type: Output_reg
-BEGIN stop.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	sda_in.BLIF         	0
-END
-
-// Signal Name: stop.AR
-// Type: Output_reg
-BEGIN stop.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Node      	stop_0.BLIF         	1
-END
-
-// Signal Name: r_w.D
-// Type: Output_reg
-BEGIN r_w.D
+// Signal Name: I0_addr_reg_0_.D
+// Type: Node_reg
+BEGIN I0_addr_reg_0_.D
 Fanin Number		4
 Pterm Number		3
 Fanin per Macrocell	N/A
 Cluster PT		N/A
 Logic Levels		1
-Fanin Input     	sda_in.BLIF         	0
-Fanin Output    	r_w.Q               	3
-Fanin Node      	shift_0_.Q          	2
-Fanin Node      	sm_state_10_.Q      	1
+Fanin Node      	I0_bits_processed_reg_1_.Q	2
+Fanin Node      	I0_bits_processed_reg_2_.Q	3
+Fanin Node      	I0_inst_sda_pre_internal.Q	1
+Fanin Node      	I0_addr_reg_0_.Q    	3
 END
 
-// Signal Name: r_w.C
-// Type: Output_reg
-BEGIN r_w.C
+// Signal Name: I0_addr_reg_0_.C
+// Type: Node_reg
+BEGIN I0_addr_reg_0_.C
 Fanin Number		1
 Pterm Number		1
 Fanin per Macrocell	N/A
 Cluster PT		N/A
 Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
+Fanin Input     	OSCOUT.BLIF         	0
 END
 
-// Signal Name: r_w.AP
-// Type: Output_reg
-BEGIN r_w.AP
+// Signal Name: I0_addr_reg_0_.CE
+// Type: Node_reg
+BEGIN I0_addr_reg_0_.CE
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		2
+Fanin Node      	I0_addr_reg_0__0.BLIF	3
+END
+
+// Signal Name: I0_addr_reg_1_.D
+// Type: Node_reg
+BEGIN I0_addr_reg_1_.D
+Fanin Number		4
+Pterm Number		3
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Node      	I0_bits_processed_reg_0_.Q	4
+Fanin Node      	I0_bits_processed_reg_2_.Q	3
+Fanin Node      	I0_inst_sda_pre_internal.Q	1
+Fanin Node      	I0_addr_reg_1_.Q    	3
+END
+
+// Signal Name: I0_addr_reg_1_.C
+// Type: Node_reg
+BEGIN I0_addr_reg_1_.C
 Fanin Number		1
 Pterm Number		1
 Fanin per Macrocell	N/A
 Cluster PT		N/A
 Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
+Fanin Input     	OSCOUT.BLIF         	0
 END
 
-// Signal Name: data_vld.D
-// Type: Output_reg
-BEGIN data_vld.D
+// Signal Name: I0_addr_reg_1_.CE
+// Type: Node_reg
+BEGIN I0_addr_reg_1_.CE
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		2
+Fanin Node      	I0_addr_reg_0__0.BLIF	3
+END
+
+// Signal Name: I0_addr_reg_3_.D
+// Type: Node_reg
+BEGIN I0_addr_reg_3_.D
+Fanin Number		4
+Pterm Number		3
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Node      	I0_bits_processed_reg_0_.Q	4
+Fanin Node      	I0_bits_processed_reg_1_.Q	2
+Fanin Node      	I0_inst_sda_pre_internal.Q	1
+Fanin Node      	I0_addr_reg_3_.Q    	3
+END
+
+// Signal Name: I0_addr_reg_3_.C
+// Type: Node_reg
+BEGIN I0_addr_reg_3_.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	OSCOUT.BLIF         	0
+END
+
+// Signal Name: I0_addr_reg_3_.CE
+// Type: Node_reg
+BEGIN I0_addr_reg_3_.CE
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		2
+Fanin Node      	I0_addr_reg_0__0.BLIF	3
+END
+
+// Signal Name: I0_addr_reg_5_.D
+// Type: Node_reg
+BEGIN I0_addr_reg_5_.D
+Fanin Number		5
+Pterm Number		4
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Node      	I0_bits_processed_reg_0_.Q	4
+Fanin Node      	I0_bits_processed_reg_1_.Q	2
+Fanin Node      	I0_bits_processed_reg_2_.Q	3
+Fanin Node      	I0_inst_sda_pre_internal.Q	1
+Fanin Node      	I0_addr_reg_5_.Q    	4
+END
+
+// Signal Name: I0_addr_reg_5_.C
+// Type: Node_reg
+BEGIN I0_addr_reg_5_.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	OSCOUT.BLIF         	0
+END
+
+// Signal Name: I0_addr_reg_5_.CE
+// Type: Node_reg
+BEGIN I0_addr_reg_5_.CE
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		2
+Fanin Node      	I0_addr_reg_0__0.BLIF	3
+END
+
+// Signal Name: I0_inst_scl_prev_reg.D
+// Type: Node_reg
+BEGIN I0_inst_scl_prev_reg.D
 Fanin Number		1
 Pterm Number		1
 Fanin per Macrocell	N/A
 Cluster PT		N/A
 Logic Levels		1
-Fanin Node      	sm_state_1_.Q       	1
+Fanin Node      	I0_inst_scl_pre_internal.Q	1
 END
 
-// Signal Name: data_vld.C
-// Type: Output_reg
-BEGIN data_vld.C
+// Signal Name: I0_inst_scl_prev_reg.C
+// Type: Node_reg
+BEGIN I0_inst_scl_prev_reg.C
 Fanin Number		1
 Pterm Number		1
 Fanin per Macrocell	N/A
 Cluster PT		N/A
 Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
+Fanin Input     	OSCOUT.BLIF         	0
 END
 
-// Signal Name: data_vld.CE-
-// Type: Output_reg
-BEGIN data_vld.CE
+// Signal Name: I0_inst_sda_prev_reg.D
+// Type: Node_reg
+BEGIN I0_inst_sda_prev_reg.D
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Node      	I0_inst_sda_pre_internal.Q	1
+END
+
+// Signal Name: I0_inst_sda_prev_reg.C
+// Type: Node_reg
+BEGIN I0_inst_sda_prev_reg.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	OSCOUT.BLIF         	0
+END
+
+// Signal Name: I0_inst_stop_reg.D
+// Type: Node_reg
+BEGIN I0_inst_stop_reg.D
 Fanin Number		4
 Pterm Number		1
 Fanin per Macrocell	N/A
 Cluster PT		N/A
 Logic Levels		1
-Fanin Node      	sm_state_0_.Q       	1
-Fanin Node      	sm_state_8_.Q       	2
-Fanin Node      	sm_state_17_.Q      	11
-Fanin Node      	sm_state_1_.Q       	1
+Fanin Node      	I0_inst_sda_pre_internal.Q	1
+Fanin Node      	I0_inst_scl_pre_internal.Q	1
+Fanin Node      	I0_inst_scl_prev_reg.Q	1
+Fanin Node      	I0_inst_sda_prev_reg.Q	1
 END
 
-// Signal Name: data_vld.AR
-// Type: Output_reg
-BEGIN data_vld.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: data_out_6_.D
-// Type: Output_reg
-BEGIN data_out_6_.D
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Node      	shift_6_.Q          	7
-END
-
-// Signal Name: data_out_6_.C
-// Type: Output_reg
-BEGIN data_out_6_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: data_out_6_.CE
-// Type: Output_reg
-BEGIN data_out_6_.CE
-Fanin Number		3
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Output    	r_w.Q               	3
-Fanin Output    	data_vld.Q          	1
-Fanin Node      	inst_ack_out.Q      	2
-END
-
-// Signal Name: data_out_6_.AR
-// Type: Output_reg
-BEGIN data_out_6_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: data_out_5_.D
-// Type: Output_reg
-BEGIN data_out_5_.D
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Node      	shift_5_.Q          	7
-END
-
-// Signal Name: data_out_5_.C
-// Type: Output_reg
-BEGIN data_out_5_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: data_out_5_.CE
-// Type: Output_reg
-BEGIN data_out_5_.CE
-Fanin Number		3
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Output    	r_w.Q               	3
-Fanin Output    	data_vld.Q          	1
-Fanin Node      	inst_ack_out.Q      	2
-END
-
-// Signal Name: data_out_5_.AR
-// Type: Output_reg
-BEGIN data_out_5_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: data_out_4_.D
-// Type: Output_reg
-BEGIN data_out_4_.D
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Node      	shift_4_.Q          	7
-END
-
-// Signal Name: data_out_4_.C
-// Type: Output_reg
-BEGIN data_out_4_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: data_out_4_.CE
-// Type: Output_reg
-BEGIN data_out_4_.CE
-Fanin Number		3
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Output    	r_w.Q               	3
-Fanin Output    	data_vld.Q          	1
-Fanin Node      	inst_ack_out.Q      	2
-END
-
-// Signal Name: data_out_4_.AR
-// Type: Output_reg
-BEGIN data_out_4_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: data_out_3_.D
-// Type: Output_reg
-BEGIN data_out_3_.D
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Node      	shift_3_.Q          	7
-END
-
-// Signal Name: data_out_3_.C
-// Type: Output_reg
-BEGIN data_out_3_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: data_out_3_.CE
-// Type: Output_reg
-BEGIN data_out_3_.CE
-Fanin Number		3
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Output    	r_w.Q               	3
-Fanin Output    	data_vld.Q          	1
-Fanin Node      	inst_ack_out.Q      	2
-END
-
-// Signal Name: data_out_3_.AR
-// Type: Output_reg
-BEGIN data_out_3_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: data_out_2_.D
-// Type: Output_reg
-BEGIN data_out_2_.D
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Node      	shift_2_.Q          	7
-END
-
-// Signal Name: data_out_2_.C
-// Type: Output_reg
-BEGIN data_out_2_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: data_out_2_.CE
-// Type: Output_reg
-BEGIN data_out_2_.CE
-Fanin Number		3
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Output    	r_w.Q               	3
-Fanin Output    	data_vld.Q          	1
-Fanin Node      	inst_ack_out.Q      	2
-END
-
-// Signal Name: data_out_2_.AR
-// Type: Output_reg
-BEGIN data_out_2_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: data_out_1_.D
-// Type: Output_reg
-BEGIN data_out_1_.D
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Node      	shift_1_.Q          	7
-END
-
-// Signal Name: data_out_1_.C
-// Type: Output_reg
-BEGIN data_out_1_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: data_out_1_.CE
-// Type: Output_reg
-BEGIN data_out_1_.CE
-Fanin Number		3
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Output    	r_w.Q               	3
-Fanin Output    	data_vld.Q          	1
-Fanin Node      	inst_ack_out.Q      	2
-END
-
-// Signal Name: data_out_1_.AR
-// Type: Output_reg
-BEGIN data_out_1_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: data_out_0_.D
-// Type: Output_reg
-BEGIN data_out_0_.D
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Node      	shift_0_.Q          	2
-END
-
-// Signal Name: data_out_0_.C
-// Type: Output_reg
-BEGIN data_out_0_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: data_out_0_.CE
-// Type: Output_reg
-BEGIN data_out_0_.CE
-Fanin Number		3
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Output    	r_w.Q               	3
-Fanin Output    	data_vld.Q          	1
-Fanin Node      	inst_ack_out.Q      	2
-END
-
-// Signal Name: data_out_0_.AR
-// Type: Output_reg
-BEGIN data_out_0_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: shift_0_.D
+// Signal Name: I0_inst_stop_reg.C
 // Type: Node_reg
-BEGIN shift_0_.D
-Fanin Number		3
+BEGIN I0_inst_stop_reg.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	OSCOUT.BLIF         	0
+END
+
+// Signal Name: I0_state_reg_2_.D
+// Type: Node_reg
+BEGIN I0_state_reg_2_.D
+Fanin Number		10
 Pterm Number		2
 Fanin per Macrocell	N/A
 Cluster PT		N/A
 Logic Levels		1
-Fanin Input     	sda_in.BLIF         	0
-Fanin Input     	data_in_0_.BLIF     	0
-Fanin Node      	sm_state_8_.Q       	2
+Fanin Node      	I0_bits_processed_reg_0_.Q	4
+Fanin Node      	I0_bits_processed_reg_1_.Q	2
+Fanin Node      	I0_bits_processed_reg_2_.Q	3
+Fanin Node      	I0_bits_processed_reg_3_.Q	4
+Fanin Node      	I0_inst_stop_reg.Q  	1
+Fanin Node      	I0_state_reg_2_.Q   	2
+Fanin Node      	I0_inst_scl_rising_reg.Q	1
+Fanin Node      	I0_inst_scl_falling_reg.Q	1
+Fanin Node      	I0_inst_start_reg.Q 	1
+Fanin Node      	I0_state_reg_3_.Q   	5
 END
 
-// Signal Name: shift_0_.C
+// Signal Name: I0_state_reg_2_.C
 // Type: Node_reg
-BEGIN shift_0_.C
+BEGIN I0_state_reg_2_.C
 Fanin Number		1
 Pterm Number		1
 Fanin per Macrocell	N/A
 Cluster PT		N/A
 Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
+Fanin Input     	OSCOUT.BLIF         	0
 END
 
-// Signal Name: shift_0_.CE-
+// Signal Name: I0_inst_scl_rising_reg.D
 // Type: Node_reg
-BEGIN shift_0_.CE
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		2
-Fanin Node      	shift_0__0.BLIF     	5
-END
-
-// Signal Name: shift_0_.AR
-// Type: Node_reg
-BEGIN shift_0_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: inst_sda_f.D
-// Type: Node_reg
-BEGIN inst_sda_f.D
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	sda_in.BLIF         	0
-END
-
-// Signal Name: inst_sda_f.C
-// Type: Node_reg
-BEGIN inst_sda_f.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Node      	sda_clk.BLIF        	2
-END
-
-// Signal Name: inst_sda_f.AR
-// Type: Node_reg
-BEGIN inst_sda_f.AR
-Fanin Number		2
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	sda_in.BLIF         	0
-Fanin Node      	start_async_rst.BLIF	1
-END
-
-// Signal Name: inst_sda_f.AP
-// Type: Node_reg
-BEGIN inst_sda_f.AP
-Fanin Number		2
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	sda_in.BLIF         	0
-Fanin Node      	start_async_rst.BLIF	1
-END
-
-// Signal Name: sm_state_0_.D
-// Type: Node_reg
-BEGIN sm_state_0_.D
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Node      	sm_state_1_.Q       	1
-END
-
-// Signal Name: sm_state_0_.C
-// Type: Node_reg
-BEGIN sm_state_0_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: sm_state_0_.AR
-// Type: Node_reg
-BEGIN sm_state_0_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: shift_6_.D.X1
-// Type: Node_reg
-BEGIN shift_6_.D.X1
-Fanin Number		19
-Pterm Number		7
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Input     	data_in_6_.BLIF     	0
-Fanin Node      	sm_state_0_.Q       	1
-Fanin Node      	shift_6_.Q          	7
-Fanin Node      	sm_state_9_.Q       	1
-Fanin Node      	sm_state_8_.Q       	2
-Fanin Node      	sm_state_10_.Q      	1
-Fanin Node      	sm_state_1_.Q       	1
-Fanin Node      	sm_state_15_.Q      	1
-Fanin Node      	sm_state_14_.Q      	1
-Fanin Node      	sm_state_13_.Q      	1
-Fanin Node      	sm_state_12_.Q      	1
-Fanin Node      	sm_state_11_.Q      	1
-Fanin Node      	sm_state_7_.Q       	1
-Fanin Node      	sm_state_6_.Q       	1
-Fanin Node      	sm_state_5_.Q       	1
-Fanin Node      	sm_state_4_.Q       	1
-Fanin Node      	sm_state_3_.Q       	1
-Fanin Node      	sm_state_2_.Q       	1
-Fanin Node      	shift_5_.Q          	7
-END
-
-// Signal Name: shift_6_.D.X2
-// Type: Node_reg
-BEGIN shift_6_.D.X2
+BEGIN I0_inst_scl_rising_reg.D
 Fanin Number		2
 Pterm Number		1
 Fanin per Macrocell	N/A
 Cluster PT		N/A
 Logic Levels		1
-Fanin Node      	sm_state_0_.Q       	1
-Fanin Node      	shift_5_.Q          	7
+Fanin Node      	I0_inst_scl_pre_internal.Q	1
+Fanin Node      	I0_inst_scl_prev_reg.Q	1
 END
 
-// Signal Name: shift_6_.C
+// Signal Name: I0_inst_scl_rising_reg.C
 // Type: Node_reg
-BEGIN shift_6_.C
+BEGIN I0_inst_scl_rising_reg.C
 Fanin Number		1
 Pterm Number		1
 Fanin per Macrocell	N/A
 Cluster PT		N/A
 Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
+Fanin Input     	OSCOUT.BLIF         	0
 END
 
-// Signal Name: shift_6_.CE-
+// Signal Name: I0_state_reg_4_.T
 // Type: Node_reg
-BEGIN shift_6_.CE
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		2
-Fanin Node      	shift_0__0.BLIF     	5
-END
-
-// Signal Name: shift_6_.AR
-// Type: Node_reg
-BEGIN shift_6_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: start_async_rst
-// Type: Node
-BEGIN start_async_rst
-Fanin Number		2
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-Fanin Node      	sm_state_16_.Q      	2
-END
-
-// Signal Name: sm_state_16_.D
-// Type: Node_reg
-BEGIN sm_state_16_.D
-Fanin Number		4
-Pterm Number		2
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Output    	start.Q             	1
-Fanin Output    	stop.Q              	1
-Fanin Node      	sm_state_17_.Q      	11
-Fanin Node      	sm_state_7_.Q       	1
-END
-
-// Signal Name: sm_state_16_.C
-// Type: Node_reg
-BEGIN sm_state_16_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: sm_state_16_.AR
-// Type: Node_reg
-BEGIN sm_state_16_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: sda_clk
-// Type: Node
-BEGIN sda_clk
-Fanin Number		2
-Pterm Number		2
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	sda_in.BLIF         	0
-Fanin Node      	inst_sda_f.Q        	1
-END
-
-// Signal Name: sm_state_9_.D
-// Type: Node_reg
-BEGIN sm_state_9_.D
-Fanin Number		2
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Node      	shift_0_.Q          	2
-Fanin Node      	sm_state_10_.Q      	1
-END
-
-// Signal Name: sm_state_9_.C
-// Type: Node_reg
-BEGIN sm_state_9_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: sm_state_9_.AR
-// Type: Node_reg
-BEGIN sm_state_9_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: sm_state_8_.D
-// Type: Node_reg
-BEGIN sm_state_8_.D
-Fanin Number		3
-Pterm Number		2
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Input     	sda_in.BLIF         	0
-Fanin Node      	sm_state_0_.Q       	1
-Fanin Node      	sm_state_9_.Q       	1
-END
-
-// Signal Name: sm_state_8_.C
-// Type: Node_reg
-BEGIN sm_state_8_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: sm_state_8_.AR
-// Type: Node_reg
-BEGIN sm_state_8_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: inst_ack_out.D
-// Type: Node_reg
-BEGIN inst_ack_out.D
-Fanin Number		3
-Pterm Number		2
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Output    	r_w.Q               	3
-Fanin Node      	sm_state_0_.Q       	1
-Fanin Node      	sm_state_9_.Q       	1
-END
-
-// Signal Name: inst_ack_out.C
-// Type: Node_reg
-BEGIN inst_ack_out.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: inst_ack_out.AR
-// Type: Node_reg
-BEGIN inst_ack_out.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: inst_sda_en.D
-// Type: Node_reg
-BEGIN inst_sda_en.D
-Fanin Number		19
-Pterm Number		8
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Input     	data_in_7_.BLIF     	0
-Fanin Output    	r_w.Q               	3
-Fanin Node      	sm_state_0_.Q       	1
-Fanin Node      	shift_6_.Q          	7
-Fanin Node      	sm_state_9_.Q       	1
-Fanin Node      	sm_state_8_.Q       	2
-Fanin Node      	sm_state_10_.Q      	1
-Fanin Node      	sm_state_1_.Q       	1
-Fanin Node      	sm_state_15_.Q      	1
-Fanin Node      	sm_state_14_.Q      	1
-Fanin Node      	sm_state_13_.Q      	1
-Fanin Node      	sm_state_12_.Q      	1
-Fanin Node      	sm_state_11_.Q      	1
-Fanin Node      	sm_state_7_.Q       	1
-Fanin Node      	sm_state_6_.Q       	1
-Fanin Node      	sm_state_5_.Q       	1
-Fanin Node      	sm_state_4_.Q       	1
-Fanin Node      	sm_state_3_.Q       	1
-Fanin Node      	sm_state_2_.Q       	1
-END
-
-// Signal Name: inst_sda_en.C
-// Type: Node_reg
-BEGIN inst_sda_en.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: inst_sda_en.AR
-// Type: Node_reg
-BEGIN inst_sda_en.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: sm_state_10_.D
-// Type: Node_reg
-BEGIN sm_state_10_.D
-Fanin Number		2
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Node      	shift_0_.Q          	2
-Fanin Node      	sm_state_11_.Q      	1
-END
-
-// Signal Name: sm_state_10_.C
-// Type: Node_reg
-BEGIN sm_state_10_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: sm_state_10_.AR
-// Type: Node_reg
-BEGIN sm_state_10_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: sm_state_17_.D
-// Type: Node_reg
-BEGIN sm_state_17_.D
-Fanin Number		16
-Pterm Number		11
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Input     	ready.BLIF          	0
-Fanin Input     	sda_in.BLIF         	0
-Fanin Output    	start.Q             	1
-Fanin Output    	stop.Q              	1
-Fanin Node      	shift_0_.Q          	2
-Fanin Node      	sm_state_0_.Q       	1
-Fanin Node      	sm_state_16_.Q      	2
-Fanin Node      	sm_state_8_.Q       	2
-Fanin Node      	sm_state_10_.Q      	1
-Fanin Node      	sm_state_17_.Q      	11
-Fanin Node      	sm_state_15_.Q      	1
-Fanin Node      	sm_state_14_.Q      	1
-Fanin Node      	sm_state_13_.Q      	1
-Fanin Node      	sm_state_12_.Q      	1
-Fanin Node      	sm_state_11_.Q      	1
-Fanin Node      	sm_state_7_.Q       	1
-END
-
-// Signal Name: sm_state_17_.C
-// Type: Node_reg
-BEGIN sm_state_17_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: sm_state_17_.AP
-// Type: Node_reg
-BEGIN sm_state_17_.AP
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: sm_state_1_.D
-// Type: Node_reg
-BEGIN sm_state_1_.D
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Node      	sm_state_2_.Q       	1
-END
-
-// Signal Name: sm_state_1_.C
-// Type: Node_reg
-BEGIN sm_state_1_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: sm_state_1_.AR
-// Type: Node_reg
-BEGIN sm_state_1_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: sm_state_15_.D
-// Type: Node_reg
-BEGIN sm_state_15_.D
-Fanin Number		2
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Node      	shift_0_.Q          	2
-Fanin Node      	sm_state_16_.Q      	2
-END
-
-// Signal Name: sm_state_15_.C
-// Type: Node_reg
-BEGIN sm_state_15_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: sm_state_15_.AR
-// Type: Node_reg
-BEGIN sm_state_15_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: sm_state_14_.D
-// Type: Node_reg
-BEGIN sm_state_14_.D
-Fanin Number		2
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Node      	shift_0_.Q          	2
-Fanin Node      	sm_state_15_.Q      	1
-END
-
-// Signal Name: sm_state_14_.C
-// Type: Node_reg
-BEGIN sm_state_14_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: sm_state_14_.AR
-// Type: Node_reg
-BEGIN sm_state_14_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: sm_state_13_.D
-// Type: Node_reg
-BEGIN sm_state_13_.D
-Fanin Number		2
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Node      	shift_0_.Q          	2
-Fanin Node      	sm_state_14_.Q      	1
-END
-
-// Signal Name: sm_state_13_.C
-// Type: Node_reg
-BEGIN sm_state_13_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: sm_state_13_.AR
-// Type: Node_reg
-BEGIN sm_state_13_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: sm_state_12_.D
-// Type: Node_reg
-BEGIN sm_state_12_.D
-Fanin Number		2
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Node      	shift_0_.Q          	2
-Fanin Node      	sm_state_13_.Q      	1
-END
-
-// Signal Name: sm_state_12_.C
-// Type: Node_reg
-BEGIN sm_state_12_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: sm_state_12_.AR
-// Type: Node_reg
-BEGIN sm_state_12_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: sm_state_11_.D
-// Type: Node_reg
-BEGIN sm_state_11_.D
-Fanin Number		2
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Node      	shift_0_.Q          	2
-Fanin Node      	sm_state_12_.Q      	1
-END
-
-// Signal Name: sm_state_11_.C
-// Type: Node_reg
-BEGIN sm_state_11_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: sm_state_11_.AR
-// Type: Node_reg
-BEGIN sm_state_11_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: sm_state_7_.D
-// Type: Node_reg
-BEGIN sm_state_7_.D
-Fanin Number		2
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Input     	ready.BLIF          	0
-Fanin Node      	sm_state_8_.Q       	2
-END
-
-// Signal Name: sm_state_7_.C
-// Type: Node_reg
-BEGIN sm_state_7_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: sm_state_7_.AR
-// Type: Node_reg
-BEGIN sm_state_7_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: sm_state_6_.D
-// Type: Node_reg
-BEGIN sm_state_6_.D
-Fanin Number		3
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Output    	start.Q             	1
-Fanin Output    	stop.Q              	1
-Fanin Node      	sm_state_7_.Q       	1
-END
-
-// Signal Name: sm_state_6_.C
-// Type: Node_reg
-BEGIN sm_state_6_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: sm_state_6_.AR
-// Type: Node_reg
-BEGIN sm_state_6_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: sm_state_5_.D
-// Type: Node_reg
-BEGIN sm_state_5_.D
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Node      	sm_state_6_.Q       	1
-END
-
-// Signal Name: sm_state_5_.C
-// Type: Node_reg
-BEGIN sm_state_5_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: sm_state_5_.AR
-// Type: Node_reg
-BEGIN sm_state_5_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: sm_state_4_.D
-// Type: Node_reg
-BEGIN sm_state_4_.D
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Node      	sm_state_5_.Q       	1
-END
-
-// Signal Name: sm_state_4_.C
-// Type: Node_reg
-BEGIN sm_state_4_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: sm_state_4_.AR
-// Type: Node_reg
-BEGIN sm_state_4_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: sm_state_3_.D
-// Type: Node_reg
-BEGIN sm_state_3_.D
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Node      	sm_state_4_.Q       	1
-END
-
-// Signal Name: sm_state_3_.C
-// Type: Node_reg
-BEGIN sm_state_3_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: sm_state_3_.AR
-// Type: Node_reg
-BEGIN sm_state_3_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: sm_state_2_.D
-// Type: Node_reg
-BEGIN sm_state_2_.D
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Node      	sm_state_3_.Q       	1
-END
-
-// Signal Name: sm_state_2_.C
-// Type: Node_reg
-BEGIN sm_state_2_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: sm_state_2_.AR
-// Type: Node_reg
-BEGIN sm_state_2_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: shift_1_.D.X1
-// Type: Node_reg
-BEGIN shift_1_.D.X1
-Fanin Number		19
-Pterm Number		7
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Input     	data_in_1_.BLIF     	0
-Fanin Node      	shift_0_.Q          	2
-Fanin Node      	sm_state_0_.Q       	1
-Fanin Node      	sm_state_9_.Q       	1
-Fanin Node      	sm_state_8_.Q       	2
-Fanin Node      	sm_state_10_.Q      	1
-Fanin Node      	sm_state_1_.Q       	1
-Fanin Node      	sm_state_15_.Q      	1
-Fanin Node      	sm_state_14_.Q      	1
-Fanin Node      	sm_state_13_.Q      	1
-Fanin Node      	sm_state_12_.Q      	1
-Fanin Node      	sm_state_11_.Q      	1
-Fanin Node      	sm_state_7_.Q       	1
-Fanin Node      	sm_state_6_.Q       	1
-Fanin Node      	sm_state_5_.Q       	1
-Fanin Node      	sm_state_4_.Q       	1
-Fanin Node      	sm_state_3_.Q       	1
-Fanin Node      	sm_state_2_.Q       	1
-Fanin Node      	shift_1_.Q          	7
-END
-
-// Signal Name: shift_1_.D.X2
-// Type: Node_reg
-BEGIN shift_1_.D.X2
-Fanin Number		2
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Node      	shift_0_.Q          	2
-Fanin Node      	sm_state_0_.Q       	1
-END
-
-// Signal Name: shift_1_.C
-// Type: Node_reg
-BEGIN shift_1_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: shift_1_.CE-
-// Type: Node_reg
-BEGIN shift_1_.CE
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		2
-Fanin Node      	shift_0__0.BLIF     	5
-END
-
-// Signal Name: shift_1_.AR
-// Type: Node_reg
-BEGIN shift_1_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: shift_2_.D.X1
-// Type: Node_reg
-BEGIN shift_2_.D.X1
-Fanin Number		19
-Pterm Number		7
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Input     	data_in_2_.BLIF     	0
-Fanin Node      	sm_state_0_.Q       	1
-Fanin Node      	sm_state_9_.Q       	1
-Fanin Node      	sm_state_8_.Q       	2
-Fanin Node      	sm_state_10_.Q      	1
-Fanin Node      	sm_state_1_.Q       	1
-Fanin Node      	sm_state_15_.Q      	1
-Fanin Node      	sm_state_14_.Q      	1
-Fanin Node      	sm_state_13_.Q      	1
-Fanin Node      	sm_state_12_.Q      	1
-Fanin Node      	sm_state_11_.Q      	1
-Fanin Node      	sm_state_7_.Q       	1
-Fanin Node      	sm_state_6_.Q       	1
-Fanin Node      	sm_state_5_.Q       	1
-Fanin Node      	sm_state_4_.Q       	1
-Fanin Node      	sm_state_3_.Q       	1
-Fanin Node      	sm_state_2_.Q       	1
-Fanin Node      	shift_1_.Q          	7
-Fanin Node      	shift_2_.Q          	7
-END
-
-// Signal Name: shift_2_.D.X2
-// Type: Node_reg
-BEGIN shift_2_.D.X2
-Fanin Number		2
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Node      	sm_state_0_.Q       	1
-Fanin Node      	shift_1_.Q          	7
-END
-
-// Signal Name: shift_2_.C
-// Type: Node_reg
-BEGIN shift_2_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: shift_2_.CE-
-// Type: Node_reg
-BEGIN shift_2_.CE
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		2
-Fanin Node      	shift_0__0.BLIF     	5
-END
-
-// Signal Name: shift_2_.AR
-// Type: Node_reg
-BEGIN shift_2_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: shift_3_.D.X1
-// Type: Node_reg
-BEGIN shift_3_.D.X1
-Fanin Number		19
-Pterm Number		7
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Input     	data_in_3_.BLIF     	0
-Fanin Node      	sm_state_0_.Q       	1
-Fanin Node      	sm_state_9_.Q       	1
-Fanin Node      	sm_state_8_.Q       	2
-Fanin Node      	sm_state_10_.Q      	1
-Fanin Node      	sm_state_1_.Q       	1
-Fanin Node      	sm_state_15_.Q      	1
-Fanin Node      	sm_state_14_.Q      	1
-Fanin Node      	sm_state_13_.Q      	1
-Fanin Node      	sm_state_12_.Q      	1
-Fanin Node      	sm_state_11_.Q      	1
-Fanin Node      	sm_state_7_.Q       	1
-Fanin Node      	sm_state_6_.Q       	1
-Fanin Node      	sm_state_5_.Q       	1
-Fanin Node      	sm_state_4_.Q       	1
-Fanin Node      	sm_state_3_.Q       	1
-Fanin Node      	sm_state_2_.Q       	1
-Fanin Node      	shift_2_.Q          	7
-Fanin Node      	shift_3_.Q          	7
-END
-
-// Signal Name: shift_3_.D.X2
-// Type: Node_reg
-BEGIN shift_3_.D.X2
-Fanin Number		2
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Node      	sm_state_0_.Q       	1
-Fanin Node      	shift_2_.Q          	7
-END
-
-// Signal Name: shift_3_.C
-// Type: Node_reg
-BEGIN shift_3_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: shift_3_.CE-
-// Type: Node_reg
-BEGIN shift_3_.CE
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		2
-Fanin Node      	shift_0__0.BLIF     	5
-END
-
-// Signal Name: shift_3_.AR
-// Type: Node_reg
-BEGIN shift_3_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: shift_4_.D.X1
-// Type: Node_reg
-BEGIN shift_4_.D.X1
-Fanin Number		19
-Pterm Number		7
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Input     	data_in_4_.BLIF     	0
-Fanin Node      	sm_state_0_.Q       	1
-Fanin Node      	sm_state_9_.Q       	1
-Fanin Node      	sm_state_8_.Q       	2
-Fanin Node      	sm_state_10_.Q      	1
-Fanin Node      	sm_state_1_.Q       	1
-Fanin Node      	sm_state_15_.Q      	1
-Fanin Node      	sm_state_14_.Q      	1
-Fanin Node      	sm_state_13_.Q      	1
-Fanin Node      	sm_state_12_.Q      	1
-Fanin Node      	sm_state_11_.Q      	1
-Fanin Node      	sm_state_7_.Q       	1
-Fanin Node      	sm_state_6_.Q       	1
-Fanin Node      	sm_state_5_.Q       	1
-Fanin Node      	sm_state_4_.Q       	1
-Fanin Node      	sm_state_3_.Q       	1
-Fanin Node      	sm_state_2_.Q       	1
-Fanin Node      	shift_3_.Q          	7
-Fanin Node      	shift_4_.Q          	7
-END
-
-// Signal Name: shift_4_.D.X2
-// Type: Node_reg
-BEGIN shift_4_.D.X2
-Fanin Number		2
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Node      	sm_state_0_.Q       	1
-Fanin Node      	shift_3_.Q          	7
-END
-
-// Signal Name: shift_4_.C
-// Type: Node_reg
-BEGIN shift_4_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: shift_4_.CE-
-// Type: Node_reg
-BEGIN shift_4_.CE
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		2
-Fanin Node      	shift_0__0.BLIF     	5
-END
-
-// Signal Name: shift_4_.AR
-// Type: Node_reg
-BEGIN shift_4_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: shift_5_.D.X1
-// Type: Node_reg
-BEGIN shift_5_.D.X1
-Fanin Number		19
-Pterm Number		7
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Input     	data_in_5_.BLIF     	0
-Fanin Node      	sm_state_0_.Q       	1
-Fanin Node      	sm_state_9_.Q       	1
-Fanin Node      	sm_state_8_.Q       	2
-Fanin Node      	sm_state_10_.Q      	1
-Fanin Node      	sm_state_1_.Q       	1
-Fanin Node      	sm_state_15_.Q      	1
-Fanin Node      	sm_state_14_.Q      	1
-Fanin Node      	sm_state_13_.Q      	1
-Fanin Node      	sm_state_12_.Q      	1
-Fanin Node      	sm_state_11_.Q      	1
-Fanin Node      	sm_state_7_.Q       	1
-Fanin Node      	sm_state_6_.Q       	1
-Fanin Node      	sm_state_5_.Q       	1
-Fanin Node      	sm_state_4_.Q       	1
-Fanin Node      	sm_state_3_.Q       	1
-Fanin Node      	sm_state_2_.Q       	1
-Fanin Node      	shift_4_.Q          	7
-Fanin Node      	shift_5_.Q          	7
-END
-
-// Signal Name: shift_5_.D.X2
-// Type: Node_reg
-BEGIN shift_5_.D.X2
-Fanin Number		2
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Node      	sm_state_0_.Q       	1
-Fanin Node      	shift_4_.Q          	7
-END
-
-// Signal Name: shift_5_.C
-// Type: Node_reg
-BEGIN shift_5_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: shift_5_.CE-
-// Type: Node_reg
-BEGIN shift_5_.CE
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		2
-Fanin Node      	shift_0__0.BLIF     	5
-END
-
-// Signal Name: shift_5_.AR
-// Type: Node_reg
-BEGIN shift_5_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: shift_7_.D.X1
-// Type: Node_reg
-BEGIN shift_7_.D.X1
-Fanin Number		19
-Pterm Number		7
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Input     	data_in_7_.BLIF     	0
-Fanin Node      	sm_state_0_.Q       	1
-Fanin Node      	shift_6_.Q          	7
-Fanin Node      	sm_state_9_.Q       	1
-Fanin Node      	sm_state_8_.Q       	2
-Fanin Node      	sm_state_10_.Q      	1
-Fanin Node      	sm_state_1_.Q       	1
-Fanin Node      	sm_state_15_.Q      	1
-Fanin Node      	sm_state_14_.Q      	1
-Fanin Node      	sm_state_13_.Q      	1
-Fanin Node      	sm_state_12_.Q      	1
-Fanin Node      	sm_state_11_.Q      	1
-Fanin Node      	sm_state_7_.Q       	1
-Fanin Node      	sm_state_6_.Q       	1
-Fanin Node      	sm_state_5_.Q       	1
-Fanin Node      	sm_state_4_.Q       	1
-Fanin Node      	sm_state_3_.Q       	1
-Fanin Node      	sm_state_2_.Q       	1
-Fanin Node      	shift_7_.Q          	7
-END
-
-// Signal Name: shift_7_.D.X2
-// Type: Node_reg
-BEGIN shift_7_.D.X2
-Fanin Number		2
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		1
-Fanin Node      	sm_state_0_.Q       	1
-Fanin Node      	shift_6_.Q          	7
-END
-
-// Signal Name: shift_7_.C
-// Type: Node_reg
-BEGIN shift_7_.C
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	scl_in.BLIF         	0
-END
-
-// Signal Name: shift_7_.CE-
-// Type: Node_reg
-BEGIN shift_7_.CE
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		2
-Fanin Node      	shift_0__0.BLIF     	5
-END
-
-// Signal Name: shift_7_.AR
-// Type: Node_reg
-BEGIN shift_7_.AR
-Fanin Number		1
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-END
-
-// Signal Name: stop_0
-// Type: Node
-BEGIN stop_0
-Fanin Number		2
-Pterm Number		1
-Fanin per Macrocell	N/A
-Cluster PT		N/A
-Logic Levels		N/A
-Fanin Input     	XRESET.BLIF         	0
-Fanin Output    	start.Q             	1
-END
-
-// Signal Name: shift_0__0
-// Type: Node
-BEGIN shift_0__0
-Fanin Number		19
+BEGIN I0_state_reg_4_.T
+Fanin Number		12
 Pterm Number		5
 Fanin per Macrocell	N/A
 Cluster PT		N/A
-Logic Levels		N/A
-Fanin Output    	start.Q             	1
-Fanin Output    	r_w.Q               	3
-Fanin Node      	sm_state_0_.Q       	1
-Fanin Node      	sm_state_9_.Q       	1
-Fanin Node      	sm_state_8_.Q       	2
-Fanin Node      	sm_state_10_.Q      	1
-Fanin Node      	sm_state_17_.Q      	11
-Fanin Node      	sm_state_1_.Q       	1
-Fanin Node      	sm_state_15_.Q      	1
-Fanin Node      	sm_state_14_.Q      	1
-Fanin Node      	sm_state_13_.Q      	1
-Fanin Node      	sm_state_12_.Q      	1
-Fanin Node      	sm_state_11_.Q      	1
-Fanin Node      	sm_state_7_.Q       	1
-Fanin Node      	sm_state_6_.Q       	1
-Fanin Node      	sm_state_5_.Q       	1
-Fanin Node      	sm_state_4_.Q       	1
-Fanin Node      	sm_state_3_.Q       	1
-Fanin Node      	sm_state_2_.Q       	1
+Logic Levels		1
+Fanin Node      	I0_bits_processed_reg_0_.Q	4
+Fanin Node      	I0_bits_processed_reg_1_.Q	2
+Fanin Node      	I0_bits_processed_reg_2_.Q	3
+Fanin Node      	I0_bits_processed_reg_3_.Q	4
+Fanin Node      	I0_inst_stop_reg.Q  	1
+Fanin Node      	I0_state_reg_4_.Q   	5
+Fanin Node      	I0_inst_continue_reg.Q	1
+Fanin Node      	I0_inst_scl_falling_reg.Q	1
+Fanin Node      	I0_inst_start_reg.Q 	1
+Fanin Node      	I0_state_reg_5_.Q   	3
+Fanin Node      	I0_state_reg_1_.Q   	3
+Fanin Node      	I0_inst_cmd_reg.Q   	1
 END
 
-// Design 'i2c_slave' used clock signal list:
-CLOCK	scl_in
-CLOCK	sda_in
+// Signal Name: I0_state_reg_4_.C
+// Type: Node_reg
+BEGIN I0_state_reg_4_.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	OSCOUT.BLIF         	0
+END
+
+// Signal Name: I0_state_reg_6_.D
+// Type: Node_reg
+BEGIN I0_state_reg_6_.D
+Fanin Number		8
+Pterm Number		3
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Node      	I0_bits_processed_reg_0_.Q	4
+Fanin Node      	I0_bits_processed_reg_1_.Q	2
+Fanin Node      	I0_bits_processed_reg_2_.Q	3
+Fanin Node      	I0_bits_processed_reg_3_.Q	4
+Fanin Node      	I0_inst_stop_reg.Q  	1
+Fanin Node      	I0_state_reg_6_.Q   	3
+Fanin Node      	I0_inst_scl_falling_reg.Q	1
+Fanin Node      	I0_inst_start_reg.Q 	1
+END
+
+// Signal Name: I0_state_reg_6_.C
+// Type: Node_reg
+BEGIN I0_state_reg_6_.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	OSCOUT.BLIF         	0
+END
+
+// Signal Name: I0_inst_continue_reg.D
+// Type: Node_reg
+BEGIN I0_inst_continue_reg.D
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Node      	I0_inst_sda_pre_internal.Q	1
+END
+
+// Signal Name: I0_inst_continue_reg.C
+// Type: Node_reg
+BEGIN I0_inst_continue_reg.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	OSCOUT.BLIF         	0
+END
+
+// Signal Name: I0_inst_continue_reg.CE
+// Type: Node_reg
+BEGIN I0_inst_continue_reg.CE
+Fanin Number		2
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Node      	I0_state_reg_2_.Q   	2
+Fanin Node      	I0_inst_scl_rising_reg.Q	1
+END
+
+// Signal Name: I0_inst_scl_falling_reg.D
+// Type: Node_reg
+BEGIN I0_inst_scl_falling_reg.D
+Fanin Number		2
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Node      	I0_inst_scl_pre_internal.Q	1
+Fanin Node      	I0_inst_scl_prev_reg.Q	1
+END
+
+// Signal Name: I0_inst_scl_falling_reg.C
+// Type: Node_reg
+BEGIN I0_inst_scl_falling_reg.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	OSCOUT.BLIF         	0
+END
+
+// Signal Name: I0_addr_reg_2_.D
+// Type: Node_reg
+BEGIN I0_addr_reg_2_.D
+Fanin Number		5
+Pterm Number		4
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Node      	I0_bits_processed_reg_0_.Q	4
+Fanin Node      	I0_bits_processed_reg_1_.Q	2
+Fanin Node      	I0_bits_processed_reg_2_.Q	3
+Fanin Node      	I0_inst_sda_pre_internal.Q	1
+Fanin Node      	I0_addr_reg_2_.Q    	4
+END
+
+// Signal Name: I0_addr_reg_2_.C
+// Type: Node_reg
+BEGIN I0_addr_reg_2_.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	OSCOUT.BLIF         	0
+END
+
+// Signal Name: I0_addr_reg_2_.CE
+// Type: Node_reg
+BEGIN I0_addr_reg_2_.CE
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		2
+Fanin Node      	I0_addr_reg_0__0.BLIF	3
+END
+
+// Signal Name: I0_addr_reg_4_.D
+// Type: Node_reg
+BEGIN I0_addr_reg_4_.D
+Fanin Number		5
+Pterm Number		4
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Node      	I0_bits_processed_reg_0_.Q	4
+Fanin Node      	I0_bits_processed_reg_1_.Q	2
+Fanin Node      	I0_bits_processed_reg_2_.Q	3
+Fanin Node      	I0_inst_sda_pre_internal.Q	1
+Fanin Node      	I0_addr_reg_4_.Q    	4
+END
+
+// Signal Name: I0_addr_reg_4_.C
+// Type: Node_reg
+BEGIN I0_addr_reg_4_.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	OSCOUT.BLIF         	0
+END
+
+// Signal Name: I0_addr_reg_4_.CE
+// Type: Node_reg
+BEGIN I0_addr_reg_4_.CE
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		2
+Fanin Node      	I0_addr_reg_0__0.BLIF	3
+END
+
+// Signal Name: I0_addr_reg_6_.D
+// Type: Node_reg
+BEGIN I0_addr_reg_6_.D
+Fanin Number		5
+Pterm Number		4
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Node      	I0_bits_processed_reg_0_.Q	4
+Fanin Node      	I0_bits_processed_reg_1_.Q	2
+Fanin Node      	I0_bits_processed_reg_2_.Q	3
+Fanin Node      	I0_inst_sda_pre_internal.Q	1
+Fanin Node      	I0_addr_reg_6_.Q    	4
+END
+
+// Signal Name: I0_addr_reg_6_.C
+// Type: Node_reg
+BEGIN I0_addr_reg_6_.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	OSCOUT.BLIF         	0
+END
+
+// Signal Name: I0_addr_reg_6_.CE
+// Type: Node_reg
+BEGIN I0_addr_reg_6_.CE
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		2
+Fanin Node      	I0_addr_reg_0__0.BLIF	3
+END
+
+// Signal Name: I0_inst_start_reg.D
+// Type: Node_reg
+BEGIN I0_inst_start_reg.D
+Fanin Number		4
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Node      	I0_inst_sda_pre_internal.Q	1
+Fanin Node      	I0_inst_scl_pre_internal.Q	1
+Fanin Node      	I0_inst_scl_prev_reg.Q	1
+Fanin Node      	I0_inst_sda_prev_reg.Q	1
+END
+
+// Signal Name: I0_inst_start_reg.C
+// Type: Node_reg
+BEGIN I0_inst_start_reg.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	OSCOUT.BLIF         	0
+END
+
+// Signal Name: I0_state_reg_3_.T
+// Type: Node_reg
+BEGIN I0_state_reg_3_.T
+Fanin Number		12
+Pterm Number		5
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Node      	I0_bits_processed_reg_0_.Q	4
+Fanin Node      	I0_bits_processed_reg_1_.Q	2
+Fanin Node      	I0_bits_processed_reg_2_.Q	3
+Fanin Node      	I0_bits_processed_reg_3_.Q	4
+Fanin Node      	I0_inst_stop_reg.Q  	1
+Fanin Node      	I0_inst_continue_reg.Q	1
+Fanin Node      	I0_inst_scl_falling_reg.Q	1
+Fanin Node      	I0_inst_start_reg.Q 	1
+Fanin Node      	I0_state_reg_3_.Q   	5
+Fanin Node      	I0_state_reg_5_.Q   	3
+Fanin Node      	I0_state_reg_1_.Q   	3
+Fanin Node      	I0_inst_cmd_reg.Q   	1
+END
+
+// Signal Name: I0_state_reg_3_.C
+// Type: Node_reg
+BEGIN I0_state_reg_3_.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	OSCOUT.BLIF         	0
+END
+
+// Signal Name: I0_inst_sda_wen_reg.D
+// Type: Node_reg
+BEGIN I0_inst_sda_wen_reg.D
+Fanin Number		2
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Node      	I0_state_reg_3_.Q   	5
+Fanin Node      	I0_state_reg_5_.Q   	3
+END
+
+// Signal Name: I0_inst_sda_wen_reg.C
+// Type: Node_reg
+BEGIN I0_inst_sda_wen_reg.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	OSCOUT.BLIF         	0
+END
+
+// Signal Name: I0_state_reg_5_.D
+// Type: Node_reg
+BEGIN I0_state_reg_5_.D
+Fanin Number		17
+Pterm Number		3
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Node      	I0_bits_processed_reg_0_.Q	4
+Fanin Node      	I0_bits_processed_reg_1_.Q	2
+Fanin Node      	I0_bits_processed_reg_2_.Q	3
+Fanin Node      	I0_bits_processed_reg_3_.Q	4
+Fanin Node      	I0_addr_reg_0_.Q    	3
+Fanin Node      	I0_addr_reg_1_.Q    	3
+Fanin Node      	I0_addr_reg_3_.Q    	3
+Fanin Node      	I0_addr_reg_5_.Q    	4
+Fanin Node      	I0_inst_stop_reg.Q  	1
+Fanin Node      	I0_state_reg_4_.Q   	5
+Fanin Node      	I0_state_reg_6_.Q   	3
+Fanin Node      	I0_inst_scl_falling_reg.Q	1
+Fanin Node      	I0_addr_reg_2_.Q    	4
+Fanin Node      	I0_addr_reg_4_.Q    	4
+Fanin Node      	I0_addr_reg_6_.Q    	4
+Fanin Node      	I0_inst_start_reg.Q 	1
+Fanin Node      	I0_state_reg_5_.Q   	3
+END
+
+// Signal Name: I0_state_reg_5_.C
+// Type: Node_reg
+BEGIN I0_state_reg_5_.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	OSCOUT.BLIF         	0
+END
+
+// Signal Name: I0_state_reg_1_.D
+// Type: Node_reg
+BEGIN I0_state_reg_1_.D
+Fanin Number		6
+Pterm Number		3
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Node      	I0_inst_stop_reg.Q  	1
+Fanin Node      	I0_state_reg_2_.Q   	2
+Fanin Node      	I0_inst_scl_rising_reg.Q	1
+Fanin Node      	I0_inst_scl_falling_reg.Q	1
+Fanin Node      	I0_inst_start_reg.Q 	1
+Fanin Node      	I0_state_reg_1_.Q   	3
+END
+
+// Signal Name: I0_state_reg_1_.C
+// Type: Node_reg
+BEGIN I0_state_reg_1_.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	OSCOUT.BLIF         	0
+END
+
+// Signal Name: I0_inst_cmd_reg.D
+// Type: Node_reg
+BEGIN I0_inst_cmd_reg.D
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Node      	I0_inst_sda_pre_internal.Q	1
+END
+
+// Signal Name: I0_inst_cmd_reg.C
+// Type: Node_reg
+BEGIN I0_inst_cmd_reg.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	OSCOUT.BLIF         	0
+END
+
+// Signal Name: I0_inst_cmd_reg.CE
+// Type: Node_reg
+BEGIN I0_inst_cmd_reg.CE
+Fanin Number		6
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Node      	I0_bits_processed_reg_0_.Q	4
+Fanin Node      	I0_bits_processed_reg_1_.Q	2
+Fanin Node      	I0_bits_processed_reg_2_.Q	3
+Fanin Node      	I0_bits_processed_reg_3_.Q	4
+Fanin Node      	I0_inst_scl_rising_reg.Q	1
+Fanin Node      	I0_state_reg_6_.Q   	3
+END
+
+// Signal Name: I0_bits_processed_reg_0__0
+// Type: Node
+BEGIN I0_bits_processed_reg_0__0
+Fanin Number		11
+Pterm Number		7
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Node      	I0_bits_processed_reg_0_.Q	4
+Fanin Node      	I0_bits_processed_reg_1_.Q	2
+Fanin Node      	I0_bits_processed_reg_2_.Q	3
+Fanin Node      	I0_bits_processed_reg_3_.Q	4
+Fanin Node      	I0_inst_stop_reg.Q  	1
+Fanin Node      	I0_inst_scl_rising_reg.Q	1
+Fanin Node      	I0_state_reg_4_.Q   	5
+Fanin Node      	I0_state_reg_6_.Q   	3
+Fanin Node      	I0_inst_scl_falling_reg.Q	1
+Fanin Node      	I0_inst_start_reg.Q 	1
+Fanin Node      	I0_state_reg_3_.Q   	5
+END
+
+// Signal Name: I0_addr_reg_0__0
+// Type: Node
+BEGIN I0_addr_reg_0__0
+Fanin Number		6
+Pterm Number		3
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Node      	I0_bits_processed_reg_0_.Q	4
+Fanin Node      	I0_bits_processed_reg_1_.Q	2
+Fanin Node      	I0_bits_processed_reg_2_.Q	3
+Fanin Node      	I0_bits_processed_reg_3_.Q	4
+Fanin Node      	I0_inst_scl_rising_reg.Q	1
+Fanin Node      	I0_state_reg_6_.Q   	3
+END
+
+// Design 'io_pins' used clock signal list:
 

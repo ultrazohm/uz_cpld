@@ -1,0 +1,12 @@
+JDF B
+// Created by Version 1.8 
+PROJECT 4KZE_verilog
+DESIGN 4kze_verilog Normal
+DEVKIT LC4128ZE-5TN100C
+ENTRY Pure Verilog HDL
+TESTFIXTURE ..\..\..\testbench\verilog\i2c_peri_tf.v
+MODULE ..\..\..\source\verilog\i2c_slave.v
+MODSTYLE i2c_slave Normal
+SYNTHESIS_TOOL Synplify
+SIMULATOR_TOOL ActiveHDL
+TOPMODULE i2c_slave

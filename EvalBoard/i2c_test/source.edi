@@ -1,0 +1,98 @@
+(edif source
+  (edifVersion 2 0 0)
+  (edifLevel 0)
+  (keywordMap (keywordLevel 0))
+  (status
+    (written
+      (timeStamp 2021 12 28 17 4 34)
+      (author "Synopsys, Inc.")
+      (program "Synplify Pro" (version "I-2014.03LC , mapper maplat, Build 923R"))
+     )
+   )
+  (external ispmach4s
+    (edifLevel 0)
+    (technology (numberDefinition ))
+    (cell OBUF (cellType GENERIC)
+       (view prim (viewType NETLIST)
+         (interface
+           (port O (direction OUTPUT))
+           (port I0 (direction INPUT))
+         )
+       )
+    )
+  )
+  (library work
+    (edifLevel 0)
+    (technology (numberDefinition ))
+    (cell source (cellType GENERIC)
+       (view rtl (viewType NETLIST)
+         (interface
+           (port y0 (direction OUTPUT))
+           (port y1 (direction OUTPUT))
+           (port y2 (direction OUTPUT))
+           (port y3 (direction OUTPUT))
+           (port y4 (direction OUTPUT))
+           (port y5 (direction OUTPUT))
+           (port y6 (direction OUTPUT))
+           (port y7 (direction OUTPUT))
+         )
+         (contents
+          (instance y0 (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance y1 (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance y2 (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance y3 (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance y4 (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance y5 (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance y6 (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance y7 (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (net VCC (joined
+           (portRef I0 (instanceRef y2))
+           (portRef I0 (instanceRef y3))
+           (portRef I0 (instanceRef y4))
+           (portRef I0 (instanceRef y5))
+          ))
+          (net GND (joined
+           (portRef I0 (instanceRef y0))
+           (portRef I0 (instanceRef y1))
+           (portRef I0 (instanceRef y6))
+           (portRef I0 (instanceRef y7))
+          ))
+          (net y0 (joined
+           (portRef O (instanceRef y0))
+           (portRef y0)
+          ))
+          (net y1 (joined
+           (portRef O (instanceRef y1))
+           (portRef y1)
+          ))
+          (net y2 (joined
+           (portRef O (instanceRef y2))
+           (portRef y2)
+          ))
+          (net y3 (joined
+           (portRef O (instanceRef y3))
+           (portRef y3)
+          ))
+          (net y4 (joined
+           (portRef O (instanceRef y4))
+           (portRef y4)
+          ))
+          (net y5 (joined
+           (portRef O (instanceRef y5))
+           (portRef y5)
+          ))
+          (net y6 (joined
+           (portRef O (instanceRef y6))
+           (portRef y6)
+          ))
+          (net y7 (joined
+           (portRef O (instanceRef y7))
+           (portRef y7)
+          ))
+         )
+        (property orig_inst_of (string "source"))
+       )
+    )
+  )
+  (design source (cellRef source (libraryRef work)))
+)

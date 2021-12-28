@@ -1,0 +1,67 @@
+[WINDOWS]
+MAIN_WINDOW_POSITION=3331,196,4611,996
+LEFT_PANE_WIDTH=424
+CHILD_FRAME_STATE=Maximal
+CHILD_WINDOW_SIZE=1280,574
+CHILD_WINDOW_POS=-8,-31
+[GUI SETTING]
+Remember_Setting=1
+Open_PV_Opt=2
+Open_PV=0
+PV_IS_ACTIVE=0
+ACTIVE_SHEET=Pin Attributes
+Show_Def_Opt=2
+Show_Def_Val=1
+Expand_All_Column=0
+Show_All_Signals=0
+Sort_Type=0
+Sort_Direction=0
+Skip_Next_Pin=0
+[Pin Attributes]
+sort_column_-1=Bank
+Type=52,no
+Signal/Group Name=143,no
+Group Members=115,no
+GLB=45,no
+Macrocell=87,no
+Pin=45,no
+Bank=52,no
+IO Types=80,no
+Pull=52,no
+Slewrate=80,no
+Input registers=129,no
+Register powerup=136,no
+[Nodal Constraints]
+sort_column_1=Max_fanin
+Type=52,no
+Signal/Group Name=143,no
+Max_pterm_collapse=150,no
+Max_pterm_split=129,no
+Max_fanin=87,no
+Xor_synthesis=115,no
+Fmax_logic_level=136,no
+Clock_enable_optimization=199,no
+[Global Constraints]
+Constraint Name=251,no
+Constraint Value=136,no
+[Resource Reservation]
+sort_column_1=IO Types
+Segment=73,no
+GLB=45,no
+Macrocell=87,no
+Pin=45,no
+State=59,no
+IO Types=80,no
+[Timing Constraints]
+Timing Constraint type=178,no
+Source=66,no
+Destination=101,no
+Delay(ns)=87,no
+Frequency(MHz)=122,no
+[OSCTIMER Attributes]
+Type=52,no
+OSC Clock=87,no
+Timer Clock=101,no
+OSC Disable=101,no
+Timer Reset=101,no
+Timer Divide=108,no

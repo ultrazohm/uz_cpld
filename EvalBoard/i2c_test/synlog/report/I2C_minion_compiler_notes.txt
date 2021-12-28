@@ -1,0 +1,7 @@
+@N|Running in 64-bit mode
+@N: CD720 :"C:\ispLEVER_Classic2_1\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":12:7:12:16|Top entity is set to I2C_minion.
+@N: CD630 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":12:7:12:16|Synthesizing work.i2c_minion.arch 
+@N: CD231 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":35:15:35:16|Using onehot encoding for type state_t (idle="10000000")
+@N: CL201 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":160:4:160:5|Trying to extract state machine for register state_reg
+

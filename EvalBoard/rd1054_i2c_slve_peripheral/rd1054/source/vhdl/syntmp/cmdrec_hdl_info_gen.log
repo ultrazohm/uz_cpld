@@ -1,0 +1,7 @@
+C:\ispLEVER_Classic2_1\synpbase\bin64\c_vhdl.exe  -osyn  C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\synwork\source_hdl_.srs  -top  source  -prodtype  synplify_pro  -nostructver -encrypt  -pro  -dmgen  C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\dm  -lite -compiler_compatible -ui -fid2 -ram -sharing on -ll 2000 -autosm -ignore_undefined_lib  -lib work C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\source.vhd -loga  C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\syntax.log  -fileorder  C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\syntmp\hdlorder.tcl 
+rc:0 success:1
+C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\synwork\source_hdl_.srs|o|0|0
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\source.vhd|i|1640611345|559
+C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\syntax.log|o|1640697447|1121
+C:\ispLEVER_Classic2_1\synpbase\bin\c_vhdl.exe|i|1401220298|2046976
+C:\ispLEVER_Classic2_1\synpbase\bin64\c_vhdl.exe|i|1401220504|5533184

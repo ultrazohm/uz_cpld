@@ -1,0 +1,4 @@
+@E: CS187 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\sourceclocked.vhd":28:4:28:4|Expecting <=
+@E: CD424 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\sourceclocked.vhd":43:16:43:16|Expecting architecture identifier
+@E|Parse errors encountered - exiting
+

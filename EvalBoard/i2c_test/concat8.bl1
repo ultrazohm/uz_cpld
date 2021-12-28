@@ -1,0 +1,60 @@
+#$ TOOL ispLEVER Classic 2.1.00.02.49.20
+#$ DATE Tue Dec 28 18:14:30 2021
+#$ MODULE concat8
+#$ PINS 16 y_7_ u0 u1 u2 u3 u4 u5 u6 u7 y_6_ y_5_ y_4_ y_3_ y_2_ y_1_ y_0_
+#$ NODES 8 u0_c u1_c u2_c u3_c u4_c u5_c u6_c u7_c
+.model concat8
+.inputs u0.BLIF u1.BLIF u2.BLIF u3.BLIF u4.BLIF u5.BLIF u6.BLIF u7.BLIF \
+u0_c.BLIF u1_c.BLIF u2_c.BLIF u3_c.BLIF u4_c.BLIF u5_c.BLIF u6_c.BLIF \
+u7_c.BLIF
+.outputs y_7_ y_6_ y_5_ y_4_ y_3_ y_2_ y_1_ y_0_ u0_c u1_c u2_c u3_c u4_c u5_c \
+u6_c u7_c
+.names u7_c.BLIF y_7_
+1 1
+0 0
+.names u6_c.BLIF y_6_
+1 1
+0 0
+.names u5_c.BLIF y_5_
+1 1
+0 0
+.names u4_c.BLIF y_4_
+1 1
+0 0
+.names u3_c.BLIF y_3_
+1 1
+0 0
+.names u2_c.BLIF y_2_
+1 1
+0 0
+.names u1_c.BLIF y_1_
+1 1
+0 0
+.names u0_c.BLIF y_0_
+1 1
+0 0
+.names u0.BLIF u0_c
+1 1
+0 0
+.names u1.BLIF u1_c
+1 1
+0 0
+.names u2.BLIF u2_c
+1 1
+0 0
+.names u3.BLIF u3_c
+1 1
+0 0
+.names u4.BLIF u4_c
+1 1
+0 0
+.names u5.BLIF u5_c
+1 1
+0 0
+.names u6.BLIF u6_c
+1 1
+0 0
+.names u7.BLIF u7_c
+1 1
+0 0
+.end

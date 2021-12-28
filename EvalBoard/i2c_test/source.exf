@@ -1,0 +1,18 @@
+Section Cross Reference File
+Design 'source' created Tue Dec 28 17:04:39 2021
+   Type              New Name                               Original Name
+// ----------------------------------------------------------------------
+   Net                 vcc_n_n                                       VCC
+   Net                 gnd_n_n                                       GND
+End
+Section Type      Name
+// ----------------------------------------------------------------------
+        Output     y0
+        Output     y1
+        Output     y2
+        Output     y3
+        Output     y4
+        Output     y5
+        Output     y6
+        Output     y7
+End

@@ -1,0 +1,1 @@
+-global -lci i2c_test.lct -touch i2c_test.imp

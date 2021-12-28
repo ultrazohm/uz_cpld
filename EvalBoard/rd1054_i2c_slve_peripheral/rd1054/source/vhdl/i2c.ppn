@@ -1,0 +1,60 @@
+//
+// Software Version :  ispLEVER Classic 2.1.00.02.49.20  
+// Project Name	    :  i2c
+// Targeted Device  :  LC4256ZE-5TN144C
+// Date             :  Tue Dec 28 14:11:14 2021
+//
+                      GND          SYS           1
+                   VCCIO0          SYS           3
+                   GNDIO0          SYS           10
+               data_in_5_          IN            17
+                   VCCIO0          SYS           19
+               data_in_4_          IN            20
+                    start          OUT           21
+                   GNDIO0          SYS           27
+                     stop          OUT           28
+                   VCCIO0          SYS           34
+                      VCC          SYS           36
+                      GND          SYS           37
+               data_in_3_          IN            38
+               data_in_2_          IN            45
+                   GNDIO0          SYS           46
+                   VCCIO0          SYS           47
+                   XRESET          IN            54
+                   GNDIO1          SYS           55
+                    ready          IN            56
+                      VCC          SYS           57
+              data_out_6_          OUT           58
+              data_out_5_          OUT           59
+              data_out_7_          OUT           62
+                   VCCIO1          SYS           64
+                   GNDIO1          SYS           65
+               data_in_1_          IN            72
+                      GND          SYS           73
+                   VCCIO1          SYS           75
+                 data_vld          OUT           80
+                   GNDIO1          SYS           82
+               data_in_0_          IN            89
+                   VCCIO1          SYS           91
+                   scl_oe          OUT           97
+                   GNDIO1          SYS           99
+                   VCCIO1          SYS           106
+                      VCC          SYS           108
+                      GND          SYS           109
+                   GNDIO1          SYS           118
+                   VCCIO1          SYS           119
+                      r_w          OUT           125
+               data_in_6_          IN            126
+                   GNDIO0          SYS           127
+               data_in_7_          IN            128
+                      VCC          SYS           129
+                   scl_in          IN            130
+                   sda_in          IN            131
+              data_out_0_          OUT           132
+              data_out_1_          OUT           134
+                   VCCIO0          SYS           136
+                   GNDIO0          SYS           137
+              data_out_3_          OUT           138
+              data_out_2_          OUT           139
+                   sda_oe          OUT           140
+              data_out_4_          OUT           142

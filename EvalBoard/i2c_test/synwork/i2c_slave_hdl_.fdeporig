@@ -1,5 +1,5 @@
 #defaultlanguage:vhdl
-#OPTIONS:"|-top|i2c_slave|-prodtype|synplify_pro|-nostructver|-encrypt|-pro|-lite|-compiler_compatible|-ui|-fid2|-ram|-sharing|on|-ll|2000|-autosm|-ignore_undefined_lib|-lib|work|-fileorder|C:\\zynqultra\\60_software\\cpld_lattice\\evalboard\\i2c_test\\syntmp\\hdlorder.tcl"
+#OPTIONS:"|-top|i2c_slave|-prodtype|synplify_pro|-nostructver|-encrypt|-pro|-lite|-compiler_compatible|-ui|-fid2|-ram|-sharing|on|-ll|2000|-autosm|-ignore_undefined_lib|-lib|work|-fileorder|C:\\git\\ultrazohm\\software\\cpld_lattice\\evalboard\\i2c_test\\syntmp\\hdlorder.tcl"
 #CUR:"C:\\ispLEVER_Classic2_1\\synpbase\\bin64\\c_vhdl.exe":1401220504
 #CUR:"C:\\ispLEVER_Classic2_1\\synpbase\\lib\\vhd\\location.map":1310453774
 #CUR:"C:\\ispLEVER_Classic2_1\\synpbase\\lib\\vhd\\std.vhd":1401220122
@@ -9,8 +9,8 @@
 #CUR:"C:\\ispLEVER_Classic2_1\\synpbase\\lib\\vhd\\umr_capim.vhd":1401220368
 #CUR:"C:\\ispLEVER_Classic2_1\\synpbase\\lib\\vhd\\arith.vhd":1401220122
 #CUR:"C:\\ispLEVER_Classic2_1\\synpbase\\lib\\vhd\\unsigned.vhd":1401220122
-#CUR:"C:\\zynqultra\\60_software\\cpld_lattice\\evalboard\\i2c_test\\i2c_slave.vhd":1426688478
-0 "C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\i2c_slave.vhd" vhdl
+#CUR:"C:\\git\\ultrazohm\\software\\cpld_lattice\\evalboard\\i2c_test\\uz_i2c_slave_D1.vhd":1640709967
+0 "C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd" vhdl
 
 # Dependency Lists (Uses list)
 0 -1

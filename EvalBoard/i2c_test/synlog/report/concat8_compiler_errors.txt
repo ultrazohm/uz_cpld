@@ -1,0 +1,3 @@
+@E: CD169 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\concat8.vhd":19:0:19:6|Illegal declaration
+@E|Parse errors encountered - exiting
+

@@ -1,0 +1,1 @@
+-nodal -src i2c.bl5 -type BLIF -presrc i2c.bl3 -crf i2c.crf -sif i2c.sif -devfile "C:/ispLEVER_Classic2_1/ispcpld/dat/lc4k/m4e_256_96.dev" -lci i2c.lct

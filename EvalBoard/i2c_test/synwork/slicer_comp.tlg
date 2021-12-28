@@ -1,0 +1,32 @@
+@N: CD630 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\slicer.vhd":6:7:6:12|Synthesizing work.slicer.arch_slicer 
+Post processing for work.slicer.arch_slicer
+
+While running 64-bit - Windows build
+@E:Internal Error in c_vhdl.exe
+Stack trace
+===========
+00007FF6EAD8BED9
+00007FF6EAD8D2E5
+00007FF6EAD8D598
+00007FF6EAD8D611
+00007FF6EAEC6373
+00007FF6EAEE5DE7
+00007FF6EAEB6A80
+00007FF9DF1720CF
+00007FF9DF121454
+00007FF9DF170BFE
+00007FF6EAC51432
+00007FF6EAC51998
+00007FF6EACA2B28
+00007FF6EAEA5E87
+00007FF6EAEA5D4E
+00007FF9DEFE7034
+00007FF9DF122651
+
+Please open a web case about this problem. A Synopsys CAE will then contact you.
+Instructions to open a web-case:
+	1.  Go to the Synopsys support web site, https://solvnet.synopsys.com.
+	2.  Login with you user name and  password. If you do not have an account, please register and set it up.
+	3.  Click the  'Enter A Call' link.
+	4.  Provide a detailed description of the problem, and fill in all  required fields.
+	5.  Attach any test cases or archived project files required to reproduce the problem.

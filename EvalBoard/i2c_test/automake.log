@@ -1,6 +1,11 @@
 ispLEVER Auto-Make Log File
 ---------------------------
 
-Starting: 'C:\ispLEVER_Classic2_1\ispcpld\bin\checkini.exe -err=automake.err "C:\ispLEVER_Classic2_1\ispcpld\config\lc4k.ini"'
+Updating: JEDEC File
+Start to record tcl script...
+Finished recording TCL script.
 
+Starting: 'C:\ispLEVER_Classic2_1\ispcpld\bin\synsvf.exe -exe "C:\ispLEVER_Classic2_1\ispvmsystem/ispufw" -prj i2c_test -if i2c_test.jed -j2s -log i2c_test.svl -gui'
+
+Need not generate svf file according to the constraints, exit
 Done: completed successfully.

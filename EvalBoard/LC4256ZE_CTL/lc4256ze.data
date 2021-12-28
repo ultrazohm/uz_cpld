@@ -1,0 +1,24 @@
+MODELDATA
+MODELDATA_VERSION "1.0";
+DESIGN "lc4256ze";
+DATE "Fri Oct 29 18:01:53 2010";
+VENDOR "Lattice Semiconductor Corporation";
+PROGRAM "STAMP Model Generator";
+
+/* port drive, max transition and max capacitance */
+PORTDATA
+led_0: MAXTRANS(0.0);
+led_1: MAXTRANS(0.0);
+led_2: MAXTRANS(0.0);
+led_3: MAXTRANS(0.0);
+led_4: MAXTRANS(0.0);
+led_5: MAXTRANS(0.0);
+led_6: MAXTRANS(0.0);
+led_7: MAXTRANS(0.0);
+ENDPORTDATA
+
+/* timing arc data */
+TIMINGDATA
+
+ENDTIMINGDATA
+ENDMODELDATA

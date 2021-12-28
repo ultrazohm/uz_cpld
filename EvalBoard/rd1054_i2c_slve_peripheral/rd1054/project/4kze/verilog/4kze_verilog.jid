@@ -1,0 +1,1 @@
+. i2c_slave ..\..\..\source\verilog\i2c_slave.v d:\rd1054_i2c_slve_peripheral\rd1054\source\verilog\i2c_slave.v

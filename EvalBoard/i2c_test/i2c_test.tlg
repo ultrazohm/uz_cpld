@@ -1,0 +1,36 @@
+
+// Batch Timer Log File (Release Version: 2.1.00.02.49.20)
+
+//  Project = i2c_test
+//  Family  = lc4k
+//  Device  = LC4256ZE
+//  Speed   = -5.8
+//  Voltage = 1.8
+//  Operating Condition = COM
+//  Data sheet version  = 0.9
+
+//  Pass Bidirection = OFF
+//  Pass S/R = OFF
+//  Pass Latch = OFF
+//  Pass Clock = OFF
+//  Maximum Paths = 20
+//  T_SU Endpoints D/T inputs = ON
+//  T_SU Endpoints CE inputs = OFF
+//  T_SU Endpoints S/R inputs = OFF
+//  T_SU Endpoints RAM gated = ON
+//  Fmax of CE = ON
+//  Fmax of RAM = ON
+
+//  Location(From => To)
+//    Pin number: numeric number preceded by "p", BGA number as is
+//    Macrocell number: Segment#,GLB#,Macrocell#
+//                      Segment#: starts from 0 (if applicable)
+//                      GLB#: starts from A..Z, AA..ZZ
+//                      Macrocell#: starts from 0 to 31
+
+//  Register-to-register critical path delay: 11.05 ns
+//    -    0.45  tCOi                              N0_inst_r_w_treg.C       ==>  N0_inst_r_w_treg.Q
+//    -    3.70  tFBK+tROUTE+tBLA+tMCELL           N0_inst_r_w_treg.Q       ==>  N0_shift_0__0
+//    -    0.45  tPDi                              N0_shift_0__0            ==>  N0_shift_0__0
+//    -    4.45  tFBK+tROUTE+tPTCLK                N0_shift_0__0            ==>  N0_shift_0_.CE
+//    -    2.00  tCES                              N0_shift_0_.CE           ==>  N0_shift_0_.C

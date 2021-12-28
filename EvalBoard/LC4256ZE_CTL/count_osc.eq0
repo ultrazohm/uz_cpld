@@ -1,0 +1,167 @@
+EDIF2BLIF version IspLever 1.0  Linked Equations File
+Copyright(C), 1992-2020, Lattice Semiconductor Corp.
+All Rights Reserved.
+
+Design count_osc created Thu Dec 23 19:32:14 2021
+
+
+ P-Terms   Fan-in  Fan-out  Type  Name (attributes)
+---------  ------  -------  ----  -----------------
+   1/1        1        1    Pin   led_7_ 
+   1/1        1        1    Pin   led_6_ 
+   1/1        1        1    Pin   led_5_ 
+   1/1        1        1    Pin   led_4_ 
+   1/1        1        1    Pin   led_3_ 
+   1/1        1        1    Pin   led_2_ 
+   1/1        1        1    Pin   led_1_ 
+   1/1        1        1    Pin   led_0_ 
+   1          1        1    Node  un2_led 
+   1/1        1        1    NodeX1  G_18.X1 
+   1/1        1        1    NodeX2  G_18.X2 
+   0          0        1    Node  gnd_n_n 
+   1          2        1    Node  c_delay_0_.D 
+   1/1        1        1    Node  c_delay_0_.C 
+   1/1        1        1    Node  c_delay_2_.D 
+   1/1        1        1    Node  c_delay_2_.C 
+   1          2        1    Node  c_delay_1_.D 
+   1/1        1        1    Node  c_delay_1_.C 
+   1          2        1    Node  c_delay_3_.D 
+   1/1        1        1    Node  c_delay_3_.C 
+   1          2        1    Node  N_10 
+   1          2        1    Node  N_19 
+   1          2        1    Node  N_21 
+   1          2        1    Node  c_delay11 
+   1/1        1        1    NodeX1  G_20.X1 
+   1/1        1        1    NodeX2  G_20.X2 
+   1/1        1        1    NodeX1  G_16.X1 
+   1/1        1        1    NodeX2  G_16.X2 
+   1          1        1    Node  c_delay11_i 
+   1          1        1    Node  c_delay_i_0__n 
+   1          1        1    Node  c_delay_i_2__n 
+   1          1        1    Node  N_10_i 
+   1          1        1    Node  c_delay_i_3__n 
+   1          2        1    Node  un2_led_i 
+   1          2        1    Node  c_delay11_1 
+   1          2        1    Node  c_delay11_2 
+=========
+  35/19         Best P-Term Total: 35
+                       Total Pins: 8
+                      Total Nodes: 23
+            Average P-Term/Output: 0
+
+
+Equations:
+
+led_7_ = (un2_led);
+
+led_6_ = (un2_led_i);
+
+led_5_ = (un2_led);
+
+led_4_ = (un2_led_i);
+
+led_3_ = (un2_led);
+
+led_2_ = (un2_led_i);
+
+led_1_ = (un2_led);
+
+led_0_ = (un2_led_i);
+
+un2_led = (!un2_led_i);
+
+G_18.X1 = (N_19);
+
+G_18.X2 = (c_delay_2_);
+
+gnd_n_n = (0);
+
+c_delay_0_.D = (c_delay11_i & c_delay_i_0__n);
+
+c_delay_0_.C = (tmr_clk);
+
+c_delay_2_.D = (G_18);
+
+c_delay_2_.C = (tmr_clk);
+
+c_delay_1_.D = (c_delay11_i & G_16);
+
+c_delay_1_.C = (tmr_clk);
+
+c_delay_3_.D = (c_delay11_i & G_20);
+
+c_delay_3_.C = (tmr_clk);
+
+N_10 = (c_delay_1_ & c_delay_2_);
+
+N_19 = (c_delay_0_ & c_delay_1_);
+
+N_21 = (N_19 & c_delay_2_);
+
+c_delay11 = (c_delay11_1 & c_delay11_2);
+
+G_20.X1 = (N_21);
+
+G_20.X2 = (c_delay_3_);
+
+G_16.X1 = (c_delay_0_);
+
+G_16.X2 = (c_delay_1_);
+
+c_delay11_i = (!c_delay11);
+
+c_delay_i_0__n = (!c_delay_0_);
+
+c_delay_i_2__n = (!c_delay_2_);
+
+N_10_i = (!N_10);
+
+c_delay_i_3__n = (!c_delay_3_);
+
+un2_led_i = (N_10_i & c_delay_i_3__n);
+
+c_delay11_1 = (c_delay_1_ & c_delay_3_);
+
+c_delay11_2 = (c_delay_i_0__n & c_delay_i_2__n);
+
+
+Reverse-Polarity Equations:
+
+!led_7_ = (!un2_led);
+
+!led_6_ = (!un2_led_i);
+
+!led_5_ = (!un2_led);
+
+!led_4_ = (!un2_led_i);
+
+!led_3_ = (!un2_led);
+
+!led_2_ = (!un2_led_i);
+
+!led_1_ = (!un2_led);
+
+!led_0_ = (!un2_led_i);
+
+!G_18.X1 = (!N_19);
+
+!G_18.X2 = (!c_delay_2_);
+
+!c_delay_0_.C = (!tmr_clk);
+
+!c_delay_2_.D = (!G_18);
+
+!c_delay_2_.C = (!tmr_clk);
+
+!c_delay_1_.C = (!tmr_clk);
+
+!c_delay_3_.C = (!tmr_clk);
+
+!G_20.X1 = (!N_21);
+
+!G_20.X2 = (!c_delay_3_);
+
+!G_16.X1 = (!c_delay_0_);
+
+!G_16.X2 = (!c_delay_1_);
+

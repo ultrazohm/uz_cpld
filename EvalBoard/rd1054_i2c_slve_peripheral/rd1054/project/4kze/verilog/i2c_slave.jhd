@@ -1,0 +1,1 @@
+MODULE i2c_slave DEFIN ..\..\..\source\verilog\i2c_slave.v

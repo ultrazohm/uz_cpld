@@ -1,0 +1,9 @@
+C:\ispLEVER_Classic2_1\synpbase\bin64\c_ver.exe  -osyn  C:\git\ultrazohm\software\cpld_lattice\evalboard\lc4256ze_ctl\synwork\count_osc_comp.srs  -top  count_osc  -prodtype  synplify_pro  -nostructver -I c:\git\ultrazohm\software\cpld_lattice\evalboard\lc4256ze_ctl\  -I C:\ispLEVER_Classic2_1\synpbase\lib  -v2001  -encrypt  -pro  -dmgen  C:\git\ultrazohm\software\cpld_lattice\evalboard\lc4256ze_ctl\dm  -compiler_compatible -ui -fid2 -ram -sharing on -ll 2000 -autosm -lib work C:\ispLEVER_Classic2_1\ispcpld\..\cae_library\synthesis\verilog\mach.v -lib work C:\git\ultrazohm\software\cpld_lattice\evalboard\lc4256ze_ctl\lc4256ze.h -lib work C:\git\ultrazohm\software\cpld_lattice\evalboard\lc4256ze_ctl\lc4256ze.v -loga  C:\git\ultrazohm\software\cpld_lattice\evalboard\lc4256ze_ctl\count_osc.srr 
+rc:0 success:1
+C:\git\ultrazohm\software\cpld_lattice\evalboard\lc4256ze_ctl\synwork\count_osc_comp.srs|o|1640284310|2365
+C:\ispLEVER_Classic2_1\ispcpld\..\cae_library\synthesis\verilog\mach.v|i|1336498208|12168
+C:\git\ultrazohm\software\cpld_lattice\evalboard\lc4256ze_ctl\lc4256ze.h|i|1288176924|0
+C:\git\ultrazohm\software\cpld_lattice\evalboard\lc4256ze_ctl\lc4256ze.v|i|1300121028|546
+C:\git\ultrazohm\software\cpld_lattice\evalboard\lc4256ze_ctl\count_osc.srr|o|1640284310|1758
+C:\ispLEVER_Classic2_1\synpbase\bin\c_ver.exe|i|1401220250|2292224
+C:\ispLEVER_Classic2_1\synpbase\bin64\c_ver.exe|i|1401220450|5829632

@@ -1,0 +1,9 @@
+C:\ispLEVER_Classic2_1\synpbase\bin64\m_cpld.exe  -prodtype  synplify_pro  -encrypt  -pro  -rundir  C:\git\ultrazohm\software\cpld_lattice\evalboard\lc4256ze_ctl  -part LC4064B  -package T44C  -grade -2.5   -ispmach4s -RWCheckOnRam 1 -areadelay 0 -minc -auto_constrain_io -summaryfile C:\git\ultrazohm\software\cpld_lattice\evalboard\lc4256ze_ctl\synlog\report\count_osc_fpga_mapper.xml -top_level_module  count_osc  -multisrs  -ta_num_paths 3  -ta_num_points 0  -oedif  C:\git\ultrazohm\software\cpld_lattice\evalboard\lc4256ze_ctl\count_osc.edi  -freq 200.000  C:\git\ultrazohm\software\cpld_lattice\evalboard\lc4256ze_ctl\synwork\count_osc_mult.srs  -ologparam  C:\git\ultrazohm\software\cpld_lattice\evalboard\lc4256ze_ctl\syntmp\count_osc.plg  -osyn  C:\git\ultrazohm\software\cpld_lattice\evalboard\lc4256ze_ctl\count_osc.srm  -prjdir  c:\git\ultrazohm\software\cpld_lattice\evalboard\lc4256ze_ctl\  -prjname  count_osc  -log  C:\git\ultrazohm\software\cpld_lattice\evalboard\lc4256ze_ctl\synlog\count_osc_fpga_mapper.srr 
+rc:0 success:1
+C:\git\ultrazohm\software\cpld_lattice\evalboard\lc4256ze_ctl\count_osc.edi|o|1640284311|11987
+C:\git\ultrazohm\software\cpld_lattice\evalboard\lc4256ze_ctl\synwork\count_osc_mult.srs|i|1640284311|2647
+C:\git\ultrazohm\software\cpld_lattice\evalboard\lc4256ze_ctl\syntmp\count_osc.plg|o|1640284311|0
+C:\git\ultrazohm\software\cpld_lattice\evalboard\lc4256ze_ctl\count_osc.srm|o|1640284311|7457
+C:\git\ultrazohm\software\cpld_lattice\evalboard\lc4256ze_ctl\synlog\count_osc_fpga_mapper.srr|o|1640284311|1114
+C:\ispLEVER_Classic2_1\synpbase\bin\m_cpld.exe|i|1399362084|7067648
+C:\ispLEVER_Classic2_1\synpbase\bin64\m_cpld.exe|i|1399364922|8049664

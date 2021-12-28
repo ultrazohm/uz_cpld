@@ -13,8 +13,8 @@ Tools->Fitter Report File Format...
 Project_Summary
 ~~~~~~~~~~~~~~~
 Project Name         :  i2c_test
-Project Path         :  C:\ZynqUltra\60_Software\cpld_lattice\EvalBoard\i2c_test
-Project Fitted on    :  Fri Mar 26 19:10:53 2021
+Project Path         :  C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test
+Project Fitted on    :  Tue Dec 28 19:13:36 2021
 
 Device               :  M4256_96
 Package              :  144
@@ -31,8 +31,8 @@ Source Format        :  Schematic_VHDL
 Compilation_Times
 ~~~~~~~~~~~~~~~~~
 Prefit Time                     0 secs
-Load Design Time                0.09 secs
-Partition Time                  0.03 secs
+Load Design Time                0.14 secs
+Partition Time                  0.11 secs
 Place Time                      0.00 secs
 Route Time                      0.00 secs
 Total Fit Time                  00:00:01
@@ -40,28 +40,28 @@ Total Fit Time                  00:00:01
 
 Design_Summary
 ~~~~~~~~~~~~~~
-Total Input Pins                12
-Total Logic Functions           47
-  Total Output Pins             14
-  Total Bidir I/O Pins          0
-  Total Buried Nodes            33
-Total Flip-Flops                41
+Total Input Pins                2
+Total Logic Functions           54
+  Total Output Pins             8
+  Total Bidir I/O Pins          3
+  Total Buried Nodes            43
+Total Flip-Flops                43
   Total D Flip-Flops            41
-  Total T Flip-Flops            0
+  Total T Flip-Flops            2
   Total Latches                 0
-Total Product Terms             224
+Total Product Terms             195
 
 Total Reserved Pins             0
-Total Locked Pins               12
+Total Locked Pins               13
 Total Locked Nodes              0
 
-Total Unique Output Enables     0
-Total Unique Clocks             5
-Total Unique Clock Enables      3
-Total Unique Resets             4
-Total Unique Presets            2
+Total Unique Output Enables     3
+Total Unique Clocks             1
+Total Unique Clock Enables      6
+Total Unique Resets             0
+Total Unique Presets            0
 
-Fmax Logic Levels               2
+Fmax Logic Levels               -
 
 
 Device_Resource_Summary
@@ -70,33 +70,33 @@ Device_Resource_Summary
                                  Total    Used   Not Used   Utilization
 -----------------------------------------------------------------------
 Dedicated Pins
-  Clock/Input Pins                  4        4      0    -->   100
-  Input-Only Pins                  10        6      4    -->    60
+  Clock/Input Pins                  4        0      4    -->     0
+  Input-Only Pins                  10        0     10    -->     0
   I/O / Enable Pins                 2        2      0    -->   100
-I/O Pins                           94       14     80    -->    14
-Logic Functions                   256       47    209    -->    18
+I/O Pins                           94       11     83    -->    11
+Logic Functions                   256       53    203    -->    20
   Input Registers                  96        0     96    -->     0
 
-GLB Inputs                        576      157    419    -->    27
-Logical Product Terms            1280      154   1126    -->    12
-Occupied GLBs                      16       10      6    -->    62
-Macrocells                        256       47    209    -->    18
+GLB Inputs                        576      143    433    -->    24
+Logical Product Terms            1280      149   1131    -->    11
+Occupied GLBs                      16       13      3    -->    81
+Macrocells                        256       50    206    -->    19
 
 Control Product Terms:
-  GLB Clock/Clock Enables          16       10      6    -->    62
+  GLB Clock/Clock Enables          16       12      4    -->    75
   GLB Reset/Presets                16        0     16    -->     0
-  Macrocell Clocks                256       11    245    -->     4
-  Macrocell Clock Enables         256       16    240    -->     6
+  Macrocell Clocks                256        0    256    -->     0
+  Macrocell Clock Enables         256       28    228    -->    10
   Macrocell Enables               256        0    256    -->     0
-  Macrocell Resets                256        2    254    -->     0
+  Macrocell Resets                256        0    256    -->     0
   Macrocell Presets               256        0    256    -->     0
 
-Global Routing Pool               356       49    307    -->    13
-  GRP from IFB                     ..        6     ..    -->    ..
-    (from input signals)           ..        6     ..    -->    ..
+Global Routing Pool               356       45    311    -->    12
+  GRP from IFB                     ..        5     ..    -->    ..
+    (from input signals)           ..        2     ..    -->    ..
     (from output signals)          ..        0     ..    -->    ..
-    (from bidir signals)           ..        0     ..    -->    ..
-  GRP from MFB                     ..       43     ..    -->    ..
+    (from bidir signals)           ..        3     ..    -->    ..
+  GRP from MFB                     ..       40     ..    -->    ..
 ----------------------------------------------------------------------
 
 <Note> 1 : The available PT is the product term that has not been used.
@@ -114,27 +114,27 @@ GLB_Resource_Summary
 Maximum
   GLB                      36      *(1)     8   --     --             16       80       16
 -------------------------------------------------------------------------------------------
-  GLB    A      3    24    27      3/6      0   10      1              5       30       12
-  GLB    B      3    25    28      4/6      0    7      1              8       28        9
-  GLB    C      0     0     0      0/6      0    0      0             16        0        0
+  GLB    A     12    10    22      1/6      0    4      0             12       11        5
+  GLB    B      2    13    15      0/6      0    3      0             13       11        3
+  GLB    C      1     6     7      0/6      0    2      0             14        5        2
   GLB    D      0     0     0      0/6      0    0      0             16        0        0
 -------------------------------------------------------------------------------------------
-  GLB    E      2     3     5      1/6      0    3      0             13        7        3
-  GLB    F      5     2     7      1/6      0    2      0             14        6        2
-  GLB    G      0     0     0      0/6      0    0      0             16        0        0
-  GLB    H      2     4     6      0/6      0    2      0             14        5        2
+  GLB    E      1    10    11      0/6      0    7      0              9       12        7
+  GLB    F      1    12    13      0/6      0    6      0             10       14        6
+  GLB    G      2    10    12      0/6      0    3      0             13       13        4
+  GLB    H      0     0     0      0/6      0    0      0             16        0        0
 -------------------------------------------------------------------------------------------
-  GLB    I      3    25    28      3/6      0    7      1              8       28        9
-  GLB    J      0     0     0      0/6      0    0      0             16        0        0
-  GLB    K      5    21    26      1/6      0    4      0             12       25        6
+  GLB    I      3    10    13      6/6      0    9      0              7       25        9
+  GLB    J      2     7     9      2/6      0    4      0             12       13        4
+  GLB    K      2     6     8      0/6      0    2      0             14       10        2
   GLB    L      0     0     0      0/6      0    0      0             16        0        0
 -------------------------------------------------------------------------------------------
-  GLB    M      6    12    18      1/6      0    9      0              7       19        9
-  GLB    N      4     2     6      0/6      0    2      0             14        3        2
-  GLB    O      0     0     0      0/6      0    0      0             16        0        0
-  GLB    P      6     0     6      0/6      0    1      0             15        3        1
+  GLB    M      3     6     9      0/6      0    3      0             13       11        3
+  GLB    N      3     5     8      0/6      0    2      0             14        9        2
+  GLB    O      3     5     8      0/6      0    2      0             14        9        2
+  GLB    P      8     0     8      2/6      0    3      0             13        6        3
 -------------------------------------------------------------------------------------------
-TOTALS:        39   118   157     14/96     0   47      3            206      154       55
+TOTALS:        43   100   143     11/96     0   50      0            206      149       52
 
 <Note> 1 : For ispMACH 4000 devices, the number of IOs depends on the GLB.
 <Note> 2 : Four rightmost columns above reflect last status of the placement process.
@@ -149,25 +149,25 @@ GLB_Control_Summary
 Maximum
   GLB        1      1        16     16     16     16     16  
 ==============================================================================
-  GLB    A   1      0         2      4      0      0      0
-  GLB    B   1      0         2      5      0      0      0
+  GLB    A   1      0         0      0      0      0      0
+  GLB    B   1      0         0      0      0      0      0
   GLB    C   0      0         0      0      0      0      0
   GLB    D   0      0         0      0      0      0      0
 ------------------------------------------------------------------------------
-  GLB    E   1      0         1      0      0      1      0
-  GLB    F   1      0         2      0      0      1      0
-  GLB    G   0      0         0      0      0      0      0
-  GLB    H   1      0         1      0      0      0      0
+  GLB    E   1      0         0      2      0      0      0
+  GLB    F   1      0         0      2      0      0      0
+  GLB    G   1      0         0      2      0      0      0
+  GLB    H   0      0         0      0      0      0      0
 ------------------------------------------------------------------------------
-  GLB    I   1      0         2      5      0      0      0
-  GLB    J   0      0         0      0      0      0      0
-  GLB    K   1      0         1      2      0      0      0
+  GLB    I   1      0         0      9      0      0      0
+  GLB    J   1      0         0      4      0      0      0
+  GLB    K   1      0         0      2      0      0      0
   GLB    L   0      0         0      0      0      0      0
 ------------------------------------------------------------------------------
-  GLB    M   1      0         0      0      0      0      0
-  GLB    N   1      0         0      0      0      0      0
-  GLB    O   0      0         0      0      0      0      0
-  GLB    P   1      0         0      0      0      0      0
+  GLB    M   1      0         0      2      0      0      0
+  GLB    N   1      0         0      2      0      0      0
+  GLB    O   1      0         0      2      0      0      0
+  GLB    P   1      0         0      1      0      0      0
 ------------------------------------------------------------------------------
 
 <Note> 1 : For ispMACH 4000 devices, the number of output enables depends on the GLB.
@@ -237,11 +237,25 @@ Device Options:
 
 
 
+OSCTIMER_Summary
+~~~~~~~~~~~~~~~~
+OSCTIMER:                         Pin/Node
+  OSCTIMER Instance Name                    I15
+  Dynamic Disable Signal                    DYNOSCDIS
+  Timer Reset Signal                        TIMERRES
+  Oscillator Output Clock                   OSCOUT
+  Timer Output Clock                        TIMEROUT
+
+  Oscillator Output Clock Frequency         5.0000 MHz
+  Timer Output Clock Frequency              4.7684 Hz
+  Timer Divider                             1048576
+
+
 Pinout_Listing
 ~~~~~~~~~~~~~~
       | Pin   | Bank |GLB |Assigned|                 | Signal|            | PG
 Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name| Enable
---------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------
 1     | GND   |   -  |    |        |                 |       |            |
 2     | TDI   |   -  |    |        |                 |       |            |
 3     |VCCIO0 |   -  |    |        |                 |       |            |
@@ -258,18 +272,18 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name| Enab
 14    |  I_O  |   0  |D8  |        |                 |       |            |
 15    |  I_O  |   0  |D6  |        |                 |       |            |
 16    |  I_O  |   0  |D4  |        |                 |       |            |
-17    | IN0   |   0  |    |    *   |LVCMOS18         | Input |data_in_5_  |
+17    | IN0   |   0  |    |        |                 |       |            |
 18    | NC    |   -  |    |        |                 |       |            |
 19    |VCCIO0 |   -  |    |        |                 |       |            |
-20    | IN1   |   0  |    |    *   |LVCMOS18         | Input |data_in_4_  |
-21    |  I_O  |   0  |E2  |        |LVCMOS18         | Output|start       |
+20    | IN1   |   0  |    |        |                 |       |            |
+21    |  I_O  |   0  |E2  |        |                 |       |            |
 22    |  I_O  |   0  |E4  |        |                 |       |            |
 23    |  I_O  |   0  |E6  |        |                 |       |            |
 24    |  I_O  |   0  |E8  |        |                 |       |            |
 25    |  I_O  |   0  |E10 |        |                 |       |            |
 26    |  I_O  |   0  |E12 |        |                 |       |            |
 27    |GNDIO0 |   -  |    |        |                 |       |            |
-28    |  I_O  |   0  |F2  |        |LVCMOS18         | Output|stop        |
+28    |  I_O  |   0  |F2  |        |                 |       |            |
 29    |  I_O  |   0  |F4  |        |                 |       |            |
 30    |  I_O  |   0  |F6  |        |                 |       |            |
 31    |  I_O  |   0  |F8  |        |                 |       |            |
@@ -279,14 +293,14 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name| Enab
 35    | TCK   |   -  |    |        |                 |       |            |
 36    | VCC   |   -  |    |        |                 |       |            |
 37    | GND   |   -  |    |        |                 |       |            |
-38    | IN2   |   0  |    |    *   |LVCMOS18         | Input |data_in_3_  |
+38    | IN2   |   0  |    |        |                 |       |            |
 39    |  I_O  |   0  |G12 |        |                 |       |            |
 40    |  I_O  |   0  |G10 |        |                 |       |            |
 41    |  I_O  |   0  |G8  |        |                 |       |            |
 42    |  I_O  |   0  |G6  |        |                 |       |            |
 43    |  I_O  |   0  |G4  |        |                 |       |            |
 44    |  I_O  |   0  |G2  |        |                 |       |            |
-45    | IN3   |   0  |    |    *   |LVCMOS18         | Input |data_in_2_  |
+45    | IN3   |   0  |    |        |                 |       |            |
 46    |GNDIO0 |   -  |    |        |                 |       |            |
 47    |VCCIO0 |   -  |    |        |                 |       |            |
 48    |  I_O  |   0  |H12 |        |                 |       |            |
@@ -295,25 +309,25 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name| Enab
 51    |  I_O  |   0  |H6  |        |                 |       |            |
 52    |  I_O  |   0  |H4  |        |                 |       |            |
 53    |  I_O  |   0  |H2  |        |                 |       |            |
-54    |INCLK1 |   0  |    |    *   |LVCMOS18         | Input |XRESET      |
+54    |INCLK1 |   0  |    |        |                 |       |            |
 55    |GNDIO1 |   -  |    |        |                 |       |            |
-56    |INCLK2 |   1  |    |    *   |LVCMOS18         | Input |ready       |
+56    |INCLK2 |   1  |    |        |                 |       |            |
 57    | VCC   |   -  |    |        |                 |       |            |
-58    |  I_O  |   1  |I2  |        |LVCMOS18         | Output|data_out_6_ |
-59    |  I_O  |   1  |I4  |        |LVCMOS18         | Output|data_out_5_ |
-60    |  I_O  |   1  |I6  |        |                 |       |            |
-61    |  I_O  |   1  |I8  |        |                 |       |            |
-62    |  I_O  |   1  |I10 |        |LVCMOS18         | Output|data_out_7_ |
-63    |  I_O  |   1  |I12 |        |                 |       |            |
+58    |  I_O  |   1  |I2  |    *   |LVCMOS33         | Output|y7          |
+59    |  I_O  |   1  |I4  |    *   |LVCMOS33         | Output|y6          |
+60    |  I_O  |   1  |I6  |    *   |LVCMOS33         | Output|y5          |
+61    |  I_O  |   1  |I8  |    *   |LVCMOS33         | Output|y4          |
+62    |  I_O  |   1  |I10 |    *   |LVCMOS33         | Output|y3          |
+63    |  I_O  |   1  |I12 |    *   |LVCMOS33         | Output|y2          |
 64    |VCCIO1 |   -  |    |        |                 |       |            |
 65    |GNDIO1 |   -  |    |        |                 |       |            |
 66    |  I_O  |   1  |J2  |        |                 |       |            |
 67    |  I_O  |   1  |J4  |        |                 |       |            |
 68    |  I_O  |   1  |J6  |        |                 |       |            |
 69    |  I_O  |   1  |J8  |        |                 |       |            |
-70    |  I_O  |   1  |J10 |        |                 |       |            |
-71    |  I_O  |   1  |J12 |        |                 |       |            |
-72    | IN4   |   0  |    |    *   |LVCMOS18         | Input |data_in_1_  |
+70    |  I_O  |   1  |J10 |    *   |LVCMOS33         | Output|y1          |
+71    |  I_O  |   1  |J12 |    *   |LVCMOS33         | Output|y0          |
+72    | IN4   |   0  |    |        |                 |       |            |
 73    | GND   |   -  |    |        |                 |       |            |
 74    | TMS   |   -  |    |        |                 |       |            |
 75    |VCCIO1 |   -  |    |        |                 |       |            |
@@ -321,7 +335,7 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name| Enab
 77    |  I_O  |   1  |K10 |        |                 |       |            |
 78    |  I_O  |   1  |K8  |        |                 |       |            |
 79    |  I_O  |   1  |K6  |        |                 |       |            |
-80    |  I_O  |   1  |K4  |        |LVCMOS18         | Output|data_vld    |
+80    |  I_O  |   1  |K4  |        |                 |       |            |
 81    |  I_O  |   1  |K2  |        |                 |       |            |
 82    |GNDIO1 |   -  |    |        |                 |       |            |
 83    |  I_O  |   1  |L14 |        |                 |       |            |
@@ -330,7 +344,7 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name| Enab
 86    |  I_O  |   1  |L8  |        |                 |       |            |
 87    |  I_O  |   1  |L6  |        |                 |       |            |
 88    |  I_O  |   1  |L4  |        |                 |       |            |
-89    | IN5   |   1  |    |    *   |LVCMOS18         | Input |data_in_0_  |
+89    | IN5   |   1  |    |        |                 |       |            |
 90    | NC    |   -  |    |        |                 |       |            |
 91    |VCCIO1 |   -  |    |        |                 |       |            |
 92    | IN6   |   1  |    |        |                 |       |            |
@@ -338,7 +352,7 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name| Enab
 94    |  I_O  |   1  |M4  |        |                 |       |            |
 95    |  I_O  |   1  |M6  |        |                 |       |            |
 96    |  I_O  |   1  |M8  |        |                 |       |            |
-97    |  I_O  |   1  |M10 |        |LVCMOS18         | Output|scl_oe      |
+97    |  I_O  |   1  |M10 |        |                 |       |            |
 98    |  I_O  |   1  |M12 |        |                 |       |            |
 99    |GNDIO1 |   -  |    |        |                 |       |            |
 100   |  I_O  |   1  |N2  |        |                 |       |            |
@@ -364,29 +378,29 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name| Enab
 120   |  I_O  |   1  |P12 |        |                 |       |            |
 121   |  I_O  |   1  |P10 |        |                 |       |            |
 122   |  I_O  |   1  |P8  |        |                 |       |            |
-123   |  I_O  |   1  |P6  |        |                 |       |            |
-124   |  I_O  |   1  |P4  |        |                 |       |            |
-125   | I_O/OE|   1  |P2  |        |LVCMOS18         | Output|r_w         |
-126   |INCLK3 |   1  |    |    *   |LVCMOS18         | Input |data_in_6_  |
+123   |  I_O  |   1  |P6  |    *   |LVCMOS33         | Input |IOselector  |
+124   |  I_O  |   1  |P4  |    *   |LVCMOS33         | Bidir |FPGA        |
+125   | I_O/OE|   1  |P2  |    *   |LVCMOS33         | Bidir |Adapter     |
+126   |INCLK3 |   1  |    |        |                 |       |            |
 127   |GNDIO0 |   -  |    |        |                 |       |            |
-128   |INCLK0 |   0  |    |    *   |LVCMOS18         | Input |data_in_7_  |
+128   |INCLK0 |   0  |    |        |                 |       |            |
 129   | VCC   |   -  |    |        |                 |       |            |
-130   | I_O/OE|   0  |A2  |    *   |LVCMOS18         | Input |sda_in      |
-131   |  I_O  |   0  |A4  |    *   |LVCMOS18         | Input |scl_in      |
-132   |  I_O  |   0  |A6  |        |LVCMOS18         | Output|data_out_0_ |
+130   | I_O/OE|   0  |A2  |    *   |LVCMOS33         | Input |scl         |
+131   |  I_O  |   0  |A4  |    *   |LVCMOS33_OD      | Bidir |sda         |
+132   |  I_O  |   0  |A6  |        |                 |       |            |
 133   |  I_O  |   0  |A8  |        |                 |       |            |
-134   |  I_O  |   0  |A10 |        |LVCMOS18         | Output|data_out_1_ |
+134   |  I_O  |   0  |A10 |        |                 |       |            |
 135   |  I_O  |   0  |A12 |        |                 |       |            |
 136   |VCCIO0 |   -  |    |        |                 |       |            |
 137   |GNDIO0 |   -  |    |        |                 |       |            |
-138   |  I_O  |   0  |B2  |        |LVCMOS18         | Output|data_out_3_ |
-139   |  I_O  |   0  |B4  |        |LVCMOS18         | Output|data_out_2_ |
-140   |  I_O  |   0  |B6  |        |LVCMOS18         | Output|sda_oe      |
+138   |  I_O  |   0  |B2  |        |                 |       |            |
+139   |  I_O  |   0  |B4  |        |                 |       |            |
+140   |  I_O  |   0  |B6  |        |                 |       |            |
 141   |  I_O  |   0  |B8  |        |                 |       |            |
-142   |  I_O  |   0  |B10 |        |LVCMOS18         | Output|data_out_4_ |
+142   |  I_O  |   0  |B10 |        |                 |       |            |
 143   |  I_O  |   0  |B12 |        |                 |       |            |
 144   | IN9   |   0  |    |        |                 |       |            |
---------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------
 
 <Note> GLB Pad : This notation refers to the GLB I/O pad number in the device.
 <Note> Assigned Pin : user or dedicated input assignment (E.g. Clock pins).
@@ -406,18 +420,8 @@ Input_Signal_List
          Pin    Fanout
  Pin GLB Type                       Pullup Signal
 -----------------------------------------------------
-  54  -- INCLK  9  AB---F-HI-K-MN-P    Down XRESET
-  89  --  IN       ----------------    Down data_in_0_
-  72  --  IN       ----------------    Down data_in_1_
-  45  --  IN       ----------------    Down data_in_2_
-  38  --  IN       ----------------    Down data_in_3_
-  20  --  IN       ----------------    Down data_in_4_
-  17  --  IN       ----------------    Down data_in_5_
- 126  -- INCLK  1  ----------K-----    Down data_in_6_
- 128  -- INCLK  2  --------I-K-----    Down data_in_7_
-  56  -- INCLK  1  ------------M---    Down ready
- 131   A  I/O   10 AB--EF-HI-K-MN-P    Down scl_in
- 130   A  I/O   5  ----EF-H----M--P    Down sda_in
+ 123   P  I/O   2  A-C-------------    Down IOselector
+ 130   A  I/O   1  A---------------     Off scl
 -----------------------------------------------------
 
 
@@ -427,22 +431,16 @@ Output_Signal_List
           I         C      P R P       O Output
           N         L Mc   R E U C O F B Fanout
  Pin GLB  P LL PTs  S Type E S P E E P P                     Slew Pullup Signal
-------------------------------------------------------------------------------------
- 132   A  6  1   2  1 DFF    * R *          ----------------  Fast   Down data_out_0_
- 134   A  6  1   2  1 DFF    * R *          ----------------  Fast   Down data_out_1_
- 139   B  6  1   2  1 DFF    * R *          ----------------  Fast   Down data_out_2_
- 138   B  6  1   2  1 DFF    * R *          ----------------  Fast   Down data_out_3_
- 142   B  6  1   2  1 DFF    * R *          ----------------  Fast   Down data_out_4_
-  59   I  6  1   2  1 DFF    * R *          ----------------  Fast   Down data_out_5_
-  58   I  6  1   2  1 DFF    * R *          ----------------  Fast   Down data_out_6_
-  62   I  6  1   2  1 DFF    * R *          ----------------  Fast   Down data_out_7_
-  80   K  6  1   3  1 DFF    * R *       3  AB------I-------  Fast   Down data_vld
- 125   P  6  1   3  1 DFF  *   S         6  AB-----HI-K----P  Fast   Down r_w
-  97   M  2  1   1  1 COM                   ----------------  Fast   Down scl_oe
- 140   B  2  -   1  1 COM                   ----------------  Fast   Down sda_oe
-  21   E  3  -   2  1 DFF    * R         3  ----------K-MN--  Fast   Down start
-  28   F  3  -   3  1 DFF    * R         2  ------------MN--  Fast   Down stop
-------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+  71   J  3  -   2  1 DFF      R *          ----------------  Fast     Up y0
+  70   J  3  -   2  1 DFF      R *          ----------------  Fast     Up y1
+  63   I  3  -   2  1 DFF      R *          ----------------  Fast     Up y2
+  62   I  3  -   2  1 DFF      R *          ----------------  Fast     Up y3
+  61   I  3  -   2  1 DFF      R *          ----------------  Fast     Up y4
+  60   I  3  -   2  1 DFF      R *          ----------------  Fast     Up y5
+  59   I  3  -   2  1 DFF      R *          ----------------  Fast     Up y6
+  58   I  3  -   2  1 DFF      R *          ----------------  Fast     Up y7
+-------------------------------------------------------------------------------
 
 <Note> CLS = Number of clusters used
        INP = Number of input signals
@@ -463,8 +461,11 @@ Bidir_Signal_List
           I         C      P R P       O Bidir
           N         L Mc   R E U C O F B Fanout
  Pin GLB  P LL PTs  S Type E S P E E P P                     Slew Pullup Signal
--------------------------------------------------------------------------------
--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ 125   P  1  1   1  1 COM          *     1  ---------------P  Fast   Down Adapter
+ 124   P  1  1   1  1 COM          *     1  ---------------P  Fast     Up FPGA
+ 131   A  0  -   0  1 COM          *     1  ------------M---  Fast    Off sda
+--------------------------------------------------------------------------------
 
 <Note> CLS = Number of clusters used
        INP = Number of input signals
@@ -485,41 +486,51 @@ Buried_Signal_List
         I         C      P R P       Node
         N         L Mc   R E U C I F Fanout
 Mc GLB  P LL PTs  S Type E S P E R P                     Signal
-------------------------------------------------------------------------
- 3   H  5  1   3  1 DFF    * R       3  AB------I-------  inst_ack_out
- 3   K 21  1   8  2 DFF    * R       1  -B--------------  inst_sda_en
- 2   E  3  -   3  1 DFF  * * R       1  ----E-----------  inst_sda_f
-10   E  2  -   2  1 COM              1  ----E-----------  sda_clk
- 9   F  6  1   3  1 DFF    * R *     3  A-----------M--P  shift_0_
- 6   K 19  -   5  1 COM              5  AB---F--I-K-----  shift_0__0
- 1   A 22  1  10  2 DFF    * R *     1  A---------------  shift_1_
- 3   A 22  1  10  2 DFF    * R *     2  AB--------------  shift_2_
- 1   B 22  1  10  2 DFF    * R *     1  -B--------------  shift_3_
- 3   B 22  1  10  2 DFF    * R *     2  -B------I-------  shift_4_
- 1   I 22  1  10  2 DFF    * R *     2  --------I-K-----  shift_5_
- 1   K 22  1   9  2 DFF    * R *     2  --------I-K-----  shift_6_
- 3   I 22  1  10  2 DFF    * R *     1  --------I-------  shift_7_
- 9   I  3  1   1  1 DFF    * R       6  AB-----HI-K-M---  sm_state_0_
- 4   M  4  1   1  1 DFF    * R       6  AB------I-K-M--P  sm_state_10_
- 8   A  4  1   1  1 DFF    * R       5  AB------I-K-M---  sm_state_11_
- 7   A  4  1   1  1 DFF    * R       5  AB------I-K-M---  sm_state_12_
- 7   M  4  1   1  1 DFF    * R       5  AB------I-K-M---  sm_state_13_
- 5   A  4  1   1  1 DFF    * R       5  AB------I-K-M---  sm_state_14_
- 5   M  4  1   1  1 DFF    * R       5  AB------I-K-M---  sm_state_15_
- 3   N  6  1   2  1 DFF    * R       1  ------------M---  sm_state_16_
- 1   M 18  1  11  3 DFF  *   S       3  ----------K-MN--  sm_state_17_
-12   I  3  1   1  1 DFF    * R       4  AB------I-K-----  sm_state_1_
-12   B  3  1   1  1 DFF    * R       4  AB------I-K-----  sm_state_2_
-12   A  3  1   1  1 DFF    * R       4  AB------I-K-----  sm_state_3_
-10   A  3  1   1  1 DFF    * R       4  AB------I-K-----  sm_state_4_
- 9   A  3  1   1  1 DFF    * R       4  AB------I-K-----  sm_state_5_
-12   M  5  1   1  1 DFF    * R       4  AB------I-K-----  sm_state_6_
- 9   M  4  1   1  1 DFF    * R       6  AB------I-K-MN--  sm_state_7_
- 9   H  5  1   2  1 DFF    * R       6  AB---F--I-K-M---  sm_state_8_
- 3   M  4  1   1  1 DFF    * R       5  AB-----HI-K-----  sm_state_9_
- 2   M  2  -   1  1 COM              1  ----E-----------  start_async_rst
- 9   N  2  -   1  1 COM              1  -----F----------  stop_0
-------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
+10   P  6  -   4  1 DFF      R *     2  A--------------P  I0_addr_reg_0_
+ 5   F  6  -   3  1 COM              4  ------------MNOP  I0_addr_reg_0__0
+ 9   N  6  -   4  1 DFF      R *     2  A------------N--  I0_addr_reg_1_
+ 5   M  7  -   5  1 DFF      R *     2  A-----------M---  I0_addr_reg_2_
+ 9   O  6  -   4  1 DFF      R *     2  A-------------O-  I0_addr_reg_3_
+ 3   N  7  -   5  1 DFF      R *     2  A------------N--  I0_addr_reg_4_
+ 2   M  7  -   5  1 DFF      R *     2  A-----------M---  I0_addr_reg_5_
+ 3   O  7  -   5  1 DFF      R *     2  A-------------O-  I0_addr_reg_6_
+ 5   G  9  -   5  1 DFF      R *     12 ABC-EFG-IJK-MNO-  I0_bits_processed_reg_0_
+ 1   A 11  -   7  2 COM              2  ----E-G---------  I0_bits_processed_reg_0__0
+ 1   E  6  -   3  1 DFF      R *     13 ABC-EFG-IJK-MNOP  I0_bits_processed_reg_1_
+ 0   E  7  -   4  1 DFF      R *     13 ABC-EFG-IJK-MNOP  I0_bits_processed_reg_2_
+ 2   G 10  -   6  2 DFF      R *     5  ABC--FG---------  I0_bits_processed_reg_3_
+10   J  6  -   4  1 DFF      R *     1  ---------J------  I0_data_reg_0_
+ 3   C  6  -   3  1 COM              3  --------IJK-----  I0_data_reg_0__0
+ 5   I  6  -   4  1 DFF      R *     1  --------I-------  I0_data_reg_1_
+ 3   K  7  -   5  1 DFF      R *     2  --------I-K-----  I0_data_reg_2_
+12   I  6  -   4  1 DFF      R *     1  --------I-------  I0_data_reg_3_
+ 3   I  7  -   5  1 DFF      R *     1  --------I-------  I0_data_reg_4_
+ 6   J  7  -   5  1 DFF      R *     2  --------IJ------  I0_data_reg_5_
+ 9   K  7  -   5  1 DFF      R *     2  --------I-K-----  I0_data_reg_6_
+ 9   F  8  -   2  1 DFF      R *     1  -B--------------  I0_inst_cmd_reg
+ 7   F  4  -   2  1 DFF      R *     1  -B--------------  I0_inst_continue_reg
+ 9   E  3  -   1  1 DFF      R       4  AB---FG---------  I0_inst_scl_falling_reg
+10   A  2  -   1  1 DFF      R       1  ----E-----------  I0_inst_scl_pre_internal
+ 3   E  2  -   1  1 DFF      R       1  ----E-----------  I0_inst_scl_prev_reg
+ 7   E  3  -   1  1 DFF      R       4  A-C--FG---------  I0_inst_scl_rising_reg
+10   M  2  -   1  1 DFF      R       9  ----EF--IJK-MNOP  I0_inst_sda_pre_internal
+12   F  2  -   1  1 DFF      R       1  ----E-----------  I0_inst_sda_prev_reg
+10   B  3  -   1  1 DFF      R       1  -B--------------  I0_inst_sda_wen_reg
+12   E  5  -   1  1 DFF      R       5  AB--EFG---------  I0_inst_start_reg
+ 5   E  5  -   1  1 DFF      R       5  AB--EFG---------  I0_inst_stop_reg
+ 3   F  7  -   3  1 DFF      R       2  -B---F----------  I0_state_reg_1_
+10   G 11  -   2  1 DFF      R       2  -----FG---------  I0_state_reg_2_
+ 5   B 13  -   5  1 TFF      R       3  AB----G---------  I0_state_reg_3_
+ 2   B 13  -   5  1 TFF      R       3  ABC-------------  I0_state_reg_4_
+ 3   A 18  -   3  1 DFF      R       2  AB--------------  I0_state_reg_5_
+ 1   F  9  -   3  1 DFF      R       2  A----F----------  I0_state_reg_6_
+15   C  0  -   0  0 COM              12 AB--EFG-IJK-MNOP  OSCOUT
+ 9   C  6  -   2  1 COM              2  --------IJ------  y0_0
+--   B  1   1  0 PTOE              ----------------     sda.OE
+--   A  1   1  0 PTOE              ----------------     Adapter.OE
+--   C  1   1  0 PTOE              ----------------     FPGA.OE
+-----------------------------------------------------------------------------------
 
 <Note> CLS = Number of clusters used
        INP = Number of input signals
@@ -538,432 +549,340 @@ Mc GLB  P LL PTs  S Type E S P E R P                     Signal
 
 PostFit_Equations
 ~~~~~~~~~~~~~~~~~
-data_out_0_.D = shift_0_.Q ; (1 pterm, 1 signal)
-data_out_0_.C = scl_in ; (1 pterm, 1 signal)
-data_out_0_.CE = !r_w.Q & data_vld.Q & inst_ack_out.Q ; (1 pterm, 3 signals)
-data_out_0_.AR = XRESET ; (1 pterm, 1 signal)
 
-data_out_1_.D = shift_1_.Q ; (1 pterm, 1 signal)
-data_out_1_.C = scl_in ; (1 pterm, 1 signal)
-data_out_1_.CE = !r_w.Q & data_vld.Q & inst_ack_out.Q ; (1 pterm, 3 signals)
-data_out_1_.AR = XRESET ; (1 pterm, 1 signal)
+Adapter = FPGA.PIN ; (1 pterm, 1 signal)
+Adapter.OE = IOselector ; (1 pterm, 1 signal)
 
-data_out_2_.D = shift_2_.Q ; (1 pterm, 1 signal)
-data_out_2_.C = scl_in ; (1 pterm, 1 signal)
-data_out_2_.CE = !r_w.Q & data_vld.Q & inst_ack_out.Q ; (1 pterm, 3 signals)
-data_out_2_.AR = XRESET ; (1 pterm, 1 signal)
+FPGA = Adapter.PIN ; (1 pterm, 1 signal)
+FPGA.OE = !IOselector ; (1 pterm, 1 signal)
 
-data_out_3_.D = shift_3_.Q ; (1 pterm, 1 signal)
-data_out_3_.C = scl_in ; (1 pterm, 1 signal)
-data_out_3_.CE = !r_w.Q & data_vld.Q & inst_ack_out.Q ; (1 pterm, 3 signals)
-data_out_3_.AR = XRESET ; (1 pterm, 1 signal)
+I0_addr_reg_0_.D = I0_bits_processed_reg_1_.Q & I0_bits_processed_reg_2_.Q
+       & I0_inst_sda_pre_internal.Q
+    # !I0_bits_processed_reg_2_.Q & I0_addr_reg_0_.Q
+    # !I0_bits_processed_reg_1_.Q & I0_addr_reg_0_.Q ; (3 pterms, 4 signals)
+I0_addr_reg_0_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_addr_reg_0_.CE = I0_addr_reg_0__0 ; (1 pterm, 1 signal)
 
-data_out_4_.D = shift_4_.Q ; (1 pterm, 1 signal)
-data_out_4_.C = scl_in ; (1 pterm, 1 signal)
-data_out_4_.CE = !r_w.Q & data_vld.Q & inst_ack_out.Q ; (1 pterm, 3 signals)
-data_out_4_.AR = XRESET ; (1 pterm, 1 signal)
+I0_addr_reg_0__0 = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_3_.Q
+       & I0_inst_scl_rising_reg.Q & I0_state_reg_6_.Q
+    # !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_3_.Q
+       & I0_inst_scl_rising_reg.Q & I0_state_reg_6_.Q
+    # !I0_bits_processed_reg_2_.Q & !I0_bits_processed_reg_3_.Q
+       & I0_inst_scl_rising_reg.Q & I0_state_reg_6_.Q ; (3 pterms, 6 signals)
 
-data_out_5_.D = shift_5_.Q ; (1 pterm, 1 signal)
-data_out_5_.C = scl_in ; (1 pterm, 1 signal)
-data_out_5_.CE = !r_w.Q & data_vld.Q & inst_ack_out.Q ; (1 pterm, 3 signals)
-data_out_5_.AR = XRESET ; (1 pterm, 1 signal)
+I0_addr_reg_1_.D = I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_2_.Q
+       & I0_inst_sda_pre_internal.Q
+    # !I0_bits_processed_reg_2_.Q & I0_addr_reg_1_.Q
+    # !I0_bits_processed_reg_0_.Q & I0_addr_reg_1_.Q ; (3 pterms, 4 signals)
+I0_addr_reg_1_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_addr_reg_1_.CE = I0_addr_reg_0__0 ; (1 pterm, 1 signal)
 
-data_out_6_.D = shift_6_.Q ; (1 pterm, 1 signal)
-data_out_6_.C = scl_in ; (1 pterm, 1 signal)
-data_out_6_.CE = !r_w.Q & data_vld.Q & inst_ack_out.Q ; (1 pterm, 3 signals)
-data_out_6_.AR = XRESET ; (1 pterm, 1 signal)
+I0_addr_reg_2_.D = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & I0_bits_processed_reg_2_.Q & I0_inst_sda_pre_internal.Q
+    # !I0_bits_processed_reg_2_.Q & I0_addr_reg_2_.Q
+    # I0_bits_processed_reg_1_.Q & I0_addr_reg_2_.Q
+    # I0_bits_processed_reg_0_.Q & I0_addr_reg_2_.Q ; (4 pterms, 5 signals)
+I0_addr_reg_2_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_addr_reg_2_.CE = I0_addr_reg_0__0 ; (1 pterm, 1 signal)
 
-data_out_7_.D = shift_7_.Q ; (1 pterm, 1 signal)
-data_out_7_.C = scl_in ; (1 pterm, 1 signal)
-data_out_7_.CE = !r_w.Q & data_vld.Q & inst_ack_out.Q ; (1 pterm, 3 signals)
-data_out_7_.AR = XRESET ; (1 pterm, 1 signal)
+I0_addr_reg_3_.D = I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & I0_inst_sda_pre_internal.Q
+    # !I0_bits_processed_reg_1_.Q & I0_addr_reg_3_.Q
+    # !I0_bits_processed_reg_0_.Q & I0_addr_reg_3_.Q ; (3 pterms, 4 signals)
+I0_addr_reg_3_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_addr_reg_3_.CE = I0_addr_reg_0__0 ; (1 pterm, 1 signal)
 
-data_vld.D = sm_state_1_.Q ; (1 pterm, 1 signal)
-data_vld.C = scl_in ; (1 pterm, 1 signal)
-data_vld.CE = !( !sm_state_0_.Q & !sm_state_8_.Q & !sm_state_17_.Q
-       & !sm_state_1_.Q ) ; (1 pterm, 4 signals)
-data_vld.AR = XRESET ; (1 pterm, 1 signal)
+I0_addr_reg_4_.D = !I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_inst_sda_pre_internal.Q
+    # I0_bits_processed_reg_2_.Q & I0_addr_reg_4_.Q
+    # !I0_bits_processed_reg_1_.Q & I0_addr_reg_4_.Q
+    # I0_bits_processed_reg_0_.Q & I0_addr_reg_4_.Q ; (4 pterms, 5 signals)
+I0_addr_reg_4_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_addr_reg_4_.CE = I0_addr_reg_0__0 ; (1 pterm, 1 signal)
 
-inst_ack_out.D = !r_w.Q & sm_state_0_.Q
-    # sm_state_9_.Q ; (2 pterms, 3 signals)
-inst_ack_out.C = !scl_in ; (1 pterm, 1 signal)
-inst_ack_out.AR = XRESET ; (1 pterm, 1 signal)
+I0_addr_reg_5_.D = I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_inst_sda_pre_internal.Q
+    # I0_bits_processed_reg_2_.Q & I0_addr_reg_5_.Q
+    # I0_bits_processed_reg_1_.Q & I0_addr_reg_5_.Q
+    # !I0_bits_processed_reg_0_.Q & I0_addr_reg_5_.Q ; (4 pterms, 5 signals)
+I0_addr_reg_5_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_addr_reg_5_.CE = I0_addr_reg_0__0 ; (1 pterm, 1 signal)
 
-inst_sda_en.D = !( data_in_7_ & !sm_state_10_.Q & !sm_state_1_.Q
-       & !sm_state_15_.Q & !sm_state_14_.Q & !sm_state_13_.Q & !sm_state_12_.Q
-       & !sm_state_11_.Q & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q
-       & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q
-    # !sm_state_8_.Q & !sm_state_10_.Q & !sm_state_1_.Q & !sm_state_15_.Q
-       & !sm_state_14_.Q & !sm_state_13_.Q & !sm_state_12_.Q & !sm_state_11_.Q
-       & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q & !sm_state_4_.Q
-       & !sm_state_3_.Q & !sm_state_2_.Q
-    # !sm_state_9_.Q & !sm_state_8_.Q & !sm_state_1_.Q & !sm_state_7_.Q
-       & !sm_state_6_.Q & !sm_state_5_.Q & !sm_state_4_.Q & !sm_state_3_.Q
-       & !sm_state_2_.Q
-    # data_in_7_ & shift_6_.Q
-    # data_in_7_ & sm_state_0_.Q
-    # shift_6_.Q & !sm_state_8_.Q
-    # sm_state_0_.Q & !sm_state_8_.Q
-    # !r_w.Q ) ; (8 pterms, 19 signals)
-inst_sda_en.C = !scl_in ; (1 pterm, 1 signal)
-inst_sda_en.AR = XRESET ; (1 pterm, 1 signal)
+I0_addr_reg_6_.D = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_inst_sda_pre_internal.Q
+    # I0_bits_processed_reg_2_.Q & I0_addr_reg_6_.Q
+    # I0_bits_processed_reg_1_.Q & I0_addr_reg_6_.Q
+    # I0_bits_processed_reg_0_.Q & I0_addr_reg_6_.Q ; (4 pterms, 5 signals)
+I0_addr_reg_6_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_addr_reg_6_.CE = I0_addr_reg_0__0 ; (1 pterm, 1 signal)
 
-inst_sda_f.D = sda_in ; (1 pterm, 1 signal)
-inst_sda_f.C = sda_clk ; (1 pterm, 1 signal)
-inst_sda_f.AR = !sda_in & start_async_rst ; (1 pterm, 2 signals)
-inst_sda_f.AP = sda_in & start_async_rst ; (1 pterm, 2 signals)
+I0_bits_processed_reg_0_.D = !I0_bits_processed_reg_0_.Q & !I0_inst_stop_reg.Q
+       & !I0_inst_scl_falling_reg.Q & !I0_inst_start_reg.Q
+    # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_3_.Q
+       & !I0_inst_stop_reg.Q & !I0_inst_start_reg.Q
+    # !I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_2_.Q
+       & !I0_inst_stop_reg.Q & !I0_inst_start_reg.Q
+    # !I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & !I0_inst_stop_reg.Q & !I0_inst_start_reg.Q ; (4 pterms, 7 signals)
+I0_bits_processed_reg_0_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_bits_processed_reg_0_.CE = I0_bits_processed_reg_0__0 ; (1 pterm, 1 signal)
 
-r_w.D = sda_in & !shift_0_.Q & sm_state_10_.Q
-    # r_w.Q & shift_0_.Q
-    # r_w.Q & !sm_state_10_.Q ; (3 pterms, 4 signals)
-r_w.C = scl_in ; (1 pterm, 1 signal)
-r_w.AP = XRESET ; (1 pterm, 1 signal)
+I0_bits_processed_reg_0__0 = I0_inst_stop_reg.Q
+    # I0_inst_start_reg.Q
+    # I0_inst_scl_rising_reg.Q & I0_state_reg_4_.Q
+    # !I0_bits_processed_reg_3_.Q & I0_inst_scl_falling_reg.Q
+       & I0_state_reg_3_.Q
+    # !I0_bits_processed_reg_3_.Q & I0_inst_scl_rising_reg.Q
+       & I0_state_reg_6_.Q
+    # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
+    # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_state_reg_6_.Q & I0_inst_scl_falling_reg.Q ; (7 pterms, 11 signals)
 
-scl_oe = !ready & sm_state_8_.Q ; (1 pterm, 2 signals)
+I0_bits_processed_reg_1_.D = I0_bits_processed_reg_0_.Q
+       & !I0_bits_processed_reg_1_.Q & !I0_inst_stop_reg.Q
+       & !I0_inst_start_reg.Q
+    # !I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & !I0_inst_stop_reg.Q & !I0_inst_start_reg.Q ; (2 pterms, 4 signals)
+I0_bits_processed_reg_1_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_bits_processed_reg_1_.CE = I0_bits_processed_reg_0__0 ; (1 pterm, 1 signal)
 
-sda_clk = sda_in & !inst_sda_f.Q
-    # !sda_in & inst_sda_f.Q ; (2 pterms, 2 signals)
+I0_bits_processed_reg_2_.D = I0_bits_processed_reg_0_.Q
+       & I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_2_.Q
+       & !I0_inst_stop_reg.Q & !I0_inst_start_reg.Q
+    # !I0_bits_processed_reg_1_.Q & I0_bits_processed_reg_2_.Q
+       & !I0_inst_stop_reg.Q & !I0_inst_start_reg.Q
+    # !I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_2_.Q
+       & !I0_inst_stop_reg.Q & !I0_inst_start_reg.Q ; (3 pterms, 5 signals)
+I0_bits_processed_reg_2_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_bits_processed_reg_2_.CE = I0_bits_processed_reg_0__0 ; (1 pterm, 1 signal)
 
-sda_oe = !( !inst_ack_out.Q & !inst_sda_en.Q ) ; (1 pterm, 2 signals)
+I0_bits_processed_reg_3_.D.X1 = I0_bits_processed_reg_0_.Q
+       & I0_bits_processed_reg_1_.Q & I0_bits_processed_reg_2_.Q
+       & !I0_inst_stop_reg.Q & !I0_inst_scl_falling_reg.Q
+       & !I0_inst_start_reg.Q
+    # I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & I0_bits_processed_reg_2_.Q & !I0_inst_stop_reg.Q
+       & !I0_inst_start_reg.Q & !I0_state_reg_3_.Q
+    # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & !I0_inst_stop_reg.Q & I0_inst_scl_falling_reg.Q
+       & !I0_inst_start_reg.Q
+    # I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & !I0_inst_stop_reg.Q & !I0_inst_start_reg.Q ; (4 pterms, 8 signals)
+I0_bits_processed_reg_3_.D.X2 = I0_bits_processed_reg_3_.Q
+       & !I0_inst_stop_reg.Q & !I0_inst_start_reg.Q ; (1 pterm, 3 signals)
+I0_bits_processed_reg_3_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_bits_processed_reg_3_.CE = I0_bits_processed_reg_0__0 ; (1 pterm, 1 signal)
 
-shift_0_.D = sda_in & !sm_state_8_.Q
-    # data_in_0_ & sm_state_8_.Q ; (2 pterms, 3 signals)
-shift_0_.C = !scl_in ; (1 pterm, 1 signal)
-shift_0_.CE = !( shift_0__0 ) ; (1 pterm, 1 signal)
-shift_0_.AR = XRESET ; (1 pterm, 1 signal)
+I0_data_reg_0_.D = I0_bits_processed_reg_1_.Q & I0_bits_processed_reg_2_.Q
+       & I0_inst_sda_pre_internal.Q
+    # !I0_bits_processed_reg_2_.Q & I0_data_reg_0_.Q
+    # !I0_bits_processed_reg_1_.Q & I0_data_reg_0_.Q ; (3 pterms, 4 signals)
+I0_data_reg_0_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_reg_0_.CE = I0_data_reg_0__0 ; (1 pterm, 1 signal)
 
-shift_0__0 = !start.Q & !sm_state_0_.Q & !sm_state_9_.Q & !sm_state_8_.Q
-       & sm_state_17_.Q & !sm_state_1_.Q & !sm_state_7_.Q & !sm_state_6_.Q
-       & !sm_state_5_.Q & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q
-    # !sm_state_0_.Q & sm_state_9_.Q & !sm_state_8_.Q & !sm_state_10_.Q
-       & !sm_state_17_.Q & !sm_state_1_.Q & !sm_state_15_.Q & !sm_state_14_.Q
-       & !sm_state_13_.Q & !sm_state_12_.Q & !sm_state_11_.Q & !sm_state_7_.Q
-       & !sm_state_6_.Q & !sm_state_5_.Q & !sm_state_4_.Q & !sm_state_3_.Q
-       & !sm_state_2_.Q
-    # !r_w.Q & !sm_state_0_.Q & sm_state_8_.Q & !sm_state_10_.Q
-       & !sm_state_17_.Q & !sm_state_1_.Q & !sm_state_15_.Q & !sm_state_14_.Q
-       & !sm_state_13_.Q & !sm_state_12_.Q & !sm_state_11_.Q & !sm_state_7_.Q
-       & !sm_state_6_.Q & !sm_state_5_.Q & !sm_state_4_.Q & !sm_state_3_.Q
-       & !sm_state_2_.Q
-    # !start.Q & !r_w.Q & !sm_state_0_.Q & !sm_state_10_.Q & sm_state_17_.Q
-       & !sm_state_1_.Q & !sm_state_15_.Q & !sm_state_14_.Q & !sm_state_13_.Q
-       & !sm_state_12_.Q & !sm_state_11_.Q & !sm_state_7_.Q & !sm_state_6_.Q
-       & !sm_state_5_.Q & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q
-    # !start.Q & !sm_state_0_.Q & !sm_state_8_.Q & !sm_state_10_.Q
-       & sm_state_17_.Q & !sm_state_1_.Q & !sm_state_15_.Q & !sm_state_14_.Q
-       & !sm_state_13_.Q & !sm_state_12_.Q & !sm_state_11_.Q & !sm_state_7_.Q
-       & !sm_state_6_.Q & !sm_state_5_.Q & !sm_state_4_.Q & !sm_state_3_.Q
-       & !sm_state_2_.Q ; (5 pterms, 19 signals)
+I0_data_reg_0__0 = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_3_.Q
+       & I0_inst_scl_rising_reg.Q & I0_state_reg_4_.Q
+    # !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_3_.Q
+       & I0_inst_scl_rising_reg.Q & I0_state_reg_4_.Q
+    # !I0_bits_processed_reg_2_.Q & !I0_bits_processed_reg_3_.Q
+       & I0_inst_scl_rising_reg.Q & I0_state_reg_4_.Q ; (3 pterms, 6 signals)
 
-shift_1_.D.X1 = !shift_0_.Q & !sm_state_0_.Q & !sm_state_9_.Q & !sm_state_8_.Q
-       & !sm_state_1_.Q & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q
-       & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q & shift_1_.Q
-    # !shift_0_.Q & !sm_state_0_.Q & !sm_state_8_.Q & !sm_state_10_.Q
-       & !sm_state_1_.Q & !sm_state_15_.Q & !sm_state_14_.Q & !sm_state_13_.Q
-       & !sm_state_12_.Q & !sm_state_11_.Q & !sm_state_7_.Q & !sm_state_6_.Q
-       & !sm_state_5_.Q & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q
-       & shift_1_.Q
-    # data_in_1_ & !shift_0_.Q & !sm_state_0_.Q & sm_state_8_.Q
-       & !sm_state_10_.Q & !sm_state_1_.Q & !sm_state_15_.Q & !sm_state_14_.Q
-       & !sm_state_13_.Q & !sm_state_12_.Q & !sm_state_11_.Q & !sm_state_7_.Q
-       & !sm_state_6_.Q & !sm_state_5_.Q & !sm_state_4_.Q & !sm_state_3_.Q
-       & !sm_state_2_.Q
-    # shift_0_.Q & !sm_state_9_.Q & !sm_state_8_.Q & !sm_state_1_.Q
-       & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q & !sm_state_4_.Q
-       & !sm_state_3_.Q & !sm_state_2_.Q & !shift_1_.Q
-    # shift_0_.Q & !sm_state_8_.Q & !sm_state_10_.Q & !sm_state_1_.Q
-       & !sm_state_15_.Q & !sm_state_14_.Q & !sm_state_13_.Q & !sm_state_12_.Q
-       & !sm_state_11_.Q & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q
-       & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q & !shift_1_.Q
-    # !data_in_1_ & shift_0_.Q & sm_state_8_.Q & !sm_state_10_.Q
-       & !sm_state_1_.Q & !sm_state_15_.Q & !sm_state_14_.Q & !sm_state_13_.Q
-       & !sm_state_12_.Q & !sm_state_11_.Q & !sm_state_7_.Q & !sm_state_6_.Q
-       & !sm_state_5_.Q & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q
-    # shift_0_.Q & sm_state_0_.Q ; (7 pterms, 19 signals)
-shift_1_.D.X2 = shift_0_.Q & !sm_state_0_.Q ; (1 pterm, 2 signals)
-shift_1_.C = !scl_in ; (1 pterm, 1 signal)
-shift_1_.CE = !( shift_0__0 ) ; (1 pterm, 1 signal)
-shift_1_.AR = XRESET ; (1 pterm, 1 signal)
+I0_data_reg_1_.D = I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_2_.Q
+       & I0_inst_sda_pre_internal.Q
+    # !I0_bits_processed_reg_2_.Q & I0_data_reg_1_.Q
+    # !I0_bits_processed_reg_0_.Q & I0_data_reg_1_.Q ; (3 pterms, 4 signals)
+I0_data_reg_1_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_reg_1_.CE = I0_data_reg_0__0 ; (1 pterm, 1 signal)
 
-shift_2_.D.X1 = !sm_state_0_.Q & !sm_state_9_.Q & !sm_state_8_.Q
-       & !sm_state_1_.Q & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q
-       & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q & !shift_1_.Q
-       & shift_2_.Q
-    # !sm_state_0_.Q & !sm_state_8_.Q & !sm_state_10_.Q & !sm_state_1_.Q
-       & !sm_state_15_.Q & !sm_state_14_.Q & !sm_state_13_.Q & !sm_state_12_.Q
-       & !sm_state_11_.Q & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q
-       & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q & !shift_1_.Q
-       & shift_2_.Q
-    # data_in_2_ & !sm_state_0_.Q & sm_state_8_.Q & !sm_state_10_.Q
-       & !sm_state_1_.Q & !sm_state_15_.Q & !sm_state_14_.Q & !sm_state_13_.Q
-       & !sm_state_12_.Q & !sm_state_11_.Q & !sm_state_7_.Q & !sm_state_6_.Q
-       & !sm_state_5_.Q & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q
-       & !shift_1_.Q
-    # !sm_state_9_.Q & !sm_state_8_.Q & !sm_state_1_.Q & !sm_state_7_.Q
-       & !sm_state_6_.Q & !sm_state_5_.Q & !sm_state_4_.Q & !sm_state_3_.Q
-       & !sm_state_2_.Q & shift_1_.Q & !shift_2_.Q
-    # !sm_state_8_.Q & !sm_state_10_.Q & !sm_state_1_.Q & !sm_state_15_.Q
-       & !sm_state_14_.Q & !sm_state_13_.Q & !sm_state_12_.Q & !sm_state_11_.Q
-       & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q & !sm_state_4_.Q
-       & !sm_state_3_.Q & !sm_state_2_.Q & shift_1_.Q & !shift_2_.Q
-    # !data_in_2_ & sm_state_8_.Q & !sm_state_10_.Q & !sm_state_1_.Q
-       & !sm_state_15_.Q & !sm_state_14_.Q & !sm_state_13_.Q & !sm_state_12_.Q
-       & !sm_state_11_.Q & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q
-       & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q & shift_1_.Q
-    # sm_state_0_.Q & shift_1_.Q ; (7 pterms, 19 signals)
-shift_2_.D.X2 = !sm_state_0_.Q & shift_1_.Q ; (1 pterm, 2 signals)
-shift_2_.C = !scl_in ; (1 pterm, 1 signal)
-shift_2_.CE = !( shift_0__0 ) ; (1 pterm, 1 signal)
-shift_2_.AR = XRESET ; (1 pterm, 1 signal)
+I0_data_reg_2_.D = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & I0_bits_processed_reg_2_.Q & I0_inst_sda_pre_internal.Q
+    # !I0_bits_processed_reg_2_.Q & I0_data_reg_2_.Q
+    # I0_bits_processed_reg_1_.Q & I0_data_reg_2_.Q
+    # I0_bits_processed_reg_0_.Q & I0_data_reg_2_.Q ; (4 pterms, 5 signals)
+I0_data_reg_2_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_reg_2_.CE = I0_data_reg_0__0 ; (1 pterm, 1 signal)
 
-shift_3_.D.X1 = !sm_state_0_.Q & !sm_state_9_.Q & !sm_state_8_.Q
-       & !sm_state_1_.Q & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q
-       & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q & !shift_2_.Q
-       & shift_3_.Q
-    # !sm_state_0_.Q & !sm_state_8_.Q & !sm_state_10_.Q & !sm_state_1_.Q
-       & !sm_state_15_.Q & !sm_state_14_.Q & !sm_state_13_.Q & !sm_state_12_.Q
-       & !sm_state_11_.Q & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q
-       & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q & !shift_2_.Q
-       & shift_3_.Q
-    # data_in_3_ & !sm_state_0_.Q & sm_state_8_.Q & !sm_state_10_.Q
-       & !sm_state_1_.Q & !sm_state_15_.Q & !sm_state_14_.Q & !sm_state_13_.Q
-       & !sm_state_12_.Q & !sm_state_11_.Q & !sm_state_7_.Q & !sm_state_6_.Q
-       & !sm_state_5_.Q & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q
-       & !shift_2_.Q
-    # !sm_state_9_.Q & !sm_state_8_.Q & !sm_state_1_.Q & !sm_state_7_.Q
-       & !sm_state_6_.Q & !sm_state_5_.Q & !sm_state_4_.Q & !sm_state_3_.Q
-       & !sm_state_2_.Q & shift_2_.Q & !shift_3_.Q
-    # !sm_state_8_.Q & !sm_state_10_.Q & !sm_state_1_.Q & !sm_state_15_.Q
-       & !sm_state_14_.Q & !sm_state_13_.Q & !sm_state_12_.Q & !sm_state_11_.Q
-       & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q & !sm_state_4_.Q
-       & !sm_state_3_.Q & !sm_state_2_.Q & shift_2_.Q & !shift_3_.Q
-    # !data_in_3_ & sm_state_8_.Q & !sm_state_10_.Q & !sm_state_1_.Q
-       & !sm_state_15_.Q & !sm_state_14_.Q & !sm_state_13_.Q & !sm_state_12_.Q
-       & !sm_state_11_.Q & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q
-       & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q & shift_2_.Q
-    # sm_state_0_.Q & shift_2_.Q ; (7 pterms, 19 signals)
-shift_3_.D.X2 = !sm_state_0_.Q & shift_2_.Q ; (1 pterm, 2 signals)
-shift_3_.C = !scl_in ; (1 pterm, 1 signal)
-shift_3_.CE = !( shift_0__0 ) ; (1 pterm, 1 signal)
-shift_3_.AR = XRESET ; (1 pterm, 1 signal)
+I0_data_reg_3_.D = I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & I0_inst_sda_pre_internal.Q
+    # !I0_bits_processed_reg_1_.Q & I0_data_reg_3_.Q
+    # !I0_bits_processed_reg_0_.Q & I0_data_reg_3_.Q ; (3 pterms, 4 signals)
+I0_data_reg_3_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_reg_3_.CE = I0_data_reg_0__0 ; (1 pterm, 1 signal)
 
-shift_4_.D.X1 = !sm_state_0_.Q & !sm_state_9_.Q & !sm_state_8_.Q
-       & !sm_state_1_.Q & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q
-       & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q & !shift_3_.Q
-       & shift_4_.Q
-    # !sm_state_0_.Q & !sm_state_8_.Q & !sm_state_10_.Q & !sm_state_1_.Q
-       & !sm_state_15_.Q & !sm_state_14_.Q & !sm_state_13_.Q & !sm_state_12_.Q
-       & !sm_state_11_.Q & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q
-       & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q & !shift_3_.Q
-       & shift_4_.Q
-    # data_in_4_ & !sm_state_0_.Q & sm_state_8_.Q & !sm_state_10_.Q
-       & !sm_state_1_.Q & !sm_state_15_.Q & !sm_state_14_.Q & !sm_state_13_.Q
-       & !sm_state_12_.Q & !sm_state_11_.Q & !sm_state_7_.Q & !sm_state_6_.Q
-       & !sm_state_5_.Q & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q
-       & !shift_3_.Q
-    # !sm_state_9_.Q & !sm_state_8_.Q & !sm_state_1_.Q & !sm_state_7_.Q
-       & !sm_state_6_.Q & !sm_state_5_.Q & !sm_state_4_.Q & !sm_state_3_.Q
-       & !sm_state_2_.Q & shift_3_.Q & !shift_4_.Q
-    # !sm_state_8_.Q & !sm_state_10_.Q & !sm_state_1_.Q & !sm_state_15_.Q
-       & !sm_state_14_.Q & !sm_state_13_.Q & !sm_state_12_.Q & !sm_state_11_.Q
-       & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q & !sm_state_4_.Q
-       & !sm_state_3_.Q & !sm_state_2_.Q & shift_3_.Q & !shift_4_.Q
-    # !data_in_4_ & sm_state_8_.Q & !sm_state_10_.Q & !sm_state_1_.Q
-       & !sm_state_15_.Q & !sm_state_14_.Q & !sm_state_13_.Q & !sm_state_12_.Q
-       & !sm_state_11_.Q & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q
-       & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q & shift_3_.Q
-    # sm_state_0_.Q & shift_3_.Q ; (7 pterms, 19 signals)
-shift_4_.D.X2 = !sm_state_0_.Q & shift_3_.Q ; (1 pterm, 2 signals)
-shift_4_.C = !scl_in ; (1 pterm, 1 signal)
-shift_4_.CE = !( shift_0__0 ) ; (1 pterm, 1 signal)
-shift_4_.AR = XRESET ; (1 pterm, 1 signal)
+I0_data_reg_4_.D = !I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_inst_sda_pre_internal.Q
+    # I0_bits_processed_reg_2_.Q & I0_data_reg_4_.Q
+    # !I0_bits_processed_reg_1_.Q & I0_data_reg_4_.Q
+    # I0_bits_processed_reg_0_.Q & I0_data_reg_4_.Q ; (4 pterms, 5 signals)
+I0_data_reg_4_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_reg_4_.CE = I0_data_reg_0__0 ; (1 pterm, 1 signal)
 
-shift_5_.D.X1 = !sm_state_0_.Q & !sm_state_9_.Q & !sm_state_8_.Q
-       & !sm_state_1_.Q & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q
-       & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q & !shift_4_.Q
-       & shift_5_.Q
-    # !sm_state_0_.Q & !sm_state_8_.Q & !sm_state_10_.Q & !sm_state_1_.Q
-       & !sm_state_15_.Q & !sm_state_14_.Q & !sm_state_13_.Q & !sm_state_12_.Q
-       & !sm_state_11_.Q & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q
-       & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q & !shift_4_.Q
-       & shift_5_.Q
-    # data_in_5_ & !sm_state_0_.Q & sm_state_8_.Q & !sm_state_10_.Q
-       & !sm_state_1_.Q & !sm_state_15_.Q & !sm_state_14_.Q & !sm_state_13_.Q
-       & !sm_state_12_.Q & !sm_state_11_.Q & !sm_state_7_.Q & !sm_state_6_.Q
-       & !sm_state_5_.Q & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q
-       & !shift_4_.Q
-    # !sm_state_9_.Q & !sm_state_8_.Q & !sm_state_1_.Q & !sm_state_7_.Q
-       & !sm_state_6_.Q & !sm_state_5_.Q & !sm_state_4_.Q & !sm_state_3_.Q
-       & !sm_state_2_.Q & shift_4_.Q & !shift_5_.Q
-    # !sm_state_8_.Q & !sm_state_10_.Q & !sm_state_1_.Q & !sm_state_15_.Q
-       & !sm_state_14_.Q & !sm_state_13_.Q & !sm_state_12_.Q & !sm_state_11_.Q
-       & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q & !sm_state_4_.Q
-       & !sm_state_3_.Q & !sm_state_2_.Q & shift_4_.Q & !shift_5_.Q
-    # !data_in_5_ & sm_state_8_.Q & !sm_state_10_.Q & !sm_state_1_.Q
-       & !sm_state_15_.Q & !sm_state_14_.Q & !sm_state_13_.Q & !sm_state_12_.Q
-       & !sm_state_11_.Q & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q
-       & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q & shift_4_.Q
-    # sm_state_0_.Q & shift_4_.Q ; (7 pterms, 19 signals)
-shift_5_.D.X2 = !sm_state_0_.Q & shift_4_.Q ; (1 pterm, 2 signals)
-shift_5_.C = !scl_in ; (1 pterm, 1 signal)
-shift_5_.CE = !( shift_0__0 ) ; (1 pterm, 1 signal)
-shift_5_.AR = XRESET ; (1 pterm, 1 signal)
+I0_data_reg_5_.D = I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_inst_sda_pre_internal.Q
+    # I0_bits_processed_reg_2_.Q & I0_data_reg_5_.Q
+    # I0_bits_processed_reg_1_.Q & I0_data_reg_5_.Q
+    # !I0_bits_processed_reg_0_.Q & I0_data_reg_5_.Q ; (4 pterms, 5 signals)
+I0_data_reg_5_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_reg_5_.CE = I0_data_reg_0__0 ; (1 pterm, 1 signal)
 
-shift_6_.D.X1 = !sm_state_0_.Q & shift_6_.Q & !sm_state_9_.Q & !sm_state_8_.Q
-       & !sm_state_1_.Q & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q
-       & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q & !shift_5_.Q
-    # !sm_state_0_.Q & shift_6_.Q & !sm_state_8_.Q & !sm_state_10_.Q
-       & !sm_state_1_.Q & !sm_state_15_.Q & !sm_state_14_.Q & !sm_state_13_.Q
-       & !sm_state_12_.Q & !sm_state_11_.Q & !sm_state_7_.Q & !sm_state_6_.Q
-       & !sm_state_5_.Q & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q
-       & !shift_5_.Q
-    # data_in_6_ & !sm_state_0_.Q & sm_state_8_.Q & !sm_state_10_.Q
-       & !sm_state_1_.Q & !sm_state_15_.Q & !sm_state_14_.Q & !sm_state_13_.Q
-       & !sm_state_12_.Q & !sm_state_11_.Q & !sm_state_7_.Q & !sm_state_6_.Q
-       & !sm_state_5_.Q & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q
-       & !shift_5_.Q
-    # !shift_6_.Q & !sm_state_9_.Q & !sm_state_8_.Q & !sm_state_1_.Q
-       & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q & !sm_state_4_.Q
-       & !sm_state_3_.Q & !sm_state_2_.Q & shift_5_.Q
-    # !shift_6_.Q & !sm_state_8_.Q & !sm_state_10_.Q & !sm_state_1_.Q
-       & !sm_state_15_.Q & !sm_state_14_.Q & !sm_state_13_.Q & !sm_state_12_.Q
-       & !sm_state_11_.Q & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q
-       & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q & shift_5_.Q
-    # !data_in_6_ & sm_state_8_.Q & !sm_state_10_.Q & !sm_state_1_.Q
-       & !sm_state_15_.Q & !sm_state_14_.Q & !sm_state_13_.Q & !sm_state_12_.Q
-       & !sm_state_11_.Q & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q
-       & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q & shift_5_.Q
-    # sm_state_0_.Q & shift_5_.Q ; (7 pterms, 19 signals)
-shift_6_.D.X2 = !sm_state_0_.Q & shift_5_.Q ; (1 pterm, 2 signals)
-shift_6_.C = !scl_in ; (1 pterm, 1 signal)
-shift_6_.CE = !( shift_0__0 ) ; (1 pterm, 1 signal)
-shift_6_.AR = XRESET ; (1 pterm, 1 signal)
+I0_data_reg_6_.D = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_inst_sda_pre_internal.Q
+    # I0_bits_processed_reg_2_.Q & I0_data_reg_6_.Q
+    # I0_bits_processed_reg_1_.Q & I0_data_reg_6_.Q
+    # I0_bits_processed_reg_0_.Q & I0_data_reg_6_.Q ; (4 pterms, 5 signals)
+I0_data_reg_6_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_reg_6_.CE = I0_data_reg_0__0 ; (1 pterm, 1 signal)
 
-shift_7_.D.X1 = !sm_state_0_.Q & !shift_6_.Q & !sm_state_9_.Q & !sm_state_8_.Q
-       & !sm_state_1_.Q & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q
-       & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q & shift_7_.Q
-    # !sm_state_0_.Q & !shift_6_.Q & !sm_state_8_.Q & !sm_state_10_.Q
-       & !sm_state_1_.Q & !sm_state_15_.Q & !sm_state_14_.Q & !sm_state_13_.Q
-       & !sm_state_12_.Q & !sm_state_11_.Q & !sm_state_7_.Q & !sm_state_6_.Q
-       & !sm_state_5_.Q & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q
-       & shift_7_.Q
-    # data_in_7_ & !sm_state_0_.Q & !shift_6_.Q & sm_state_8_.Q
-       & !sm_state_10_.Q & !sm_state_1_.Q & !sm_state_15_.Q & !sm_state_14_.Q
-       & !sm_state_13_.Q & !sm_state_12_.Q & !sm_state_11_.Q & !sm_state_7_.Q
-       & !sm_state_6_.Q & !sm_state_5_.Q & !sm_state_4_.Q & !sm_state_3_.Q
-       & !sm_state_2_.Q
-    # shift_6_.Q & !sm_state_9_.Q & !sm_state_8_.Q & !sm_state_1_.Q
-       & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q & !sm_state_4_.Q
-       & !sm_state_3_.Q & !sm_state_2_.Q & !shift_7_.Q
-    # shift_6_.Q & !sm_state_8_.Q & !sm_state_10_.Q & !sm_state_1_.Q
-       & !sm_state_15_.Q & !sm_state_14_.Q & !sm_state_13_.Q & !sm_state_12_.Q
-       & !sm_state_11_.Q & !sm_state_7_.Q & !sm_state_6_.Q & !sm_state_5_.Q
-       & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q & !shift_7_.Q
-    # !data_in_7_ & shift_6_.Q & sm_state_8_.Q & !sm_state_10_.Q
-       & !sm_state_1_.Q & !sm_state_15_.Q & !sm_state_14_.Q & !sm_state_13_.Q
-       & !sm_state_12_.Q & !sm_state_11_.Q & !sm_state_7_.Q & !sm_state_6_.Q
-       & !sm_state_5_.Q & !sm_state_4_.Q & !sm_state_3_.Q & !sm_state_2_.Q
-    # sm_state_0_.Q & shift_6_.Q ; (7 pterms, 19 signals)
-shift_7_.D.X2 = !sm_state_0_.Q & shift_6_.Q ; (1 pterm, 2 signals)
-shift_7_.C = !scl_in ; (1 pterm, 1 signal)
-shift_7_.CE = !( shift_0__0 ) ; (1 pterm, 1 signal)
-shift_7_.AR = XRESET ; (1 pterm, 1 signal)
+I0_inst_cmd_reg.D = I0_inst_sda_pre_internal.Q ; (1 pterm, 1 signal)
+I0_inst_cmd_reg.C = OSCOUT ; (1 pterm, 1 signal)
+I0_inst_cmd_reg.CE = I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & I0_bits_processed_reg_2_.Q & !I0_bits_processed_reg_3_.Q
+       & I0_inst_scl_rising_reg.Q & I0_state_reg_6_.Q ; (1 pterm, 6 signals)
 
-sm_state_0_.D = sm_state_1_.Q ; (1 pterm, 1 signal)
-sm_state_0_.C = scl_in ; (1 pterm, 1 signal)
-sm_state_0_.AR = XRESET ; (1 pterm, 1 signal)
+I0_inst_continue_reg.D = !I0_inst_sda_pre_internal.Q ; (1 pterm, 1 signal)
+I0_inst_continue_reg.C = OSCOUT ; (1 pterm, 1 signal)
+I0_inst_continue_reg.CE = I0_state_reg_2_.Q & I0_inst_scl_rising_reg.Q ; (1 pterm, 2 signals)
 
-sm_state_10_.D = shift_0_.Q & sm_state_11_.Q ; (1 pterm, 2 signals)
-sm_state_10_.C = scl_in ; (1 pterm, 1 signal)
-sm_state_10_.AR = XRESET ; (1 pterm, 1 signal)
+I0_inst_scl_falling_reg.D = !I0_inst_scl_pre_internal.Q
+       & I0_inst_scl_prev_reg.Q ; (1 pterm, 2 signals)
+I0_inst_scl_falling_reg.C = OSCOUT ; (1 pterm, 1 signal)
 
-sm_state_11_.D = !shift_0_.Q & sm_state_12_.Q ; (1 pterm, 2 signals)
-sm_state_11_.C = scl_in ; (1 pterm, 1 signal)
-sm_state_11_.AR = XRESET ; (1 pterm, 1 signal)
+I0_inst_scl_pre_internal.D = scl ; (1 pterm, 1 signal)
+I0_inst_scl_pre_internal.C = OSCOUT ; (1 pterm, 1 signal)
 
-sm_state_12_.D = !shift_0_.Q & sm_state_13_.Q ; (1 pterm, 2 signals)
-sm_state_12_.C = scl_in ; (1 pterm, 1 signal)
-sm_state_12_.AR = XRESET ; (1 pterm, 1 signal)
+I0_inst_scl_prev_reg.D = I0_inst_scl_pre_internal.Q ; (1 pterm, 1 signal)
+I0_inst_scl_prev_reg.C = OSCOUT ; (1 pterm, 1 signal)
 
-sm_state_13_.D = shift_0_.Q & sm_state_14_.Q ; (1 pterm, 2 signals)
-sm_state_13_.C = scl_in ; (1 pterm, 1 signal)
-sm_state_13_.AR = XRESET ; (1 pterm, 1 signal)
+I0_inst_scl_rising_reg.D = I0_inst_scl_pre_internal.Q
+       & !I0_inst_scl_prev_reg.Q ; (1 pterm, 2 signals)
+I0_inst_scl_rising_reg.C = OSCOUT ; (1 pterm, 1 signal)
 
-sm_state_14_.D = !shift_0_.Q & sm_state_15_.Q ; (1 pterm, 2 signals)
-sm_state_14_.C = scl_in ; (1 pterm, 1 signal)
-sm_state_14_.AR = XRESET ; (1 pterm, 1 signal)
+I0_inst_sda_pre_internal.D = sda.PIN ; (1 pterm, 1 signal)
+I0_inst_sda_pre_internal.C = OSCOUT ; (1 pterm, 1 signal)
 
-sm_state_15_.D = shift_0_.Q & sm_state_16_.Q ; (1 pterm, 2 signals)
-sm_state_15_.C = scl_in ; (1 pterm, 1 signal)
-sm_state_15_.AR = XRESET ; (1 pterm, 1 signal)
+I0_inst_sda_prev_reg.D = I0_inst_sda_pre_internal.Q ; (1 pterm, 1 signal)
+I0_inst_sda_prev_reg.C = OSCOUT ; (1 pterm, 1 signal)
 
-sm_state_16_.D = start.Q & sm_state_17_.Q
-    # start.Q & !stop.Q & sm_state_7_.Q ; (2 pterms, 4 signals)
-sm_state_16_.C = scl_in ; (1 pterm, 1 signal)
-sm_state_16_.AR = XRESET ; (1 pterm, 1 signal)
+I0_inst_sda_wen_reg.D = !( !I0_state_reg_3_.Q & !I0_state_reg_5_.Q ) ; (1 pterm, 2 signals)
+I0_inst_sda_wen_reg.C = OSCOUT ; (1 pterm, 1 signal)
 
-sm_state_17_.D = !start.Q & sm_state_17_.Q
-    # !ready & sm_state_8_.Q
-    # sda_in & sm_state_0_.Q
-    # !shift_0_.Q & sm_state_11_.Q
-    # !shift_0_.Q & sm_state_14_.Q
-    # !shift_0_.Q & sm_state_16_.Q
-    # shift_0_.Q & sm_state_12_.Q
-    # shift_0_.Q & sm_state_13_.Q
-    # shift_0_.Q & sm_state_15_.Q
-    # shift_0_.Q & sm_state_10_.Q
-    # stop.Q & sm_state_7_.Q ; (11 pterms, 16 signals)
-sm_state_17_.C = scl_in ; (1 pterm, 1 signal)
-sm_state_17_.AP = XRESET ; (1 pterm, 1 signal)
+I0_inst_start_reg.D = !I0_inst_sda_pre_internal.Q & I0_inst_scl_pre_internal.Q
+       & I0_inst_scl_prev_reg.Q & I0_inst_sda_prev_reg.Q ; (1 pterm, 4 signals)
+I0_inst_start_reg.C = OSCOUT ; (1 pterm, 1 signal)
 
-sm_state_1_.D = sm_state_2_.Q ; (1 pterm, 1 signal)
-sm_state_1_.C = scl_in ; (1 pterm, 1 signal)
-sm_state_1_.AR = XRESET ; (1 pterm, 1 signal)
+I0_inst_stop_reg.D = I0_inst_sda_pre_internal.Q & I0_inst_scl_pre_internal.Q
+       & I0_inst_scl_prev_reg.Q & !I0_inst_sda_prev_reg.Q ; (1 pterm, 4 signals)
+I0_inst_stop_reg.C = OSCOUT ; (1 pterm, 1 signal)
 
-sm_state_2_.D = sm_state_3_.Q ; (1 pterm, 1 signal)
-sm_state_2_.C = scl_in ; (1 pterm, 1 signal)
-sm_state_2_.AR = XRESET ; (1 pterm, 1 signal)
+I0_state_reg_1_.D = !I0_inst_stop_reg.Q & I0_state_reg_2_.Q
+       & I0_inst_scl_rising_reg.Q & !I0_inst_start_reg.Q
+    # !I0_inst_stop_reg.Q & !I0_inst_scl_falling_reg.Q & !I0_inst_start_reg.Q
+       & I0_state_reg_1_.Q
+    # !I0_inst_stop_reg.Q & I0_state_reg_2_.Q & !I0_inst_start_reg.Q
+       & I0_state_reg_1_.Q ; (3 pterms, 6 signals)
+I0_state_reg_1_.C = OSCOUT ; (1 pterm, 1 signal)
 
-sm_state_3_.D = sm_state_4_.Q ; (1 pterm, 1 signal)
-sm_state_3_.C = scl_in ; (1 pterm, 1 signal)
-sm_state_3_.AR = XRESET ; (1 pterm, 1 signal)
+I0_state_reg_2_.D = I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & I0_bits_processed_reg_2_.Q & !I0_bits_processed_reg_3_.Q
+       & !I0_inst_stop_reg.Q & I0_inst_scl_falling_reg.Q
+       & !I0_inst_start_reg.Q & I0_state_reg_3_.Q
+    # !I0_inst_stop_reg.Q & I0_state_reg_2_.Q & !I0_inst_scl_rising_reg.Q
+       & !I0_inst_start_reg.Q ; (2 pterms, 10 signals)
+I0_state_reg_2_.C = OSCOUT ; (1 pterm, 1 signal)
 
-sm_state_4_.D = sm_state_5_.Q ; (1 pterm, 1 signal)
-sm_state_4_.C = scl_in ; (1 pterm, 1 signal)
-sm_state_4_.AR = XRESET ; (1 pterm, 1 signal)
+I0_state_reg_3_.T = I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & I0_bits_processed_reg_2_.Q & !I0_bits_processed_reg_3_.Q
+       & I0_inst_scl_falling_reg.Q & I0_state_reg_3_.Q & !I0_state_reg_5_.Q
+       & !I0_state_reg_1_.Q
+    # !I0_inst_stop_reg.Q & I0_inst_continue_reg.Q & I0_inst_scl_falling_reg.Q
+       & !I0_inst_start_reg.Q & !I0_state_reg_3_.Q & I0_state_reg_1_.Q
+       & I0_inst_cmd_reg.Q
+    # !I0_inst_stop_reg.Q & I0_inst_scl_falling_reg.Q & !I0_inst_start_reg.Q
+       & !I0_state_reg_3_.Q & I0_state_reg_5_.Q & I0_inst_cmd_reg.Q
+    # I0_inst_start_reg.Q & I0_state_reg_3_.Q
+    # I0_inst_stop_reg.Q & I0_state_reg_3_.Q ; (5 pterms, 12 signals)
+I0_state_reg_3_.C = OSCOUT ; (1 pterm, 1 signal)
 
-sm_state_5_.D = sm_state_6_.Q ; (1 pterm, 1 signal)
-sm_state_5_.C = scl_in ; (1 pterm, 1 signal)
-sm_state_5_.AR = XRESET ; (1 pterm, 1 signal)
+I0_state_reg_4_.T = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q & !I0_state_reg_5_.Q
+       & !I0_state_reg_1_.Q
+    # !I0_inst_stop_reg.Q & !I0_state_reg_4_.Q & I0_inst_continue_reg.Q
+       & I0_inst_scl_falling_reg.Q & !I0_inst_start_reg.Q & I0_state_reg_1_.Q
+       & !I0_inst_cmd_reg.Q
+    # !I0_inst_stop_reg.Q & !I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
+       & !I0_inst_start_reg.Q & I0_state_reg_5_.Q & !I0_inst_cmd_reg.Q
+    # I0_state_reg_4_.Q & I0_inst_start_reg.Q
+    # I0_inst_stop_reg.Q & I0_state_reg_4_.Q ; (5 pterms, 12 signals)
+I0_state_reg_4_.C = OSCOUT ; (1 pterm, 1 signal)
 
-sm_state_6_.D = !start.Q & !stop.Q & sm_state_7_.Q ; (1 pterm, 3 signals)
-sm_state_6_.C = scl_in ; (1 pterm, 1 signal)
-sm_state_6_.AR = XRESET ; (1 pterm, 1 signal)
+I0_state_reg_5_.D = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & !I0_addr_reg_0_.Q & !I0_addr_reg_1_.Q & !I0_addr_reg_3_.Q
+       & !I0_addr_reg_5_.Q & !I0_inst_stop_reg.Q & I0_state_reg_6_.Q
+       & I0_inst_scl_falling_reg.Q & I0_addr_reg_2_.Q & I0_addr_reg_4_.Q
+       & I0_addr_reg_6_.Q & !I0_inst_start_reg.Q
+    # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & !I0_inst_stop_reg.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
+       & !I0_inst_start_reg.Q
+    # !I0_inst_stop_reg.Q & !I0_inst_scl_falling_reg.Q & !I0_inst_start_reg.Q
+       & I0_state_reg_5_.Q ; (3 pterms, 17 signals)
+I0_state_reg_5_.C = OSCOUT ; (1 pterm, 1 signal)
 
-sm_state_7_.D = ready & sm_state_8_.Q ; (1 pterm, 2 signals)
-sm_state_7_.C = scl_in ; (1 pterm, 1 signal)
-sm_state_7_.AR = XRESET ; (1 pterm, 1 signal)
+I0_state_reg_6_.D = !( !I0_bits_processed_reg_0_.Q
+       & !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_2_.Q
+       & I0_bits_processed_reg_3_.Q & I0_inst_scl_falling_reg.Q
+       & !I0_inst_start_reg.Q
+    # I0_inst_stop_reg.Q
+    # !I0_state_reg_6_.Q & !I0_inst_start_reg.Q ) ; (3 pterms, 8 signals)
+I0_state_reg_6_.C = OSCOUT ; (1 pterm, 1 signal)
 
-sm_state_8_.D = !sda_in & sm_state_0_.Q
-    # sm_state_9_.Q ; (2 pterms, 3 signals)
-sm_state_8_.C = scl_in ; (1 pterm, 1 signal)
-sm_state_8_.AR = XRESET ; (1 pterm, 1 signal)
+sda = 0 ; (0 pterm, 0 signal)
+sda.OE = I0_inst_sda_wen_reg.Q ; (1 pterm, 1 signal)
 
-sm_state_9_.D = !shift_0_.Q & sm_state_10_.Q ; (1 pterm, 2 signals)
-sm_state_9_.C = scl_in ; (1 pterm, 1 signal)
-sm_state_9_.AR = XRESET ; (1 pterm, 1 signal)
+y0.D = I0_inst_sda_pre_internal.Q ; (1 pterm, 1 signal)
+y0.C = OSCOUT ; (1 pterm, 1 signal)
+y0.CE = y0_0 ; (1 pterm, 1 signal)
 
-start.D = scl_in ; (1 pterm, 1 signal)
-start.C = !inst_sda_f.Q ; (1 pterm, 1 signal)
-start.AR = start_async_rst ; (1 pterm, 1 signal)
+y0_0 = I0_bits_processed_reg_3_.Q & I0_inst_scl_rising_reg.Q
+       & I0_state_reg_4_.Q
+    # I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & I0_bits_processed_reg_2_.Q & I0_inst_scl_rising_reg.Q
+       & I0_state_reg_4_.Q ; (2 pterms, 6 signals)
 
-start_async_rst = !( !XRESET & !sm_state_16_.Q ) ; (1 pterm, 2 signals)
+y1.D = I0_data_reg_0_.Q ; (1 pterm, 1 signal)
+y1.C = OSCOUT ; (1 pterm, 1 signal)
+y1.CE = y0_0 ; (1 pterm, 1 signal)
 
-stop.D = scl_in ; (1 pterm, 1 signal)
-stop.C = sda_in ; (1 pterm, 1 signal)
-stop.AR = stop_0 ; (1 pterm, 1 signal)
+y2.D = I0_data_reg_1_.Q ; (1 pterm, 1 signal)
+y2.C = OSCOUT ; (1 pterm, 1 signal)
+y2.CE = y0_0 ; (1 pterm, 1 signal)
 
-stop_0 = !( !XRESET & !start.Q ) ; (1 pterm, 2 signals)
+y3.D = I0_data_reg_2_.Q ; (1 pterm, 1 signal)
+y3.C = OSCOUT ; (1 pterm, 1 signal)
+y3.CE = y0_0 ; (1 pterm, 1 signal)
+
+y4.D = I0_data_reg_3_.Q ; (1 pterm, 1 signal)
+y4.C = OSCOUT ; (1 pterm, 1 signal)
+y4.CE = y0_0 ; (1 pterm, 1 signal)
+
+y5.D = I0_data_reg_4_.Q ; (1 pterm, 1 signal)
+y5.C = OSCOUT ; (1 pterm, 1 signal)
+y5.CE = y0_0 ; (1 pterm, 1 signal)
+
+y6.D = I0_data_reg_5_.Q ; (1 pterm, 1 signal)
+y6.C = OSCOUT ; (1 pterm, 1 signal)
+y6.CE = y0_0 ; (1 pterm, 1 signal)
+
+y7.D = I0_data_reg_6_.Q ; (1 pterm, 1 signal)
+y7.C = OSCOUT ; (1 pterm, 1 signal)
+y7.CE = y0_0 ; (1 pterm, 1 signal)
 
 
 

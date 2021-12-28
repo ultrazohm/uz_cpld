@@ -1,0 +1,65 @@
+#$ TOOL  ispLEVER Classic 2.1.00.02.49.20
+#$ DATE  Thu Dec 23 19:32:14 2021
+#$ MODULE  count_osc
+#$ PROPERTY  LATTICE OSCTIMER I1= -, -, -, tmr_clk, 1048576; 
+#$ PINS 8 led_7_ led_6_ led_5_ led_4_ led_3_ led_2_ led_1_ led_0_
+#$ NODES 7 gnd_n_n tmr_clk c_delay_0_ c_delay_2_ c_delay_1_ c_delay_3_
+ A0_OSCOUT
+#$ EXTERNAL osctimer 4 DYNOSCDIS'i' TIMERRES'i' OSCOUT'o' TIMEROUT'o'
+#$ INSTANCE I1 OSCTIMER 4 gnd_n_n gnd_n_n A0_OSCOUT tmr_clk
+.model count_osc 
+.inputs tmr_clk.BLIF c_delay_0_.Q c_delay_2_.Q c_delay_1_.Q c_delay_3_.Q \
+ A0_OSCOUT.BLIF
+.outputs led_7_ led_6_ led_5_ led_4_ led_3_ led_2_ led_1_ led_0_ gnd_n_n \
+ c_delay_0_.D- c_delay_0_.C c_delay_2_.D c_delay_2_.C c_delay_1_.D c_delay_1_.C \
+ c_delay_3_.D c_delay_3_.C
+.names c_delay_2_.Q c_delay_1_.Q c_delay_3_.Q led_7_
+11- 1
+--1 1
+.names c_delay_2_.Q c_delay_1_.Q c_delay_3_.Q led_6_
+-00 1
+0-0 1
+.names c_delay_2_.Q c_delay_1_.Q c_delay_3_.Q led_5_
+11- 1
+--1 1
+.names c_delay_2_.Q c_delay_1_.Q c_delay_3_.Q led_4_
+-00 1
+0-0 1
+.names c_delay_2_.Q c_delay_1_.Q c_delay_3_.Q led_3_
+11- 1
+--1 1
+.names c_delay_2_.Q c_delay_1_.Q c_delay_3_.Q led_2_
+-00 1
+0-0 1
+.names c_delay_2_.Q c_delay_1_.Q c_delay_3_.Q led_1_
+11- 1
+--1 1
+.names c_delay_2_.Q c_delay_1_.Q c_delay_3_.Q led_0_
+-00 1
+0-0 1
+.names gnd_n_n
+.names c_delay_0_.Q c_delay_2_.Q c_delay_1_.Q c_delay_3_.Q c_delay_0_.D-
+-011 1
+1--- 1
+.names tmr_clk.BLIF c_delay_0_.C
+1 1
+.names c_delay_0_.Q c_delay_2_.Q c_delay_1_.Q c_delay_2_.D
+101 1
+01- 1
+-10 1
+.names tmr_clk.BLIF c_delay_2_.C
+1 1
+.names c_delay_0_.Q c_delay_2_.Q c_delay_1_.Q c_delay_3_.Q c_delay_1_.D
+011- 1
+1-0- 1
+0-10 1
+.names tmr_clk.BLIF c_delay_1_.C
+1 1
+.names c_delay_0_.Q c_delay_2_.Q c_delay_1_.Q c_delay_3_.Q c_delay_3_.D
+1110 1
+10-1 1
+01-1 1
+--01 1
+.names tmr_clk.BLIF c_delay_3_.C
+1 1
+.end

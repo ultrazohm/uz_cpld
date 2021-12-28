@@ -1,0 +1,36 @@
+#$ TOOL ispLEVER Classic 2.1.00.02.49.20
+#$ DATE Mon Dec 27 17:28:23 2021
+#$ MODULE sourceconcat
+#$ PINS 8 y0_7_ y0_6_ y0_5_ y0_4_ y0_3_ y0_2_ y0_1_ y0_0_
+#$ NODES 2 gnd_n_n vcc_n_n
+.model sourceconcat
+.inputs gnd_n_n.BLIF vcc_n_n.BLIF
+.outputs y0_7_ y0_6_ y0_5_ y0_4_ y0_3_ y0_2_ y0_1_ y0_0_ gnd_n_n vcc_n_n
+.names gnd_n_n
+.names vcc_n_n
+ 1
+.names vcc_n_n.BLIF y0_7_
+1 1
+0 0
+.names gnd_n_n.BLIF y0_6_
+1 1
+0 0
+.names vcc_n_n.BLIF y0_5_
+1 1
+0 0
+.names gnd_n_n.BLIF y0_4_
+1 1
+0 0
+.names vcc_n_n.BLIF y0_3_
+1 1
+0 0
+.names gnd_n_n.BLIF y0_2_
+1 1
+0 0
+.names vcc_n_n.BLIF y0_1_
+1 1
+0 0
+.names gnd_n_n.BLIF y0_0_
+1 1
+0 0
+.end

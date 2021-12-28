@@ -23,24 +23,23 @@ Section Member   Rename                   Array-Notation          Array Number  
         Port      data_out_0_                 data_out[0]                       2            7            
 End
 Section Cross Reference File
-Design 'i2c_slave' created Sun Mar 21 12:44:37 2021
+Design 'i2c_slave' created Tue Dec 28 17:46:28 2021
    Type              New Name                               Original Name
 // ----------------------------------------------------------------------
-   Inst      sm_state_ns_a3_0_                         sm_state_ns_a3[0]
+   Inst          sm_state_i_0_                             sm_state_i[0]
+   Inst          sm_state_i_1_                             sm_state_i[1]
+   Inst           un19_i_a2_0_                              un19_i_a2[0]
    Inst          sm_state_i_2_                             sm_state_i[2]
    Inst          sm_state_i_3_                             sm_state_i[3]
    Inst          sm_state_i_9_                             sm_state_i[9]
    Inst             shift_i_6_                                shift_i[6]
-   Inst           data_in_i_7_                              data_in_i[7]
-   Inst           shift_6_0__r                              shift_6_0_.r
-   Inst           shift_6_0__m                              shift_6_0_.m
-   Inst           shift_6_0__n                              shift_6_0_.n
+   Inst    sm_state_ns_o2_0_0_                       sm_state_ns_o2_0[0]
    Inst            sm_state_9_                               sm_state[9]
-   Inst           shift_6_0__p                              shift_6_0_.p
-   Inst            sm_state_8_                               sm_state[8]
-   Inst      sm_state_ns_o2_0_                         sm_state_ns_o2[0]
-   Inst            sm_state_7_                               sm_state[7]
    Inst          sm_state_i_7_                             sm_state_i[7]
+   Inst            sm_state_8_                               sm_state[8]
+   Inst    sm_state_ns_i_o2_1_                       sm_state_ns_i_o2[1]
+   Inst            sm_state_7_                               sm_state[7]
+   Inst           un19_i_o2_3_                              un19_i_o2[3]
    Inst            sm_state_6_                               sm_state[6]
    Inst            sm_state_5_                               sm_state[5]
    Inst            sm_state_4_                               sm_state[4]
@@ -98,21 +97,24 @@ Design 'i2c_slave' created Sun Mar 21 12:44:37 2021
    Inst       sm_state_ns_3_0_                          sm_state_ns_3[0]
    Inst       sm_state_ns_4_0_                          sm_state_ns_4[0]
    Inst         sm_state_ns_0_                            sm_state_ns[0]
-   Inst         un19_i_o2_1_2_                            un19_i_o2_1[2]
-   Inst           un19_i_o2_2_                              un19_i_o2[2]
-   Inst   sm_state_ns_o2_0_1_0_                     sm_state_ns_o2_0_1[0]
-   Inst    sm_state_ns_o2_0_0_                       sm_state_ns_o2_0[0]
-   Inst         sm_state_i_15_                            sm_state_i[15]
-   Inst    sm_state_ns_o2_i_0_                       sm_state_ns_o2_i[0]
+   Inst    sm_state_ns_o2_1_0_                       sm_state_ns_o2_1[0]
+   Inst      sm_state_ns_o2_0_                         sm_state_ns_o2[0]
+   Inst         sm_state_i_12_                            sm_state_i[12]
+   Inst   sm_state_ns_i_o2_i_1_                     sm_state_ns_i_o2_i[1]
+   Inst   sm_state_ns_o2_0_i_0_                     sm_state_ns_o2_0_i[0]
    Inst          sm_state_i_4_                             sm_state_i[4]
    Inst          sm_state_i_5_                             sm_state_i[5]
    Inst          sm_state_i_6_                             sm_state_i[6]
-   Inst   sm_state_ns_o2_0_i_0_                     sm_state_ns_o2_0_i[0]
-   Inst         sm_state_i_12_                            sm_state_i[12]
-   Inst         sm_state_i_13_                            sm_state_i[13]
+   Inst         sm_state_i_14_                            sm_state_i[14]
+   Inst    sm_state_ns_o2_i_0_                       sm_state_ns_o2_i[0]
    Inst    sm_state_ns_o2_i_8_                       sm_state_ns_o2_i[8]
+   Inst         sm_state_i_16_                            sm_state_i[16]
    Inst       sm_state_ns_i_9_                          sm_state_ns_i[9]
-   Inst   sm_state_ns_i_o2_i_1_                     sm_state_ns_i_o2_i[1]
+   Inst    un1_sm_state_3_i_0_                       un1_sm_state_3_i[0]
+   Inst         shift_6_0_1__r                            shift_6_0_1_.r
+   Inst         shift_6_0_1__m                            shift_6_0_1_.m
+   Inst         shift_6_0_1__n                            shift_6_0_1_.n
+   Inst         shift_6_0_1__p                            shift_6_0_1_.p
    Inst         shift_6_0_2__r                            shift_6_0_2_.r
    Inst         shift_6_0_2__m                            shift_6_0_2_.m
    Inst         shift_6_0_2__n                            shift_6_0_2_.n
@@ -165,67 +167,65 @@ Design 'i2c_slave' created Sun Mar 21 12:44:37 2021
    Inst           shift_6_7__m                              shift_6_7_.m
    Inst           shift_6_7__n                              shift_6_7_.n
    Inst           shift_6_7__p                              shift_6_7_.p
-   Inst    un1_sm_state_3_i_0_                       un1_sm_state_3_i[0]
-   Inst         sm_state_i_16_                            sm_state_i[16]
-   Inst       sm_state_ns_i_2_                          sm_state_ns_i[2]
-   Inst         sm_state_i_14_                            sm_state_i[14]
-   Inst       sm_state_ns_i_4_                          sm_state_ns_i[4]
-   Inst             shift_i_0_                                shift_i[0]
-   Inst         sm_state_i_11_                            sm_state_i[11]
-   Inst       sm_state_ns_i_7_                          sm_state_ns_i[7]
-   Inst         sm_state_ns_9_                            sm_state_ns[9]
-   Inst          sm_state_i_8_                             sm_state_i[8]
-   Inst         sm_state_i_10_                            sm_state_i[10]
-   Inst      sm_state_ns_o2_8_                         sm_state_ns_o2[8]
-   Inst         shift_6_0_1__r                            shift_6_0_1_.r
-   Inst         shift_6_0_1__m                            shift_6_0_1_.m
-   Inst         shift_6_0_1__n                            shift_6_0_1_.n
-   Inst         shift_6_0_1__p                            shift_6_0_1_.p
+   Inst           data_in_i_7_                              data_in_i[7]
    Inst    un1_sm_state_3_0__r                       un1_sm_state_3_0_.r
    Inst    un1_sm_state_3_0__m                       un1_sm_state_3_0_.m
    Inst    un1_sm_state_3_0__n                       un1_sm_state_3_0_.n
    Inst    un1_sm_state_3_0__p                       un1_sm_state_3_0_.p
-   Inst      sm_state_ns_a3_3_                         sm_state_ns_a3[3]
-   Inst      sm_state_ns_a3_5_                         sm_state_ns_a3[5]
+   Inst             shift_i_0_                                shift_i[0]
    Inst      sm_state_ns_a3_6_                         sm_state_ns_a3[6]
-   Inst      sm_state_ns_a3_9_                         sm_state_ns_a3[9]
-   Inst    sm_state_ns_i_o2_1_                       sm_state_ns_i_o2[1]
-   Inst      sm_state_ns_i_10_                         sm_state_ns_i[10]
-   Inst       sm_state_ns_i_1_                          sm_state_ns_i[1]
-   Inst          sm_state_i_0_                             sm_state_i[0]
-   Inst          sm_state_i_1_                             sm_state_i[1]
-   Inst           un19_i_a2_0_                              un19_i_a2[0]
+   Inst          sm_state_i_8_                             sm_state_i[8]
+   Inst         sm_state_i_10_                            sm_state_i[10]
+   Inst      sm_state_ns_o2_8_                         sm_state_ns_o2[8]
+   Inst           shift_6_0__r                              shift_6_0_.r
+   Inst           shift_6_0__m                              shift_6_0_.m
+   Inst           shift_6_0__n                              shift_6_0_.n
+   Inst           shift_6_0__p                              shift_6_0_.p
    Inst     sm_state_ns_a3_11_                        sm_state_ns_a3[11]
+   Inst      sm_state_ns_a3_9_                         sm_state_ns_a3[9]
+   Inst      sm_state_ns_a3_4_                         sm_state_ns_a3[4]
+   Inst      sm_state_ns_a3_2_                         sm_state_ns_a3[2]
    Inst         sm_state_i_17_                            sm_state_i[17]
    Inst    sm_state_ns_i_a3_1_                       sm_state_ns_i_a3[1]
    Inst    sm_state_ns_a3_3_0_                       sm_state_ns_a3_3[0]
    Inst    sm_state_ns_a3_2_0_                       sm_state_ns_a3_2[0]
    Inst    sm_state_ns_a3_1_0_                       sm_state_ns_a3_1[0]
    Inst    sm_state_ns_a3_0_0_                       sm_state_ns_a3_0[0]
+   Inst      sm_state_ns_a3_0_                         sm_state_ns_a3[0]
+   Inst           un19_i_o2_2_                              un19_i_o2[2]
+   Inst      sm_state_ns_i_10_                         sm_state_ns_i[10]
+   Inst         sm_state_ns_9_                            sm_state_ns[9]
+   Inst         sm_state_i_11_                            sm_state_i[11]
+   Inst       sm_state_ns_i_7_                          sm_state_ns_i[7]
+   Inst         sm_state_i_13_                            sm_state_i[13]
+   Inst       sm_state_ns_i_5_                          sm_state_ns_i[5]
+   Inst         sm_state_i_15_                            sm_state_i[15]
+   Inst       sm_state_ns_i_3_                          sm_state_ns_i[3]
+   Inst       sm_state_ns_i_1_                          sm_state_ns_i[1]
+   Net        shift_6_2__un0_n                            shift_6_2_.un0
+   Net        shift_6_3__un3_n                            shift_6_3_.un3
+   Net        shift_6_3__un1_n                            shift_6_3_.un1
    Net        shift_6_3__un0_n                            shift_6_3_.un0
    Net        shift_6_4__un3_n                            shift_6_4_.un3
-   Net        shift_6_4__un1_n                            shift_6_4_.un1
-   Net        shift_6_4__un0_n                            shift_6_4_.un0
-   Net        shift_6_5__un3_n                            shift_6_5_.un3
    Net           data_int_0__n                               data_int[0]
-   Net        shift_6_5__un1_n                            shift_6_5_.un1
+   Net        shift_6_4__un1_n                            shift_6_4_.un1
    Net           data_int_1__n                               data_int[1]
-   Net        shift_6_5__un0_n                            shift_6_5_.un0
+   Net        shift_6_4__un0_n                            shift_6_4_.un0
    Net           data_int_2__n                               data_int[2]
-   Net        shift_6_6__un3_n                            shift_6_6_.un3
+   Net        shift_6_5__un3_n                            shift_6_5_.un3
    Net           data_int_3__n                               data_int[3]
-   Net        shift_6_6__un1_n                            shift_6_6_.un1
+   Net        shift_6_5__un1_n                            shift_6_5_.un1
    Net           data_int_4__n                               data_int[4]
-   Net        shift_6_6__un0_n                            shift_6_6_.un0
+   Net        shift_6_5__un0_n                            shift_6_5_.un0
    Net           data_int_5__n                               data_int[5]
-   Net        shift_6_7__un3_n                            shift_6_7_.un3
+   Net        shift_6_6__un3_n                            shift_6_6_.un3
    Net           data_int_6__n                               data_int[6]
-   Net        shift_6_7__un1_n                            shift_6_7_.un1
+   Net        shift_6_6__un1_n                            shift_6_6_.un1
    Net           data_int_7__n                               data_int[7]
+   Net        shift_6_6__un0_n                            shift_6_6_.un0
+   Net        shift_6_7__un3_n                            shift_6_7_.un3
+   Net        shift_6_7__un1_n                            shift_6_7_.un1
    Net        shift_6_7__un0_n                            shift_6_7_.un0
-   Net      shift_6_0_1__un3_n                          shift_6_0_1_.un3
-   Net      shift_6_0_1__un1_n                          shift_6_0_1_.un1
-   Net      shift_6_0_1__un0_n                          shift_6_0_1_.un0
    Net    un1_sm_state_3_0__un3_n                     un1_sm_state_3_0_.un3
    Net    un1_sm_state_3_0__un1_n                     un1_sm_state_3_0_.un1
    Net    un1_sm_state_3_0__un0_n                     un1_sm_state_3_0_.un0
@@ -260,12 +260,12 @@ Design 'i2c_slave' created Sun Mar 21 12:44:37 2021
    Net              shift_7__n                                  shift[7]
    Net        sm_state_ns_0__n                            sm_state_ns[0]
    Net        sm_state_ns_9__n                            sm_state_ns[9]
-   Net        sm_state_ns_3__n                            sm_state_ns[3]
-   Net        sm_state_ns_5__n                            sm_state_ns[5]
+   Net        sm_state_ns_2__n                            sm_state_ns[2]
+   Net        sm_state_ns_4__n                            sm_state_ns[4]
    Net        sm_state_ns_6__n                            sm_state_ns[6]
    Net       sm_state_ns_11__n                           sm_state_ns[11]
-   Net            shift_6_0__n                                shift_6[0]
    Net     un1_sm_state_3_0__n                         un1_sm_state_3[0]
+   Net            shift_6_0__n                                shift_6[0]
    Net            shift_6_1__n                                shift_6[1]
    Net            shift_6_2__n                                shift_6[2]
    Net            shift_6_3__n                                shift_6[3]
@@ -274,17 +274,17 @@ Design 'i2c_slave' created Sun Mar 21 12:44:37 2021
    Net            shift_6_6__n                                shift_6[6]
    Net            shift_6_7__n                                shift_6[7]
    Net    un1_sm_state_3_i_0__n                       un1_sm_state_3_i[0]
+   Net          data_in_i_7__n                              data_in_i[7]
    Net        sm_state_i_10__n                            sm_state_i[10]
    Net         sm_state_i_8__n                             sm_state_i[8]
    Net            shift_i_0__n                                shift_i[0]
-   Net        sm_state_i_11__n                            sm_state_i[11]
-   Net        sm_state_i_14__n                            sm_state_i[14]
-   Net        sm_state_i_16__n                            sm_state_i[16]
    Net        sm_state_i_17__n                            sm_state_i[17]
    Net         sm_state_i_0__n                             sm_state_i[0]
    Net         sm_state_i_1__n                             sm_state_i[1]
+   Net        sm_state_i_15__n                            sm_state_i[15]
+   Net        sm_state_i_13__n                            sm_state_i[13]
+   Net        sm_state_i_11__n                            sm_state_i[11]
    Net         sm_state_i_7__n                             sm_state_i[7]
-   Net          data_in_i_7__n                              data_in_i[7]
    Net            shift_i_6__n                                shift_i[6]
    Net         sm_state_i_9__n                             sm_state_i[9]
    Net         sm_state_i_2__n                             sm_state_i[2]
@@ -311,18 +311,21 @@ Design 'i2c_slave' created Sun Mar 21 12:44:37 2021
    Net           data_out_4__n                               data_out[4]
    Net           data_out_5__n                               data_out[5]
    Net           data_out_6__n                               data_out[6]
+   Net        sm_state_i_16__n                            sm_state_i[16]
    Net      sm_state_ns_0_9__n                          sm_state_ns_0[9]
-   Net        sm_state_i_15__n                            sm_state_i[15]
+   Net        sm_state_i_12__n                            sm_state_i[12]
    Net         sm_state_i_4__n                             sm_state_i[4]
    Net         sm_state_i_5__n                             sm_state_i[5]
    Net         sm_state_i_6__n                             sm_state_i[6]
-   Net        sm_state_i_12__n                            sm_state_i[12]
-   Net        sm_state_i_13__n                            sm_state_i[13]
+   Net        sm_state_i_14__n                            sm_state_i[14]
    Net      sm_state_ns_0_0__n                          sm_state_ns_0[0]
    Net    sm_state_ns_0_1_0__n                        sm_state_ns_0_1[0]
    Net    sm_state_ns_0_2_0__n                        sm_state_ns_0_2[0]
    Net    sm_state_ns_0_3_0__n                        sm_state_ns_0_3[0]
    Net    sm_state_ns_0_4_0__n                        sm_state_ns_0_4[0]
+   Net      shift_6_0_1__un3_n                          shift_6_0_1_.un3
+   Net      shift_6_0_1__un1_n                          shift_6_0_1_.un1
+   Net      shift_6_0_1__un0_n                          shift_6_0_1_.un0
    Net      shift_6_0_2__un3_n                          shift_6_0_2_.un3
    Net      shift_6_0_2__un1_n                          shift_6_0_2_.un1
    Net      shift_6_0_2__un0_n                          shift_6_0_2_.un0
@@ -346,9 +349,6 @@ Design 'i2c_slave' created Sun Mar 21 12:44:37 2021
    Net        shift_6_1__un0_n                            shift_6_1_.un0
    Net        shift_6_2__un3_n                            shift_6_2_.un3
    Net        shift_6_2__un1_n                            shift_6_2_.un1
-   Net        shift_6_2__un0_n                            shift_6_2_.un0
-   Net        shift_6_3__un3_n                            shift_6_3_.un3
-   Net        shift_6_3__un1_n                            shift_6_3_.un1
 End
 Section Type      Name
 // ----------------------------------------------------------------------

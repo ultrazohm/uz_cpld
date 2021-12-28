@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BaliProject version="3.2" title="lptm_vhdl" device="LPTM10-12107-3FTG208CES" default_implementation="lptm_vhdl">
+    <Options/>
+    <Implementation title="lptm_vhdl" dir="lptm_vhdl" description="lptm_vhdl" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="i2c_slave"/>
+        <Source name="../../../testbench/verilog/i2c_mstr.v" type="Verilog" type_short="Verilog" syn_sim="SimOnly">
+            <Options/>
+        </Source>
+        <Source name="../../../testbench/verilog/i2c_peri_tf.v" type="Verilog" type_short="Verilog" syn_sim="SimOnly">
+            <Options/>
+        </Source>
+        <Source name="../../../source/vhdl/i2c_slave.vhd" type="VHDL" type_short="VHDL">
+            <Options top_module="i2c_slave"/>
+        </Source>
+        <Source name="lptm_vhdl.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Strategy name="Strategy1" file="lptm_vhdl1.sty"/>
+</BaliProject>

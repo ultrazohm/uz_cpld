@@ -1,0 +1,70 @@
+#$ TOOL ispLEVER Classic 1.4.00.04.27.10
+#$ DATE Fri Oct 29 19:05:24 2010
+#$ PROPERTY LATTICE OSCTIMER I1= -, -, -, tmr_clk, 1048576; 
+#$ MODULE lc4256ze
+#$ PINS 8 led_7_ led_6_ led_5_ led_4_ led_3_ led_2_ led_1_ led_0_
+#$ NODES 11 gnd_n_n tmr_clk cnt_500ms_0_ cnt_500ms_1_ cnt_500ms_7_ cnt_500ms11 \
+#  cnt_500ms11_i cnt_500ms_i_8__n cnt_500ms_i_1__n cnt_500ms_i_0__n I1>OSCOUT
+#$ EXTERNAL osctimer  4 DYNOSCDIS'i'  TIMERRES'i'  OSCOUT'o'  TIMEROUT'o' 
+#$ INSTANCE I1 OSCTIMER 4 gnd_n_n gnd_n_n I1>OSCOUT tmr_clk
+.model lc4256ze
+.inputs gnd_n_n.BLIF tmr_clk.BLIF cnt_500ms_0_.BLIF cnt_500ms_1_.BLIF \
+cnt_500ms_7_.BLIF cnt_500ms11.BLIF cnt_500ms11_i.BLIF cnt_500ms_i_8__n.BLIF \
+cnt_500ms_i_1__n.BLIF cnt_500ms_i_0__n.BLIF I1>OSCOUT.BLIF
+.outputs led_7_ led_6_ led_5_ led_4_ led_3_ led_2_ led_1_ led_0_ \
+cnt_500ms_0_.D cnt_500ms_0_.C cnt_500ms_1_.D cnt_500ms_1_.C cnt_500ms_7_.D \
+cnt_500ms_7_.C gnd_n_n cnt_500ms11 cnt_500ms11_i cnt_500ms_i_8__n \
+cnt_500ms_i_1__n cnt_500ms_i_0__n
+.names cnt_500ms11.BLIF cnt_500ms_i_0__n.BLIF cnt_500ms_0_.D
+11 1
+.names gnd_n_n
+.names cnt_500ms_i_1__n.BLIF cnt_500ms_i_8__n.BLIF cnt_500ms11
+11 1
+.names cnt_500ms11.BLIF cnt_500ms11_i
+0 1
+.names cnt_500ms_7_.BLIF cnt_500ms_i_8__n
+0 1
+.names cnt_500ms_1_.BLIF cnt_500ms_i_1__n
+0 1
+.names cnt_500ms_0_.BLIF cnt_500ms_i_0__n
+0 1
+.names cnt_500ms11.BLIF led_7_
+1 1
+0 0
+.names cnt_500ms11_i.BLIF led_6_
+1 1
+0 0
+.names cnt_500ms11.BLIF led_5_
+1 1
+0 0
+.names cnt_500ms11_i.BLIF led_4_
+1 1
+0 0
+.names cnt_500ms11.BLIF led_3_
+1 1
+0 0
+.names cnt_500ms11_i.BLIF led_2_
+1 1
+0 0
+.names cnt_500ms11.BLIF led_1_
+1 1
+0 0
+.names cnt_500ms11_i.BLIF led_0_
+1 1
+0 0
+.names tmr_clk.BLIF cnt_500ms_0_.C
+1 1
+0 0
+.names cnt_500ms_0_.BLIF cnt_500ms_1_.D
+1 1
+0 0
+.names tmr_clk.BLIF cnt_500ms_1_.C
+1 1
+0 0
+.names gnd_n_n.BLIF cnt_500ms_7_.D
+1 1
+0 0
+.names tmr_clk.BLIF cnt_500ms_7_.C
+1 1
+0 0
+.end

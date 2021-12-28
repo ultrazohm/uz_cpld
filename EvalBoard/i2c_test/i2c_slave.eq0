@@ -1,0 +1,1332 @@
+EDIF2BLIF version IspLever 1.0  Linked Equations File
+Copyright(C), 1992-2020, Lattice Semiconductor Corp.
+All Rights Reserved.
+
+Design i2c_slave created Tue Dec 28 11:01:46 2021
+
+
+ P-Terms   Fan-in  Fan-out  Type  Name (attributes)
+---------  ------  -------  ----  -----------------
+   1/1        1        1    Pin   data_out_7_ 
+   1/1        1        1    Pin   start 
+   1/1        1        1    Pin   stop 
+   1/1        1        1    Pin   r_w 
+   1/1        1        1    Pin   data_vld 
+   1/1        1        1    Pin   scl_oe 
+   1/1        1        1    Pin   sda_oe 
+   1/1        1        1    Pin   data_out_6_ 
+   1/1        1        1    Pin   data_out_5_ 
+   1/1        1        1    Pin   data_out_4_ 
+   1/1        1        1    Pin   data_out_3_ 
+   1/1        1        1    Pin   data_out_2_ 
+   1/1        1        1    Pin   data_out_1_ 
+   1/1        1        1    Pin   data_out_0_ 
+   1          2        1    Node  shift_6_2__un0_n 
+   1          1        1    Node  shift_6_3__un3_n 
+   1          2        1    Node  shift_6_3__un1_n 
+   1/1        1        1    Node  inst_start_treg.AR 
+   1/1        1        1    Node  inst_start_treg.D 
+   1          1        1    Node  inst_start_treg.C 
+   1          2        1    Node  shift_6_3__un0_n 
+   1          1        1    Node  inst_stop_treg.AR 
+   1/1        1        1    Node  inst_stop_treg.D 
+   1/1        1        1    Node  inst_stop_treg.C 
+   1          1        1    Node  shift_6_4__un3_n 
+   1/1        1        1    Node  data_int_0_reg.CE 
+   1/1        1        1    Node  data_int_0_reg.AR 
+   1/1        1        1    Node  data_int_0_reg.D 
+   1/1        1        1    Node  data_int_0_reg.C 
+   1          2        1    Node  shift_6_4__un1_n 
+   1/1        1        1    Node  data_int_1_reg.CE 
+   1/1        1        1    Node  data_int_1_reg.AR 
+   1/1        1        1    Node  data_int_1_reg.D 
+   1/1        1        1    Node  data_int_1_reg.C 
+   1          2        1    Node  shift_6_4__un0_n 
+   1/1        1        1    Node  data_int_2_reg.CE 
+   1/1        1        1    Node  data_int_2_reg.AR 
+   1/1        1        1    Node  data_int_2_reg.D 
+   1/1        1        1    Node  data_int_2_reg.C 
+   1          1        1    Node  shift_6_5__un3_n 
+   1/1        1        1    Node  data_int_3_reg.CE 
+   1/1        1        1    Node  data_int_3_reg.AR 
+   1/1        1        1    Node  data_int_3_reg.D 
+   1/1        1        1    Node  data_int_3_reg.C 
+   1          2        1    Node  shift_6_5__un1_n 
+   1/1        1        1    Node  data_int_4_reg.CE 
+   1/1        1        1    Node  data_int_4_reg.AR 
+   1/1        1        1    Node  data_int_4_reg.D 
+   1/1        1        1    Node  data_int_4_reg.C 
+   1          2        1    Node  shift_6_5__un0_n 
+   1/1        1        1    Node  data_int_5_reg.CE 
+   1/1        1        1    Node  data_int_5_reg.AR 
+   1/1        1        1    Node  data_int_5_reg.D 
+   1/1        1        1    Node  data_int_5_reg.C 
+   1          1        1    Node  shift_6_6__un3_n 
+   1/1        1        1    Node  data_int_6_reg.CE 
+   1/1        1        1    Node  data_int_6_reg.AR 
+   1/1        1        1    Node  data_int_6_reg.D 
+   1/1        1        1    Node  data_int_6_reg.C 
+   1          2        1    Node  shift_6_6__un1_n 
+   1/1        1        1    Node  data_int_7_reg.CE 
+   1/1        1        1    Node  data_int_7_reg.AR 
+   1/1        1        1    Node  data_int_7_reg.D 
+   1/1        1        1    Node  data_int_7_reg.C 
+   1          2        1    Node  shift_6_6__un0_n 
+   1          2        1    Node  inst_r_w_treg.D 
+   1/1        1        1    Node  inst_r_w_treg.AP 
+   1/1        1        1    Node  inst_r_w_treg.C 
+   1          1        1    Node  shift_6_7__un3_n 
+   1          1        1    Node  inst_vld_plsereg.CE 
+   1/1        1        1    Node  inst_vld_plsereg.AR 
+   1/1        1        1    Node  inst_vld_plsereg.D 
+   1/1        1        1    Node  inst_vld_plsereg.C 
+   1          2        1    Node  shift_6_7__un1_n 
+   1          1        1    Node  un1_sda_oe 
+   1          2        1    Node  shift_6_7__un0_n 
+   1          2        1    Node  un28_r_w_t 
+   1          1        1    Node  un1_sm_state_3_0__un3_n 
+   1          2        1    Node  un1_sm_state_3_0__un1_n 
+   1          2        1    Node  un1_sm_state_3_0__un0_n 
+   1          2        1    Node  un1_r_w_t_3 
+   1          1        1    Node  shift_6_0__un3_n 
+   1/1        1        1    Node  shift_0_.CE 
+   1/1        1        1    Node  shift_0_.AR 
+   2          2        1    Node  shift_0_.D 
+   1/1        1        1    Node  shift_0_.C 
+   1          2        1    Node  shift_6_0__un1_n 
+   1          2        1    Node  inst_sda_f.AR 
+   1/1        1        1    Node  inst_sda_f.D 
+   1          2        1    Node  inst_sda_f.AP 
+   1/1        1        1    Node  inst_sda_f.C 
+   1          2        1    Node  shift_6_0__un0_n 
+   1/1        1        1    Node  sm_state_0_.AR 
+   1/1        1        1    Node  sm_state_0_.D 
+   1/1        1        1    Node  sm_state_0_.C 
+   1/1        1        1    Node  shift_6_.CE 
+   1/1        1        1    Node  shift_6_.AR 
+   2          2        1    Node  shift_6_.D 
+   1/1        1        1    Node  shift_6_.C 
+   1          1        1    Node  start_async_rst 
+   1/1        1        1    Node  sm_state_16_.AR 
+   1          2        1    Node  sm_state_16_.D 
+   1/1        1        1    Node  sm_state_16_.C 
+   1/1        1        1    NodeX1  sda_clk.X1 
+   1/1        1        1    NodeX2  sda_clk.X2 
+   1/1        1        1    Node  sm_state_9_.AR 
+   1/1        1        1    Node  sm_state_9_.D 
+   1/1        1        1    Node  sm_state_9_.C 
+   1/1        1        1    Node  sm_state_8_.AR 
+   1          1        1    Node  sm_state_8_.D 
+   1/1        1        1    Node  sm_state_8_.C 
+   1/1        1        1    Node  inst_ack_out.AR 
+   1          1        1    Node  inst_ack_out.D 
+   1/1        1        1    Node  inst_ack_out.C 
+   1/1        1        1    Node  inst_sda_en.AR 
+   1          1        1    Node  inst_sda_en.D 
+   1/1        1        1    Node  inst_sda_en.C 
+   1/1        1        1    Node  sm_state_10_.AR 
+   1          2        1    Node  sm_state_10_.D 
+   1/1        1        1    Node  sm_state_10_.C 
+   1          1        1    Node  sm_state_17_.D 
+   1/1        1        1    Node  sm_state_17_.AP 
+   1/1        1        1    Node  sm_state_17_.C 
+   1/1        1        1    Node  sm_state_1_.AR 
+   1/1        1        1    Node  sm_state_1_.D 
+   1/1        1        1    Node  sm_state_1_.C 
+   1/1        1        1    Node  sm_state_15_.AR 
+   1          2        1    Node  sm_state_15_.D 
+   1/1        1        1    Node  sm_state_15_.C 
+   1/1        1        1    Node  sm_state_14_.AR 
+   1          2        1    Node  sm_state_14_.D 
+   1/1        1        1    Node  sm_state_14_.C 
+   1/1        1        1    Node  sm_state_13_.AR 
+   1          2        1    Node  sm_state_13_.D 
+   1/1        1        1    Node  sm_state_13_.C 
+   1/1        1        1    Node  sm_state_12_.AR 
+   1          2        1    Node  sm_state_12_.D 
+   1/1        1        1    Node  sm_state_12_.C 
+   1/1        1        1    Node  sm_state_11_.AR 
+   1          2        1    Node  sm_state_11_.D 
+   1/1        1        1    Node  sm_state_11_.C 
+   1/1        1        1    Node  sm_state_7_.AR 
+   1          2        1    Node  sm_state_7_.D 
+   1/1        1        1    Node  sm_state_7_.C 
+   1/1        1        1    Node  sm_state_6_.AR 
+   1          2        1    Node  sm_state_6_.D 
+   1/1        1        1    Node  sm_state_6_.C 
+   1/1        1        1    Node  sm_state_5_.AR 
+   1/1        1        1    Node  sm_state_5_.D 
+   1/1        1        1    Node  sm_state_5_.C 
+   1/1        1        1    Node  sm_state_4_.AR 
+   1/1        1        1    Node  sm_state_4_.D 
+   1/1        1        1    Node  sm_state_4_.C 
+   1/1        1        1    Node  sm_state_3_.AR 
+   1/1        1        1    Node  sm_state_3_.D 
+   1/1        1        1    Node  sm_state_3_.C 
+   1/1        1        1    Node  sm_state_2_.AR 
+   1/1        1        1    Node  sm_state_2_.D 
+   1/1        1        1    Node  sm_state_2_.C 
+   1/1        1        1    Node  shift_1_.CE 
+   1/1        1        1    Node  shift_1_.AR 
+   2          2        1    Node  shift_1_.D 
+   1/1        1        1    Node  shift_1_.C 
+   1/1        1        1    Node  shift_2_.CE 
+   1/1        1        1    Node  shift_2_.AR 
+   2          2        1    Node  shift_2_.D 
+   1/1        1        1    Node  shift_2_.C 
+   1/1        1        1    Node  shift_3_.CE 
+   1/1        1        1    Node  shift_3_.AR 
+   2          2        1    Node  shift_3_.D 
+   1/1        1        1    Node  shift_3_.C 
+   1/1        1        1    Node  shift_4_.CE 
+   1/1        1        1    Node  shift_4_.AR 
+   2          2        1    Node  shift_4_.D 
+   1/1        1        1    Node  shift_4_.C 
+   1/1        1        1    Node  shift_5_.CE 
+   1/1        1        1    Node  shift_5_.AR 
+   2          2        1    Node  shift_5_.D 
+   1/1        1        1    Node  shift_5_.C 
+   1/1        1        1    Node  shift_7_.CE 
+   1/1        1        1    Node  shift_7_.AR 
+   2          2        1    Node  shift_7_.D 
+   1/1        1        1    Node  shift_7_.C 
+   1          2        1    Node  N_153 
+   1          2        1    Node  sm_state_1_sqmuxa 
+   1          1        1    Node  N_144 
+   1          2        1    Node  N_223 
+   1          2        1    Node  N_157 
+   1          1        1    Node  N_222 
+   1          1        1    Node  un13_r_w_t 
+   1          2        1    Node  N_174 
+   1          2        1    Node  N_163 
+   1          2        1    Node  N_162 
+   1          2        1    Node  N_161 
+   1          2        1    Node  N_160 
+   1          2        1    Node  N_159 
+   1          1        1    Node  N_149 
+   1          2        1    Node  sda_en_2_m 
+   1          2        1    Node  sda_en_1_m 
+   1          1        1    Node  N_150 
+   1          1        1    Node  N_148 
+   1          2        1    Node  N_172 
+   1          2        1    Node  N_168 
+   1          2        1    Node  N_164 
+   2          2        1    Node  un1_sm_state_3_0__n 
+   1          1        1    Node  un1_r_w_t_1 
+   1          2        1    Node  N_170 
+   1          2        1    Node  N_171 
+   2          2        1    Node  N_194 
+   2          2        1    Node  N_195 
+   2          2        1    Node  N_196 
+   2          2        1    Node  N_197 
+   2          2        1    Node  N_198 
+   2          2        1    Node  N_199 
+   2          2        1    Node  N_200 
+   1          1        1    Node  r_w_t_i 
+   1          1        1    Node  un1_sm_state_3_i_0__n 
+   1          1        1    Node  data_in_i_7__n 
+   1          1        1    Node  sm_state_i_10__n 
+   1          1        1    Node  sm_state_i_8__n 
+   1          1        1    Node  sda_in_i 
+   1          1        1    Node  shift_i_0__n 
+   1          1        1    Node  ready_i 
+   1          1        1    Node  start_t_i 
+   1          1        1    Node  sm_state_i_17__n 
+   1          1        1    Node  sm_state_i_0__n 
+   1          1        1    Node  sm_state_i_1__n 
+   1          1        1    Node  sm_state_i_15__n 
+   1          1        1    Node  sm_state_i_13__n 
+   1          1        1    Node  sm_state_i_11__n 
+   1          1        1    Node  sm_state_i_7__n 
+   1          1        1    Node  shift_i_6__n 
+   1          1        1    Node  sm_state_i_9__n 
+   1          1        1    Node  N_157_i 
+   1          1        1    Node  sm_state_i_2__n 
+   1          1        1    Node  sm_state_i_3__n 
+   1          1        1    Node  scl_in_i 
+   1          1        1    Node  un1_r_w_t_3_i 
+   1/1        1        1    Node  XRESET_c 
+   1/1        1        1    Node  ready_c 
+   1/1        1        1    Node  data_in_c_0__n 
+   1/1        1        1    Node  data_in_c_1__n 
+   1/1        1        1    Node  data_in_c_2__n 
+   1/1        1        1    Node  data_in_c_3__n 
+   1/1        1        1    Node  data_in_c_4__n 
+   1/1        1        1    Node  data_in_c_5__n 
+   1/1        1        1    Node  data_in_c_6__n 
+   1/1        1        1    Node  data_in_c_7__n 
+   1/1        1        1    Node  scl_in_c 
+   1/1        1        1    Node  sda_in_c 
+   1          1        1    Node  ack_out_i 
+   1          1        1    Node  sda_en_i 
+   1          2        1    Node  un1_sda_oe_0 
+   1          2        1    Node  N_144_i 
+   1          2        1    Node  un1_r_w_t_1_i 
+   1          1        1    Node  N_171_i 
+   1          1        1    Node  N_170_i 
+   1          1        1    Node  sm_state_i_16__n 
+   1          1        1    Node  XRESET_c_i 
+   1          2        1    Node  start_async_rst_0 
+   1          2        1    Node  stop_async_rst_0 
+   1          1        1    Node  N_164_i 
+   1          1        1    Node  N_168_i 
+   1          2        1    Node  sm_state_ns_0_9__n 
+   1          1        1    Node  N_172_i 
+   1          2        1    Node  ack_out_2_0 
+   1          1        1    Node  sm_state_i_12__n 
+   1          2        1    Node  N_145_0 
+   1          2        1    Node  N_147_0 
+   1          1        1    Node  stop_t_i 
+   1          2        1    Node  N_148_i 
+   1          2        1    Node  N_150_0 
+   1          1        1    Node  sda_en_2_m_i 
+   1          1        1    Node  sda_en_1_m_i 
+   1          2        1    Node  sda_en_3_0 
+   1          1        1    Node  sm_state_i_4__n 
+   1          2        1    Node  N_222_2_i 
+   1          1        1    Node  sm_state_i_5__n 
+   1          1        1    Node  sm_state_i_6__n 
+   1          2        1    Node  N_222_3_i 
+   1          1        1    Node  sm_state_i_14__n 
+   1          2        1    Node  N_222_0 
+   1          2        1    Node  N_149_0 
+   1          1        1    Node  N_160_i 
+   1          1        1    Node  N_159_i 
+   1          1        1    Node  N_161_i 
+   1          1        1    Node  N_162_i 
+   1          1        1    Node  sm_state_1_sqmuxa_i 
+   1          1        1    Node  N_163_i 
+   1          2        1    Node  sm_state_ns_0_0__n 
+   1          1        1    Node  N_223_i 
+   1          2        1    Node  un13_r_w_t_i 
+   1          2        1    Node  sm_state_ns_0_1_0__n 
+   1          2        1    Node  sm_state_ns_0_2_0__n 
+   1          2        1    Node  sm_state_ns_0_3_0__n 
+   1          2        1    Node  sm_state_ns_0_4_0__n 
+   1          2        1    Node  N_149_0_1 
+   1          2        1    Node  N_222_0_1 
+   1          2        1    Node  N_222_0_2 
+   1          2        1    Node  N_222_0_3 
+   1          2        1    Node  N_222_0_4 
+   1          2        1    Node  N_222_0_5 
+   1          2        1    Node  N_222_2_i_1 
+   1          2        1    Node  N_153_1 
+   1          2        1    Node  N_157_1 
+   1          2        1    Node  N_157_2 
+   1          2        1    Node  N_157_3 
+   1          2        1    Node  sda_en_2_m_1 
+   1          2        1    Node  sda_en_2_m_2 
+   1          2        1    Node  un1_r_w_t_3_1 
+   1          2        1    Node  un28_r_w_t_1 
+   1          1        1    Node  shift_6_0_1__un3_n 
+   1          2        1    Node  shift_6_0_1__un1_n 
+   1          2        1    Node  shift_6_0_1__un0_n 
+   1          1        1    Node  shift_6_0_2__un3_n 
+   1          2        1    Node  shift_6_0_2__un1_n 
+   1          2        1    Node  shift_6_0_2__un0_n 
+   1          1        1    Node  shift_6_0_3__un3_n 
+   1          2        1    Node  shift_6_0_3__un1_n 
+   1          2        1    Node  shift_6_0_3__un0_n 
+   1          1        1    Node  shift_6_0_4__un3_n 
+   1          2        1    Node  shift_6_0_4__un1_n 
+   1          2        1    Node  shift_6_0_4__un0_n 
+   1          1        1    Node  shift_6_0_5__un3_n 
+   1          2        1    Node  shift_6_0_5__un1_n 
+   1          2        1    Node  shift_6_0_5__un0_n 
+   1          1        1    Node  shift_6_0_6__un3_n 
+   1          2        1    Node  shift_6_0_6__un1_n 
+   1          2        1    Node  shift_6_0_6__un0_n 
+   1          1        1    Node  shift_6_0_7__un3_n 
+   1          2        1    Node  shift_6_0_7__un1_n 
+   1          2        1    Node  shift_6_0_7__un0_n 
+   1          1        1    Node  shift_6_1__un3_n 
+   1          2        1    Node  shift_6_1__un1_n 
+   1          2        1    Node  shift_6_1__un0_n 
+   1          1        1    Node  shift_6_2__un3_n 
+   1          2        1    Node  shift_6_2__un1_n 
+=========
+ 353/142        Best P-Term Total: 353
+                       Total Pins: 26
+                      Total Nodes: 222
+            Average P-Term/Output: 1
+
+
+Equations:
+
+data_out_7_ = (data_int_7_reg);
+
+start = (inst_start_treg);
+
+stop = (inst_stop_treg);
+
+r_w = (inst_r_w_treg);
+
+data_vld = (inst_vld_plsereg);
+
+scl_oe = (sm_state_1_sqmuxa);
+
+sda_oe = (un1_sda_oe);
+
+data_out_6_ = (data_int_6_reg);
+
+data_out_5_ = (data_int_5_reg);
+
+data_out_4_ = (data_int_4_reg);
+
+data_out_3_ = (data_int_3_reg);
+
+data_out_2_ = (data_int_2_reg);
+
+data_out_1_ = (data_int_1_reg);
+
+data_out_0_ = (data_int_0_reg);
+
+shift_6_2__un0_n = (N_195 & shift_6_2__un3_n);
+
+shift_6_3__un3_n = (!un13_r_w_t);
+
+shift_6_3__un1_n = (shift_2_ & un13_r_w_t);
+
+inst_start_treg.AR = (start_async_rst);
+
+inst_start_treg.D = (scl_in_c);
+
+inst_start_treg.C = (!inst_sda_f);
+
+shift_6_3__un0_n = (N_196 & shift_6_3__un3_n);
+
+inst_stop_treg.AR = (!stop_async_rst_0);
+
+inst_stop_treg.D = (scl_in_c);
+
+inst_stop_treg.C = (sda_in_c);
+
+shift_6_4__un3_n = (!un13_r_w_t);
+
+data_int_0_reg.CE = (un28_r_w_t);
+
+data_int_0_reg.AR = (XRESET_c);
+
+data_int_0_reg.D = (shift_0_);
+
+data_int_0_reg.C = (scl_in_c);
+
+shift_6_4__un1_n = (shift_3_ & un13_r_w_t);
+
+data_int_1_reg.CE = (un28_r_w_t);
+
+data_int_1_reg.AR = (XRESET_c);
+
+data_int_1_reg.D = (shift_1_);
+
+data_int_1_reg.C = (scl_in_c);
+
+shift_6_4__un0_n = (N_197 & shift_6_4__un3_n);
+
+data_int_2_reg.CE = (un28_r_w_t);
+
+data_int_2_reg.AR = (XRESET_c);
+
+data_int_2_reg.D = (shift_2_);
+
+data_int_2_reg.C = (scl_in_c);
+
+shift_6_5__un3_n = (!un13_r_w_t);
+
+data_int_3_reg.CE = (un28_r_w_t);
+
+data_int_3_reg.AR = (XRESET_c);
+
+data_int_3_reg.D = (shift_3_);
+
+data_int_3_reg.C = (scl_in_c);
+
+shift_6_5__un1_n = (shift_4_ & un13_r_w_t);
+
+data_int_4_reg.CE = (un28_r_w_t);
+
+data_int_4_reg.AR = (XRESET_c);
+
+data_int_4_reg.D = (shift_4_);
+
+data_int_4_reg.C = (scl_in_c);
+
+shift_6_5__un0_n = (N_198 & shift_6_5__un3_n);
+
+data_int_5_reg.CE = (un28_r_w_t);
+
+data_int_5_reg.AR = (XRESET_c);
+
+data_int_5_reg.D = (shift_5_);
+
+data_int_5_reg.C = (scl_in_c);
+
+shift_6_6__un3_n = (!un13_r_w_t);
+
+data_int_6_reg.CE = (un28_r_w_t);
+
+data_int_6_reg.AR = (XRESET_c);
+
+data_int_6_reg.D = (shift_6_);
+
+data_int_6_reg.C = (scl_in_c);
+
+shift_6_6__un1_n = (shift_5_ & un13_r_w_t);
+
+data_int_7_reg.CE = (un28_r_w_t);
+
+data_int_7_reg.AR = (XRESET_c);
+
+data_int_7_reg.D = (shift_7_);
+
+data_int_7_reg.C = (scl_in_c);
+
+shift_6_6__un0_n = (N_199 & shift_6_6__un3_n);
+
+inst_r_w_treg.D = (N_170_i & N_171_i);
+
+inst_r_w_treg.AP = (XRESET_c);
+
+inst_r_w_treg.C = (scl_in_c);
+
+shift_6_7__un3_n = (!un13_r_w_t);
+
+inst_vld_plsereg.CE = (!N_153);
+
+inst_vld_plsereg.AR = (XRESET_c);
+
+inst_vld_plsereg.D = (sm_state_1_);
+
+inst_vld_plsereg.C = (scl_in_c);
+
+shift_6_7__un1_n = (shift_6_ & un13_r_w_t);
+
+un1_sda_oe = (!un1_sda_oe_0);
+
+shift_6_7__un0_n = (N_200 & shift_6_7__un3_n);
+
+un28_r_w_t = (un28_r_w_t_1 & inst_vld_plsereg);
+
+un1_sm_state_3_0__un3_n = (!sm_state_17_);
+
+un1_sm_state_3_0__un1_n = (inst_start_treg & sm_state_17_);
+
+un1_sm_state_3_0__un0_n = (N_157 & un1_sm_state_3_0__un3_n);
+
+un1_r_w_t_3 = (un1_r_w_t_3_1 & un13_r_w_t_i);
+
+shift_6_0__un3_n = (!sm_state_8_);
+
+shift_0_.CE = (un1_r_w_t_3_i);
+
+shift_0_.AR = (XRESET_c);
+
+shift_0_.D = (shift_6_0__un1_n
+     # shift_6_0__un0_n);
+
+shift_0_.C = (scl_in_i);
+
+shift_6_0__un1_n = (data_in_c_0__n & sm_state_8_);
+
+inst_sda_f.AR = (sda_in_i & start_async_rst);
+
+inst_sda_f.D = (sda_in_c);
+
+inst_sda_f.AP = (sda_in_c & start_async_rst);
+
+inst_sda_f.C = (sda_clk);
+
+shift_6_0__un0_n = (sda_in_c & shift_6_0__un3_n);
+
+sm_state_0_.AR = (XRESET_c);
+
+sm_state_0_.D = (sm_state_1_);
+
+sm_state_0_.C = (scl_in_c);
+
+shift_6_.CE = (un1_r_w_t_3_i);
+
+shift_6_.AR = (XRESET_c);
+
+shift_6_.D = (shift_6_6__un1_n
+     # shift_6_6__un0_n);
+
+shift_6_.C = (scl_in_i);
+
+start_async_rst = (!start_async_rst_0);
+
+sm_state_16_.AR = (XRESET_c);
+
+sm_state_16_.D = (N_164_i & inst_start_treg);
+
+sm_state_16_.C = (scl_in_c);
+
+sda_clk.X1 = (inst_sda_f);
+
+sda_clk.X2 = (sda_in_c);
+
+sm_state_9_.AR = (XRESET_c);
+
+sm_state_9_.D = (N_144_i);
+
+sm_state_9_.C = (scl_in_c);
+
+sm_state_8_.AR = (XRESET_c);
+
+sm_state_8_.D = (!sm_state_ns_0_9__n);
+
+sm_state_8_.C = (scl_in_c);
+
+inst_ack_out.AR = (XRESET_c);
+
+inst_ack_out.D = (!ack_out_2_0);
+
+inst_ack_out.C = (scl_in_i);
+
+inst_sda_en.AR = (XRESET_c);
+
+inst_sda_en.D = (!sda_en_3_0);
+
+inst_sda_en.C = (scl_in_i);
+
+sm_state_10_.AR = (XRESET_c);
+
+sm_state_10_.D = (shift_0_ & sm_state_11_);
+
+sm_state_10_.C = (scl_in_c);
+
+sm_state_17_.D = (!sm_state_ns_0_0__n);
+
+sm_state_17_.AP = (XRESET_c);
+
+sm_state_17_.C = (scl_in_c);
+
+sm_state_1_.AR = (XRESET_c);
+
+sm_state_1_.D = (sm_state_2_);
+
+sm_state_1_.C = (scl_in_c);
+
+sm_state_15_.AR = (XRESET_c);
+
+sm_state_15_.D = (shift_i_0__n & sm_state_16_);
+
+sm_state_15_.C = (scl_in_c);
+
+sm_state_14_.AR = (XRESET_c);
+
+sm_state_14_.D = (shift_0_ & sm_state_15_);
+
+sm_state_14_.C = (scl_in_c);
+
+sm_state_13_.AR = (XRESET_c);
+
+sm_state_13_.D = (shift_i_0__n & sm_state_14_);
+
+sm_state_13_.C = (scl_in_c);
+
+sm_state_12_.AR = (XRESET_c);
+
+sm_state_12_.D = (shift_0_ & sm_state_13_);
+
+sm_state_12_.C = (scl_in_c);
+
+sm_state_11_.AR = (XRESET_c);
+
+sm_state_11_.D = (shift_i_0__n & sm_state_12_);
+
+sm_state_11_.C = (scl_in_c);
+
+sm_state_7_.AR = (XRESET_c);
+
+sm_state_7_.D = (ready_c & sm_state_8_);
+
+sm_state_7_.C = (scl_in_c);
+
+sm_state_6_.AR = (XRESET_c);
+
+sm_state_6_.D = (N_148_i & start_t_i);
+
+sm_state_6_.C = (scl_in_c);
+
+sm_state_5_.AR = (XRESET_c);
+
+sm_state_5_.D = (sm_state_6_);
+
+sm_state_5_.C = (scl_in_c);
+
+sm_state_4_.AR = (XRESET_c);
+
+sm_state_4_.D = (sm_state_5_);
+
+sm_state_4_.C = (scl_in_c);
+
+sm_state_3_.AR = (XRESET_c);
+
+sm_state_3_.D = (sm_state_4_);
+
+sm_state_3_.C = (scl_in_c);
+
+sm_state_2_.AR = (XRESET_c);
+
+sm_state_2_.D = (sm_state_3_);
+
+sm_state_2_.C = (scl_in_c);
+
+shift_1_.CE = (un1_r_w_t_3_i);
+
+shift_1_.AR = (XRESET_c);
+
+shift_1_.D = (shift_6_1__un1_n
+     # shift_6_1__un0_n);
+
+shift_1_.C = (scl_in_i);
+
+shift_2_.CE = (un1_r_w_t_3_i);
+
+shift_2_.AR = (XRESET_c);
+
+shift_2_.D = (shift_6_2__un1_n
+     # shift_6_2__un0_n);
+
+shift_2_.C = (scl_in_i);
+
+shift_3_.CE = (un1_r_w_t_3_i);
+
+shift_3_.AR = (XRESET_c);
+
+shift_3_.D = (shift_6_3__un1_n
+     # shift_6_3__un0_n);
+
+shift_3_.C = (scl_in_i);
+
+shift_4_.CE = (un1_r_w_t_3_i);
+
+shift_4_.AR = (XRESET_c);
+
+shift_4_.D = (shift_6_4__un1_n
+     # shift_6_4__un0_n);
+
+shift_4_.C = (scl_in_i);
+
+shift_5_.CE = (un1_r_w_t_3_i);
+
+shift_5_.AR = (XRESET_c);
+
+shift_5_.D = (shift_6_5__un1_n
+     # shift_6_5__un0_n);
+
+shift_5_.C = (scl_in_i);
+
+shift_7_.CE = (un1_r_w_t_3_i);
+
+shift_7_.AR = (XRESET_c);
+
+shift_7_.D = (shift_6_7__un1_n
+     # shift_6_7__un0_n);
+
+shift_7_.C = (scl_in_i);
+
+N_153 = (N_153_1 & sm_state_i_17__n);
+
+sm_state_1_sqmuxa = (ready_i & sm_state_8_);
+
+N_144 = (!N_144_i);
+
+N_223 = (N_157_i & N_222);
+
+N_157 = (N_157_3 & sm_state_i_9__n);
+
+N_222 = (!N_222_0);
+
+un13_r_w_t = (!un13_r_w_t_i);
+
+N_174 = (sm_state_i_0__n & sm_state_i_1__n);
+
+N_163 = (sm_state_7_ & inst_stop_treg);
+
+N_162 = (sda_in_c & sm_state_0_);
+
+N_161 = (sm_state_17_ & start_t_i);
+
+N_160 = (N_149 & shift_0_);
+
+N_159 = (N_150 & shift_i_0__n);
+
+N_149 = (!N_149_0);
+
+sda_en_2_m = (sda_en_2_m_1 & sda_en_2_m_2);
+
+sda_en_1_m = (data_in_i_7__n & un1_r_w_t_1_i);
+
+N_150 = (!N_150_0);
+
+N_148 = (!N_148_i);
+
+N_172 = (r_w_t_i & sm_state_0_);
+
+N_168 = (sda_in_i & sm_state_0_);
+
+N_164 = (N_148 & sm_state_i_17__n);
+
+un1_sm_state_3_0__n = (un1_sm_state_3_0__un1_n
+     # un1_sm_state_3_0__un0_n);
+
+un1_r_w_t_1 = (!un1_r_w_t_1_i);
+
+N_170 = (N_144 & r_w_t_i);
+
+N_171 = (N_144_i & sda_in_i);
+
+N_194 = (shift_6_0_1__un1_n
+     # shift_6_0_1__un0_n);
+
+N_195 = (shift_6_0_2__un1_n
+     # shift_6_0_2__un0_n);
+
+N_196 = (shift_6_0_3__un1_n
+     # shift_6_0_3__un0_n);
+
+N_197 = (shift_6_0_4__un1_n
+     # shift_6_0_4__un0_n);
+
+N_198 = (shift_6_0_5__un1_n
+     # shift_6_0_5__un0_n);
+
+N_199 = (shift_6_0_6__un1_n
+     # shift_6_0_6__un0_n);
+
+N_200 = (shift_6_0_7__un1_n
+     # shift_6_0_7__un0_n);
+
+r_w_t_i = (!inst_r_w_treg);
+
+un1_sm_state_3_i_0__n = (!un1_sm_state_3_0__n);
+
+data_in_i_7__n = (!data_in_c_7__n);
+
+sm_state_i_10__n = (!sm_state_10_);
+
+sm_state_i_8__n = (!sm_state_8_);
+
+sda_in_i = (!sda_in_c);
+
+shift_i_0__n = (!shift_0_);
+
+ready_i = (!ready_c);
+
+start_t_i = (!inst_start_treg);
+
+sm_state_i_17__n = (!sm_state_17_);
+
+sm_state_i_0__n = (!sm_state_0_);
+
+sm_state_i_1__n = (!sm_state_1_);
+
+sm_state_i_15__n = (!sm_state_15_);
+
+sm_state_i_13__n = (!sm_state_13_);
+
+sm_state_i_11__n = (!sm_state_11_);
+
+sm_state_i_7__n = (!sm_state_7_);
+
+shift_i_6__n = (!shift_6_);
+
+sm_state_i_9__n = (!sm_state_9_);
+
+N_157_i = (!N_157);
+
+sm_state_i_2__n = (!sm_state_2_);
+
+sm_state_i_3__n = (!sm_state_3_);
+
+scl_in_i = (!scl_in_c);
+
+un1_r_w_t_3_i = (!un1_r_w_t_3);
+
+XRESET_c = (XRESET);
+
+ready_c = (ready);
+
+data_in_c_0__n = (data_in_0_);
+
+data_in_c_1__n = (data_in_1_);
+
+data_in_c_2__n = (data_in_2_);
+
+data_in_c_3__n = (data_in_3_);
+
+data_in_c_4__n = (data_in_4_);
+
+data_in_c_5__n = (data_in_5_);
+
+data_in_c_6__n = (data_in_6_);
+
+data_in_c_7__n = (data_in_7_);
+
+scl_in_c = (scl_in);
+
+sda_in_c = (sda_in);
+
+ack_out_i = (!inst_ack_out);
+
+sda_en_i = (!inst_sda_en);
+
+un1_sda_oe_0 = (ack_out_i & sda_en_i);
+
+N_144_i = (shift_i_0__n & sm_state_10_);
+
+un1_r_w_t_1_i = (inst_r_w_treg & sm_state_8_);
+
+N_171_i = (!N_171);
+
+N_170_i = (!N_170);
+
+sm_state_i_16__n = (!sm_state_16_);
+
+XRESET_c_i = (!XRESET_c);
+
+start_async_rst_0 = (XRESET_c_i & sm_state_i_16__n);
+
+stop_async_rst_0 = (XRESET_c_i & start_t_i);
+
+N_164_i = (!N_164);
+
+N_168_i = (!N_168);
+
+sm_state_ns_0_9__n = (N_168_i & sm_state_i_9__n);
+
+N_172_i = (!N_172);
+
+ack_out_2_0 = (N_172_i & sm_state_i_9__n);
+
+sm_state_i_12__n = (!sm_state_12_);
+
+N_145_0 = (sm_state_i_10__n & sm_state_i_12__n);
+
+N_147_0 = (sm_state_i_11__n & sm_state_i_15__n);
+
+stop_t_i = (!inst_stop_treg);
+
+N_148_i = (sm_state_7_ & stop_t_i);
+
+N_150_0 = (N_147_0 & sm_state_i_13__n);
+
+sda_en_2_m_i = (!sda_en_2_m);
+
+sda_en_1_m_i = (!sda_en_1_m);
+
+sda_en_3_0 = (sda_en_1_m_i & sda_en_2_m_i);
+
+sm_state_i_4__n = (!sm_state_4_);
+
+N_222_2_i = (N_222_2_i_1 & sm_state_i_4__n);
+
+sm_state_i_5__n = (!sm_state_5_);
+
+sm_state_i_6__n = (!sm_state_6_);
+
+N_222_3_i = (sm_state_i_5__n & sm_state_i_6__n);
+
+sm_state_i_14__n = (!sm_state_14_);
+
+N_222_0 = (N_222_0_4 & N_222_0_5);
+
+N_149_0 = (N_149_0_1 & sm_state_i_16__n);
+
+N_160_i = (!N_160);
+
+N_159_i = (!N_159);
+
+N_161_i = (!N_161);
+
+N_162_i = (!N_162);
+
+sm_state_1_sqmuxa_i = (!sm_state_1_sqmuxa);
+
+N_163_i = (!N_163);
+
+sm_state_ns_0_0__n = (sm_state_ns_0_4_0__n & sm_state_ns_0_3_0__n);
+
+N_223_i = (!N_223);
+
+un13_r_w_t_i = (N_174 & N_223_i);
+
+sm_state_ns_0_1_0__n = (N_163_i & sm_state_1_sqmuxa_i);
+
+sm_state_ns_0_2_0__n = (N_159_i & N_160_i);
+
+sm_state_ns_0_3_0__n = (N_161_i & N_162_i);
+
+sm_state_ns_0_4_0__n = (sm_state_ns_0_1_0__n & sm_state_ns_0_2_0__n);
+
+N_149_0_1 = (N_145_0 & sm_state_i_14__n);
+
+N_222_0_1 = (sm_state_i_13__n & sm_state_i_14__n);
+
+N_222_0_2 = (N_145_0 & N_147_0);
+
+N_222_0_3 = (N_222_2_i & N_222_3_i);
+
+N_222_0_4 = (N_222_0_1 & N_222_0_2);
+
+N_222_0_5 = (N_222_0_3 & sm_state_i_7__n);
+
+N_222_2_i_1 = (sm_state_i_2__n & sm_state_i_3__n);
+
+N_153_1 = (N_174 & sm_state_i_8__n);
+
+N_157_1 = (N_222_2_i & N_222_3_i);
+
+N_157_2 = (sm_state_i_7__n & sm_state_i_8__n);
+
+N_157_3 = (N_157_1 & N_157_2);
+
+sda_en_2_m_1 = (inst_r_w_treg & shift_i_6__n);
+
+sda_en_2_m_2 = (sm_state_i_0__n & un13_r_w_t);
+
+un1_r_w_t_3_1 = (un1_r_w_t_1 & un1_sm_state_3_i_0__n);
+
+un28_r_w_t_1 = (inst_ack_out & r_w_t_i);
+
+shift_6_0_1__un3_n = (!sm_state_8_);
+
+shift_6_0_1__un1_n = (data_in_c_1__n & sm_state_8_);
+
+shift_6_0_1__un0_n = (shift_1_ & shift_6_0_1__un3_n);
+
+shift_6_0_2__un3_n = (!sm_state_8_);
+
+shift_6_0_2__un1_n = (data_in_c_2__n & sm_state_8_);
+
+shift_6_0_2__un0_n = (shift_2_ & shift_6_0_2__un3_n);
+
+shift_6_0_3__un3_n = (!sm_state_8_);
+
+shift_6_0_3__un1_n = (data_in_c_3__n & sm_state_8_);
+
+shift_6_0_3__un0_n = (shift_3_ & shift_6_0_3__un3_n);
+
+shift_6_0_4__un3_n = (!sm_state_8_);
+
+shift_6_0_4__un1_n = (data_in_c_4__n & sm_state_8_);
+
+shift_6_0_4__un0_n = (shift_4_ & shift_6_0_4__un3_n);
+
+shift_6_0_5__un3_n = (!sm_state_8_);
+
+shift_6_0_5__un1_n = (data_in_c_5__n & sm_state_8_);
+
+shift_6_0_5__un0_n = (shift_5_ & shift_6_0_5__un3_n);
+
+shift_6_0_6__un3_n = (!sm_state_8_);
+
+shift_6_0_6__un1_n = (data_in_c_6__n & sm_state_8_);
+
+shift_6_0_6__un0_n = (shift_6_ & shift_6_0_6__un3_n);
+
+shift_6_0_7__un3_n = (!sm_state_8_);
+
+shift_6_0_7__un1_n = (data_in_c_7__n & sm_state_8_);
+
+shift_6_0_7__un0_n = (shift_7_ & shift_6_0_7__un3_n);
+
+shift_6_1__un3_n = (!un13_r_w_t);
+
+shift_6_1__un1_n = (shift_0_ & un13_r_w_t);
+
+shift_6_1__un0_n = (N_194 & shift_6_1__un3_n);
+
+shift_6_2__un3_n = (!un13_r_w_t);
+
+shift_6_2__un1_n = (shift_1_ & un13_r_w_t);
+
+
+Reverse-Polarity Equations:
+
+!data_out_7_ = (!data_int_7_reg);
+
+!start = (!inst_start_treg);
+
+!stop = (!inst_stop_treg);
+
+!r_w = (!inst_r_w_treg);
+
+!data_vld = (!inst_vld_plsereg);
+
+!scl_oe = (!sm_state_1_sqmuxa);
+
+!sda_oe = (!un1_sda_oe);
+
+!data_out_6_ = (!data_int_6_reg);
+
+!data_out_5_ = (!data_int_5_reg);
+
+!data_out_4_ = (!data_int_4_reg);
+
+!data_out_3_ = (!data_int_3_reg);
+
+!data_out_2_ = (!data_int_2_reg);
+
+!data_out_1_ = (!data_int_1_reg);
+
+!data_out_0_ = (!data_int_0_reg);
+
+!inst_start_treg.AR = (!start_async_rst);
+
+!inst_start_treg.D = (!scl_in_c);
+
+!inst_stop_treg.D = (!scl_in_c);
+
+!inst_stop_treg.C = (!sda_in_c);
+
+!data_int_0_reg.CE = (!un28_r_w_t);
+
+!data_int_0_reg.AR = (!XRESET_c);
+
+!data_int_0_reg.D = (!shift_0_);
+
+!data_int_0_reg.C = (!scl_in_c);
+
+!data_int_1_reg.CE = (!un28_r_w_t);
+
+!data_int_1_reg.AR = (!XRESET_c);
+
+!data_int_1_reg.D = (!shift_1_);
+
+!data_int_1_reg.C = (!scl_in_c);
+
+!data_int_2_reg.CE = (!un28_r_w_t);
+
+!data_int_2_reg.AR = (!XRESET_c);
+
+!data_int_2_reg.D = (!shift_2_);
+
+!data_int_2_reg.C = (!scl_in_c);
+
+!data_int_3_reg.CE = (!un28_r_w_t);
+
+!data_int_3_reg.AR = (!XRESET_c);
+
+!data_int_3_reg.D = (!shift_3_);
+
+!data_int_3_reg.C = (!scl_in_c);
+
+!data_int_4_reg.CE = (!un28_r_w_t);
+
+!data_int_4_reg.AR = (!XRESET_c);
+
+!data_int_4_reg.D = (!shift_4_);
+
+!data_int_4_reg.C = (!scl_in_c);
+
+!data_int_5_reg.CE = (!un28_r_w_t);
+
+!data_int_5_reg.AR = (!XRESET_c);
+
+!data_int_5_reg.D = (!shift_5_);
+
+!data_int_5_reg.C = (!scl_in_c);
+
+!data_int_6_reg.CE = (!un28_r_w_t);
+
+!data_int_6_reg.AR = (!XRESET_c);
+
+!data_int_6_reg.D = (!shift_6_);
+
+!data_int_6_reg.C = (!scl_in_c);
+
+!data_int_7_reg.CE = (!un28_r_w_t);
+
+!data_int_7_reg.AR = (!XRESET_c);
+
+!data_int_7_reg.D = (!shift_7_);
+
+!data_int_7_reg.C = (!scl_in_c);
+
+!inst_r_w_treg.AP = (!XRESET_c);
+
+!inst_r_w_treg.C = (!scl_in_c);
+
+!inst_vld_plsereg.AR = (!XRESET_c);
+
+!inst_vld_plsereg.D = (!sm_state_1_);
+
+!inst_vld_plsereg.C = (!scl_in_c);
+
+!shift_0_.CE = (!un1_r_w_t_3_i);
+
+!shift_0_.AR = (!XRESET_c);
+
+!shift_0_.C = (!scl_in_i);
+
+!inst_sda_f.D = (!sda_in_c);
+
+!inst_sda_f.C = (!sda_clk);
+
+!sm_state_0_.AR = (!XRESET_c);
+
+!sm_state_0_.D = (!sm_state_1_);
+
+!sm_state_0_.C = (!scl_in_c);
+
+!shift_6_.CE = (!un1_r_w_t_3_i);
+
+!shift_6_.AR = (!XRESET_c);
+
+!shift_6_.C = (!scl_in_i);
+
+!sm_state_16_.AR = (!XRESET_c);
+
+!sm_state_16_.C = (!scl_in_c);
+
+!sda_clk.X1 = (!inst_sda_f);
+
+!sda_clk.X2 = (!sda_in_c);
+
+!sm_state_9_.AR = (!XRESET_c);
+
+!sm_state_9_.D = (!N_144_i);
+
+!sm_state_9_.C = (!scl_in_c);
+
+!sm_state_8_.AR = (!XRESET_c);
+
+!sm_state_8_.C = (!scl_in_c);
+
+!inst_ack_out.AR = (!XRESET_c);
+
+!inst_ack_out.C = (!scl_in_i);
+
+!inst_sda_en.AR = (!XRESET_c);
+
+!inst_sda_en.C = (!scl_in_i);
+
+!sm_state_10_.AR = (!XRESET_c);
+
+!sm_state_10_.C = (!scl_in_c);
+
+!sm_state_17_.AP = (!XRESET_c);
+
+!sm_state_17_.C = (!scl_in_c);
+
+!sm_state_1_.AR = (!XRESET_c);
+
+!sm_state_1_.D = (!sm_state_2_);
+
+!sm_state_1_.C = (!scl_in_c);
+
+!sm_state_15_.AR = (!XRESET_c);
+
+!sm_state_15_.C = (!scl_in_c);
+
+!sm_state_14_.AR = (!XRESET_c);
+
+!sm_state_14_.C = (!scl_in_c);
+
+!sm_state_13_.AR = (!XRESET_c);
+
+!sm_state_13_.C = (!scl_in_c);
+
+!sm_state_12_.AR = (!XRESET_c);
+
+!sm_state_12_.C = (!scl_in_c);
+
+!sm_state_11_.AR = (!XRESET_c);
+
+!sm_state_11_.C = (!scl_in_c);
+
+!sm_state_7_.AR = (!XRESET_c);
+
+!sm_state_7_.C = (!scl_in_c);
+
+!sm_state_6_.AR = (!XRESET_c);
+
+!sm_state_6_.C = (!scl_in_c);
+
+!sm_state_5_.AR = (!XRESET_c);
+
+!sm_state_5_.D = (!sm_state_6_);
+
+!sm_state_5_.C = (!scl_in_c);
+
+!sm_state_4_.AR = (!XRESET_c);
+
+!sm_state_4_.D = (!sm_state_5_);
+
+!sm_state_4_.C = (!scl_in_c);
+
+!sm_state_3_.AR = (!XRESET_c);
+
+!sm_state_3_.D = (!sm_state_4_);
+
+!sm_state_3_.C = (!scl_in_c);
+
+!sm_state_2_.AR = (!XRESET_c);
+
+!sm_state_2_.D = (!sm_state_3_);
+
+!sm_state_2_.C = (!scl_in_c);
+
+!shift_1_.CE = (!un1_r_w_t_3_i);
+
+!shift_1_.AR = (!XRESET_c);
+
+!shift_1_.C = (!scl_in_i);
+
+!shift_2_.CE = (!un1_r_w_t_3_i);
+
+!shift_2_.AR = (!XRESET_c);
+
+!shift_2_.C = (!scl_in_i);
+
+!shift_3_.CE = (!un1_r_w_t_3_i);
+
+!shift_3_.AR = (!XRESET_c);
+
+!shift_3_.C = (!scl_in_i);
+
+!shift_4_.CE = (!un1_r_w_t_3_i);
+
+!shift_4_.AR = (!XRESET_c);
+
+!shift_4_.C = (!scl_in_i);
+
+!shift_5_.CE = (!un1_r_w_t_3_i);
+
+!shift_5_.AR = (!XRESET_c);
+
+!shift_5_.C = (!scl_in_i);
+
+!shift_7_.CE = (!un1_r_w_t_3_i);
+
+!shift_7_.AR = (!XRESET_c);
+
+!shift_7_.C = (!scl_in_i);
+
+!XRESET_c = (!XRESET);
+
+!ready_c = (!ready);
+
+!data_in_c_0__n = (!data_in_0_);
+
+!data_in_c_1__n = (!data_in_1_);
+
+!data_in_c_2__n = (!data_in_2_);
+
+!data_in_c_3__n = (!data_in_3_);
+
+!data_in_c_4__n = (!data_in_4_);
+
+!data_in_c_5__n = (!data_in_5_);
+
+!data_in_c_6__n = (!data_in_6_);
+
+!data_in_c_7__n = (!data_in_7_);
+
+!scl_in_c = (!scl_in);
+
+!sda_in_c = (!sda_in);
+

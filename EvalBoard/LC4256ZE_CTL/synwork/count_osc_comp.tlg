@@ -1,0 +1,5 @@
+Selecting top level module count_osc
+@N: CG364 :"C:\ispLEVER_Classic2_1\ispcpld\..\cae_library\synthesis\verilog\mach.v":417:7:417:14|Synthesizing module OSCTIMER
+
+@N: CG364 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\lc4256ze_ctl\lc4256ze.v":2:7:2:15|Synthesizing module count_osc
+

@@ -1,0 +1,42 @@
+//
+// Software Version :  ispLEVER Classic 2.1.00.02.49.20  
+// Project Name	    :  lc4256ze
+// Targeted Device  :  LC4256ZE-5TN144C
+// Date             :  Thu Dec 23 19:33:25 2021
+//
+                      GND          SYS           1
+                   VCCIO0          SYS           3
+                   GNDIO0          SYS           10
+                   VCCIO0          SYS           19
+                   GNDIO0          SYS           27
+                   VCCIO0          SYS           34
+                      VCC          SYS           36
+                      GND          SYS           37
+                   GNDIO0          SYS           46
+                   VCCIO0          SYS           47
+                   GNDIO1          SYS           55
+                      VCC          SYS           57
+                   led_2_          OUT           58
+                   led_3_          OUT           59
+                   led_4_          OUT           60
+                   led_5_          OUT           61
+                   led_6_          OUT           62
+                   led_7_          OUT           63
+                   VCCIO1          SYS           64
+                   GNDIO1          SYS           65
+                   led_0_          OUT           70
+                   led_1_          OUT           71
+                      GND          SYS           73
+                   VCCIO1          SYS           75
+                   GNDIO1          SYS           82
+                   VCCIO1          SYS           91
+                   GNDIO1          SYS           99
+                   VCCIO1          SYS           106
+                      VCC          SYS           108
+                      GND          SYS           109
+                   GNDIO1          SYS           118
+                   VCCIO1          SYS           119
+                   GNDIO0          SYS           127
+                      VCC          SYS           129
+                   VCCIO0          SYS           136
+                   GNDIO0          SYS           137

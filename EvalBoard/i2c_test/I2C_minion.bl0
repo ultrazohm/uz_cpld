@@ -1,0 +1,853 @@
+#$ DATE Tue Dec 28 19:13:30 2021
+#$ TOOL EDIF2BLIF version IspLever 1.0 
+#$ MODULE i2c_minion
+#$ PINS 22 data_to_master_7_ data_from_master_7_ scl sda clk rst read_req data_valid data_to_master_6_ data_to_master_5_ data_to_master_4_ data_to_master_3_ data_to_master_2_ data_to_master_1_ data_to_master_0_ data_from_master_6_ data_from_master_5_ data_from_master_4_ data_from_master_3_ data_from_master_2_ data_from_master_1_ data_from_master_0_
+#$ NODES 280 N_160_i N_161_i inst_read_req_regreg N_158_i inst_data_valid_regreg N_351_i data_from_master_reg_0_reg N_116_0_1 data_from_master_reg_1_reg N_413_1 \
+#  data_from_master_reg_2_reg N_413_2 data_from_master_reg_3_reg N_413_3 data_from_master_reg_4_reg N_413_4 data_from_master_reg_5_reg N_413_5 data_from_master_reg_6_reg N_97_0_1 \
+#  data_from_master_reg_7_reg N_105_0_1 N_106_0_1 N_73_0_1 N_156_i_1 state_reg_srst_0_1_5__n bits_processed_reg_0_ bits_processed_rege_0_1 bits_processed_reg_1_ bits_processed_rege_0_2 \
+#  bits_processed_reg_2_ bits_processed_rege_0_3 bits_processed_reg_3_ bits_processed_rege_0_4 inst_sda_pre_internal bits_processed_rege_0_5 inst_scl_pre_internal bits_processed_rege_0_6 addr_reg_0_ N_150_i_1 \
+#  addr_reg_1_ N_148_i_1 addr_reg_3_ N_145_i_1 addr_reg_5_ N_351_i_1 inst_scl_prev_reg N_351_i_2 inst_sda_prev_reg un12_scl_prev_reg_1 \
+#  inst_stop_reg un12_scl_prev_reg_2 gnd_n_n un11_scl_internal_1 state_reg_2_ un11_scl_internal_2 inst_scl_rising_reg N_201_1 state_reg_4_ N_186_1 \
+#  state_reg_6_ N_181_1 inst_continue_reg N_179_1 inst_scl_falling_reg N_177_1 addr_reg_2_ N_169_1 addr_reg_4_ N_394_1 \
+#  addr_reg_6_ N_394_2 data_reg_0_ N_158_1 data_reg_1_ N_158_2 data_reg_2_ data_reg_1_i_m2_5__un3_n data_reg_3_ data_reg_1_i_m2_5__un1_n \
+#  data_reg_4_ data_reg_1_i_m2_5__un0_n data_reg_5_ addr_reg_1_i_m2_5__un3_n data_reg_6_ addr_reg_1_i_m2_5__un1_n inst_start_reg addr_reg_1_i_m2_5__un0_n state_reg_3_ addr_reg_1_i_m2_6__un3_n \
+#  inst_sda_wen_reg addr_reg_1_i_m2_6__un1_n state_reg_5_ addr_reg_1_i_m2_6__un0_n state_reg_1_ data_reg_1_i_m2_6__un3_n state_reg_0_ data_reg_1_i_m2_6__un1_n inst_cmd_reg data_reg_1_i_m2_6__un0_n \
+#  data_reg_1_206_i_0_m2_un3_n data_valid_reg_1_sqmuxa data_reg_1_206_i_0_m2_un1_n bits_processed_rege data_reg_1_206_i_0_m2_un0_n addr_reg_1_257_i_0_m2_un3_n state_reg_i_7_ addr_reg_1_257_i_0_m2_un1_n addr_reg_1_257_i_0_m2_un0_n data_reg_1_0_189_i_0_m2_un3_n \
+#  N_170 data_reg_1_0_189_i_0_m2_un1_n data_reg_1_0_189_i_0_m2_un0_n N_188 addr_reg_1_0_240_i_0_m2_un3_n N_93 addr_reg_1_0_240_i_0_m2_un1_n N_97 addr_reg_1_0_240_i_0_m2_un0_n N_100 \
+#  addr_reg_1_i_m2_2__un3_n N_101 addr_reg_1_i_m2_2__un1_n N_112 addr_reg_1_i_m2_2__un0_n N_137 data_reg_1_i_m2_2__un3_n N_158 data_reg_1_i_m2_2__un1_n N_160 \
+#  data_reg_1_i_m2_2__un0_n N_161 addr_reg_1_i_m2_4__un3_n N_162 addr_reg_1_i_m2_4__un1_n N_394 addr_reg_1_i_m2_4__un0_n N_167 data_reg_1_i_m2_4__un3_n N_169 \
+#  data_reg_1_i_m2_4__un1_n N_177 data_reg_1_i_m2_4__un0_n N_179 data_reg_1_2_172_i_i_m2_un3_n N_181 data_reg_1_2_172_i_i_m2_un1_n N_184 data_reg_1_2_172_i_i_m2_un0_n N_185 \
+#  addr_reg_1_2_223_i_i_m2_un3_n N_186 addr_reg_1_2_223_i_i_m2_un1_n N_187 addr_reg_1_2_223_i_i_m2_un0_n N_201 data_to_master_7__n N_208 N_209 data_to_master_6__n \
+#  N_403 N_404 data_to_master_5__n N_412 N_413 data_to_master_4__n N_269 N_116 data_to_master_3__n N_176 \
+#  N_157 data_to_master_2__n N_268 N_114 data_to_master_1__n N_402 N_99 data_to_master_0__n N_347 N_334 \
+#  N_125 N_308 N_295 N_124 N_270 N_113 N_180 bits_processed_reg_n2_i_x2 N_94 N_102 \
+#  N_105 N_107 un8_scl_rising_reg N_183 bits_processed_reg_n3_i_x2 N_106 scl_rising_reg_i state_reg_i_6__n state_reg_i_4__n bits_processed_reg_c0_i \
+#  un8_scl_rising_reg_i bits_processed_reg_i_3__n start_reg_i sda_pre_internal_i addr_reg_i_1__n data_reg_i_1__n addr_reg_i_0__n data_reg_i_0__n addr_reg_i_3__n data_reg_i_3__n \
+#  cmd_reg_i bits_processed_reg_i_2__n bits_processed_reg_i_1__n scl_falling_reg_i state_reg_i_3__n addr_reg_i_5__n state_reg_i_2__n state_reg_i_5__n state_reg_i_1__n continue_reg_i \
+#  state_reg_i_0__n sda_prev_reg_i scl_pre_internal_i scl_prev_reg_i clk_c rst_c N_120_0 N_112_0 N_106_0 N_98_0 \
+#  rst_c_i stop_reg_i N_95_0 N_69_0 N_183_i N_181_i state_reg_srst_i_0_7__n N_60_0 N_413_i N_137_0 \
+#  N_113_0 N_107_0 N_105_0 N_102_0 N_101_0 N_100_0 N_97_0 N_94_i N_93_0 N_180_i \
+#  N_179_i state_reg_srst_0_2__n N_126_i_i N_270_i N_268_0 N_99_0 N_402_i N_108_i N_114_0 N_157_i \
+#  N_177_i N_176_i read_req_reg_5_0 N_170_i N_116_0 N_208_i N_209_i N_186_i N_187_i N_201_i \
+#  state_reg_srst_0_5__n N_184_i N_185_i N_269_i N_412_i bits_processed_rege_0 N_167_i N_169_i N_162_i N_394_i \
+#  
+.model i2c_minion
+.inputs data_to_master_7_.BLIF scl.BLIF clk.BLIF rst.BLIF data_to_master_6_.BLIF data_to_master_5_.BLIF data_to_master_4_.BLIF data_to_master_3_.BLIF data_to_master_2_.BLIF \
+  data_to_master_1_.BLIF data_to_master_0_.BLIF sda.BLIF N_160_i.BLIF N_161_i.BLIF inst_read_req_regreg.BLIF N_158_i.BLIF inst_data_valid_regreg.BLIF N_351_i.BLIF data_from_master_reg_0_reg.BLIF \
+  N_116_0_1.BLIF data_from_master_reg_1_reg.BLIF N_413_1.BLIF data_from_master_reg_2_reg.BLIF N_413_2.BLIF data_from_master_reg_3_reg.BLIF N_413_3.BLIF data_from_master_reg_4_reg.BLIF N_413_4.BLIF \
+  data_from_master_reg_5_reg.BLIF N_413_5.BLIF data_from_master_reg_6_reg.BLIF N_97_0_1.BLIF data_from_master_reg_7_reg.BLIF N_105_0_1.BLIF N_106_0_1.BLIF N_73_0_1.BLIF N_156_i_1.BLIF \
+  state_reg_srst_0_1_5__n.BLIF bits_processed_reg_0_.BLIF bits_processed_rege_0_1.BLIF bits_processed_reg_1_.BLIF bits_processed_rege_0_2.BLIF bits_processed_reg_2_.BLIF bits_processed_rege_0_3.BLIF bits_processed_reg_3_.BLIF bits_processed_rege_0_4.BLIF \
+  inst_sda_pre_internal.BLIF bits_processed_rege_0_5.BLIF inst_scl_pre_internal.BLIF bits_processed_rege_0_6.BLIF addr_reg_0_.BLIF N_150_i_1.BLIF addr_reg_1_.BLIF N_148_i_1.BLIF addr_reg_3_.BLIF \
+  N_145_i_1.BLIF addr_reg_5_.BLIF N_351_i_1.BLIF inst_scl_prev_reg.BLIF N_351_i_2.BLIF inst_sda_prev_reg.BLIF un12_scl_prev_reg_1.BLIF inst_stop_reg.BLIF un12_scl_prev_reg_2.BLIF \
+  gnd_n_n.BLIF un11_scl_internal_1.BLIF state_reg_2_.BLIF un11_scl_internal_2.BLIF inst_scl_rising_reg.BLIF N_201_1.BLIF state_reg_4_.BLIF N_186_1.BLIF state_reg_6_.BLIF \
+  N_181_1.BLIF inst_continue_reg.BLIF N_179_1.BLIF inst_scl_falling_reg.BLIF N_177_1.BLIF addr_reg_2_.BLIF N_169_1.BLIF addr_reg_4_.BLIF N_394_1.BLIF \
+  addr_reg_6_.BLIF N_394_2.BLIF data_reg_0_.BLIF N_158_1.BLIF data_reg_1_.BLIF N_158_2.BLIF data_reg_2_.BLIF data_reg_1_i_m2_5__un3_n.BLIF data_reg_3_.BLIF \
+  data_reg_1_i_m2_5__un1_n.BLIF data_reg_4_.BLIF data_reg_1_i_m2_5__un0_n.BLIF data_reg_5_.BLIF addr_reg_1_i_m2_5__un3_n.BLIF data_reg_6_.BLIF addr_reg_1_i_m2_5__un1_n.BLIF inst_start_reg.BLIF addr_reg_1_i_m2_5__un0_n.BLIF \
+  state_reg_3_.BLIF addr_reg_1_i_m2_6__un3_n.BLIF inst_sda_wen_reg.BLIF addr_reg_1_i_m2_6__un1_n.BLIF state_reg_5_.BLIF addr_reg_1_i_m2_6__un0_n.BLIF state_reg_1_.BLIF data_reg_1_i_m2_6__un3_n.BLIF state_reg_0_.BLIF \
+  data_reg_1_i_m2_6__un1_n.BLIF inst_cmd_reg.BLIF data_reg_1_i_m2_6__un0_n.BLIF data_reg_1_206_i_0_m2_un3_n.BLIF data_valid_reg_1_sqmuxa.BLIF data_reg_1_206_i_0_m2_un1_n.BLIF bits_processed_rege.BLIF data_reg_1_206_i_0_m2_un0_n.BLIF addr_reg_1_257_i_0_m2_un3_n.BLIF \
+  state_reg_i_7_.BLIF addr_reg_1_257_i_0_m2_un1_n.BLIF addr_reg_1_257_i_0_m2_un0_n.BLIF data_reg_1_0_189_i_0_m2_un3_n.BLIF N_170.BLIF data_reg_1_0_189_i_0_m2_un1_n.BLIF data_reg_1_0_189_i_0_m2_un0_n.BLIF N_188.BLIF addr_reg_1_0_240_i_0_m2_un3_n.BLIF \
+  N_93.BLIF addr_reg_1_0_240_i_0_m2_un1_n.BLIF N_97.BLIF addr_reg_1_0_240_i_0_m2_un0_n.BLIF N_100.BLIF addr_reg_1_i_m2_2__un3_n.BLIF N_101.BLIF addr_reg_1_i_m2_2__un1_n.BLIF N_112.BLIF \
+  addr_reg_1_i_m2_2__un0_n.BLIF N_137.BLIF data_reg_1_i_m2_2__un3_n.BLIF N_158.BLIF data_reg_1_i_m2_2__un1_n.BLIF N_160.BLIF data_reg_1_i_m2_2__un0_n.BLIF N_161.BLIF addr_reg_1_i_m2_4__un3_n.BLIF \
+  N_162.BLIF addr_reg_1_i_m2_4__un1_n.BLIF N_394.BLIF addr_reg_1_i_m2_4__un0_n.BLIF N_167.BLIF data_reg_1_i_m2_4__un3_n.BLIF N_169.BLIF data_reg_1_i_m2_4__un1_n.BLIF N_177.BLIF \
+  data_reg_1_i_m2_4__un0_n.BLIF N_179.BLIF data_reg_1_2_172_i_i_m2_un3_n.BLIF N_181.BLIF data_reg_1_2_172_i_i_m2_un1_n.BLIF N_184.BLIF data_reg_1_2_172_i_i_m2_un0_n.BLIF N_185.BLIF addr_reg_1_2_223_i_i_m2_un3_n.BLIF \
+  N_186.BLIF addr_reg_1_2_223_i_i_m2_un1_n.BLIF N_187.BLIF addr_reg_1_2_223_i_i_m2_un0_n.BLIF N_201.BLIF data_to_master_7__n.BLIF N_208.BLIF N_209.BLIF data_to_master_6__n.BLIF \
+  N_403.BLIF N_404.BLIF data_to_master_5__n.BLIF N_412.BLIF N_413.BLIF data_to_master_4__n.BLIF N_269.BLIF N_116.BLIF data_to_master_3__n.BLIF \
+  N_176.BLIF N_157.BLIF data_to_master_2__n.BLIF N_268.BLIF N_114.BLIF data_to_master_1__n.BLIF N_402.BLIF N_99.BLIF data_to_master_0__n.BLIF \
+  N_347.BLIF N_334.BLIF N_125.BLIF N_308.BLIF N_295.BLIF N_124.BLIF N_270.BLIF N_113.BLIF N_180.BLIF \
+  bits_processed_reg_n2_i_x2.BLIF N_94.BLIF N_102.BLIF N_105.BLIF N_107.BLIF un8_scl_rising_reg.BLIF N_183.BLIF bits_processed_reg_n3_i_x2.BLIF N_106.BLIF \
+  scl_rising_reg_i.BLIF state_reg_i_6__n.BLIF state_reg_i_4__n.BLIF bits_processed_reg_c0_i.BLIF un8_scl_rising_reg_i.BLIF bits_processed_reg_i_3__n.BLIF start_reg_i.BLIF sda_pre_internal_i.BLIF addr_reg_i_1__n.BLIF \
+  data_reg_i_1__n.BLIF addr_reg_i_0__n.BLIF data_reg_i_0__n.BLIF addr_reg_i_3__n.BLIF data_reg_i_3__n.BLIF cmd_reg_i.BLIF bits_processed_reg_i_2__n.BLIF bits_processed_reg_i_1__n.BLIF scl_falling_reg_i.BLIF \
+  state_reg_i_3__n.BLIF addr_reg_i_5__n.BLIF state_reg_i_2__n.BLIF state_reg_i_5__n.BLIF state_reg_i_1__n.BLIF continue_reg_i.BLIF state_reg_i_0__n.BLIF sda_prev_reg_i.BLIF scl_pre_internal_i.BLIF \
+  scl_prev_reg_i.BLIF clk_c.BLIF rst_c.BLIF N_120_0.BLIF N_112_0.BLIF N_106_0.BLIF N_98_0.BLIF rst_c_i.BLIF stop_reg_i.BLIF \
+  N_95_0.BLIF N_69_0.BLIF N_183_i.BLIF N_181_i.BLIF state_reg_srst_i_0_7__n.BLIF N_60_0.BLIF N_413_i.BLIF N_137_0.BLIF N_113_0.BLIF \
+  N_107_0.BLIF N_105_0.BLIF N_102_0.BLIF N_101_0.BLIF N_100_0.BLIF N_97_0.BLIF N_94_i.BLIF N_93_0.BLIF N_180_i.BLIF \
+  N_179_i.BLIF state_reg_srst_0_2__n.BLIF N_126_i_i.BLIF N_270_i.BLIF N_268_0.BLIF N_99_0.BLIF N_402_i.BLIF N_108_i.BLIF N_114_0.BLIF \
+  N_157_i.BLIF N_177_i.BLIF N_176_i.BLIF read_req_reg_5_0.BLIF N_170_i.BLIF N_116_0.BLIF N_208_i.BLIF N_209_i.BLIF N_186_i.BLIF \
+  N_187_i.BLIF N_201_i.BLIF state_reg_srst_0_5__n.BLIF N_184_i.BLIF N_185_i.BLIF N_269_i.BLIF N_412_i.BLIF bits_processed_rege_0.BLIF N_167_i.BLIF \
+  N_169_i.BLIF N_162_i.BLIF N_394_i.BLIF sda.PIN  
+.outputs data_from_master_7_ read_req data_valid data_from_master_6_ data_from_master_5_ data_from_master_4_ data_from_master_3_ data_from_master_2_ data_from_master_1_ data_from_master_0_ state_reg_i_7_.D \
+  state_reg_i_7_.C state_reg_6_.D state_reg_6_.C state_reg_5_.D state_reg_5_.C state_reg_4_.D state_reg_4_.C state_reg_3_.D state_reg_3_.C state_reg_2_.D state_reg_2_.C \
+  state_reg_1_.D state_reg_1_.C state_reg_0_.D state_reg_0_.C addr_reg_0_.D addr_reg_0_.CE addr_reg_0_.C addr_reg_1_.D addr_reg_1_.CE addr_reg_1_.C addr_reg_2_.D \
+  addr_reg_2_.CE addr_reg_2_.C addr_reg_3_.D addr_reg_3_.CE addr_reg_3_.C addr_reg_4_.D addr_reg_4_.CE addr_reg_4_.C addr_reg_5_.D addr_reg_5_.CE addr_reg_5_.C \
+  addr_reg_6_.D addr_reg_6_.CE addr_reg_6_.C data_reg_0_.D data_reg_0_.CE data_reg_0_.C data_reg_1_.D data_reg_1_.CE data_reg_1_.C data_reg_2_.D data_reg_2_.CE \
+  data_reg_2_.C data_reg_3_.D data_reg_3_.CE data_reg_3_.C data_reg_4_.D data_reg_4_.CE data_reg_4_.C data_reg_5_.D data_reg_5_.CE data_reg_5_.C data_reg_6_.D \
+  data_reg_6_.CE data_reg_6_.C data_from_master_reg_0_reg.D data_from_master_reg_0_reg.CE data_from_master_reg_0_reg.C data_from_master_reg_1_reg.D data_from_master_reg_1_reg.CE data_from_master_reg_1_reg.C data_from_master_reg_2_reg.D data_from_master_reg_2_reg.CE data_from_master_reg_2_reg.C \
+  data_from_master_reg_3_reg.D data_from_master_reg_3_reg.CE data_from_master_reg_3_reg.C data_from_master_reg_4_reg.D data_from_master_reg_4_reg.CE data_from_master_reg_4_reg.C data_from_master_reg_5_reg.D data_from_master_reg_5_reg.CE data_from_master_reg_5_reg.C data_from_master_reg_6_reg.D data_from_master_reg_6_reg.CE \
+  data_from_master_reg_6_reg.C data_from_master_reg_7_reg.D data_from_master_reg_7_reg.CE data_from_master_reg_7_reg.C bits_processed_reg_3_.D bits_processed_reg_3_.CE bits_processed_reg_3_.C bits_processed_reg_0_.D bits_processed_reg_0_.CE bits_processed_reg_0_.C bits_processed_reg_1_.D \
+  bits_processed_reg_1_.CE bits_processed_reg_1_.C bits_processed_reg_2_.D bits_processed_reg_2_.CE bits_processed_reg_2_.C inst_data_valid_regreg.D inst_data_valid_regreg.C inst_read_req_regreg.D inst_read_req_regreg.C inst_cmd_reg.D inst_cmd_reg.CE \
+  inst_cmd_reg.C inst_continue_reg.D inst_continue_reg.CE inst_continue_reg.C inst_start_reg.D inst_start_reg.C inst_stop_reg.D inst_stop_reg.C inst_sda_pre_internal.D inst_sda_pre_internal.C inst_sda_wen_reg.D \
+  inst_sda_wen_reg.C inst_sda_prev_reg.D inst_sda_prev_reg.C inst_scl_pre_internal.D inst_scl_pre_internal.C inst_scl_prev_reg.D inst_scl_prev_reg.C inst_scl_falling_reg.D inst_scl_falling_reg.C inst_scl_rising_reg.D inst_scl_rising_reg.C \
+  bits_processed_reg_n3_i_x2.X1 bits_processed_reg_n3_i_x2.X2 bits_processed_reg_n2_i_x2.X1 bits_processed_reg_n2_i_x2.X2 sda N_160_i N_161_i N_158_i N_351_i N_116_0_1 N_413_1 N_413_2 \
+  N_413_3 N_413_4 N_413_5 N_97_0_1 N_105_0_1 N_106_0_1 N_73_0_1 N_156_i_1 state_reg_srst_0_1_5__n bits_processed_rege_0_1 bits_processed_rege_0_2 \
+  bits_processed_rege_0_3 bits_processed_rege_0_4 bits_processed_rege_0_5 bits_processed_rege_0_6 N_150_i_1 N_148_i_1 N_145_i_1 N_351_i_1 N_351_i_2 un12_scl_prev_reg_1 un12_scl_prev_reg_2 \
+  gnd_n_n un11_scl_internal_1 un11_scl_internal_2 N_201_1 N_186_1 N_181_1 N_179_1 N_177_1 N_169_1 N_394_1 N_394_2 \
+  N_158_1 N_158_2 data_reg_1_i_m2_5__un3_n data_reg_1_i_m2_5__un1_n data_reg_1_i_m2_5__un0_n addr_reg_1_i_m2_5__un3_n addr_reg_1_i_m2_5__un1_n addr_reg_1_i_m2_5__un0_n addr_reg_1_i_m2_6__un3_n addr_reg_1_i_m2_6__un1_n addr_reg_1_i_m2_6__un0_n \
+  data_reg_1_i_m2_6__un3_n data_reg_1_i_m2_6__un1_n data_reg_1_i_m2_6__un0_n data_reg_1_206_i_0_m2_un3_n data_valid_reg_1_sqmuxa data_reg_1_206_i_0_m2_un1_n bits_processed_rege data_reg_1_206_i_0_m2_un0_n addr_reg_1_257_i_0_m2_un3_n addr_reg_1_257_i_0_m2_un1_n addr_reg_1_257_i_0_m2_un0_n \
+  data_reg_1_0_189_i_0_m2_un3_n N_170 data_reg_1_0_189_i_0_m2_un1_n data_reg_1_0_189_i_0_m2_un0_n N_188 addr_reg_1_0_240_i_0_m2_un3_n N_93 addr_reg_1_0_240_i_0_m2_un1_n N_97 addr_reg_1_0_240_i_0_m2_un0_n N_100 \
+  addr_reg_1_i_m2_2__un3_n N_101 addr_reg_1_i_m2_2__un1_n N_112 addr_reg_1_i_m2_2__un0_n N_137 data_reg_1_i_m2_2__un3_n N_158 data_reg_1_i_m2_2__un1_n N_160 data_reg_1_i_m2_2__un0_n \
+  N_161 addr_reg_1_i_m2_4__un3_n N_162 addr_reg_1_i_m2_4__un1_n N_394 addr_reg_1_i_m2_4__un0_n N_167 data_reg_1_i_m2_4__un3_n N_169 data_reg_1_i_m2_4__un1_n N_177 \
+  data_reg_1_i_m2_4__un0_n N_179 data_reg_1_2_172_i_i_m2_un3_n N_181 data_reg_1_2_172_i_i_m2_un1_n N_184 data_reg_1_2_172_i_i_m2_un0_n N_185 addr_reg_1_2_223_i_i_m2_un3_n N_186 addr_reg_1_2_223_i_i_m2_un1_n \
+  N_187 addr_reg_1_2_223_i_i_m2_un0_n N_201 data_to_master_7__n N_208 N_209 data_to_master_6__n N_403 N_404 data_to_master_5__n N_412 \
+  N_413 data_to_master_4__n N_269 N_116 data_to_master_3__n N_176 N_157 data_to_master_2__n N_268 N_114 data_to_master_1__n \
+  N_402 N_99 data_to_master_0__n N_347 N_334 N_125 N_308 N_295 N_124 N_270 N_113 \
+  N_180 N_94 N_102 N_105 N_107 un8_scl_rising_reg N_183 N_106 scl_rising_reg_i state_reg_i_6__n state_reg_i_4__n \
+  bits_processed_reg_c0_i un8_scl_rising_reg_i bits_processed_reg_i_3__n start_reg_i sda_pre_internal_i addr_reg_i_1__n data_reg_i_1__n addr_reg_i_0__n data_reg_i_0__n addr_reg_i_3__n data_reg_i_3__n \
+  cmd_reg_i bits_processed_reg_i_2__n bits_processed_reg_i_1__n scl_falling_reg_i state_reg_i_3__n addr_reg_i_5__n state_reg_i_2__n state_reg_i_5__n state_reg_i_1__n continue_reg_i state_reg_i_0__n \
+  sda_prev_reg_i scl_pre_internal_i scl_prev_reg_i clk_c rst_c N_120_0 N_112_0 N_106_0 N_98_0 rst_c_i stop_reg_i \
+  N_95_0 N_69_0 N_183_i N_181_i state_reg_srst_i_0_7__n N_60_0 N_413_i N_137_0 N_113_0 N_107_0 N_105_0 \
+  N_102_0 N_101_0 N_100_0 N_97_0 N_94_i N_93_0 N_180_i N_179_i state_reg_srst_0_2__n N_126_i_i N_270_i \
+  N_268_0 N_99_0 N_402_i N_108_i N_114_0 N_157_i N_177_i N_176_i read_req_reg_5_0 N_170_i N_116_0 \
+  N_208_i N_209_i N_186_i N_187_i N_201_i state_reg_srst_0_5__n N_184_i N_185_i N_269_i N_412_i bits_processed_rege_0 \
+  N_167_i N_169_i N_162_i N_394_i sda.OE
+.names gnd_n_n.BLIF sda
+1 1
+.names sda.PIN inst_sda_pre_internal.D
+1 1
+.names inst_sda_wen_reg.BLIF sda.OE
+1 1
+.names  addr_reg_1_0_240_i_0_m2_un1_n.BLIF addr_reg_1_0_240_i_0_m2_un0_n.BLIF N_334
+1- 1
+-1 1
+.names  N_107.BLIF addr_reg_1_i_m2_2__un3_n
+0 1
+.names  clk_c.BLIF data_from_master_reg_5_reg.C
+1 1
+.names  addr_reg_2_.BLIF N_107.BLIF addr_reg_1_i_m2_2__un1_n
+11 1
+.names  inst_sda_pre_internal.BLIF addr_reg_1_i_m2_2__un3_n.BLIF addr_reg_1_i_m2_2__un0_n
+11 1
+.names  addr_reg_1_i_m2_2__un1_n.BLIF addr_reg_1_i_m2_2__un0_n.BLIF addr_reg_2_.D
+1- 1
+-1 1
+.names  data_reg_5_.BLIF data_from_master_reg_6_reg.D
+1 1
+.names  N_107.BLIF data_reg_1_i_m2_2__un3_n
+0 1
+.names  data_reg_2_.BLIF N_107.BLIF data_reg_1_i_m2_2__un1_n
+11 1
+.names  data_valid_reg_1_sqmuxa.BLIF data_from_master_reg_6_reg.CE
+1 1
+.names  inst_sda_pre_internal.BLIF data_reg_1_i_m2_2__un3_n.BLIF data_reg_1_i_m2_2__un0_n
+11 1
+.names  data_reg_1_i_m2_2__un1_n.BLIF data_reg_1_i_m2_2__un0_n.BLIF data_reg_2_.D
+1- 1
+-1 1
+.names  clk_c.BLIF data_from_master_reg_6_reg.C
+1 1
+.names  N_105.BLIF addr_reg_1_i_m2_4__un3_n
+0 1
+.names  addr_reg_4_.BLIF N_105.BLIF addr_reg_1_i_m2_4__un1_n
+11 1
+.names  inst_sda_pre_internal.BLIF addr_reg_1_i_m2_4__un3_n.BLIF addr_reg_1_i_m2_4__un0_n
+11 1
+.names  data_reg_6_.BLIF data_from_master_reg_7_reg.D
+1 1
+.names  addr_reg_1_i_m2_4__un1_n.BLIF addr_reg_1_i_m2_4__un0_n.BLIF addr_reg_4_.D
+1- 1
+-1 1
+.names  N_105.BLIF data_reg_1_i_m2_4__un3_n
+0 1
+.names  data_valid_reg_1_sqmuxa.BLIF data_from_master_reg_7_reg.CE
+1 1
+.names  data_reg_4_.BLIF N_105.BLIF data_reg_1_i_m2_4__un1_n
+11 1
+.names  inst_sda_pre_internal.BLIF data_reg_1_i_m2_4__un3_n.BLIF data_reg_1_i_m2_4__un0_n
+11 1
+.names  clk_c.BLIF data_from_master_reg_7_reg.C
+1 1
+.names  data_reg_1_i_m2_4__un1_n.BLIF data_reg_1_i_m2_4__un0_n.BLIF data_reg_4_.D
+1- 1
+-1 1
+.names  bits_processed_reg_c0_i.BLIF bits_processed_reg_i_1__n.BLIF N_93_0
+11 1
+.names  N_93_0.BLIF bits_processed_reg_i_2__n.BLIF N_94_i
+11 1
+.names  inst_scl_falling_reg.BLIF scl_falling_reg_i
+0 1
+.names  bits_processed_rege.BLIF bits_processed_reg_3_.CE
+1 1
+.names  bits_processed_reg_2_.BLIF bits_processed_reg_0_.BLIF N_100_0
+11 1
+.names  N_97_0.BLIF state_reg_6_.BLIF N_101_0
+11 1
+.names  clk_c.BLIF bits_processed_reg_3_.C
+1 1
+.names  bits_processed_reg_1_.BLIF bits_processed_reg_2_.BLIF N_102_0
+11 1
+.names  bits_processed_reg_1_.BLIF bits_processed_reg_i_1__n
+0 1
+.names  bits_processed_reg_2_.BLIF bits_processed_reg_i_2__n
+0 1
+.names  N_93_0.BLIF bits_processed_reg_2_.BLIF N_107_0
+11 1
+.names  bits_processed_rege.BLIF bits_processed_reg_0_.CE
+1 1
+.names  inst_cmd_reg.BLIF cmd_reg_i
+0 1
+.names  N_108_i.BLIF inst_cmd_reg.BLIF N_113_0
+11 1
+.names  clk_c.BLIF bits_processed_reg_0_.C
+1 1
+.names  data_reg_3_.BLIF data_reg_i_3__n
+0 1
+.names  N_268.BLIF data_reg_1_2_172_i_i_m2_un3_n
+0 1
+.names  data_reg_i_3__n.BLIF N_268.BLIF data_reg_1_2_172_i_i_m2_un1_n
+11 1
+.names  sda_pre_internal_i.BLIF data_reg_1_2_172_i_i_m2_un3_n.BLIF data_reg_1_2_172_i_i_m2_un0_n
+11 1
+.names  bits_processed_rege.BLIF bits_processed_reg_1_.CE
+1 1
+.names  data_reg_1_2_172_i_i_m2_un1_n.BLIF data_reg_1_2_172_i_i_m2_un0_n.BLIF N_124
+1- 1
+-1 1
+.names  addr_reg_3_.BLIF addr_reg_i_3__n
+0 1
+.names  clk_c.BLIF bits_processed_reg_1_.C
+1 1
+.names  N_268.BLIF addr_reg_1_2_223_i_i_m2_un3_n
+0 1
+.names  addr_reg_i_3__n.BLIF N_268.BLIF addr_reg_1_2_223_i_i_m2_un1_n
+11 1
+.names  sda_pre_internal_i.BLIF addr_reg_1_2_223_i_i_m2_un3_n.BLIF addr_reg_1_2_223_i_i_m2_un0_n
+11 1
+.names  addr_reg_1_2_223_i_i_m2_un1_n.BLIF addr_reg_1_2_223_i_i_m2_un0_n.BLIF N_125
+1- 1
+-1 1
+.names  bits_processed_rege.BLIF bits_processed_reg_2_.CE
+1 1
+.names  bits_processed_reg_1_.BLIF bits_processed_reg_0_.BLIF N_268_0
+11 1
+.names  N_268_0.BLIF bits_processed_reg_2_.BLIF N_270_i
+11 1
+.names  clk_c.BLIF bits_processed_reg_2_.C
+1 1
+.names  state_reg_5_.BLIF state_reg_i_5__n
+0 1
+.names  state_reg_i_3__n.BLIF state_reg_i_5__n.BLIF N_188
+11 1
+.names  state_reg_2_.BLIF state_reg_i_2__n
+0 1
+.names  data_valid_reg_1_sqmuxa.BLIF inst_data_valid_regreg.D
+1 1
+.names  inst_scl_falling_reg.BLIF state_reg_i_2__n.BLIF N_161
+11 1
+.names  N_113.BLIF state_reg_i_3__n.BLIF N_162
+11 1
+.names  clk_c.BLIF inst_data_valid_regreg.C
+1 1
+.names  N_98_0.BLIF N_412.BLIF N_180
+11 1
+.names  N_98_0.BLIF N_269.BLIF N_187
+11 1
+.names  N_97_0.BLIF start_reg_i.BLIF N_209
+11 1
+.names  addr_reg_5_.BLIF addr_reg_i_5__n
+0 1
+.names  clk_c.BLIF inst_read_req_regreg.C
+1 1
+.names  N_97_0.BLIF state_reg_4_.BLIF N_269
+11 1
+.names  N_126_i_i.BLIF N_351_i.BLIF bits_processed_reg_2_.D
+11 1
+.names  N_179_i.BLIF N_180_i.BLIF state_reg_srst_0_2__n
+11 1
+.names  inst_sda_pre_internal.BLIF inst_cmd_reg.D
+1 1
+.names  state_reg_3_.BLIF state_reg_i_3__n
+0 1
+.names  inst_sda_prev_reg.BLIF sda_prev_reg_i
+0 1
+.names  inst_scl_rising_reg.BLIF state_reg_2_.BLIF N_170_i
+11 1
+.names  clk_c.BLIF inst_cmd_reg.C
+1 1
+.names  N_176_i.BLIF N_177_i.BLIF read_req_reg_5_0
+11 1
+.names  N_98_0.BLIF N_157_i.BLIF state_reg_0_.D
+11 1
+.names  N_170_i.BLIF sda_pre_internal_i.BLIF N_176
+11 1
+.names  sda_pre_internal_i.BLIF inst_continue_reg.D
+1 1
+.names  scl.BLIF inst_scl_pre_internal.D
+1 1
+.names  N_170.BLIF state_reg_i_1__n.BLIF N_160
+11 1
+.names  state_reg_0_.BLIF state_reg_i_0__n
+0 1
+.names  N_170_i.BLIF inst_continue_reg.CE
+1 1
+.names  clk.BLIF clk_c
+1 1
+.names  N_116.BLIF state_reg_i_0__n.BLIF N_157
+11 1
+.names  rst.BLIF rst_c
+1 1
+.names  N_108_i.BLIF cmd_reg_i.BLIF N_114_0
+11 1
+.names  clk_c.BLIF inst_continue_reg.C
+1 1
+.names  inst_read_req_regreg.BLIF read_req
+1 1
+.names  N_402_i.BLIF inst_scl_falling_reg.BLIF N_108_i
+11 1
+.names  state_reg_1_.BLIF state_reg_i_1__n
+0 1
+.names  inst_continue_reg.BLIF continue_reg_i
+0 1
+.names  inst_continue_reg.BLIF state_reg_1_.BLIF N_99_0
+11 1
+.names  clk_c.BLIF inst_start_reg.C
+1 1
+.names  N_99.BLIF state_reg_i_5__n.BLIF N_402
+11 1
+.names  N_114.BLIF state_reg_i_4__n.BLIF N_167
+11 1
+.names  N_188.BLIF inst_sda_wen_reg.D
+0 1
+.names  inst_scl_prev_reg.BLIF scl_prev_reg_i
+0 1
+.names  clk_c.BLIF inst_stop_reg.C
+1 1
+.names  inst_scl_pre_internal.BLIF scl_prev_reg_i.BLIF inst_scl_rising_reg.D
+11 1
+.names  inst_data_valid_regreg.BLIF data_valid
+1 1
+.names  inst_scl_pre_internal.BLIF scl_pre_internal_i
+0 1
+.names  data_from_master_reg_0_reg.BLIF data_from_master_0_
+1 1
+.names  scl_pre_internal_i.BLIF inst_scl_prev_reg.BLIF inst_scl_falling_reg.D
+11 1
+.names  data_from_master_reg_1_reg.BLIF data_from_master_1_
+1 1
+.names  N_125.BLIF addr_reg_3_.D
+0 1
+.names  clk_c.BLIF inst_sda_pre_internal.C
+1 1
+.names  data_from_master_reg_2_reg.BLIF data_from_master_2_
+1 1
+.names  N_308.BLIF data_reg_0_.D
+0 1
+.names  data_from_master_reg_3_reg.BLIF data_from_master_3_
+1 1
+.names  N_295.BLIF data_reg_1_.D
+0 1
+.names  data_from_master_reg_4_reg.BLIF data_from_master_4_
+1 1
+.names  N_124.BLIF data_reg_3_.D
+0 1
+.names  data_from_master_reg_5_reg.BLIF data_from_master_5_
+1 1
+.names  N_347.BLIF addr_reg_0_.D
+0 1
+.names  clk_c.BLIF inst_sda_wen_reg.C
+1 1
+.names  data_from_master_reg_6_reg.BLIF data_from_master_6_
+1 1
+.names  N_334.BLIF addr_reg_1_.D
+0 1
+.names  data_from_master_reg_7_reg.BLIF data_from_master_7_
+1 1
+.names  gnd_n_n
+.names  N_95_0.BLIF N_137.BLIF N_181_1
+11 1
+.names  data_to_master_7_.BLIF data_to_master_7__n
+1 1
+.names  inst_sda_pre_internal.BLIF inst_sda_prev_reg.D
+1 1
+.names  N_181_1.BLIF state_reg_i_7_.BLIF N_181
+11 1
+.names  data_to_master_6_.BLIF data_to_master_6__n
+1 1
+.names  N_98_0.BLIF scl_rising_reg_i.BLIF N_179_1
+11 1
+.names  data_to_master_5_.BLIF data_to_master_5__n
+1 1
+.names  clk_c.BLIF inst_sda_prev_reg.C
+1 1
+.names  N_179_1.BLIF state_reg_2_.BLIF N_179
+11 1
+.names  data_to_master_4_.BLIF data_to_master_4__n
+1 1
+.names  N_101_0.BLIF N_413.BLIF N_177_1
+11 1
+.names  data_to_master_3_.BLIF data_to_master_3__n
+1 1
+.names  N_177_1.BLIF inst_cmd_reg.BLIF N_177
+11 1
+.names  data_to_master_2_.BLIF data_to_master_2__n
+1 1
+.names  N_97_0.BLIF state_reg_i_1__n.BLIF N_169_1
+11 1
+.names  data_to_master_1_.BLIF data_to_master_1__n
+1 1
+.names  clk_c.BLIF inst_scl_pre_internal.C
+1 1
+.names  N_169_1.BLIF state_reg_i_5__n.BLIF N_169
+11 1
+.names  data_to_master_0_.BLIF data_to_master_0__n
+1 1
+.names  N_403.BLIF inst_scl_falling_reg.BLIF N_394_1
+11 1
+.names  state_reg_i_1__n.BLIF state_reg_i_5__n.BLIF N_394_2
+11 1
+.names  inst_scl_pre_internal.BLIF inst_scl_prev_reg.D
+1 1
+.names  N_394_1.BLIF N_394_2.BLIF N_394
+11 1
+.names  N_100_0.BLIF N_404.BLIF N_158_1
+11 1
+.names  clk_c.BLIF inst_scl_prev_reg.C
+1 1
+.names  bits_processed_reg_1_.BLIF bits_processed_reg_i_3__n.BLIF N_158_2
+11 1
+.names  N_158_1.BLIF N_158_2.BLIF N_158
+11 1
+.names  N_98_0.BLIF N_160_i.BLIF N_145_i_1
+11 1
+.names  N_145_i_1.BLIF N_161_i.BLIF state_reg_1_.D
+11 1
+.names  clk_c.BLIF inst_scl_falling_reg.C
+1 1
+.names  N_97.BLIF N_158_i.BLIF N_351_i_1
+11 1
+.names  start_reg_i.BLIF stop_reg_i.BLIF N_351_i_2
+11 1
+.names  N_351_i_1.BLIF N_351_i_2.BLIF N_351_i
+11 1
+.names  inst_scl_pre_internal.BLIF inst_scl_prev_reg.BLIF un12_scl_prev_reg_1
+11 1
+.names  clk_c.BLIF inst_scl_rising_reg.C
+1 1
+.names  inst_sda_pre_internal.BLIF sda_prev_reg_i.BLIF un12_scl_prev_reg_2
+11 1
+.names  un12_scl_prev_reg_1.BLIF un12_scl_prev_reg_2.BLIF inst_stop_reg.D
+11 1
+.names  inst_scl_pre_internal.BLIF inst_scl_prev_reg.BLIF un11_scl_internal_1
+11 1
+.names  N_270_i.BLIF bits_processed_reg_n3_i_x2.X1
+1 1
+.names  sda_pre_internal_i.BLIF inst_sda_prev_reg.BLIF un11_scl_internal_2
+11 1
+.names  clk_c.BLIF state_reg_i_7_.C
+1 1
+.names  un11_scl_internal_1.BLIF un11_scl_internal_2.BLIF inst_start_reg.D
+11 1
+.names  bits_processed_reg_3_.BLIF bits_processed_reg_n3_i_x2.X2
+1 1
+.names  N_98_0.BLIF N_101_0.BLIF N_201_1
+11 1
+.names  N_201_1.BLIF N_413.BLIF N_201
+11 1
+.names  N_98_0.BLIF scl_falling_reg_i.BLIF N_186_1
+11 1
+.names  clk_c.BLIF state_reg_6_.C
+1 1
+.names  N_268.BLIF bits_processed_reg_n2_i_x2.X1
+1 1
+.names  N_186_1.BLIF state_reg_5_.BLIF N_186
+11 1
+.names  N_95_0.BLIF N_208_i.BLIF N_156_i_1
+11 1
+.names  bits_processed_reg_2_.BLIF bits_processed_reg_n2_i_x2.X2
+1 1
+.names  N_156_i_1.BLIF N_209_i.BLIF state_reg_6_.D
+11 1
+.names  N_201_i.BLIF N_186_i.BLIF state_reg_srst_0_1_5__n
+11 1
+.names  clk_c.BLIF state_reg_5_.C
+1 1
+.names  state_reg_srst_0_1_5__n.BLIF N_187_i.BLIF state_reg_srst_0_5__n
+11 1
+.names  N_101.BLIF N_112.BLIF bits_processed_rege_0_1
+11 1
+.names  N_184_i.BLIF N_185_i.BLIF bits_processed_rege_0_2
+11 1
+.names  N_269_i.BLIF N_412_i.BLIF bits_processed_rege_0_3
+11 1
+.names  clk_c.BLIF state_reg_4_.C
+1 1
+.names  start_reg_i.BLIF stop_reg_i.BLIF bits_processed_rege_0_4
+11 1
+.names  bits_processed_rege_0_1.BLIF bits_processed_rege_0_2.BLIF bits_processed_rege_0_5
+11 1
+.names  bits_processed_rege_0_3.BLIF bits_processed_rege_0_4.BLIF bits_processed_rege_0_6
+11 1
+.names  bits_processed_rege_0_5.BLIF bits_processed_rege_0_6.BLIF bits_processed_rege_0
+11 1
+.names  clk_c.BLIF state_reg_3_.C
+1 1
+.names  N_98_0.BLIF N_167_i.BLIF N_150_i_1
+11 1
+.names  N_150_i_1.BLIF N_169_i.BLIF state_reg_4_.D
+11 1
+.names  N_98_0.BLIF N_162_i.BLIF N_148_i_1
+11 1
+.names  N_148_i_1.BLIF N_394_i.BLIF state_reg_3_.D
+11 1
+.names  clk_c.BLIF state_reg_2_.C
+1 1
+.names  N_116_0_1.BLIF inst_scl_falling_reg.BLIF N_116_0
+11 1
+.names  addr_reg_2_.BLIF addr_reg_4_.BLIF N_413_1
+11 1
+.names  addr_reg_6_.BLIF addr_reg_i_0__n.BLIF N_413_2
+11 1
+.names  addr_reg_i_1__n.BLIF addr_reg_i_3__n.BLIF N_413_3
+11 1
+.names  clk_c.BLIF state_reg_1_.C
+1 1
+.names  N_413_1.BLIF N_413_2.BLIF N_413_4
+11 1
+.names  N_413_3.BLIF addr_reg_i_5__n.BLIF N_413_5
+11 1
+.names  N_413_4.BLIF N_413_5.BLIF N_413
+11 1
+.names  N_94_i.BLIF bits_processed_reg_3_.BLIF N_97_0_1
+11 1
+.names  clk_c.BLIF state_reg_0_.C
+1 1
+.names  N_97_0_1.BLIF inst_scl_falling_reg.BLIF N_97_0
+11 1
+.names  bits_processed_reg_1_.BLIF bits_processed_reg_c0_i.BLIF N_105_0_1
+11 1
+.names  N_105_0_1.BLIF bits_processed_reg_i_2__n.BLIF N_105_0
+11 1
+.names  bits_processed_reg_0_.BLIF bits_processed_reg_i_1__n.BLIF N_106_0_1
+11 1
+.names  N_69_0.BLIF addr_reg_0_.CE
+1 1
+.names  N_106_0_1.BLIF bits_processed_reg_i_2__n.BLIF N_106_0
+11 1
+.names  N_93.BLIF N_268.BLIF N_73_0_1
+11 1
+.names  clk_c.BLIF addr_reg_0_.C
+1 1
+.names  N_73_0_1.BLIF N_351_i.BLIF bits_processed_reg_1_.D
+11 1
+.names  N_201.BLIF N_201_i
+0 1
+.names  state_reg_srst_0_5__n.BLIF state_reg_5_.D
+0 1
+.names  N_184.BLIF N_184_i
+0 1
+.names  N_69_0.BLIF addr_reg_1_.CE
+1 1
+.names  N_185.BLIF N_185_i
+0 1
+.names  N_269.BLIF N_269_i
+0 1
+.names  clk_c.BLIF addr_reg_1_.C
+1 1
+.names  N_412.BLIF N_412_i
+0 1
+.names  bits_processed_rege_0.BLIF bits_processed_rege
+0 1
+.names  N_167.BLIF N_167_i
+0 1
+.names  N_169.BLIF N_169_i
+0 1
+.names  N_69_0.BLIF addr_reg_2_.CE
+1 1
+.names  N_162.BLIF N_162_i
+0 1
+.names  N_394.BLIF N_394_i
+0 1
+.names  clk_c.BLIF addr_reg_2_.C
+1 1
+.names  N_160.BLIF N_160_i
+0 1
+.names  N_161.BLIF N_161_i
+0 1
+.names  N_158.BLIF N_158_i
+0 1
+.names  continue_reg_i.BLIF state_reg_1_.BLIF N_116_0_1
+11 1
+.names  N_69_0.BLIF addr_reg_3_.CE
+1 1
+.names  N_270_i.BLIF N_270
+0 1
+.names  N_268_0.BLIF N_268
+0 1
+.names  clk_c.BLIF addr_reg_3_.C
+1 1
+.names  N_99_0.BLIF N_99
+0 1
+.names  N_402.BLIF N_402_i
+0 1
+.names  N_114_0.BLIF N_114
+0 1
+.names  N_157.BLIF N_157_i
+0 1
+.names  N_69_0.BLIF addr_reg_4_.CE
+1 1
+.names  N_177.BLIF N_177_i
+0 1
+.names  N_176.BLIF N_176_i
+0 1
+.names  clk_c.BLIF addr_reg_4_.C
+1 1
+.names  read_req_reg_5_0.BLIF inst_read_req_regreg.D
+0 1
+.names  N_170_i.BLIF N_170
+0 1
+.names  N_116_0.BLIF N_116
+0 1
+.names  N_208.BLIF N_208_i
+0 1
+.names  N_69_0.BLIF addr_reg_5_.CE
+1 1
+.names  N_209.BLIF N_209_i
+0 1
+.names  N_186.BLIF N_186_i
+0 1
+.names  clk_c.BLIF addr_reg_5_.C
+1 1
+.names  N_187.BLIF N_187_i
+0 1
+.names  N_413.BLIF N_413_i
+0 1
+.names  N_137_0.BLIF N_137
+0 1
+.names  N_113_0.BLIF N_113
+0 1
+.names  N_69_0.BLIF addr_reg_6_.CE
+1 1
+.names  N_107_0.BLIF N_107
+0 1
+.names  N_105_0.BLIF N_105
+0 1
+.names  clk_c.BLIF addr_reg_6_.C
+1 1
+.names  N_102_0.BLIF N_102
+0 1
+.names  N_101_0.BLIF N_101
+0 1
+.names  N_100_0.BLIF N_100
+0 1
+.names  N_97_0.BLIF N_97
+0 1
+.names  N_60_0.BLIF data_reg_0_.CE
+1 1
+.names  N_94_i.BLIF N_94
+0 1
+.names  N_93_0.BLIF N_93
+0 1
+.names  clk_c.BLIF data_reg_0_.C
+1 1
+.names  N_180.BLIF N_180_i
+0 1
+.names  N_179.BLIF N_179_i
+0 1
+.names  state_reg_srst_0_2__n.BLIF state_reg_2_.D
+0 1
+.names  bits_processed_reg_n2_i_x2.BLIF N_126_i_i
+0 1
+.names  N_60_0.BLIF data_reg_1_.CE
+1 1
+.names  N_112_0.BLIF N_112
+0 1
+.names  N_106_0.BLIF N_106
+0 1
+.names  clk_c.BLIF data_reg_1_.C
+1 1
+.names  rst_c.BLIF rst_c_i
+0 1
+.names  inst_stop_reg.BLIF stop_reg_i
+0 1
+.names  N_183.BLIF N_183_i
+0 1
+.names  N_181.BLIF N_181_i
+0 1
+.names  N_60_0.BLIF data_reg_2_.CE
+1 1
+.names  state_reg_srst_i_0_7__n.BLIF state_reg_i_7_.D
+0 1
+.names  N_106.BLIF data_reg_1_i_m2_5__un3_n
+0 1
+.names  clk_c.BLIF data_reg_2_.C
+1 1
+.names  data_reg_5_.BLIF N_106.BLIF data_reg_1_i_m2_5__un1_n
+11 1
+.names  inst_sda_pre_internal.BLIF data_reg_1_i_m2_5__un3_n.BLIF data_reg_1_i_m2_5__un0_n
+11 1
+.names  data_reg_1_i_m2_5__un1_n.BLIF data_reg_1_i_m2_5__un0_n.BLIF data_reg_5_.D
+1- 1
+-1 1
+.names  bits_processed_reg_n3_i_x2.BLIF N_351_i.BLIF bits_processed_reg_3_.D
+11 1
+.names  N_60_0.BLIF data_reg_3_.CE
+1 1
+.names  N_112_0.BLIF un8_scl_rising_reg.BLIF N_60_0
+11 1
+.names  N_181_i.BLIF N_183_i.BLIF state_reg_srst_i_0_7__n
+11 1
+.names  clk_c.BLIF data_reg_3_.C
+1 1
+.names  un8_scl_rising_reg.BLIF un8_scl_rising_reg_i
+0 1
+.names  N_120_0.BLIF un8_scl_rising_reg.BLIF N_69_0
+11 1
+.names  rst_c_i.BLIF stop_reg_i.BLIF N_95_0
+11 1
+.names  N_95_0.BLIF start_reg_i.BLIF N_98_0
+11 1
+.names  N_60_0.BLIF data_reg_4_.CE
+1 1
+.names  bits_processed_reg_0_.BLIF bits_processed_reg_c0_i
+0 1
+.names  state_reg_4_.BLIF state_reg_i_4__n
+0 1
+.names  clk_c.BLIF data_reg_4_.C
+1 1
+.names  inst_scl_rising_reg.BLIF state_reg_4_.BLIF N_112_0
+11 1
+.names  inst_scl_rising_reg.BLIF scl_rising_reg_i
+0 1
+.names  state_reg_6_.BLIF state_reg_i_6__n
+0 1
+.names  inst_scl_rising_reg.BLIF state_reg_6_.BLIF N_120_0
+11 1
+.names  N_60_0.BLIF data_reg_5_.CE
+1 1
+.names  N_106.BLIF addr_reg_1_i_m2_5__un3_n
+0 1
+.names  clk_c.BLIF data_reg_5_.C
+1 1
+.names  addr_reg_5_.BLIF N_106.BLIF addr_reg_1_i_m2_5__un1_n
+11 1
+.names  inst_sda_pre_internal.BLIF addr_reg_1_i_m2_5__un3_n.BLIF addr_reg_1_i_m2_5__un0_n
+11 1
+.names  addr_reg_1_i_m2_5__un1_n.BLIF addr_reg_1_i_m2_5__un0_n.BLIF addr_reg_5_.D
+1- 1
+-1 1
+.names  N_94.BLIF addr_reg_1_i_m2_6__un3_n
+0 1
+.names  N_60_0.BLIF data_reg_6_.CE
+1 1
+.names  addr_reg_6_.BLIF N_94.BLIF addr_reg_1_i_m2_6__un1_n
+11 1
+.names  inst_sda_pre_internal.BLIF addr_reg_1_i_m2_6__un3_n.BLIF addr_reg_1_i_m2_6__un0_n
+11 1
+.names  clk_c.BLIF data_reg_6_.C
+1 1
+.names  addr_reg_1_i_m2_6__un1_n.BLIF addr_reg_1_i_m2_6__un0_n.BLIF addr_reg_6_.D
+1- 1
+-1 1
+.names  N_94.BLIF data_reg_1_i_m2_6__un3_n
+0 1
+.names  data_reg_6_.BLIF N_94.BLIF data_reg_1_i_m2_6__un1_n
+11 1
+.names  inst_sda_pre_internal.BLIF data_from_master_reg_0_reg.D
+1 1
+.names  inst_sda_pre_internal.BLIF data_reg_1_i_m2_6__un3_n.BLIF data_reg_1_i_m2_6__un0_n
+11 1
+.names  data_reg_1_i_m2_6__un1_n.BLIF data_reg_1_i_m2_6__un0_n.BLIF data_reg_6_.D
+1- 1
+-1 1
+.names  data_valid_reg_1_sqmuxa.BLIF data_from_master_reg_0_reg.CE
+1 1
+.names  N_270.BLIF bits_processed_reg_i_3__n.BLIF un8_scl_rising_reg
+11 1
+.names  N_112_0.BLIF un8_scl_rising_reg_i.BLIF data_valid_reg_1_sqmuxa
+11 1
+.names  clk_c.BLIF data_from_master_reg_0_reg.C
+1 1
+.names  N_95_0.BLIF inst_start_reg.BLIF N_183
+11 1
+.names  N_120_0.BLIF bits_processed_reg_i_3__n.BLIF N_184
+11 1
+.names  N_404.BLIF un8_scl_rising_reg.BLIF N_185
+11 1
+.names  data_reg_0_.BLIF data_from_master_reg_1_reg.D
+1 1
+.names  inst_start_reg.BLIF start_reg_i
+0 1
+.names  start_reg_i.BLIF state_reg_i_6__n.BLIF N_208
+11 1
+.names  data_valid_reg_1_sqmuxa.BLIF data_from_master_reg_1_reg.CE
+1 1
+.names  N_351_i.BLIF bits_processed_reg_c0_i.BLIF bits_processed_reg_0_.D
+11 1
+.names  N_120_0.BLIF N_403.BLIF inst_cmd_reg.CE
+11 1
+.names  clk_c.BLIF data_from_master_reg_1_reg.C
+1 1
+.names  bits_processed_reg_3_.BLIF bits_processed_reg_i_3__n
+0 1
+.names  N_270_i.BLIF bits_processed_reg_i_3__n.BLIF N_403
+11 1
+.names  inst_scl_falling_reg.BLIF state_reg_3_.BLIF N_404
+11 1
+.names  data_reg_1_.BLIF data_from_master_reg_2_reg.D
+1 1
+.names  N_403.BLIF N_404.BLIF N_412
+11 1
+.names  data_valid_reg_1_sqmuxa.BLIF data_from_master_reg_2_reg.CE
+1 1
+.names  N_101_0.BLIF N_413_i.BLIF N_137_0
+11 1
+.names  data_reg_0_.BLIF data_reg_i_0__n
+0 1
+.names  clk_c.BLIF data_from_master_reg_2_reg.C
+1 1
+.names  N_102.BLIF data_reg_1_206_i_0_m2_un3_n
+0 1
+.names  data_reg_i_0__n.BLIF N_102.BLIF data_reg_1_206_i_0_m2_un1_n
+11 1
+.names  sda_pre_internal_i.BLIF data_reg_1_206_i_0_m2_un3_n.BLIF data_reg_1_206_i_0_m2_un0_n
+11 1
+.names  data_reg_2_.BLIF data_from_master_reg_3_reg.D
+1 1
+.names  data_reg_1_206_i_0_m2_un1_n.BLIF data_reg_1_206_i_0_m2_un0_n.BLIF N_308
+1- 1
+-1 1
+.names  addr_reg_0_.BLIF addr_reg_i_0__n
+0 1
+.names  data_valid_reg_1_sqmuxa.BLIF data_from_master_reg_3_reg.CE
+1 1
+.names  N_102.BLIF addr_reg_1_257_i_0_m2_un3_n
+0 1
+.names  addr_reg_i_0__n.BLIF N_102.BLIF addr_reg_1_257_i_0_m2_un1_n
+11 1
+.names  clk_c.BLIF data_from_master_reg_3_reg.C
+1 1
+.names  sda_pre_internal_i.BLIF addr_reg_1_257_i_0_m2_un3_n.BLIF addr_reg_1_257_i_0_m2_un0_n
+11 1
+.names  addr_reg_1_257_i_0_m2_un1_n.BLIF addr_reg_1_257_i_0_m2_un0_n.BLIF N_347
+1- 1
+-1 1
+.names  data_reg_1_.BLIF data_reg_i_1__n
+0 1
+.names  data_reg_3_.BLIF data_from_master_reg_4_reg.D
+1 1
+.names  N_100.BLIF data_reg_1_0_189_i_0_m2_un3_n
+0 1
+.names  data_reg_i_1__n.BLIF N_100.BLIF data_reg_1_0_189_i_0_m2_un1_n
+11 1
+.names  data_valid_reg_1_sqmuxa.BLIF data_from_master_reg_4_reg.CE
+1 1
+.names  sda_pre_internal_i.BLIF data_reg_1_0_189_i_0_m2_un3_n.BLIF data_reg_1_0_189_i_0_m2_un0_n
+11 1
+.names  data_reg_1_0_189_i_0_m2_un1_n.BLIF data_reg_1_0_189_i_0_m2_un0_n.BLIF N_295
+1- 1
+-1 1
+.names  clk_c.BLIF data_from_master_reg_4_reg.C
+1 1
+.names  inst_sda_pre_internal.BLIF sda_pre_internal_i
+0 1
+.names  addr_reg_1_.BLIF addr_reg_i_1__n
+0 1
+.names  N_100.BLIF addr_reg_1_0_240_i_0_m2_un3_n
+0 1
+.names  data_reg_4_.BLIF data_from_master_reg_5_reg.D
+1 1
+.names  addr_reg_i_1__n.BLIF N_100.BLIF addr_reg_1_0_240_i_0_m2_un1_n
+11 1
+.names  sda_pre_internal_i.BLIF addr_reg_1_0_240_i_0_m2_un3_n.BLIF addr_reg_1_0_240_i_0_m2_un0_n
+11 1
+.names  data_valid_reg_1_sqmuxa.BLIF data_from_master_reg_5_reg.CE
+1 1
+.end

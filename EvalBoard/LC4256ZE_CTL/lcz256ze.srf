@@ -1,0 +1,41 @@
+#Build: Synplify Pro for Lattice D-2009.12LC-1, Build 040R, Jan 20 2010
+#install: C:\ISPLEVER_CLASSIC1_4\synpbase
+#OS: Windows_NT
+
+#Hostname: APEXONE-MOU
+
+$ Start of Compile
+#Fri Oct 29 18:01:22 2010
+
+Synopsys Verilog Compiler, version comp500rc, Build 070R, built Apr 20 2010
+Copyright (C) 1994-2010, Synopsys Inc.  All Rights Reserved
+
+@I::"C:\ispLEVER_Classic1_4\ispcpld\..\cae_library\synthesis\verilog\mach.v"
+@I::"D:\mike\noe\lscc2\b2\design\lc4256ze.h"
+@I::"D:\mike\noe\lscc2\b2\design\lc4256ze.v"
+Verilog syntax check successful!
+Selecting top level module lcz256ze
+@N: CG364 :"D:\mike\noe\lscc2\b2\design\lc4256ze.v":3:8:3:15|Synthesizing module lcz256ze
+
+@END
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Fri Oct 29 18:01:23 2010
+
+###########################################################]
+Synopsys CPLD Technology Mapper, Version map500lat, Build 127R, Built Apr 21 2010
+Copyright (C) 1994-2010, Synopsys Inc.  All Rights Reserved
+Product Version D-2009.12LC-1
+---------------------------------------
+Resource Usage Report
+
+Simple gate primitives:
+OBUF            8 uses
+
+
+@N: FC100 |Timing Report not generated for this device, please use place and route tools for timing analysis.
+D-2009.12LC-1
+Mapper successful!
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Fri Oct 29 18:01:26 2010
+
+###########################################################]

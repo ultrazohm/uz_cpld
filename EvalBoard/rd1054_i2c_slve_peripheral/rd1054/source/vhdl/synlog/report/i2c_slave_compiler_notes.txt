@@ -1,0 +1,6 @@
+@N|Running in 64-bit mode
+@N: CD720 :"C:\ispLEVER_Classic2_1\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\i2c_slave.vhd":59:7:59:15|Top entity is set to i2c_slave.
+@N: CD630 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\i2c_slave.vhd":59:7:59:15|Synthesizing work.i2c_slave.arch 
+@N: CL201 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\i2c_slave.vhd":171:2:171:3|Trying to extract state machine for register sm_state
+

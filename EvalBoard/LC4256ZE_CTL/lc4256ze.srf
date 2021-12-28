@@ -1,0 +1,23 @@
+#Build: Synplify Pro for Lattice D-2009.12LC-1, Build 040R, Jan 20 2010
+#install: C:\ISPLEVER_CLASSIC1_4\synpbase
+#OS: Windows_NT
+
+#Hostname: L26004
+
+$ Start of Compile
+#Mon Mar 14 14:57:28 2011
+
+Synopsys Verilog Compiler, version comp500rc, Build 070R, built Apr 20 2010
+Copyright (C) 1994-2010, Synopsys Inc.  All Rights Reserved
+
+@I::"C:\ispLEVER_Classic1_4\ispcpld\..\cae_library\synthesis\verilog\mach.v"
+@I::"C:\users\thscott\documents\projects\evaluation boards\breakoutboards\ispmach4000ze\lc4256ze_ctl\lc4256ze_ctl\lc4256ze.h"
+@I::"C:\users\thscott\documents\projects\evaluation boards\breakoutboards\ispmach4000ze\lc4256ze_ctl\lc4256ze_ctl\lc4256ze.v"
+@E: CG103 :"C:\users\thscott\documents\projects\evaluation boards\breakoutboards\ispmach4000ze\lc4256ze_ctl\lc4256ze_ctl\lc4256ze.v":19:15:19:15|Expecting expression
+@E: CS187 :"C:\users\thscott\documents\projects\evaluation boards\breakoutboards\ispmach4000ze\lc4256ze_ctl\lc4256ze_ctl\lc4256ze.v":27:0:27:8|Expecting endmodule
+2 syntax errors
+@END
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Mon Mar 14 14:57:28 2011
+
+###########################################################]

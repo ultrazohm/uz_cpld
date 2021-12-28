@@ -1,0 +1,224 @@
+// Node Statistic Information File
+// Tool:  ispLEVER Classic 2.1.00.02.49.20
+// Design 'count_osc' created   Thu Dec 23 19:32:14 2021
+
+// Fmax Logic Level: 1.
+
+// Path: c_delay_0_.Q
+//    -> c_delay_3_.D
+
+// Signal Name: led_7_
+// Type: Output
+BEGIN led_7_
+Fanin Number		3
+Pterm Number		2
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Node      	c_delay_2_.Q        	3
+Fanin Node      	c_delay_1_.Q        	3
+Fanin Node      	c_delay_3_.Q        	4
+END
+
+// Signal Name: led_6_
+// Type: Output
+BEGIN led_6_
+Fanin Number		3
+Pterm Number		2
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Node      	c_delay_2_.Q        	3
+Fanin Node      	c_delay_1_.Q        	3
+Fanin Node      	c_delay_3_.Q        	4
+END
+
+// Signal Name: led_5_
+// Type: Output
+BEGIN led_5_
+Fanin Number		3
+Pterm Number		2
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Node      	c_delay_2_.Q        	3
+Fanin Node      	c_delay_1_.Q        	3
+Fanin Node      	c_delay_3_.Q        	4
+END
+
+// Signal Name: led_4_
+// Type: Output
+BEGIN led_4_
+Fanin Number		3
+Pterm Number		2
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Node      	c_delay_2_.Q        	3
+Fanin Node      	c_delay_1_.Q        	3
+Fanin Node      	c_delay_3_.Q        	4
+END
+
+// Signal Name: led_3_
+// Type: Output
+BEGIN led_3_
+Fanin Number		3
+Pterm Number		2
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Node      	c_delay_2_.Q        	3
+Fanin Node      	c_delay_1_.Q        	3
+Fanin Node      	c_delay_3_.Q        	4
+END
+
+// Signal Name: led_2_
+// Type: Output
+BEGIN led_2_
+Fanin Number		3
+Pterm Number		2
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Node      	c_delay_2_.Q        	3
+Fanin Node      	c_delay_1_.Q        	3
+Fanin Node      	c_delay_3_.Q        	4
+END
+
+// Signal Name: led_1_
+// Type: Output
+BEGIN led_1_
+Fanin Number		3
+Pterm Number		2
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Node      	c_delay_2_.Q        	3
+Fanin Node      	c_delay_1_.Q        	3
+Fanin Node      	c_delay_3_.Q        	4
+END
+
+// Signal Name: led_0_
+// Type: Output
+BEGIN led_0_
+Fanin Number		3
+Pterm Number		2
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Node      	c_delay_2_.Q        	3
+Fanin Node      	c_delay_1_.Q        	3
+Fanin Node      	c_delay_3_.Q        	4
+END
+
+// Signal Name: gnd_n_n
+// Type: Node
+BEGIN gnd_n_n
+Fanin Number		0
+Pterm Number		0
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+END
+
+// Signal Name: c_delay_0_.D
+// Type: Node_reg
+BEGIN c_delay_0_.D
+Fanin Number		4
+Pterm Number		2
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Node      	c_delay_0_.Q        	2
+Fanin Node      	c_delay_2_.Q        	3
+Fanin Node      	c_delay_1_.Q        	3
+Fanin Node      	c_delay_3_.Q        	4
+END
+
+// Signal Name: c_delay_0_.C
+// Type: Node_reg
+BEGIN c_delay_0_.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	tmr_clk.BLIF        	0
+END
+
+// Signal Name: c_delay_2_.D
+// Type: Node_reg
+BEGIN c_delay_2_.D
+Fanin Number		3
+Pterm Number		3
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Node      	c_delay_0_.Q        	2
+Fanin Node      	c_delay_2_.Q        	3
+Fanin Node      	c_delay_1_.Q        	3
+END
+
+// Signal Name: c_delay_2_.C
+// Type: Node_reg
+BEGIN c_delay_2_.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	tmr_clk.BLIF        	0
+END
+
+// Signal Name: c_delay_1_.D
+// Type: Node_reg
+BEGIN c_delay_1_.D
+Fanin Number		4
+Pterm Number		3
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Node      	c_delay_0_.Q        	2
+Fanin Node      	c_delay_2_.Q        	3
+Fanin Node      	c_delay_1_.Q        	3
+Fanin Node      	c_delay_3_.Q        	4
+END
+
+// Signal Name: c_delay_1_.C
+// Type: Node_reg
+BEGIN c_delay_1_.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	tmr_clk.BLIF        	0
+END
+
+// Signal Name: c_delay_3_.D
+// Type: Node_reg
+BEGIN c_delay_3_.D
+Fanin Number		4
+Pterm Number		4
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		1
+Fanin Node      	c_delay_0_.Q        	2
+Fanin Node      	c_delay_2_.Q        	3
+Fanin Node      	c_delay_1_.Q        	3
+Fanin Node      	c_delay_3_.Q        	4
+END
+
+// Signal Name: c_delay_3_.C
+// Type: Node_reg
+BEGIN c_delay_3_.C
+Fanin Number		1
+Pterm Number		1
+Fanin per Macrocell	N/A
+Cluster PT		N/A
+Logic Levels		N/A
+Fanin Input     	tmr_clk.BLIF        	0
+END
+
+// Design 'count_osc' used clock signal list:
+

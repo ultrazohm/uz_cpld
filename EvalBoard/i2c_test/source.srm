@@ -1,0 +1,124 @@
+%%% protect protected_file
+f "c:\isplever_classic2_1\synpbase\lib\vhd\std.vhd"; #file 0
+af  .is_vhdl 1;
+af  .child_list "-1";
+af  .parent_list "-1";
+f "c:\isplever_classic2_1\synpbase\lib\vhd\snps_haps_pkg.vhd"; #file 1
+af  .is_vhdl 1;
+af  .child_list "-1";
+af  .parent_list "-1";
+f "c:\isplever_classic2_1\synpbase\lib\vhd\std1164.vhd"; #file 2
+af  .is_vhdl 1;
+af  .child_list "-1";
+af  .parent_list "-1";
+f "c:\isplever_classic2_1\synpbase\lib\vhd\numeric.vhd"; #file 3
+af  .is_vhdl 1;
+af  .child_list "-1";
+af  .parent_list "-1";
+f "c:\isplever_classic2_1\synpbase\lib\vhd\umr_capim.vhd"; #file 4
+af  .is_vhdl 1;
+af  .child_list "-1";
+af  .parent_list "-1";
+f "c:\isplever_classic2_1\synpbase\lib\vhd\arith.vhd"; #file 5
+af  .is_vhdl 1;
+af  .child_list "-1";
+af  .parent_list "-1";
+f "c:\isplever_classic2_1\synpbase\lib\vhd\unsigned.vhd"; #file 6
+af  .is_vhdl 1;
+af  .child_list "-1";
+af  .parent_list "-1";
+f "c:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\source.vhd"; #file 7
+af  .is_vhdl 1;
+af  .child_list "-1";
+af  .parent_list "-1";
+VNAME 'ispmach4s.OBUF.prim'; # view id 0
+VNAME 'work.source.rtl'; # view id 1
+@ERMRHl#bNcOE#ARmzbwRs;Hl
+RNP3bH#sRHl4N;
+P#R3$DM_HCM	sRH8"bH#lENOcm#3A3zwblsH"F;
+R
+m;N3HRHN#b8;R4
+QHRjb;
+R:fjjkRLVRRmmjRQ;R
+bfjj:Rk0sCsR0keCRB
+B;bjRf:VjRNCD#RDVN#tCRh
+7;@
+ 
+
+ftell;
+@E@MR@n(::n(::R4.RsIF	FR#kCsORDs0;P
+NRH3DMFCMR;cn
+RNP3PH#ER8D4N;
+PHR3#E_P84DR;P
+NRs3NOHEVD(CR;P
+NRF3l8CkDVCHDR
+(;N3PR#_$MVblNRF"Is\	R"\B:\0oH\D\k0xsNF\El\V#F0sINCO\\b_D8D0N0H\OC\NCPDNLFs\8\H_.O00C#\F\#kCsO38PE\M"\"N;
+POR3DMCNk#b_0.Cb_l0HC3Rjjjjjj
+j;N3PRONDCM_kb#b0C4H_0ljCR36j4nj.6;P
+NR03#lH0D#H00ljCR3jjjj;jj
+RNPFosH_#HM0V_FRF"#kCsO"N;
+PFR3shHoNRlC"k#Fs"OC;P
+NR$3#M#_ls##_C80HR
+j;N3PRVIDF_N#00{CR
+RNP3FVDIs_bF_b#NDbbHRC84N;
+PVR3D_FIkJMHkHHVC48R;P
+NRD3VFbI_NMsC0b_H##_N#MHoC48R;P
+NRD3VFDI_F#Fb_FLs	RCMj};
+;P
+NRM#$_lH#H8GCDoNMR
+4;N3PR#_$Ml_V#oksFb8_HR
+j;N3PR#_$MMOklE#NsR.cd;P
+NR$3#MH_DMs	CH"8R{q.AqUAA.d-  cc-(-n UnA(-n  nU7 d6(4d;}"
+RNP3LO8_P#NC
+R{N#PR$sM_CsVCCCMO_FODO{	R
+RNP10$#C{lR
+RNP3M#$_VsCOODF	$_0bgCR;;
+}
+
+};}N;
+PFR3Lb#F0M8FC;R4
+@FR@((::(U::$g:jjR$;H
+NR03sDs_FHNoMl"CR$;j"
+@FR@U(::UU::$g:44R$;H
+NR03sDs_FHNoMl"CR$;4"
+@FR@g(::gU::$g:..R$;H
+NR03sDs_FHNoMl"CR$;."
+@FR@4(:j::U4gj::R$d$
+d;N3HRs_0DFosHMCNlRd"$"F;
+R(@@::44U4:4:$g:ccR$;H
+NR03sDs_FHNoMl"CR$;c"
+@FR@4(:.::U4g.::R$6$
+6;N3HRs_0DFosHMCNlR6"$"F;
+R(@@::4dUd:4:$g:nnR$;H
+NR03sDs_FHNoMl"CR$;n"
+@FR@4(:c::U4gc::R$($
+(;N3HRs_0DFosHMCNlR("$"b;
+Rj@@:44::.4:+04:sRkCfjj:Rk0sCsR0keCRB
+B;b@R@j::44::4.:+4V#NDCjRf:VjRNCD#RDVN#tCRh
+7;sjRf:HjR#NblO#EcRzmAwsRbH$lRjm
+S=
+$jS=Qjt;h7
+fsRjR:jHl#bNcOE#ARmzbwRsRHl$S4
+m4=$
+jSQ=7th;R
+sfjj:RbH#lENOcm#RARzwblsHR
+$.S$m=.Q
+SjB=eBs;
+R:fjj#RHbOlNERc#mwAzRHbsldR$
+=Sm$Sd
+Qej=B
+B;sjRf:HjR#NblO#EcRzmAwsRbH$lRcm
+S=
+$cS=Qje;BB
+fsRjR:jHl#bNcOE#ARmzbwRsRHl$S6
+m6=$
+jSQ=BeB;R
+sfjj:RbH#lENOcm#RARzwblsHR
+$nS$m=nQ
+Sjh=t7s;
+R:fjj#RHbOlNERc#mwAzRHbsl(R$
+=Sm$S(
+Qtj=h
+7;
+
+@ 

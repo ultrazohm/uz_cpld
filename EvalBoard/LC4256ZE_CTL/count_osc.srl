@@ -1,0 +1,86 @@
+%%% protect protected_file
+@E
+@ 
+#
+#
+#
+# Created by Synplify Verilog HDL Compiler version comp500rc, Build 070R from Synplicity, Inc.
+# Copyright 1994-2010 Synopsys, Inc. , All rights reserved.
+# Synthesis Netlist written on Mon Mar 14 17:43:54 2011
+#
+#
+#OPTIONS:"|-enable64bit|-top|count_osc|-I|c:\\users\\thscott\\documents\\projects\\evaluation boards\\breakoutboards\\ispmach4000ze\\lc4256ze_ctl\\lc4256ze_ctl\\|-I|C:\\ISPLEVER_CLASSIC1_4\\synpbase\\lib|-v2001|-encrypt|-pro|-ll|2000|-compiler_compatible|-ui|-fid2|-ram|-sharing|on|-autosm|-lib|work|-lib|work|-lib|work"
+#CUR:"C:\\ISPLEVER_CLASSIC1_4\\synpbase\\bin\\c_ver.exe":1272049592
+#CUR:"C:\\ispLEVER_Classic1_4\\ispcpld\\..\\cae_library\\synthesis\\verilog\\mach.v":1244667600
+#CUR:"C:\\users\\thscott\\documents\\projects\\evaluation boards\\breakoutboards\\ispmach4000ze\\lc4256ze_ctl\\lc4256ze_ctl\\lc4256ze.h":1288212924
+#CUR:"C:\\users\\thscott\\documents\\projects\\evaluation boards\\breakoutboards\\ispmach4000ze\\lc4256ze_ctl\\lc4256ze_ctl\\lc4256ze.v":1300149826
+f "C:\ispLEVER_Classic1_4\ispcpld\..\cae_library\synthesis\verilog\mach.v"; # file 0
+af .is_verilog 1;
+f "C:\users\thscott\documents\projects\evaluation boards\breakoutboards\ispmach4000ze\lc4256ze_ctl\lc4256ze_ctl\lc4256ze.h"; # file 1
+af .is_verilog 1;
+f "C:\users\thscott\documents\projects\evaluation boards\breakoutboards\ispmach4000ze\lc4256ze_ctl\lc4256ze_ctl\lc4256ze.v"; # file 2
+af .is_verilog 1;
+@E
+@ 
+ftell;
+@E@MR@cj:4((::(c4:R4cI	FsRBm1a Qv)CRPsFHDoN;
+PCR3Gs0CMRND4N;
+PHR3#sPCHoDFR
+4;N3PRHP#_CDsHF4oR;P
+NRs3FHNohl"CRma1BQ)v "N;
+PDR3NuMoNlsN#aR"Q)v _e7Q"N;
+PQRav_ )7RQe"c4jUn6("
+;
+
+@HR@cj:4(g::gc4:R467mYh1QB71YR7hBm17;Q1
+RNH3Ds0_HFsolMNC7R"Y1hmB17Q"
+;
+
+@HR@cj:.(j::jc.:R4ca Qv)1) RvaQ  ))1N;
+HsR30FD_sMHoNRlC"vaQ  ))1
+";
+@FR@cj:.(4::4c.:R4.mm1BzmaR1zBmaN;
+HsR30FD_sMHoNRlC"Bm1m"za;
+
+
+
+@FR@cj:.(.::.c.:R4ca Qv)amzRvaQ z)maN;
+HsR30FD_sMHoNRlC"vaQ z)ma
+";b@R@j::44::4.sR0k0CRsRkC0Csk;R
+b@:@j4::44R:.V#NDCNRVDR#CV#NDCb;
+Rj@@:4c.:c(:.44:.RRxmm1BzmaR1zBmab;
+Rj@@:.c.:c(:.4.:cRRxa Qv)amzRvaQ z)may;
+---------------------------------@-
+ 
+
+
+
+ftell;
+@E@MR@..::.(::R46I	FsRkOFMF0_#PORCDsHF
+o;N3PRHC#PsFHDo;R4
+RNP3_H#PHCsDRFo4N;
+PFR3shHoNRlC"kOFMF0_#;O"
+@FR@c.:::4ncU:4R8DCrj(:9MRk.C_D8C,D8r_4jk9,MD._CD8,C48_r,j9k_M.D,C8D_C849rj,.kM_8DC,8DC_j4r9N;
+HsR30FD_sMHoNRlC"8DC"s;
+R.@@:4U:4::U4I.RFRs	ma1BQ)v RsPCHoDFR
+Q4Sh7Ym71BQV1=NCD#
+QSav) ) V1=NCD#
+1SmBamz=OF#_	OD
+QSavm )z0a=lOs_D
+	;NaHRQ)v _e7QRj"4c(U6n
+";b@R@.(:4::4j4.(:nMRHPMRk4__O8NCD$9rjR4kM_8O_C$DNrRj9OC_8DrN$j
+9;b@R@.(:4::4j4.(:nMRHPMRk4__O8NCD$9r.R4kM_8O_C$DNrR.9OC_8DrN$.
+9;b@R@j::44::4.sR0k0CRsRkC0Csk;R
+b@:@j4::44R:.V#NDCNRVDR#CV#NDCb;
+R.@@::4(44j:(n:.R8NMP_RO8NCD$R44OC_8D4N$4_RO8NCD$9r4R8O_C$DNrRd9k_M4OC_8DrN$.R9
+RkRRMO4__D8CNj$r9b;
+R.@@::4j.44:jn:dRRD0k_M.DRC8k_M.DRC8V#NDCs,0kVC,NCD#,k0sC_RO8NCD$:rdj
+9;b@R@.j:4::.44dj:nMRHPCRD8r_4jD9RC48_rRj9k_M.D;C8
+@bR@..:jg:4::.jdN4R8k8RMO.__D8CNd$r:Rj9k_M.OC_8DrN$d9:jR8O_C$DNrjd:9sR0k
+C;b@R@.(:4:4n:(R:(lRkGOC_8D_N$d:r4jO9R_D8CNd$_rj4:9MRk.__O8NCD$:r4jV9RNCD#,DVN#RC
+RORR_D8CN4$4;R
+b@:@.4n(:::4((kRlG_RO8NCD$r_ddO9R_D8CNd$_rRd9k_M.OC_8DrN$dV9RNCD#R8O_C$DN4
+4;b@R@.6:4:4.:6R:(8RVVOC_8DrN$d9:jR8O_C$DNrjd:9_RO8NCD$r_ddk9,MO.__D8CN.$r9_,O8NCD$r_d49:j
+RRRRs0l_	OD;H
+NR03sDs_FHNoMl"CROC_8D"N$;;
+C

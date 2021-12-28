@@ -1,3 +1,3 @@
-@W: CG296 :"C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\i2c_slave.vhd":132:0:132:6|Incomplete sensitivity list - assuming completeness
-@W: CG290 :"C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\i2c_slave.vhd":135:18:135:23|Referenced variable sda_in is not in sensitivity list
+@W: CG296 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd":133:0:133:6|Incomplete sensitivity list - assuming completeness
+@W: CG290 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd":136:18:136:23|Referenced variable sda_in is not in sensitivity list
 

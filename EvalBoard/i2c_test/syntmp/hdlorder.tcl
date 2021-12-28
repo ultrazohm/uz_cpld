@@ -1,1 +1,1 @@
-project -fileorder "C:/zynqultra/60_software/cpld_lattice/evalboard/i2c_test/i2c_slave.vhd" 
+project -fileorder "C:/git/ultrazohm/software/cpld_lattice/evalboard/fpga-i2c-minion/debounce.vhd" "C:/git/ultrazohm/software/cpld_lattice/evalboard/fpga-i2c-minion/I2C_minion.vhd" 

@@ -1,0 +1,7 @@
+C:\ispLEVER_Classic2_1\synpbase\bin64\syn_nfilter.exe  -link  -top  source  -multisrs  C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\synwork\source_comp.srs  -osyn  C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\synwork\source_mult.srs  -log  C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\synlog\source_multi_srs_gen.srr 
+rc:0 success:1
+C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\synwork\source_comp.srs|i|1640697214|1747
+C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\synwork\source_mult.srs|o|1640697215|1660
+C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\synlog\source_multi_srs_gen.srr|o|1640697448|434
+C:\ispLEVER_Classic2_1\synpbase\bin\syn_nfilter.exe|i|1401220336|2741760
+C:\ispLEVER_Classic2_1\synpbase\bin64\syn_nfilter.exe|i|1401220532|6337536

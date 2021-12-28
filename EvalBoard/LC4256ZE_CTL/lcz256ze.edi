@@ -1,0 +1,90 @@
+(edif lcz256ze
+  (edifVersion 2 0 0)
+  (edifLevel 0)
+  (keywordMap (keywordLevel 0))
+  (status
+    (written
+      (timeStamp 2010 10 29 18 1 26)
+      (author "Synplicity, Inc.")
+      (program "Synplify Pro" (version "D-2009.12LC-1, mapper map500lat, Build 127R"))
+     )
+   )
+  (external ispmach4s
+    (edifLevel 0)
+    (technology (numberDefinition ))
+    (cell OBUF (cellType GENERIC)
+       (view prim (viewType NETLIST)
+         (interface
+           (port O (direction OUTPUT))
+           (port I0 (direction INPUT))
+         )
+       )
+    )
+  )
+  (library work
+    (edifLevel 0)
+    (technology (numberDefinition ))
+    (cell lcz256ze (cellType GENERIC)
+       (view verilog (viewType NETLIST)
+         (interface
+           (port (array (rename led "led[7:0]") 8) (direction OUTPUT))
+         )
+         (contents
+          (instance (rename led_0 "led[0]") (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance (rename led_1 "led[1]") (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance (rename led_2 "led[2]") (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance (rename led_3 "led[3]") (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance (rename led_4 "led[4]") (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance (rename led_5 "led[5]") (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance (rename led_6 "led[6]") (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance (rename led_7 "led[7]") (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (net GND (joined
+           (portRef I0 (instanceRef led_0))
+           (portRef I0 (instanceRef led_2))
+           (portRef I0 (instanceRef led_4))
+           (portRef I0 (instanceRef led_6))
+          ))
+          (net VCC (joined
+           (portRef I0 (instanceRef led_1))
+           (portRef I0 (instanceRef led_3))
+           (portRef I0 (instanceRef led_5))
+           (portRef I0 (instanceRef led_7))
+          ))
+          (net (rename led_0 "led[0]") (joined
+           (portRef O (instanceRef led_0))
+           (portRef (member led 7))
+          ))
+          (net (rename led_1 "led[1]") (joined
+           (portRef O (instanceRef led_1))
+           (portRef (member led 6))
+          ))
+          (net (rename led_2 "led[2]") (joined
+           (portRef O (instanceRef led_2))
+           (portRef (member led 5))
+          ))
+          (net (rename led_3 "led[3]") (joined
+           (portRef O (instanceRef led_3))
+           (portRef (member led 4))
+          ))
+          (net (rename led_4 "led[4]") (joined
+           (portRef O (instanceRef led_4))
+           (portRef (member led 3))
+          ))
+          (net (rename led_5 "led[5]") (joined
+           (portRef O (instanceRef led_5))
+           (portRef (member led 2))
+          ))
+          (net (rename led_6 "led[6]") (joined
+           (portRef O (instanceRef led_6))
+           (portRef (member led 1))
+          ))
+          (net (rename led_7 "led[7]") (joined
+           (portRef O (instanceRef led_7))
+           (portRef (member led 0))
+          ))
+         )
+       )
+    )
+  )
+  (design lcz256ze (cellRef lcz256ze (libraryRef work)))
+)

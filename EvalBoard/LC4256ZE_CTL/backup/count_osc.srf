@@ -1,0 +1,48 @@
+#Build: Synplify Pro for Lattice D-2009.12LC-1, Build 040R, Jan 20 2010
+#install: C:\ISPLEVER_CLASSIC1_4\synpbase
+#OS: Windows_NT
+
+#Hostname: L26004
+
+$ Start of Compile
+#Mon Mar 14 15:13:18 2011
+
+Synopsys Verilog Compiler, version comp500rc, Build 070R, built Apr 20 2010
+Copyright (C) 1994-2010, Synopsys Inc.  All Rights Reserved
+
+@I::"C:\ispLEVER_Classic1_4\ispcpld\..\cae_library\synthesis\verilog\mach.v"
+@I::"C:\users\thscott\documents\projects\evaluation boards\breakoutboards\ispmach4000ze\lc4256ze_ctl\lc4256ze_ctl\lc4256ze.h"
+@I::"C:\users\thscott\documents\projects\evaluation boards\breakoutboards\ispmach4000ze\lc4256ze_ctl\lc4256ze_ctl\lc4256ze.v"
+Verilog syntax check successful!
+Selecting top level module count_osc
+@N: CG364 :"C:\ispLEVER_Classic1_4\ispcpld\..\cae_library\synthesis\verilog\mach.v":417:7:417:14|Synthesizing module OSCTIMER
+
+@N: CG364 :"C:\users\thscott\documents\projects\evaluation boards\breakoutboards\ispmach4000ze\lc4256ze_ctl\lc4256ze_ctl\lc4256ze.v":2:7:2:15|Synthesizing module count_osc
+
+@END
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Mon Mar 14 15:13:19 2011
+
+###########################################################]
+Synopsys CPLD Technology Mapper, Version map500lat, Build 127R, Built Apr 21 2010
+Copyright (C) 1994-2010, Synopsys Inc.  All Rights Reserved
+Product Version D-2009.12LC-1
+---------------------------------------
+Resource Usage Report
+
+Simple gate primitives:
+OSCTIMER        1 use
+DFF             15 uses
+OBUF            8 uses
+INV             2 uses
+AND2            13 uses
+XOR2            14 uses
+
+
+@N: FC100 |Timing Report not generated for this device, please use place and route tools for timing analysis.
+D-2009.12LC-1
+Mapper successful!
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Mon Mar 14 15:13:21 2011
+
+###########################################################]

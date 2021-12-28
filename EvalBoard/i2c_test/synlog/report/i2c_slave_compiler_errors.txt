@@ -1,0 +1,2 @@
+@E: CD867 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd":82:59:82:67|Expecting an expression of type std_logic_vector
+

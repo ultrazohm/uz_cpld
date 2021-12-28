@@ -1,0 +1,7 @@
+@E: CD430 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\osctimer.vhd":4:0:4:8|Expecting library unit
+@E: CD494 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\osctimer.vhd":13:26:13:26|character 19 is not allowed
+@E: CD494 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\osctimer.vhd":13:31:13:31|character 20 is not allowed
+@E: CD216 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\source.vhd":20:0:20:1|label required for generate
+@E: CD424 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\source.vhd":32:16:32:16|Expecting architecture identifier
+@E|Parse errors encountered - exiting
+

@@ -1,7 +1,8 @@
-C:\ispLEVER_Classic2_1\synpbase\bin64\c_vhdl.exe  -osyn  C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\synwork\i2c_slave_hdl_.srs  -top  i2c_slave  -prodtype  synplify_pro  -nostructver -encrypt  -pro  -dmgen  C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\dm  -lite -compiler_compatible -ui -fid2 -ram -sharing on -ll 2000 -autosm -ignore_undefined_lib  -lib work C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\i2c_slave.vhd -loga  C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\syntax.log  -fileorder  C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\syntmp\hdlorder.tcl 
+C:\ispLEVER_Classic2_1\synpbase\bin64\c_vhdl.exe  -osyn  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synwork\I2C_minion_hdl_.srs  -top  I2C_minion  -prodtype  synplify_pro  -nostructver -encrypt  -pro  -dmgen  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\dm  -lite -compiler_compatible -ui -fid2 -ram -sharing on -ll 2000 -autosm -ignore_undefined_lib  -lib work C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\debounce.vhd -lib work C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd -loga  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\syntax.log  -fileorder  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\syntmp\hdlorder.tcl 
 rc:0 success:1
-C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\synwork\i2c_slave_hdl_.srs|o|0|0
-C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\i2c_slave.vhd|i|1426688478|13207
-C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\syntax.log|o|1616327071|1128
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synwork\I2C_minion_hdl_.srs|o|0|0
+C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\debounce.vhd|i|1640710808|2087
+C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd|i|1640711743|11604
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\syntax.log|o|1640715203|1138
 C:\ispLEVER_Classic2_1\synpbase\bin\c_vhdl.exe|i|1401220298|2046976
 C:\ispLEVER_Classic2_1\synpbase\bin64\c_vhdl.exe|i|1401220504|5533184

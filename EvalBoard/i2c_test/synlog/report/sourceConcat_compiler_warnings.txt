@@ -1,0 +1,2 @@
+@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\sourceconcat.vhd":13:9:13:17|Signal temp_data is undriven 
+

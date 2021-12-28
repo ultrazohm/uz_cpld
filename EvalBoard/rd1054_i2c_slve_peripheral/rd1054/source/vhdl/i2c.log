@@ -1,0 +1,20 @@
+Prefit Logic Optimizer (May 31 2012)  Tue Dec 28 14:17:44 2021
+
+C:\ispLEVER_Classic2_1\ispcpld\bin\prefit.exe -blif -inp i2c.bl4 -out i2c.bl5 -err automake.err -log i2c.log -mod i2c_slave @i2c.l0 -gui -sc 
+<Note> F34000: stop.AR has too many product terms. An node will be applied.
+<Note> F34000: shift_0_.CE has too many product terms. An node will be applied.
+<Note> F34000: shift_6_.CE has too many product terms. An node will be applied.
+<Note> F34000: shift_1_.CE has too many product terms. An node will be applied.
+<Note> F34000: shift_2_.CE has too many product terms. An node will be applied.
+<Note> F34000: shift_3_.CE has too many product terms. An node will be applied.
+<Note> F34000: shift_4_.CE has too many product terms. An node will be applied.
+<Note> F34000: shift_5_.CE has too many product terms. An node will be applied.
+<Note> F34000: shift_7_.CE has too many product terms. An node will be applied.
+<Note> F34000: buried node stop_0 generated
+<Note> F34000: buried node shift_0__0 generated
+
+Number of pins (IO)    :    26
+Number of outputs (MC) :    47
+Number of registers    :    41
+Number of logic pterms :   117
+C:\ispLEVER_Classic2_1\ispcpld\bin\prefit.exe complete - Time 0 seconds

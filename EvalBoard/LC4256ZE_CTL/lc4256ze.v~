@@ -1,0 +1,32 @@
+`timescale 1ns / 10ps
+
+/** The following steps are required to use OSCTIMER functions in Verilog.
+   Step 1. OSCTIMER parameter definition
+   Step 2. OSCTIMER block instantiation
+   Step 3. Use of OSCTIMER outputs **/
+
+module lc4256ze(led);
+output [7:0] led;
+
+reg [14:0 ]  cnt_500ms;
+
+
+/** Step 1. OSCTIMER parameter definition **/
+defparam I1.TIMER_DIV = "1048576";
+
+/** Step 2. OSCTIMER block instantiation **/
+OSCTIMER I1 (.DYNOSCDIS(1'b0), .TIMERRES(1'b0), .OSCOUT(osc_clk), .TIMEROUT(tmr_clk));
+
+
+/** Step 3. Use of OSCTIMER outputs **/
+always@(posedge tmr_clk)
+  if(cnt_500ms<) cnt_500ms<=cnt_500ms+1;
+  else cnt_500ms<=0;
+
+
+ assign led = (cnt_500ms<2)? 8'haa:8'h55;
+
+  
+
+endmodule
+

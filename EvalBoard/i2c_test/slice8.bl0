@@ -1,0 +1,43 @@
+#$ DATE Tue Dec 28 18:14:15 2021
+#$ TOOL EDIF2BLIF version IspLever 1.0 
+#$ MODULE slice8
+#$ PINS 16 data_7_ y0 y1 y2 y3 y4 y5 y6 y7 data_6_ data_5_ data_4_ data_3_ data_2_ data_1_ data_0_
+#$ NODES 8 y0_c y1_c y2_c y3_c y4_c y5_c y6_c y7_c 
+.model slice8
+.inputs data_7_.BLIF data_6_.BLIF data_5_.BLIF data_4_.BLIF data_3_.BLIF data_2_.BLIF data_1_.BLIF data_0_.BLIF y0_c.BLIF \
+  y1_c.BLIF y2_c.BLIF y3_c.BLIF y4_c.BLIF y5_c.BLIF y6_c.BLIF y7_c.BLIF  
+.outputs y0 y1 y2 y3 y4 y5 y6 y7 y0_c y1_c y2_c \
+  y3_c y4_c y5_c y6_c y7_c
+.names  data_0_.BLIF y0_c
+1 1
+.names  data_1_.BLIF y1_c
+1 1
+.names  data_2_.BLIF y2_c
+1 1
+.names  data_3_.BLIF y3_c
+1 1
+.names  data_4_.BLIF y4_c
+1 1
+.names  data_5_.BLIF y5_c
+1 1
+.names  data_6_.BLIF y6_c
+1 1
+.names  data_7_.BLIF y7_c
+1 1
+.names  y0_c.BLIF y0
+1 1
+.names  y1_c.BLIF y1
+1 1
+.names  y2_c.BLIF y2
+1 1
+.names  y3_c.BLIF y3
+1 1
+.names  y4_c.BLIF y4
+1 1
+.names  y5_c.BLIF y5
+1 1
+.names  y6_c.BLIF y6
+1 1
+.names  y7_c.BLIF y7
+1 1
+.end

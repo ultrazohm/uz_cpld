@@ -1,1 +1,6 @@
-Loading Lattice Constraint File 'C:\ZynqUltra\60_Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct' done!
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct : <W0001> : Can not find signal 'scl_in'.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct : <W0104> : Location Assignment 'scl_in' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct : <W0104> : Location Assignment 'sda_in' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct : <W0601> : IO Types Setting 'scl_in' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct : <W0601> : IO Types Setting 'sda_in' : Invalid signal name.
+Loading Lattice Constraint File 'C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct' done!

@@ -1,0 +1,54 @@
+Section Type   Array Num   Name                     Real Name          Base     Number     Increment
+// ------------------------------------------------------------------------------------------
+      Port          1      y(7:0)                        y                  7          8            -1
+End
+Section Member   Rename                   Array-Notation          Array Number     Index
+// -------------------------------------------------------------------------------------
+        Port      y_7_                        y[7]                       1            0            
+        Port      y_6_                        y[6]                       1            1            
+        Port      y_5_                        y[5]                       1            2            
+        Port      y_4_                        y[4]                       1            3            
+        Port      y_3_                        y[3]                       1            4            
+        Port      y_2_                        y[2]                       1            5            
+        Port      y_1_                        y[1]                       1            6            
+        Port      y_0_                        y[0]                       1            7            
+End
+Section Cross Reference File
+Design 'concat8' created Tue Dec 28 18:14:30 2021
+   Type              New Name                               Original Name
+// ----------------------------------------------------------------------
+   Inst                   y_0_                                      y[0]
+   Inst                   y_1_                                      y[1]
+   Inst                   y_2_                                      y[2]
+   Inst                   y_3_                                      y[3]
+   Inst                   y_4_                                      y[4]
+   Inst                   y_5_                                      y[5]
+   Inst                   y_6_                                      y[6]
+   Inst                   y_7_                                      y[7]
+   Net                  y_0__n                                      y[0]
+   Net                  y_1__n                                      y[1]
+   Net                  y_2__n                                      y[2]
+   Net                  y_3__n                                      y[3]
+   Net                  y_4__n                                      y[4]
+   Net                  y_5__n                                      y[5]
+   Net                  y_6__n                                      y[6]
+End
+Section Type      Name
+// ----------------------------------------------------------------------
+        Input     u0
+        Input     u1
+        Input     u2
+        Input     u3
+        Input     u4
+        Input     u5
+        Input     u6
+        Input     u7
+        Output     y_7_
+        Output     y_6_
+        Output     y_5_
+        Output     y_4_
+        Output     y_3_
+        Output     y_2_
+        Output     y_1_
+        Output     y_0_
+End

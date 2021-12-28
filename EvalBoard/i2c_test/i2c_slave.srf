@@ -6,20 +6,22 @@
 #Implementation: i2c_test
 
 $ Start of Compile
-#Sun Mar 21 12:44:31 2021
+#Tue Dec 28 17:46:21 2021
 
 Synopsys VHDL Compiler, version comp201403rcp1, Build 060R, built May 27 2014
 @N|Running in 64-bit mode
 Copyright (C) 1994-2014 Synopsys, Inc. This software and the associated documentation are proprietary to Synopsys, Inc. This software may only be used in accordance with the terms and conditions of a written license agreement with Synopsys, Inc.  All other use, reproduction, or distribution of this software is strictly prohibited.
 
 @N: CD720 :"C:\ispLEVER_Classic2_1\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
-@N:"C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\i2c_slave.vhd":59:7:59:15|Top entity is set to i2c_slave.
+@N:"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd":59:7:59:15|Top entity is set to i2c_slave.
+File C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd changed - recompiling
 VHDL syntax check successful!
-@N: CD630 :"C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\i2c_slave.vhd":59:7:59:15|Synthesizing work.i2c_slave.arch 
-@W: CG296 :"C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\i2c_slave.vhd":132:0:132:6|Incomplete sensitivity list - assuming completeness
-@W: CG290 :"C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\i2c_slave.vhd":135:18:135:23|Referenced variable sda_in is not in sensitivity list
+File C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd changed - recompiling
+@N: CD630 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd":59:7:59:15|Synthesizing work.i2c_slave.arch 
+@W: CG296 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd":133:0:133:6|Incomplete sensitivity list - assuming completeness
+@W: CG290 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd":136:18:136:23|Referenced variable sda_in is not in sensitivity list
 Post processing for work.i2c_slave.arch
-@N: CL201 :"C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\i2c_slave.vhd":171:2:171:3|Trying to extract state machine for register sm_state
+@N: CL201 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd":172:2:172:3|Trying to extract state machine for register sm_state
 Extracted state machine for register sm_state
 State machine has 18 reachable states with original encodings of:
    00000
@@ -45,15 +47,16 @@ State machine has 18 reachable states with original encodings of:
 At c_vhdl Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 70MB peak: 71MB)
 
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Sun Mar 21 12:44:31 2021
+# Tue Dec 28 17:46:21 2021
 
 ###########################################################]
 Synopsys Netlist Linker, version comp201403rcp1, Build 060R, built May 27 2014
 @N|Running in 64-bit mode
+File C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synwork\i2c_slave_comp.srs changed - recompiling
 
 At syn_nfilter Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 67MB peak: 68MB)
 
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Sun Mar 21 12:44:33 2021
+# Tue Dec 28 17:46:23 2021
 
 ###########################################################]

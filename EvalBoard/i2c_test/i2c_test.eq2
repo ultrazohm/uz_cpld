@@ -1,0 +1,579 @@
+ ispLEVER Classic 2.1.00.02.49.20 Linked Equations File
+Copyright(C), 1992-2020, Lattice Semiconductor Corp.
+All Rights Reserved.
+
+Design io_pins created  Tue Dec 28 16:40:11 2021
+
+Title:  io_pins.bls 
+
+ P-Terms   Fan-in  Fan-out  Type  Name (attributes)
+---------  ------  -------  ----  -----------------
+   1/1        1        1    Pin   y0.D 
+   1/1        1        1    Pin   y0.C 
+   1/1        1        1    Pin   y1.D 
+   1/1        1        1    Pin   y1.C 
+   1          1        1    Pin   y2.D 
+   1/1        1        1    Pin   y2.C 
+   1/1        1        1    Pin   y3 
+   1/1        1        1    Pin   y4 
+   1/1        1        1    Pin   y5 
+   1/1        1        1    Pin   y6.D 
+   1/1        1        1    Pin   y6.C 
+   1/1        1        1    Pin   Adapter 
+   1/1        1        1    Pin   Adapter.OE 
+   1/1        1        1    Pin   FPGA 
+   1          1        1    Pin   FPGA.OE 
+   0          0        1    Pin   scl_oe 
+   1          2        1    Pin   sda_oe- 
+   1/1        1        1    Pin   y7.D 
+   1/1        1        1    Pin   y7.C 
+   1/1        1        1    Node  N0_inst_start_treg.AR 
+   1/1        1        1    Node  N0_inst_start_treg.D 
+   1          1        1    Node  N0_inst_start_treg.C 
+   1/1        1        1    Node  N0_inst_stop_treg.AR 
+   1/1        1        1    Node  N0_inst_stop_treg.D 
+   1/1        1        1    Node  N0_inst_stop_treg.C 
+   3          4        1    Node  N0_inst_r_w_treg.D 
+   0          0        1    Node  N0_inst_r_w_treg.AP 
+   1/1        1        1    Node  N0_inst_r_w_treg.C 
+   1/1        1        1    Node  N0_shift_0_.CE- 
+   0          0        1    Node  N0_shift_0_.AR 
+   2          3        1    Node  N0_shift_0_.D 
+   1          1        1    Node  N0_shift_0_.C 
+   1          2        1    Node  N0_inst_sda_f.AR 
+   1/1        1        1    Node  N0_inst_sda_f.D 
+   1          2        1    Node  N0_inst_sda_f.AP 
+   1/1        1        1    Node  N0_inst_sda_f.C 
+   0          0        1    Node  N0_sm_state_0_.AR 
+   1/1        1        1    Node  N0_sm_state_0_.D 
+   1/1        1        1    Node  N0_sm_state_0_.C 
+   7         19        1    NodeX1  N0_shift_6_.D.X1 
+   1          2        1    NodeX2  N0_shift_6_.D.X2 
+   1/1        1        1    Node  N0_shift_6_.CE- 
+   0          0        1    Node  N0_shift_6_.AR 
+   1          1        1    Node  N0_shift_6_.C 
+   0          0        1    Node  N0_sm_state_16_.AR 
+   2          4        1    Node  N0_sm_state_16_.D 
+   1/1        1        1    Node  N0_sm_state_16_.C 
+   2          2        1    Node  N0_sda_clk 
+   0          0        1    Node  N0_sm_state_9_.AR 
+   1          2        1    Node  N0_sm_state_9_.D 
+   1/1        1        1    Node  N0_sm_state_9_.C 
+   0          0        1    Node  N0_sm_state_8_.AR 
+   2          3        1    Node  N0_sm_state_8_.D 
+   1/1        1        1    Node  N0_sm_state_8_.C 
+   0          0        1    Node  N0_inst_ack_out.AR 
+   2          3        1    Node  N0_inst_ack_out.D 
+   1          1        1    Node  N0_inst_ack_out.C 
+   0          0        1    Node  N0_inst_sda_en.AR 
+   8         19        1    Node  N0_inst_sda_en.D- 
+   1          1        1    Node  N0_inst_sda_en.C 
+   0          0        1    Node  N0_sm_state_10_.AR 
+   1          2        1    Node  N0_sm_state_10_.D 
+   1/1        1        1    Node  N0_sm_state_10_.C 
+  10         14        1    Node  N0_sm_state_17_.D 
+   0          0        1    Node  N0_sm_state_17_.AP 
+   1/1        1        1    Node  N0_sm_state_17_.C 
+   0          0        1    Node  N0_sm_state_1_.AR 
+   1/1        1        1    Node  N0_sm_state_1_.D 
+   1/1        1        1    Node  N0_sm_state_1_.C 
+   0          0        1    Node  N0_sm_state_15_.AR 
+   1          2        1    Node  N0_sm_state_15_.D 
+   1/1        1        1    Node  N0_sm_state_15_.C 
+   0          0        1    Node  N0_sm_state_14_.AR 
+   1          2        1    Node  N0_sm_state_14_.D 
+   1/1        1        1    Node  N0_sm_state_14_.C 
+   0          0        1    Node  N0_sm_state_13_.AR 
+   1          2        1    Node  N0_sm_state_13_.D 
+   1/1        1        1    Node  N0_sm_state_13_.C 
+   0          0        1    Node  N0_sm_state_12_.AR 
+   1          2        1    Node  N0_sm_state_12_.D 
+   1/1        1        1    Node  N0_sm_state_12_.C 
+   0          0        1    Node  N0_sm_state_11_.AR 
+   1          2        1    Node  N0_sm_state_11_.D 
+   1/1        1        1    Node  N0_sm_state_11_.C 
+   0          0        1    Node  N0_sm_state_7_.AR 
+   1/1        1        1    Node  N0_sm_state_7_.D 
+   1/1        1        1    Node  N0_sm_state_7_.C 
+   0          0        1    Node  N0_sm_state_6_.AR 
+   1          3        1    Node  N0_sm_state_6_.D 
+   1/1        1        1    Node  N0_sm_state_6_.C 
+   0          0        1    Node  N0_sm_state_5_.AR 
+   1/1        1        1    Node  N0_sm_state_5_.D 
+   1/1        1        1    Node  N0_sm_state_5_.C 
+   0          0        1    Node  N0_sm_state_4_.AR 
+   1/1        1        1    Node  N0_sm_state_4_.D 
+   1/1        1        1    Node  N0_sm_state_4_.C 
+   0          0        1    Node  N0_sm_state_3_.AR 
+   1/1        1        1    Node  N0_sm_state_3_.D 
+   1/1        1        1    Node  N0_sm_state_3_.C 
+   0          0        1    Node  N0_sm_state_2_.AR 
+   1/1        1        1    Node  N0_sm_state_2_.D 
+   1/1        1        1    Node  N0_sm_state_2_.C 
+   7         19        1    NodeX1  N0_shift_1_.D.X1 
+   1          2        1    NodeX2  N0_shift_1_.D.X2 
+   1/1        1        1    Node  N0_shift_1_.CE- 
+   0          0        1    Node  N0_shift_1_.AR 
+   1          1        1    Node  N0_shift_1_.C 
+   7         19        1    NodeX1  N0_shift_2_.D.X1 
+   1          2        1    NodeX2  N0_shift_2_.D.X2 
+   1/1        1        1    Node  N0_shift_2_.CE- 
+   0          0        1    Node  N0_shift_2_.AR 
+   1          1        1    Node  N0_shift_2_.C 
+   7         19        1    NodeX1  N0_shift_3_.D.X1 
+   1          2        1    NodeX2  N0_shift_3_.D.X2 
+   1/1        1        1    Node  N0_shift_3_.CE- 
+   0          0        1    Node  N0_shift_3_.AR 
+   1          1        1    Node  N0_shift_3_.C 
+   7         19        1    NodeX1  N0_shift_4_.D.X1 
+   1          2        1    NodeX2  N0_shift_4_.D.X2 
+   1/1        1        1    Node  N0_shift_4_.CE- 
+   0          0        1    Node  N0_shift_4_.AR 
+   1          1        1    Node  N0_shift_4_.C 
+   7         19        1    NodeX1  N0_shift_5_.D.X1 
+   1          2        1    NodeX2  N0_shift_5_.D.X2 
+   1/1        1        1    Node  N0_shift_5_.CE- 
+   0          0        1    Node  N0_shift_5_.AR 
+   1          1        1    Node  N0_shift_5_.C 
+   5         19        1    Node  N0_shift_0__0 
+=========
+ 162/55         Best P-Term Total: 162
+                       Total Pins: 16
+                      Total Nodes: 44
+            Average P-Term/Output: 2
+
+
+Equations:
+
+y0.D = (y2.Q);
+
+y0.C = (TIMEROUT);
+
+y1.D = (y2.Q);
+
+y1.C = (TIMEROUT);
+
+y2.D = (!y2.Q);
+
+y2.C = (TIMEROUT);
+
+y3 = (y2.Q);
+
+y4 = (y2.Q);
+
+y5 = (y2.Q);
+
+y6.D = (y2.Q);
+
+y6.C = (TIMEROUT);
+
+Adapter = (FPGA.PIN);
+
+Adapter.OE = (IOselector);
+
+FPGA = (Adapter.PIN);
+
+FPGA.OE = (!IOselector);
+
+scl_oe = (0);
+
+!sda_oe = (!N0_inst_ack_out.Q & !N0_inst_sda_en.Q);
+
+y7.D = (y2.Q);
+
+y7.C = (TIMEROUT);
+
+N0_inst_start_treg.AR = (N0_sm_state_16_.Q);
+
+N0_inst_start_treg.D = (scl_in);
+
+N0_inst_start_treg.C = (!N0_inst_sda_f.Q);
+
+N0_inst_stop_treg.AR = (N0_inst_start_treg.Q);
+
+N0_inst_stop_treg.D = (scl_in);
+
+N0_inst_stop_treg.C = (sda_in);
+
+N0_inst_r_w_treg.D = (sda_in & !N0_shift_0_.Q & N0_sm_state_10_.Q
+     # N0_inst_r_w_treg.Q & N0_shift_0_.Q
+     # N0_inst_r_w_treg.Q & !N0_sm_state_10_.Q);
+
+N0_inst_r_w_treg.AP = (0);
+
+N0_inst_r_w_treg.C = (scl_in);
+
+!N0_shift_0_.CE = (N0_shift_0__0);
+
+N0_shift_0_.AR = (0);
+
+N0_shift_0_.D = (sda_in & !N0_sm_state_8_.Q
+     # data_in_0_ & N0_sm_state_8_.Q);
+
+N0_shift_0_.C = (!scl_in);
+
+N0_inst_sda_f.AR = (!sda_in & N0_sm_state_16_.Q);
+
+N0_inst_sda_f.D = (sda_in);
+
+N0_inst_sda_f.AP = (sda_in & N0_sm_state_16_.Q);
+
+N0_inst_sda_f.C = (N0_sda_clk);
+
+N0_sm_state_0_.AR = (0);
+
+N0_sm_state_0_.D = (N0_sm_state_1_.Q);
+
+N0_sm_state_0_.C = (scl_in);
+
+N0_shift_6_.D.X1 = (!N0_sm_state_0_.Q & N0_shift_6_.Q & !N0_sm_state_9_.Q & !N0_sm_state_8_.Q & !N0_sm_state_1_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & !N0_shift_5_.Q
+     # !N0_sm_state_0_.Q & N0_shift_6_.Q & !N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & !N0_shift_5_.Q
+     # data_in_6_ & !N0_sm_state_0_.Q & N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & !N0_shift_5_.Q
+     # !N0_shift_6_.Q & !N0_sm_state_9_.Q & !N0_sm_state_8_.Q & !N0_sm_state_1_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & N0_shift_5_.Q
+     # !N0_shift_6_.Q & !N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & N0_shift_5_.Q
+     # !data_in_6_ & N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & N0_shift_5_.Q
+     # N0_sm_state_0_.Q & N0_shift_5_.Q);
+
+N0_shift_6_.D.X2 = (!N0_sm_state_0_.Q & N0_shift_5_.Q);
+
+!N0_shift_6_.CE = (N0_shift_0__0);
+
+N0_shift_6_.AR = (0);
+
+N0_shift_6_.C = (!scl_in);
+
+N0_sm_state_16_.AR = (0);
+
+N0_sm_state_16_.D = (N0_inst_start_treg.Q & N0_sm_state_17_.Q
+     # N0_inst_start_treg.Q & !N0_inst_stop_treg.Q & N0_sm_state_7_.Q);
+
+N0_sm_state_16_.C = (scl_in);
+
+N0_sda_clk = (sda_in & !N0_inst_sda_f.Q
+     # !sda_in & N0_inst_sda_f.Q);
+
+N0_sm_state_9_.AR = (0);
+
+N0_sm_state_9_.D = (!N0_shift_0_.Q & N0_sm_state_10_.Q);
+
+N0_sm_state_9_.C = (scl_in);
+
+N0_sm_state_8_.AR = (0);
+
+N0_sm_state_8_.D = (!sda_in & N0_sm_state_0_.Q
+     # N0_sm_state_9_.Q);
+
+N0_sm_state_8_.C = (scl_in);
+
+N0_inst_ack_out.AR = (0);
+
+N0_inst_ack_out.D = (!N0_inst_r_w_treg.Q & N0_sm_state_0_.Q
+     # N0_sm_state_9_.Q);
+
+N0_inst_ack_out.C = (!scl_in);
+
+N0_inst_sda_en.AR = (0);
+
+!N0_inst_sda_en.D = (data_in_7_ & !N0_sm_state_10_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q
+     # !N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q
+     # !N0_sm_state_9_.Q & !N0_sm_state_8_.Q & !N0_sm_state_1_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q
+     # data_in_7_ & N0_shift_6_.Q
+     # data_in_7_ & N0_sm_state_0_.Q
+     # N0_shift_6_.Q & !N0_sm_state_8_.Q
+     # N0_sm_state_0_.Q & !N0_sm_state_8_.Q
+     # !N0_inst_r_w_treg.Q);
+
+N0_inst_sda_en.C = (!scl_in);
+
+N0_sm_state_10_.AR = (0);
+
+N0_sm_state_10_.D = (N0_shift_0_.Q & N0_sm_state_11_.Q);
+
+N0_sm_state_10_.C = (scl_in);
+
+N0_sm_state_17_.D = (!N0_inst_start_treg.Q & N0_sm_state_17_.Q
+     # sda_in & N0_sm_state_0_.Q
+     # !N0_shift_0_.Q & N0_sm_state_11_.Q
+     # !N0_shift_0_.Q & N0_sm_state_13_.Q
+     # !N0_shift_0_.Q & N0_sm_state_15_.Q
+     # N0_shift_0_.Q & N0_sm_state_12_.Q
+     # N0_shift_0_.Q & N0_sm_state_14_.Q
+     # N0_shift_0_.Q & N0_sm_state_10_.Q
+     # N0_shift_0_.Q & N0_sm_state_16_.Q
+     # N0_inst_stop_treg.Q & N0_sm_state_7_.Q);
+
+N0_sm_state_17_.AP = (0);
+
+N0_sm_state_17_.C = (scl_in);
+
+N0_sm_state_1_.AR = (0);
+
+N0_sm_state_1_.D = (N0_sm_state_2_.Q);
+
+N0_sm_state_1_.C = (scl_in);
+
+N0_sm_state_15_.AR = (0);
+
+N0_sm_state_15_.D = (!N0_shift_0_.Q & N0_sm_state_16_.Q);
+
+N0_sm_state_15_.C = (scl_in);
+
+N0_sm_state_14_.AR = (0);
+
+N0_sm_state_14_.D = (N0_shift_0_.Q & N0_sm_state_15_.Q);
+
+N0_sm_state_14_.C = (scl_in);
+
+N0_sm_state_13_.AR = (0);
+
+N0_sm_state_13_.D = (!N0_shift_0_.Q & N0_sm_state_14_.Q);
+
+N0_sm_state_13_.C = (scl_in);
+
+N0_sm_state_12_.AR = (0);
+
+N0_sm_state_12_.D = (N0_shift_0_.Q & N0_sm_state_13_.Q);
+
+N0_sm_state_12_.C = (scl_in);
+
+N0_sm_state_11_.AR = (0);
+
+N0_sm_state_11_.D = (!N0_shift_0_.Q & N0_sm_state_12_.Q);
+
+N0_sm_state_11_.C = (scl_in);
+
+N0_sm_state_7_.AR = (0);
+
+N0_sm_state_7_.D = (N0_sm_state_8_.Q);
+
+N0_sm_state_7_.C = (scl_in);
+
+N0_sm_state_6_.AR = (0);
+
+N0_sm_state_6_.D = (!N0_inst_start_treg.Q & !N0_inst_stop_treg.Q & N0_sm_state_7_.Q);
+
+N0_sm_state_6_.C = (scl_in);
+
+N0_sm_state_5_.AR = (0);
+
+N0_sm_state_5_.D = (N0_sm_state_6_.Q);
+
+N0_sm_state_5_.C = (scl_in);
+
+N0_sm_state_4_.AR = (0);
+
+N0_sm_state_4_.D = (N0_sm_state_5_.Q);
+
+N0_sm_state_4_.C = (scl_in);
+
+N0_sm_state_3_.AR = (0);
+
+N0_sm_state_3_.D = (N0_sm_state_4_.Q);
+
+N0_sm_state_3_.C = (scl_in);
+
+N0_sm_state_2_.AR = (0);
+
+N0_sm_state_2_.D = (N0_sm_state_3_.Q);
+
+N0_sm_state_2_.C = (scl_in);
+
+N0_shift_1_.D.X1 = (!N0_shift_0_.Q & !N0_sm_state_0_.Q & !N0_sm_state_9_.Q & !N0_sm_state_8_.Q & !N0_sm_state_1_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & N0_shift_1_.Q
+     # !N0_shift_0_.Q & !N0_sm_state_0_.Q & !N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & N0_shift_1_.Q
+     # data_in_1_ & !N0_shift_0_.Q & !N0_sm_state_0_.Q & N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q
+     # N0_shift_0_.Q & !N0_sm_state_9_.Q & !N0_sm_state_8_.Q & !N0_sm_state_1_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & !N0_shift_1_.Q
+     # N0_shift_0_.Q & !N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & !N0_shift_1_.Q
+     # !data_in_1_ & N0_shift_0_.Q & N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q
+     # N0_shift_0_.Q & N0_sm_state_0_.Q);
+
+N0_shift_1_.D.X2 = (N0_shift_0_.Q & !N0_sm_state_0_.Q);
+
+!N0_shift_1_.CE = (N0_shift_0__0);
+
+N0_shift_1_.AR = (0);
+
+N0_shift_1_.C = (!scl_in);
+
+N0_shift_2_.D.X1 = (!N0_sm_state_0_.Q & !N0_sm_state_9_.Q & !N0_sm_state_8_.Q & !N0_sm_state_1_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & !N0_shift_1_.Q & N0_shift_2_.Q
+     # !N0_sm_state_0_.Q & !N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & !N0_shift_1_.Q & N0_shift_2_.Q
+     # data_in_2_ & !N0_sm_state_0_.Q & N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & !N0_shift_1_.Q
+     # !N0_sm_state_9_.Q & !N0_sm_state_8_.Q & !N0_sm_state_1_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & N0_shift_1_.Q & !N0_shift_2_.Q
+     # !N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & N0_shift_1_.Q & !N0_shift_2_.Q
+     # !data_in_2_ & N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & N0_shift_1_.Q
+     # N0_sm_state_0_.Q & N0_shift_1_.Q);
+
+N0_shift_2_.D.X2 = (!N0_sm_state_0_.Q & N0_shift_1_.Q);
+
+!N0_shift_2_.CE = (N0_shift_0__0);
+
+N0_shift_2_.AR = (0);
+
+N0_shift_2_.C = (!scl_in);
+
+N0_shift_3_.D.X1 = (!N0_sm_state_0_.Q & !N0_sm_state_9_.Q & !N0_sm_state_8_.Q & !N0_sm_state_1_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & !N0_shift_2_.Q & N0_shift_3_.Q
+     # !N0_sm_state_0_.Q & !N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & !N0_shift_2_.Q & N0_shift_3_.Q
+     # data_in_3_ & !N0_sm_state_0_.Q & N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & !N0_shift_2_.Q
+     # !N0_sm_state_9_.Q & !N0_sm_state_8_.Q & !N0_sm_state_1_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & N0_shift_2_.Q & !N0_shift_3_.Q
+     # !N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & N0_shift_2_.Q & !N0_shift_3_.Q
+     # !data_in_3_ & N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & N0_shift_2_.Q
+     # N0_sm_state_0_.Q & N0_shift_2_.Q);
+
+N0_shift_3_.D.X2 = (!N0_sm_state_0_.Q & N0_shift_2_.Q);
+
+!N0_shift_3_.CE = (N0_shift_0__0);
+
+N0_shift_3_.AR = (0);
+
+N0_shift_3_.C = (!scl_in);
+
+N0_shift_4_.D.X1 = (!N0_sm_state_0_.Q & !N0_sm_state_9_.Q & !N0_sm_state_8_.Q & !N0_sm_state_1_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & !N0_shift_3_.Q & N0_shift_4_.Q
+     # !N0_sm_state_0_.Q & !N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & !N0_shift_3_.Q & N0_shift_4_.Q
+     # data_in_4_ & !N0_sm_state_0_.Q & N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & !N0_shift_3_.Q
+     # !N0_sm_state_9_.Q & !N0_sm_state_8_.Q & !N0_sm_state_1_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & N0_shift_3_.Q & !N0_shift_4_.Q
+     # !N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & N0_shift_3_.Q & !N0_shift_4_.Q
+     # !data_in_4_ & N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & N0_shift_3_.Q
+     # N0_sm_state_0_.Q & N0_shift_3_.Q);
+
+N0_shift_4_.D.X2 = (!N0_sm_state_0_.Q & N0_shift_3_.Q);
+
+!N0_shift_4_.CE = (N0_shift_0__0);
+
+N0_shift_4_.AR = (0);
+
+N0_shift_4_.C = (!scl_in);
+
+N0_shift_5_.D.X1 = (!N0_sm_state_0_.Q & !N0_sm_state_9_.Q & !N0_sm_state_8_.Q & !N0_sm_state_1_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & !N0_shift_4_.Q & N0_shift_5_.Q
+     # !N0_sm_state_0_.Q & !N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & !N0_shift_4_.Q & N0_shift_5_.Q
+     # data_in_5_ & !N0_sm_state_0_.Q & N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & !N0_shift_4_.Q
+     # !N0_sm_state_9_.Q & !N0_sm_state_8_.Q & !N0_sm_state_1_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & N0_shift_4_.Q & !N0_shift_5_.Q
+     # !N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & N0_shift_4_.Q & !N0_shift_5_.Q
+     # !data_in_5_ & N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q & N0_shift_4_.Q
+     # N0_sm_state_0_.Q & N0_shift_4_.Q);
+
+N0_shift_5_.D.X2 = (!N0_sm_state_0_.Q & N0_shift_4_.Q);
+
+!N0_shift_5_.CE = (N0_shift_0__0);
+
+N0_shift_5_.AR = (0);
+
+N0_shift_5_.C = (!scl_in);
+
+N0_shift_0__0 = (!N0_inst_start_treg.Q & !N0_sm_state_0_.Q & !N0_sm_state_9_.Q & !N0_sm_state_8_.Q & N0_sm_state_17_.Q & !N0_sm_state_1_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q
+     # !N0_sm_state_0_.Q & N0_sm_state_9_.Q & !N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_17_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q
+     # !N0_inst_r_w_treg.Q & !N0_sm_state_0_.Q & N0_sm_state_8_.Q & !N0_sm_state_10_.Q & !N0_sm_state_17_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q
+     # !N0_inst_start_treg.Q & !N0_inst_r_w_treg.Q & !N0_sm_state_0_.Q & !N0_sm_state_10_.Q & N0_sm_state_17_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q
+     # !N0_inst_start_treg.Q & !N0_sm_state_0_.Q & !N0_sm_state_8_.Q & !N0_sm_state_10_.Q & N0_sm_state_17_.Q & !N0_sm_state_1_.Q & !N0_sm_state_15_.Q & !N0_sm_state_14_.Q & !N0_sm_state_13_.Q & !N0_sm_state_12_.Q & !N0_sm_state_11_.Q & !N0_sm_state_7_.Q & !N0_sm_state_6_.Q & !N0_sm_state_5_.Q & !N0_sm_state_4_.Q & !N0_sm_state_3_.Q & !N0_sm_state_2_.Q);
+
+
+Reverse-Polarity Equations:
+
+!y0.D = (!y2.Q);
+
+!y0.C = (!TIMEROUT);
+
+!y1.D = (!y2.Q);
+
+!y1.C = (!TIMEROUT);
+
+!y2.C = (!TIMEROUT);
+
+!y3 = (!y2.Q);
+
+!y4 = (!y2.Q);
+
+!y5 = (!y2.Q);
+
+!y6.D = (!y2.Q);
+
+!y6.C = (!TIMEROUT);
+
+!Adapter = (!FPGA.PIN);
+
+!Adapter.OE = (!IOselector);
+
+!FPGA = (!Adapter.PIN);
+
+!y7.D = (!y2.Q);
+
+!y7.C = (!TIMEROUT);
+
+!N0_inst_start_treg.AR = (!N0_sm_state_16_.Q);
+
+!N0_inst_start_treg.D = (!scl_in);
+
+!N0_inst_stop_treg.AR = (!N0_inst_start_treg.Q);
+
+!N0_inst_stop_treg.D = (!scl_in);
+
+!N0_inst_stop_treg.C = (!sda_in);
+
+!N0_inst_r_w_treg.C = (!scl_in);
+
+N0_shift_0_.CE = (!N0_shift_0__0);
+
+!N0_inst_sda_f.D = (!sda_in);
+
+!N0_inst_sda_f.C = (!N0_sda_clk);
+
+!N0_sm_state_0_.D = (!N0_sm_state_1_.Q);
+
+!N0_sm_state_0_.C = (!scl_in);
+
+N0_shift_6_.CE = (!N0_shift_0__0);
+
+!N0_sm_state_16_.C = (!scl_in);
+
+!N0_sm_state_9_.C = (!scl_in);
+
+!N0_sm_state_8_.C = (!scl_in);
+
+!N0_sm_state_10_.C = (!scl_in);
+
+!N0_sm_state_17_.C = (!scl_in);
+
+!N0_sm_state_1_.D = (!N0_sm_state_2_.Q);
+
+!N0_sm_state_1_.C = (!scl_in);
+
+!N0_sm_state_15_.C = (!scl_in);
+
+!N0_sm_state_14_.C = (!scl_in);
+
+!N0_sm_state_13_.C = (!scl_in);
+
+!N0_sm_state_12_.C = (!scl_in);
+
+!N0_sm_state_11_.C = (!scl_in);
+
+!N0_sm_state_7_.D = (!N0_sm_state_8_.Q);
+
+!N0_sm_state_7_.C = (!scl_in);
+
+!N0_sm_state_6_.C = (!scl_in);
+
+!N0_sm_state_5_.D = (!N0_sm_state_6_.Q);
+
+!N0_sm_state_5_.C = (!scl_in);
+
+!N0_sm_state_4_.D = (!N0_sm_state_5_.Q);
+
+!N0_sm_state_4_.C = (!scl_in);
+
+!N0_sm_state_3_.D = (!N0_sm_state_4_.Q);
+
+!N0_sm_state_3_.C = (!scl_in);
+
+!N0_sm_state_2_.D = (!N0_sm_state_3_.Q);
+
+!N0_sm_state_2_.C = (!scl_in);
+
+N0_shift_1_.CE = (!N0_shift_0__0);
+
+N0_shift_2_.CE = (!N0_shift_0__0);
+
+N0_shift_3_.CE = (!N0_shift_0__0);
+
+N0_shift_4_.CE = (!N0_shift_0__0);
+
+N0_shift_5_.CE = (!N0_shift_0__0);
+

@@ -1,0 +1,57 @@
+ispLEVER Classic 2.1.00.02.49.20 Linked Equations File
+Copyright(C), 1992-2020, Lattice Semiconductor Corp.
+All Rights Reserved.
+
+Design io_pins created Mon Mar 22 15:48:00 2021
+
+Title: io_pins.bls 
+
+ P-Terms   Fan-in  Fan-out  Type  Name (attributes)
+---------  ------  -------  ----  -----------------
+   1/1        1        1    Pin   Adapter 
+   1/1        1        1    Pin   Adapter.OE 
+   1/1        1        1    Pin   FPGA 
+   1/1        1        1    Pin   FPGA.OE 
+   1/1        1        1    Node  N_4 
+   1/1        1        1    Node  N_5 
+   1/1        1        1    Node  N_6 
+=========
+   7/7          Best P-Term Total: 7
+                       Total Pins: 3
+                      Total Nodes: 3
+            Average P-Term/Output: 1
+
+
+Equations:
+
+Adapter = (N_6);
+
+Adapter.OE = (IOselector);
+
+FPGA = (N_5);
+
+FPGA.OE = (N_4);
+
+N_4 = (!IOselector);
+
+N_5 = (Adapter.PIN);
+
+N_6 = (FPGA.PIN);
+
+
+Reverse-Polarity Equations:
+
+!Adapter = (!N_6);
+
+!Adapter.OE = (!IOselector);
+
+!FPGA = (!N_5);
+
+!FPGA.OE = (!N_4);
+
+!N_4 = (IOselector);
+
+!N_5 = (!Adapter.PIN);
+
+!N_6 = (!FPGA.PIN);
+

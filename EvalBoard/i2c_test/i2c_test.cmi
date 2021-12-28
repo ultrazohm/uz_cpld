@@ -1,8 +1,8 @@
 [WINDOWS]
-MAIN_WINDOW_POSITION=2872,348,4808,1404
+MAIN_WINDOW_POSITION=0,0,1448,778
 LEFT_PANE_WIDTH=474
 CHILD_FRAME_STATE=Maximal
-CHILD_WINDOW_SIZE=1936,830
+CHILD_WINDOW_SIZE=1448,552
 CHILD_WINDOW_POS=-8,-31
 [GUI SETTING]
 Remember_Setting=1
@@ -19,15 +19,15 @@ Sort_Direction=0
 Skip_Next_Pin=0
 [Pin Attributes]
 sort_column_-1=Type
-Type=41,no
+Type=133,no
 Signal/Group Name=134,no
 Group Members=111,no
 GLB=36,no
 Macrocell=73,no
 Pin=32,no
 Bank=42,no
-IO Types=65,no
-Pull=36,no
+IO Types=94,no
+Pull=72,no
 Slewrate=64,no
 Input registers=102,no
 Register powerup=120,no
@@ -49,9 +49,28 @@ GLB=36,no
 Macrocell=73,no
 Pin=32,no
 State=43,no
+IO Types=65,no
 [Timing Constraints]
 Timing Constraint type=155,no
 Source=54,no
 Destination=83,no
 Delay(ns)=70,no
 Frequency(MHz)=114,no
+[OPT WINDOWS]
+MAIN_WINDOW_POSITION=0,0,1440,810
+CHILD_FRAME_STATE=Maximal
+CHILD_WINDOW_SIZE=1440,584
+CHILD_WINDOW_POS=-8,-31
+[OPT GUI SETTING]
+Remember_Setting=1
+ACTIVE_SHEET=Opt Global Constraints
+[Opt Global Constraints]
+Constraint Name=179,no
+Constraint Value=115,no
+[OSCTIMER Attributes]
+Type=41,no
+OSC Clock=77,no
+Timer Clock=86,no
+OSC Disable=87,no
+Timer Reset=84,no
+Timer Divide=90,no

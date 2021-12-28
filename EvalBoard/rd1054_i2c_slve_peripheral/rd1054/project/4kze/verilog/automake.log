@@ -1,0 +1,10 @@
+ispLEVER Auto-Make Log File
+---------------------------
+
+Updating: Hierarchy
+Start to record tcl script...
+Finished recording TCL script.
+
+Starting: 'C:\ispLEVER_Classic1_8\ispcpld\BIN\vlog2jhd.exe ..\..\..\source\verilog\i2c_slave.v -p "C:\ispLEVER_Classic1_8\ispcpld/generic" -predefine 4kze_verilog.h'
+
+Done: completed successfully.

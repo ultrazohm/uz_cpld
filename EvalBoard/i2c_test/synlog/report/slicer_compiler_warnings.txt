@@ -1,0 +1,2 @@
+@W: CL159 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\slicer.vhd":7:6:7:9|Input data is unused
+

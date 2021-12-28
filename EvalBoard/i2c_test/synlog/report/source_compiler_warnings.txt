@@ -1,0 +1,2 @@
+@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\source.vhd":18:8:18:13|Signal temp_y is undriven 
+

@@ -1,0 +1,54 @@
+Section Type   Array Num   Name                     Real Name          Base     Number     Increment
+// -------------------------------------------------------------------------------------------------
+      Port          1      data(7:0)                     data                  7          8            -1
+End
+Section Member   Rename                   Array-Notation          Array Number     Index
+// -------------------------------------------------------------------------------------
+        Port      data_7_                     data[7]                       1            0            
+        Port      data_6_                     data[6]                       1            1            
+        Port      data_5_                     data[5]                       1            2            
+        Port      data_4_                     data[4]                       1            3            
+        Port      data_3_                     data[3]                       1            4            
+        Port      data_2_                     data[2]                       1            5            
+        Port      data_1_                     data[1]                       1            6            
+        Port      data_0_                     data[0]                       1            7            
+End
+Section Cross Reference File
+Design 'slice8' created Tue Dec 28 18:14:16 2021
+   Type              New Name                               Original Name
+// ----------------------------------------------------------------------
+   Inst                data_0_                                   data[0]
+   Inst                data_1_                                   data[1]
+   Inst                data_2_                                   data[2]
+   Inst                data_3_                                   data[3]
+   Inst                data_4_                                   data[4]
+   Inst                data_5_                                   data[5]
+   Inst                data_6_                                   data[6]
+   Inst                data_7_                                   data[7]
+   Net               data_0__n                                   data[0]
+   Net               data_1__n                                   data[1]
+   Net               data_2__n                                   data[2]
+   Net               data_3__n                                   data[3]
+   Net               data_4__n                                   data[4]
+   Net               data_5__n                                   data[5]
+   Net               data_6__n                                   data[6]
+End
+Section Type      Name
+// ----------------------------------------------------------------------
+        Input     data_7_
+        Input     data_6_
+        Input     data_5_
+        Input     data_4_
+        Input     data_3_
+        Input     data_2_
+        Input     data_1_
+        Input     data_0_
+        Output     y0
+        Output     y1
+        Output     y2
+        Output     y3
+        Output     y4
+        Output     y5
+        Output     y6
+        Output     y7
+End

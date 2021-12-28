@@ -1,0 +1,59 @@
+Running in Lattice mode
+
+
+Starting:    C:\ispLEVER_Classic2_1\synpbase\win64\mbin\synbatch.exe
+Install:     C:\ispLEVER_Classic2_1\synpbase
+Date:        Tue Dec 28 14:17:27 2021
+Version:     I-2014.03LC 
+
+Arguments:   -product synplify_pro  -batch c:/git/ultrazohm/software/cpld_lattice/evalboard/rd1054_i2c_slve_peripheral/rd1054/source/vhdl\source.prj
+ProductType: synplify_pro
+
+
+
+
+
+log file: "C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\source.srr"
+
+Generating HDL info...
+hdl_info_gen Completed
+Return Code: 0
+Run Time:0h:00m:00s
+log file: "C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\source.srr"
+
+Running source|vhdl
+
+Running: Compile on source|vhdl
+
+Running: Compile Process on source|vhdl
+
+Running: Compile Input on source|vhdl
+Copied C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\synwork\source_comp.srs to C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\source.srs
+compiler Completed
+Return Code: 0
+Run Time:0h:00m:01s
+
+Running: Multi-srs Generator on source|vhdl
+Copied C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\synwork\source_comp.srs to C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\synwork\source_s.srs
+multi_srs_gen Completed
+Return Code: 0
+Run Time:0h:00m:00s
+Copied C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\synwork\source_mult.srs to C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\source.srs
+Copied C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\source.srr to C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\source.srf
+Complete: Compile Process on source|vhdl
+Complete: Compile on source|vhdl
+
+Running: Map on source|vhdl
+
+Running: Map & Optimize on source|vhdl
+fpga_mapper Completed
+Return Code: 0
+Run Time:0h:00m:01s
+Complete: Map on source|vhdl
+Copied C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\source.srr to C:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\source.srf
+Complete: Logic Synthesis on source|vhdl
+
+exit status=0
+
+exit status=0
+

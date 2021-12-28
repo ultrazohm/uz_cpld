@@ -1,0 +1,144 @@
+
+[Device]
+Family = lc4k;
+PartNumber = LC4256ZE-5TN144C;
+Package = 144TQFP;
+PartType = LC4256ZE;
+Speed = -5.8;
+Operating_condition = COM;
+Status = Production;
+EN_PinGLB = yes;
+EN_PinMacrocell = yes;
+
+[Revision]
+Parent = lc4k256e.lci;
+DATE = 10/29/2010;
+TIME = 18:46:50;
+Source_Format = Pure_Verilog_HDL;
+Synthesis = Synplify;
+
+[Ignore Assignments]
+
+[Clear Assignments]
+
+[Backannotate Assignments]
+
+[Global Constraints]
+
+[Location Assignments]
+layer = OFF;
+led_2_ = Pin, 58, -, I, 2;
+led_3_ = Pin, 59, -, I, 4;
+led_4_ = Pin, 60, -, I, 6;
+led_5_ = Pin, 61, -, I, 8;
+led_6_ = Pin, 62, -, I, 10;
+led_7_ = Pin, 63, -, I, 12;
+led_0_ = Pin, 70, -, J, 10;
+led_1_ = Pin, 71, -, J, 12;
+
+[Group Assignments]
+layer = OFF;
+
+[Resource Reservations]
+layer = OFF;
+
+[Fitter Report Format]
+
+[Power]
+
+[Source Constraint Option]
+
+[Fast Bypass]
+
+[OSM Bypass]
+
+[Input Registers]
+
+[Netlist/Delay Format]
+NetList = VERILOG;
+
+[IO Types]
+layer = OFF;
+led_2_ = -, PIN, 1, -;
+
+[Pullup]
+
+[Slewrate]
+
+[Region]
+
+[Timing Constraints]
+layer = OFF;
+
+[HSI Attributes]
+
+[Input Delay]
+
+[opt global constraints list]
+
+[Explorer User Settings]
+
+[Pin attributes list]
+
+[global constraints list]
+
+[Global Constraints Process Update]
+
+[pin lock limitation]
+
+[LOCATION ASSIGNMENTS LIST]
+
+[RESOURCE RESERVATIONS LIST]
+
+[individual constraints list]
+
+[Attributes list setting]
+
+[Timing Analyzer]
+
+[PLL Assignments]
+
+[Dual Function Macrocell]
+
+[Explorer Results]
+
+[VHDL synplify constraints]
+
+[VHDL spectrum constraints]
+
+[verilog synplify constraints]
+
+[verilog spectrum constraints]
+
+[VHDL synplify constraints list]
+
+[VHDL spectrum constraints list]
+
+[verilog synplify constraints list]
+
+[verilog spectrum constraints list]
+
+[Power Guard]
+
+[ORP Bypass]
+
+[Register Powerup]
+
+[OSCTIMER Assignments]
+layer = OFF;
+OSCTIMER = -, -, -, tmr_clk, 1048576;
+
+[Constraint Version]
+version = 1.0;
+
+[ORP ASSIGNMENTS]
+layer = OFF;
+
+[Node attribute]
+layer = OFF;
+
+[SYMBOL/MODULE attribute]
+layer = OFF;
+
+[Nodal Constraints]
+layer = OFF;

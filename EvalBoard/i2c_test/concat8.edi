@@ -1,0 +1,167 @@
+(edif concat8
+  (edifVersion 2 0 0)
+  (edifLevel 0)
+  (keywordMap (keywordLevel 0))
+  (status
+    (written
+      (timeStamp 2021 12 28 18 14 25)
+      (author "Synopsys, Inc.")
+      (program "Synplify Pro" (version "I-2014.03LC , mapper maplat, Build 923R"))
+     )
+   )
+  (external ispmach4s
+    (edifLevel 0)
+    (technology (numberDefinition ))
+    (cell IBUF (cellType GENERIC)
+       (view prim (viewType NETLIST)
+         (interface
+           (port O (direction OUTPUT))
+           (port I0 (direction INPUT))
+         )
+       )
+    )
+    (cell OBUF (cellType GENERIC)
+       (view prim (viewType NETLIST)
+         (interface
+           (port O (direction OUTPUT))
+           (port I0 (direction INPUT))
+         )
+       )
+    )
+  )
+  (library work
+    (edifLevel 0)
+    (technology (numberDefinition ))
+    (cell concat8 (cellType GENERIC)
+       (view arch_concat8 (viewType NETLIST)
+         (interface
+           (port (array (rename y "y(7:0)") 8) (direction OUTPUT))
+           (port u0 (direction INPUT))
+           (port u1 (direction INPUT))
+           (port u2 (direction INPUT))
+           (port u3 (direction INPUT))
+           (port u4 (direction INPUT))
+           (port u5 (direction INPUT))
+           (port u6 (direction INPUT))
+           (port u7 (direction INPUT))
+         )
+         (contents
+          (instance u0 (viewRef prim (cellRef IBUF (libraryRef ispmach4s)))          )
+          (instance u1 (viewRef prim (cellRef IBUF (libraryRef ispmach4s)))          )
+          (instance u2 (viewRef prim (cellRef IBUF (libraryRef ispmach4s)))          )
+          (instance u3 (viewRef prim (cellRef IBUF (libraryRef ispmach4s)))          )
+          (instance u4 (viewRef prim (cellRef IBUF (libraryRef ispmach4s)))          )
+          (instance u5 (viewRef prim (cellRef IBUF (libraryRef ispmach4s)))          )
+          (instance u6 (viewRef prim (cellRef IBUF (libraryRef ispmach4s)))          )
+          (instance u7 (viewRef prim (cellRef IBUF (libraryRef ispmach4s)))          )
+          (instance (rename y_0 "y[0]") (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance (rename y_1 "y[1]") (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance (rename y_2 "y[2]") (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance (rename y_3 "y[3]") (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance (rename y_4 "y[4]") (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance (rename y_5 "y[5]") (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance (rename y_6 "y[6]") (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance (rename y_7 "y[7]") (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (net u0_c (joined
+           (portRef O (instanceRef u0))
+           (portRef I0 (instanceRef y_0))
+          ))
+          (net u0 (joined
+           (portRef u0)
+           (portRef I0 (instanceRef u0))
+          ))
+          (net u1_c (joined
+           (portRef O (instanceRef u1))
+           (portRef I0 (instanceRef y_1))
+          ))
+          (net u1 (joined
+           (portRef u1)
+           (portRef I0 (instanceRef u1))
+          ))
+          (net u2_c (joined
+           (portRef O (instanceRef u2))
+           (portRef I0 (instanceRef y_2))
+          ))
+          (net u2 (joined
+           (portRef u2)
+           (portRef I0 (instanceRef u2))
+          ))
+          (net u3_c (joined
+           (portRef O (instanceRef u3))
+           (portRef I0 (instanceRef y_3))
+          ))
+          (net u3 (joined
+           (portRef u3)
+           (portRef I0 (instanceRef u3))
+          ))
+          (net u4_c (joined
+           (portRef O (instanceRef u4))
+           (portRef I0 (instanceRef y_4))
+          ))
+          (net u4 (joined
+           (portRef u4)
+           (portRef I0 (instanceRef u4))
+          ))
+          (net u5_c (joined
+           (portRef O (instanceRef u5))
+           (portRef I0 (instanceRef y_5))
+          ))
+          (net u5 (joined
+           (portRef u5)
+           (portRef I0 (instanceRef u5))
+          ))
+          (net u6_c (joined
+           (portRef O (instanceRef u6))
+           (portRef I0 (instanceRef y_6))
+          ))
+          (net u6 (joined
+           (portRef u6)
+           (portRef I0 (instanceRef u6))
+          ))
+          (net u7_c (joined
+           (portRef O (instanceRef u7))
+           (portRef I0 (instanceRef y_7))
+          ))
+          (net u7 (joined
+           (portRef u7)
+           (portRef I0 (instanceRef u7))
+          ))
+          (net (rename y_0 "y[0]") (joined
+           (portRef O (instanceRef y_0))
+           (portRef (member y 7))
+          ))
+          (net (rename y_1 "y[1]") (joined
+           (portRef O (instanceRef y_1))
+           (portRef (member y 6))
+          ))
+          (net (rename y_2 "y[2]") (joined
+           (portRef O (instanceRef y_2))
+           (portRef (member y 5))
+          ))
+          (net (rename y_3 "y[3]") (joined
+           (portRef O (instanceRef y_3))
+           (portRef (member y 4))
+          ))
+          (net (rename y_4 "y[4]") (joined
+           (portRef O (instanceRef y_4))
+           (portRef (member y 3))
+          ))
+          (net (rename y_5 "y[5]") (joined
+           (portRef O (instanceRef y_5))
+           (portRef (member y 2))
+          ))
+          (net (rename y_6 "y[6]") (joined
+           (portRef O (instanceRef y_6))
+           (portRef (member y 1))
+          ))
+          (net (rename y_7 "y[7]") (joined
+           (portRef O (instanceRef y_7))
+           (portRef (member y 0))
+          ))
+         )
+        (property orig_inst_of (string "concat8"))
+       )
+    )
+  )
+  (design concat8 (cellRef concat8 (libraryRef work)))
+)

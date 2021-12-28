@@ -1,0 +1,92 @@
+#$ DATE Thu Dec 23 19:32:14 2021
+#$ TOOL EDIF2BLIF version IspLever 1.0 
+#$ PROPERTY LATTICE OSCTIMER I1= -, -, -, tmr_clk, 1048576; 
+#$ MODULE count_osc
+#$ PINS 8 led_7_ led_6_ led_5_ led_4_ led_3_ led_2_ led_1_ led_0_
+#$ NODES 22 un2_led G_18 gnd_n_n tmr_clk c_delay_0_ c_delay_2_ c_delay_1_ c_delay_3_ N_10 N_19 \
+#  N_21 c_delay11 G_20 G_16 c_delay11_i c_delay_i_0__n c_delay_i_2__n N_10_i c_delay_i_3__n un2_led_i \
+#  c_delay11_1 c_delay11_2 
+#$ EXTERNAL OSCTIMER 4 DYNOSCDIS'i' TIMERRES'i' OSCOUT'o' TIMEROUT'o'
+#$ NODES 1 I1>OSCOUT
+
+#$ INSTANCE I1 OSCTIMER 4 gnd_n_n gnd_n_n I1>OSCOUT tmr_clk
+.model count_osc
+.inputs un2_led.BLIF G_18.BLIF tmr_clk.BLIF c_delay_0_.BLIF c_delay_2_.BLIF c_delay_1_.BLIF c_delay_3_.BLIF N_10.BLIF N_19.BLIF \
+  N_21.BLIF c_delay11.BLIF G_20.BLIF G_16.BLIF c_delay11_i.BLIF c_delay_i_0__n.BLIF c_delay_i_2__n.BLIF N_10_i.BLIF c_delay_i_3__n.BLIF \
+  un2_led_i.BLIF c_delay11_1.BLIF c_delay11_2.BLIF   I1>OSCOUT.BLIF
+.outputs led_7_ led_6_ led_5_ led_4_ led_3_ led_2_ led_1_ led_0_ c_delay_2_.D c_delay_2_.C c_delay_3_.D \
+  c_delay_3_.C c_delay_0_.D c_delay_0_.C c_delay_1_.D c_delay_1_.C G_18.X1 G_18.X2 G_20.X1 G_20.X2 G_16.X1 G_16.X2 \
+  un2_led gnd_n_n N_10 N_19 N_21 c_delay11 c_delay11_i c_delay_i_0__n c_delay_i_2__n N_10_i c_delay_i_3__n \
+  un2_led_i c_delay11_1 c_delay11_2
+.names  un2_led_i.BLIF led_0_
+1 1
+.names  un2_led.BLIF led_1_
+1 1
+.names  un2_led_i.BLIF led_2_
+1 1
+.names  un2_led.BLIF led_3_
+1 1
+.names  un2_led_i.BLIF led_4_
+1 1
+.names  un2_led.BLIF led_5_
+1 1
+.names  un2_led_i.BLIF led_6_
+1 1
+.names  un2_led.BLIF led_7_
+1 1
+.names  c_delay_1_.BLIF c_delay_3_.BLIF c_delay11_1
+11 1
+.names  c_delay_i_0__n.BLIF c_delay_i_2__n.BLIF c_delay11_2
+11 1
+.names  c_delay11_1.BLIF c_delay11_2.BLIF c_delay11
+11 1
+.names  c_delay_0_.BLIF c_delay_i_0__n
+0 1
+.names  c_delay11_i.BLIF c_delay_i_0__n.BLIF c_delay_0_.D
+11 1
+.names  c_delay11.BLIF c_delay11_i
+0 1
+.names  c_delay11_i.BLIF G_20.BLIF c_delay_3_.D
+11 1
+.names  N_10.BLIF N_10_i
+0 1
+.names  c_delay_3_.BLIF c_delay_i_3__n
+0 1
+.names  un2_led_i.BLIF un2_led
+0 1
+.names  c_delay_1_.BLIF c_delay_2_.BLIF N_10
+11 1
+.names  N_10_i.BLIF c_delay_i_3__n.BLIF un2_led_i
+11 1
+.names  c_delay_0_.BLIF c_delay_1_.BLIF N_19
+11 1
+.names  N_19.BLIF c_delay_2_.BLIF N_21
+11 1
+.names  c_delay_2_.BLIF c_delay_i_2__n
+0 1
+.names  c_delay11_i.BLIF G_16.BLIF c_delay_1_.D
+11 1
+.names  gnd_n_n
+.names  tmr_clk.BLIF c_delay_2_.C
+1 1
+.names  tmr_clk.BLIF c_delay_3_.C
+1 1
+.names  tmr_clk.BLIF c_delay_0_.C
+1 1
+.names  tmr_clk.BLIF c_delay_1_.C
+1 1
+.names  N_19.BLIF G_18.X1
+1 1
+.names  c_delay_2_.BLIF G_18.X2
+1 1
+.names  N_21.BLIF G_20.X1
+1 1
+.names  c_delay_3_.BLIF G_20.X2
+1 1
+.names  c_delay_0_.BLIF G_16.X1
+1 1
+.names  c_delay_1_.BLIF G_16.X2
+1 1
+.names  G_18.BLIF c_delay_2_.D
+1 1
+.end

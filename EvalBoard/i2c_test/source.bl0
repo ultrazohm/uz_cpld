@@ -1,0 +1,28 @@
+#$ DATE Tue Dec 28 17:04:39 2021
+#$ TOOL EDIF2BLIF version IspLever 1.0 
+#$ MODULE source
+#$ PINS 8 y0 y1 y2 y3 y4 y5 y6 y7
+#$ NODES 2 vcc_n_n gnd_n_n 
+.model source
+.inputs vcc_n_n.BLIF gnd_n_n.BLIF  
+.outputs y0 y1 y2 y3 y4 y5 y6 y7 vcc_n_n gnd_n_n
+.names  gnd_n_n.BLIF y0
+1 1
+.names  gnd_n_n.BLIF y1
+1 1
+.names  vcc_n_n.BLIF y2
+1 1
+.names  vcc_n_n.BLIF y3
+1 1
+.names  vcc_n_n.BLIF y4
+1 1
+.names  vcc_n_n.BLIF y5
+1 1
+.names  gnd_n_n.BLIF y6
+1 1
+.names  gnd_n_n.BLIF y7
+1 1
+.names  vcc_n_n
+1
+.names  gnd_n_n
+.end

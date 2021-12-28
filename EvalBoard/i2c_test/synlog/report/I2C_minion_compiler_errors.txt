@@ -1,0 +1,2 @@
+@E: CD395 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":29:61:29:71|Constant width 9 does not match context width 8
+

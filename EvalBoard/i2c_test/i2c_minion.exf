@@ -1,0 +1,348 @@
+Section Type   Array Num   Name                     Real Name          Base     Number     Increment
+// -------------------------------------------------------------------------------------------------
+      Port          1      data_to_master(7:0)               data_to_master                  7          8            -1
+      Port          2      data_from_master(7:0)               data_from_master                  7          8            -1
+End
+Section Member   Rename                   Array-Notation          Array Number     Index
+// -------------------------------------------------------------------------------------
+        Port      data_to_master_7_               data_to_master[7]                       1            0            
+        Port      data_to_master_6_               data_to_master[6]                       1            1            
+        Port      data_to_master_5_               data_to_master[5]                       1            2            
+        Port      data_to_master_4_               data_to_master[4]                       1            3            
+        Port      data_to_master_3_               data_to_master[3]                       1            4            
+        Port      data_to_master_2_               data_to_master[2]                       1            5            
+        Port      data_to_master_1_               data_to_master[1]                       1            6            
+        Port      data_to_master_0_               data_to_master[0]                       1            7            
+        Port      data_from_master_7_               data_from_master[7]                       2            0            
+        Port      data_from_master_6_               data_from_master[6]                       2            1            
+        Port      data_from_master_5_               data_from_master[5]                       2            2            
+        Port      data_from_master_4_               data_from_master[4]                       2            3            
+        Port      data_from_master_3_               data_from_master[3]                       2            4            
+        Port      data_from_master_2_               data_from_master[2]                       2            5            
+        Port      data_from_master_1_               data_from_master[1]                       2            6            
+        Port      data_from_master_0_               data_from_master[0]                       2            7            
+End
+Section Cross Reference File
+Design 'I2C_minion' created Tue Dec 28 19:13:30 2021
+   Type              New Name                               Original Name
+// ----------------------------------------------------------------------
+   Inst                 i_1R1R                                     sda
+   Inst   addr_reg_1_0_240_i_0_m2_p                 addr_reg_1_0_240_i_0_m2.p
+   Inst   addr_reg_1_i_m2_2__r                      addr_reg_1_i_m2_2_.r
+   Inst   addr_reg_1_i_m2_2__m                      addr_reg_1_i_m2_2_.m
+   Inst   addr_reg_1_i_m2_2__n                      addr_reg_1_i_m2_2_.n
+   Inst   addr_reg_1_i_m2_2__p                      addr_reg_1_i_m2_2_.p
+   Inst   data_reg_1_i_m2_2__r                      data_reg_1_i_m2_2_.r
+   Inst   data_reg_1_i_m2_2__m                      data_reg_1_i_m2_2_.m
+   Inst   data_reg_1_i_m2_2__n                      data_reg_1_i_m2_2_.n
+   Inst   data_reg_1_i_m2_2__p                      data_reg_1_i_m2_2_.p
+   Inst   addr_reg_1_i_m2_4__r                      addr_reg_1_i_m2_4_.r
+   Inst   addr_reg_1_i_m2_4__m                      addr_reg_1_i_m2_4_.m
+   Inst         state_reg_i_7_                            state_reg_i[7]
+   Inst   addr_reg_1_i_m2_4__n                      addr_reg_1_i_m2_4_.n
+   Inst           state_reg_6_                              state_reg[6]
+   Inst   addr_reg_1_i_m2_4__p                      addr_reg_1_i_m2_4_.p
+   Inst           state_reg_5_                              state_reg[5]
+   Inst   data_reg_1_i_m2_4__r                      data_reg_1_i_m2_4_.r
+   Inst           state_reg_4_                              state_reg[4]
+   Inst   data_reg_1_i_m2_4__m                      data_reg_1_i_m2_4_.m
+   Inst           state_reg_3_                              state_reg[3]
+   Inst   data_reg_1_i_m2_4__n                      data_reg_1_i_m2_4_.n
+   Inst           state_reg_2_                              state_reg[2]
+   Inst   data_reg_1_i_m2_4__p                      data_reg_1_i_m2_4_.p
+   Inst           state_reg_1_                              state_reg[1]
+   Inst           state_reg_0_                              state_reg[0]
+   Inst            addr_reg_0_                               addr_reg[0]
+   Inst            addr_reg_1_                               addr_reg[1]
+   Inst            addr_reg_2_                               addr_reg[2]
+   Inst            addr_reg_3_                               addr_reg[3]
+   Inst            addr_reg_4_                               addr_reg[4]
+   Inst   bits_processed_reg_i_1_                   bits_processed_reg_i[1]
+   Inst            addr_reg_5_                               addr_reg[5]
+   Inst   bits_processed_reg_i_2_                   bits_processed_reg_i[2]
+   Inst            addr_reg_6_                               addr_reg[6]
+   Inst     addr_reg_1_i_o2_2_                        addr_reg_1_i_o2[2]
+   Inst            data_reg_0_                               data_reg[0]
+   Inst            data_reg_1_                               data_reg[1]
+   Inst   state_reg_srsts_1_i_0_o2_3_               state_reg_srsts_1_i_0_o2[3]
+   Inst            data_reg_2_                               data_reg[2]
+   Inst          data_reg_i_3_                             data_reg_i[3]
+   Inst            data_reg_3_                               data_reg[3]
+   Inst   data_reg_1_2_172_i_i_m2_r                 data_reg_1_2_172_i_i_m2.r
+   Inst            data_reg_4_                               data_reg[4]
+   Inst   data_reg_1_2_172_i_i_m2_m                 data_reg_1_2_172_i_i_m2.m
+   Inst            data_reg_5_                               data_reg[5]
+   Inst   data_reg_1_2_172_i_i_m2_n                 data_reg_1_2_172_i_i_m2.n
+   Inst            data_reg_6_                               data_reg[6]
+   Inst   data_reg_1_2_172_i_i_m2_p                 data_reg_1_2_172_i_i_m2.p
+   Inst   data_from_master_reg_0_                   data_from_master_reg[0]
+   Inst          addr_reg_i_3_                             addr_reg_i[3]
+   Inst   data_from_master_reg_1_                   data_from_master_reg[1]
+   Inst   addr_reg_1_2_223_i_i_m2_r                 addr_reg_1_2_223_i_i_m2.r
+   Inst   data_from_master_reg_2_                   data_from_master_reg[2]
+   Inst   addr_reg_1_2_223_i_i_m2_m                 addr_reg_1_2_223_i_i_m2.m
+   Inst   data_from_master_reg_3_                   data_from_master_reg[3]
+   Inst   addr_reg_1_2_223_i_i_m2_n                 addr_reg_1_2_223_i_i_m2.n
+   Inst   data_from_master_reg_4_                   data_from_master_reg[4]
+   Inst   addr_reg_1_2_223_i_i_m2_p                 addr_reg_1_2_223_i_i_m2.p
+   Inst   data_from_master_reg_5_                   data_from_master_reg[5]
+   Inst   data_from_master_reg_6_                   data_from_master_reg[6]
+   Inst   data_from_master_reg_7_                   data_from_master_reg[7]
+   Inst         state_reg_i_5_                            state_reg_i[5]
+   Inst   bits_processed_reg_3_                     bits_processed_reg[3]
+   Inst   bits_processed_reg_0_                     bits_processed_reg[0]
+   Inst         state_reg_i_2_                            state_reg_i[2]
+   Inst   bits_processed_reg_1_                     bits_processed_reg[1]
+   Inst   state_reg_srsts_1_i_0_a2_0_1_             state_reg_srsts_1_i_0_a2_0[1]
+   Inst   bits_processed_reg_2_                     bits_processed_reg[2]
+   Inst   state_reg_srsts_1_i_0_a2_3_               state_reg_srsts_1_i_0_a2[3]
+   Inst   state_reg_srsts_1_0_0_a2_0_2_             state_reg_srsts_1_0_0_a2_0[2]
+   Inst   state_reg_srsts_1_0_0_a2_0_5_             state_reg_srsts_1_0_0_a2_0[5]
+   Inst   state_reg_srsts_1_i_0_a2_0_6_             state_reg_srsts_1_i_0_a2_0[6]
+   Inst          addr_reg_i_5_                             addr_reg_i[5]
+   Inst   state_reg_srsts_1_0_0_2_                  state_reg_srsts_1_0_0[2]
+   Inst         state_reg_i_3_                            state_reg_i[3]
+   Inst   state_reg_srsts_1_i_0_0_                  state_reg_srsts_1_i_0[0]
+   Inst   state_reg_srsts_1_i_0_a2_1_               state_reg_srsts_1_i_0_a2[1]
+   Inst         state_reg_i_0_                            state_reg_i[0]
+   Inst   state_reg_srsts_1_i_0_a2_0_               state_reg_srsts_1_i_0_a2[0]
+   Inst   state_reg_srsts_1_i_0_o2_4_               state_reg_srsts_1_i_0_o2[4]
+   Inst   state_reg_srsts_1_i_0_o2_0_3_             state_reg_srsts_1_i_0_o2_0[3]
+   Inst         state_reg_i_1_                            state_reg_i[1]
+   Inst   state_reg_srsts_1_i_0_o2_1_3_             state_reg_srsts_1_i_0_o2_1[3]
+   Inst   state_reg_srsts_1_i_0_a2_2_3_             state_reg_srsts_1_i_0_a2_2[3]
+   Inst   state_reg_srsts_1_i_0_a2_4_               state_reg_srsts_1_i_0_a2[4]
+   Inst    data_from_master_0_                       data_from_master[0]
+   Inst    data_from_master_1_                       data_from_master[1]
+   Inst    data_from_master_2_                       data_from_master[2]
+   Inst    data_from_master_3_                       data_from_master[3]
+   Inst    data_from_master_4_                       data_from_master[4]
+   Inst    data_from_master_5_                       data_from_master[5]
+   Inst    data_from_master_6_                       data_from_master[6]
+   Inst    data_from_master_7_                       data_from_master[7]
+   Inst   state_reg_srst_i_0_0_a2_1_7_              state_reg_srst_i_0_0_a2_1[7]
+   Inst   state_reg_srst_i_0_0_a2_7_                state_reg_srst_i_0_0_a2[7]
+   Inst   state_reg_srsts_1_0_0_a2_1_2_             state_reg_srsts_1_0_0_a2_1[2]
+   Inst   state_reg_srsts_1_0_0_a2_2_               state_reg_srsts_1_0_0_a2[2]
+   Inst   state_reg_srsts_1_i_0_a2_0_1_4_           state_reg_srsts_1_i_0_a2_0_1[4]
+   Inst   state_reg_srsts_1_i_0_a2_0_4_             state_reg_srsts_1_i_0_a2_0[4]
+   Inst   state_reg_srsts_1_i_0_a2_0_1_3_           state_reg_srsts_1_i_0_a2_0_1[3]
+   Inst   state_reg_srsts_1_i_0_a2_0_2_3_           state_reg_srsts_1_i_0_a2_0_2[3]
+   Inst   state_reg_srsts_1_i_0_a2_0_3_             state_reg_srsts_1_i_0_a2_0[3]
+   Inst   state_reg_srsts_1_i_0_1_1_                state_reg_srsts_1_i_0_1[1]
+   Inst   state_reg_srsts_1_i_0_1_                  state_reg_srsts_1_i_0[1]
+   Inst   state_reg_srsts_1_0_0_a2_1_1_5_           state_reg_srsts_1_0_0_a2_1_1[5]
+   Inst   state_reg_srsts_1_0_0_a2_1_5_             state_reg_srsts_1_0_0_a2_1[5]
+   Inst   state_reg_srsts_1_0_0_a2_1_0_5_           state_reg_srsts_1_0_0_a2_1_0[5]
+   Inst   state_reg_srsts_1_0_0_a2_5_               state_reg_srsts_1_0_0_a2[5]
+   Inst   state_reg_srsts_1_i_0_1_6_                state_reg_srsts_1_i_0_1[6]
+   Inst   state_reg_srsts_1_i_0_6_                  state_reg_srsts_1_i_0[6]
+   Inst   state_reg_srsts_1_0_0_1_5_                state_reg_srsts_1_0_0_1[5]
+   Inst   state_reg_srsts_1_0_0_5_                  state_reg_srsts_1_0_0[5]
+   Inst   state_reg_srsts_1_i_0_1_4_                state_reg_srsts_1_i_0_1[4]
+   Inst   state_reg_srsts_1_i_0_4_                  state_reg_srsts_1_i_0[4]
+   Inst   state_reg_srsts_1_i_0_1_3_                state_reg_srsts_1_i_0_1[3]
+   Inst   state_reg_srsts_1_i_0_3_                  state_reg_srsts_1_i_0[3]
+   Inst   state_reg_srsts_1_i_0_o2_0_0_             state_reg_srsts_1_i_0_o2_0[0]
+   Inst   addr_reg_1_i_o2_1_4_                      addr_reg_1_i_o2_1[4]
+   Inst     addr_reg_1_i_o2_4_                        addr_reg_1_i_o2[4]
+   Inst   addr_reg_1_i_o2_1_5_                      addr_reg_1_i_o2_1[5]
+   Inst     addr_reg_1_i_o2_5_                        addr_reg_1_i_o2[5]
+   Inst   state_reg_srsts_1_0_0_i_5_                state_reg_srsts_1_0_0_i[5]
+   Inst   state_reg_srsts_1_i_0_o2_0_1_0_           state_reg_srsts_1_i_0_o2_0_1[0]
+   Inst   state_reg_srsts_1_i_0_o2_1_i_3_           state_reg_srsts_1_i_0_o2_1_i[3]
+   Inst   state_reg_srsts_1_i_0_o2_i_4_             state_reg_srsts_1_i_0_o2_i[4]
+   Inst   state_reg_srsts_1_i_0_o2_0_i_0_           state_reg_srsts_1_i_0_o2_0_i[0]
+   Inst   state_reg_srst_i_0_0_o2_i_7_              state_reg_srst_i_0_0_o2_i[7]
+   Inst   state_reg_srsts_1_i_0_o2_i_3_             state_reg_srsts_1_i_0_o2_i[3]
+   Inst   addr_reg_1_i_o2_i_2_                      addr_reg_1_i_o2_i[2]
+   Inst   addr_reg_1_i_o2_i_4_                      addr_reg_1_i_o2_i[4]
+   Inst   state_reg_srsts_1_0_0_i_2_                state_reg_srsts_1_0_0_i[2]
+   Inst   addr_reg_1_i_o2_i_5_                      addr_reg_1_i_o2_i[5]
+   Inst   state_reg_srst_i_0_0_i_7_                 state_reg_srst_i_0_0_i[7]
+   Inst   data_reg_1_i_m2_5__r                      data_reg_1_i_m2_5_.r
+   Inst   data_reg_1_i_m2_5__m                      data_reg_1_i_m2_5_.m
+   Inst   data_reg_1_i_m2_5__n                      data_reg_1_i_m2_5_.n
+   Inst   data_reg_1_i_m2_5__p                      data_reg_1_i_m2_5_.p
+   Inst   state_reg_srst_i_0_0_7_                   state_reg_srst_i_0_0[7]
+   Inst   state_reg_srsts_1_i_0_o2_6_               state_reg_srsts_1_i_0_o2[6]
+   Inst   state_reg_srsts_1_i_0_o2_0_               state_reg_srsts_1_i_0_o2[0]
+   Inst         state_reg_i_4_                            state_reg_i[4]
+   Inst         state_reg_i_6_                            state_reg_i[6]
+   Inst   addr_reg_1_i_m2_5__r                      addr_reg_1_i_m2_5_.r
+   Inst   addr_reg_1_i_m2_5__m                      addr_reg_1_i_m2_5_.m
+   Inst   addr_reg_1_i_m2_5__n                      addr_reg_1_i_m2_5_.n
+   Inst   addr_reg_1_i_m2_5__p                      addr_reg_1_i_m2_5_.p
+   Inst   addr_reg_1_i_m2_6__r                      addr_reg_1_i_m2_6_.r
+   Inst   addr_reg_1_i_m2_6__m                      addr_reg_1_i_m2_6_.m
+   Inst   addr_reg_1_i_m2_6__n                      addr_reg_1_i_m2_6_.n
+   Inst   addr_reg_1_i_m2_6__p                      addr_reg_1_i_m2_6_.p
+   Inst   data_reg_1_i_m2_6__r                      data_reg_1_i_m2_6_.r
+   Inst   data_reg_1_i_m2_6__m                      data_reg_1_i_m2_6_.m
+   Inst   data_reg_1_i_m2_6__n                      data_reg_1_i_m2_6_.n
+   Inst   data_reg_1_i_m2_6__p                      data_reg_1_i_m2_6_.p
+   Inst   state_reg_srst_i_0_0_a2_0_7_              state_reg_srst_i_0_0_a2_0[7]
+   Inst   state_reg_srsts_1_i_0_a2_6_               state_reg_srsts_1_i_0_a2[6]
+   Inst   bits_processed_reg_i_3_                   bits_processed_reg_i[3]
+   Inst   state_reg_srsts_1_i_0_a2_1_3_             state_reg_srsts_1_i_0_a2_1[3]
+   Inst   state_reg_srst_i_0_0_o2_7_                state_reg_srst_i_0_0_o2[7]
+   Inst          data_reg_i_0_                             data_reg_i[0]
+   Inst   data_reg_1_206_i_0_m2_r                   data_reg_1_206_i_0_m2.r
+   Inst   data_reg_1_206_i_0_m2_m                   data_reg_1_206_i_0_m2.m
+   Inst   data_reg_1_206_i_0_m2_n                   data_reg_1_206_i_0_m2.n
+   Inst   data_reg_1_206_i_0_m2_p                   data_reg_1_206_i_0_m2.p
+   Inst          addr_reg_i_0_                             addr_reg_i[0]
+   Inst   addr_reg_1_257_i_0_m2_r                   addr_reg_1_257_i_0_m2.r
+   Inst   addr_reg_1_257_i_0_m2_m                   addr_reg_1_257_i_0_m2.m
+   Inst   addr_reg_1_257_i_0_m2_n                   addr_reg_1_257_i_0_m2.n
+   Inst   addr_reg_1_257_i_0_m2_p                   addr_reg_1_257_i_0_m2.p
+   Inst          data_reg_i_1_                             data_reg_i[1]
+   Inst   data_reg_1_0_189_i_0_m2_r                 data_reg_1_0_189_i_0_m2.r
+   Inst   data_reg_1_0_189_i_0_m2_m                 data_reg_1_0_189_i_0_m2.m
+   Inst   data_reg_1_0_189_i_0_m2_n                 data_reg_1_0_189_i_0_m2.n
+   Inst   data_reg_1_0_189_i_0_m2_p                 data_reg_1_0_189_i_0_m2.p
+   Inst          addr_reg_i_1_                             addr_reg_i[1]
+   Inst   addr_reg_1_0_240_i_0_m2_r                 addr_reg_1_0_240_i_0_m2.r
+   Inst   addr_reg_1_0_240_i_0_m2_m                 addr_reg_1_0_240_i_0_m2.m
+   Inst   addr_reg_1_0_240_i_0_m2_n                 addr_reg_1_0_240_i_0_m2.n
+   Net    data_from_master_reg_0__n                   data_from_master_reg[0]
+   Net    data_from_master_reg_1__n                   data_from_master_reg[1]
+   Net    data_from_master_reg_2__n                   data_from_master_reg[2]
+   Net    data_from_master_reg_3__n                   data_from_master_reg[3]
+   Net    data_from_master_reg_4__n                   data_from_master_reg[4]
+   Net    data_from_master_reg_5__n                   data_from_master_reg[5]
+   Net    data_from_master_reg_6__n                   data_from_master_reg[6]
+   Net    data_from_master_reg_7__n                   data_from_master_reg[7]
+   Net    state_reg_srst_0_1_5__n                     state_reg_srst_0_1[5]
+   Net    bits_processed_reg_1__n                     bits_processed_reg[1]
+   Net    bits_processed_reg_2__n                     bits_processed_reg[2]
+   Net    bits_processed_reg_3__n                     bits_processed_reg[3]
+   Net           addr_reg_0__n                               addr_reg[0]
+   Net           addr_reg_1__n                               addr_reg[1]
+   Net           addr_reg_3__n                               addr_reg[3]
+   Net           addr_reg_5__n                               addr_reg[5]
+   Net                 gnd_n_n                                       GND
+   Net          state_reg_2__n                              state_reg[2]
+   Net          state_reg_4__n                              state_reg[4]
+   Net          state_reg_6__n                              state_reg[6]
+   Net           addr_reg_2__n                               addr_reg[2]
+   Net           addr_reg_4__n                               addr_reg[4]
+   Net           addr_reg_6__n                               addr_reg[6]
+   Net           data_reg_0__n                               data_reg[0]
+   Net           data_reg_1__n                               data_reg[1]
+   Net           data_reg_2__n                               data_reg[2]
+   Net    data_reg_1_i_m2_5__un3_n                    data_reg_1_i_m2_5_.un3
+   Net           data_reg_3__n                               data_reg[3]
+   Net    data_reg_1_i_m2_5__un1_n                    data_reg_1_i_m2_5_.un1
+   Net           data_reg_4__n                               data_reg[4]
+   Net    data_reg_1_i_m2_5__un0_n                    data_reg_1_i_m2_5_.un0
+   Net           data_reg_5__n                               data_reg[5]
+   Net    addr_reg_1_i_m2_5__un3_n                    addr_reg_1_i_m2_5_.un3
+   Net           data_reg_6__n                               data_reg[6]
+   Net    addr_reg_1_i_m2_5__un1_n                    addr_reg_1_i_m2_5_.un1
+   Net    addr_reg_1_i_m2_5__un0_n                    addr_reg_1_i_m2_5_.un0
+   Net          state_reg_3__n                              state_reg[3]
+   Net    addr_reg_1_i_m2_6__un3_n                    addr_reg_1_i_m2_6_.un3
+   Net    addr_reg_1_i_m2_6__un1_n                    addr_reg_1_i_m2_6_.un1
+   Net          state_reg_5__n                              state_reg[5]
+   Net    addr_reg_1_i_m2_6__un0_n                    addr_reg_1_i_m2_6_.un0
+   Net          state_reg_1__n                              state_reg[1]
+   Net    data_reg_1_i_m2_6__un3_n                    data_reg_1_i_m2_6_.un3
+   Net          state_reg_0__n                              state_reg[0]
+   Net    data_reg_1_i_m2_6__un1_n                    data_reg_1_i_m2_6_.un1
+   Net    data_reg_1_i_m2_6__un0_n                    data_reg_1_i_m2_6_.un0
+   Net    data_reg_1_206_i_0_m2_un3_n                 data_reg_1_206_i_0_m2.un3
+   Net    data_reg_1_206_i_0_m2_un1_n                 data_reg_1_206_i_0_m2.un1
+   Net    data_reg_1_206_i_0_m2_un0_n                 data_reg_1_206_i_0_m2.un0
+   Net    state_reg_srst_i_7__n                       state_reg_srst_i[7]
+   Net    addr_reg_1_257_i_0_m2_un3_n                 addr_reg_1_257_i_0_m2.un3
+   Net        state_reg_i_7__n                            state_reg_i[7]
+   Net    addr_reg_1_257_i_0_m2_un1_n                 addr_reg_1_257_i_0_m2.un1
+   Net     state_reg_srst_5__n                         state_reg_srst[5]
+   Net    addr_reg_1_257_i_0_m2_un0_n                 addr_reg_1_257_i_0_m2.un0
+   Net     state_reg_srst_2__n                         state_reg_srst[2]
+   Net    data_reg_1_0_189_i_0_m2_un3_n               data_reg_1_0_189_i_0_m2.un3
+   Net    data_reg_1_0_189_i_0_m2_un1_n               data_reg_1_0_189_i_0_m2.un1
+   Net    data_reg_1_0_189_i_0_m2_un0_n               data_reg_1_0_189_i_0_m2.un0
+   Net    addr_reg_1_0_240_i_0_m2_un3_n               addr_reg_1_0_240_i_0_m2.un3
+   Net    addr_reg_1_0_240_i_0_m2_un1_n               addr_reg_1_0_240_i_0_m2.un1
+   Net    addr_reg_1_0_240_i_0_m2_un0_n               addr_reg_1_0_240_i_0_m2.un0
+   Net    addr_reg_1_i_m2_2__un3_n                    addr_reg_1_i_m2_2_.un3
+   Net    addr_reg_1_i_m2_2__un1_n                    addr_reg_1_i_m2_2_.un1
+   Net    addr_reg_1_i_m2_2__un0_n                    addr_reg_1_i_m2_2_.un0
+   Net    data_reg_1_i_m2_2__un3_n                    data_reg_1_i_m2_2_.un3
+   Net    data_reg_1_i_m2_2__un1_n                    data_reg_1_i_m2_2_.un1
+   Net    data_reg_1_i_m2_2__un0_n                    data_reg_1_i_m2_2_.un0
+   Net    addr_reg_1_i_m2_4__un3_n                    addr_reg_1_i_m2_4_.un3
+   Net    addr_reg_1_i_m2_4__un1_n                    addr_reg_1_i_m2_4_.un1
+   Net    addr_reg_1_i_m2_4__un0_n                    addr_reg_1_i_m2_4_.un0
+   Net    data_reg_1_i_m2_4__un3_n                    data_reg_1_i_m2_4_.un3
+   Net    data_reg_1_i_m2_4__un1_n                    data_reg_1_i_m2_4_.un1
+   Net    data_reg_1_i_m2_4__un0_n                    data_reg_1_i_m2_4_.un0
+   Net    data_reg_1_2_172_i_i_m2_un3_n               data_reg_1_2_172_i_i_m2.un3
+   Net    data_reg_1_2_172_i_i_m2_un1_n               data_reg_1_2_172_i_i_m2.un1
+   Net    data_reg_1_2_172_i_i_m2_un0_n               data_reg_1_2_172_i_i_m2.un0
+   Net    addr_reg_1_2_223_i_i_m2_un3_n               addr_reg_1_2_223_i_i_m2.un3
+   Net    addr_reg_1_2_223_i_i_m2_un1_n               addr_reg_1_2_223_i_i_m2.un1
+   Net    addr_reg_1_2_223_i_i_m2_un0_n               addr_reg_1_2_223_i_i_m2.un0
+   Net     data_to_master_7__n                         data_to_master[7]
+   Net     data_to_master_6__n                         data_to_master[6]
+   Net     data_to_master_5__n                         data_to_master[5]
+   Net     data_to_master_4__n                         data_to_master[4]
+   Net     data_to_master_3__n                         data_to_master[3]
+   Net     data_to_master_2__n                         data_to_master[2]
+   Net     data_to_master_1__n                         data_to_master[1]
+   Net     data_to_master_0__n                         data_to_master[0]
+   Net        state_reg_i_6__n                            state_reg_i[6]
+   Net        state_reg_i_4__n                            state_reg_i[4]
+   Net    bits_processed_reg_i_3__n                   bits_processed_reg_i[3]
+   Net         addr_reg_i_1__n                             addr_reg_i[1]
+   Net         data_reg_i_1__n                             data_reg_i[1]
+   Net         addr_reg_i_0__n                             addr_reg_i[0]
+   Net         data_reg_i_0__n                             data_reg_i[0]
+   Net         addr_reg_i_3__n                             addr_reg_i[3]
+   Net         data_reg_i_3__n                             data_reg_i[3]
+   Net    bits_processed_reg_i_2__n                   bits_processed_reg_i[2]
+   Net    bits_processed_reg_i_1__n                   bits_processed_reg_i[1]
+   Net        state_reg_i_3__n                            state_reg_i[3]
+   Net         addr_reg_i_5__n                             addr_reg_i[5]
+   Net        state_reg_i_2__n                            state_reg_i[2]
+   Net        state_reg_i_5__n                            state_reg_i[5]
+   Net        state_reg_i_1__n                            state_reg_i[1]
+   Net        state_reg_i_0__n                            state_reg_i[0]
+   Net    data_from_master_0__n                       data_from_master[0]
+   Net    data_from_master_1__n                       data_from_master[1]
+   Net    data_from_master_2__n                       data_from_master[2]
+   Net    data_from_master_3__n                       data_from_master[3]
+   Net    data_from_master_4__n                       data_from_master[4]
+   Net    data_from_master_5__n                       data_from_master[5]
+   Net    data_from_master_6__n                       data_from_master[6]
+   Net    state_reg_srst_i_0_7__n                     state_reg_srst_i_0[7]
+   Net    state_reg_srst_0_2__n                       state_reg_srst_0[2]
+   Net    state_reg_srst_0_5__n                       state_reg_srst_0[5]
+End
+Section Type      Name
+// ----------------------------------------------------------------------
+        Input     data_to_master_7_
+        Input     scl
+        Input     clk
+        Input     rst
+        Input     data_to_master_6_
+        Input     data_to_master_5_
+        Input     data_to_master_4_
+        Input     data_to_master_3_
+        Input     data_to_master_2_
+        Input     data_to_master_1_
+        Input     data_to_master_0_
+        Output     data_from_master_7_
+        Output     read_req
+        Output     data_valid
+        Output     data_from_master_6_
+        Output     data_from_master_5_
+        Output     data_from_master_4_
+        Output     data_from_master_3_
+        Output     data_from_master_2_
+        Output     data_from_master_1_
+        Output     data_from_master_0_
+        Bidi     sda
+End

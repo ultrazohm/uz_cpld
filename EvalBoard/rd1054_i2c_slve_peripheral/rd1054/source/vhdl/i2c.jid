@@ -1,0 +1,1 @@
+. i2c_slave i2c_slave.vhd c:\git\ultrazohm\software\cpld_lattice\evalboard\rd1054_i2c_slve_peripheral\rd1054\source\vhdl\i2c_slave.vhd

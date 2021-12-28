@@ -9,8 +9,8 @@
 #CUR:"C:\\ispLEVER_Classic2_1\\synpbase\\lib\\vhd\\umr_capim.vhd":1401220368
 #CUR:"C:\\ispLEVER_Classic2_1\\synpbase\\lib\\vhd\\arith.vhd":1401220122
 #CUR:"C:\\ispLEVER_Classic2_1\\synpbase\\lib\\vhd\\unsigned.vhd":1401220122
-#CUR:"C:\\zynqultra\\60_software\\cpld_lattice\\evalboard\\i2c_test\\i2c_slave.vhd":1426688478
-0 "C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\i2c_slave.vhd" vhdl
+#CUR:"C:\\git\\ultrazohm\\software\\cpld_lattice\\evalboard\\i2c_test\\uz_i2c_slave_D1.vhd":1640709967
+0 "C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd" vhdl
 
 # Dependency Lists (Uses list)
 0 -1

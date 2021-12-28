@@ -1,0 +1,18 @@
+archive 3.0 - ispLEVER 2.1.00.02
+File io_pins.lst - 28.12.2021 11:04:42
+-------------------------------------------
+NOTE: To copy the files to an archive, use:
+archive [-sch] -save=path filename.sch
+path is the name of the archive directory
+-------------------------------------------
+C:\ispLEVER_Classic2_1\ispcpld\config\simcp.ini
+io_pins.sch
+i2c_slave.sym
+sourceconcat.sym
+concat8.sym
+slicer.sym
+source.sym
+G_INV.sym From Library C:\ispLEVER_Classic2_1\ispcpld\generic\generic\gates.lib
+G_BIDIR.sym From Library C:\ispLEVER_Classic2_1\ispcpld\generic\generic\iopads.lib
+C:\ispLEVER_Classic2_1\ispcpld\config\scs.ini
+C:\ispLEVER_Classic2_1\ispcpld\config\lc4k.ini

@@ -1,0 +1,167 @@
+(edif slice8
+  (edifVersion 2 0 0)
+  (edifLevel 0)
+  (keywordMap (keywordLevel 0))
+  (status
+    (written
+      (timeStamp 2021 12 28 18 14 10)
+      (author "Synopsys, Inc.")
+      (program "Synplify Pro" (version "I-2014.03LC , mapper maplat, Build 923R"))
+     )
+   )
+  (external ispmach4s
+    (edifLevel 0)
+    (technology (numberDefinition ))
+    (cell IBUF (cellType GENERIC)
+       (view prim (viewType NETLIST)
+         (interface
+           (port O (direction OUTPUT))
+           (port I0 (direction INPUT))
+         )
+       )
+    )
+    (cell OBUF (cellType GENERIC)
+       (view prim (viewType NETLIST)
+         (interface
+           (port O (direction OUTPUT))
+           (port I0 (direction INPUT))
+         )
+       )
+    )
+  )
+  (library work
+    (edifLevel 0)
+    (technology (numberDefinition ))
+    (cell slice8 (cellType GENERIC)
+       (view arch_slice8 (viewType NETLIST)
+         (interface
+           (port (array (rename data "data(7:0)") 8) (direction INPUT))
+           (port y0 (direction OUTPUT))
+           (port y1 (direction OUTPUT))
+           (port y2 (direction OUTPUT))
+           (port y3 (direction OUTPUT))
+           (port y4 (direction OUTPUT))
+           (port y5 (direction OUTPUT))
+           (port y6 (direction OUTPUT))
+           (port y7 (direction OUTPUT))
+         )
+         (contents
+          (instance (rename data_0 "data[0]") (viewRef prim (cellRef IBUF (libraryRef ispmach4s)))          )
+          (instance (rename data_1 "data[1]") (viewRef prim (cellRef IBUF (libraryRef ispmach4s)))          )
+          (instance (rename data_2 "data[2]") (viewRef prim (cellRef IBUF (libraryRef ispmach4s)))          )
+          (instance (rename data_3 "data[3]") (viewRef prim (cellRef IBUF (libraryRef ispmach4s)))          )
+          (instance (rename data_4 "data[4]") (viewRef prim (cellRef IBUF (libraryRef ispmach4s)))          )
+          (instance (rename data_5 "data[5]") (viewRef prim (cellRef IBUF (libraryRef ispmach4s)))          )
+          (instance (rename data_6 "data[6]") (viewRef prim (cellRef IBUF (libraryRef ispmach4s)))          )
+          (instance (rename data_7 "data[7]") (viewRef prim (cellRef IBUF (libraryRef ispmach4s)))          )
+          (instance y0 (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance y1 (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance y2 (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance y3 (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance y4 (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance y5 (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance y6 (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance y7 (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (net (rename data_0 "data[0]") (joined
+           (portRef (member data 7))
+           (portRef I0 (instanceRef data_0))
+          ))
+          (net (rename data_1 "data[1]") (joined
+           (portRef (member data 6))
+           (portRef I0 (instanceRef data_1))
+          ))
+          (net (rename data_2 "data[2]") (joined
+           (portRef (member data 5))
+           (portRef I0 (instanceRef data_2))
+          ))
+          (net (rename data_3 "data[3]") (joined
+           (portRef (member data 4))
+           (portRef I0 (instanceRef data_3))
+          ))
+          (net (rename data_4 "data[4]") (joined
+           (portRef (member data 3))
+           (portRef I0 (instanceRef data_4))
+          ))
+          (net (rename data_5 "data[5]") (joined
+           (portRef (member data 2))
+           (portRef I0 (instanceRef data_5))
+          ))
+          (net (rename data_6 "data[6]") (joined
+           (portRef (member data 1))
+           (portRef I0 (instanceRef data_6))
+          ))
+          (net (rename data_7 "data[7]") (joined
+           (portRef (member data 0))
+           (portRef I0 (instanceRef data_7))
+          ))
+          (net y0_c (joined
+           (portRef O (instanceRef data_0))
+           (portRef I0 (instanceRef y0))
+          ))
+          (net y0 (joined
+           (portRef O (instanceRef y0))
+           (portRef y0)
+          ))
+          (net y1_c (joined
+           (portRef O (instanceRef data_1))
+           (portRef I0 (instanceRef y1))
+          ))
+          (net y1 (joined
+           (portRef O (instanceRef y1))
+           (portRef y1)
+          ))
+          (net y2_c (joined
+           (portRef O (instanceRef data_2))
+           (portRef I0 (instanceRef y2))
+          ))
+          (net y2 (joined
+           (portRef O (instanceRef y2))
+           (portRef y2)
+          ))
+          (net y3_c (joined
+           (portRef O (instanceRef data_3))
+           (portRef I0 (instanceRef y3))
+          ))
+          (net y3 (joined
+           (portRef O (instanceRef y3))
+           (portRef y3)
+          ))
+          (net y4_c (joined
+           (portRef O (instanceRef data_4))
+           (portRef I0 (instanceRef y4))
+          ))
+          (net y4 (joined
+           (portRef O (instanceRef y4))
+           (portRef y4)
+          ))
+          (net y5_c (joined
+           (portRef O (instanceRef data_5))
+           (portRef I0 (instanceRef y5))
+          ))
+          (net y5 (joined
+           (portRef O (instanceRef y5))
+           (portRef y5)
+          ))
+          (net y6_c (joined
+           (portRef O (instanceRef data_6))
+           (portRef I0 (instanceRef y6))
+          ))
+          (net y6 (joined
+           (portRef O (instanceRef y6))
+           (portRef y6)
+          ))
+          (net y7_c (joined
+           (portRef O (instanceRef data_7))
+           (portRef I0 (instanceRef y7))
+          ))
+          (net y7 (joined
+           (portRef O (instanceRef y7))
+           (portRef y7)
+          ))
+         )
+        (property orig_inst_of (string "slice8"))
+       )
+    )
+  )
+  (design slice8 (cellRef slice8 (libraryRef work)))
+)

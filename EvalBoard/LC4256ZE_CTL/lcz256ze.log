@@ -1,0 +1,13 @@
+Starting EDIF2BLIF....
+readEDIF ended normally.
+
+Inspect circuit lcz256ze
+    Number of input ports   : 0
+    Number of output ports  : 1
+    Number of bidir ports   : 0
+    Number of instances     : 11
+    Number of nets          : 11
+
+No design errors found in circuit lcz256ze
+
+WriteBLIF ended normally.

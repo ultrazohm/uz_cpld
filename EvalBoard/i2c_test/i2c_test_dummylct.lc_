@@ -14,8 +14,8 @@ Voltage = 1.8;
 RCS = "$Header $";
 Parent = lc4k256e.lci;
 Design = ;
-DATE = 03/22/2021;
-TIME = 15:50:54;
+DATE = 12/28/2021;
+TIME = 18:09:25;
 Source_Format = Schematic_VHDL;
 Type = ;
 Pre_Fit_Time = ;
@@ -96,10 +96,59 @@ Adjust_input_assignments = Off;
 
 [LOCATION ASSIGNMENTS]
 // Block A
-IOselector=pin,131,-,A,4;
-FPGA=pin,132,-,A,7;
+scl=pin,130,-,A,2;
+sda=pin,131,-,A,7;
+// Block B
+I0_addr_reg_0_=node,-,-,B,2;
+I0_addr_reg_3_=node,-,-,B,5;
+I0_inst_sda_prev_reg=node,-,-,B,10;
+// Block C
+I0_addr_reg_1_=node,-,-,C,9;
+I0_addr_reg_5_=node,-,-,C,3;
+// Block E
+I0_state_reg_4_=node,-,-,E,1;
+I0_state_reg_3_=node,-,-,E,3;
+I0_inst_sda_wen_reg=node,-,-,E,10;
+I0_state_reg_5_=node,-,-,E,6;
 // Block F
-Adapter=pin,30,-,F,7;
+I0_state_reg_2_=node,-,-,F,10;
+I0_inst_continue_reg=node,-,-,F,3;
+I0_inst_cmd_reg=node,-,-,F,6;
+I0_bits_processed_reg_0__0=node,-,-,F,1;
+// Block H
+I0_state_reg_1_=node,-,-,H,7;
+// Block I
+y2=pin,63,-,I,1;
+y3=pin,62,-,I,0;
+y4=pin,61,-,I,9;
+y5=pin,60,-,I,7;
+y6=pin,59,-,I,5;
+y7=pin,58,-,I,3;
+I0_addr_reg_0__0=node,-,-,I,12;
+// Block J
+y0=pin,71,-,J,3;
+y1=pin,70,-,J,12;
+// Block K
+I0_bits_processed_reg_1_=node,-,-,K,9;
+I0_bits_processed_reg_2_=node,-,-,K,3;
+// Block L
+I0_bits_processed_reg_0_=node,-,-,L,5;
+I0_bits_processed_reg_3_=node,-,-,L,2;
+I0_state_reg_6_=node,-,-,L,10;
+// Block P
+IOselector=pin,123,-,P,6;
+Adapter=pin,125,-,P,2;
+FPGA=pin,124,-,P,4;
+I0_inst_sda_pre_internal=node,-,-,P,5;
+I0_inst_scl_pre_internal=node,-,-,P,6;
+I0_inst_scl_prev_reg=node,-,-,P,7;
+I0_inst_stop_reg=node,-,-,P,8;
+I0_inst_scl_rising_reg=node,-,-,P,9;
+I0_inst_scl_falling_reg=node,-,-,P,10;
+I0_addr_reg_2_=node,-,-,P,0;
+I0_addr_reg_4_=node,-,-,P,1;
+I0_addr_reg_6_=node,-,-,P,3;
+I0_inst_start_reg=node,-,-,P,12;
 [PTOE ASSIGNMENTS]
 
 [INPUT REGISTERS]
@@ -107,11 +156,25 @@ Default=NONE;
 ;
 
 [IO TYPES]
-IOselector=LVCMOS18,pin,-,-;
-Adapter=LVCMOS18,pin,0,-;
-FPGA=LVCMOS18,pin,0,-;
+scl=LVCMOS33,pin,-,-;
+IOselector=LVCMOS33,pin,-,-;
+sda=LVCMOS33_OD,pin,0,-;
+y0=LVCMOS33,pin,1,-;
+y1=LVCMOS33,pin,1,-;
+y2=LVCMOS33,pin,1,-;
+y3=LVCMOS33,pin,1,-;
+y4=LVCMOS33,pin,1,-;
+y5=LVCMOS33,pin,1,-;
+y6=LVCMOS33,pin,1,-;
+Adapter=LVCMOS33,pin,1,-;
+FPGA=LVCMOS33,pin,1,-;
+y7=LVCMOS33,pin,1,-;
 
 [PLL ASSIGNMENTS]
+
+[OSCTIMER ASSIGNMENTS]
+layer = OFF;
+OSCTIMER = DYNOSCDIS, TIMERRES, OSCOUT, TIMEROUT, 1048576;
 
 [RESOURCE RESERVATIONS]
 layer=OFF;
@@ -120,19 +183,21 @@ layer=OFF;
 Default=FAST;
 
 [PULLUP]
+OFF=sda,scl;
+UP=y1,y3,y5,y7,y0,y2,y4,y6,FPGA;
 Default=DOWN;
 
 [FITTER RESULTS]
-I/O_pin_util = 3;
-I/O_pin = 3;
-Logic_PT_util = 0;
-Logic_PT = 2;
-Occupied_MC_util = 0;
-Occupied_MC = 2;
-Occupied_PT_util = 0;
-Occupied_PT = 4;
-GLB_input_util = 0;
-GLB_input = 4;
+I/O_pin_util = 11;
+I/O_pin = 11;
+Logic_PT_util = 8;
+Logic_PT = 104;
+Occupied_MC_util = 16;
+Occupied_MC = 43;
+Occupied_PT_util = 11;
+Occupied_PT = 154;
+GLB_input_util = 18;
+GLB_input = 106;
 
 [TIMING CONSTRAINTS]
 layer=OFF;

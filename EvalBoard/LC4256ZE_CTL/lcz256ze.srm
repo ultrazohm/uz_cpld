@@ -1,0 +1,64 @@
+%%% protect protected_file
+f "noname"; #file 0
+f "c:\isplever_classic1_4\ispcpld\..\cae_library\synthesis\verilog\mach.v"; #file 1
+af  .is_verilog 1;
+f "d:\mike\noe\lscc2\b2\design\lc4256ze.h"; #file 2
+af  .is_verilog 1;
+f "d:\mike\noe\lscc2\b2\design\lc4256ze.v"; #file 3
+af  .is_verilog 1;
+VNAME 'ispmach4s.OBUF.prim'; # view id 0
+VNAME 'work.lcz256ze.verilog'; # view id 1
+@ERMRHl#bNcOE#ARmzbwRs;Hl
+RNP3bH#sRHl4F;
+R
+m;N3HRHN#b8;R4
+QHRjb;
+R:fjjkRLVRRmmjRQ;R
+bfjj:Rk0sCsR0k0CRs;kC
+fbRjR:jV#NDCNRVDR#CV#NDC@;
+ 
+
+
+
+ftell;
+@E@MR@dd::dU::R46RsIF	ORDxn.6xPCRCDsHF
+o;N3PRDCHMM.FR4N;
+PHR3#sPCHoDFR
+4;N3PRHP#_CDsHF4oR;P
+NRs3FHNohl"CRD.Ox6Cnx"N;
+PVR3D_FI#00NC
+R{N3PRVIDF_FbsbN#_bHbDC48R;P
+NRD3VFDI_F#Fb_FLs	RCMjN;
+PVR3D_FIbCNsMH0_bN#_#o#HMRC8jN;
+PVR3D_FIkJMHkHHVC48R;;
+}
+RNP3#FLF8b0FRMC4F;
+Rd@@:4c:6::c4D(:C(8r:Rj9DrC8(9:jR8DCrj(:9N;
+HsR30FD_sMHoNRlC"8DC"N;
+HCR38NHVs$sNMCNlRC'D8
+';b@R@4::44::4.:+40CskR:fjjsR0k0CRsRkCe;BB
+@bR@44::44::4.+:DVN#fCRjR:jV#NDCNRVDR#Ct;h7
+fsRjR:jHl#bNcOE#ARmzbwRsRHlDrC8jS9
+mC=D89rj
+jSQ=7th;R
+sfjj:RbH#lENOcm#RARzwblsHR8DCr
+49SDm=C48r9Q
+SjB=eBs;
+R:fjj#RHbOlNERc#mwAzRHbslCRD89r.
+=SmDrC8.S9
+Qtj=h
+7;sjRf:HjR#NblO#EcRzmAwsRbHDlRCd8r9m
+S=8DCr
+d9S=Qje;BB
+fsRjR:jHl#bNcOE#ARmzbwRsRHlDrC8cS9
+mC=D89rc
+jSQ=7th;R
+sfjj:RbH#lENOcm#RARzwblsHR8DCr
+69SDm=C68r9Q
+SjB=eBs;
+R:fjj#RHbOlNERc#mwAzRHbslCRD89rn
+=SmDrC8nS9
+Qtj=h
+7;sjRf:HjR#NblO#EcRzmAwsRbHDlRC(8r9m
+S=8DCr
+(9S=Qje;BB

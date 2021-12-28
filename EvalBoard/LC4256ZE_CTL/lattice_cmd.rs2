@@ -1,0 +1,1 @@
+-nodal -src lc4256ze.bl5 -type BLIF -presrc lc4256ze.bl3 -crf lc4256ze.crf -sif lc4256ze.sif -devfile "C:/ispLEVER_Classic2_1/ispcpld/dat/lc4k/m4e_256_96.dev" -lci lc4256ze.lct

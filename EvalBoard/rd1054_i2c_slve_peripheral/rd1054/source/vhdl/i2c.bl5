@@ -1,0 +1,431 @@
+#$ TOOL  ispLEVER Classic 2.1.00.02.49.20
+#$ DATE  Tue Dec 28 14:15:51 2021
+#$ MODULE  i2c_slave
+#$ PINS 26 data_in_7_ XRESET ready scl_in scl_oe sda_in sda_oe data_in_6_
+ data_in_5_ data_in_4_ data_in_3_ data_in_2_ data_in_1_ data_in_0_ data_out_7_
+ start stop r_w data_vld data_out_6_ data_out_5_ data_out_4_ data_out_3_
+ data_out_2_ data_out_1_ data_out_0_
+#$ NODES 33 shift_0_ inst_sda_f sm_state_0_ shift_6_ start_async_rst
+ sm_state_16_ sda_clk sm_state_9_ sm_state_8_ inst_ack_out inst_sda_en
+ sm_state_10_ sm_state_17_ sm_state_1_ sm_state_15_ sm_state_14_ sm_state_13_
+ sm_state_12_ sm_state_11_ sm_state_7_ sm_state_6_ sm_state_5_ sm_state_4_
+ sm_state_3_ sm_state_2_ shift_1_ shift_2_ shift_3_ shift_4_ shift_5_ shift_7_
+ stop_0 shift_0__0
+.model i2c_slave 
+.inputs data_in_7_.BLIF XRESET.BLIF ready.BLIF scl_in.BLIF sda_in.BLIF \
+ data_in_6_.BLIF data_in_5_.BLIF data_in_4_.BLIF data_in_3_.BLIF data_in_2_.BLIF \
+ data_in_1_.BLIF data_in_0_.BLIF start.Q stop.Q r_w.Q data_vld.Q shift_0_.Q \
+ inst_sda_f.Q sm_state_0_.Q shift_6_.Q start_async_rst.BLIF sm_state_16_.Q \
+ sda_clk.BLIF sm_state_9_.Q sm_state_8_.Q inst_ack_out.Q inst_sda_en.Q \
+ sm_state_10_.Q sm_state_17_.Q sm_state_1_.Q sm_state_15_.Q sm_state_14_.Q \
+ sm_state_13_.Q sm_state_12_.Q sm_state_11_.Q sm_state_7_.Q sm_state_6_.Q \
+ sm_state_5_.Q sm_state_4_.Q sm_state_3_.Q sm_state_2_.Q shift_1_.Q shift_2_.Q \
+ shift_3_.Q shift_4_.Q shift_5_.Q shift_7_.Q stop_0.BLIF shift_0__0.BLIF
+.outputs scl_oe sda_oe- data_out_7_.D data_out_7_.C data_out_7_.CE \
+ data_out_7_.AR start.D start.C start.AR stop.D stop.C stop.AR r_w.D r_w.C r_w.AP \
+ data_vld.D data_vld.C data_vld.CE- data_vld.AR data_out_6_.D data_out_6_.C \
+ data_out_6_.CE data_out_6_.AR data_out_5_.D data_out_5_.C data_out_5_.CE \
+ data_out_5_.AR data_out_4_.D data_out_4_.C data_out_4_.CE data_out_4_.AR \
+ data_out_3_.D data_out_3_.C data_out_3_.CE data_out_3_.AR data_out_2_.D \
+ data_out_2_.C data_out_2_.CE data_out_2_.AR data_out_1_.D data_out_1_.C \
+ data_out_1_.CE data_out_1_.AR data_out_0_.D data_out_0_.C data_out_0_.CE \
+ data_out_0_.AR shift_0_.D shift_0_.C shift_0_.CE- shift_0_.AR inst_sda_f.D \
+ inst_sda_f.C inst_sda_f.AR inst_sda_f.AP sm_state_0_.D sm_state_0_.C \
+ sm_state_0_.AR shift_6_.D.X1 shift_6_.D.X2 shift_6_.C shift_6_.CE- shift_6_.AR \
+ start_async_rst- sm_state_16_.D sm_state_16_.C sm_state_16_.AR sda_clk \
+ sm_state_9_.D sm_state_9_.C sm_state_9_.AR sm_state_8_.D sm_state_8_.C \
+ sm_state_8_.AR inst_ack_out.D inst_ack_out.C inst_ack_out.AR inst_sda_en.D- \
+ inst_sda_en.C inst_sda_en.AR sm_state_10_.D sm_state_10_.C sm_state_10_.AR \
+ sm_state_17_.D sm_state_17_.C sm_state_17_.AP sm_state_1_.D sm_state_1_.C \
+ sm_state_1_.AR sm_state_15_.D sm_state_15_.C sm_state_15_.AR sm_state_14_.D \
+ sm_state_14_.C sm_state_14_.AR sm_state_13_.D sm_state_13_.C sm_state_13_.AR \
+ sm_state_12_.D sm_state_12_.C sm_state_12_.AR sm_state_11_.D sm_state_11_.C \
+ sm_state_11_.AR sm_state_7_.D sm_state_7_.C sm_state_7_.AR sm_state_6_.D \
+ sm_state_6_.C sm_state_6_.AR sm_state_5_.D sm_state_5_.C sm_state_5_.AR \
+ sm_state_4_.D sm_state_4_.C sm_state_4_.AR sm_state_3_.D sm_state_3_.C \
+ sm_state_3_.AR sm_state_2_.D sm_state_2_.C sm_state_2_.AR shift_1_.D.X1 \
+ shift_1_.D.X2 shift_1_.C shift_1_.CE- shift_1_.AR shift_2_.D.X1 shift_2_.D.X2 \
+ shift_2_.C shift_2_.CE- shift_2_.AR shift_3_.D.X1 shift_3_.D.X2 shift_3_.C \
+ shift_3_.CE- shift_3_.AR shift_4_.D.X1 shift_4_.D.X2 shift_4_.C shift_4_.CE- \
+ shift_4_.AR shift_5_.D.X1 shift_5_.D.X2 shift_5_.C shift_5_.CE- shift_5_.AR \
+ shift_7_.D.X1 shift_7_.D.X2 shift_7_.C shift_7_.CE- shift_7_.AR stop_0- \
+ shift_0__0
+.names ready.BLIF sm_state_8_.Q scl_oe
+01 1
+.names inst_ack_out.Q inst_sda_en.Q sda_oe-
+00 1
+.names shift_7_.Q data_out_7_.D
+1 1
+.names scl_in.BLIF data_out_7_.C
+1 1
+.names r_w.Q data_vld.Q inst_ack_out.Q data_out_7_.CE
+011 1
+.names XRESET.BLIF data_out_7_.AR
+1 1
+.names scl_in.BLIF start.D
+1 1
+.names inst_sda_f.Q start.C
+0 1
+.names start_async_rst.BLIF start.AR
+1 1
+.names scl_in.BLIF stop.D
+1 1
+.names sda_in.BLIF stop.C
+1 1
+.names stop_0.BLIF stop.AR
+1 1
+.names sda_in.BLIF r_w.Q shift_0_.Q sm_state_10_.Q r_w.D
+1-01 1
+-11- 1
+-1-0 1
+.names scl_in.BLIF r_w.C
+1 1
+.names XRESET.BLIF r_w.AP
+1 1
+.names sm_state_1_.Q data_vld.D
+1 1
+.names scl_in.BLIF data_vld.C
+1 1
+.names sm_state_0_.Q sm_state_8_.Q sm_state_17_.Q sm_state_1_.Q data_vld.CE-
+0000 1
+.names XRESET.BLIF data_vld.AR
+1 1
+.names shift_6_.Q data_out_6_.D
+1 1
+.names scl_in.BLIF data_out_6_.C
+1 1
+.names r_w.Q data_vld.Q inst_ack_out.Q data_out_6_.CE
+011 1
+.names XRESET.BLIF data_out_6_.AR
+1 1
+.names shift_5_.Q data_out_5_.D
+1 1
+.names scl_in.BLIF data_out_5_.C
+1 1
+.names r_w.Q data_vld.Q inst_ack_out.Q data_out_5_.CE
+011 1
+.names XRESET.BLIF data_out_5_.AR
+1 1
+.names shift_4_.Q data_out_4_.D
+1 1
+.names scl_in.BLIF data_out_4_.C
+1 1
+.names r_w.Q data_vld.Q inst_ack_out.Q data_out_4_.CE
+011 1
+.names XRESET.BLIF data_out_4_.AR
+1 1
+.names shift_3_.Q data_out_3_.D
+1 1
+.names scl_in.BLIF data_out_3_.C
+1 1
+.names r_w.Q data_vld.Q inst_ack_out.Q data_out_3_.CE
+011 1
+.names XRESET.BLIF data_out_3_.AR
+1 1
+.names shift_2_.Q data_out_2_.D
+1 1
+.names scl_in.BLIF data_out_2_.C
+1 1
+.names r_w.Q data_vld.Q inst_ack_out.Q data_out_2_.CE
+011 1
+.names XRESET.BLIF data_out_2_.AR
+1 1
+.names shift_1_.Q data_out_1_.D
+1 1
+.names scl_in.BLIF data_out_1_.C
+1 1
+.names r_w.Q data_vld.Q inst_ack_out.Q data_out_1_.CE
+011 1
+.names XRESET.BLIF data_out_1_.AR
+1 1
+.names shift_0_.Q data_out_0_.D
+1 1
+.names scl_in.BLIF data_out_0_.C
+1 1
+.names r_w.Q data_vld.Q inst_ack_out.Q data_out_0_.CE
+011 1
+.names XRESET.BLIF data_out_0_.AR
+1 1
+.names sda_in.BLIF data_in_0_.BLIF sm_state_8_.Q shift_0_.D
+1-0 1
+-11 1
+.names scl_in.BLIF shift_0_.C
+0 1
+.names shift_0__0.BLIF shift_0_.CE-
+1 1
+.names XRESET.BLIF shift_0_.AR
+1 1
+.names sda_in.BLIF inst_sda_f.D
+1 1
+.names sda_clk.BLIF inst_sda_f.C
+1 1
+.names sda_in.BLIF start_async_rst.BLIF inst_sda_f.AR
+01 1
+.names sda_in.BLIF start_async_rst.BLIF inst_sda_f.AP
+11 1
+.names sm_state_1_.Q sm_state_0_.D
+1 1
+.names scl_in.BLIF sm_state_0_.C
+1 1
+.names XRESET.BLIF sm_state_0_.AR
+1 1
+.names data_in_6_.BLIF sm_state_0_.Q shift_6_.Q sm_state_9_.Q sm_state_8_.Q sm_state_10_.Q sm_state_1_.Q sm_state_15_.Q sm_state_14_.Q sm_state_13_.Q sm_state_12_.Q sm_state_11_.Q sm_state_7_.Q sm_state_6_.Q sm_state_5_.Q sm_state_4_.Q sm_state_3_.Q sm_state_2_.Q shift_5_.Q shift_6_.D.X1
+-0100-0-----0000000 1
+-01-000000000000000 1
+10--100000000000000 1
+--000-0-----0000001 1
+--0-000000000000001 1
+0---100000000000001 1
+-1----------------1 1
+.names sm_state_0_.Q shift_5_.Q shift_6_.D.X2
+01 1
+.names scl_in.BLIF shift_6_.C
+0 1
+.names shift_0__0.BLIF shift_6_.CE-
+1 1
+.names XRESET.BLIF shift_6_.AR
+1 1
+.names XRESET.BLIF sm_state_16_.Q start_async_rst-
+00 1
+.names start.Q stop.Q sm_state_17_.Q sm_state_7_.Q sm_state_16_.D
+1-1- 1
+10-1 1
+.names scl_in.BLIF sm_state_16_.C
+1 1
+.names XRESET.BLIF sm_state_16_.AR
+1 1
+.names sda_in.BLIF inst_sda_f.Q sda_clk
+10 1
+01 1
+.names shift_0_.Q sm_state_10_.Q sm_state_9_.D
+01 1
+.names scl_in.BLIF sm_state_9_.C
+1 1
+.names XRESET.BLIF sm_state_9_.AR
+1 1
+.names sda_in.BLIF sm_state_0_.Q sm_state_9_.Q sm_state_8_.D
+01- 1
+--1 1
+.names scl_in.BLIF sm_state_8_.C
+1 1
+.names XRESET.BLIF sm_state_8_.AR
+1 1
+.names r_w.Q sm_state_0_.Q sm_state_9_.Q inst_ack_out.D
+01- 1
+--1 1
+.names scl_in.BLIF inst_ack_out.C
+0 1
+.names XRESET.BLIF inst_ack_out.AR
+1 1
+.names data_in_7_.BLIF r_w.Q sm_state_0_.Q shift_6_.Q sm_state_9_.Q sm_state_8_.Q sm_state_10_.Q sm_state_1_.Q sm_state_15_.Q sm_state_14_.Q sm_state_13_.Q sm_state_12_.Q sm_state_11_.Q sm_state_7_.Q sm_state_6_.Q sm_state_5_.Q sm_state_4_.Q sm_state_3_.Q sm_state_2_.Q inst_sda_en.D-
+1-----0000000000000 1
+-----00000000000000 1
+----00-0-----000000 1
+1--1--------------- 1
+1-1---------------- 1
+---1-0------------- 1
+--1--0------------- 1
+-0----------------- 1
+.names scl_in.BLIF inst_sda_en.C
+0 1
+.names XRESET.BLIF inst_sda_en.AR
+1 1
+.names shift_0_.Q sm_state_11_.Q sm_state_10_.D
+11 1
+.names scl_in.BLIF sm_state_10_.C
+1 1
+.names XRESET.BLIF sm_state_10_.AR
+1 1
+.names ready.BLIF sda_in.BLIF start.Q stop.Q shift_0_.Q sm_state_0_.Q sm_state_16_.Q sm_state_8_.Q sm_state_10_.Q sm_state_17_.Q sm_state_15_.Q sm_state_14_.Q sm_state_13_.Q sm_state_12_.Q sm_state_11_.Q sm_state_7_.Q sm_state_17_.D
+--0------1------ 1
+0------1-------- 1
+-1---1---------- 1
+----0---------1- 1
+----0------1---- 1
+----0-1--------- 1
+----1--------1-- 1
+----1-------1--- 1
+----1-----1----- 1
+----1---1------- 1
+---1-----------1 1
+.names scl_in.BLIF sm_state_17_.C
+1 1
+.names XRESET.BLIF sm_state_17_.AP
+1 1
+.names sm_state_2_.Q sm_state_1_.D
+1 1
+.names scl_in.BLIF sm_state_1_.C
+1 1
+.names XRESET.BLIF sm_state_1_.AR
+1 1
+.names shift_0_.Q sm_state_16_.Q sm_state_15_.D
+11 1
+.names scl_in.BLIF sm_state_15_.C
+1 1
+.names XRESET.BLIF sm_state_15_.AR
+1 1
+.names shift_0_.Q sm_state_15_.Q sm_state_14_.D
+01 1
+.names scl_in.BLIF sm_state_14_.C
+1 1
+.names XRESET.BLIF sm_state_14_.AR
+1 1
+.names shift_0_.Q sm_state_14_.Q sm_state_13_.D
+11 1
+.names scl_in.BLIF sm_state_13_.C
+1 1
+.names XRESET.BLIF sm_state_13_.AR
+1 1
+.names shift_0_.Q sm_state_13_.Q sm_state_12_.D
+01 1
+.names scl_in.BLIF sm_state_12_.C
+1 1
+.names XRESET.BLIF sm_state_12_.AR
+1 1
+.names shift_0_.Q sm_state_12_.Q sm_state_11_.D
+01 1
+.names scl_in.BLIF sm_state_11_.C
+1 1
+.names XRESET.BLIF sm_state_11_.AR
+1 1
+.names ready.BLIF sm_state_8_.Q sm_state_7_.D
+11 1
+.names scl_in.BLIF sm_state_7_.C
+1 1
+.names XRESET.BLIF sm_state_7_.AR
+1 1
+.names start.Q stop.Q sm_state_7_.Q sm_state_6_.D
+001 1
+.names scl_in.BLIF sm_state_6_.C
+1 1
+.names XRESET.BLIF sm_state_6_.AR
+1 1
+.names sm_state_6_.Q sm_state_5_.D
+1 1
+.names scl_in.BLIF sm_state_5_.C
+1 1
+.names XRESET.BLIF sm_state_5_.AR
+1 1
+.names sm_state_5_.Q sm_state_4_.D
+1 1
+.names scl_in.BLIF sm_state_4_.C
+1 1
+.names XRESET.BLIF sm_state_4_.AR
+1 1
+.names sm_state_4_.Q sm_state_3_.D
+1 1
+.names scl_in.BLIF sm_state_3_.C
+1 1
+.names XRESET.BLIF sm_state_3_.AR
+1 1
+.names sm_state_3_.Q sm_state_2_.D
+1 1
+.names scl_in.BLIF sm_state_2_.C
+1 1
+.names XRESET.BLIF sm_state_2_.AR
+1 1
+.names data_in_1_.BLIF shift_0_.Q sm_state_0_.Q sm_state_9_.Q sm_state_8_.Q sm_state_10_.Q sm_state_1_.Q sm_state_15_.Q sm_state_14_.Q sm_state_13_.Q sm_state_12_.Q sm_state_11_.Q sm_state_7_.Q sm_state_6_.Q sm_state_5_.Q sm_state_4_.Q sm_state_3_.Q sm_state_2_.Q shift_1_.Q shift_1_.D.X1
+-0000-0-----0000001 1
+-00-000000000000001 1
+100-10000000000000- 1
+-1-00-0-----0000000 1
+-1--000000000000000 1
+01--10000000000000- 1
+-11---------------- 1
+.names shift_0_.Q sm_state_0_.Q shift_1_.D.X2
+10 1
+.names scl_in.BLIF shift_1_.C
+0 1
+.names shift_0__0.BLIF shift_1_.CE-
+1 1
+.names XRESET.BLIF shift_1_.AR
+1 1
+.names data_in_2_.BLIF sm_state_0_.Q sm_state_9_.Q sm_state_8_.Q sm_state_10_.Q sm_state_1_.Q sm_state_15_.Q sm_state_14_.Q sm_state_13_.Q sm_state_12_.Q sm_state_11_.Q sm_state_7_.Q sm_state_6_.Q sm_state_5_.Q sm_state_4_.Q sm_state_3_.Q sm_state_2_.Q shift_1_.Q shift_2_.Q shift_2_.D.X1
+-000-0-----00000001 1
+-0-0000000000000001 1
+10-100000000000000- 1
+--00-0-----00000010 1
+---0000000000000010 1
+0--100000000000001- 1
+-1---------------1- 1
+.names sm_state_0_.Q shift_1_.Q shift_2_.D.X2
+01 1
+.names scl_in.BLIF shift_2_.C
+0 1
+.names shift_0__0.BLIF shift_2_.CE-
+1 1
+.names XRESET.BLIF shift_2_.AR
+1 1
+.names data_in_3_.BLIF sm_state_0_.Q sm_state_9_.Q sm_state_8_.Q sm_state_10_.Q sm_state_1_.Q sm_state_15_.Q sm_state_14_.Q sm_state_13_.Q sm_state_12_.Q sm_state_11_.Q sm_state_7_.Q sm_state_6_.Q sm_state_5_.Q sm_state_4_.Q sm_state_3_.Q sm_state_2_.Q shift_2_.Q shift_3_.Q shift_3_.D.X1
+-000-0-----00000001 1
+-0-0000000000000001 1
+10-100000000000000- 1
+--00-0-----00000010 1
+---0000000000000010 1
+0--100000000000001- 1
+-1---------------1- 1
+.names sm_state_0_.Q shift_2_.Q shift_3_.D.X2
+01 1
+.names scl_in.BLIF shift_3_.C
+0 1
+.names shift_0__0.BLIF shift_3_.CE-
+1 1
+.names XRESET.BLIF shift_3_.AR
+1 1
+.names data_in_4_.BLIF sm_state_0_.Q sm_state_9_.Q sm_state_8_.Q sm_state_10_.Q sm_state_1_.Q sm_state_15_.Q sm_state_14_.Q sm_state_13_.Q sm_state_12_.Q sm_state_11_.Q sm_state_7_.Q sm_state_6_.Q sm_state_5_.Q sm_state_4_.Q sm_state_3_.Q sm_state_2_.Q shift_3_.Q shift_4_.Q shift_4_.D.X1
+-000-0-----00000001 1
+-0-0000000000000001 1
+10-100000000000000- 1
+--00-0-----00000010 1
+---0000000000000010 1
+0--100000000000001- 1
+-1---------------1- 1
+.names sm_state_0_.Q shift_3_.Q shift_4_.D.X2
+01 1
+.names scl_in.BLIF shift_4_.C
+0 1
+.names shift_0__0.BLIF shift_4_.CE-
+1 1
+.names XRESET.BLIF shift_4_.AR
+1 1
+.names data_in_5_.BLIF sm_state_0_.Q sm_state_9_.Q sm_state_8_.Q sm_state_10_.Q sm_state_1_.Q sm_state_15_.Q sm_state_14_.Q sm_state_13_.Q sm_state_12_.Q sm_state_11_.Q sm_state_7_.Q sm_state_6_.Q sm_state_5_.Q sm_state_4_.Q sm_state_3_.Q sm_state_2_.Q shift_4_.Q shift_5_.Q shift_5_.D.X1
+-000-0-----00000001 1
+-0-0000000000000001 1
+10-100000000000000- 1
+--00-0-----00000010 1
+---0000000000000010 1
+0--100000000000001- 1
+-1---------------1- 1
+.names sm_state_0_.Q shift_4_.Q shift_5_.D.X2
+01 1
+.names scl_in.BLIF shift_5_.C
+0 1
+.names shift_0__0.BLIF shift_5_.CE-
+1 1
+.names XRESET.BLIF shift_5_.AR
+1 1
+.names data_in_7_.BLIF sm_state_0_.Q shift_6_.Q sm_state_9_.Q sm_state_8_.Q sm_state_10_.Q sm_state_1_.Q sm_state_15_.Q sm_state_14_.Q sm_state_13_.Q sm_state_12_.Q sm_state_11_.Q sm_state_7_.Q sm_state_6_.Q sm_state_5_.Q sm_state_4_.Q sm_state_3_.Q sm_state_2_.Q shift_7_.Q shift_7_.D.X1
+-0000-0-----0000001 1
+-00-000000000000001 1
+100-10000000000000- 1
+--100-0-----0000000 1
+--1-000000000000000 1
+0-1-10000000000000- 1
+-11---------------- 1
+.names sm_state_0_.Q shift_6_.Q shift_7_.D.X2
+01 1
+.names scl_in.BLIF shift_7_.C
+0 1
+.names shift_0__0.BLIF shift_7_.CE-
+1 1
+.names XRESET.BLIF shift_7_.AR
+1 1
+.names XRESET.BLIF start.Q stop_0-
+00 1
+.names start.Q r_w.Q sm_state_0_.Q sm_state_9_.Q sm_state_8_.Q sm_state_10_.Q sm_state_17_.Q sm_state_1_.Q sm_state_15_.Q sm_state_14_.Q sm_state_13_.Q sm_state_12_.Q sm_state_11_.Q sm_state_7_.Q sm_state_6_.Q sm_state_5_.Q sm_state_4_.Q sm_state_3_.Q sm_state_2_.Q shift_0__0
+0-000-10-----000000 1
+--01000000000000000 1
+-00-100000000000000 1
+000--01000000000000 1
+0-0-001000000000000 1
+.end

@@ -1,0 +1,23 @@
+#Build: Synplify Pro for Lattice D-2009.12LC-1, Build 040R, Jan 20 2010
+#install: C:\ISPLEVER_CLASSIC1_4\synpbase
+#OS: Windows_NT
+
+#Hostname: APEXONE-MOU
+
+$ Start of Compile
+#Fri Oct 29 18:39:00 2010
+
+Synopsys Verilog Compiler, version comp500rc, Build 070R, built Apr 20 2010
+Copyright (C) 1994-2010, Synopsys Inc.  All Rights Reserved
+
+@I::"C:\ispLEVER_Classic1_4\ispcpld\..\cae_library\synthesis\verilog\mach.v"
+@I::"D:\mike\noe\lscc2\b2\design\lc4256ze.h"
+@I::"D:\mike\noe\lscc2\b2\design\lc4256ze.v"
+@E: CG285 :"D:\mike\noe\lscc2\b2\design\lc4256ze.v":23:31:23:31|Expecting statement
+@E: CS187 :"D:\mike\noe\lscc2\b2\design\lc4256ze.v":29:0:29:8|Expecting endmodule
+2 syntax errors
+@END
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Fri Oct 29 18:39:01 2010
+
+###########################################################]

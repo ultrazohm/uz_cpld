@@ -1,0 +1,1 @@
+project -fileorder "C:/git/ultrazohm/software/cpld_lattice/evalboard/i2c_test/source.vhd" 

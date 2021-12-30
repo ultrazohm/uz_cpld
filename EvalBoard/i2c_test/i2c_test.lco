@@ -14,8 +14,8 @@ Voltage = 1.8;
 RCS = "$Header $";
 Parent = lc4k256e.lci;
 Design = ;
-DATE = 12/28/2021;
-TIME = 18:09:25;
+DATE = 12/30/2021;
+TIME = 21:06:02;
 Source_Format = Schematic_VHDL;
 Type = ;
 Pre_Fit_Time = ;
@@ -97,54 +97,65 @@ Adjust_input_assignments = Off;
 [LOCATION ASSIGNMENTS]
 // Block A
 scl=pin,130,-,A,2;
-sda=pin,131,-,A,6;
-I0_inst_scl_pre_internal=node,-,-,A,10;
-I0_state_reg_5_=node,-,-,A,3;
-I0_bits_processed_reg_0__0=node,-,-,A,1;
-// Block B
-I0_state_reg_4_=node,-,-,B,2;
-I0_state_reg_3_=node,-,-,B,5;
-I0_inst_sda_wen_reg=node,-,-,B,10;
+sda=pin,131,-,A,5;
+bs_MSB=pin,133,-,A,11;
+bs_LSB=pin,132,-,A,7;
+I0_byte_step_1_=node,-,-,A,1;
 // Block C
-y0_0=node,-,-,C,9;
-I0_data_reg_0__0=node,-,-,C,3;
+I0_bits_processed_reg_0_=node,-,-,C,0;
+I0_inst_scl_pre_internal=node,-,-,C,2;
+I0_inst_scl_prev_reg=node,-,-,C,3;
+I0_inst_stop_reg=node,-,-,C,5;
+I0_inst_scl_rising_reg=node,-,-,C,7;
+I0_state_reg_6_=node,-,-,C,1;
+I0_inst_scl_falling_reg=node,-,-,C,9;
+I0_inst_start_reg=node,-,-,C,12;
+// Block D
+I0_bits_processed_reg_3_=node,-,-,D,1;
+I0_state_reg_2_=node,-,-,D,7;
+I0_inst_continue_reg=node,-,-,D,3;
+I0_state_reg_1_=node,-,-,D,11;
+I0_inst_cmd_reg=node,-,-,D,5;
 // Block E
-I0_bits_processed_reg_1_=node,-,-,E,1;
-I0_bits_processed_reg_2_=node,-,-,E,0;
-I0_inst_scl_prev_reg=node,-,-,E,3;
-I0_inst_stop_reg=node,-,-,E,5;
-I0_inst_scl_rising_reg=node,-,-,E,7;
-I0_inst_scl_falling_reg=node,-,-,E,9;
-I0_inst_start_reg=node,-,-,E,12;
+I0_state_reg_4_=node,-,-,E,5;
+I0_state_reg_3_=node,-,-,E,2;
+I0_inst_sda_wen_reg=node,-,-,E,10;
 // Block F
-I0_inst_sda_prev_reg=node,-,-,F,12;
-I0_state_reg_6_=node,-,-,F,1;
-I0_inst_continue_reg=node,-,-,F,7;
-I0_state_reg_1_=node,-,-,F,3;
-I0_inst_cmd_reg=node,-,-,F,9;
-I0_addr_reg_0__0=node,-,-,F,5;
+I0_bits_processed_reg_1_=node,-,-,F,9;
+I0_bits_processed_reg_2_=node,-,-,F,3;
 // Block G
-I0_bits_processed_reg_0_=node,-,-,G,5;
-I0_bits_processed_reg_3_=node,-,-,G,2;
-I0_state_reg_2_=node,-,-,G,10;
+I0_bits_processed_reg_0__0=node,-,-,G,3;
+I0_data_from_master_reg_0__0=node,-,-,G,9;
+// Block H
+I0_addr_reg_0__0=node,-,-,H,3;
+I0_data_reg_0__0=node,-,-,H,9;
 // Block I
 y2=pin,63,-,I,1;
 y3=pin,62,-,I,0;
-y4=pin,61,-,I,9;
-y5=pin,60,-,I,7;
+y4=pin,61,-,I,8;
+y5=pin,60,-,I,6;
 y6=pin,59,-,I,4;
 y7=pin,58,-,I,2;
-I0_data_reg_1_=node,-,-,I,5;
-I0_data_reg_3_=node,-,-,I,12;
-I0_data_reg_4_=node,-,-,I,3;
+I0_inst_sda_prev_reg=node,-,-,I,12;
+I0_data_reg_2_=node,-,-,I,3;
+I0_data_reg_3_=node,-,-,I,5;
+I0_data_from_master_reg_3_=node,-,-,I,7;
+I0_data_from_master_reg_4_=node,-,-,I,9;
 // Block J
-y0=pin,71,-,J,3;
-y1=pin,70,-,J,1;
-I0_data_reg_0_=node,-,-,J,10;
-I0_data_reg_5_=node,-,-,J,6;
+y0=pin,71,-,J,1;
+y1=pin,70,-,J,0;
+I0_data_reg_0_=node,-,-,J,4;
+I0_data_reg_4_=node,-,-,J,2;
+I0_data_reg_6_=node,-,-,J,3;
+I0_data_from_master_reg_0_=node,-,-,J,5;
+I0_data_from_master_reg_1_=node,-,-,J,7;
+I0_data_from_master_reg_5_=node,-,-,J,9;
+I0_data_from_master_reg_7_=node,-,-,J,12;
 // Block K
-I0_data_reg_2_=node,-,-,K,3;
-I0_data_reg_6_=node,-,-,K,9;
+I0_data_reg_1_=node,-,-,K,3;
+I0_data_reg_5_=node,-,-,K,1;
+I0_data_from_master_reg_2_=node,-,-,K,6;
+I0_data_from_master_reg_6_=node,-,-,K,10;
 // Block M
 I0_inst_sda_pre_internal=node,-,-,M,10;
 I0_addr_reg_5_=node,-,-,M,2;
@@ -153,13 +164,14 @@ I0_addr_reg_2_=node,-,-,M,5;
 I0_addr_reg_1_=node,-,-,N,9;
 I0_addr_reg_4_=node,-,-,N,3;
 // Block O
-I0_addr_reg_3_=node,-,-,O,9;
-I0_addr_reg_6_=node,-,-,O,3;
+I0_byte_step_0_=node,-,-,O,10;
+I0_addr_reg_3_=node,-,-,O,2;
+I0_state_reg_5_=node,-,-,O,5;
 // Block P
-IOselector=pin,123,-,P,6;
-Adapter=pin,125,-,P,2;
-FPGA=pin,124,-,P,5;
+Adapter=pin,125,-,P,3;
+FPGA=pin,124,-,P,6;
 I0_addr_reg_0_=node,-,-,P,10;
+I0_addr_reg_6_=node,-,-,P,1;
 [PTOE ASSIGNMENTS]
 
 [INPUT REGISTERS]
@@ -168,10 +180,11 @@ Default=NONE;
 
 [IO TYPES]
 scl=LVCMOS33,pin,-,-;
-IOselector=LVCMOS33,pin,-,-;
 sda=LVCMOS33_OD,pin,0,-;
 Adapter=LVCMOS33,pin,1,-;
 FPGA=LVCMOS33,pin,1,-;
+bs_MSB=LVCMOS33,pin,0,-;
+bs_LSB=LVCMOS33,pin,0,-;
 y0=LVCMOS33,pin,1,-;
 y1=LVCMOS33,pin,1,-;
 y2=LVCMOS33,pin,1,-;
@@ -194,21 +207,22 @@ layer=OFF;
 Default=FAST;
 
 [PULLUP]
+DOWN=FPGA,Adapter;
 OFF=sda,scl;
-UP=y1,y3,y5,y7,y0,y2,y4,y6,FPGA;
+UP=y1,y3,y5,y7,y0,y2,y4,y6,bs_LSB,bs_MSB;
 Default=DOWN;
 
 [FITTER RESULTS]
-I/O_pin_util = 11;
-I/O_pin = 11;
-Logic_PT_util = 11;
-Logic_PT = 149;
-Occupied_MC_util = 20;
-Occupied_MC = 52;
-Occupied_PT_util = 16;
-Occupied_PT = 211;
-GLB_input_util = 24;
-GLB_input = 143;
+I/O_pin_util = 12;
+I/O_pin = 12;
+Logic_PT_util = 13;
+Logic_PT = 172;
+Occupied_MC_util = 25;
+Occupied_MC = 64;
+Occupied_PT_util = 18;
+Occupied_PT = 239;
+GLB_input_util = 30;
+GLB_input = 176;
 
 [TIMING CONSTRAINTS]
 layer=OFF;

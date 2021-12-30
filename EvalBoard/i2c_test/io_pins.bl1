@@ -1,45 +1,44 @@
 #$ TOOL ispLEVER Classic 2.1.00.02.49.20
-#$ DATE Tue Dec 28 19:13:09 2021
+#$ DATE Thu Dec 30 21:37:06 2021
 #$ TITLE io_pins.bls 
 #$ PROPERTY LATTICE OSCTIMER TIMER_DIV = 1048576;
 #$ MODULE io_pins
-#$ PINS 13 y0 y1 y2 y3 y4 y5 y6 y7 sda scl Adapter'io'  FPGA'io'  IOselector
-#$ NODES 46 y_data_0_ y_data_1_ y_data_2_ y_data_3_ y_data_4_ y_data_5_ y_data_6_ \
-#  y_data_7_ data_from_master_0_ data_from_master_1_ data_from_master_2_ \
-#  data_from_master_3_ data_from_master_4_ data_from_master_5_ data_from_master_6_ \
-#  data_from_master_7_ data_valid read_rq data_to_master_0_ data_to_master_1_ \
-#  data_to_master_2_ data_to_master_3_ data_to_master_4_ data_to_master_5_ \
-#  data_to_master_6_ data_to_master_7_ N_12'o'  TIMEROUT N_4 N_5 N_6 N_7 N_8 N_9 N_10 N_11 \
-#  OSCOUT DYNOSCDIS TIMERRES N_1'o'  N_2'o'  N_3'o'  I15>TIMEROUT I15>OSCOUT I15>TIMERRES \
+#$ PINS 14 bs_MSB bs_LSB sda scl y0 y1 y2 y3 y4 y5 y6 y7 Adapter'io'  FPGA'io' 
+#$ NODES 38 N_12'o'  data_to_master_0_ data_to_master_1_ data_to_master_2_ \
+#  data_to_master_3_ data_to_master_4_ data_to_master_5_ data_to_master_6_ \
+#  data_to_master_7_ i2c_data_0_ i2c_data_1_ i2c_data_2_ i2c_data_3_ i2c_data_4_ \
+#  i2c_data_5_ i2c_data_6_ i2c_data_7_ read_req data_valid TIMEROUT N_4 N_5 N_6 N_7 N_8 N_9 \
+#  N_10 N_11 OSCOUT DYNOSCDIS TIMERRES N_1'o'  N_2'o'  N_3'o'  I15>TIMEROUT I15>OSCOUT I15>TIMERRES \
 #  I15>DYNOSCDIS
 #$ INTERFACE concat8  16 u0'i'  u1'i'  u2'i'  u3'i'  u4'i'  u5'i'  u6'i'  u7'i'  y_0_'o'  y_1_'o'  y_2_'o'  y_3_'o'  y_4_'o'  y_5_'o'  y_6_'o'  y_7_'o' 
-#$ INTERFACE i2c_minion  22 clk'i'  data_to_master_0_'i'  data_to_master_1_'i'  \
+#$ INTERFACE i2c_minion  24 clk'i'  data_to_master_0_'i'  data_to_master_1_'i'  \
 #  data_to_master_2_'i'  data_to_master_3_'i'  data_to_master_4_'i'  data_to_master_5_'i'  \
-#  data_to_master_6_'i'  data_to_master_7_'i'  rst'i'  data_from_master_0_'o'  data_from_master_1_'o'  \
-#  data_from_master_2_'o'  data_from_master_3_'o'  data_from_master_4_'o'  data_from_master_5_'o'  \
-#  data_from_master_6_'o'  data_from_master_7_'o'  data_valid'o'  read_req'o'  scl'io'  sda'io' 
+#  data_to_master_6_'i'  data_to_master_7_'i'  rst'i'  byte_step_LSB'o'  byte_step_MSB'o'  \
+#  data_from_master_0_'o'  data_from_master_1_'o'  data_from_master_2_'o'  data_from_master_3_'o'  \
+#  data_from_master_4_'o'  data_from_master_5_'o'  data_from_master_6_'o'  data_from_master_7_'o'  \
+#  data_valid'o'  read_req'o'  scl'io'  sda'io' 
 #$ EXTERNAL osctimer  4 DYNOSCDIS'i'  TIMERRES'i'  OSCOUT'o'  TIMEROUT'o' 
 #$ INTERFACE slice8  16 data_0_'i'  data_1_'i'  data_2_'i'  data_3_'i'  data_4_'i'  data_5_'i'  data_6_'i'  data_7_'i'  \
 #  y0'o'  y1'o'  y2'o'  y3'o'  y4'o'  y5'o'  y6'o'  y7'o' 
 #$ INTERFACE sourceclocked  9 clk'i'  y0'o'  y1'o'  y2'o'  y3'o'  y4'o'  y5'o'  y6'o'  y7'o' 
-#$ INSTANCE I10 concat8 16 N_4 N_5 N_6 N_7 N_8 N_9 N_10 N_11 y_data_0_ y_data_1_ y_data_2_ \
-#  y_data_3_ y_data_4_ y_data_5_ y_data_6_ y_data_7_
-#$ INSTANCE I19 i2c_minion 22 OSCOUT data_to_master_0_ data_to_master_1_ \
+#$ INSTANCE I10 concat8 16 N_4 N_5 N_6 N_7 N_8 N_9 N_10 N_11 data_to_master_0_ \
+#  data_to_master_1_ data_to_master_2_ data_to_master_3_ data_to_master_4_ \
+#  data_to_master_5_ data_to_master_6_ data_to_master_7_
+#$ INSTANCE I19 i2c_minion 24 OSCOUT data_to_master_0_ data_to_master_1_ \
 #  data_to_master_2_ data_to_master_3_ data_to_master_4_ data_to_master_5_ \
-#  data_to_master_6_ data_to_master_7_ N_12 data_from_master_0_ data_from_master_1_ \
-#  data_from_master_2_ data_from_master_3_ data_from_master_4_ data_from_master_5_ \
-#  data_from_master_6_ data_from_master_7_ data_valid read_rq scl sda
+#  data_to_master_6_ data_to_master_7_ N_12 bs_LSB bs_MSB i2c_data_0_ i2c_data_1_ \
+#  i2c_data_2_ i2c_data_3_ i2c_data_4_ i2c_data_5_ i2c_data_6_ i2c_data_7_ data_valid \
+#  read_req scl sda
 #$ INSTANCE I15 osctimer 4 I15>DYNOSCDIS I15>TIMERRES I15>OSCOUT I15>TIMEROUT
-#$ INSTANCE I16 slice8 16 data_from_master_0_ data_from_master_1_ \
-#  data_from_master_2_ data_from_master_3_ data_from_master_4_ data_from_master_5_ \
-#  data_from_master_6_ data_from_master_7_ y0 y1 y2 y3 y4 y5 y6 y7
+#$ INSTANCE I21 slice8 16 i2c_data_0_ i2c_data_1_ i2c_data_2_ i2c_data_3_ i2c_data_4_ \
+#  i2c_data_5_ i2c_data_6_ i2c_data_7_ y0 y1 y2 y3 y4 y5 y6 y7
 #$ INSTANCE I17 sourceclocked 9 TIMEROUT N_4 N_5 N_6 N_7 N_8 N_9 N_10 N_11
 .model io_pins
 .inputs I15>TIMEROUT.BLIF I15>OSCOUT.BLIF TIMERRES.BLIF DYNOSCDIS.BLIF \
-N_1.BLIF IOselector.BLIF Adapter.PIN.BLIF N_2.BLIF N_3.BLIF FPGA.PIN.BLIF
+N_1.BLIF y0.BLIF Adapter.PIN.BLIF N_2.BLIF N_3.BLIF FPGA.PIN.BLIF
 .outputs TIMEROUT OSCOUT I15>TIMERRES I15>DYNOSCDIS N_2 Adapter Adapter.OE N_1 \
 FPGA FPGA.OE N_3 N_12
-.names IOselector.BLIF N_3
+.names y0.BLIF N_3
 0 1
 1 0
 .names N_12
@@ -61,7 +60,7 @@ FPGA FPGA.OE N_3 N_12
 .names N_1.BLIF Adapter
 1 1
 0 0
-.names IOselector.BLIF Adapter.OE
+.names y0.BLIF Adapter.OE
 1 1
 0 0
 .names FPGA.PIN.BLIF N_1

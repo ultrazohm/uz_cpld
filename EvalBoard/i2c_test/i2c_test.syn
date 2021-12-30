@@ -6,6 +6,8 @@ DEVKIT LC4256ZE-5TN144C
 ENTRY Schematic/VHDL
 MODULE sourceclocked.vhd
 MODSTYLE sourceclocked Normal
+MODULE slice16.vhd
+MODSTYLE slice16 Normal
 MODULE io_pins.sch
 MODSTYLE io_pins Normal
 MODULE concat8.vhd

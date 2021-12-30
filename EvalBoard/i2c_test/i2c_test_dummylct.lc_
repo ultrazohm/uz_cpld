@@ -14,8 +14,8 @@ Voltage = 1.8;
 RCS = "$Header $";
 Parent = lc4k256e.lci;
 Design = ;
-DATE = 12/28/2021;
-TIME = 18:09:25;
+DATE = 12/30/2021;
+TIME = 21:06:02;
 Source_Format = Schematic_VHDL;
 Type = ;
 Pre_Fit_Time = ;
@@ -97,58 +97,71 @@ Adjust_input_assignments = Off;
 [LOCATION ASSIGNMENTS]
 // Block A
 scl=pin,130,-,A,2;
-sda=pin,131,-,A,7;
+bs_MSB=pin,133,-,A,10;
+bs_LSB=pin,132,-,A,6;
+sda=pin,131,-,A,4;
 // Block B
-I0_addr_reg_0_=node,-,-,B,2;
-I0_addr_reg_3_=node,-,-,B,5;
-I0_inst_sda_prev_reg=node,-,-,B,10;
+y0_0=node,-,-,B,9;
+I0_data_reg_0__0=node,-,-,B,3;
 // Block C
-I0_addr_reg_1_=node,-,-,C,9;
-I0_addr_reg_5_=node,-,-,C,3;
+I0_inst_scl_pre_internal=node,-,-,C,10;
+I0_state_reg_4_=node,-,-,C,2;
+I0_state_reg_3_=node,-,-,C,5;
+// Block D
+I0_inst_sda_wen_reg=node,-,-,D,10;
+I0_state_reg_5_=node,-,-,D,5;
+I0_bits_processed_reg_0__0=node,-,-,D,2;
 // Block E
-I0_state_reg_4_=node,-,-,E,1;
-I0_state_reg_3_=node,-,-,E,3;
-I0_inst_sda_wen_reg=node,-,-,E,10;
-I0_state_reg_5_=node,-,-,E,6;
+I0_bits_processed_reg_1_=node,-,-,E,9;
+I0_bits_processed_reg_2_=node,-,-,E,3;
 // Block F
+I0_bits_processed_reg_0_=node,-,-,F,5;
+I0_bits_processed_reg_3_=node,-,-,F,2;
 I0_state_reg_2_=node,-,-,F,10;
-I0_inst_continue_reg=node,-,-,F,3;
-I0_inst_cmd_reg=node,-,-,F,6;
-I0_bits_processed_reg_0__0=node,-,-,F,1;
-// Block H
-I0_state_reg_1_=node,-,-,H,7;
+// Block G
+I0_inst_scl_prev_reg=node,-,-,G,5;
+I0_inst_sda_prev_reg=node,-,-,G,6;
+I0_inst_stop_reg=node,-,-,G,7;
+I0_inst_scl_rising_reg=node,-,-,G,8;
+I0_state_reg_6_=node,-,-,G,0;
+I0_inst_continue_reg=node,-,-,G,3;
+I0_inst_scl_falling_reg=node,-,-,G,9;
+I0_inst_start_reg=node,-,-,G,12;
+I0_state_reg_1_=node,-,-,G,1;
+I0_inst_cmd_reg=node,-,-,G,4;
+I0_addr_reg_0__0=node,-,-,G,2;
 // Block I
 y2=pin,63,-,I,1;
 y3=pin,62,-,I,0;
 y4=pin,61,-,I,9;
 y5=pin,60,-,I,7;
-y6=pin,59,-,I,5;
-y7=pin,58,-,I,3;
-I0_addr_reg_0__0=node,-,-,I,12;
+y6=pin,59,-,I,4;
+y7=pin,58,-,I,2;
+I0_data_reg_1_=node,-,-,I,5;
+I0_data_reg_3_=node,-,-,I,12;
+I0_data_reg_4_=node,-,-,I,3;
 // Block J
 y0=pin,71,-,J,3;
-y1=pin,70,-,J,12;
+y1=pin,70,-,J,1;
+I0_data_reg_0_=node,-,-,J,10;
+I0_data_reg_5_=node,-,-,J,6;
 // Block K
-I0_bits_processed_reg_1_=node,-,-,K,9;
-I0_bits_processed_reg_2_=node,-,-,K,3;
-// Block L
-I0_bits_processed_reg_0_=node,-,-,L,5;
-I0_bits_processed_reg_3_=node,-,-,L,2;
-I0_state_reg_6_=node,-,-,L,10;
+I0_data_reg_2_=node,-,-,K,3;
+I0_data_reg_6_=node,-,-,K,9;
+// Block M
+I0_addr_reg_1_=node,-,-,M,9;
+I0_addr_reg_4_=node,-,-,M,3;
+// Block N
+I0_addr_reg_3_=node,-,-,N,9;
+I0_addr_reg_6_=node,-,-,N,3;
+// Block O
+I0_inst_sda_pre_internal=node,-,-,O,10;
+I0_addr_reg_5_=node,-,-,O,2;
+I0_addr_reg_2_=node,-,-,O,5;
 // Block P
-IOselector=pin,123,-,P,6;
 Adapter=pin,125,-,P,2;
-FPGA=pin,124,-,P,4;
-I0_inst_sda_pre_internal=node,-,-,P,5;
-I0_inst_scl_pre_internal=node,-,-,P,6;
-I0_inst_scl_prev_reg=node,-,-,P,7;
-I0_inst_stop_reg=node,-,-,P,8;
-I0_inst_scl_rising_reg=node,-,-,P,9;
-I0_inst_scl_falling_reg=node,-,-,P,10;
-I0_addr_reg_2_=node,-,-,P,0;
-I0_addr_reg_4_=node,-,-,P,1;
-I0_addr_reg_6_=node,-,-,P,3;
-I0_inst_start_reg=node,-,-,P,12;
+FPGA=pin,124,-,P,5;
+I0_addr_reg_0_=node,-,-,P,10;
 [PTOE ASSIGNMENTS]
 
 [INPUT REGISTERS]
@@ -157,8 +170,11 @@ Default=NONE;
 
 [IO TYPES]
 scl=LVCMOS33,pin,-,-;
-IOselector=LVCMOS33,pin,-,-;
+bs_MSB=LVCMOS33,pin,0,-;
+bs_LSB=LVCMOS33,pin,0,-;
 sda=LVCMOS33_OD,pin,0,-;
+Adapter=LVCMOS33,pin,1,-;
+FPGA=LVCMOS33,pin,1,-;
 y0=LVCMOS33,pin,1,-;
 y1=LVCMOS33,pin,1,-;
 y2=LVCMOS33,pin,1,-;
@@ -166,8 +182,6 @@ y3=LVCMOS33,pin,1,-;
 y4=LVCMOS33,pin,1,-;
 y5=LVCMOS33,pin,1,-;
 y6=LVCMOS33,pin,1,-;
-Adapter=LVCMOS33,pin,1,-;
-FPGA=LVCMOS33,pin,1,-;
 y7=LVCMOS33,pin,1,-;
 
 [PLL ASSIGNMENTS]
@@ -183,21 +197,22 @@ layer=OFF;
 Default=FAST;
 
 [PULLUP]
+DOWN=FPGA,Adapter;
 OFF=sda,scl;
-UP=y1,y3,y5,y7,y0,y2,y4,y6,FPGA;
+UP=y1,y3,y5,y7,y0,y2,y4,y6,bs_LSB,bs_MSB;
 Default=DOWN;
 
 [FITTER RESULTS]
-I/O_pin_util = 11;
-I/O_pin = 11;
-Logic_PT_util = 8;
-Logic_PT = 104;
-Occupied_MC_util = 16;
-Occupied_MC = 43;
-Occupied_PT_util = 11;
-Occupied_PT = 154;
-GLB_input_util = 18;
-GLB_input = 106;
+I/O_pin_util = 12;
+I/O_pin = 12;
+Logic_PT_util = 11;
+Logic_PT = 149;
+Occupied_MC_util = 21;
+Occupied_MC = 54;
+Occupied_PT_util = 16;
+Occupied_PT = 221;
+GLB_input_util = 24;
+GLB_input = 142;
 
 [TIMING CONSTRAINTS]
 layer=OFF;

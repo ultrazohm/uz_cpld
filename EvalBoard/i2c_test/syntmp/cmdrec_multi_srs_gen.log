@@ -1,7 +1,7 @@
 C:\ispLEVER_Classic2_1\synpbase\bin64\syn_nfilter.exe  -link  -top  I2C_minion  -multisrs  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synwork\I2C_minion_comp.srs  -osyn  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synwork\I2C_minion_mult.srs  -log  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synlog\I2C_minion_multi_srs_gen.srr 
 rc:0 success:1
-C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synwork\I2C_minion_comp.srs|i|1640715204|5741
-C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synwork\I2C_minion_mult.srs|o|1640715205|6609
-C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synlog\I2C_minion_multi_srs_gen.srr|o|1640715205|490
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synwork\I2C_minion_comp.srs|i|1640896608|6484
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synwork\I2C_minion_mult.srs|o|1640896609|7278
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synlog\I2C_minion_multi_srs_gen.srr|o|1640896609|490
 C:\ispLEVER_Classic2_1\synpbase\bin\syn_nfilter.exe|i|1401220336|2741760
 C:\ispLEVER_Classic2_1\synpbase\bin64\syn_nfilter.exe|i|1401220532|6337536

@@ -1,0 +1,5 @@
+@N|Running in 64-bit mode
+@N: CD720 :"C:\ispLEVER_Classic2_1\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\slice16.vhd":6:7:6:13|Top entity is set to slice16.
+@N: CD630 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\slice16.vhd":6:7:6:13|Synthesizing work.slice16.arch_slice16 
+

@@ -1,11 +1,14 @@
-@W: CD604 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":289:8:289:21|OTHERS clause is not synthesized 
-@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":45:9:45:15|Signal scl_reg is undriven 
-@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":46:9:46:15|Signal sda_reg is undriven 
-@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":47:9:47:21|Signal scl_debounced is undriven 
-@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":48:9:48:21|Signal sda_debounced is undriven 
-@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":68:9:68:19|Signal scl_wen_reg is undriven 
-@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":69:9:69:17|Signal scl_o_reg is undriven 
-@W: CL169 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":160:4:160:5|Pruning register sda_o_reg_cl_4  
-@W: CL189 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":72:37:72:39|Register bit sda_o_reg is always 0, optimizing ...
-@W: CL249 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":160:4:160:5|Initial value is not supported on state machine state_reg
+@W: CD604 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":324:8:324:21|OTHERS clause is not synthesized 
+@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":48:9:48:15|Signal scl_reg is undriven 
+@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":49:9:49:15|Signal sda_reg is undriven 
+@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":50:9:50:21|Signal scl_debounced is undriven 
+@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":51:9:51:21|Signal sda_debounced is undriven 
+@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":71:9:71:19|Signal scl_wen_reg is undriven 
+@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":72:9:72:17|Signal scl_o_reg is undriven 
+@W: CL169 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":167:4:167:5|Pruning register data_3_4(7 downto 0)  
+@W: CL169 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":167:4:167:5|Pruning register data_2_4(7 downto 0)  
+@W: CL169 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":167:4:167:5|Pruning register data_1_4(7 downto 0)  
+@W: CL169 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":167:4:167:5|Pruning register sda_o_reg_cl_4  
+@W: CL189 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":75:37:75:39|Register bit sda_o_reg is always 0, optimizing ...
+@W: CL249 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":167:4:167:5|Initial value is not supported on state machine state_reg
 

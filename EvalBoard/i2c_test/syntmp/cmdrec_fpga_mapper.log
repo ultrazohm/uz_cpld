@@ -1,9 +1,9 @@
 C:\ispLEVER_Classic2_1\synpbase\bin64\m_cpld.exe  -prodtype  synplify_pro  -encrypt  -pro  -rundir  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test  -part LC4064B  -package T44C  -grade -2.5   -ispmach4s -RWCheckOnRam 1 -areadelay 0 -minc -auto_constrain_io -summaryfile C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synlog\report\I2C_minion_fpga_mapper.xml -top_level_module  I2C_minion  -multisrs  -ta_num_paths 3  -ta_num_points 0  -oedif  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_minion.edi  -freq 200.000  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synwork\I2C_minion_mult.srs  -ologparam  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\syntmp\I2C_minion.plg  -osyn  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_minion.srm  -prjdir  c:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\  -prjname  I2C_minion  -log  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synlog\I2C_minion_fpga_mapper.srr 
 rc:1 success:1
-C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_minion.edi|o|1640715205|117663
-C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synwork\I2C_minion_mult.srs|i|1640715205|6609
-C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\syntmp\I2C_minion.plg|o|1640715205|0
-C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_minion.srm|o|1640715205|49431
-C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synlog\I2C_minion_fpga_mapper.srr|o|1640715205|1760
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_minion.edi|o|1640896609|124149
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synwork\I2C_minion_mult.srs|i|1640896609|7278
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\syntmp\I2C_minion.plg|o|1640896609|0
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_minion.srm|o|1640896609|51319
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synlog\I2C_minion_fpga_mapper.srr|o|1640896609|1759
 C:\ispLEVER_Classic2_1\synpbase\bin\m_cpld.exe|i|1399362084|7067648
 C:\ispLEVER_Classic2_1\synpbase\bin64\m_cpld.exe|i|1399364922|8049664

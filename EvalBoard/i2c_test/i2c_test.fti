@@ -1,5 +1,5 @@
 #PLAFILE     i2c_test.bl5
-#DATE        Tue Dec 28 19:13:36 2021
+#DATE        Thu Dec 30 21:37:16 2021
 
 #DESIGN      i2c_test
 #DEVICE      MACH4S-256
@@ -11,64 +11,76 @@ DATA GLOBAL tINDIO:0
 
 // Signal locations
 DATA LOCATION scl:A_*_130
-DATA LOCATION IOselector:P_*_123
-DATA LOCATION sda:A_6_131
-DATA LOCATION Adapter:P_2_125
-DATA LOCATION FPGA:P_5_124
-DATA LOCATION y0:J_3_71
-DATA LOCATION y1:J_1_70
+DATA LOCATION sda:A_5_131
+DATA LOCATION Adapter:P_3_125
+DATA LOCATION FPGA:P_6_124
+DATA LOCATION bs_MSB:A_11_133
+DATA LOCATION bs_LSB:A_7_132
+DATA LOCATION y0:J_1_71
+DATA LOCATION y1:J_0_70
 DATA LOCATION y2:I_1_63
 DATA LOCATION y3:I_0_62
-DATA LOCATION y4:I_9_61
-DATA LOCATION y5:I_7_60
+DATA LOCATION y4:I_8_61
+DATA LOCATION y5:I_6_60
 DATA LOCATION y6:I_4_59
 DATA LOCATION y7:I_2_58
-DATA LOCATION I0_bits_processed_reg_0_:G_5
-DATA LOCATION I0_bits_processed_reg_1_:E_1
-DATA LOCATION I0_bits_processed_reg_2_:E_0
-DATA LOCATION I0_bits_processed_reg_3_:G_2
+DATA LOCATION I0_bits_processed_reg_0_:C_0
+DATA LOCATION I0_bits_processed_reg_1_:F_9
+DATA LOCATION I0_bits_processed_reg_2_:F_3
+DATA LOCATION I0_bits_processed_reg_3_:D_1
+DATA LOCATION I0_byte_step_0_:O_10
+DATA LOCATION I0_byte_step_1_:A_1
 DATA LOCATION I0_inst_sda_pre_internal:M_10
-DATA LOCATION I0_inst_scl_pre_internal:A_10
+DATA LOCATION I0_inst_scl_pre_internal:C_2
 DATA LOCATION I0_addr_reg_0_:P_10
 DATA LOCATION I0_addr_reg_1_:N_9
-DATA LOCATION I0_addr_reg_3_:O_9
+DATA LOCATION I0_addr_reg_3_:O_2
 DATA LOCATION I0_addr_reg_5_:M_2
-DATA LOCATION I0_inst_scl_prev_reg:E_3
-DATA LOCATION I0_inst_sda_prev_reg:F_12
-DATA LOCATION I0_inst_stop_reg:E_5
-DATA LOCATION I0_state_reg_2_:G_10
-DATA LOCATION I0_inst_scl_rising_reg:E_7
-DATA LOCATION I0_state_reg_4_:B_2
-DATA LOCATION I0_state_reg_6_:F_1
-DATA LOCATION I0_inst_continue_reg:F_7
-DATA LOCATION I0_inst_scl_falling_reg:E_9
+DATA LOCATION I0_inst_scl_prev_reg:C_3
+DATA LOCATION I0_inst_sda_prev_reg:I_12
+DATA LOCATION I0_inst_stop_reg:C_5
+DATA LOCATION I0_state_reg_2_:D_7
+DATA LOCATION I0_inst_scl_rising_reg:C_7
+DATA LOCATION I0_state_reg_4_:E_5
+DATA LOCATION I0_state_reg_6_:C_1
+DATA LOCATION I0_inst_continue_reg:D_3
+DATA LOCATION I0_inst_scl_falling_reg:C_9
 DATA LOCATION I0_addr_reg_2_:M_5
 DATA LOCATION I0_addr_reg_4_:N_3
-DATA LOCATION I0_addr_reg_6_:O_3
-DATA LOCATION I0_data_reg_0_:J_10
-DATA LOCATION I0_data_reg_1_:I_5
-DATA LOCATION I0_data_reg_2_:K_3
-DATA LOCATION I0_data_reg_3_:I_12
-DATA LOCATION I0_data_reg_4_:I_3
-DATA LOCATION I0_data_reg_5_:J_6
-DATA LOCATION I0_data_reg_6_:K_9
-DATA LOCATION I0_inst_start_reg:E_12
-DATA LOCATION I0_state_reg_3_:B_5
-DATA LOCATION I0_inst_sda_wen_reg:B_10
-DATA LOCATION I0_state_reg_5_:A_3
-DATA LOCATION I0_state_reg_1_:F_3
-DATA LOCATION I0_inst_cmd_reg:F_9
-DATA LOCATION y0_0:C_9
-DATA LOCATION I0_bits_processed_reg_0__0:A_1
-DATA LOCATION I0_addr_reg_0__0:F_5
-DATA LOCATION I0_data_reg_0__0:C_3
+DATA LOCATION I0_addr_reg_6_:P_1
+DATA LOCATION I0_data_reg_0_:J_4
+DATA LOCATION I0_data_reg_1_:K_3
+DATA LOCATION I0_data_reg_2_:I_3
+DATA LOCATION I0_data_reg_3_:I_5
+DATA LOCATION I0_data_reg_4_:J_2
+DATA LOCATION I0_data_reg_5_:K_1
+DATA LOCATION I0_data_reg_6_:J_3
+DATA LOCATION I0_inst_start_reg:C_12
+DATA LOCATION I0_state_reg_3_:E_2
+DATA LOCATION I0_inst_sda_wen_reg:E_10
+DATA LOCATION I0_state_reg_5_:O_5
+DATA LOCATION I0_state_reg_1_:D_11
+DATA LOCATION I0_inst_cmd_reg:D_5
+DATA LOCATION I0_data_from_master_reg_0_:J_5
+DATA LOCATION I0_data_from_master_reg_1_:J_7
+DATA LOCATION I0_data_from_master_reg_2_:K_6
+DATA LOCATION I0_data_from_master_reg_3_:I_7
+DATA LOCATION I0_data_from_master_reg_4_:I_9
+DATA LOCATION I0_data_from_master_reg_5_:J_9
+DATA LOCATION I0_data_from_master_reg_6_:K_10
+DATA LOCATION I0_data_from_master_reg_7_:J_12
+DATA LOCATION I0_bits_processed_reg_0__0:G_3
+DATA LOCATION I0_addr_reg_0__0:H_3
+DATA LOCATION I0_data_reg_0__0:H_9
+DATA LOCATION I0_data_from_master_reg_0__0:G_9
 
 // Signals direction
 DATA IO_DIR scl:IN
-DATA IO_DIR IOselector:IN
 DATA IO_DIR sda:BI
 DATA IO_DIR Adapter:BI
 DATA IO_DIR FPGA:BI
+DATA IO_DIR bs_MSB:OUT
+DATA IO_DIR bs_LSB:OUT
 DATA IO_DIR y0:OUT
 DATA IO_DIR y1:OUT
 DATA IO_DIR y2:OUT
@@ -79,6 +91,8 @@ DATA IO_DIR y6:OUT
 DATA IO_DIR y7:OUT
 
 // Signals using Shared Clock or CE
+DATA tBCLK bs_MSB.C
+DATA tBCLK bs_LSB.C
 DATA tBCLK y0.C
 DATA tBCLK y1.C
 DATA tBCLK y2.C
@@ -91,6 +105,8 @@ DATA tBCLK I0_bits_processed_reg_0_.C
 DATA tBCLK I0_bits_processed_reg_1_.C
 DATA tBCLK I0_bits_processed_reg_2_.C
 DATA tBCLK I0_bits_processed_reg_3_.C
+DATA tBCLK I0_byte_step_0_.C
+DATA tBCLK I0_byte_step_1_.C
 DATA tBCLK I0_inst_sda_pre_internal.C
 DATA tBCLK I0_inst_scl_pre_internal.C
 DATA tBCLK I0_addr_reg_0_.C
@@ -122,6 +138,14 @@ DATA tBCLK I0_inst_sda_wen_reg.C
 DATA tBCLK I0_state_reg_5_.C
 DATA tBCLK I0_state_reg_1_.C
 DATA tBCLK I0_inst_cmd_reg.C
+DATA tBCLK I0_data_from_master_reg_0_.C
+DATA tBCLK I0_data_from_master_reg_1_.C
+DATA tBCLK I0_data_from_master_reg_2_.C
+DATA tBCLK I0_data_from_master_reg_3_.C
+DATA tBCLK I0_data_from_master_reg_4_.C
+DATA tBCLK I0_data_from_master_reg_5_.C
+DATA tBCLK I0_data_from_master_reg_6_.C
+DATA tBCLK I0_data_from_master_reg_7_.C
 
 // Signals using global PT OEs
 DATA tGPTOE sda
@@ -129,42 +153,41 @@ DATA tGPTOE Adapter
 DATA tGPTOE FPGA
 
 // Block Load Adders
-DATA tBLA I0_bits_processed_reg_2_:12
-DATA tBLA I0_bits_processed_reg_1_:12
-DATA tBLA I0_bits_processed_reg_0_:11
+DATA tBLA I0_bits_processed_reg_2_:13
+DATA tBLA I0_bits_processed_reg_1_:13
+DATA tBLA I0_bits_processed_reg_0_:13
 DATA tBLA OSCOUT:11
 DATA tBLA I0_inst_sda_pre_internal:8
-DATA tBLA I0_inst_start_reg:4
-DATA tBLA I0_inst_stop_reg:4
-DATA tBLA I0_bits_processed_reg_3_:4
+DATA tBLA I0_bits_processed_reg_3_:8
+DATA tBLA I0_inst_scl_falling_reg:7
+DATA tBLA I0_state_reg_4_:6
+DATA tBLA I0_inst_start_reg:5
+DATA tBLA I0_inst_stop_reg:5
+DATA tBLA I0_state_reg_6_:4
 DATA tBLA I0_addr_reg_0__0:3
-DATA tBLA I0_inst_scl_falling_reg:3
-DATA tBLA I0_inst_scl_rising_reg:3
+DATA tBLA I0_data_from_master_reg_0__0:2
 DATA tBLA I0_data_reg_0__0:2
+DATA tBLA I0_bits_processed_reg_0__0:2
 DATA tBLA I0_state_reg_3_:2
-DATA tBLA I0_state_reg_4_:2
-DATA tBLA I0_bits_processed_reg_0__0:1
-DATA tBLA y0_0:1
+DATA tBLA I0_inst_scl_rising_reg:2
+DATA tBLA I0_byte_step_1_:2
+DATA tBLA I0_byte_step_0_:2
 DATA tBLA I0_state_reg_1_:1
 DATA tBLA I0_state_reg_5_:1
-DATA tBLA I0_data_reg_6_:1
-DATA tBLA I0_data_reg_5_:1
-DATA tBLA I0_data_reg_2_:1
 DATA tBLA I0_addr_reg_6_:1
 DATA tBLA I0_addr_reg_4_:1
 DATA tBLA I0_addr_reg_2_:1
-DATA tBLA I0_state_reg_6_:1
-DATA tBLA I0_state_reg_2_:1
 DATA tBLA I0_addr_reg_5_:1
-DATA tBLA I0_addr_reg_3_:1
 DATA tBLA I0_addr_reg_1_:1
 DATA tBLA I0_addr_reg_0_:1
-DATA tBLA IOselector:1
+DATA tBLA y0:1
 
 // Signals using OSM or fast 5-PTs path
 DATA tOSM sda
 DATA tOSM Adapter
 DATA tOSM FPGA
+DATA tOSM bs_MSB
+DATA tOSM bs_LSB
 DATA tOSM y0
 DATA tOSM y1
 DATA tOSM y2

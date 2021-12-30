@@ -20,3 +20,5 @@ data_from_master[3]  o
 data_from_master[2]  o
 data_from_master[1]  o
 data_from_master[0]  o
+byte_step_LSB  o
+byte_step_MSB  o

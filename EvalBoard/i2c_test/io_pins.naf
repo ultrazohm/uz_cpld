@@ -1,4 +1,3 @@
-IOselector  i
 y0  o
 y1  o
 y2  o
@@ -7,6 +6,8 @@ y4  o
 y5  o
 y6  o
 y7  o
+bs_LSB  o
+bs_MSB  o
 Adapter  b
 FPGA  b
 scl  b

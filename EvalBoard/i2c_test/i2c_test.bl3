@@ -1,69 +1,69 @@
 #$ TOOL ispLEVER Classic 2.1.00.02.49.20
-#$ DATE Tue Dec 28 19:13:09 2021
+#$ DATE Thu Dec 30 21:37:06 2021
 #$ TITLE io_pins.bls 
 #$ PROPERTY LATTICE OSCTIMER TIMER_DIV = 1048576;
 #$ MODULE i2c_test
-#$ PINS 13 y0'o'  y1'o'  y2'o'  y3'o'  y4'o'  y5'o'  y6'o'  y7'o'  sda'io'  scl'io'  Adapter'io'  FPGA'io'  IOselector
-#$ NODES 47 TIMEROUT OSCOUT DYNOSCDIS TIMERRES I19/data_from_master_reg_0_reg \
-#  I19/data_from_master_reg_1_reg I19/data_from_master_reg_2_reg \
-#  I19/data_from_master_reg_3_reg I19/data_from_master_reg_4_reg \
-#  I19/data_from_master_reg_5_reg I19/data_from_master_reg_6_reg \
-#  I19/data_from_master_reg_7_reg I19/bits_processed_reg_0_ \
+#$ PINS 14 bs_MSB'o'  bs_LSB'o'  sda'io'  scl'io'  y0'o'  y1'o'  y2'o'  y3'o'  y4'o'  y5'o'  y6'o'  y7'o'  Adapter'io'  FPGA'io' 
+#$ NODES 59 TIMEROUT OSCOUT DYNOSCDIS TIMERRES I19/data_0_0_reg I19/data_0_1_reg \
+#  I19/data_0_2_reg I19/data_0_3_reg I19/data_0_4_reg I19/data_0_5_reg \
+#  I19/data_0_6_reg I19/data_0_7_reg I19/bits_processed_reg_0_ \
 #  I19/bits_processed_reg_1_ I19/bits_processed_reg_2_ I19/bits_processed_reg_3_ \
-#  I19/inst_sda_pre_internal I19/inst_scl_pre_internal I19/addr_reg_0_ \
-#  I19/addr_reg_1_ I19/addr_reg_3_ I19/addr_reg_5_ I19/inst_scl_prev_reg \
-#  I19/inst_sda_prev_reg I19/inst_stop_reg I19/state_reg_2_ I19/inst_scl_rising_reg \
-#  I19/state_reg_4_ I19/state_reg_6_ I19/inst_continue_reg I19/inst_scl_falling_reg \
-#  I19/addr_reg_2_ I19/addr_reg_4_ I19/addr_reg_6_ I19/data_reg_0_ I19/data_reg_1_ \
-#  I19/data_reg_2_ I19/data_reg_3_ I19/data_reg_4_ I19/data_reg_5_ I19/data_reg_6_ \
-#  I19/inst_start_reg I19/state_reg_3_ I19/inst_sda_wen_reg I19/state_reg_5_ \
-#  I19/state_reg_1_ I19/inst_cmd_reg
+#  I19/byte_step_0_ I19/byte_step_1_ I19/inst_sda_pre_internal \
+#  I19/inst_scl_pre_internal I19/addr_reg_0_ I19/addr_reg_1_ I19/addr_reg_3_ \
+#  I19/addr_reg_5_ I19/inst_scl_prev_reg I19/inst_sda_prev_reg I19/inst_stop_reg \
+#  I19/state_reg_2_ I19/inst_scl_rising_reg I19/state_reg_4_ I19/state_reg_6_ \
+#  I19/inst_continue_reg I19/inst_scl_falling_reg I19/addr_reg_2_ I19/addr_reg_4_ \
+#  I19/addr_reg_6_ I19/data_reg_0_ I19/data_reg_1_ I19/data_reg_2_ I19/data_reg_3_ \
+#  I19/data_reg_4_ I19/data_reg_5_ I19/data_reg_6_ I19/inst_start_reg \
+#  I19/state_reg_3_ I19/inst_sda_wen_reg I19/state_reg_5_ I19/state_reg_1_ \
+#  I19/inst_cmd_reg I19/data_from_master_reg_0_ I19/data_from_master_reg_1_ \
+#  I19/data_from_master_reg_2_ I19/data_from_master_reg_3_ \
+#  I19/data_from_master_reg_4_ I19/data_from_master_reg_5_ \
+#  I19/data_from_master_reg_6_ I19/data_from_master_reg_7_ I19/byte_step_LSBDFFCreg \
+#  I19/byte_step_MSBDFFCreg
 #$ EXTERNAL osctimer  4 DYNOSCDIS'i'  TIMERRES'i'  OSCOUT'o'  TIMEROUT'o' 
 #$ INSTANCE I15 osctimer 4 DYNOSCDIS TIMERRES OSCOUT TIMEROUT
 .model io_pins
-.inputs IOselector.BLIF Adapter.PIN.BLIF FPGA.PIN.BLIF OSCOUT.BLIF scl.BLIF \
-sda.PIN.BLIF I19/data_from_master_reg_0_reg.BLIF \
-I19/data_from_master_reg_1_reg.BLIF I19/data_from_master_reg_2_reg.BLIF \
-I19/data_from_master_reg_3_reg.BLIF I19/data_from_master_reg_4_reg.BLIF \
-I19/data_from_master_reg_5_reg.BLIF I19/data_from_master_reg_6_reg.BLIF \
-I19/data_from_master_reg_7_reg.BLIF I19/bits_processed_reg_0_.BLIF \
+.inputs y0.BLIF Adapter.PIN.BLIF FPGA.PIN.BLIF OSCOUT.BLIF scl.BLIF \
+sda.PIN.BLIF I19/data_0_0_reg.BLIF I19/data_0_1_reg.BLIF I19/data_0_2_reg.BLIF \
+I19/data_0_3_reg.BLIF I19/data_0_4_reg.BLIF I19/data_0_5_reg.BLIF \
+I19/data_0_6_reg.BLIF I19/data_0_7_reg.BLIF I19/bits_processed_reg_0_.BLIF \
 I19/bits_processed_reg_1_.BLIF I19/bits_processed_reg_2_.BLIF \
-I19/bits_processed_reg_3_.BLIF I19/inst_sda_pre_internal.BLIF \
-I19/inst_scl_pre_internal.BLIF I19/addr_reg_0_.BLIF I19/addr_reg_1_.BLIF \
-I19/addr_reg_3_.BLIF I19/addr_reg_5_.BLIF I19/inst_scl_prev_reg.BLIF \
-I19/inst_sda_prev_reg.BLIF I19/inst_stop_reg.BLIF I19/state_reg_2_.BLIF \
-I19/inst_scl_rising_reg.BLIF I19/state_reg_4_.BLIF I19/state_reg_6_.BLIF \
-I19/inst_continue_reg.BLIF I19/inst_scl_falling_reg.BLIF I19/addr_reg_2_.BLIF \
-I19/addr_reg_4_.BLIF I19/addr_reg_6_.BLIF I19/data_reg_0_.BLIF \
-I19/data_reg_1_.BLIF I19/data_reg_2_.BLIF I19/data_reg_3_.BLIF \
-I19/data_reg_4_.BLIF I19/data_reg_5_.BLIF I19/data_reg_6_.BLIF \
-I19/inst_start_reg.BLIF I19/state_reg_3_.BLIF I19/inst_sda_wen_reg.BLIF \
-I19/state_reg_5_.BLIF I19/state_reg_1_.BLIF I19/inst_cmd_reg.BLIF \
-TIMEROUT.BLIF
-.outputs Adapter Adapter.OE FPGA FPGA.OE sda sda.OE \
-I19/data_from_master_reg_0_reg.CE I19/data_from_master_reg_0_reg.D \
-I19/data_from_master_reg_0_reg.C I19/data_from_master_reg_1_reg.CE \
-I19/data_from_master_reg_1_reg.D I19/data_from_master_reg_1_reg.C \
-I19/data_from_master_reg_2_reg.CE I19/data_from_master_reg_2_reg.D \
-I19/data_from_master_reg_2_reg.C I19/data_from_master_reg_3_reg.CE \
-I19/data_from_master_reg_3_reg.D I19/data_from_master_reg_3_reg.C \
-I19/data_from_master_reg_4_reg.CE I19/data_from_master_reg_4_reg.D \
-I19/data_from_master_reg_4_reg.C I19/data_from_master_reg_5_reg.CE \
-I19/data_from_master_reg_5_reg.D I19/data_from_master_reg_5_reg.C \
-I19/data_from_master_reg_6_reg.CE I19/data_from_master_reg_6_reg.D \
-I19/data_from_master_reg_6_reg.C I19/data_from_master_reg_7_reg.CE \
-I19/data_from_master_reg_7_reg.D I19/data_from_master_reg_7_reg.C \
+I19/bits_processed_reg_3_.BLIF I19/byte_step_0_.BLIF I19/byte_step_1_.BLIF \
+I19/inst_sda_pre_internal.BLIF I19/inst_scl_pre_internal.BLIF \
+I19/addr_reg_0_.BLIF I19/addr_reg_1_.BLIF I19/addr_reg_3_.BLIF \
+I19/addr_reg_5_.BLIF I19/inst_scl_prev_reg.BLIF I19/inst_sda_prev_reg.BLIF \
+I19/inst_stop_reg.BLIF I19/state_reg_2_.BLIF I19/inst_scl_rising_reg.BLIF \
+I19/state_reg_4_.BLIF I19/state_reg_6_.BLIF I19/inst_continue_reg.BLIF \
+I19/inst_scl_falling_reg.BLIF I19/addr_reg_2_.BLIF I19/addr_reg_4_.BLIF \
+I19/addr_reg_6_.BLIF I19/data_reg_0_.BLIF I19/data_reg_1_.BLIF \
+I19/data_reg_2_.BLIF I19/data_reg_3_.BLIF I19/data_reg_4_.BLIF \
+I19/data_reg_5_.BLIF I19/data_reg_6_.BLIF I19/inst_start_reg.BLIF \
+I19/state_reg_3_.BLIF I19/inst_sda_wen_reg.BLIF I19/state_reg_5_.BLIF \
+I19/state_reg_1_.BLIF I19/inst_cmd_reg.BLIF I19/data_from_master_reg_0_.BLIF \
+I19/data_from_master_reg_1_.BLIF I19/data_from_master_reg_2_.BLIF \
+I19/data_from_master_reg_3_.BLIF I19/data_from_master_reg_4_.BLIF \
+I19/data_from_master_reg_5_.BLIF I19/data_from_master_reg_6_.BLIF \
+I19/data_from_master_reg_7_.BLIF I19/byte_step_LSBDFFCreg.BLIF \
+I19/byte_step_MSBDFFCreg.BLIF TIMEROUT.BLIF
+.outputs Adapter Adapter.OE FPGA FPGA.OE bs_LSB bs_MSB sda sda.OE \
+I19/data_0_0_reg.CE I19/data_0_0_reg.D I19/data_0_0_reg.C I19/data_0_1_reg.CE \
+I19/data_0_1_reg.D I19/data_0_1_reg.C I19/data_0_2_reg.CE I19/data_0_2_reg.D \
+I19/data_0_2_reg.C I19/data_0_3_reg.CE I19/data_0_3_reg.D I19/data_0_3_reg.C \
+I19/data_0_4_reg.CE I19/data_0_4_reg.D I19/data_0_4_reg.C I19/data_0_5_reg.CE \
+I19/data_0_5_reg.D I19/data_0_5_reg.C I19/data_0_6_reg.CE I19/data_0_6_reg.D \
+I19/data_0_6_reg.C I19/data_0_7_reg.CE I19/data_0_7_reg.D I19/data_0_7_reg.C \
 I19/bits_processed_reg_0_.CE I19/bits_processed_reg_0_.D \
 I19/bits_processed_reg_0_.C I19/bits_processed_reg_1_.CE \
 I19/bits_processed_reg_1_.D I19/bits_processed_reg_1_.C \
 I19/bits_processed_reg_2_.CE I19/bits_processed_reg_2_.D \
 I19/bits_processed_reg_2_.C I19/bits_processed_reg_3_.CE \
-I19/bits_processed_reg_3_.C I19/inst_sda_pre_internal.D \
-I19/inst_sda_pre_internal.C I19/inst_scl_pre_internal.D \
-I19/inst_scl_pre_internal.C I19/addr_reg_0_.CE I19/addr_reg_0_.D \
-I19/addr_reg_0_.C I19/addr_reg_1_.CE I19/addr_reg_1_.D I19/addr_reg_1_.C \
-I19/addr_reg_3_.CE I19/addr_reg_3_.D I19/addr_reg_3_.C I19/addr_reg_5_.CE \
-I19/addr_reg_5_.D I19/addr_reg_5_.C I19/inst_scl_prev_reg.D \
+I19/bits_processed_reg_3_.C I19/byte_step_0_.C I19/byte_step_1_.C \
+I19/inst_sda_pre_internal.D I19/inst_sda_pre_internal.C \
+I19/inst_scl_pre_internal.D I19/inst_scl_pre_internal.C I19/addr_reg_0_.CE \
+I19/addr_reg_0_.D I19/addr_reg_0_.C I19/addr_reg_1_.CE I19/addr_reg_1_.D \
+I19/addr_reg_1_.C I19/addr_reg_3_.CE I19/addr_reg_3_.D I19/addr_reg_3_.C \
+I19/addr_reg_5_.CE I19/addr_reg_5_.D I19/addr_reg_5_.C I19/inst_scl_prev_reg.D \
 I19/inst_scl_prev_reg.C I19/inst_sda_prev_reg.D I19/inst_sda_prev_reg.C \
 I19/inst_stop_reg.D I19/inst_stop_reg.C I19/state_reg_2_.D I19/state_reg_2_.C \
 I19/inst_scl_rising_reg.D I19/inst_scl_rising_reg.C I19/state_reg_4_.C \
@@ -80,10 +80,27 @@ I19/data_reg_5_.C I19/data_reg_6_.CE I19/data_reg_6_.D I19/data_reg_6_.C \
 I19/inst_start_reg.D I19/inst_start_reg.C I19/state_reg_3_.C \
 I19/inst_sda_wen_reg.D I19/inst_sda_wen_reg.C I19/state_reg_5_.D \
 I19/state_reg_5_.C I19/state_reg_1_.D I19/state_reg_1_.C I19/inst_cmd_reg.CE \
-I19/inst_cmd_reg.D I19/inst_cmd_reg.C y0 y1 y2 y3 y4 y5 y6 y7 \
+I19/inst_cmd_reg.D I19/inst_cmd_reg.C I19/data_from_master_reg_0_.CE \
+I19/data_from_master_reg_0_.D I19/data_from_master_reg_0_.C \
+I19/data_from_master_reg_1_.CE I19/data_from_master_reg_1_.D \
+I19/data_from_master_reg_1_.C I19/data_from_master_reg_2_.CE \
+I19/data_from_master_reg_2_.D I19/data_from_master_reg_2_.C \
+I19/data_from_master_reg_3_.CE I19/data_from_master_reg_3_.D \
+I19/data_from_master_reg_3_.C I19/data_from_master_reg_4_.CE \
+I19/data_from_master_reg_4_.D I19/data_from_master_reg_4_.C \
+I19/data_from_master_reg_5_.CE I19/data_from_master_reg_5_.D \
+I19/data_from_master_reg_5_.C I19/data_from_master_reg_6_.CE \
+I19/data_from_master_reg_6_.D I19/data_from_master_reg_6_.C \
+I19/data_from_master_reg_7_.CE I19/data_from_master_reg_7_.D \
+I19/data_from_master_reg_7_.C I19/byte_step_LSBDFFCreg.CE \
+I19/byte_step_LSBDFFCreg.C I19/byte_step_MSBDFFCreg.CE \
+I19/byte_step_MSBDFFCreg.C y0 y1 y2 y3 y4 y5 y6 y7 \
 I19/bits_processed_reg_3_.D.X1 I19/bits_processed_reg_3_.D.X2 \
-I19/state_reg_4_.D.X1 I19/state_reg_4_.D.X2 I19/state_reg_3_.D.X1 \
-I19/state_reg_3_.D.X2
+I19/byte_step_0_.D.X1 I19/byte_step_0_.D.X2 I19/byte_step_1_.D.X1 \
+I19/byte_step_1_.D.X2 I19/state_reg_4_.D.X1 I19/state_reg_4_.D.X2 \
+I19/state_reg_3_.D.X1 I19/state_reg_3_.D.X2 I19/byte_step_LSBDFFCreg.D.X1 \
+I19/byte_step_LSBDFFCreg.D.X2 I19/byte_step_MSBDFFCreg.D.X1 \
+I19/byte_step_MSBDFFCreg.D.X2
 .names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
 I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
 I19/inst_stop_reg.BLIF I19/inst_scl_falling_reg.BLIF I19/inst_start_reg.BLIF \
@@ -96,14 +113,6 @@ I19/bits_processed_reg_0_.D
 ----1-- 0
 1------ 0
 ------1 0
-.names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
-I19/inst_stop_reg.BLIF I19/inst_start_reg.BLIF I19/bits_processed_reg_1_.D
-1000 1
-0100 1
-00-- 0
-11-- 0
---1- 0
----1 0
 .names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
 I19/bits_processed_reg_2_.BLIF I19/inst_stop_reg.BLIF I19/inst_start_reg.BLIF \
 I19/bits_processed_reg_2_.D
@@ -341,14 +350,13 @@ I19/state_reg_5_.BLIF I19/state_reg_5_.D
 .names I19/inst_stop_reg.BLIF I19/state_reg_2_.BLIF \
 I19/inst_scl_rising_reg.BLIF I19/inst_scl_falling_reg.BLIF \
 I19/inst_start_reg.BLIF I19/state_reg_1_.BLIF I19/state_reg_1_.D
-011-0- 1
+011-00 1
 0--001 1
-01--01 1
--0-1-- 0
+---1-1 0
 --0--0 0
+-0---0 0
 ----1- 0
 1----- 0
--0---0 0
 .names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
 I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
 I19/inst_scl_rising_reg.BLIF I19/state_reg_6_.BLIF I19/inst_cmd_reg.CE
@@ -362,15 +370,21 @@ I19/inst_scl_rising_reg.BLIF I19/state_reg_6_.BLIF I19/inst_cmd_reg.CE
 .names FPGA.PIN.BLIF Adapter
 1 1
 0 0
-.names IOselector.BLIF Adapter.OE
+.names y0.BLIF Adapter.OE
 1 1
 0 0
 .names Adapter.PIN.BLIF FPGA
 1 1
 0 0
-.names IOselector.BLIF FPGA.OE
+.names y0.BLIF FPGA.OE
 0 1
 1 0
+.names I19/byte_step_LSBDFFCreg.BLIF bs_LSB
+1 1
+0 0
+.names I19/byte_step_MSBDFFCreg.BLIF bs_MSB
+1 1
+0 0
 .names sda
  0
 .names I19/inst_sda_wen_reg.BLIF sda.OE
@@ -378,138 +392,154 @@ I19/inst_scl_rising_reg.BLIF I19/state_reg_6_.BLIF I19/inst_cmd_reg.CE
 0 0
 .names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
 I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
-I19/inst_scl_rising_reg.BLIF I19/state_reg_4_.BLIF \
-I19/data_from_master_reg_0_reg.CE
-111-11 1
----111 1
---00-- 0
--0-0-- 0
-0--0-- 0
-----0- 0
------0 0
-.names I19/inst_sda_pre_internal.BLIF I19/data_from_master_reg_0_reg.D
+I19/byte_step_0_.BLIF I19/byte_step_1_.BLIF I19/state_reg_4_.BLIF \
+I19/inst_scl_falling_reg.BLIF I19/data_0_0_reg.CE
+00010011 1
+------0- 0
+-----1-- 0
+----1--- 0
+---0---- 0
+--1----- 0
+-1------ 0
+1------- 0
+-------0 0
+.names I19/data_from_master_reg_0_.BLIF I19/data_0_0_reg.D
 1 1
 0 0
-.names OSCOUT.BLIF I19/data_from_master_reg_0_reg.C
-1 1
-0 0
-.names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
-I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
-I19/inst_scl_rising_reg.BLIF I19/state_reg_4_.BLIF \
-I19/data_from_master_reg_1_reg.CE
-111-11 1
----111 1
---00-- 0
--0-0-- 0
-0--0-- 0
-----0- 0
------0 0
-.names I19/data_reg_0_.BLIF I19/data_from_master_reg_1_reg.D
-1 1
-0 0
-.names OSCOUT.BLIF I19/data_from_master_reg_1_reg.C
+.names OSCOUT.BLIF I19/data_0_0_reg.C
 1 1
 0 0
 .names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
 I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
-I19/inst_scl_rising_reg.BLIF I19/state_reg_4_.BLIF \
-I19/data_from_master_reg_2_reg.CE
-111-11 1
----111 1
---00-- 0
--0-0-- 0
-0--0-- 0
-----0- 0
------0 0
-.names I19/data_reg_1_.BLIF I19/data_from_master_reg_2_reg.D
+I19/byte_step_0_.BLIF I19/byte_step_1_.BLIF I19/state_reg_4_.BLIF \
+I19/inst_scl_falling_reg.BLIF I19/data_0_1_reg.CE
+00010011 1
+------0- 0
+-----1-- 0
+----1--- 0
+---0---- 0
+--1----- 0
+-1------ 0
+1------- 0
+-------0 0
+.names I19/data_from_master_reg_1_.BLIF I19/data_0_1_reg.D
 1 1
 0 0
-.names OSCOUT.BLIF I19/data_from_master_reg_2_reg.C
-1 1
-0 0
-.names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
-I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
-I19/inst_scl_rising_reg.BLIF I19/state_reg_4_.BLIF \
-I19/data_from_master_reg_3_reg.CE
-111-11 1
----111 1
---00-- 0
--0-0-- 0
-0--0-- 0
-----0- 0
------0 0
-.names I19/data_reg_2_.BLIF I19/data_from_master_reg_3_reg.D
-1 1
-0 0
-.names OSCOUT.BLIF I19/data_from_master_reg_3_reg.C
+.names OSCOUT.BLIF I19/data_0_1_reg.C
 1 1
 0 0
 .names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
 I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
-I19/inst_scl_rising_reg.BLIF I19/state_reg_4_.BLIF \
-I19/data_from_master_reg_4_reg.CE
-111-11 1
----111 1
---00-- 0
--0-0-- 0
-0--0-- 0
-----0- 0
------0 0
-.names I19/data_reg_3_.BLIF I19/data_from_master_reg_4_reg.D
+I19/byte_step_0_.BLIF I19/byte_step_1_.BLIF I19/state_reg_4_.BLIF \
+I19/inst_scl_falling_reg.BLIF I19/data_0_2_reg.CE
+00010011 1
+------0- 0
+-----1-- 0
+----1--- 0
+---0---- 0
+--1----- 0
+-1------ 0
+1------- 0
+-------0 0
+.names I19/data_from_master_reg_2_.BLIF I19/data_0_2_reg.D
 1 1
 0 0
-.names OSCOUT.BLIF I19/data_from_master_reg_4_reg.C
-1 1
-0 0
-.names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
-I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
-I19/inst_scl_rising_reg.BLIF I19/state_reg_4_.BLIF \
-I19/data_from_master_reg_5_reg.CE
-111-11 1
----111 1
---00-- 0
--0-0-- 0
-0--0-- 0
-----0- 0
------0 0
-.names I19/data_reg_4_.BLIF I19/data_from_master_reg_5_reg.D
-1 1
-0 0
-.names OSCOUT.BLIF I19/data_from_master_reg_5_reg.C
+.names OSCOUT.BLIF I19/data_0_2_reg.C
 1 1
 0 0
 .names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
 I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
-I19/inst_scl_rising_reg.BLIF I19/state_reg_4_.BLIF \
-I19/data_from_master_reg_6_reg.CE
-111-11 1
----111 1
---00-- 0
--0-0-- 0
-0--0-- 0
-----0- 0
------0 0
-.names I19/data_reg_5_.BLIF I19/data_from_master_reg_6_reg.D
+I19/byte_step_0_.BLIF I19/byte_step_1_.BLIF I19/state_reg_4_.BLIF \
+I19/inst_scl_falling_reg.BLIF I19/data_0_3_reg.CE
+00010011 1
+------0- 0
+-----1-- 0
+----1--- 0
+---0---- 0
+--1----- 0
+-1------ 0
+1------- 0
+-------0 0
+.names I19/data_from_master_reg_3_.BLIF I19/data_0_3_reg.D
 1 1
 0 0
-.names OSCOUT.BLIF I19/data_from_master_reg_6_reg.C
+.names OSCOUT.BLIF I19/data_0_3_reg.C
 1 1
 0 0
 .names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
 I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
-I19/inst_scl_rising_reg.BLIF I19/state_reg_4_.BLIF \
-I19/data_from_master_reg_7_reg.CE
-111-11 1
----111 1
---00-- 0
--0-0-- 0
-0--0-- 0
-----0- 0
------0 0
-.names I19/data_reg_6_.BLIF I19/data_from_master_reg_7_reg.D
+I19/byte_step_0_.BLIF I19/byte_step_1_.BLIF I19/state_reg_4_.BLIF \
+I19/inst_scl_falling_reg.BLIF I19/data_0_4_reg.CE
+00010011 1
+------0- 0
+-----1-- 0
+----1--- 0
+---0---- 0
+--1----- 0
+-1------ 0
+1------- 0
+-------0 0
+.names I19/data_from_master_reg_4_.BLIF I19/data_0_4_reg.D
 1 1
 0 0
-.names OSCOUT.BLIF I19/data_from_master_reg_7_reg.C
+.names OSCOUT.BLIF I19/data_0_4_reg.C
+1 1
+0 0
+.names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
+I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
+I19/byte_step_0_.BLIF I19/byte_step_1_.BLIF I19/state_reg_4_.BLIF \
+I19/inst_scl_falling_reg.BLIF I19/data_0_5_reg.CE
+00010011 1
+------0- 0
+-----1-- 0
+----1--- 0
+---0---- 0
+--1----- 0
+-1------ 0
+1------- 0
+-------0 0
+.names I19/data_from_master_reg_5_.BLIF I19/data_0_5_reg.D
+1 1
+0 0
+.names OSCOUT.BLIF I19/data_0_5_reg.C
+1 1
+0 0
+.names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
+I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
+I19/byte_step_0_.BLIF I19/byte_step_1_.BLIF I19/state_reg_4_.BLIF \
+I19/inst_scl_falling_reg.BLIF I19/data_0_6_reg.CE
+00010011 1
+------0- 0
+-----1-- 0
+----1--- 0
+---0---- 0
+--1----- 0
+-1------ 0
+1------- 0
+-------0 0
+.names I19/data_from_master_reg_6_.BLIF I19/data_0_6_reg.D
+1 1
+0 0
+.names OSCOUT.BLIF I19/data_0_6_reg.C
+1 1
+0 0
+.names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
+I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
+I19/byte_step_0_.BLIF I19/byte_step_1_.BLIF I19/state_reg_4_.BLIF \
+I19/inst_scl_falling_reg.BLIF I19/data_0_7_reg.CE
+00010011 1
+------0- 0
+-----1-- 0
+----1--- 0
+---0---- 0
+--1----- 0
+-1------ 0
+1------- 0
+-------0 0
+.names I19/data_from_master_reg_7_.BLIF I19/data_0_7_reg.D
+1 1
+0 0
+.names OSCOUT.BLIF I19/data_0_7_reg.C
 1 1
 0 0
 .names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
@@ -563,6 +593,14 @@ I19/state_reg_3_.BLIF I19/bits_processed_reg_1_.CE
 ---10-0-00- 0
 ----00--00- 0
 ----0-00-00 0
+.names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
+I19/inst_stop_reg.BLIF I19/inst_start_reg.BLIF I19/bits_processed_reg_1_.D
+1000 1
+0100 1
+00-- 0
+11-- 0
+--1- 0
+---1 0
 .names OSCOUT.BLIF I19/bits_processed_reg_1_.C
 1 1
 0 0
@@ -618,6 +656,12 @@ I19/state_reg_3_.BLIF I19/bits_processed_reg_3_.CE
 ----00--00- 0
 ----0-00-00 0
 .names OSCOUT.BLIF I19/bits_processed_reg_3_.C
+1 1
+0 0
+.names OSCOUT.BLIF I19/byte_step_0_.C
+1 1
+0 0
+.names OSCOUT.BLIF I19/byte_step_1_.C
 1 1
 0 0
 .names sda.PIN.BLIF I19/inst_sda_pre_internal.D
@@ -876,28 +920,176 @@ I19/inst_scl_rising_reg.BLIF I19/state_reg_4_.BLIF I19/data_reg_6_.CE
 .names OSCOUT.BLIF I19/inst_cmd_reg.C
 1 1
 0 0
-.names I19/data_from_master_reg_0_reg.BLIF y0
+.names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
+I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
+I19/inst_scl_rising_reg.BLIF I19/state_reg_4_.BLIF \
+I19/data_from_master_reg_0_.CE
+111-11 1
+---111 1
+--00-- 0
+-0-0-- 0
+0--0-- 0
+----0- 0
+-----0 0
+.names I19/inst_sda_pre_internal.BLIF I19/data_from_master_reg_0_.D
 1 1
 0 0
-.names I19/data_from_master_reg_1_reg.BLIF y1
+.names OSCOUT.BLIF I19/data_from_master_reg_0_.C
 1 1
 0 0
-.names I19/data_from_master_reg_2_reg.BLIF y2
+.names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
+I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
+I19/inst_scl_rising_reg.BLIF I19/state_reg_4_.BLIF \
+I19/data_from_master_reg_1_.CE
+111-11 1
+---111 1
+--00-- 0
+-0-0-- 0
+0--0-- 0
+----0- 0
+-----0 0
+.names I19/data_reg_0_.BLIF I19/data_from_master_reg_1_.D
 1 1
 0 0
-.names I19/data_from_master_reg_3_reg.BLIF y3
+.names OSCOUT.BLIF I19/data_from_master_reg_1_.C
 1 1
 0 0
-.names I19/data_from_master_reg_4_reg.BLIF y4
+.names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
+I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
+I19/inst_scl_rising_reg.BLIF I19/state_reg_4_.BLIF \
+I19/data_from_master_reg_2_.CE
+111-11 1
+---111 1
+--00-- 0
+-0-0-- 0
+0--0-- 0
+----0- 0
+-----0 0
+.names I19/data_reg_1_.BLIF I19/data_from_master_reg_2_.D
 1 1
 0 0
-.names I19/data_from_master_reg_5_reg.BLIF y5
+.names OSCOUT.BLIF I19/data_from_master_reg_2_.C
 1 1
 0 0
-.names I19/data_from_master_reg_6_reg.BLIF y6
+.names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
+I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
+I19/inst_scl_rising_reg.BLIF I19/state_reg_4_.BLIF \
+I19/data_from_master_reg_3_.CE
+111-11 1
+---111 1
+--00-- 0
+-0-0-- 0
+0--0-- 0
+----0- 0
+-----0 0
+.names I19/data_reg_2_.BLIF I19/data_from_master_reg_3_.D
 1 1
 0 0
-.names I19/data_from_master_reg_7_reg.BLIF y7
+.names OSCOUT.BLIF I19/data_from_master_reg_3_.C
+1 1
+0 0
+.names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
+I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
+I19/inst_scl_rising_reg.BLIF I19/state_reg_4_.BLIF \
+I19/data_from_master_reg_4_.CE
+111-11 1
+---111 1
+--00-- 0
+-0-0-- 0
+0--0-- 0
+----0- 0
+-----0 0
+.names I19/data_reg_3_.BLIF I19/data_from_master_reg_4_.D
+1 1
+0 0
+.names OSCOUT.BLIF I19/data_from_master_reg_4_.C
+1 1
+0 0
+.names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
+I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
+I19/inst_scl_rising_reg.BLIF I19/state_reg_4_.BLIF \
+I19/data_from_master_reg_5_.CE
+111-11 1
+---111 1
+--00-- 0
+-0-0-- 0
+0--0-- 0
+----0- 0
+-----0 0
+.names I19/data_reg_4_.BLIF I19/data_from_master_reg_5_.D
+1 1
+0 0
+.names OSCOUT.BLIF I19/data_from_master_reg_5_.C
+1 1
+0 0
+.names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
+I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
+I19/inst_scl_rising_reg.BLIF I19/state_reg_4_.BLIF \
+I19/data_from_master_reg_6_.CE
+111-11 1
+---111 1
+--00-- 0
+-0-0-- 0
+0--0-- 0
+----0- 0
+-----0 0
+.names I19/data_reg_5_.BLIF I19/data_from_master_reg_6_.D
+1 1
+0 0
+.names OSCOUT.BLIF I19/data_from_master_reg_6_.C
+1 1
+0 0
+.names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
+I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
+I19/inst_scl_rising_reg.BLIF I19/state_reg_4_.BLIF \
+I19/data_from_master_reg_7_.CE
+111-11 1
+---111 1
+--00-- 0
+-0-0-- 0
+0--0-- 0
+----0- 0
+-----0 0
+.names I19/data_reg_6_.BLIF I19/data_from_master_reg_7_.D
+1 1
+0 0
+.names OSCOUT.BLIF I19/data_from_master_reg_7_.C
+1 1
+0 0
+.names I19/state_reg_4_.BLIF I19/byte_step_LSBDFFCreg.CE
+1 1
+0 0
+.names OSCOUT.BLIF I19/byte_step_LSBDFFCreg.C
+1 1
+0 0
+.names I19/state_reg_4_.BLIF I19/byte_step_MSBDFFCreg.CE
+1 1
+0 0
+.names OSCOUT.BLIF I19/byte_step_MSBDFFCreg.C
+1 1
+0 0
+.names I19/data_0_0_reg.BLIF y0
+1 1
+0 0
+.names I19/data_0_1_reg.BLIF y1
+1 1
+0 0
+.names I19/data_0_2_reg.BLIF y2
+1 1
+0 0
+.names I19/data_0_3_reg.BLIF y3
+1 1
+0 0
+.names I19/data_0_4_reg.BLIF y4
+1 1
+0 0
+.names I19/data_0_5_reg.BLIF y5
+1 1
+0 0
+.names I19/data_0_6_reg.BLIF y6
+1 1
+0 0
+.names I19/data_0_7_reg.BLIF y7
 1 1
 0 0
 .names I19/bits_processed_reg_3_.BLIF I19/inst_stop_reg.BLIF \
@@ -923,10 +1115,39 @@ I19/state_reg_3_.BLIF I19/bits_processed_reg_3_.D.X2
 0--0---- 0
 0----0-- 0
 ---0-1-1 0
-.names I19/state_reg_4_.BLIF I19/inst_start_reg.BLIF I19/state_reg_4_.D.X1
-10 1
-0- 0
--1 0
+.names I19/byte_step_0_.BLIF I19/byte_step_0_.D.X1
+1 1
+0 0
+.names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
+I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
+I19/byte_step_0_.BLIF I19/state_reg_4_.BLIF I19/inst_scl_falling_reg.BLIF \
+I19/byte_step_0_.D.X2
+0001-11 1
+1------ 0
+-1----- 0
+--1---- 0
+---0--- 0
+-----0- 0
+------0 0
+.names I19/byte_step_1_.BLIF I19/byte_step_1_.D.X1
+1 1
+0 0
+.names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
+I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
+I19/byte_step_0_.BLIF I19/byte_step_1_.BLIF I19/state_reg_4_.BLIF \
+I19/inst_scl_falling_reg.BLIF I19/byte_step_1_.D.X2
+00011-11 1
+1------- 0
+-1------ 0
+--1----- 0
+---0---- 0
+----0--- 0
+------0- 0
+-------0 0
+.names I19/inst_stop_reg.BLIF I19/state_reg_4_.BLIF I19/state_reg_4_.D.X1
+01 1
+1- 0
+-0 0
 .names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
 I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
 I19/inst_stop_reg.BLIF I19/state_reg_4_.BLIF I19/inst_continue_reg.BLIF \
@@ -934,25 +1155,26 @@ I19/inst_scl_falling_reg.BLIF I19/inst_start_reg.BLIF I19/state_reg_5_.BLIF \
 I19/state_reg_1_.BLIF I19/inst_cmd_reg.BLIF I19/state_reg_4_.D.X2
 ----00-101-0 1
 ----00110-10 1
-----11--0--- 1
-0001-1-1000- 1
---------1--- 0
-----10------ 0
-----0--0---- 0
+----01--1--- 1
+000101-1---- 1
+----1------- 0
 -----0-0---- 0
+-----0--1--- 0
+-------00--- 0
 -----0-----1 0
-1---01------ 0
--1--01------ 0
---1-01------ 0
----001------ 0
-----01---1-- 0
+1----1--0--- 0
+-1---1--0--- 0
+--1--1--0--- 0
+---0-1--0--- 0
 -----00--0-- 0
-----01----1- 0
 -----0---00- 0
-.names I19/inst_start_reg.BLIF I19/state_reg_3_.BLIF I19/state_reg_3_.D.X1
-01 1
-1- 0
--0 0
+.names I19/inst_stop_reg.BLIF I19/inst_scl_falling_reg.BLIF \
+I19/inst_start_reg.BLIF I19/state_reg_3_.BLIF I19/state_reg_3_.D.X1
+0101 1
+1--- 0
+-0-- 0
+--1- 0
+---0 0
 .names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
 I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
 I19/inst_stop_reg.BLIF I19/inst_continue_reg.BLIF \
@@ -961,19 +1183,64 @@ I19/state_reg_5_.BLIF I19/state_reg_1_.BLIF I19/inst_cmd_reg.BLIF \
 I19/state_reg_3_.D.X2
 ----0-1001-1 1
 ----01100-11 1
-----1--01--- 1
-1110--10100- 1
+----0-00100- 1
+11100--0100- 1
+----1------- 0
 -------1---- 0
-----0-0----- 0
-----1---0--- 0
 ------0-0--- 0
+--------11-- 0
+--------1-1- 0
 --------0--0 0
-0---0---1--- 0
--0--0---1--- 0
---0-0---1--- 0
----10---1--- 0
-----0---11-- 0
+0-----1-1--- 0
+-0----1-1--- 0
+--0---1-1--- 0
+---1--1-1--- 0
 -----0--00-- 0
-----0---1-1- 0
 --------000- 0
+.names I19/bits_processed_reg_0_.BLIF I19/byte_step_LSBDFFCreg.BLIF \
+I19/byte_step_LSBDFFCreg.D.X1
+01 1
+1- 0
+-0 0
+.names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
+I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
+I19/byte_step_0_.BLIF I19/inst_scl_falling_reg.BLIF \
+I19/byte_step_LSBDFFCreg.BLIF I19/byte_step_LSBDFFCreg.D.X2
+-001011 1
+0001110 1
+1-----1 1
+01----- 0
+0-1---- 0
+0--0--- 0
+0----0- 0
+1-----0 0
+-1----0 0
+--1---0 0
+---0--0 0
+----0-0 0
+-----00 0
+0---1-1 0
+.names I19/bits_processed_reg_0_.BLIF I19/byte_step_MSBDFFCreg.BLIF \
+I19/byte_step_MSBDFFCreg.D.X1
+01 1
+1- 0
+-0 0
+.names I19/bits_processed_reg_0_.BLIF I19/bits_processed_reg_1_.BLIF \
+I19/bits_processed_reg_2_.BLIF I19/bits_processed_reg_3_.BLIF \
+I19/byte_step_1_.BLIF I19/inst_scl_falling_reg.BLIF \
+I19/byte_step_MSBDFFCreg.BLIF I19/byte_step_MSBDFFCreg.D.X2
+-001011 1
+0001110 1
+1-----1 1
+01----- 0
+0-1---- 0
+0--0--- 0
+0----0- 0
+1-----0 0
+-1----0 0
+--1---0 0
+---0--0 0
+----0-0 0
+-----00 0
+0---1-1 0
 .end

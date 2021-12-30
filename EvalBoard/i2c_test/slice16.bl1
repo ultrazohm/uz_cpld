@@ -1,0 +1,114 @@
+#$ TOOL ispLEVER Classic 2.1.00.02.49.20
+#$ DATE Tue Dec 28 20:34:47 2021
+#$ MODULE slice16
+#$ PINS 32 data_1_ data_0_ data_15_ y0 y1 y2 y3 y4 y5 y6 y7 y8 y9 y10 y11 y12 y13 y14 y15 \
+#  data_14_ data_13_ data_12_ data_11_ data_10_ data_9_ data_8_ data_7_ data_6_ data_5_ \
+#  data_4_ data_3_ data_2_
+#$ NODES 16 y0_c y1_c y2_c y3_c y4_c y5_c y6_c y7_c y8_c y9_c y10_c y11_c y12_c y13_c y14_c \
+#  y15_c
+.model slice16
+.inputs data_15_.BLIF data_14_.BLIF data_13_.BLIF data_12_.BLIF data_11_.BLIF \
+data_10_.BLIF data_9_.BLIF data_8_.BLIF data_7_.BLIF data_6_.BLIF data_5_.BLIF \
+data_4_.BLIF data_3_.BLIF data_2_.BLIF data_1_.BLIF data_0_.BLIF y0_c.BLIF \
+y1_c.BLIF y2_c.BLIF y3_c.BLIF y4_c.BLIF y5_c.BLIF y6_c.BLIF y7_c.BLIF \
+y8_c.BLIF y9_c.BLIF y10_c.BLIF y11_c.BLIF y12_c.BLIF y13_c.BLIF y14_c.BLIF \
+y15_c.BLIF
+.outputs y0 y1 y2 y3 y4 y5 y6 y7 y8 y9 y10 y11 y12 y13 y14 y15 y0_c y1_c y2_c \
+y3_c y4_c y5_c y6_c y7_c y8_c y9_c y10_c y11_c y12_c y13_c y14_c y15_c
+.names y0_c.BLIF y0
+1 1
+0 0
+.names y1_c.BLIF y1
+1 1
+0 0
+.names y2_c.BLIF y2
+1 1
+0 0
+.names y3_c.BLIF y3
+1 1
+0 0
+.names y4_c.BLIF y4
+1 1
+0 0
+.names y5_c.BLIF y5
+1 1
+0 0
+.names y6_c.BLIF y6
+1 1
+0 0
+.names y7_c.BLIF y7
+1 1
+0 0
+.names y8_c.BLIF y8
+1 1
+0 0
+.names y9_c.BLIF y9
+1 1
+0 0
+.names y10_c.BLIF y10
+1 1
+0 0
+.names y11_c.BLIF y11
+1 1
+0 0
+.names y12_c.BLIF y12
+1 1
+0 0
+.names y13_c.BLIF y13
+1 1
+0 0
+.names y14_c.BLIF y14
+1 1
+0 0
+.names y15_c.BLIF y15
+1 1
+0 0
+.names data_0_.BLIF y0_c
+1 1
+0 0
+.names data_1_.BLIF y1_c
+1 1
+0 0
+.names data_2_.BLIF y2_c
+1 1
+0 0
+.names data_3_.BLIF y3_c
+1 1
+0 0
+.names data_4_.BLIF y4_c
+1 1
+0 0
+.names data_5_.BLIF y5_c
+1 1
+0 0
+.names data_6_.BLIF y6_c
+1 1
+0 0
+.names data_7_.BLIF y7_c
+1 1
+0 0
+.names data_8_.BLIF y8_c
+1 1
+0 0
+.names data_9_.BLIF y9_c
+1 1
+0 0
+.names data_10_.BLIF y10_c
+1 1
+0 0
+.names data_11_.BLIF y11_c
+1 1
+0 0
+.names data_12_.BLIF y12_c
+1 1
+0 0
+.names data_13_.BLIF y13_c
+1 1
+0 0
+.names data_14_.BLIF y14_c
+1 1
+0 0
+.names data_15_.BLIF y15_c
+1 1
+0 0
+.end

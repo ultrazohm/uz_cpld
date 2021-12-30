@@ -1,6 +1,15 @@
-C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct : <W0001> : Can not find signal 'scl_in'.
-C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct : <W0104> : Location Assignment 'scl_in' : Can not find this signal name.
-C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct : <W0104> : Location Assignment 'sda_in' : Can not find this signal name.
-C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct : <W0601> : IO Types Setting 'scl_in' : Invalid signal name.
-C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct : <W0601> : IO Types Setting 'sda_in' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.sif : <W5000> : Line 1607, Invalid node name: BEGIN y0_0
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.sif : <W5000> : Line 1608, Ignore line: Fanin Number		6
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.sif : <W5000> : Line 1609, Ignore line: Pterm Number		2
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.sif : <W5000> : Line 1610, Ignore line: Fanin per Macrocell	N/A
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.sif : <W5000> : Line 1611, Ignore line: Cluster PT		N/A
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.sif : <W5000> : Line 1612, Ignore line: Logic Levels		N/A
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.sif : <W5000> : Line 1613, Ignore line: Fanin Node      	I0_bits_processed_reg_0_.Q	4
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.sif : <W5000> : Line 1614, Ignore line: Fanin Node      	I0_bits_processed_reg_1_.Q	2
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.sif : <W5000> : Line 1615, Ignore line: Fanin Node      	I0_bits_processed_reg_2_.Q	3
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.sif : <W5000> : Line 1616, Ignore line: Fanin Node      	I0_bits_processed_reg_3_.Q	4
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.sif : <W5000> : Line 1617, Ignore line: Fanin Node      	I0_inst_scl_rising_reg.Q	1
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.sif : <W5000> : Line 1618, Ignore line: Fanin Node      	I0_state_reg_4_.Q   	4
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.sif : <W5000> : Line 1619, Ignore line: END
+
 Loading Lattice Constraint File 'C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct' done!

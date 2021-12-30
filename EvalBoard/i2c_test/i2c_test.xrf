@@ -2,7 +2,7 @@ Signal Name Cross Reference File
 
 ispLEVER Classic 2.1.00.02.49.20
 
-Design 'i2c_test' created Tue Dec 28 19:13:09 2021
+Design 'i2c_test' created Thu Dec 30 21:37:06 2021
 
 Title:  io_pins.bls 
 
@@ -24,6 +24,16 @@ I0_bits_processed_reg_0_             	I19/bits_processed_reg_0_
 I0_bits_processed_reg_1_             	I19/bits_processed_reg_1_
 I0_bits_processed_reg_2_             	I19/bits_processed_reg_2_
 I0_bits_processed_reg_3_             	I19/bits_processed_reg_3_
+I0_byte_step_0_                      	I19/byte_step_0_
+I0_byte_step_1_                      	I19/byte_step_1_
+I0_data_from_master_reg_0_           	I19/data_from_master_reg_0_
+I0_data_from_master_reg_1_           	I19/data_from_master_reg_1_
+I0_data_from_master_reg_2_           	I19/data_from_master_reg_2_
+I0_data_from_master_reg_3_           	I19/data_from_master_reg_3_
+I0_data_from_master_reg_4_           	I19/data_from_master_reg_4_
+I0_data_from_master_reg_5_           	I19/data_from_master_reg_5_
+I0_data_from_master_reg_6_           	I19/data_from_master_reg_6_
+I0_data_from_master_reg_7_           	I19/data_from_master_reg_7_
 I0_data_reg_0_                       	I19/data_reg_0_
 I0_data_reg_1_                       	I19/data_reg_1_
 I0_data_reg_2_                       	I19/data_reg_2_

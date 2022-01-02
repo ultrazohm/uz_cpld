@@ -3,8 +3,7 @@
 #--  Project file C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\scratchproject.prs
 
 #project files
-add_file -vhdl -lib work "C:/git/ultrazohm/software/cpld_lattice/evalboard/fpga-i2c-minion/debounce.vhd"
-add_file -vhdl -lib work "C:/git/ultrazohm/software/cpld_lattice/evalboard/fpga-i2c-minion/I2C_minion.vhd"
+add_file -vhdl -lib work "C:/git/ultrazohm/software/cpld_lattice/evalboard/i2c_test/output_en.vhd"
 
 
 
@@ -25,7 +24,7 @@ set_option -speed_grade -2.5
 set_option -part_companion ""
 
 #compilation/mapping options
-set_option -top_module "I2C_minion"
+set_option -top_module "output_en"
 
 # mapper_options
 set_option -frequency 200
@@ -56,8 +55,8 @@ set_option -auto_infer_blackbox 0
 set_option -write_apr_constraint 1
 
 #set result format/file last
-project -result_file "C:/git/ultrazohm/software/cpld_lattice/evalboard/i2c_test/I2C_minion.edi"
+project -result_file "C:/git/ultrazohm/software/cpld_lattice/evalboard/i2c_test/output_en.edi"
 
 #set log file 
-set_option log_file "C:/git/ultrazohm/software/cpld_lattice/evalboard/i2c_test/i2c_minion.srf" 
+set_option log_file "C:/git/ultrazohm/software/cpld_lattice/evalboard/i2c_test/output_en.srf" 
 impl -active "i2c_test"

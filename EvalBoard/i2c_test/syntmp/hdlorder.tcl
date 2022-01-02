@@ -1,1 +1,1 @@
-project -fileorder "C:/git/ultrazohm/software/cpld_lattice/evalboard/fpga-i2c-minion/debounce.vhd" "C:/git/ultrazohm/software/cpld_lattice/evalboard/fpga-i2c-minion/I2C_minion.vhd" 
+project -fileorder "C:/git/ultrazohm/software/cpld_lattice/evalboard/i2c_test/output_en.vhd" 

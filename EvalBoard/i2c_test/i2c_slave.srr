@@ -6,48 +6,38 @@
 #Implementation: i2c_test
 
 $ Start of Compile
-#Tue Dec 28 17:46:21 2021
+#Sun Jan 02 18:44:46 2022
 
 Synopsys VHDL Compiler, version comp201403rcp1, Build 060R, built May 27 2014
 @N|Running in 64-bit mode
 Copyright (C) 1994-2014 Synopsys, Inc. This software and the associated documentation are proprietary to Synopsys, Inc. This software may only be used in accordance with the terms and conditions of a written license agreement with Synopsys, Inc.  All other use, reproduction, or distribution of this software is strictly prohibited.
 
 @N: CD720 :"C:\ispLEVER_Classic2_1\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
-@N:"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd":59:7:59:15|Top entity is set to i2c_slave.
+@N:"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_slave_USACH.vhd":9:7:9:15|Top entity is set to i2c_slave.
 File C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd changed - recompiling
 VHDL syntax check successful!
 File C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd changed - recompiling
-@N: CD630 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd":59:7:59:15|Synthesizing work.i2c_slave.arch 
-@W: CG296 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd":133:0:133:6|Incomplete sensitivity list - assuming completeness
-@W: CG290 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd":136:18:136:23|Referenced variable sda_in is not in sensitivity list
-Post processing for work.i2c_slave.arch
-@N: CL201 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd":172:2:172:3|Trying to extract state machine for register sm_state
-Extracted state machine for register sm_state
-State machine has 18 reachable states with original encodings of:
-   00000
-   00001
-   00010
-   00011
-   00100
-   00101
-   00110
-   00111
-   01000
-   01001
-   01010
-   01011
-   01100
-   01101
-   01110
-   01111
-   10000
-   10001
+@N: CD630 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_slave_USACH.vhd":9:7:9:15|Synthesizing work.i2c_slave.i2c_slave 
+@N: CD231 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_slave_USACH.vhd":54:17:54:18|Using onehot encoding for type state_t (idle="10000000")
+Post processing for work.i2c_slave.i2c_slave
+@N: CL201 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_slave_USACH.vhd":70:4:70:5|Trying to extract state machine for register state
+Extracted state machine for register state
+State machine has 8 reachable states with original encodings of:
+   00000001
+   00000010
+   00000100
+   00001000
+   00010000
+   00100000
+   01000000
+   10000000
+@W: CL249 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_slave_USACH.vhd":70:4:70:5|Initial value is not supported on state machine state
 @END
 
 At c_vhdl Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 70MB peak: 71MB)
 
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Tue Dec 28 17:46:21 2021
+# Sun Jan 02 18:44:46 2022
 
 ###########################################################]
 Synopsys Netlist Linker, version comp201403rcp1, Build 060R, built May 27 2014
@@ -57,7 +47,7 @@ File C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synwork\i2c_slave
 At syn_nfilter Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 67MB peak: 68MB)
 
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Tue Dec 28 17:46:23 2021
+# Sun Jan 02 18:44:47 2022
 
 ###########################################################]
 Map & Optimize Report
@@ -66,39 +56,29 @@ Synopsys CPLD Technology Mapper, Version maplat, Build 923R, Built May  6 2014
 Copyright (C) 1994-2013, Synopsys, Inc. This software and the associated documentation are proprietary to Synopsys, Inc. This software may only be used in accordance with the terms and conditions of a written license agreement with Synopsys, Inc.  All other use or distribution of the software is strictly prohibited.
 Product Version I-2014.03LC 
 @N: MF248 |Running in 64-bit mode.
-Encoding state machine sm_state[0:17] (view:work.i2c_slave(arch))
+@N:"c:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\i2c_slave_usach.vhd":70:4:70:5|Found counter in view:work.i2c_slave(i2c_slave) inst bit_counter[3:0]
+Encoding state machine state[0:7] (view:work.i2c_slave(i2c_slave))
 original code -> new code
-   00000 -> 000000000000000000
-   00001 -> 000000000000000011
-   00010 -> 000000000000000101
-   00011 -> 000000000000001001
-   00100 -> 000000000000010001
-   00101 -> 000000000000100001
-   00110 -> 000000000001000001
-   00111 -> 000000000010000001
-   01000 -> 000000000100000001
-   01001 -> 000000001000000001
-   01010 -> 000000010000000001
-   01011 -> 000000100000000001
-   01100 -> 000001000000000001
-   01101 -> 000010000000000001
-   01110 -> 000100000000000001
-   01111 -> 001000000000000001
-   10000 -> 010000000000000001
-   10001 -> 100000000000000001
+   00000001 -> 00000000
+   00000010 -> 00000011
+   00000100 -> 00000101
+   00001000 -> 00001001
+   00010000 -> 00010001
+   00100000 -> 00100001
+   01000000 -> 01000001
+   10000000 -> 10000001
 ---------------------------------------
 Resource Usage Report
 
 Simple gate primitives:
-DFFRH           21 uses
-DFFSH           2 uses
-DFFCRH          17 uses
-DFFRSH          1 use
-IBUF            12 uses
-OBUF            14 uses
-AND2            100 uses
-INV             79 uses
-OR2             16 uses
+DFF             20 uses
+DFFC            29 uses
+IBUF            10 uses
+BI_DIR          1 use
+OBUF            11 uses
+AND2            158 uses
+INV             110 uses
+OR2             20 uses
 XOR2            1 use
 
 
@@ -109,6 +89,6 @@ Mapper successful!
 At Mapper Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 39MB peak: 105MB)
 
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Tue Dec 28 17:46:23 2021
+# Sun Jan 02 18:44:48 2022
 
 ###########################################################]

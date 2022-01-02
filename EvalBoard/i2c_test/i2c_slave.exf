@@ -1,381 +1,441 @@
 Section Type   Array Num   Name                     Real Name          Base     Number     Increment
 // -------------------------------------------------------------------------------------------------
-      Port          1      data_in(7:0)                  data_in                  7          8            -1
-      Port          2      data_out(7:0)                 data_out                  7          8            -1
+      Port          1      tx_byte(7:0)                  tx_byte                  7          8            -1
+      Port          2      rx_byte(7:0)                  rx_byte                  7          8            -1
 End
 Section Member   Rename                   Array-Notation          Array Number     Index
 // -------------------------------------------------------------------------------------
-        Port      data_in_7_                  data_in[7]                       1            0            
-        Port      data_in_6_                  data_in[6]                       1            1            
-        Port      data_in_5_                  data_in[5]                       1            2            
-        Port      data_in_4_                  data_in[4]                       1            3            
-        Port      data_in_3_                  data_in[3]                       1            4            
-        Port      data_in_2_                  data_in[2]                       1            5            
-        Port      data_in_1_                  data_in[1]                       1            6            
-        Port      data_in_0_                  data_in[0]                       1            7            
-        Port      data_out_7_                 data_out[7]                       2            0            
-        Port      data_out_6_                 data_out[6]                       2            1            
-        Port      data_out_5_                 data_out[5]                       2            2            
-        Port      data_out_4_                 data_out[4]                       2            3            
-        Port      data_out_3_                 data_out[3]                       2            4            
-        Port      data_out_2_                 data_out[2]                       2            5            
-        Port      data_out_1_                 data_out[1]                       2            6            
-        Port      data_out_0_                 data_out[0]                       2            7            
+        Port      tx_byte_7_                  tx_byte[7]                       1            0            
+        Port      tx_byte_6_                  tx_byte[6]                       1            1            
+        Port      tx_byte_5_                  tx_byte[5]                       1            2            
+        Port      tx_byte_4_                  tx_byte[4]                       1            3            
+        Port      tx_byte_3_                  tx_byte[3]                       1            4            
+        Port      tx_byte_2_                  tx_byte[2]                       1            5            
+        Port      tx_byte_1_                  tx_byte[1]                       1            6            
+        Port      tx_byte_0_                  tx_byte[0]                       1            7            
+        Port      rx_byte_7_                  rx_byte[7]                       2            0            
+        Port      rx_byte_6_                  rx_byte[6]                       2            1            
+        Port      rx_byte_5_                  rx_byte[5]                       2            2            
+        Port      rx_byte_4_                  rx_byte[4]                       2            3            
+        Port      rx_byte_3_                  rx_byte[3]                       2            4            
+        Port      rx_byte_2_                  rx_byte[2]                       2            5            
+        Port      rx_byte_1_                  rx_byte[1]                       2            6            
+        Port      rx_byte_0_                  rx_byte[0]                       2            7            
 End
 Section Cross Reference File
-Design 'i2c_slave' created Tue Dec 28 17:46:28 2021
+Design 'i2c_slave' created Sun Jan 02 18:44:52 2022
    Type              New Name                               Original Name
 // ----------------------------------------------------------------------
-   Inst          sm_state_i_0_                             sm_state_i[0]
-   Inst          sm_state_i_1_                             sm_state_i[1]
-   Inst           un19_i_a2_0_                              un19_i_a2[0]
-   Inst          sm_state_i_2_                             sm_state_i[2]
-   Inst          sm_state_i_3_                             sm_state_i[3]
-   Inst          sm_state_i_9_                             sm_state_i[9]
-   Inst             shift_i_6_                                shift_i[6]
-   Inst    sm_state_ns_o2_0_0_                       sm_state_ns_o2_0[0]
-   Inst            sm_state_9_                               sm_state[9]
-   Inst          sm_state_i_7_                             sm_state_i[7]
-   Inst            sm_state_8_                               sm_state[8]
-   Inst    sm_state_ns_i_o2_1_                       sm_state_ns_i_o2[1]
-   Inst            sm_state_7_                               sm_state[7]
-   Inst           un19_i_o2_3_                              un19_i_o2[3]
-   Inst            sm_state_6_                               sm_state[6]
-   Inst            sm_state_5_                               sm_state[5]
-   Inst            sm_state_4_                               sm_state[4]
-   Inst            sm_state_3_                               sm_state[3]
-   Inst            sm_state_2_                               sm_state[2]
-   Inst            sm_state_1_                               sm_state[1]
-   Inst            sm_state_0_                               sm_state[0]
-   Inst           sm_state_17_                              sm_state[17]
-   Inst           sm_state_16_                              sm_state[16]
-   Inst           sm_state_15_                              sm_state[15]
-   Inst           sm_state_14_                              sm_state[14]
-   Inst           sm_state_13_                              sm_state[13]
-   Inst           sm_state_12_                              sm_state[12]
-   Inst           sm_state_11_                              sm_state[11]
-   Inst           sm_state_10_                              sm_state[10]
-   Inst               shift_0_                                  shift[0]
-   Inst               shift_1_                                  shift[1]
-   Inst               shift_2_                                  shift[2]
-   Inst               shift_3_                                  shift[3]
-   Inst               shift_4_                                  shift[4]
-   Inst               shift_5_                                  shift[5]
-   Inst               shift_6_                                  shift[6]
-   Inst               shift_7_                                  shift[7]
-   Inst            data_int_0_                               data_int[0]
-   Inst            data_int_1_                               data_int[1]
-   Inst            data_int_2_                               data_int[2]
-   Inst            data_int_3_                               data_int[3]
-   Inst            data_int_4_                               data_int[4]
-   Inst            data_int_5_                               data_int[5]
-   Inst            data_int_6_                               data_int[6]
-   Inst            data_int_7_                               data_int[7]
-   Inst             data_in_0_                                data_in[0]
-   Inst             data_in_1_                                data_in[1]
-   Inst             data_in_2_                                data_in[2]
-   Inst             data_in_3_                                data_in[3]
-   Inst             data_in_4_                                data_in[4]
-   Inst             data_in_5_                                data_in[5]
-   Inst             data_in_6_                                data_in[6]
-   Inst             data_in_7_                                data_in[7]
-   Inst            data_out_0_                               data_out[0]
-   Inst            data_out_1_                               data_out[1]
-   Inst            data_out_2_                               data_out[2]
-   Inst            data_out_3_                               data_out[3]
-   Inst            data_out_4_                               data_out[4]
-   Inst            data_out_5_                               data_out[5]
-   Inst            data_out_6_                               data_out[6]
-   Inst            data_out_7_                               data_out[7]
-   Inst         un19_i_a3_1_1_                            un19_i_a3_1[1]
-   Inst         un19_i_a3_2_1_                            un19_i_a3_2[1]
-   Inst         un19_i_a3_3_1_                            un19_i_a3_3[1]
-   Inst           un19_i_a3_1_                              un19_i_a3[1]
-   Inst       sm_state_ns_i_0_                          sm_state_ns_i[0]
-   Inst       sm_state_ns_1_0_                          sm_state_ns_1[0]
-   Inst       sm_state_ns_2_0_                          sm_state_ns_2[0]
-   Inst       sm_state_ns_3_0_                          sm_state_ns_3[0]
-   Inst       sm_state_ns_4_0_                          sm_state_ns_4[0]
-   Inst         sm_state_ns_0_                            sm_state_ns[0]
-   Inst    sm_state_ns_o2_1_0_                       sm_state_ns_o2_1[0]
-   Inst      sm_state_ns_o2_0_                         sm_state_ns_o2[0]
-   Inst         sm_state_i_12_                            sm_state_i[12]
-   Inst   sm_state_ns_i_o2_i_1_                     sm_state_ns_i_o2_i[1]
-   Inst   sm_state_ns_o2_0_i_0_                     sm_state_ns_o2_0_i[0]
-   Inst          sm_state_i_4_                             sm_state_i[4]
-   Inst          sm_state_i_5_                             sm_state_i[5]
-   Inst          sm_state_i_6_                             sm_state_i[6]
-   Inst         sm_state_i_14_                            sm_state_i[14]
-   Inst    sm_state_ns_o2_i_0_                       sm_state_ns_o2_i[0]
-   Inst    sm_state_ns_o2_i_8_                       sm_state_ns_o2_i[8]
-   Inst         sm_state_i_16_                            sm_state_i[16]
-   Inst       sm_state_ns_i_9_                          sm_state_ns_i[9]
-   Inst    un1_sm_state_3_i_0_                       un1_sm_state_3_i[0]
-   Inst         shift_6_0_1__r                            shift_6_0_1_.r
-   Inst         shift_6_0_1__m                            shift_6_0_1_.m
-   Inst         shift_6_0_1__n                            shift_6_0_1_.n
-   Inst         shift_6_0_1__p                            shift_6_0_1_.p
-   Inst         shift_6_0_2__r                            shift_6_0_2_.r
-   Inst         shift_6_0_2__m                            shift_6_0_2_.m
-   Inst         shift_6_0_2__n                            shift_6_0_2_.n
-   Inst         shift_6_0_2__p                            shift_6_0_2_.p
-   Inst         shift_6_0_3__r                            shift_6_0_3_.r
-   Inst         shift_6_0_3__m                            shift_6_0_3_.m
-   Inst         shift_6_0_3__n                            shift_6_0_3_.n
-   Inst         shift_6_0_3__p                            shift_6_0_3_.p
-   Inst         shift_6_0_4__r                            shift_6_0_4_.r
-   Inst         shift_6_0_4__m                            shift_6_0_4_.m
-   Inst         shift_6_0_4__n                            shift_6_0_4_.n
-   Inst         shift_6_0_4__p                            shift_6_0_4_.p
-   Inst         shift_6_0_5__r                            shift_6_0_5_.r
-   Inst         shift_6_0_5__m                            shift_6_0_5_.m
-   Inst         shift_6_0_5__n                            shift_6_0_5_.n
-   Inst         shift_6_0_5__p                            shift_6_0_5_.p
-   Inst         shift_6_0_6__r                            shift_6_0_6_.r
-   Inst         shift_6_0_6__m                            shift_6_0_6_.m
-   Inst         shift_6_0_6__n                            shift_6_0_6_.n
-   Inst         shift_6_0_6__p                            shift_6_0_6_.p
-   Inst         shift_6_0_7__r                            shift_6_0_7_.r
-   Inst         shift_6_0_7__m                            shift_6_0_7_.m
-   Inst         shift_6_0_7__n                            shift_6_0_7_.n
-   Inst         shift_6_0_7__p                            shift_6_0_7_.p
-   Inst           shift_6_1__r                              shift_6_1_.r
-   Inst           shift_6_1__m                              shift_6_1_.m
-   Inst           shift_6_1__n                              shift_6_1_.n
-   Inst           shift_6_1__p                              shift_6_1_.p
-   Inst           shift_6_2__r                              shift_6_2_.r
-   Inst           shift_6_2__m                              shift_6_2_.m
-   Inst           shift_6_2__n                              shift_6_2_.n
-   Inst           shift_6_2__p                              shift_6_2_.p
-   Inst           shift_6_3__r                              shift_6_3_.r
-   Inst           shift_6_3__m                              shift_6_3_.m
-   Inst           shift_6_3__n                              shift_6_3_.n
-   Inst           shift_6_3__p                              shift_6_3_.p
-   Inst           shift_6_4__r                              shift_6_4_.r
-   Inst           shift_6_4__m                              shift_6_4_.m
-   Inst           shift_6_4__n                              shift_6_4_.n
-   Inst           shift_6_4__p                              shift_6_4_.p
-   Inst           shift_6_5__r                              shift_6_5_.r
-   Inst           shift_6_5__m                              shift_6_5_.m
-   Inst           shift_6_5__n                              shift_6_5_.n
-   Inst           shift_6_5__p                              shift_6_5_.p
-   Inst           shift_6_6__r                              shift_6_6_.r
-   Inst           shift_6_6__m                              shift_6_6_.m
-   Inst           shift_6_6__n                              shift_6_6_.n
-   Inst           shift_6_6__p                              shift_6_6_.p
-   Inst           shift_6_7__r                              shift_6_7_.r
-   Inst           shift_6_7__m                              shift_6_7_.m
-   Inst           shift_6_7__n                              shift_6_7_.n
-   Inst           shift_6_7__p                              shift_6_7_.p
-   Inst           data_in_i_7_                              data_in_i[7]
-   Inst    un1_sm_state_3_0__r                       un1_sm_state_3_0_.r
-   Inst    un1_sm_state_3_0__m                       un1_sm_state_3_0_.m
-   Inst    un1_sm_state_3_0__n                       un1_sm_state_3_0_.n
-   Inst    un1_sm_state_3_0__p                       un1_sm_state_3_0_.p
-   Inst             shift_i_0_                                shift_i[0]
-   Inst      sm_state_ns_a3_6_                         sm_state_ns_a3[6]
-   Inst          sm_state_i_8_                             sm_state_i[8]
-   Inst         sm_state_i_10_                            sm_state_i[10]
-   Inst      sm_state_ns_o2_8_                         sm_state_ns_o2[8]
-   Inst           shift_6_0__r                              shift_6_0_.r
-   Inst           shift_6_0__m                              shift_6_0_.m
-   Inst           shift_6_0__n                              shift_6_0_.n
-   Inst           shift_6_0__p                              shift_6_0_.p
-   Inst     sm_state_ns_a3_11_                        sm_state_ns_a3[11]
-   Inst      sm_state_ns_a3_9_                         sm_state_ns_a3[9]
-   Inst      sm_state_ns_a3_4_                         sm_state_ns_a3[4]
-   Inst      sm_state_ns_a3_2_                         sm_state_ns_a3[2]
-   Inst         sm_state_i_17_                            sm_state_i[17]
-   Inst    sm_state_ns_i_a3_1_                       sm_state_ns_i_a3[1]
-   Inst    sm_state_ns_a3_3_0_                       sm_state_ns_a3_3[0]
-   Inst    sm_state_ns_a3_2_0_                       sm_state_ns_a3_2[0]
-   Inst    sm_state_ns_a3_1_0_                       sm_state_ns_a3_1[0]
-   Inst    sm_state_ns_a3_0_0_                       sm_state_ns_a3_0[0]
-   Inst      sm_state_ns_a3_0_                         sm_state_ns_a3[0]
-   Inst           un19_i_o2_2_                              un19_i_o2[2]
-   Inst      sm_state_ns_i_10_                         sm_state_ns_i[10]
-   Inst         sm_state_ns_9_                            sm_state_ns[9]
-   Inst         sm_state_i_11_                            sm_state_i[11]
-   Inst       sm_state_ns_i_7_                          sm_state_ns_i[7]
-   Inst         sm_state_i_13_                            sm_state_i[13]
-   Inst       sm_state_ns_i_5_                          sm_state_ns_i[5]
-   Inst         sm_state_i_15_                            sm_state_i[15]
-   Inst       sm_state_ns_i_3_                          sm_state_ns_i[3]
-   Inst       sm_state_ns_i_1_                          sm_state_ns_i[1]
-   Net        shift_6_2__un0_n                            shift_6_2_.un0
-   Net        shift_6_3__un3_n                            shift_6_3_.un3
-   Net        shift_6_3__un1_n                            shift_6_3_.un1
-   Net        shift_6_3__un0_n                            shift_6_3_.un0
-   Net        shift_6_4__un3_n                            shift_6_4_.un3
-   Net           data_int_0__n                               data_int[0]
-   Net        shift_6_4__un1_n                            shift_6_4_.un1
-   Net           data_int_1__n                               data_int[1]
-   Net        shift_6_4__un0_n                            shift_6_4_.un0
-   Net           data_int_2__n                               data_int[2]
-   Net        shift_6_5__un3_n                            shift_6_5_.un3
-   Net           data_int_3__n                               data_int[3]
-   Net        shift_6_5__un1_n                            shift_6_5_.un1
-   Net           data_int_4__n                               data_int[4]
-   Net        shift_6_5__un0_n                            shift_6_5_.un0
-   Net           data_int_5__n                               data_int[5]
-   Net        shift_6_6__un3_n                            shift_6_6_.un3
-   Net           data_int_6__n                               data_int[6]
-   Net        shift_6_6__un1_n                            shift_6_6_.un1
-   Net           data_int_7__n                               data_int[7]
-   Net        shift_6_6__un0_n                            shift_6_6_.un0
-   Net        shift_6_7__un3_n                            shift_6_7_.un3
-   Net        shift_6_7__un1_n                            shift_6_7_.un1
-   Net        shift_6_7__un0_n                            shift_6_7_.un0
-   Net    un1_sm_state_3_0__un3_n                     un1_sm_state_3_0_.un3
-   Net    un1_sm_state_3_0__un1_n                     un1_sm_state_3_0_.un1
-   Net    un1_sm_state_3_0__un0_n                     un1_sm_state_3_0_.un0
-   Net        shift_6_0__un3_n                            shift_6_0_.un3
-   Net              shift_0__n                                  shift[0]
-   Net        shift_6_0__un1_n                            shift_6_0_.un1
-   Net        shift_6_0__un0_n                            shift_6_0_.un0
-   Net           sm_state_0__n                               sm_state[0]
-   Net              shift_6__n                                  shift[6]
-   Net          sm_state_16__n                              sm_state[16]
-   Net           sm_state_9__n                               sm_state[9]
-   Net           sm_state_8__n                               sm_state[8]
-   Net          sm_state_10__n                              sm_state[10]
-   Net          sm_state_17__n                              sm_state[17]
-   Net           sm_state_1__n                               sm_state[1]
-   Net          sm_state_15__n                              sm_state[15]
-   Net          sm_state_14__n                              sm_state[14]
-   Net          sm_state_13__n                              sm_state[13]
-   Net          sm_state_12__n                              sm_state[12]
-   Net          sm_state_11__n                              sm_state[11]
-   Net           sm_state_7__n                               sm_state[7]
-   Net           sm_state_6__n                               sm_state[6]
-   Net           sm_state_5__n                               sm_state[5]
-   Net           sm_state_4__n                               sm_state[4]
-   Net           sm_state_3__n                               sm_state[3]
-   Net           sm_state_2__n                               sm_state[2]
-   Net              shift_1__n                                  shift[1]
-   Net              shift_2__n                                  shift[2]
-   Net              shift_3__n                                  shift[3]
-   Net              shift_4__n                                  shift[4]
-   Net              shift_5__n                                  shift[5]
-   Net              shift_7__n                                  shift[7]
-   Net        sm_state_ns_0__n                            sm_state_ns[0]
-   Net        sm_state_ns_9__n                            sm_state_ns[9]
-   Net        sm_state_ns_2__n                            sm_state_ns[2]
-   Net        sm_state_ns_4__n                            sm_state_ns[4]
-   Net        sm_state_ns_6__n                            sm_state_ns[6]
-   Net       sm_state_ns_11__n                           sm_state_ns[11]
-   Net     un1_sm_state_3_0__n                         un1_sm_state_3[0]
-   Net            shift_6_0__n                                shift_6[0]
-   Net            shift_6_1__n                                shift_6[1]
-   Net            shift_6_2__n                                shift_6[2]
-   Net            shift_6_3__n                                shift_6[3]
-   Net            shift_6_4__n                                shift_6[4]
-   Net            shift_6_5__n                                shift_6[5]
-   Net            shift_6_6__n                                shift_6[6]
-   Net            shift_6_7__n                                shift_6[7]
-   Net    un1_sm_state_3_i_0__n                       un1_sm_state_3_i[0]
-   Net          data_in_i_7__n                              data_in_i[7]
-   Net        sm_state_i_10__n                            sm_state_i[10]
-   Net         sm_state_i_8__n                             sm_state_i[8]
-   Net            shift_i_0__n                                shift_i[0]
-   Net        sm_state_i_17__n                            sm_state_i[17]
-   Net         sm_state_i_0__n                             sm_state_i[0]
-   Net         sm_state_i_1__n                             sm_state_i[1]
-   Net        sm_state_i_15__n                            sm_state_i[15]
-   Net        sm_state_i_13__n                            sm_state_i[13]
-   Net        sm_state_i_11__n                            sm_state_i[11]
-   Net         sm_state_i_7__n                             sm_state_i[7]
-   Net            shift_i_6__n                                shift_i[6]
-   Net         sm_state_i_9__n                             sm_state_i[9]
-   Net         sm_state_i_2__n                             sm_state_i[2]
-   Net         sm_state_i_3__n                             sm_state_i[3]
-   Net          data_in_c_0__n                              data_in_c[0]
-   Net            data_in_0__n                                data_in[0]
-   Net          data_in_c_1__n                              data_in_c[1]
-   Net            data_in_1__n                                data_in[1]
-   Net          data_in_c_2__n                              data_in_c[2]
-   Net            data_in_2__n                                data_in[2]
-   Net          data_in_c_3__n                              data_in_c[3]
-   Net            data_in_3__n                                data_in[3]
-   Net          data_in_c_4__n                              data_in_c[4]
-   Net            data_in_4__n                                data_in[4]
-   Net          data_in_c_5__n                              data_in_c[5]
-   Net            data_in_5__n                                data_in[5]
-   Net          data_in_c_6__n                              data_in_c[6]
-   Net            data_in_6__n                                data_in[6]
-   Net          data_in_c_7__n                              data_in_c[7]
-   Net           data_out_0__n                               data_out[0]
-   Net           data_out_1__n                               data_out[1]
-   Net           data_out_2__n                               data_out[2]
-   Net           data_out_3__n                               data_out[3]
-   Net           data_out_4__n                               data_out[4]
-   Net           data_out_5__n                               data_out[5]
-   Net           data_out_6__n                               data_out[6]
-   Net        sm_state_i_16__n                            sm_state_i[16]
-   Net      sm_state_ns_0_9__n                          sm_state_ns_0[9]
-   Net        sm_state_i_12__n                            sm_state_i[12]
-   Net         sm_state_i_4__n                             sm_state_i[4]
-   Net         sm_state_i_5__n                             sm_state_i[5]
-   Net         sm_state_i_6__n                             sm_state_i[6]
-   Net        sm_state_i_14__n                            sm_state_i[14]
-   Net      sm_state_ns_0_0__n                          sm_state_ns_0[0]
-   Net    sm_state_ns_0_1_0__n                        sm_state_ns_0_1[0]
-   Net    sm_state_ns_0_2_0__n                        sm_state_ns_0_2[0]
-   Net    sm_state_ns_0_3_0__n                        sm_state_ns_0_3[0]
-   Net    sm_state_ns_0_4_0__n                        sm_state_ns_0_4[0]
-   Net      shift_6_0_1__un3_n                          shift_6_0_1_.un3
-   Net      shift_6_0_1__un1_n                          shift_6_0_1_.un1
-   Net      shift_6_0_1__un0_n                          shift_6_0_1_.un0
-   Net      shift_6_0_2__un3_n                          shift_6_0_2_.un3
-   Net      shift_6_0_2__un1_n                          shift_6_0_2_.un1
-   Net      shift_6_0_2__un0_n                          shift_6_0_2_.un0
-   Net      shift_6_0_3__un3_n                          shift_6_0_3_.un3
-   Net      shift_6_0_3__un1_n                          shift_6_0_3_.un1
-   Net      shift_6_0_3__un0_n                          shift_6_0_3_.un0
-   Net      shift_6_0_4__un3_n                          shift_6_0_4_.un3
-   Net      shift_6_0_4__un1_n                          shift_6_0_4_.un1
-   Net      shift_6_0_4__un0_n                          shift_6_0_4_.un0
-   Net      shift_6_0_5__un3_n                          shift_6_0_5_.un3
-   Net      shift_6_0_5__un1_n                          shift_6_0_5_.un1
-   Net      shift_6_0_5__un0_n                          shift_6_0_5_.un0
-   Net      shift_6_0_6__un3_n                          shift_6_0_6_.un3
-   Net      shift_6_0_6__un1_n                          shift_6_0_6_.un1
-   Net      shift_6_0_6__un0_n                          shift_6_0_6_.un0
-   Net      shift_6_0_7__un3_n                          shift_6_0_7_.un3
-   Net      shift_6_0_7__un1_n                          shift_6_0_7_.un1
-   Net      shift_6_0_7__un0_n                          shift_6_0_7_.un0
-   Net        shift_6_1__un3_n                            shift_6_1_.un3
-   Net        shift_6_1__un1_n                            shift_6_1_.un1
-   Net        shift_6_1__un0_n                            shift_6_1_.un0
-   Net        shift_6_2__un3_n                            shift_6_2_.un3
-   Net        shift_6_2__un1_n                            shift_6_2_.un1
+   Inst                 i_1T1T                                     sda
+   Inst             state_i_1_                                state_i[1]
+   Inst   i2c_fsm_p_sda_o_2_3_i_m2_r                i2c_fsm_p.sda_o_2_3_i_m2.r
+   Inst   i2c_fsm_p_sda_o_2_3_i_m2_m                i2c_fsm_p.sda_o_2_3_i_m2.m
+   Inst   i2c_fsm_p_sda_o_2_3_i_m2_n                i2c_fsm_p.sda_o_2_3_i_m2.n
+   Inst   i2c_fsm_p_sda_o_2_3_i_m2_p                i2c_fsm_p.sda_o_2_3_i_m2.p
+   Inst   i2c_fsm_p_sda_o_2_6_i_m2_r                i2c_fsm_p.sda_o_2_6_i_m2.r
+   Inst   i2c_fsm_p_sda_o_2_6_i_m2_m                i2c_fsm_p.sda_o_2_6_i_m2.m
+   Inst   i2c_fsm_p_sda_o_2_6_i_m2_n                i2c_fsm_p.sda_o_2_6_i_m2.n
+   Inst   i2c_fsm_p_sda_o_2_6_i_m2_p                i2c_fsm_p.sda_o_2_6_i_m2.p
+   Inst   i2c_fsm_p_sda_o_2_7_i_m2_r                i2c_fsm_p.sda_o_2_7_i_m2.r
+   Inst   i2c_fsm_p_sda_o_2_7_i_m2_m                i2c_fsm_p.sda_o_2_7_i_m2.m
+   Inst             state_i_7_                                state_i[7]
+   Inst   i2c_fsm_p_sda_o_2_7_i_m2_n                i2c_fsm_p.sda_o_2_7_i_m2.n
+   Inst               state_6_                                  state[6]
+   Inst   i2c_fsm_p_sda_o_2_7_i_m2_p                i2c_fsm_p.sda_o_2_7_i_m2.p
+   Inst               state_5_                                  state[5]
+   Inst   i2c_fsm_p_sda_o_2_5_i_m2_r                i2c_fsm_p.sda_o_2_5_i_m2.r
+   Inst               state_4_                                  state[4]
+   Inst   i2c_fsm_p_sda_o_2_5_i_m2_m                i2c_fsm_p.sda_o_2_5_i_m2.m
+   Inst               state_3_                                  state[3]
+   Inst   i2c_fsm_p_sda_o_2_5_i_m2_n                i2c_fsm_p.sda_o_2_5_i_m2.n
+   Inst               state_2_                                  state[2]
+   Inst   i2c_fsm_p_sda_o_2_5_i_m2_p                i2c_fsm_p.sda_o_2_5_i_m2.p
+   Inst               state_1_                                  state[1]
+   Inst   i2c_fsm_p_sda_o_2_4_i_m2_r                i2c_fsm_p.sda_o_2_4_i_m2.r
+   Inst               state_0_                                  state[0]
+   Inst   i2c_fsm_p_sda_o_2_4_i_m2_m                i2c_fsm_p.sda_o_2_4_i_m2.m
+   Inst         rx_data_buf_0_                            rx_data_buf[0]
+   Inst   i2c_fsm_p_sda_o_2_4_i_m2_n                i2c_fsm_p.sda_o_2_4_i_m2.n
+   Inst         rx_data_buf_1_                            rx_data_buf[1]
+   Inst   i2c_fsm_p_sda_o_2_4_i_m2_p                i2c_fsm_p.sda_o_2_4_i_m2.p
+   Inst         rx_data_buf_2_                            rx_data_buf[2]
+   Inst   i2c_fsm_p_sda_o_2_2_i_m2_r                i2c_fsm_p.sda_o_2_2_i_m2.r
+   Inst         rx_data_buf_3_                            rx_data_buf[3]
+   Inst   i2c_fsm_p_sda_o_2_2_i_m2_m                i2c_fsm_p.sda_o_2_2_i_m2.m
+   Inst         rx_data_buf_4_                            rx_data_buf[4]
+   Inst   i2c_fsm_p_sda_o_2_2_i_m2_n                i2c_fsm_p.sda_o_2_2_i_m2.n
+   Inst         rx_data_buf_5_                            rx_data_buf[5]
+   Inst   i2c_fsm_p_sda_o_2_2_i_m2_p                i2c_fsm_p.sda_o_2_2_i_m2.p
+   Inst         rx_data_buf_6_                            rx_data_buf[6]
+   Inst   i2c_fsm_p_sda_o_2_1_i_m2_r                i2c_fsm_p.sda_o_2_1_i_m2.r
+   Inst         rx_data_buf_7_                            rx_data_buf[7]
+   Inst   i2c_fsm_p_sda_o_2_1_i_m2_m                i2c_fsm_p.sda_o_2_1_i_m2.m
+   Inst            addr_buf_0_                               addr_buf[0]
+   Inst   i2c_fsm_p_sda_o_2_1_i_m2_n                i2c_fsm_p.sda_o_2_1_i_m2.n
+   Inst            addr_buf_1_                               addr_buf[1]
+   Inst   i2c_fsm_p_sda_o_2_1_i_m2_p                i2c_fsm_p.sda_o_2_1_i_m2.p
+   Inst            addr_buf_2_                               addr_buf[2]
+   Inst   i2c_fsm_p_rx_data_buf_1_i_m2_2__r         i2c_fsm_p.rx_data_buf_1_i_m2_2_.r
+   Inst            addr_buf_3_                               addr_buf[3]
+   Inst   i2c_fsm_p_rx_data_buf_1_i_m2_2__m         i2c_fsm_p.rx_data_buf_1_i_m2_2_.m
+   Inst            addr_buf_4_                               addr_buf[4]
+   Inst   i2c_fsm_p_rx_data_buf_1_i_m2_2__n         i2c_fsm_p.rx_data_buf_1_i_m2_2_.n
+   Inst            addr_buf_5_                               addr_buf[5]
+   Inst   i2c_fsm_p_rx_data_buf_1_i_m2_2__p         i2c_fsm_p.rx_data_buf_1_i_m2_2_.p
+   Inst            addr_buf_6_                               addr_buf[6]
+   Inst   i2c_fsm_p_addr_buf_1_i_m2_2__r            i2c_fsm_p.addr_buf_1_i_m2_2_.r
+   Inst         bit_counter_3_                            bit_counter[3]
+   Inst   i2c_fsm_p_addr_buf_1_i_m2_2__m            i2c_fsm_p.addr_buf_1_i_m2_2_.m
+   Inst         tx_byte_buf_0_                            tx_byte_buf[0]
+   Inst   i2c_fsm_p_addr_buf_1_i_m2_2__n            i2c_fsm_p.addr_buf_1_i_m2_2_.n
+   Inst         tx_byte_buf_1_                            tx_byte_buf[1]
+   Inst   i2c_fsm_p_addr_buf_1_i_m2_2__p            i2c_fsm_p.addr_buf_1_i_m2_2_.p
+   Inst         tx_byte_buf_2_                            tx_byte_buf[2]
+   Inst   i2c_fsm_p_rx_data_buf_1_i_m2_3__r         i2c_fsm_p.rx_data_buf_1_i_m2_3_.r
+   Inst         tx_byte_buf_3_                            tx_byte_buf[3]
+   Inst   i2c_fsm_p_rx_data_buf_1_i_m2_3__m         i2c_fsm_p.rx_data_buf_1_i_m2_3_.m
+   Inst         tx_byte_buf_4_                            tx_byte_buf[4]
+   Inst   i2c_fsm_p_rx_data_buf_1_i_m2_3__n         i2c_fsm_p.rx_data_buf_1_i_m2_3_.n
+   Inst         tx_byte_buf_5_                            tx_byte_buf[5]
+   Inst   i2c_fsm_p_rx_data_buf_1_i_m2_3__p         i2c_fsm_p.rx_data_buf_1_i_m2_3_.p
+   Inst         tx_byte_buf_6_                            tx_byte_buf[6]
+   Inst   i2c_fsm_p_addr_buf_1_i_m2_5__r            i2c_fsm_p.addr_buf_1_i_m2_5_.r
+   Inst         tx_byte_buf_7_                            tx_byte_buf[7]
+   Inst   i2c_fsm_p_addr_buf_1_i_m2_5__m            i2c_fsm_p.addr_buf_1_i_m2_5_.m
+   Inst         bit_counter_0_                            bit_counter[0]
+   Inst   i2c_fsm_p_addr_buf_1_i_m2_5__n            i2c_fsm_p.addr_buf_1_i_m2_5_.n
+   Inst         bit_counter_1_                            bit_counter[1]
+   Inst   i2c_fsm_p_addr_buf_1_i_m2_5__p            i2c_fsm_p.addr_buf_1_i_m2_5_.p
+   Inst         bit_counter_2_                            bit_counter[2]
+   Inst   i2c_fsm_p_rx_data_buf_1_i_m2_6__r         i2c_fsm_p.rx_data_buf_1_i_m2_6_.r
+   Inst   i2c_fsm_p_rx_data_buf_1_i_m2_6__m         i2c_fsm_p.rx_data_buf_1_i_m2_6_.m
+   Inst   i2c_fsm_p_rx_data_buf_1_i_m2_6__n         i2c_fsm_p.rx_data_buf_1_i_m2_6_.n
+   Inst   i2c_fsm_p_rx_data_buf_1_i_m2_6__p         i2c_fsm_p.rx_data_buf_1_i_m2_6_.p
+   Inst   i2c_fsm_p_addr_buf_1_i_m2_6__r            i2c_fsm_p.addr_buf_1_i_m2_6_.r
+   Inst   i2c_fsm_p_addr_buf_1_i_m2_6__m            i2c_fsm_p.addr_buf_1_i_m2_6_.m
+   Inst   i2c_fsm_p_addr_buf_1_i_m2_6__n            i2c_fsm_p.addr_buf_1_i_m2_6_.n
+   Inst   i2c_fsm_p_addr_buf_1_i_m2_6__p            i2c_fsm_p.addr_buf_1_i_m2_6_.p
+   Inst   i2c_fsm_p_rx_data_buf_1_i_m2_7__r         i2c_fsm_p.rx_data_buf_1_i_m2_7_.r
+   Inst   i2c_fsm_p_rx_data_buf_1_i_m2_7__m         i2c_fsm_p.rx_data_buf_1_i_m2_7_.m
+   Inst   i2c_fsm_p_rx_data_buf_1_i_m2_7__n         i2c_fsm_p.rx_data_buf_1_i_m2_7_.n
+   Inst   i2c_fsm_p_rx_data_buf_1_i_m2_7__p         i2c_fsm_p.rx_data_buf_1_i_m2_7_.p
+   Inst   i2c_fsm_p_addr_buf_1_i_o2_0_5_            i2c_fsm_p.addr_buf_1_i_o2_0[5]
+   Inst   state_srsts_0_i_0_0_o2_1_3_               state_srsts_0_i_0_0_o2_1[3]
+   Inst   i2c_fsm_p_addr_buf_1_i_o2_5_              i2c_fsm_p.addr_buf_1_i_o2[5]
+   Inst   i2c_fsm_p_addr_buf_1_i_o2_2_              i2c_fsm_p.addr_buf_1_i_o2[2]
+   Inst   state_srsts_0_i_0_0_o2_0_3_               state_srsts_0_i_0_0_o2_0[3]
+   Inst             tx_byte_0_                                tx_byte[0]
+   Inst             tx_byte_1_                                tx_byte[1]
+   Inst             state_i_2_                                state_i[2]
+   Inst             tx_byte_2_                                tx_byte[2]
+   Inst             tx_byte_3_                                tx_byte[3]
+   Inst   i2c_fsm_p_rx_data_buf_1_i_o2_2_           i2c_fsm_p.rx_data_buf_1_i_o2[2]
+   Inst             tx_byte_4_                                tx_byte[4]
+   Inst             tx_byte_5_                                tx_byte[5]
+   Inst   state_srsts_0_i_0_0_o2_3_                 state_srsts_0_i_0_0_o2[3]
+   Inst             tx_byte_6_                                tx_byte[6]
+   Inst   state_srsts_0_i_0_0_o2_4_                 state_srsts_0_i_0_0_o2[4]
+   Inst             tx_byte_7_                                tx_byte[7]
+   Inst             rx_byte_0_                                rx_byte[0]
+   Inst             state_i_0_                                state_i[0]
+   Inst             rx_byte_1_                                rx_byte[1]
+   Inst             rx_byte_2_                                rx_byte[2]
+   Inst             state_i_5_                                state_i[5]
+   Inst             rx_byte_3_                                rx_byte[3]
+   Inst   state_srsts_0_i_0_0_a2_0_3_               state_srsts_0_i_0_0_a2_0[3]
+   Inst             rx_byte_4_                                rx_byte[4]
+   Inst             rx_byte_5_                                rx_byte[5]
+   Inst             rx_byte_6_                                rx_byte[6]
+   Inst   state_srsts_0_0_0_a2_1_2_                 state_srsts_0_0_0_a2_1[2]
+   Inst             rx_byte_7_                                rx_byte[7]
+   Inst   state_srsts_0_i_0_0_0_                    state_srsts_0_i_0_0[0]
+   Inst   state_srsts_0_0_0_0_2_                    state_srsts_0_0_0_0[2]
+   Inst   state_srsts_0_i_0_0_3_                    state_srsts_0_i_0_0[3]
+   Inst   state_srsts_0_0_0_0_a2_1_5_               state_srsts_0_0_0_0_a2_1[5]
+   Inst   state_nsss_i_0_i_i_0_                     state_nsss_i_0_i_i[0]
+   Inst   state_srsts_0_0_0_0_a2_5_                 state_srsts_0_0_0_0_a2[5]
+   Inst   state_nsss_i_0_i_i_a2_1_0_                state_nsss_i_0_i_i_a2_1[0]
+   Inst   i2c_fsm_p_addr_buf_1_i_o2_6_              i2c_fsm_p.addr_buf_1_i_o2[6]
+   Inst   state_nsss_i_0_i_i_a2_0_                  state_nsss_i_0_i_i_a2[0]
+   Inst   state_srsts_0_i_0_0_o2_0_                 state_srsts_0_i_0_0_o2[0]
+   Inst   state_srsts_0_0_0_0_a2_1_2_               state_srsts_0_0_0_0_a2_1[2]
+   Inst   state_srsts_0_0_0_0_a2_2_                 state_srsts_0_0_0_0_a2[2]
+   Inst   state_srsts_0_i_0_0_a2_0_                 state_srsts_0_i_0_0_a2[0]
+   Inst   strobe_p_un12_scl_d2_0_a2_1               strobe_p.un12_scl_d2_0_a2_1
+   Inst   state_srsts_0_0_0_a2_0_2_                 state_srsts_0_0_0_a2_0[2]
+   Inst   strobe_p_un12_scl_d2_0_a2_2               strobe_p.un12_scl_d2_0_a2_2
+   Inst   state_srsts_0_i_0_0_a2_3_                 state_srsts_0_i_0_0_a2[3]
+   Inst   strobe_p_un12_scl_d2_0_a2                 strobe_p.un12_scl_d2_0_a2
+   Inst   strobe_p_un6_scl_d_0_a2_1                 strobe_p.un6_scl_d_0_a2_1
+   Inst   state_nsss_i_0_i_i_a2_0_0_                state_nsss_i_0_i_i_a2_0[0]
+   Inst   strobe_p_un6_scl_d_0_a2_2                 strobe_p.un6_scl_d_0_a2_2
+   Inst   state_srsts_0_i_0_0_a2_1_                 state_srsts_0_i_0_0_a2[1]
+   Inst   strobe_p_un6_scl_d_0_a2                   strobe_p.un6_scl_d_0_a2
+   Inst   state_srsts_0_i_0_0_a2_0_1_               state_srsts_0_i_0_0_a2_0[1]
+   Inst             state_i_4_                                state_i[4]
+   Inst   state_srsts_0_i_0_0_a2_4_                 state_srsts_0_i_0_0_a2[4]
+   Inst   state_srsts_0_i_0_0_a2_6_                 state_srsts_0_i_0_0_a2[6]
+   Inst             state_i_3_                                state_i[3]
+   Inst   i2c_fsm_p_sda_out_en_2_i_a4_0_a3_0_a2     i2c_fsm_p.sda_out_en_2_i_a4_0_a3_0_a2
+   Inst   strobe_p_un2_scl_d2_0_a2                  strobe_p.un2_scl_d2_0_a2
+   Inst   strobe_p_un5_scl_d2_0_a2                  strobe_p.un5_scl_d2_0_a2
+   Inst            tx_done_0_r                               tx_done_0.r
+   Inst   state_srsts_0_0_0_a2_1_1_5_               state_srsts_0_0_0_a2_1_1[5]
+   Inst            tx_done_0_m                               tx_done_0.m
+   Inst   state_srsts_0_0_0_a2_1_5_                 state_srsts_0_0_0_a2_1[5]
+   Inst            tx_done_0_n                               tx_done_0.n
+   Inst   state_srsts_0_i_0_0_o2_0_0_               state_srsts_0_i_0_0_o2_0[0]
+   Inst            tx_done_0_p                               tx_done_0.p
+   Inst   state_srsts_0_i_0_0_1_6_                  state_srsts_0_i_0_0_1[6]
+   Inst   state_srsts_0_i_0_0_6_                    state_srsts_0_i_0_0[6]
+   Inst   state_srsts_0_0_0_0_1_5_                  state_srsts_0_0_0_0_1[5]
+   Inst   state_srsts_0_0_0_0_5_                    state_srsts_0_0_0_0[5]
+   Inst   state_srsts_0_i_0_0_1_4_                  state_srsts_0_i_0_0_1[4]
+   Inst   state_srsts_0_i_0_0_4_                    state_srsts_0_i_0_0[4]
+   Inst   state_srsts_0_i_0_0_1_1_                  state_srsts_0_i_0_0_1[1]
+   Inst   state_srsts_0_i_0_0_1_                    state_srsts_0_i_0_0[1]
+   Inst   state_srsts_0_0_0_0_i_2_                  state_srsts_0_0_0_0_i[2]
+   Inst   i2c_fsm_p_addr_buf_1_i_o2_1_4_            i2c_fsm_p.addr_buf_1_i_o2_1[4]
+   Inst   i2c_fsm_p_addr_buf_1_i_o2_4_              i2c_fsm_p.addr_buf_1_i_o2[4]
+   Inst   state_srsts_0_i_0_0_o2_0_1_0_             state_srsts_0_i_0_0_o2_0_1[0]
+   Inst   state_srsts_0_0_0_0_i_5_                  state_srsts_0_0_0_0_i[5]
+   Inst   state_nsss_i_0_i_i_i_0_                   state_nsss_i_0_i_i_i[0]
+   Inst   state_nsss_i_0_i_i_o2_i_0_                state_nsss_i_0_i_i_o2_i[0]
+   Inst   state_srsts_0_i_0_0_o2_0_i_0_             state_srsts_0_i_0_0_o2_0_i[0]
+   Inst   state_srsts_0_i_0_0_o2_i_4_               state_srsts_0_i_0_0_o2_i[4]
+   Inst   state_srsts_0_i_0_0_o2_i_3_               state_srsts_0_i_0_0_o2_i[3]
+   Inst   i2c_fsm_p_rx_data_buf_1_i_o2_i_2_         i2c_fsm_p.rx_data_buf_1_i_o2_i[2]
+   Inst   i2c_fsm_p_addr_buf_1_i_o2_i_2_            i2c_fsm_p.addr_buf_1_i_o2_i[2]
+   Inst   i2c_fsm_p_addr_buf_1_i_o2_i_5_            i2c_fsm_p.addr_buf_1_i_o2_i[5]
+   Inst   state_srsts_0_i_0_0_o2_1_i_3_             state_srsts_0_i_0_0_o2_1_i[3]
+   Inst   i2c_fsm_p_addr_buf_1_i_o2_i_6_            i2c_fsm_p.addr_buf_1_i_o2_i[6]
+   Inst   i2c_fsm_p_addr_buf_1_208_i_0_o2_i         i2c_fsm_p.addr_buf_1_208_i_0_o2_i
+   Inst   i2c_fsm_p_addr_buf_1_i_o2_i_4_            i2c_fsm_p.addr_buf_1_i_o2_i[4]
+   Inst   i2c_fsm_p_addr_buf_1_0_191_i_0_o2_i       i2c_fsm_p.addr_buf_1_0_191_i_0_o2_i
+   Inst   i2c_fsm_p_rx_data_buf_1_i_i_o2_i_4_       i2c_fsm_p.rx_data_buf_1_i_i_o2_i[4]
+   Inst   i2c_fsm_p_rx_data_buf_1_i_o2_i_1_         i2c_fsm_p.rx_data_buf_1_i_o2_i[1]
+   Inst       bit_counter_i_3_                          bit_counter_i[3]
+   Inst       bit_counter_i_2_                          bit_counter_i[2]
+   Inst       bit_counter_i_1_                          bit_counter_i[1]
+   Inst   state_srsts_0_i_0_0_a2_0_6_               state_srsts_0_i_0_0_a2_0[6]
+   Inst   state_srsts_0_0_0_a2_0_5_                 state_srsts_0_0_0_a2_0[5]
+   Inst          addr_buf_i_0_                             addr_buf_i[0]
+   Inst   i2c_fsm_p_addr_buf_1_208_i_0_a2           i2c_fsm_p.addr_buf_1_208_i_0_a2
+   Inst   i2c_fsm_p_rx_data_buf_1_i_a2_0_1_         i2c_fsm_p.rx_data_buf_1_i_a2_0[1]
+   Inst       rx_data_buf_i_1_                          rx_data_buf_i[1]
+   Inst   i2c_fsm_p_rx_data_buf_1_i_a2_1_           i2c_fsm_p.rx_data_buf_1_i_a2[1]
+   Inst   i2c_fsm_p_rx_data_buf_1_i_a2_0_0_         i2c_fsm_p.rx_data_buf_1_i_a2_0[0]
+   Inst       rx_data_buf_i_0_                          rx_data_buf_i[0]
+   Inst   i2c_fsm_p_rx_data_buf_1_i_a2_0_           i2c_fsm_p.rx_data_buf_1_i_a2[0]
+   Inst   i2c_fsm_p_addr_buf_1_208_i_0              i2c_fsm_p.addr_buf_1_208_i_0
+   Inst   i2c_fsm_p_rx_data_buf_1_i_1_              i2c_fsm_p.rx_data_buf_1_i[1]
+   Inst   i2c_fsm_p_rx_data_buf_1_i_0_              i2c_fsm_p.rx_data_buf_1_i[0]
+   Inst   state_srsts_0_i_0_0_a2_0_4_               state_srsts_0_i_0_0_a2_0[4]
+   Inst          addr_buf_i_3_                             addr_buf_i[3]
+   Inst          addr_buf_i_6_                             addr_buf_i[6]
+   Inst          addr_buf_i_5_                             addr_buf_i[5]
+   Inst          addr_buf_i_1_                             addr_buf_i[1]
+   Inst          addr_buf_i_2_                             addr_buf_i[2]
+   Inst   i2c_fsm_p_addr_buf_1_208_i_0_a2_0         i2c_fsm_p.addr_buf_1_208_i_0_a2_0
+   Inst   i2c_fsm_p_rx_data_buf_1_i_m2_5__r         i2c_fsm_p.rx_data_buf_1_i_m2_5_.r
+   Inst   i2c_fsm_p_rx_data_buf_1_i_m2_5__m         i2c_fsm_p.rx_data_buf_1_i_m2_5_.m
+   Inst   i2c_fsm_p_rx_data_buf_1_i_m2_5__n         i2c_fsm_p.rx_data_buf_1_i_m2_5_.n
+   Inst   i2c_fsm_p_rx_data_buf_1_i_m2_5__p         i2c_fsm_p.rx_data_buf_1_i_m2_5_.p
+   Inst   i2c_fsm_p_addr_buf_1_i_m2_4__r            i2c_fsm_p.addr_buf_1_i_m2_4_.r
+   Inst   i2c_fsm_p_addr_buf_1_i_m2_4__m            i2c_fsm_p.addr_buf_1_i_m2_4_.m
+   Inst   i2c_fsm_p_addr_buf_1_i_m2_4__n            i2c_fsm_p.addr_buf_1_i_m2_4_.n
+   Inst   i2c_fsm_p_addr_buf_1_i_m2_4__p            i2c_fsm_p.addr_buf_1_i_m2_4_.p
+   Inst   i2c_fsm_p_addr_buf_1_0_191_i_0_m2_r       i2c_fsm_p.addr_buf_1_0_191_i_0_m2.r
+   Inst   i2c_fsm_p_addr_buf_1_0_191_i_0_m2_m       i2c_fsm_p.addr_buf_1_0_191_i_0_m2.m
+   Inst   i2c_fsm_p_addr_buf_1_0_191_i_0_m2_n       i2c_fsm_p.addr_buf_1_0_191_i_0_m2.n
+   Inst   i2c_fsm_p_addr_buf_1_0_191_i_0_m2_p       i2c_fsm_p.addr_buf_1_0_191_i_0_m2.p
+   Inst       rx_data_buf_i_4_                          rx_data_buf_i[4]
+   Inst   i2c_fsm_p_rx_data_buf_1_i_i_m2_4__r       i2c_fsm_p.rx_data_buf_1_i_i_m2_4_.r
+   Inst   i2c_fsm_p_rx_data_buf_1_i_i_m2_4__m       i2c_fsm_p.rx_data_buf_1_i_i_m2_4_.m
+   Inst   i2c_fsm_p_rx_data_buf_1_i_i_m2_4__n       i2c_fsm_p.rx_data_buf_1_i_i_m2_4_.n
+   Inst   i2c_fsm_p_rx_data_buf_1_i_i_m2_4__p       i2c_fsm_p.rx_data_buf_1_i_i_m2_4_.p
+   Inst   state_nsss_i_0_i_i_o2_0_                  state_nsss_i_0_i_i_o2[0]
+   Inst   i2c_fsm_p_addr_buf_1_2_174_i_i_m2_r       i2c_fsm_p.addr_buf_1_2_174_i_i_m2.r
+   Inst   i2c_fsm_p_addr_buf_1_2_174_i_i_m2_m       i2c_fsm_p.addr_buf_1_2_174_i_i_m2.m
+   Inst   i2c_fsm_p_addr_buf_1_2_174_i_i_m2_n       i2c_fsm_p.addr_buf_1_2_174_i_i_m2.n
+   Inst   i2c_fsm_p_addr_buf_1_2_174_i_i_m2_p       i2c_fsm_p.addr_buf_1_2_174_i_i_m2.p
+   Inst   i2c_fsm_p_rx_data_buf_1_i_o2_1_           i2c_fsm_p.rx_data_buf_1_i_o2[1]
+   Inst   i2c_fsm_p_rx_data_buf_1_i_i_o2_4_         i2c_fsm_p.rx_data_buf_1_i_i_o2[4]
+   Inst   i2c_fsm_p_addr_buf_1_0_191_i_0_o2         i2c_fsm_p.addr_buf_1_0_191_i_0_o2
+   Inst             state_i_6_                                state_i[6]
+   Inst   i2c_fsm_p_addr_buf_1_208_i_0_o2           i2c_fsm_p.addr_buf_1_208_i_0_o2
+   Net        rx_data_buf_0__n                            rx_data_buf[0]
+   Net        rx_data_buf_1__n                            rx_data_buf[1]
+   Net        rx_data_buf_2__n                            rx_data_buf[2]
+   Net        rx_data_buf_3__n                            rx_data_buf[3]
+   Net        rx_data_buf_4__n                            rx_data_buf[4]
+   Net        rx_data_buf_5__n                            rx_data_buf[5]
+   Net        rx_data_buf_6__n                            rx_data_buf[6]
+   Net        rx_data_buf_7__n                            rx_data_buf[7]
+   Net              state_0__n                                  state[0]
+   Net       state_nsss_0_5__n                           state_nsss_0[5]
+   Net        bit_counter_1__n                            bit_counter[1]
+   Net        bit_counter_2__n                            bit_counter[2]
+   Net        bit_counter_3__n                            bit_counter[3]
+   Net           addr_buf_0__n                               addr_buf[0]
+   Net           addr_buf_1__n                               addr_buf[1]
+   Net           addr_buf_2__n                               addr_buf[2]
+   Net           addr_buf_3__n                               addr_buf[3]
+   Net           addr_buf_5__n                               addr_buf[5]
+   Net           addr_buf_6__n                               addr_buf[6]
+   Net              state_3__n                                  state[3]
+   Net              state_2__n                                  state[2]
+   Net    strobe_p_un2_scl_d2_n                       strobe_p.un2_scl_d2
+   Net    strobe_p_un5_scl_d2_n                       strobe_p.un5_scl_d2
+   Net    strobe_p_un6_scl_d_n                        strobe_p.un6_scl_d
+   Net     state_nsss_0_1_2__n                         state_nsss_0_1[2]
+   Net    strobe_p_un12_scl_d2_n                      strobe_p.un12_scl_d2
+   Net              state_4__n                                  state[4]
+   Net           addr_buf_4__n                               addr_buf[4]
+   Net              state_6__n                                  state[6]
+   Net              state_5__n                                  state[5]
+   Net              state_1__n                                  state[1]
+   Net    i2c_fsm_p_un3_scl_rising_strobe_n           i2c_fsm_p.un3_scl_rising_strobe
+   Net        tx_byte_buf_0__n                            tx_byte_buf[0]
+   Net        tx_byte_buf_1__n                            tx_byte_buf[1]
+   Net        tx_byte_buf_2__n                            tx_byte_buf[2]
+   Net        tx_byte_buf_3__n                            tx_byte_buf[3]
+   Net        tx_byte_buf_4__n                            tx_byte_buf[4]
+   Net        tx_byte_buf_5__n                            tx_byte_buf[5]
+   Net    strobe_p_un12_scl_d2_1_n                    strobe_p.un12_scl_d2_1
+   Net        tx_byte_buf_6__n                            tx_byte_buf[6]
+   Net    strobe_p_un12_scl_d2_2_n                    strobe_p.un12_scl_d2_2
+   Net        tx_byte_buf_7__n                            tx_byte_buf[7]
+   Net    strobe_p_un6_scl_d_1_n                      strobe_p.un6_scl_d_1
+   Net    strobe_p_un6_scl_d_2_n                      strobe_p.un6_scl_d_2
+   Net    i2c_fsm_p_rx_data_buf_1_i_m2_5__un3_n       i2c_fsm_p.rx_data_buf_1_i_m2_5_.un3
+   Net    i2c_fsm_p_rx_data_buf_1_i_m2_5__un1_n       i2c_fsm_p.rx_data_buf_1_i_m2_5_.un1
+   Net            state_i_7__n                                state_i[7]
+   Net    i2c_fsm_p_rx_data_buf_1_i_m2_5__un0_n       i2c_fsm_p.rx_data_buf_1_i_m2_5_.un0
+   Net         state_nsss_2__n                             state_nsss[2]
+   Net    i2c_fsm_p_addr_buf_1_i_m2_4__un3_n          i2c_fsm_p.addr_buf_1_i_m2_4_.un3
+   Net         state_nsss_5__n                             state_nsss[5]
+   Net    i2c_fsm_p_addr_buf_1_i_m2_4__un1_n          i2c_fsm_p.addr_buf_1_i_m2_4_.un1
+   Net    i2c_fsm_p_addr_buf_1_i_m2_4__un0_n          i2c_fsm_p.addr_buf_1_i_m2_4_.un0
+   Net    i2c_fsm_p_addr_buf_1_0_191_i_0_m2_un3_n     i2c_fsm_p.addr_buf_1_0_191_i_0_m2.un3
+   Net    i2c_fsm_p_addr_buf_1_0_191_i_0_m2_un1_n     i2c_fsm_p.addr_buf_1_0_191_i_0_m2.un1
+   Net    i2c_fsm_p_addr_buf_1_0_191_i_0_m2_un0_n     i2c_fsm_p.addr_buf_1_0_191_i_0_m2.un0
+   Net    i2c_fsm_p_rx_data_buf_1_i_i_m2_4__un3_n     i2c_fsm_p.rx_data_buf_1_i_i_m2_4_.un3
+   Net    i2c_fsm_p_rx_data_buf_1_i_i_m2_4__un1_n     i2c_fsm_p.rx_data_buf_1_i_i_m2_4_.un1
+   Net    i2c_fsm_p_rx_data_buf_1_i_i_m2_4__un0_n     i2c_fsm_p.rx_data_buf_1_i_i_m2_4_.un0
+   Net    i2c_fsm_p_addr_buf_1_2_174_i_i_m2_un3_n     i2c_fsm_p.addr_buf_1_2_174_i_i_m2.un3
+   Net    i2c_fsm_p_addr_buf_1_2_174_i_i_m2_un1_n     i2c_fsm_p.addr_buf_1_2_174_i_i_m2.un1
+   Net    i2c_fsm_p_addr_buf_1_2_174_i_i_m2_un0_n     i2c_fsm_p.addr_buf_1_2_174_i_i_m2.un0
+   Net    i2c_fsm_p_sda_o_2_3_i_m2_un3_n              i2c_fsm_p.sda_o_2_3_i_m2.un3
+   Net    i2c_fsm_p_sda_o_2_3_i_m2_un1_n              i2c_fsm_p.sda_o_2_3_i_m2.un1
+   Net    i2c_fsm_p_sda_o_2_3_i_m2_un0_n              i2c_fsm_p.sda_o_2_3_i_m2.un0
+   Net    i2c_fsm_p_sda_o_2_6_i_m2_un3_n              i2c_fsm_p.sda_o_2_6_i_m2.un3
+   Net    i2c_fsm_p_sda_o_2_6_i_m2_un1_n              i2c_fsm_p.sda_o_2_6_i_m2.un1
+   Net    i2c_fsm_p_sda_o_2_6_i_m2_un0_n              i2c_fsm_p.sda_o_2_6_i_m2.un0
+   Net    i2c_fsm_p_sda_o_2_7_i_m2_un3_n              i2c_fsm_p.sda_o_2_7_i_m2.un3
+   Net    i2c_fsm_p_sda_o_2_7_i_m2_un1_n              i2c_fsm_p.sda_o_2_7_i_m2.un1
+   Net    i2c_fsm_p_sda_o_2_7_i_m2_un0_n              i2c_fsm_p.sda_o_2_7_i_m2.un0
+   Net    i2c_fsm_p_sda_o_2_5_i_m2_un3_n              i2c_fsm_p.sda_o_2_5_i_m2.un3
+   Net    i2c_fsm_p_sda_o_2_5_i_m2_un1_n              i2c_fsm_p.sda_o_2_5_i_m2.un1
+   Net    i2c_fsm_p_sda_o_2_5_i_m2_un0_n              i2c_fsm_p.sda_o_2_5_i_m2.un0
+   Net    i2c_fsm_p_sda_o_2_4_i_m2_un3_n              i2c_fsm_p.sda_o_2_4_i_m2.un3
+   Net    i2c_fsm_p_sda_o_2_4_i_m2_un1_n              i2c_fsm_p.sda_o_2_4_i_m2.un1
+   Net    i2c_fsm_p_sda_o_2_4_i_m2_un0_n              i2c_fsm_p.sda_o_2_4_i_m2.un0
+   Net    i2c_fsm_p_sda_o_2_2_i_m2_un3_n              i2c_fsm_p.sda_o_2_2_i_m2.un3
+   Net    i2c_fsm_p_sda_o_2_2_i_m2_un1_n              i2c_fsm_p.sda_o_2_2_i_m2.un1
+   Net    i2c_fsm_p_sda_o_2_2_i_m2_un0_n              i2c_fsm_p.sda_o_2_2_i_m2.un0
+   Net    i2c_fsm_p_sda_o_2_1_i_m2_un3_n              i2c_fsm_p.sda_o_2_1_i_m2.un3
+   Net    i2c_fsm_p_sda_o_2_1_i_m2_un1_n              i2c_fsm_p.sda_o_2_1_i_m2.un1
+   Net    i2c_fsm_p_sda_o_2_1_i_m2_un0_n              i2c_fsm_p.sda_o_2_1_i_m2.un0
+   Net    i2c_fsm_p_rx_data_buf_1_i_m2_2__un3_n       i2c_fsm_p.rx_data_buf_1_i_m2_2_.un3
+   Net    i2c_fsm_p_rx_data_buf_1_i_m2_2__un1_n       i2c_fsm_p.rx_data_buf_1_i_m2_2_.un1
+   Net    i2c_fsm_p_rx_data_buf_1_i_m2_2__un0_n       i2c_fsm_p.rx_data_buf_1_i_m2_2_.un0
+   Net    i2c_fsm_p_addr_buf_1_i_m2_2__un3_n          i2c_fsm_p.addr_buf_1_i_m2_2_.un3
+   Net    i2c_fsm_p_addr_buf_1_i_m2_2__un1_n          i2c_fsm_p.addr_buf_1_i_m2_2_.un1
+   Net    i2c_fsm_p_addr_buf_1_i_m2_2__un0_n          i2c_fsm_p.addr_buf_1_i_m2_2_.un0
+   Net    i2c_fsm_p_rx_data_buf_1_i_m2_3__un3_n       i2c_fsm_p.rx_data_buf_1_i_m2_3_.un3
+   Net    i2c_fsm_p_rx_data_buf_1_i_m2_3__un1_n       i2c_fsm_p.rx_data_buf_1_i_m2_3_.un1
+   Net    i2c_fsm_p_rx_data_buf_1_i_m2_3__un0_n       i2c_fsm_p.rx_data_buf_1_i_m2_3_.un0
+   Net    i2c_fsm_p_addr_buf_1_i_m2_5__un3_n          i2c_fsm_p.addr_buf_1_i_m2_5_.un3
+   Net    i2c_fsm_p_addr_buf_1_i_m2_5__un1_n          i2c_fsm_p.addr_buf_1_i_m2_5_.un1
+   Net    i2c_fsm_p_addr_buf_1_i_m2_5__un0_n          i2c_fsm_p.addr_buf_1_i_m2_5_.un0
+   Net    i2c_fsm_p_rx_data_buf_1_i_m2_6__un3_n       i2c_fsm_p.rx_data_buf_1_i_m2_6_.un3
+   Net    i2c_fsm_p_rx_data_buf_1_i_m2_6__un1_n       i2c_fsm_p.rx_data_buf_1_i_m2_6_.un1
+   Net    i2c_fsm_p_rx_data_buf_1_i_m2_6__un0_n       i2c_fsm_p.rx_data_buf_1_i_m2_6_.un0
+   Net    i2c_fsm_p_addr_buf_1_i_m2_6__un3_n          i2c_fsm_p.addr_buf_1_i_m2_6_.un3
+   Net    i2c_fsm_p_addr_buf_1_i_m2_6__un1_n          i2c_fsm_p.addr_buf_1_i_m2_6_.un1
+   Net    i2c_fsm_p_addr_buf_1_i_m2_6__un0_n          i2c_fsm_p.addr_buf_1_i_m2_6_.un0
+   Net    i2c_fsm_p_rx_data_buf_1_i_m2_7__un3_n       i2c_fsm_p.rx_data_buf_1_i_m2_7_.un3
+   Net    i2c_fsm_p_rx_data_buf_1_i_m2_7__un1_n       i2c_fsm_p.rx_data_buf_1_i_m2_7_.un1
+   Net    i2c_fsm_p_rx_data_buf_1_i_m2_7__un0_n       i2c_fsm_p.rx_data_buf_1_i_m2_7_.un0
+   Net         tx_done_0_un3_n                             tx_done_0.un3
+   Net         tx_done_0_un1_n                             tx_done_0.un1
+   Net         tx_done_0_un0_n                             tx_done_0.un0
+   Net      bit_counter_i_1__n                          bit_counter_i[1]
+   Net      bit_counter_i_2__n                          bit_counter_i[2]
+   Net      bit_counter_i_3__n                          bit_counter_i[3]
+   Net    rx_data_buf_i_0_0__n                        rx_data_buf_i_0[0]
+   Net    rx_data_buf_i_0_1__n                        rx_data_buf_i_0[1]
+   Net         addr_buf_i_0__n                             addr_buf_i[0]
+   Net         addr_buf_i_1__n                             addr_buf_i[1]
+   Net         addr_buf_i_2__n                             addr_buf_i[2]
+   Net         addr_buf_i_6__n                             addr_buf_i[6]
+   Net         addr_buf_i_5__n                             addr_buf_i[5]
+   Net         addr_buf_i_3__n                             addr_buf_i[3]
+   Net            state_i_6__n                                state_i[6]
+   Net      rx_data_buf_i_4__n                          rx_data_buf_i[4]
+   Net            state_i_1__n                                state_i[1]
+   Net            state_i_2__n                                state_i[2]
+   Net            state_i_5__n                                state_i[5]
+   Net            state_i_0__n                                state_i[0]
+   Net            state_i_3__n                                state_i[3]
+   Net            state_i_4__n                                state_i[4]
+   Net          tx_byte_c_0__n                              tx_byte_c[0]
+   Net            tx_byte_0__n                                tx_byte[0]
+   Net          tx_byte_c_1__n                              tx_byte_c[1]
+   Net            tx_byte_1__n                                tx_byte[1]
+   Net          tx_byte_c_2__n                              tx_byte_c[2]
+   Net            tx_byte_2__n                                tx_byte[2]
+   Net          tx_byte_c_3__n                              tx_byte_c[3]
+   Net            tx_byte_3__n                                tx_byte[3]
+   Net          tx_byte_c_4__n                              tx_byte_c[4]
+   Net            tx_byte_4__n                                tx_byte[4]
+   Net          tx_byte_c_5__n                              tx_byte_c[5]
+   Net            tx_byte_5__n                                tx_byte[5]
+   Net          tx_byte_c_6__n                              tx_byte_c[6]
+   Net            tx_byte_6__n                                tx_byte[6]
+   Net          tx_byte_c_7__n                              tx_byte_c[7]
+   Net            rx_byte_0__n                                rx_byte[0]
+   Net            rx_byte_1__n                                rx_byte[1]
+   Net            rx_byte_2__n                                rx_byte[2]
+   Net            rx_byte_3__n                                rx_byte[3]
+   Net            rx_byte_4__n                                rx_byte[4]
+   Net            rx_byte_5__n                                rx_byte[5]
+   Net            rx_byte_6__n                                rx_byte[6]
+   Net       state_nsss_0_2__n                           state_nsss_0[2]
 End
 Section Type      Name
 // ----------------------------------------------------------------------
-        Input     data_in_7_
-        Input     XRESET
-        Input     ready
-        Input     scl_in
-        Input     sda_in
-        Input     data_in_6_
-        Input     data_in_5_
-        Input     data_in_4_
-        Input     data_in_3_
-        Input     data_in_2_
-        Input     data_in_1_
-        Input     data_in_0_
-        Output     data_out_7_
-        Output     start
-        Output     stop
-        Output     r_w
-        Output     data_vld
-        Output     scl_oe
-        Output     sda_oe
-        Output     data_out_6_
-        Output     data_out_5_
-        Output     data_out_4_
-        Output     data_out_3_
-        Output     data_out_2_
-        Output     data_out_1_
-        Output     data_out_0_
+        Input     tx_byte_7_
+        Input     scl
+        Input     clk
+        Input     tx_byte_6_
+        Input     tx_byte_5_
+        Input     tx_byte_4_
+        Input     tx_byte_3_
+        Input     tx_byte_2_
+        Input     tx_byte_1_
+        Input     tx_byte_0_
+        Output     rx_byte_7_
+        Output     in_progress
+        Output     tx_done
+        Output     rx_data_rdy
+        Output     rx_byte_6_
+        Output     rx_byte_5_
+        Output     rx_byte_4_
+        Output     rx_byte_3_
+        Output     rx_byte_2_
+        Output     rx_byte_1_
+        Output     rx_byte_0_
+        Bidi     sda
 End

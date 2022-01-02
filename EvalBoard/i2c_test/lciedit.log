@@ -1,1 +1,17 @@
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct : <W0104> : Location Assignment 'a' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct : <W0104> : Location Assignment 'b' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct : <W0104> : Location Assignment 'c' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct : <W0104> : Location Assignment 'd' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct : <W0104> : Location Assignment 'e' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct : <W0104> : Location Assignment 'f' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct : <W0104> : Location Assignment 'g' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct : <W0104> : Location Assignment 'P' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct : <W0601> : IO Types Setting 'a' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct : <W0601> : IO Types Setting 'b' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct : <W0601> : IO Types Setting 'c' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct : <W0601> : IO Types Setting 'd' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct : <W0601> : IO Types Setting 'e' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct : <W0601> : IO Types Setting 'f' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct : <W0601> : IO Types Setting 'g' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct : <W0601> : IO Types Setting 'P' : Invalid signal name.
 Loading Lattice Constraint File 'C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.lct' done!

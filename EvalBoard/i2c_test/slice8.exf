@@ -14,7 +14,7 @@ Section Member   Rename                   Array-Notation          Array Number  
         Port      data_0_                     data[0]                       1            7            
 End
 Section Cross Reference File
-Design 'slice8' created Tue Dec 28 18:14:16 2021
+Design 'slice8' created Sun Jan 02 19:05:51 2022
    Type              New Name                               Original Name
 // ----------------------------------------------------------------------
    Inst                data_0_                                   data[0]

@@ -1,6 +1,7 @@
 @N|Running in 64-bit mode
 @N: CD720 :"C:\ispLEVER_Classic2_1\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
-@N:"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd":59:7:59:15|Top entity is set to i2c_slave.
-@N: CD630 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd":59:7:59:15|Synthesizing work.i2c_slave.arch 
-@N: CL201 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd":172:2:172:3|Trying to extract state machine for register sm_state
+@N:"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_slave_USACH.vhd":9:7:9:15|Top entity is set to i2c_slave.
+@N: CD630 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_slave_USACH.vhd":9:7:9:15|Synthesizing work.i2c_slave.i2c_slave 
+@N: CD231 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_slave_USACH.vhd":54:17:54:18|Using onehot encoding for type state_t (idle="10000000")
+@N: CL201 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_slave_USACH.vhd":70:4:70:5|Trying to extract state machine for register state
 

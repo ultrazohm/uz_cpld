@@ -9,8 +9,8 @@
 #CUR:"C:\\ispLEVER_Classic2_1\\synpbase\\lib\\vhd\\umr_capim.vhd":1401220368
 #CUR:"C:\\ispLEVER_Classic2_1\\synpbase\\lib\\vhd\\arith.vhd":1401220122
 #CUR:"C:\\ispLEVER_Classic2_1\\synpbase\\lib\\vhd\\unsigned.vhd":1401220122
-#CUR:"C:\\git\\ultrazohm\\software\\cpld_lattice\\evalboard\\i2c_test\\uz_i2c_slave_D1.vhd":1640709967
-0 "C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd" vhdl
+#CUR:"C:\\git\\ultrazohm\\software\\cpld_lattice\\evalboard\\i2c_test\\I2C_slave_USACH.vhd":1633676862
+0 "C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_slave_USACH.vhd" vhdl
 
 # Dependency Lists (Uses list)
 0 -1
@@ -19,7 +19,7 @@
 0 -1
 
 # Design Unit to File Association
-arch work i2c_slave arch 0
+arch work i2c_slave i2c_slave 0
 module work i2c_slave 0
 
 

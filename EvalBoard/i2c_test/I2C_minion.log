@@ -1,15 +1,12 @@
 Starting EDIF2BLIF....
 readEDIF ended normally.
 
-EDIF2BLIF: Warning: Remove floating instance: :
-	data_to_master[0]
-
 Inspect circuit I2C_minion
     Number of input ports   : 4
-    Number of output ports  : 6
+    Number of output ports  : 8
     Number of bidir ports   : 1
-    Number of instances     : 389
-    Number of nets          : 401
+    Number of instances     : 508
+    Number of nets          : 520
 
 No design errors found in circuit I2C_minion
 

@@ -1,2 +1,2 @@
-@E: CD297 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":246:3:246:12|Width mismatch, location has width 7, value 8
+@E: CD395 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":14:62:14:71|Constant width 28 does not match context width 7
 

@@ -2,11 +2,11 @@ Starting EDIF2BLIF....
 readEDIF ended normally.
 
 Inspect circuit i2c_slave
-    Number of input ports   : 5
-    Number of output ports  : 7
-    Number of bidir ports   : 0
-    Number of instances     : 265
-    Number of nets          : 277
+    Number of input ports   : 3
+    Number of output ports  : 4
+    Number of bidir ports   : 1
+    Number of instances     : 362
+    Number of nets          : 373
 
 No design errors found in circuit i2c_slave
 

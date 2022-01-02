@@ -1,0 +1,29 @@
+#$ TOOL ispLEVER Classic 2.1.00.02.49.20
+#$ DATE Sun Jan 02 20:29:43 2022
+#$ MODULE output_en
+#$ PINS 5 output_in output_out input_in input_out en
+#$ NODES 5 output_in_c output_out_c input_in_c input_out_c en_c
+.model output_en
+.inputs output_in.BLIF input_in.BLIF en.BLIF output_in_c.BLIF \
+output_out_c.BLIF input_in_c.BLIF input_out_c.BLIF en_c.BLIF
+.outputs output_out input_out output_in_c output_out_c input_in_c en_c
+.names en_c.BLIF output_in_c.BLIF output_out_c
+11 1
+.names en_c.BLIF input_in_c.BLIF input_out_c
+11 1
+.names output_out_c.BLIF output_out
+1 1
+0 0
+.names input_out_c.BLIF input_out
+1 1
+0 0
+.names output_in.BLIF output_in_c
+1 1
+0 0
+.names input_in.BLIF input_in_c
+1 1
+0 0
+.names en.BLIF en_c
+1 1
+0 0
+.end

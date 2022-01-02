@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <!DOCTYPE		ispXCF	SYSTEM	"IspXCF.dtd" >
-<ispXCF version="3.11.0">
+<ispXCF version="3.12">
 	<Comment></Comment>
 	<Chain>
 		<Comm>JTAG</Comm>
@@ -19,8 +19,8 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/Users/ga92wum/git/UltraZohm/Software/CPLD/03_UltraZohm_CarrierBoard_GatePWMthroughCPLD_withEnable/cpld_digital_opticalv2.jed</File>
-			<FileTime>02/11/20 18:03:50</FileTime>
+			<File>C:/GIT/UltraZohm/Software/cpld_lattice/03_UltraZohm_CarrierBoard_GatePWMthroughCPLD_withEnable/cpld_digital_opticalv2.jed</File>
+			<FileTime>10/08/21 10:07:43</FileTime>
 			<JedecChecksum>0x20D0</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
@@ -49,8 +49,8 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/Users/ga92wum/git/UltraZohm/Software/CPLD/03_UltraZohm_CarrierBoard_GatePWMthroughCPLD_withEnable/cpld_digital_opticalv2.jed</File>
-			<FileTime>02/11/20 18:03:50</FileTime>
+			<File>C:/GIT/UltraZohm/Software/cpld_lattice/03_UltraZohm_CarrierBoard_GatePWMthroughCPLD_withEnable/cpld_digital_opticalv2.jed</File>
+			<FileTime>10/08/21 10:07:43</FileTime>
 			<JedecChecksum>0x20D0</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
@@ -79,8 +79,8 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/Users/ga92wum/git/UltraZohm/Software/CPLD/03_UltraZohm_CarrierBoard_GatePWMthroughCPLD_withEnable/cpld_digital_opticalv2.jed</File>
-			<FileTime>02/11/20 18:03:50</FileTime>
+			<File>C:/GIT/UltraZohm/Software/cpld_lattice/03_UltraZohm_CarrierBoard_GatePWMthroughCPLD_withEnable/cpld_digital_opticalv2.jed</File>
+			<FileTime>10/08/21 10:07:43</FileTime>
 			<JedecChecksum>0x20D0</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
@@ -109,8 +109,8 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/Users/ga92wum/git/UltraZohm/Software/CPLD/03_UltraZohm_CarrierBoard_GatePWMthroughCPLD_withEnable/cpld_digital_opticalv2.jed</File>
-			<FileTime>02/11/20 18:03:50</FileTime>
+			<File>C:/GIT/UltraZohm/Software/cpld_lattice/03_UltraZohm_CarrierBoard_GatePWMthroughCPLD_withEnable/cpld_digital_opticalv2.jed</File>
+			<FileTime>10/08/21 10:07:43</FileTime>
 			<JedecChecksum>0x20D0</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
@@ -139,8 +139,8 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/Users/ga92wum/git/UltraZohm/Software/CPLD/02_UltraZohm_CarrierBoard_Encoder_DigInput/la128v_io_example.jed</File>
-			<FileTime>12/20/19 17:39:15</FileTime>
+			<File>C:/GIT/UltraZohm/Software/cpld_lattice/02_UltraZohm_CarrierBoard_Encoder_DigInput/la128v_io_example.jed</File>
+			<FileTime>10/08/21 10:07:43</FileTime>
 			<JedecChecksum>0x2378</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
@@ -167,6 +167,6 @@
 	<CableOptions>
 		<CableName>USB2</CableName>
 		<PortAdd>FTUSB-0</PortAdd>
-		<USBID>Dual RS232-HS A Location 0000 Serial A</USBID>
+		<USBID>Digilent USB Device A Location 0000 Serial 251633006602A</USBID>
 	</CableOptions>
 </ispXCF>

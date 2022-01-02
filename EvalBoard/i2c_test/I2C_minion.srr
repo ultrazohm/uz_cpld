@@ -6,7 +6,7 @@
 #Implementation: i2c_test
 
 $ Start of Compile
-#Sun Jan 02 10:49:27 2022
+#Sun Jan 02 19:22:17 2022
 
 Synopsys VHDL Compiler, version comp201403rcp1, Build 060R, built May 27 2014
 @N|Running in 64-bit mode
@@ -18,18 +18,17 @@ File C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion
 VHDL syntax check successful!
 File C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd changed - recompiling
 @N: CD630 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":12:7:12:16|Synthesizing work.i2c_minion.arch 
-@N: CD231 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":38:15:38:16|Using onehot encoding for type state_t (idle="10000000")
-@W: CD604 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":320:8:320:21|OTHERS clause is not synthesized 
-@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":49:9:49:15|Signal scl_reg is undriven 
-@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":50:9:50:15|Signal sda_reg is undriven 
-@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":51:9:51:21|Signal scl_debounced is undriven 
-@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":52:9:52:21|Signal sda_debounced is undriven 
-@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":73:9:73:19|Signal scl_wen_reg is undriven 
-@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":74:9:74:17|Signal scl_o_reg is undriven 
+@N: CD231 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":44:15:44:16|Using onehot encoding for type state_t (idle="10000000")
+@W: CD604 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":337:8:337:21|OTHERS clause is not synthesized 
+@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":55:9:55:15|Signal scl_reg is undriven 
+@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":56:9:56:15|Signal sda_reg is undriven 
+@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":57:9:57:21|Signal scl_debounced is undriven 
+@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":58:9:58:21|Signal sda_debounced is undriven 
+@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":79:9:79:19|Signal scl_wen_reg is undriven 
+@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":80:9:80:17|Signal scl_o_reg is undriven 
 Post processing for work.i2c_minion.arch
-@W: CL169 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":168:4:168:5|Pruning register sda_o_reg_cl_4  
-@W: CL189 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":77:37:77:39|Register bit sda_o_reg is always 0, optimizing ...
-@N: CL201 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":168:4:168:5|Trying to extract state machine for register state_reg
+@W: CL169 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":176:4:176:5|Pruning register sda_o_reg_cl_7  
+@N: CL201 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":176:4:176:5|Trying to extract state machine for register state_reg
 Extracted state machine for register state_reg
 State machine has 8 reachable states with original encodings of:
    00000001
@@ -40,13 +39,13 @@ State machine has 8 reachable states with original encodings of:
    00100000
    01000000
    10000000
-@W: CL249 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":168:4:168:5|Initial value is not supported on state machine state_reg
+@W: CL249 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":176:4:176:5|Initial value is not supported on state machine state_reg
 @END
 
 At c_vhdl Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 70MB peak: 71MB)
 
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Sun Jan 02 10:49:27 2022
+# Sun Jan 02 19:22:17 2022
 
 ###########################################################]
 Synopsys Netlist Linker, version comp201403rcp1, Build 060R, built May 27 2014
@@ -56,7 +55,7 @@ File C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synwork\I2C_minio
 At syn_nfilter Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 67MB peak: 68MB)
 
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Sun Jan 02 10:49:28 2022
+# Sun Jan 02 19:22:19 2022
 
 ###########################################################]
 Map & Optimize Report
@@ -65,7 +64,7 @@ Synopsys CPLD Technology Mapper, Version maplat, Build 923R, Built May  6 2014
 Copyright (C) 1994-2013, Synopsys, Inc. This software and the associated documentation are proprietary to Synopsys, Inc. This software may only be used in accordance with the terms and conditions of a written license agreement with Synopsys, Inc.  All other use or distribution of the software is strictly prohibited.
 Product Version I-2014.03LC 
 @N: MF248 |Running in 64-bit mode.
-@N:"c:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\i2c_minion.vhd":168:4:168:5|Found counter in view:work.I2C_minion(arch) inst bits_processed_reg[3:0]
+@N:"c:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\i2c_minion.vhd":176:4:176:5|Found counter in view:work.I2C_minion(arch) inst bits_processed_reg[3:0]
 Encoding state machine state_reg[0:7] (view:work.I2C_minion(arch))
 original code -> new code
    00000001 -> 00000000
@@ -76,20 +75,20 @@ original code -> new code
    00100000 -> 00100001
    01000000 -> 01000001
    10000000 -> 10000001
-@W: FC103 :|Internal tri state sda_o_reg_tri_4_1 converted to mux. Simulation mismatch can happen 
+@W: FC103 :|Internal tri state sda_o_reg_tri_7_1 converted to mux. Simulation mismatch can happen 
 ---------------------------------------
 Resource Usage Report
 
 Simple gate primitives:
-DFF             19 uses
-DFFC            55 uses
+DFF             21 uses
+DFFC            79 uses
 IBUF            11 uses
 BI_DIR          1 use
-OBUF            20 uses
-AND2            161 uses
-INV             122 uses
-OR2             2 uses
-XOR2            2 uses
+OBUF            36 uses
+AND2            204 uses
+INV             129 uses
+XOR2            1 use
+OR2             21 uses
 
 
 @N: FC100 |Timing Report not generated for this device, please use place and route tools for timing analysis.
@@ -99,6 +98,6 @@ Mapper successful!
 At Mapper Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 39MB peak: 105MB)
 
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Sun Jan 02 10:49:28 2022
+# Sun Jan 02 19:22:19 2022
 
 ###########################################################]

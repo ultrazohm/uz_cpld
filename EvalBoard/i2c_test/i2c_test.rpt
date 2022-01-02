@@ -14,7 +14,7 @@ Project_Summary
 ~~~~~~~~~~~~~~~
 Project Name         :  i2c_test
 Project Path         :  C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test
-Project Fitted on    :  Sun Jan 02 10:49:55 2022
+Project Fitted on    :  Sun Jan 02 22:29:26 2022
 
 Device               :  M4256_96
 Package              :  144
@@ -31,9 +31,9 @@ Source Format        :  Schematic_VHDL
 Compilation_Times
 ~~~~~~~~~~~~~~~~~
 Prefit Time                     0 secs
-Load Design Time                0.08 secs
-Partition Time                  0.19 secs
-Place Time                      0.00 secs
+Load Design Time                0.16 secs
+Partition Time                  0.23 secs
+Place Time                      0.03 secs
 Route Time                      0.00 secs
 Total Fit Time                  00:00:01
 
@@ -41,23 +41,23 @@ Total Fit Time                  00:00:01
 Design_Summary
 ~~~~~~~~~~~~~~
 Total Input Pins                1
-Total Logic Functions           81
+Total Logic Functions           166
   Total Output Pins             18
-  Total Bidir I/O Pins          3
-  Total Buried Nodes            60
-Total Flip-Flops                70
-  Total D Flip-Flops            67
-  Total T Flip-Flops            3
+  Total Bidir I/O Pins          61
+  Total Buried Nodes            87
+Total Flip-Flops                96
+  Total D Flip-Flops            92
+  Total T Flip-Flops            4
   Total Latches                 0
-Total Product Terms             279
+Total Product Terms             488
 
 Total Reserved Pins             0
-Total Locked Pins               22
+Total Locked Pins               27
 Total Locked Nodes              0
 
-Total Unique Output Enables     3
+Total Unique Output Enables     61
 Total Unique Clocks             1
-Total Unique Clock Enables      11
+Total Unique Clock Enables      14
 Total Unique Resets             0
 Total Unique Presets            0
 
@@ -73,30 +73,30 @@ Dedicated Pins
   Clock/Input Pins                  4        0      4    -->     0
   Input-Only Pins                  10        0     10    -->     0
   I/O / Enable Pins                 2        2      0    -->   100
-I/O Pins                           94       20     74    -->    21
-Logic Functions                   256       80    176    -->    31
+I/O Pins                           94       78     16    -->    82
+Logic Functions                   256      165     91    -->    64
   Input Registers                  96        0     96    -->     0
 
-GLB Inputs                        576      212    364    -->    36
-Logical Product Terms            1280      206   1074    -->    16
-Occupied GLBs                      16       14      2    -->    87
-Macrocells                        256       77    179    -->    30
+GLB Inputs                        576      396    180    -->    68
+Logical Product Terms            1280      388    892    -->    30
+Occupied GLBs                      16       16      0    -->   100
+Macrocells                        256      162     94    -->    63
 
 Control Product Terms:
-  GLB Clock/Clock Enables          16       12      4    -->    75
+  GLB Clock/Clock Enables          16       16      0    -->   100
   GLB Reset/Presets                16        0     16    -->     0
   Macrocell Clocks                256        0    256    -->     0
-  Macrocell Clock Enables         256       55    201    -->    21
-  Macrocell Enables               256        0    256    -->     0
+  Macrocell Clock Enables         256       79    177    -->    30
+  Macrocell Enables               256       56    200    -->    21
   Macrocell Resets                256        0    256    -->     0
   Macrocell Presets               256        0    256    -->     0
 
-Global Routing Pool               356       64    292    -->    17
-  GRP from IFB                     ..        4     ..    -->    ..
+Global Routing Pool               356      162    194    -->    45
+  GRP from IFB                     ..       62     ..    -->    ..
     (from input signals)           ..        1     ..    -->    ..
     (from output signals)          ..        0     ..    -->    ..
-    (from bidir signals)           ..        3     ..    -->    ..
-  GRP from MFB                     ..       60     ..    -->    ..
+    (from bidir signals)           ..       61     ..    -->    ..
+  GRP from MFB                     ..      100     ..    -->    ..
 ----------------------------------------------------------------------
 
 <Note> 1 : The available PT is the product term that has not been used.
@@ -114,27 +114,27 @@ GLB_Resource_Summary
 Maximum
   GLB                      36      *(1)     8   --     --             16       80       16
 -------------------------------------------------------------------------------------------
-  GLB    A      3    18    21      5/6      0    8      0              8       18        8
-  GLB    B      1    25    26      6/6      0   14      0              2       32       14
-  GLB    C      3     5     8      0/6      0    2      0             14        6        2
-  GLB    D      2    12    14      0/6      0    5      0             11       11        5
+  GLB    A      7    18    25      5/6      0   13      0              3       30       13
+  GLB    B      5    20    25      5/6      0   13      0              3       31       13
+  GLB    C      8    22    30      5/6      0   11      0              5       27       11
+  GLB    D     12    19    31      5/6      0   10      0              6       21       10
 -------------------------------------------------------------------------------------------
-  GLB    E      3     7    10      0/6      0    2      0             14       10        3
-  GLB    F      5     6    11      0/6      0    2      0             14        9        3
-  GLB    G      1    13    14      0/6      0    3      0             13       11        3
-  GLB    H      0     0     0      0/6      0    0      0             16        0        0
+  GLB    E      6    12    18      5/6      0   11      0              5       26       11
+  GLB    F     11    11    22      5/6      0   13      0              3       25       13
+  GLB    G      8    11    19      5/6      0    9      0              7       23        9
+  GLB    H      6    11    17      5/6      0    9      0              7       22        9
 -------------------------------------------------------------------------------------------
-  GLB    I      8    18    26      6/6      0    8      0              8       21        8
-  GLB    J     14    17    31      2/6      0    4      0             12       11        4
-  GLB    K      3     5     8      0/6      0    2      0             14        9        2
-  GLB    L      2     6     8      0/6      0    2      0             14       10        2
+  GLB    I      3    26    29      6/6      0   12      0              4       29       12
+  GLB    J     11    20    31      5/6      0   11      0              5       24       11
+  GLB    K      7    22    29      4/6      0   11      0              5       24       11
+  GLB    L      6    24    30      5/6      0    9      0              7       23        9
 -------------------------------------------------------------------------------------------
-  GLB    M      0     0     0      0/6      0    0      0             16        0        0
-  GLB    N      2    10    12      0/6      0    8      0              8       21        8
-  GLB    O      1    11    12      0/6      0   11      0              5       21       11
-  GLB    P      2     9    11      1/6      0    6      0             10       16        6
+  GLB    M     10     7    17      5/6      0    7      0              9       16        8
+  GLB    N      7    16    23      5/6      0    7      1              8       27        9
+  GLB    O     10    20    30      4/6      0    9      0              7       21        9
+  GLB    P     10    10    20      4/6      0    7      0              9       19        7
 -------------------------------------------------------------------------------------------
-TOTALS:        50   162   212     20/96     0   77      0            179      206       79
+TOTALS:       127   269   396     78/96     0  162      1             93      388      165
 
 <Note> 1 : For ispMACH 4000 devices, the number of IOs depends on the GLB.
 <Note> 2 : Four rightmost columns above reflect last status of the placement process.
@@ -149,25 +149,25 @@ GLB_Control_Summary
 Maximum
   GLB        1      1        16     16     16     16     16  
 ==============================================================================
-  GLB    A   1      0         0      7      0      0      0
-  GLB    B   1      0         0     14      0      0      0
-  GLB    C   0      0         0      0      0      0      0
-  GLB    D   1      0         0      2      0      0      0
+  GLB    A   1      0         0     12      1      0      0
+  GLB    B   1      0         0     12      0      0      0
+  GLB    C   1      0         0      5      5      0      0
+  GLB    D   1      0         0      4      4      0      0
 ------------------------------------------------------------------------------
-  GLB    E   1      0         0      2      0      0      0
-  GLB    F   0      0         0      0      0      0      0
-  GLB    G   1      0         0      0      0      0      0
-  GLB    H   0      0         0      0      0      0      0
+  GLB    E   1      0         0      5      4      0      0
+  GLB    F   1      0         0      3      5      0      0
+  GLB    G   1      0         0      4      5      0      0
+  GLB    H   1      0         0      4      4      0      0
 ------------------------------------------------------------------------------
-  GLB    I   1      0         0      8      0      0      0
-  GLB    J   1      0         0      3      0      0      0
-  GLB    K   1      0         0      2      0      0      0
-  GLB    L   1      0         0      2      0      0      0
+  GLB    I   1      0         0      9      0      0      0
+  GLB    J   1      0         0      6      3      0      0
+  GLB    K   1      0         0      5      4      0      0
+  GLB    L   1      0         0      3      4      0      0
 ------------------------------------------------------------------------------
-  GLB    M   0      0         0      0      0      0      0
-  GLB    N   1      0         0      6      0      0      0
-  GLB    O   1      0         0      5      0      0      0
-  GLB    P   1      0         0      4      0      0      0
+  GLB    M   1      0         0      2      4      0      0
+  GLB    N   1      0         0      0      4      0      0
+  GLB    O   1      0         0      3      4      0      0
+  GLB    P   1      0         0      2      5      0      0
 ------------------------------------------------------------------------------
 
 <Note> 1 : For ispMACH 4000 devices, the number of output enables depends on the GLB.
@@ -259,128 +259,128 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name| Enab
 1     | GND   |   -  |    |        |                 |       |            |
 2     | TDI   |   -  |    |        |                 |       |            |
 3     |VCCIO0 |   -  |    |        |                 |       |            |
-4     |  I_O  |   0  |C12 |        |                 |       |            |
+4     |  I_O  |   0  |C12 |        |LVCMOS33         | Bidir |DIG_IO_16   |
 5     |  I_O  |   0  |C10 |        |                 |       |            |
-6     |  I_O  |   0  |C8  |        |                 |       |            |
-7     |  I_O  |   0  |C6  |        |                 |       |            |
-8     |  I_O  |   0  |C4  |        |                 |       |            |
-9     |  I_O  |   0  |C2  |        |                 |       |            |
+6     |  I_O  |   0  |C8  |        |LVCMOS33         | Bidir |DIG_09      |
+7     |  I_O  |   0  |C6  |        |LVCMOS33         | Bidir |DIG_IO_09   |
+8     |  I_O  |   0  |C4  |        |LVCMOS33         | Bidir |DIG_16      |
+9     |  I_O  |   0  |C2  |        |LVCMOS33         | Bidir |DIG_IO_24   |
 10    |GNDIO0 |   -  |    |        |                 |       |            |
-11    |  I_O  |   0  |D14 |        |                 |       |            |
-12    |  I_O  |   0  |D12 |        |                 |       |            |
-13    |  I_O  |   0  |D10 |        |                 |       |            |
+11    |  I_O  |   0  |D14 |        |LVCMOS33         | Bidir |DIG_IO_14   |
+12    |  I_O  |   0  |D12 |        |LVCMOS33         | Bidir |DIG_21      |
+13    |  I_O  |   0  |D10 |        |LVCMOS33         | Bidir |DIG_IO_21   |
 14    |  I_O  |   0  |D8  |        |                 |       |            |
-15    |  I_O  |   0  |D6  |        |                 |       |            |
-16    |  I_O  |   0  |D4  |        |                 |       |            |
+15    |  I_O  |   0  |D6  |        |LVCMOS33         | Bidir |DIG_04      |
+16    |  I_O  |   0  |D4  |        |LVCMOS33         | Bidir |DIG_08      |
 17    | IN0   |   0  |    |        |                 |       |            |
 18    | NC    |   -  |    |        |                 |       |            |
 19    |VCCIO0 |   -  |    |        |                 |       |            |
 20    | IN1   |   0  |    |        |                 |       |            |
-21    |  I_O  |   0  |E2  |        |                 |       |            |
-22    |  I_O  |   0  |E4  |        |                 |       |            |
-23    |  I_O  |   0  |E6  |        |                 |       |            |
-24    |  I_O  |   0  |E8  |        |                 |       |            |
+21    |  I_O  |   0  |E2  |        |LVCMOS33         | Bidir |DIG_IO_18   |
+22    |  I_O  |   0  |E4  |        |LVCMOS33         | Bidir |DIG_IO_17   |
+23    |  I_O  |   0  |E6  |        |LVCMOS33         | Bidir |DIG_17      |
+24    |  I_O  |   0  |E8  |        |LVCMOS33         | Bidir |DIG_24      |
 25    |  I_O  |   0  |E10 |        |                 |       |            |
-26    |  I_O  |   0  |E12 |        |                 |       |            |
+26    |  I_O  |   0  |E12 |        |LVCMOS33         | Bidir |DIG_18      |
 27    |GNDIO0 |   -  |    |        |                 |       |            |
-28    |  I_O  |   0  |F2  |        |                 |       |            |
-29    |  I_O  |   0  |F4  |        |                 |       |            |
-30    |  I_O  |   0  |F6  |        |                 |       |            |
-31    |  I_O  |   0  |F8  |        |                 |       |            |
+28    |  I_O  |   0  |F2  |        |LVCMOS33         | Bidir |DIG_IO_28   |
+29    |  I_O  |   0  |F4  |        |LVCMOS33         | Bidir |DIG_28      |
+30    |  I_O  |   0  |F6  |        |LVCMOS33         | Bidir |DIG_27      |
+31    |  I_O  |   0  |F8  |        |LVCMOS33         | Bidir |DIG_14      |
 32    |  I_O  |   0  |F10 |        |                 |       |            |
-33    |  I_O  |   0  |F12 |        |                 |       |            |
+33    |  I_O  |   0  |F12 |        |LVCMOS33         | Bidir |DIG_IO_27   |
 34    |VCCIO0 |   -  |    |        |                 |       |            |
 35    | TCK   |   -  |    |        |                 |       |            |
 36    | VCC   |   -  |    |        |                 |       |            |
 37    | GND   |   -  |    |        |                 |       |            |
 38    | IN2   |   0  |    |        |                 |       |            |
-39    |  I_O  |   0  |G12 |        |                 |       |            |
+39    |  I_O  |   0  |G12 |        |LVCMOS33         | Bidir |DIG_29      |
 40    |  I_O  |   0  |G10 |        |                 |       |            |
-41    |  I_O  |   0  |G8  |        |                 |       |            |
-42    |  I_O  |   0  |G6  |        |                 |       |            |
-43    |  I_O  |   0  |G4  |        |                 |       |            |
-44    |  I_O  |   0  |G2  |        |                 |       |            |
+41    |  I_O  |   0  |G8  |        |LVCMOS33         | Bidir |DIG_07      |
+42    |  I_O  |   0  |G6  |        |LVCMOS33         | Bidir |DIG_IO_07   |
+43    |  I_O  |   0  |G4  |        |LVCMOS33         | Bidir |DIG_IO_15   |
+44    |  I_O  |   0  |G2  |        |LVCMOS33         | Bidir |DIG_IO_29   |
 45    | IN3   |   0  |    |        |                 |       |            |
 46    |GNDIO0 |   -  |    |        |                 |       |            |
 47    |VCCIO0 |   -  |    |        |                 |       |            |
-48    |  I_O  |   0  |H12 |        |                 |       |            |
+48    |  I_O  |   0  |H12 |        |LVCMOS33         | Bidir |DIG_23      |
 49    |  I_O  |   0  |H10 |        |                 |       |            |
-50    |  I_O  |   0  |H8  |        |                 |       |            |
-51    |  I_O  |   0  |H6  |        |                 |       |            |
-52    |  I_O  |   0  |H4  |        |                 |       |            |
-53    |  I_O  |   0  |H2  |        |                 |       |            |
+50    |  I_O  |   0  |H8  |        |LVCMOS33         | Bidir |DIG_IO_04   |
+51    |  I_O  |   0  |H6  |        |LVCMOS33         | Bidir |DIG_11      |
+52    |  I_O  |   0  |H4  |        |LVCMOS33         | Bidir |DIG_IO_11   |
+53    |  I_O  |   0  |H2  |        |LVCMOS33         | Bidir |DIG_IO_23   |
 54    |INCLK1 |   0  |    |        |                 |       |            |
 55    |GNDIO1 |   -  |    |        |                 |       |            |
 56    |INCLK2 |   1  |    |        |                 |       |            |
 57    | VCC   |   -  |    |        |                 |       |            |
-58    |  I_O  |   1  |I2  |    *   |LVCMOS33         | Output|y7          |
-59    |  I_O  |   1  |I4  |    *   |LVCMOS33         | Output|y6          |
-60    |  I_O  |   1  |I6  |    *   |LVCMOS33         | Output|y5          |
-61    |  I_O  |   1  |I8  |    *   |LVCMOS33         | Output|y4          |
-62    |  I_O  |   1  |I10 |    *   |LVCMOS33         | Output|y3          |
-63    |  I_O  |   1  |I12 |    *   |LVCMOS33         | Output|y2          |
+58    |  I_O  |   1  |I2  |    *   |LVCMOS33         | Output|IO_Select_DI|
+59    |  I_O  |   1  |I4  |    *   |LVCMOS33         | Output|IO_Select_DI|
+60    |  I_O  |   1  |I6  |    *   |LVCMOS33         | Output|IO_Select_DI|
+61    |  I_O  |   1  |I8  |    *   |LVCMOS33         | Output|IO_Select_DI|
+62    |  I_O  |   1  |I10 |    *   |LVCMOS33         | Output|IO_Select_DI|
+63    |  I_O  |   1  |I12 |    *   |LVCMOS33         | Output|IO_Select_DI|
 64    |VCCIO1 |   -  |    |        |                 |       |            |
 65    |GNDIO1 |   -  |    |        |                 |       |            |
-66    |  I_O  |   1  |J2  |        |                 |       |            |
-67    |  I_O  |   1  |J4  |        |                 |       |            |
-68    |  I_O  |   1  |J6  |        |                 |       |            |
+66    |  I_O  |   1  |J2  |        |LVCMOS33         | Bidir |DIG_IO_13   |
+67    |  I_O  |   1  |J4  |        |LVCMOS33         | Bidir |DIG_13      |
+68    |  I_O  |   1  |J6  |        |LVCMOS33         | Bidir |DIG_15      |
 69    |  I_O  |   1  |J8  |        |                 |       |            |
-70    |  I_O  |   1  |J10 |    *   |LVCMOS33         | Output|y1          |
-71    |  I_O  |   1  |J12 |    *   |LVCMOS33         | Output|y0          |
+70    |  I_O  |   1  |J10 |    *   |LVCMOS33         | Output|IO_Select_DI|
+71    |  I_O  |   1  |J12 |    *   |LVCMOS33         | Output|IO_Select_DI|
 72    | IN4   |   0  |    |        |                 |       |            |
 73    | GND   |   -  |    |        |                 |       |            |
 74    | TMS   |   -  |    |        |                 |       |            |
 75    |VCCIO1 |   -  |    |        |                 |       |            |
-76    |  I_O  |   1  |K12 |        |                 |       |            |
+76    |  I_O  |   1  |K12 |        |LVCMOS33         | Bidir |DIG_26      |
 77    |  I_O  |   1  |K10 |        |                 |       |            |
 78    |  I_O  |   1  |K8  |        |                 |       |            |
-79    |  I_O  |   1  |K6  |        |                 |       |            |
-80    |  I_O  |   1  |K4  |        |                 |       |            |
-81    |  I_O  |   1  |K2  |        |                 |       |            |
+79    |  I_O  |   1  |K6  |        |LVCMOS33         | Bidir |DIG_19      |
+80    |  I_O  |   1  |K4  |        |LVCMOS33         | Bidir |DIG_IO_19   |
+81    |  I_O  |   1  |K2  |        |LVCMOS33         | Bidir |DIG_IO_26   |
 82    |GNDIO1 |   -  |    |        |                 |       |            |
-83    |  I_O  |   1  |L14 |        |                 |       |            |
-84    |  I_O  |   1  |L12 |        |                 |       |            |
-85    |  I_O  |   1  |L10 |        |                 |       |            |
+83    |  I_O  |   1  |L14 |        |LVCMOS33         | Bidir |DIG_IO_10   |
+84    |  I_O  |   1  |L12 |        |LVCMOS33         | Bidir |DIG_12      |
+85    |  I_O  |   1  |L10 |        |LVCMOS33         | Bidir |DIG_IO_12   |
 86    |  I_O  |   1  |L8  |        |                 |       |            |
-87    |  I_O  |   1  |L6  |        |                 |       |            |
-88    |  I_O  |   1  |L4  |        |                 |       |            |
+87    |  I_O  |   1  |L6  |        |LVCMOS33         | Output|IO_Select_DI|
+88    |  I_O  |   1  |L4  |        |LVCMOS33         | Bidir |DIG_10      |
 89    | IN5   |   1  |    |        |                 |       |            |
 90    | NC    |   -  |    |        |                 |       |            |
 91    |VCCIO1 |   -  |    |        |                 |       |            |
 92    | IN6   |   1  |    |        |                 |       |            |
-93    |  I_O  |   1  |M2  |        |                 |       |            |
+93    |  I_O  |   1  |M2  |        |LVCMOS33         | Bidir |DIG_05      |
 94    |  I_O  |   1  |M4  |        |                 |       |            |
-95    |  I_O  |   1  |M6  |        |                 |       |            |
-96    |  I_O  |   1  |M8  |        |                 |       |            |
-97    |  I_O  |   1  |M10 |        |                 |       |            |
-98    |  I_O  |   1  |M12 |        |                 |       |            |
+95    |  I_O  |   1  |M6  |    *   |LVCMOS33         | Bidir |DIG_IO_03   |
+96    |  I_O  |   1  |M8  |    *   |LVCMOS33         | Bidir |DIG_IO_02   |
+97    |  I_O  |   1  |M10 |    *   |LVCMOS33         | Bidir |DIG_IO_01   |
+98    |  I_O  |   1  |M12 |    *   |LVCMOS33         | Bidir |DIG_IO_00   |
 99    |GNDIO1 |   -  |    |        |                 |       |            |
-100   |  I_O  |   1  |N2  |        |                 |       |            |
-101   |  I_O  |   1  |N4  |        |                 |       |            |
-102   |  I_O  |   1  |N6  |        |                 |       |            |
-103   |  I_O  |   1  |N8  |        |                 |       |            |
-104   |  I_O  |   1  |N10 |        |                 |       |            |
+100   |  I_O  |   1  |N2  |        |LVCMOS33         | Bidir |DIG_25      |
+101   |  I_O  |   1  |N4  |        |LVCMOS33         | Bidir |DIG_IO_22   |
+102   |  I_O  |   1  |N6  |        |LVCMOS33         | Bidir |DIG_22      |
+103   |  I_O  |   1  |N8  |        |LVCMOS33         | Bidir |DIG_IO_05   |
+104   |  I_O  |   1  |N10 |        |LVCMOS33         | Bidir |DIG_IO_25   |
 105   |  I_O  |   1  |N12 |        |                 |       |            |
 106   |VCCIO1 |   -  |    |        |                 |       |            |
 107   | TDO   |   -  |    |        |                 |       |            |
 108   | VCC   |   -  |    |        |                 |       |            |
 109   | GND   |   -  |    |        |                 |       |            |
 110   | IN7   |   1  |    |        |                 |       |            |
-111   |  I_O  |   1  |O12 |        |                 |       |            |
+111   |  I_O  |   1  |O12 |        |LVCMOS33         | Bidir |DIG_20      |
 112   |  I_O  |   1  |O10 |        |                 |       |            |
 113   |  I_O  |   1  |O8  |        |                 |       |            |
-114   |  I_O  |   1  |O6  |        |                 |       |            |
-115   |  I_O  |   1  |O4  |        |                 |       |            |
-116   |  I_O  |   1  |O2  |        |                 |       |            |
+114   |  I_O  |   1  |O6  |        |LVCMOS33         | Bidir |DIG_06      |
+115   |  I_O  |   1  |O4  |        |LVCMOS33         | Bidir |DIG_IO_06   |
+116   |  I_O  |   1  |O2  |        |LVCMOS33         | Bidir |DIG_IO_20   |
 117   | IN8   |   1  |    |        |                 |       |            |
 118   |GNDIO1 |   -  |    |        |                 |       |            |
 119   |VCCIO1 |   -  |    |        |                 |       |            |
 120   |  I_O  |   1  |P12 |        |                 |       |            |
-121   |  I_O  |   1  |P10 |        |                 |       |            |
-122   |  I_O  |   1  |P8  |        |                 |       |            |
-123   |  I_O  |   1  |P6  |        |                 |       |            |
-124   |  I_O  |   1  |P4  |    *   |LVCMOS33         | Bidir |FPGA        |
-125   | I_O/OE|   1  |P2  |    *   |LVCMOS33         | Bidir |Adapter     |
+121   |  I_O  |   1  |P10 |        |LVCMOS33         | Bidir |DIG_IO_08   |
+122   |  I_O  |   1  |P8  |    *   |LVCMOS33         | Bidir |DIG_03      |
+123   |  I_O  |   1  |P6  |    *   |LVCMOS33         | Bidir |DIG_02      |
+124   |  I_O  |   1  |P4  |    *   |LVCMOS33         | Bidir |DIG_01      |
+125   | I_O/OE|   1  |P2  |    *   |LVCMOS33         | Bidir |DIG_00      |
 126   |INCLK3 |   1  |    |        |                 |       |            |
 127   |GNDIO0 |   -  |    |        |                 |       |            |
 128   |INCLK0 |   0  |    |        |                 |       |            |
@@ -389,16 +389,16 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name| Enab
 131   |  I_O  |   0  |A4  |    *   |LVCMOS33_OD      | Bidir |sda         |
 132   |  I_O  |   0  |A6  |    *   |LVCMOS33         | Output|bs_LSB      |
 133   |  I_O  |   0  |A8  |    *   |LVCMOS33         | Output|bs_MSB      |
-134   |  I_O  |   0  |A10 |    *   |LVCMOS33         | Output|a           |
-135   |  I_O  |   0  |A12 |    *   |LVCMOS33         | Output|b           |
+134   |  I_O  |   0  |A10 |    *   |LVCMOS33         | Output|IO_Select_DI|
+135   |  I_O  |   0  |A12 |    *   |LVCMOS33         | Output|IO_Select_DI|
 136   |VCCIO0 |   -  |    |        |                 |       |            |
 137   |GNDIO0 |   -  |    |        |                 |       |            |
-138   |  I_O  |   0  |B2  |    *   |LVCMOS33         | Output|c           |
-139   |  I_O  |   0  |B4  |    *   |LVCMOS33         | Output|d           |
-140   |  I_O  |   0  |B6  |    *   |LVCMOS33         | Output|e           |
-141   |  I_O  |   0  |B8  |    *   |LVCMOS33         | Output|f           |
-142   |  I_O  |   0  |B10 |    *   |LVCMOS33         | Output|g           |
-143   |  I_O  |   0  |B12 |    *   |LVCMOS33         | Output|P           |
+138   |  I_O  |   0  |B2  |    *   |LVCMOS33         | Output|IO_Select_DI|
+139   |  I_O  |   0  |B4  |    *   |LVCMOS33         | Output|IO_Select_DI|
+140   |  I_O  |   0  |B6  |    *   |LVCMOS33         | Output|IO_Select_DI|
+141   |  I_O  |   0  |B8  |    *   |LVCMOS33         | Output|RESERVED    |
+142   |  I_O  |   0  |B10 |    *   |LVCMOS33         | Output|Pin_Enable  |
+143   |  I_O  |   0  |B12 |        |                 |       |            |
 144   | IN9   |   0  |    |        |                 |       |            |
 ---------------------------------------------------------------------------------------------------
 
@@ -420,7 +420,7 @@ Input_Signal_List
          Pin    Fanout
  Pin GLB Type                       Pullup Signal
 -------------------------------------------------
- 130   A  I/O   1  -------------N--     Off scl
+ 130   A  I/O   1  ----E-----------     Off scl
 -------------------------------------------------
 
 
@@ -430,26 +430,26 @@ Output_Signal_List
           I         C      P R P       O Output
           N         L Mc   R E U C O F B Fanout
  Pin GLB  P LL PTs  S Type E S P E E P P                     Slew Pullup Signal
--------------------------------------------------------------------------------
- 143   B 17  -   2  1 DFF      R *          ----------------  Fast   Down P
- 134   A 17  -   2  1 DFF      R *          ----------------  Fast   Down a
- 135   A 17  -   2  1 DFF      R *          ----------------  Fast   Down b
- 132   A 17  -   4  1 TFF      R *       1  A---------------  Fast     Up bs_LSB
- 133   A 17  -   4  1 TFF      R *       1  A---------------  Fast     Up bs_MSB
- 138   B 17  -   2  1 DFF      R *          ----------------  Fast   Down c
- 139   B 17  -   2  1 DFF      R *          ----------------  Fast   Down d
- 140   B 17  -   2  1 DFF      R *          ----------------  Fast   Down e
- 141   B 17  -   2  1 DFF      R *          ----------------  Fast   Down f
- 142   B 17  -   2  1 DFF      R *          ----------------  Fast   Down g
-  71   J 17  -   2  1 DFF      R *       2  A-C-------------  Fast     Up y0
-  70   J 17  -   2  1 DFF      R *          ----------------  Fast     Up y1
-  63   I 17  -   2  1 DFF      R *          ----------------  Fast     Up y2
-  62   I 17  -   2  1 DFF      R *          ----------------  Fast     Up y3
-  61   I 17  -   2  1 DFF      R *          ----------------  Fast     Up y4
-  60   I 17  -   2  1 DFF      R *          ----------------  Fast     Up y5
-  59   I 17  -   2  1 DFF      R *          ----------------  Fast     Up y6
-  58   I 17  -   2  1 DFF      R *          ----------------  Fast     Up y7
--------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+  71   J 17  -   2  1 DFF      R *       2  ------------M--P  Fast     Up IO_Select_DIG_00
+  70   J 17  -   2  1 DFF      R *       2  ------------M--P  Fast     Up IO_Select_DIG_01
+  63   I 17  -   2  1 DFF      R *       2  ------------M--P  Fast     Up IO_Select_DIG_02
+  62   I 17  -   2  1 DFF      R *       2  ------------M--P  Fast     Up IO_Select_DIG_03
+  61   I 17  -   2  1 DFF      R *       2  ---D-F----------  Fast     Up IO_Select_DIG_04
+  60   I 17  -   2  1 DFF      R *       2  ------G--J------  Fast     Up IO_Select_DIG_05
+  59   I 17  -   2  1 DFF      R *       1  --------------O-  Fast     Up IO_Select_DIG_06
+  58   I 17  -   2  1 DFF      R *       1  ------G---------  Fast     Up IO_Select_DIG_07
+ 134   A 17  -   2  1 DFF      R *       13 --CDEFGH-JKLMNOP  Fast   Down IO_Select_DIG_24
+ 135   A 17  -   2  1 DFF      R *       1  -------------N--  Fast   Down IO_Select_DIG_25
+ 138   B 17  -   2  1 DFF      R *       1  ----------K-----  Fast   Down IO_Select_DIG_26
+ 139   B 17  -   2  1 DFF      R *       1  -----F----------  Fast   Down IO_Select_DIG_27
+ 140   B 17  -   2  1 DFF      R *       1  -----F----------  Fast   Down IO_Select_DIG_28
+  87   L 17  -   2  1 DFF      R *       1  ------G---------  Fast   Down IO_Select_DIG_29
+ 142   B 17  -   2  1 DFF      R *          ----------------  Fast   Down Pin_Enable
+ 141   B 17  -   2  1 DFF      R *          ----------------  Fast   Down RESERVED
+ 132   A 17  -   5  1 TFF      R *       1  A---------------  Fast     Up bs_LSB
+ 133   A 17  -   5  1 TFF      R *       1  A---------------  Fast     Up bs_MSB
+-----------------------------------------------------------------------------------------
 
 <Note> CLS = Number of clusters used
        INP = Number of input signals
@@ -470,11 +470,69 @@ Bidir_Signal_List
           I         C      P R P       O Bidir
           N         L Mc   R E U C O F B Fanout
  Pin GLB  P LL PTs  S Type E S P E E P P                     Slew Pullup Signal
---------------------------------------------------------------------------------
- 125   P  1  1   1  1 COM          *     1  ---------------P  Fast   Down Adapter
- 124   P  1  1   1  1 COM          *     1  ---------------P  Fast   Down FPGA
- 131   A  0  -   0  1 COM          *     1  -------------N--  Fast    Off sda
---------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+ 125   P  3  1   2  1 COM          *     1  ------------M---  Fast   Down DIG_00
+ 124   P  3  1   2  1 COM          *     1  ------------M---  Fast   Down DIG_01
+ 123   P  3  1   2  1 COM          *     1  ------------M---  Fast   Down DIG_02
+ 122   P  3  1   2  1 COM          *     1  ------------M---  Fast   Down DIG_03
+  15   D  1  1   1  1 COM          *     1  -------H--------  Fast   Down DIG_04
+  93   M  1  1   1  1 COM          *     1  -------------N--  Fast   Down DIG_05
+ 114   O  3  1   2  1 COM          *     1  --------------O-  Fast   Down DIG_06
+  41   G  3  1   2  1 COM          *     1  ------G---------  Fast   Down DIG_07
+  16   D  3  1   2  1 COM          *     1  ---------------P  Fast   Down DIG_08
+   6   C  3  1   2  1 COM          *     1  --C-------------  Fast   Down DIG_09
+  88   L  3  1   2  1 COM          *     1  -----------L----  Fast   Down DIG_10
+  51   H  3  1   2  1 COM          *     1  -------H--------  Fast   Down DIG_11
+  84   L  3  1   2  1 COM          *     1  -----------L----  Fast   Down DIG_12
+  67   J  3  1   2  1 COM          *     1  ---------J------  Fast   Down DIG_13
+  31   F  3  1   2  1 COM          *     1  ---D------------  Fast   Down DIG_14
+  68   J  3  1   2  1 COM          *     1  ------G---------  Fast   Down DIG_15
+   8   C  3  1   2  1 COM          *     1  --C-------------  Fast   Down DIG_16
+  23   E  3  1   2  1 COM          *     1  ----E-----------  Fast   Down DIG_17
+  26   E  3  1   2  1 COM          *     1  ----E-----------  Fast   Down DIG_18
+  79   K  3  1   2  1 COM          *     1  ----------K-----  Fast   Down DIG_19
+ 111   O  3  1   2  1 COM          *     1  --------------O-  Fast   Down DIG_20
+  12   D  3  1   2  1 COM          *     1  ---D------------  Fast   Down DIG_21
+ 102   N  3  1   2  1 COM          *     1  -------------N--  Fast   Down DIG_22
+  48   H  3  1   2  1 COM          *     1  -------H--------  Fast   Down DIG_23
+  24   E  1  1   1  1 COM          *     1  --C-------------  Fast   Down DIG_24
+ 100   N  3  1   2  1 COM          *     1  -------------N--  Fast   Down DIG_25
+  76   K  3  1   2  1 COM          *     1  ----------K-----  Fast   Down DIG_26
+  30   F  3  1   2  1 COM          *     1  -----F----------  Fast   Down DIG_27
+  29   F  3  1   2  1 COM          *     1  -----F----------  Fast   Down DIG_28
+  39   G  3  1   2  1 COM          *     1  ------G---------  Fast   Down DIG_29
+  98   M  3  1   2  2 COM          *     1  ---------------P  Fast   Down DIG_IO_00
+  97   M  3  1   2  1 COM          *     1  ---------------P  Fast   Down DIG_IO_01
+  96   M  3  1   2  2 COM          *     1  ---------------P  Fast   Down DIG_IO_02
+  95   M  3  1   2  2 COM          *     1  ---------------P  Fast   Down DIG_IO_03
+  50   H  1  1   1  1 COM          *     1  ---D------------  Fast   Down DIG_IO_04
+ 103   N  1  1   1  1 COM          *     1  ------------M---  Fast   Down DIG_IO_05
+ 115   O  3  1   2  1 COM          *     1  --------------O-  Fast   Down DIG_IO_06
+  42   G  3  1   2  1 COM          *     1  ------G---------  Fast   Down DIG_IO_07
+ 121   P  3  1   2  1 COM          *     1  ---D------------  Fast   Down DIG_IO_08
+   7   C  3  1   2  1 COM          *     1  --C-------------  Fast   Down DIG_IO_09
+  83   L  3  1   2  1 COM          *     1  -----------L----  Fast   Down DIG_IO_10
+  52   H  3  1   2  1 COM          *     1  -------H--------  Fast   Down DIG_IO_11
+  85   L  3  1   2  1 COM          *     1  -----------L----  Fast   Down DIG_IO_12
+  66   J  3  1   2  1 COM          *     1  ---------J------  Fast   Down DIG_IO_13
+  11   D  3  1   2  1 COM          *     1  -----F----------  Fast   Down DIG_IO_14
+  43   G  3  1   2  1 COM          *     1  ---------J------  Fast   Down DIG_IO_15
+   4   C  3  1   2  1 COM          *     1  --C-------------  Fast   Down DIG_IO_16
+  22   E  3  1   2  1 COM          *     1  ----E-----------  Fast   Down DIG_IO_17
+  21   E  3  1   2  1 COM          *     1  ----E-----------  Fast   Down DIG_IO_18
+  80   K  3  1   2  1 COM          *     1  ----------K-----  Fast   Down DIG_IO_19
+ 116   O  3  1   2  1 COM          *     1  --------------O-  Fast   Down DIG_IO_20
+  13   D  3  1   2  1 COM          *     1  ---D------------  Fast   Down DIG_IO_21
+ 101   N  3  1   2  1 COM          *     1  -------------N--  Fast   Down DIG_IO_22
+  53   H  3  1   2  1 COM          *     1  -------H--------  Fast   Down DIG_IO_23
+   9   C  2  1   2  1 COM          *     1  ----E-----------  Fast   Down DIG_IO_24
+ 104   N  3  1   2  1 COM          *     1  -------------N--  Fast   Down DIG_IO_25
+  81   K  3  1   2  1 COM          *     1  ----------K-----  Fast   Down DIG_IO_26
+  33   F  3  1   2  1 COM          *     1  -----F----------  Fast   Down DIG_IO_27
+  28   F  3  1   2  1 COM          *     1  -----F----------  Fast   Down DIG_IO_28
+  44   G  3  1   2  1 COM          *     1  ------G---------  Fast   Down DIG_IO_29
+ 131   A  3  -   2  1 COM          *     1  --C-------------  Fast    Off sda
+----------------------------------------------------------------------------------
 
 <Note> CLS = Number of clusters used
        INP = Number of input signals
@@ -496,66 +554,94 @@ Buried_Signal_List
         N         L Mc   R E U C I F Fanout
 Mc GLB  P LL PTs  S Type E S P E R P                     Signal
 -------------------------------------------------------------------------------------
-12   I  6  -   4  1 DFF      R *     2  --------IJ------  I0_addr_reg_0_
- 3   C  6  -   3  1 COM              4  --------IJKL----  I0_addr_reg_0__0
- 6   J  6  -   4  1 DFF      R *     1  ---------J------  I0_addr_reg_1_
- 3   I  7  -   5  1 DFF      R *     2  --------IJ------  I0_addr_reg_2_
- 9   K  6  -   4  1 DFF      R *     2  ---------JK-----  I0_addr_reg_3_
- 3   K  7  -   5  1 DFF      R *     2  ---------JK-----  I0_addr_reg_4_
- 3   L  7  -   5  1 DFF      R *     2  ---------J-L----  I0_addr_reg_5_
- 9   L  7  -   5  1 DFF      R *     2  ---------J-L----  I0_addr_reg_6_
- 3   B  9  -   5  1 DFF      R *     14 ABCDEFG-IJKL-NOP  I0_bits_processed_reg_0_
- 3   F 11  -   7  2 COM              2  -B--E-----------  I0_bits_processed_reg_0__0
- 5   B  6  -   3  1 DFF      R *     14 ABCDEFG-IJKL-NOP  I0_bits_processed_reg_1_
- 9   E  7  -   4  1 DFF      R *     14 ABCDEFG-IJKL-NOP  I0_bits_processed_reg_2_
- 3   E 10  -   6  2 DFF      R *     9  ABCDEFG-IJ------  I0_bits_processed_reg_3_
- 2   O  3  -   2  1 DFF      R *     2  A--------J------  I0_data_from_master_reg_0_
- 9   F  6  -   2  1 COM              3  -------------NOP  I0_data_from_master_reg_0__0
- 3   N  3  -   2  1 DFF      R *     2  A--------J------  I0_data_from_master_reg_1_
- 5   N  3  -   2  1 DFF      R *     2  -B------I-------  I0_data_from_master_reg_2_
- 9   P  3  -   2  1 DFF      R *     2  -B------I-------  I0_data_from_master_reg_3_
- 3   O  3  -   2  1 DFF      R *     2  -B------I-------  I0_data_from_master_reg_4_
- 7   N  3  -   2  1 DFF      R *     2  -B------I-------  I0_data_from_master_reg_5_
- 4   O  3  -   2  1 DFF      R *     2  -B------I-------  I0_data_from_master_reg_6_
-12   P  3  -   2  1 DFF      R *     2  -B------I-------  I0_data_from_master_reg_7_
- 1   N  6  -   4  1 DFF      R *     1  -------------N--  I0_data_reg_0_
- 9   C  6  -   3  1 COM              3  -------------NOP  I0_data_reg_0__0
- 2   N  6  -   4  1 DFF      R *     1  -------------N--  I0_data_reg_1_
- 1   P  7  -   5  1 DFF      R *     1  ---------------P  I0_data_reg_2_
- 1   O  6  -   4  1 DFF      R *     1  --------------O-  I0_data_reg_3_
- 0   N  7  -   5  1 DFF      R *     1  -------------N--  I0_data_reg_4_
- 0   O  7  -   5  1 DFF      R *     1  --------------O-  I0_data_reg_5_
- 7   P  7  -   5  1 DFF      R *     1  ---------------P  I0_data_reg_6_
- 5   D  8  -   2  1 DFF      R *     1  ------G---------  I0_inst_cmd_reg
- 3   D  4  -   2  1 DFF      R *     1  ------G---------  I0_inst_continue_reg
- 2   A  8  -   2  1 DFF      R *     4  AB------IJ------  I0_inst_reg_or_data_receive
- 9   O  3  -   1  1 DFF      R       8  AB-DEFG-IJ------  I0_inst_scl_falling_reg
-12   N  2  -   1  1 DFF      R       1  --------------O-  I0_inst_scl_pre_internal
- 5   O  2  -   1  1 DFF      R       1  --------------O-  I0_inst_scl_prev_reg
- 8   O  3  -   1  1 DFF      R       3  --CD-F----------  I0_inst_scl_rising_reg
- 9   N  2  -   1  1 DFF      R       8  ---D----IJKL-NOP  I0_inst_sda_pre_internal
- 6   O  2  -   1  1 DFF      R       1  --------------O-  I0_inst_sda_prev_reg
-10   G  3  -   1  1 DFF      R       1  -B--------------  I0_inst_sda_wen_reg
-12   O  5  -   1  1 DFF      R       6  -B-DEFG--J------  I0_inst_start_reg
- 7   O  5  -   1  1 DFF      R       6  -B-DEFG--J------  I0_inst_stop_reg
-11   D  7  -   2  1 DFF      R       2  ---D--G---------  I0_state_reg_1_
- 7   D 11  -   2  1 DFF      R       1  ---D------------  I0_state_reg_2_
- 2   G 13  -   5  1 DFF      R       4  ---DEFG---------  I0_state_reg_3_
- 5   G 13  -   5  1 TFF      R       7  ABC--FG-IJ------  I0_state_reg_4_
-10   J 18  -   3  1 DFF      R       2  ------G--J------  I0_state_reg_5_
- 1   D  9  -   3  1 DFF      R       4  --CD-F---J------  I0_state_reg_6_
- 3   A  9  -   2  1 DFF      R *     4  AB------IJ------  I0_target_reg_0_
-12   A  9  -   2  1 DFF      R *     4  AB------IJ------  I0_target_reg_1_
- 7   B  9  -   2  1 DFF      R *     4  AB------IJ------  I0_target_reg_2_
-12   B  9  -   2  1 DFF      R *     4  AB------IJ------  I0_target_reg_3_
- 9   B  9  -   2  1 DFF      R *     4  AB------IJ------  I0_target_reg_4_
-10   B  9  -   2  1 DFF      R *     4  AB------IJ------  I0_target_reg_5_
-13   B  9  -   2  1 DFF      R *     4  AB------IJ------  I0_target_reg_6_
-11   B  9  -   2  1 DFF      R *     4  AB------IJ------  I0_target_reg_7_
-15   C  0  -   0  0 COM              12 AB-DE-G-IJKL-NOP  OSCOUT
---   B  1   1  0 PTOE              ----------------     sda.OE
---   A  1   1  0 PTOE              ----------------     Adapter.OE
---   C  1   1  0 PTOE              ----------------     FPGA.OE
+ 0   D  6  -   4  1 DFF      R *     2  ---D----------O-  I0_addr_reg_0_
+ 0   O  6  -   4  1 DFF      R *     1  --------------O-  I0_addr_reg_1_
+ 1   K  6  -   3  1 COM              5  -BCD-F--------O-  I0_addr_reg_1__0
+ 1   C  7  -   5  1 DFF      R *     2  --C-----------O-  I0_addr_reg_2_
+ 0   F  6  -   4  1 DFF      R *     2  -----F--------O-  I0_addr_reg_3_
+ 3   B  7  -   5  1 DFF      R *     2  -B------------O-  I0_addr_reg_4_
+ 1   B  7  -   5  1 DFF      R *     2  -B------------O-  I0_addr_reg_5_
+ 0   C  7  -   5  1 DFF      R *     2  --C-----------O-  I0_addr_reg_6_
+ 0   P  9  -   5  1 DFF      R *     16 ABCDEFGHIJKLMNOP  I0_bits_processed_reg_0_
+ 1   L 11  -   7  2 COM              2  ------------M--P  I0_bits_processed_reg_0__0
+ 3   M  6  -   3  2 DFF      R *     16 ABCDEFGHIJKLMNOP  I0_bits_processed_reg_1_
+ 2   M  7  -   4  2 DFF      R *     15 ABCDE-GHIJKLMNOP  I0_bits_processed_reg_2_
+ 1   P  9  -   4  1 DFF      R *     11 ABCD----IJKL-NOP  I0_bits_processed_reg_3_
+ 5   C 17  -   2  1 DFF      R *     2  ---D-----------P  I0_data_1_0_reg
+ 5   D 17  -   2  1 DFF      R *     1  --C-------------  I0_data_1_1_reg
+ 7   J 17  -   2  1 DFF      R *     1  -----------L----  I0_data_1_2_reg
+ 5   K 17  -   2  1 DFF      R *     1  -------H--------  I0_data_1_3_reg
+ 5   B 17  -   2  1 DFF      R *     1  -----------L----  I0_data_1_4_reg
+ 5   L 17  -   2  1 DFF      R *     1  ---------J------  I0_data_1_5_reg
+ 7   K 17  -   2  1 DFF      R *     2  ---D-F----------  I0_data_1_6_reg
+ 7   B 17  -   2  1 DFF      R *     2  ------G--J------  I0_data_1_7_reg
+ 7   C 17  -   2  1 DFF      R *     1  --C-------------  I0_data_2_0_reg
+ 6   D 17  -   2  1 DFF      R *     1  ----E-----------  I0_data_2_1_reg
+ 8   J 17  -   2  1 DFF      R *     1  ----E-----------  I0_data_2_2_reg
+ 8   K 17  -   2  1 DFF      R *     1  ----------K-----  I0_data_2_3_reg
+ 7   I 17  -   2  1 DFF      R *     1  --------------O-  I0_data_2_4_reg
+ 9   I 17  -   2  1 DFF      R *     1  ---D------------  I0_data_2_5_reg
+ 9   K 17  -   2  1 DFF      R *     1  -------------N--  I0_data_2_6_reg
+ 9   B 17  -   2  1 DFF      R *     1  -------H--------  I0_data_2_7_reg
+ 5   E  3  -   2  1 DFF      R *     3  A-C------J------  I0_data_from_master_reg_0_
+ 9   D  6  -   2  1 COM              4  ----EFGH--------  I0_data_from_master_reg_0__0
+ 5   G  3  -   2  1 DFF      R *     3  A--D-----J------  I0_data_from_master_reg_1_
+ 5   H  3  -   2  1 DFF      R *     3  -B------IJ------  I0_data_from_master_reg_2_
+ 7   E  3  -   2  1 DFF      R *     3  -B------I-K-----  I0_data_from_master_reg_3_
+ 5   F  3  -   2  1 DFF      R *     2  -B------I-------  I0_data_from_master_reg_4_
+12   G  3  -   2  1 DFF      R *     2  --------I--L----  I0_data_from_master_reg_5_
+ 9   H  3  -   2  1 DFF      R *     3  -B------I-K-----  I0_data_from_master_reg_6_
+ 8   E  3  -   2  1 DFF      R *     2  -B------I-------  I0_data_from_master_reg_7_
+ 1   G  6  -   4  1 DFF      R *     1  ------G---------  I0_data_reg_0_
+ 3   J  6  -   3  1 COM              4  ----EFGH--------  I0_data_reg_0__0
+ 1   H  6  -   4  1 DFF      R *     1  -------H--------  I0_data_reg_1_
+ 0   E  7  -   5  1 DFF      R *     1  ----E-----------  I0_data_reg_2_
+ 1   F  6  -   4  1 DFF      R *     1  -----F----------  I0_data_reg_3_
+ 0   G  7  -   5  1 DFF      R *     1  ------G---------  I0_data_reg_4_
+ 0   H  7  -   5  1 DFF      R *     1  -------H--------  I0_data_reg_5_
+ 1   E  7  -   5  1 DFF      R *     1  ----E-----------  I0_data_reg_6_
+ 2   A  2  -   1  1 DFF      R *     1  -------------N--  I0_data_to_master_reg_0_
+12   O 17  -   2  1 COM              1  A---------------  I0_data_to_master_reg_0__0
+ 5   A  3  -   2  1 DFF      R *     1  -------------N--  I0_data_to_master_reg_1_
+ 7   A  3  -   2  1 DFF      R *     1  -------------N--  I0_data_to_master_reg_2_
+ 9   A  3  -   2  1 DFF      R *     1  -------------N--  I0_data_to_master_reg_3_
+10   A  3  -   2  1 DFF      R *     1  -------------N--  I0_data_to_master_reg_4_
+11   A  3  -   2  1 DFF      R *     1  -------------N--  I0_data_to_master_reg_5_
+13   A  3  -   2  1 DFF      R *     1  -------------N--  I0_data_to_master_reg_6_
+ 3   A  2  -   1  1 DFF      R *     1  -------------N--  I0_data_to_master_reg_7_
+ 9   O  8  -   2  1 DFF      R *     2  --------I-----O-  I0_inst_cmd_reg
+ 5   O  4  -   2  1 DFF      R *     1  --------I-------  I0_inst_continue_reg
+ 9   J  8  -   2  1 DFF      R *     8  ABCD----IJKL----  I0_inst_reg_or_data_receive
+11   F  3  -   1  1 DFF      R       11 ABCD----IJKL-NOP  I0_inst_scl_falling_reg
+12   E  2  -   1  1 DFF      R       1  -----F----------  I0_inst_scl_pre_internal
+ 7   F  2  -   1  1 DFF      R       1  -----F----------  I0_inst_scl_prev_reg
+10   F  3  -   1  1 DFF      R       5  ---D-----JKL--O-  I0_inst_scl_rising_reg
+ 3   N 13  -   8  2 DFF      R       1  A---------------  I0_inst_sda_o_reg
+ 1   N 15  -  10  2 DFF      R       1  A---------------  I0_inst_sda_o_reg_e
+12   C  2  -   1  1 DFF      R       8  -BCDEFGH------O-  I0_inst_sda_pre_internal
+13   B  2  -   1  1 DFF      R       1  -----F----------  I0_inst_sda_prev_reg
+12   I  3  -   1  1 DFF      R       1  A---------------  I0_inst_sda_wen_reg
+13   F  5  -   1  1 DFF      R       7  --------IJKLM-OP  I0_inst_start_reg
+ 9   F  5  -   1  1 DFF      R       7  --------IJKLM-OP  I0_inst_stop_reg
+ 2   J  7  -   3  1 DFF      R       2  --------IJ------  I0_state_reg_1_
+12   L 11  -   2  1 DFF      R       3  ---------J-L--O-  I0_state_reg_2_
+ 5   I 13  -   5  1 TFF      R       3  --------I--L-N--  I0_state_reg_3_
+ 3   I 13  -   5  1 TFF      R       9  ABCD----IJKL--O-  I0_state_reg_4_
+ 1   O 18  -   3  1 DFF      R       2  --------I-----O-  I0_state_reg_5_
+ 0   K  9  -   3  1 DFF      R       4  A---------KL--O-  I0_state_reg_6_
+ 9   C  9  -   2  1 DFF      R *     8  ABCD----IJKL----  I0_target_reg_0_
+ 7   D  9  -   2  1 DFF      R *     8  ABCD----IJKL----  I0_target_reg_1_
+12   J  9  -   2  1 DFF      R *     8  ABCD----IJKL----  I0_target_reg_2_
+10   I  9  -   2  1 DFF      R *     8  ABCD----IJKL----  I0_target_reg_3_
+10   B  9  -   2  1 DFF      R *     8  ABCD----IJKL----  I0_target_reg_4_
+ 9   L  9  -   2  1 DFF      R *     8  ABCD----IJKL----  I0_target_reg_5_
+12   K  9  -   2  1 DFF      R *     8  ABCD----IJKL----  I0_target_reg_6_
+11   B  9  -   2  1 DFF      R *     8  ABCD----IJKL----  I0_target_reg_7_
+15   C  0  -   0  0 COM              16 ABCDEFGHIJKLMNOP  OSCOUT
+--   F  2   1  0 PTOE              ----------------     DIG_IO_04.OE
+--   D  2   1  0 PTOE              ----------------     DIG_04.OE
+--   G  2   1  0 PTOE              ----------------     DIG_IO_05.OE
+--   J  2   1  0 PTOE              ----------------     DIG_05.OE
 -------------------------------------------------------------------------------------
 
 <Note> CLS = Number of clusters used
@@ -576,32 +662,206 @@ Mc GLB  P LL PTs  S Type E S P E R P                     Signal
 PostFit_Equations
 ~~~~~~~~~~~~~~~~~
 
-Adapter = FPGA.PIN ; (1 pterm, 1 signal)
-Adapter.OE = y0.Q ; (1 pterm, 1 signal)
+DIG_00 = DIG_IO_00.PIN ; (1 pterm, 1 signal)
+DIG_00.OE = IO_Select_DIG_24.Q & !IO_Select_DIG_00.Q ; (1 pterm, 2 signals)
 
-FPGA = Adapter.PIN ; (1 pterm, 1 signal)
-FPGA.OE = !y0.Q ; (1 pterm, 1 signal)
+DIG_01 = DIG_IO_01.PIN ; (1 pterm, 1 signal)
+DIG_01.OE = IO_Select_DIG_24.Q & !IO_Select_DIG_01.Q ; (1 pterm, 2 signals)
+
+DIG_02 = DIG_IO_02.PIN ; (1 pterm, 1 signal)
+DIG_02.OE = IO_Select_DIG_24.Q & !IO_Select_DIG_02.Q ; (1 pterm, 2 signals)
+
+DIG_03 = DIG_IO_03.PIN ; (1 pterm, 1 signal)
+DIG_03.OE = IO_Select_DIG_24.Q & !IO_Select_DIG_03.Q ; (1 pterm, 2 signals)
+
+DIG_04 = DIG_IO_04.PIN ; (1 pterm, 1 signal)
+DIG_04.OE = IO_Select_DIG_24.Q & !IO_Select_DIG_04.Q ; (1 pterm, 2 signals)
+
+DIG_05 = DIG_IO_05.PIN ; (1 pterm, 1 signal)
+DIG_05.OE = IO_Select_DIG_24.Q & !IO_Select_DIG_05.Q ; (1 pterm, 2 signals)
+
+DIG_06 = DIG_IO_06.PIN ; (1 pterm, 1 signal)
+DIG_06.OE = IO_Select_DIG_24.Q & !IO_Select_DIG_06.Q ; (1 pterm, 2 signals)
+
+DIG_07 = DIG_IO_07.PIN ; (1 pterm, 1 signal)
+DIG_07.OE = IO_Select_DIG_24.Q & !IO_Select_DIG_07.Q ; (1 pterm, 2 signals)
+
+DIG_08 = DIG_IO_08.PIN ; (1 pterm, 1 signal)
+DIG_08.OE = IO_Select_DIG_24.Q & !I0_data_1_0_reg.Q ; (1 pterm, 2 signals)
+
+DIG_09 = DIG_IO_09.PIN ; (1 pterm, 1 signal)
+DIG_09.OE = IO_Select_DIG_24.Q & !I0_data_1_1_reg.Q ; (1 pterm, 2 signals)
+
+DIG_10 = DIG_IO_10.PIN ; (1 pterm, 1 signal)
+DIG_10.OE = IO_Select_DIG_24.Q & !I0_data_1_2_reg.Q ; (1 pterm, 2 signals)
+
+DIG_11 = DIG_IO_11.PIN ; (1 pterm, 1 signal)
+DIG_11.OE = IO_Select_DIG_24.Q & !I0_data_1_3_reg.Q ; (1 pterm, 2 signals)
+
+DIG_12 = DIG_IO_12.PIN ; (1 pterm, 1 signal)
+DIG_12.OE = IO_Select_DIG_24.Q & !I0_data_1_4_reg.Q ; (1 pterm, 2 signals)
+
+DIG_13 = DIG_IO_13.PIN ; (1 pterm, 1 signal)
+DIG_13.OE = IO_Select_DIG_24.Q & !I0_data_1_5_reg.Q ; (1 pterm, 2 signals)
+
+DIG_14 = DIG_IO_14.PIN ; (1 pterm, 1 signal)
+DIG_14.OE = IO_Select_DIG_24.Q & !I0_data_1_6_reg.Q ; (1 pterm, 2 signals)
+
+DIG_15 = DIG_IO_15.PIN ; (1 pterm, 1 signal)
+DIG_15.OE = IO_Select_DIG_24.Q & !I0_data_1_7_reg.Q ; (1 pterm, 2 signals)
+
+DIG_16 = DIG_IO_16.PIN ; (1 pterm, 1 signal)
+DIG_16.OE = IO_Select_DIG_24.Q & !I0_data_2_0_reg.Q ; (1 pterm, 2 signals)
+
+DIG_17 = DIG_IO_17.PIN ; (1 pterm, 1 signal)
+DIG_17.OE = IO_Select_DIG_24.Q & !I0_data_2_1_reg.Q ; (1 pterm, 2 signals)
+
+DIG_18 = DIG_IO_18.PIN ; (1 pterm, 1 signal)
+DIG_18.OE = IO_Select_DIG_24.Q & !I0_data_2_2_reg.Q ; (1 pterm, 2 signals)
+
+DIG_19 = DIG_IO_19.PIN ; (1 pterm, 1 signal)
+DIG_19.OE = IO_Select_DIG_24.Q & !I0_data_2_3_reg.Q ; (1 pterm, 2 signals)
+
+DIG_20 = DIG_IO_20.PIN ; (1 pterm, 1 signal)
+DIG_20.OE = IO_Select_DIG_24.Q & !I0_data_2_4_reg.Q ; (1 pterm, 2 signals)
+
+DIG_21 = DIG_IO_21.PIN ; (1 pterm, 1 signal)
+DIG_21.OE = IO_Select_DIG_24.Q & !I0_data_2_5_reg.Q ; (1 pterm, 2 signals)
+
+DIG_22 = DIG_IO_22.PIN ; (1 pterm, 1 signal)
+DIG_22.OE = IO_Select_DIG_24.Q & !I0_data_2_6_reg.Q ; (1 pterm, 2 signals)
+
+DIG_23 = DIG_IO_23.PIN ; (1 pterm, 1 signal)
+DIG_23.OE = IO_Select_DIG_24.Q & !I0_data_2_7_reg.Q ; (1 pterm, 2 signals)
+
+DIG_24 = DIG_IO_24.PIN ; (1 pterm, 1 signal)
+DIG_24.OE = 0 ; (0 pterm, 0 signal)
+
+DIG_25 = DIG_IO_25.PIN ; (1 pterm, 1 signal)
+DIG_25.OE = !IO_Select_DIG_25.Q & IO_Select_DIG_24.Q ; (1 pterm, 2 signals)
+
+DIG_26 = DIG_IO_26.PIN ; (1 pterm, 1 signal)
+DIG_26.OE = !IO_Select_DIG_26.Q & IO_Select_DIG_24.Q ; (1 pterm, 2 signals)
+
+DIG_27 = DIG_IO_27.PIN ; (1 pterm, 1 signal)
+DIG_27.OE = !IO_Select_DIG_27.Q & IO_Select_DIG_24.Q ; (1 pterm, 2 signals)
+
+DIG_28 = DIG_IO_28.PIN ; (1 pterm, 1 signal)
+DIG_28.OE = !IO_Select_DIG_28.Q & IO_Select_DIG_24.Q ; (1 pterm, 2 signals)
+
+DIG_29 = DIG_IO_29.PIN ; (1 pterm, 1 signal)
+DIG_29.OE = !IO_Select_DIG_29.Q & IO_Select_DIG_24.Q ; (1 pterm, 2 signals)
+
+DIG_IO_00 = DIG_00.PIN ; (1 pterm, 1 signal)
+DIG_IO_00.OE = IO_Select_DIG_24.Q & IO_Select_DIG_00.Q ; (1 pterm, 2 signals)
+
+DIG_IO_01 = DIG_01.PIN ; (1 pterm, 1 signal)
+DIG_IO_01.OE = IO_Select_DIG_24.Q & IO_Select_DIG_01.Q ; (1 pterm, 2 signals)
+
+DIG_IO_02 = DIG_02.PIN ; (1 pterm, 1 signal)
+DIG_IO_02.OE = IO_Select_DIG_24.Q & IO_Select_DIG_02.Q ; (1 pterm, 2 signals)
+
+DIG_IO_03 = DIG_03.PIN ; (1 pterm, 1 signal)
+DIG_IO_03.OE = IO_Select_DIG_24.Q & IO_Select_DIG_03.Q ; (1 pterm, 2 signals)
+
+DIG_IO_04 = DIG_04.PIN ; (1 pterm, 1 signal)
+DIG_IO_04.OE = IO_Select_DIG_24.Q & IO_Select_DIG_04.Q ; (1 pterm, 2 signals)
+
+DIG_IO_05 = DIG_05.PIN ; (1 pterm, 1 signal)
+DIG_IO_05.OE = IO_Select_DIG_24.Q & IO_Select_DIG_05.Q ; (1 pterm, 2 signals)
+
+DIG_IO_06 = DIG_06.PIN ; (1 pterm, 1 signal)
+DIG_IO_06.OE = IO_Select_DIG_24.Q & IO_Select_DIG_06.Q ; (1 pterm, 2 signals)
+
+DIG_IO_07 = DIG_07.PIN ; (1 pterm, 1 signal)
+DIG_IO_07.OE = IO_Select_DIG_24.Q & IO_Select_DIG_07.Q ; (1 pterm, 2 signals)
+
+DIG_IO_08 = DIG_08.PIN ; (1 pterm, 1 signal)
+DIG_IO_08.OE = IO_Select_DIG_24.Q & I0_data_1_0_reg.Q ; (1 pterm, 2 signals)
+
+DIG_IO_09 = DIG_09.PIN ; (1 pterm, 1 signal)
+DIG_IO_09.OE = IO_Select_DIG_24.Q & I0_data_1_1_reg.Q ; (1 pterm, 2 signals)
+
+DIG_IO_10 = DIG_10.PIN ; (1 pterm, 1 signal)
+DIG_IO_10.OE = IO_Select_DIG_24.Q & I0_data_1_2_reg.Q ; (1 pterm, 2 signals)
+
+DIG_IO_11 = DIG_11.PIN ; (1 pterm, 1 signal)
+DIG_IO_11.OE = IO_Select_DIG_24.Q & I0_data_1_3_reg.Q ; (1 pterm, 2 signals)
+
+DIG_IO_12 = DIG_12.PIN ; (1 pterm, 1 signal)
+DIG_IO_12.OE = IO_Select_DIG_24.Q & I0_data_1_4_reg.Q ; (1 pterm, 2 signals)
+
+DIG_IO_13 = DIG_13.PIN ; (1 pterm, 1 signal)
+DIG_IO_13.OE = IO_Select_DIG_24.Q & I0_data_1_5_reg.Q ; (1 pterm, 2 signals)
+
+DIG_IO_14 = DIG_14.PIN ; (1 pterm, 1 signal)
+DIG_IO_14.OE = IO_Select_DIG_24.Q & I0_data_1_6_reg.Q ; (1 pterm, 2 signals)
+
+DIG_IO_15 = DIG_15.PIN ; (1 pterm, 1 signal)
+DIG_IO_15.OE = IO_Select_DIG_24.Q & I0_data_1_7_reg.Q ; (1 pterm, 2 signals)
+
+DIG_IO_16 = DIG_16.PIN ; (1 pterm, 1 signal)
+DIG_IO_16.OE = IO_Select_DIG_24.Q & I0_data_2_0_reg.Q ; (1 pterm, 2 signals)
+
+DIG_IO_17 = DIG_17.PIN ; (1 pterm, 1 signal)
+DIG_IO_17.OE = IO_Select_DIG_24.Q & I0_data_2_1_reg.Q ; (1 pterm, 2 signals)
+
+DIG_IO_18 = DIG_18.PIN ; (1 pterm, 1 signal)
+DIG_IO_18.OE = IO_Select_DIG_24.Q & I0_data_2_2_reg.Q ; (1 pterm, 2 signals)
+
+DIG_IO_19 = DIG_19.PIN ; (1 pterm, 1 signal)
+DIG_IO_19.OE = IO_Select_DIG_24.Q & I0_data_2_3_reg.Q ; (1 pterm, 2 signals)
+
+DIG_IO_20 = DIG_20.PIN ; (1 pterm, 1 signal)
+DIG_IO_20.OE = IO_Select_DIG_24.Q & I0_data_2_4_reg.Q ; (1 pterm, 2 signals)
+
+DIG_IO_21 = DIG_21.PIN ; (1 pterm, 1 signal)
+DIG_IO_21.OE = IO_Select_DIG_24.Q & I0_data_2_5_reg.Q ; (1 pterm, 2 signals)
+
+DIG_IO_22 = DIG_22.PIN ; (1 pterm, 1 signal)
+DIG_IO_22.OE = IO_Select_DIG_24.Q & I0_data_2_6_reg.Q ; (1 pterm, 2 signals)
+
+DIG_IO_23 = DIG_23.PIN ; (1 pterm, 1 signal)
+DIG_IO_23.OE = IO_Select_DIG_24.Q & I0_data_2_7_reg.Q ; (1 pterm, 2 signals)
+
+DIG_IO_24 = DIG_24.PIN ; (1 pterm, 1 signal)
+DIG_IO_24.OE = IO_Select_DIG_24.Q ; (1 pterm, 1 signal)
+
+DIG_IO_25 = DIG_25.PIN ; (1 pterm, 1 signal)
+DIG_IO_25.OE = IO_Select_DIG_25.Q & IO_Select_DIG_24.Q ; (1 pterm, 2 signals)
+
+DIG_IO_26 = DIG_26.PIN ; (1 pterm, 1 signal)
+DIG_IO_26.OE = IO_Select_DIG_26.Q & IO_Select_DIG_24.Q ; (1 pterm, 2 signals)
+
+DIG_IO_27 = DIG_27.PIN ; (1 pterm, 1 signal)
+DIG_IO_27.OE = IO_Select_DIG_27.Q & IO_Select_DIG_24.Q ; (1 pterm, 2 signals)
+
+DIG_IO_28 = DIG_28.PIN ; (1 pterm, 1 signal)
+DIG_IO_28.OE = IO_Select_DIG_28.Q & IO_Select_DIG_24.Q ; (1 pterm, 2 signals)
+
+DIG_IO_29 = DIG_29.PIN ; (1 pterm, 1 signal)
+DIG_IO_29.OE = IO_Select_DIG_29.Q & IO_Select_DIG_24.Q ; (1 pterm, 2 signals)
 
 I0_addr_reg_0_.D = I0_bits_processed_reg_1_.Q & I0_bits_processed_reg_2_.Q
        & I0_inst_sda_pre_internal.Q
     # !I0_bits_processed_reg_2_.Q & I0_addr_reg_0_.Q
     # !I0_bits_processed_reg_1_.Q & I0_addr_reg_0_.Q ; (3 pterms, 4 signals)
 I0_addr_reg_0_.C = OSCOUT ; (1 pterm, 1 signal)
-I0_addr_reg_0_.CE = I0_addr_reg_0__0 ; (1 pterm, 1 signal)
-
-I0_addr_reg_0__0 = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_3_.Q
-       & I0_inst_scl_rising_reg.Q & I0_state_reg_6_.Q
-    # !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_3_.Q
-       & I0_inst_scl_rising_reg.Q & I0_state_reg_6_.Q
-    # !I0_bits_processed_reg_2_.Q & !I0_bits_processed_reg_3_.Q
-       & I0_inst_scl_rising_reg.Q & I0_state_reg_6_.Q ; (3 pterms, 6 signals)
+I0_addr_reg_0_.CE = I0_addr_reg_1__0 ; (1 pterm, 1 signal)
 
 I0_addr_reg_1_.D = I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_2_.Q
        & I0_inst_sda_pre_internal.Q
     # !I0_bits_processed_reg_2_.Q & I0_addr_reg_1_.Q
     # !I0_bits_processed_reg_0_.Q & I0_addr_reg_1_.Q ; (3 pterms, 4 signals)
 I0_addr_reg_1_.C = OSCOUT ; (1 pterm, 1 signal)
-I0_addr_reg_1_.CE = I0_addr_reg_0__0 ; (1 pterm, 1 signal)
+I0_addr_reg_1_.CE = I0_addr_reg_1__0 ; (1 pterm, 1 signal)
+
+I0_addr_reg_1__0 = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_3_.Q
+       & I0_inst_scl_rising_reg.Q & I0_state_reg_6_.Q
+    # !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_3_.Q
+       & I0_inst_scl_rising_reg.Q & I0_state_reg_6_.Q
+    # !I0_bits_processed_reg_2_.Q & !I0_bits_processed_reg_3_.Q
+       & I0_inst_scl_rising_reg.Q & I0_state_reg_6_.Q ; (3 pterms, 6 signals)
 
 I0_addr_reg_2_.D = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
        & I0_bits_processed_reg_2_.Q & I0_inst_sda_pre_internal.Q
@@ -609,14 +869,14 @@ I0_addr_reg_2_.D = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
     # I0_bits_processed_reg_1_.Q & I0_addr_reg_2_.Q
     # I0_bits_processed_reg_0_.Q & I0_addr_reg_2_.Q ; (4 pterms, 5 signals)
 I0_addr_reg_2_.C = OSCOUT ; (1 pterm, 1 signal)
-I0_addr_reg_2_.CE = I0_addr_reg_0__0 ; (1 pterm, 1 signal)
+I0_addr_reg_2_.CE = I0_addr_reg_1__0 ; (1 pterm, 1 signal)
 
 I0_addr_reg_3_.D = I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
        & I0_inst_sda_pre_internal.Q
     # !I0_bits_processed_reg_1_.Q & I0_addr_reg_3_.Q
     # !I0_bits_processed_reg_0_.Q & I0_addr_reg_3_.Q ; (3 pterms, 4 signals)
 I0_addr_reg_3_.C = OSCOUT ; (1 pterm, 1 signal)
-I0_addr_reg_3_.CE = I0_addr_reg_0__0 ; (1 pterm, 1 signal)
+I0_addr_reg_3_.CE = I0_addr_reg_1__0 ; (1 pterm, 1 signal)
 
 I0_addr_reg_4_.D = !I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
        & !I0_bits_processed_reg_2_.Q & I0_inst_sda_pre_internal.Q
@@ -624,7 +884,7 @@ I0_addr_reg_4_.D = !I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
     # !I0_bits_processed_reg_1_.Q & I0_addr_reg_4_.Q
     # I0_bits_processed_reg_0_.Q & I0_addr_reg_4_.Q ; (4 pterms, 5 signals)
 I0_addr_reg_4_.C = OSCOUT ; (1 pterm, 1 signal)
-I0_addr_reg_4_.CE = I0_addr_reg_0__0 ; (1 pterm, 1 signal)
+I0_addr_reg_4_.CE = I0_addr_reg_1__0 ; (1 pterm, 1 signal)
 
 I0_addr_reg_5_.D = I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
        & !I0_bits_processed_reg_2_.Q & I0_inst_sda_pre_internal.Q
@@ -632,7 +892,7 @@ I0_addr_reg_5_.D = I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
     # I0_bits_processed_reg_1_.Q & I0_addr_reg_5_.Q
     # !I0_bits_processed_reg_0_.Q & I0_addr_reg_5_.Q ; (4 pterms, 5 signals)
 I0_addr_reg_5_.C = OSCOUT ; (1 pterm, 1 signal)
-I0_addr_reg_5_.CE = I0_addr_reg_0__0 ; (1 pterm, 1 signal)
+I0_addr_reg_5_.CE = I0_addr_reg_1__0 ; (1 pterm, 1 signal)
 
 I0_addr_reg_6_.D = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
        & !I0_bits_processed_reg_2_.Q & I0_inst_sda_pre_internal.Q
@@ -640,7 +900,7 @@ I0_addr_reg_6_.D = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
     # I0_bits_processed_reg_1_.Q & I0_addr_reg_6_.Q
     # I0_bits_processed_reg_0_.Q & I0_addr_reg_6_.Q ; (4 pterms, 5 signals)
 I0_addr_reg_6_.C = OSCOUT ; (1 pterm, 1 signal)
-I0_addr_reg_6_.CE = I0_addr_reg_0__0 ; (1 pterm, 1 signal)
+I0_addr_reg_6_.CE = I0_addr_reg_1__0 ; (1 pterm, 1 signal)
 
 I0_bits_processed_reg_0_.D = !I0_bits_processed_reg_0_.Q & !I0_inst_stop_reg.Q
        & !I0_inst_scl_falling_reg.Q & !I0_inst_start_reg.Q
@@ -653,19 +913,21 @@ I0_bits_processed_reg_0_.D = !I0_bits_processed_reg_0_.Q & !I0_inst_stop_reg.Q
 I0_bits_processed_reg_0_.C = OSCOUT ; (1 pterm, 1 signal)
 I0_bits_processed_reg_0_.CE = I0_bits_processed_reg_0__0 ; (1 pterm, 1 signal)
 
-I0_bits_processed_reg_0__0 = I0_inst_stop_reg.Q
+I0_bits_processed_reg_0__0.X1 = I0_inst_stop_reg.Q
     # I0_inst_start_reg.Q
     # I0_inst_scl_rising_reg.Q & I0_state_reg_4_.Q
-    # !I0_bits_processed_reg_3_.Q & I0_inst_scl_falling_reg.Q
-       & I0_state_reg_3_.Q
     # !I0_bits_processed_reg_3_.Q & I0_inst_scl_rising_reg.Q
        & I0_state_reg_6_.Q
+    # !I0_bits_processed_reg_3_.Q & I0_state_reg_3_.Q
+       & I0_inst_scl_falling_reg.Q
     # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
        & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
-    # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & I0_state_reg_6_.Q & I0_inst_scl_falling_reg.Q ; (7 pterms, 11 signals)
+       & I0_inst_scl_falling_reg.Q ; (6 pterms, 11 signals)
+I0_bits_processed_reg_0__0.X2 = !I0_bits_processed_reg_0_.Q
+       & !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_2_.Q
+       & I0_bits_processed_reg_3_.Q & !I0_inst_stop_reg.Q & !I0_state_reg_4_.Q
+       & !I0_state_reg_3_.Q & I0_inst_scl_falling_reg.Q & !I0_state_reg_6_.Q
+       & !I0_inst_start_reg.Q ; (1 pterm, 10 signals)
 
 I0_bits_processed_reg_1_.D = I0_bits_processed_reg_0_.Q
        & !I0_bits_processed_reg_1_.Q & !I0_inst_stop_reg.Q
@@ -687,22 +949,159 @@ I0_bits_processed_reg_2_.CE = I0_bits_processed_reg_0__0 ; (1 pterm, 1 signal)
 
 I0_bits_processed_reg_3_.D.X1 = I0_bits_processed_reg_0_.Q
        & I0_bits_processed_reg_1_.Q & I0_bits_processed_reg_2_.Q
-       & !I0_inst_stop_reg.Q & !I0_inst_scl_falling_reg.Q
-       & !I0_inst_start_reg.Q
-    # I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
-       & I0_bits_processed_reg_2_.Q & !I0_inst_stop_reg.Q
-       & !I0_inst_start_reg.Q & !I0_state_reg_3_.Q
+       & !I0_inst_stop_reg.Q & !I0_inst_start_reg.Q
     # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
        & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
        & !I0_inst_stop_reg.Q & I0_inst_scl_falling_reg.Q
-       & !I0_inst_start_reg.Q
-    # I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
-       & I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & !I0_inst_stop_reg.Q & !I0_inst_start_reg.Q ; (4 pterms, 8 signals)
+       & !I0_inst_start_reg.Q ; (2 pterms, 7 signals)
 I0_bits_processed_reg_3_.D.X2 = I0_bits_processed_reg_3_.Q
        & !I0_inst_stop_reg.Q & !I0_inst_start_reg.Q ; (1 pterm, 3 signals)
 I0_bits_processed_reg_3_.C = OSCOUT ; (1 pterm, 1 signal)
 I0_bits_processed_reg_3_.CE = I0_bits_processed_reg_0__0 ; (1 pterm, 1 signal)
+
+I0_data_1_0_reg.D = I0_data_from_master_reg_0_.Q ; (1 pterm, 1 signal)
+I0_data_1_0_reg.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_1_0_reg.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & !I0_target_reg_0_.Q
+       & !I0_target_reg_1_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
+       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+I0_data_1_1_reg.D = I0_data_from_master_reg_1_.Q ; (1 pterm, 1 signal)
+I0_data_1_1_reg.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_1_1_reg.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & !I0_target_reg_0_.Q
+       & !I0_target_reg_1_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
+       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+I0_data_1_2_reg.D = I0_data_from_master_reg_2_.Q ; (1 pterm, 1 signal)
+I0_data_1_2_reg.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_1_2_reg.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & !I0_target_reg_0_.Q
+       & !I0_target_reg_1_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
+       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+I0_data_1_3_reg.D = I0_data_from_master_reg_3_.Q ; (1 pterm, 1 signal)
+I0_data_1_3_reg.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_1_3_reg.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & !I0_target_reg_0_.Q
+       & !I0_target_reg_1_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
+       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+I0_data_1_4_reg.D = I0_data_from_master_reg_4_.Q ; (1 pterm, 1 signal)
+I0_data_1_4_reg.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_1_4_reg.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & !I0_target_reg_0_.Q
+       & !I0_target_reg_1_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
+       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+I0_data_1_5_reg.D = I0_data_from_master_reg_5_.Q ; (1 pterm, 1 signal)
+I0_data_1_5_reg.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_1_5_reg.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & !I0_target_reg_0_.Q
+       & !I0_target_reg_1_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
+       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+I0_data_1_6_reg.D = I0_data_from_master_reg_6_.Q ; (1 pterm, 1 signal)
+I0_data_1_6_reg.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_1_6_reg.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & !I0_target_reg_0_.Q
+       & !I0_target_reg_1_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
+       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+I0_data_1_7_reg.D = I0_data_from_master_reg_7_.Q ; (1 pterm, 1 signal)
+I0_data_1_7_reg.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_1_7_reg.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & !I0_target_reg_0_.Q
+       & !I0_target_reg_1_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
+       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+I0_data_2_0_reg.D = I0_data_from_master_reg_0_.Q ; (1 pterm, 1 signal)
+I0_data_2_0_reg.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_2_0_reg.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
+       & !I0_target_reg_1_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
+       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+I0_data_2_1_reg.D = I0_data_from_master_reg_1_.Q ; (1 pterm, 1 signal)
+I0_data_2_1_reg.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_2_1_reg.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
+       & !I0_target_reg_1_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
+       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+I0_data_2_2_reg.D = I0_data_from_master_reg_2_.Q ; (1 pterm, 1 signal)
+I0_data_2_2_reg.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_2_2_reg.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
+       & !I0_target_reg_1_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
+       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+I0_data_2_3_reg.D = I0_data_from_master_reg_3_.Q ; (1 pterm, 1 signal)
+I0_data_2_3_reg.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_2_3_reg.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
+       & !I0_target_reg_1_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
+       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+I0_data_2_4_reg.D = I0_data_from_master_reg_4_.Q ; (1 pterm, 1 signal)
+I0_data_2_4_reg.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_2_4_reg.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
+       & !I0_target_reg_1_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
+       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+I0_data_2_5_reg.D = I0_data_from_master_reg_5_.Q ; (1 pterm, 1 signal)
+I0_data_2_5_reg.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_2_5_reg.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
+       & !I0_target_reg_1_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
+       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+I0_data_2_6_reg.D = I0_data_from_master_reg_6_.Q ; (1 pterm, 1 signal)
+I0_data_2_6_reg.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_2_6_reg.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
+       & !I0_target_reg_1_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
+       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+I0_data_2_7_reg.D = I0_data_from_master_reg_7_.Q ; (1 pterm, 1 signal)
+I0_data_2_7_reg.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_2_7_reg.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
+       & !I0_target_reg_1_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
+       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
 
 I0_data_from_master_reg_0_.D = I0_inst_sda_pre_internal.Q ; (1 pterm, 1 signal)
 I0_data_from_master_reg_0_.C = OSCOUT ; (1 pterm, 1 signal)
@@ -802,6 +1201,47 @@ I0_data_reg_6_.D = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
 I0_data_reg_6_.C = OSCOUT ; (1 pterm, 1 signal)
 I0_data_reg_6_.CE = I0_data_reg_0__0 ; (1 pterm, 1 signal)
 
+I0_data_to_master_reg_0_.D = 0 ; (0 pterm, 0 signal)
+I0_data_to_master_reg_0_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_to_master_reg_0_.CE = I0_data_to_master_reg_0__0 ; (1 pterm, 1 signal)
+
+I0_data_to_master_reg_0__0 = !I0_inst_sda_pre_internal.Q & I0_state_reg_2_.Q
+       & I0_inst_scl_rising_reg.Q
+    # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & !I0_addr_reg_1_.Q & !I0_addr_reg_5_.Q & !I0_addr_reg_6_.Q
+       & I0_inst_scl_falling_reg.Q & I0_state_reg_6_.Q & I0_addr_reg_0_.Q
+       & I0_addr_reg_2_.Q & I0_addr_reg_3_.Q & I0_addr_reg_4_.Q
+       & I0_inst_cmd_reg.Q ; (2 pterms, 17 signals)
+
+I0_data_to_master_reg_1_.D = I0_state_reg_6_.Q ; (1 pterm, 1 signal)
+I0_data_to_master_reg_1_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_to_master_reg_1_.CE = I0_data_to_master_reg_0__0 ; (1 pterm, 1 signal)
+
+I0_data_to_master_reg_2_.D = !I0_state_reg_6_.Q ; (1 pterm, 1 signal)
+I0_data_to_master_reg_2_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_to_master_reg_2_.CE = I0_data_to_master_reg_0__0 ; (1 pterm, 1 signal)
+
+I0_data_to_master_reg_3_.D = !I0_state_reg_6_.Q ; (1 pterm, 1 signal)
+I0_data_to_master_reg_3_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_to_master_reg_3_.CE = I0_data_to_master_reg_0__0 ; (1 pterm, 1 signal)
+
+I0_data_to_master_reg_4_.D = !I0_state_reg_6_.Q ; (1 pterm, 1 signal)
+I0_data_to_master_reg_4_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_to_master_reg_4_.CE = I0_data_to_master_reg_0__0 ; (1 pterm, 1 signal)
+
+I0_data_to_master_reg_5_.D = !I0_state_reg_6_.Q ; (1 pterm, 1 signal)
+I0_data_to_master_reg_5_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_to_master_reg_5_.CE = I0_data_to_master_reg_0__0 ; (1 pterm, 1 signal)
+
+I0_data_to_master_reg_6_.D = I0_state_reg_6_.Q ; (1 pterm, 1 signal)
+I0_data_to_master_reg_6_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_to_master_reg_6_.CE = I0_data_to_master_reg_0__0 ; (1 pterm, 1 signal)
+
+I0_data_to_master_reg_7_.D = 0 ; (0 pterm, 0 signal)
+I0_data_to_master_reg_7_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_data_to_master_reg_7_.CE = I0_data_to_master_reg_0__0 ; (1 pterm, 1 signal)
+
 I0_inst_cmd_reg.D = I0_inst_sda_pre_internal.Q ; (1 pterm, 1 signal)
 I0_inst_cmd_reg.C = OSCOUT ; (1 pterm, 1 signal)
 I0_inst_cmd_reg.CE = I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
@@ -833,6 +1273,53 @@ I0_inst_scl_rising_reg.D = I0_inst_scl_pre_internal.Q
        & !I0_inst_scl_prev_reg.Q ; (1 pterm, 2 signals)
 I0_inst_scl_rising_reg.C = OSCOUT ; (1 pterm, 1 signal)
 
+I0_inst_sda_o_reg.D = I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_state_reg_3_.Q
+       & I0_data_to_master_reg_6_.Q
+    # !I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_state_reg_3_.Q
+       & I0_data_to_master_reg_5_.Q
+    # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & I0_bits_processed_reg_2_.Q & I0_state_reg_3_.Q
+       & I0_data_to_master_reg_3_.Q
+    # I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_state_reg_3_.Q
+       & I0_data_to_master_reg_4_.Q
+    # I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & I0_bits_processed_reg_2_.Q & I0_state_reg_3_.Q
+       & I0_data_to_master_reg_2_.Q
+    # !I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & I0_bits_processed_reg_2_.Q & I0_state_reg_3_.Q
+       & I0_data_to_master_reg_1_.Q
+    # I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & I0_bits_processed_reg_2_.Q & I0_state_reg_3_.Q
+       & I0_data_to_master_reg_0_.Q
+    # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_state_reg_3_.Q
+       & I0_data_to_master_reg_7_.Q ; (8 pterms, 12 signals)
+I0_inst_sda_o_reg.C = OSCOUT ; (1 pterm, 1 signal)
+
+I0_inst_sda_o_reg_e.D = I0_bits_processed_reg_0_.Q
+       & !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_2_.Q
+       & !I0_data_to_master_reg_6_.Q
+    # !I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & !I0_data_to_master_reg_5_.Q
+    # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & I0_bits_processed_reg_2_.Q & !I0_data_to_master_reg_3_.Q
+    # I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & !I0_data_to_master_reg_4_.Q
+    # I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & I0_bits_processed_reg_2_.Q & !I0_data_to_master_reg_2_.Q
+    # !I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & I0_bits_processed_reg_2_.Q & !I0_data_to_master_reg_1_.Q
+    # I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & I0_bits_processed_reg_2_.Q & !I0_data_to_master_reg_0_.Q
+    # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & !I0_data_to_master_reg_7_.Q
+    # !I0_bits_processed_reg_3_.Q & I0_inst_scl_falling_reg.Q
+    # !I0_state_reg_3_.Q ; (10 pterms, 14 signals)
+I0_inst_sda_o_reg_e.C = OSCOUT ; (1 pterm, 1 signal)
+
 I0_inst_sda_pre_internal.D = sda.PIN ; (1 pterm, 1 signal)
 I0_inst_sda_pre_internal.C = OSCOUT ; (1 pterm, 1 signal)
 
@@ -851,41 +1338,41 @@ I0_inst_stop_reg.D = I0_inst_sda_pre_internal.Q & I0_inst_scl_pre_internal.Q
 I0_inst_stop_reg.C = OSCOUT ; (1 pterm, 1 signal)
 
 I0_state_reg_1_.D = !I0_inst_stop_reg.Q & I0_state_reg_2_.Q
-       & I0_inst_scl_rising_reg.Q & !I0_inst_start_reg.Q & !I0_state_reg_1_.Q
+       & I0_inst_scl_rising_reg.Q & !I0_inst_start_reg.Q
     # !I0_inst_stop_reg.Q & !I0_inst_scl_falling_reg.Q & !I0_inst_start_reg.Q
-       & I0_state_reg_1_.Q ; (2 pterms, 6 signals)
+       & I0_state_reg_1_.Q
+    # !I0_inst_stop_reg.Q & I0_state_reg_2_.Q & !I0_inst_start_reg.Q
+       & I0_state_reg_1_.Q ; (3 pterms, 6 signals)
 I0_state_reg_1_.C = OSCOUT ; (1 pterm, 1 signal)
 
-I0_state_reg_2_.D = I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
-       & I0_bits_processed_reg_2_.Q & !I0_bits_processed_reg_3_.Q
-       & !I0_inst_stop_reg.Q & I0_inst_scl_falling_reg.Q
-       & !I0_inst_start_reg.Q & I0_state_reg_3_.Q
+I0_state_reg_2_.D = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & !I0_inst_stop_reg.Q & I0_state_reg_3_.Q & I0_inst_scl_falling_reg.Q
+       & !I0_inst_start_reg.Q
     # !I0_inst_stop_reg.Q & I0_state_reg_2_.Q & !I0_inst_scl_rising_reg.Q
        & !I0_inst_start_reg.Q ; (2 pterms, 10 signals)
 I0_state_reg_2_.C = OSCOUT ; (1 pterm, 1 signal)
 
-I0_state_reg_3_.D.X1 = !I0_inst_stop_reg.Q & I0_inst_scl_falling_reg.Q
-       & !I0_inst_start_reg.Q & !I0_state_reg_3_.Q & I0_state_reg_5_.Q
+I0_state_reg_3_.T = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_state_reg_3_.Q & I0_inst_scl_falling_reg.Q & !I0_state_reg_5_.Q
+       & !I0_state_reg_1_.Q
+    # !I0_inst_stop_reg.Q & !I0_state_reg_3_.Q & I0_inst_scl_falling_reg.Q
+       & I0_inst_continue_reg.Q & !I0_inst_start_reg.Q & I0_state_reg_1_.Q
        & I0_inst_cmd_reg.Q
-    # !I0_inst_stop_reg.Q & I0_inst_continue_reg.Q & I0_inst_scl_falling_reg.Q
-       & !I0_inst_start_reg.Q & !I0_state_reg_3_.Q & I0_state_reg_1_.Q
-       & I0_inst_cmd_reg.Q
-    # !I0_inst_stop_reg.Q & !I0_inst_scl_falling_reg.Q & !I0_inst_start_reg.Q
-       & I0_state_reg_3_.Q & !I0_state_reg_5_.Q & !I0_state_reg_1_.Q
-    # I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
-       & I0_bits_processed_reg_2_.Q & !I0_bits_processed_reg_3_.Q
-       & !I0_inst_stop_reg.Q & !I0_inst_start_reg.Q & I0_state_reg_3_.Q
-       & !I0_state_reg_5_.Q & !I0_state_reg_1_.Q ; (4 pterms, 12 signals)
-I0_state_reg_3_.D.X2 = !I0_inst_stop_reg.Q & I0_inst_scl_falling_reg.Q
-       & !I0_inst_start_reg.Q & I0_state_reg_3_.Q ; (1 pterm, 4 signals)
+    # !I0_inst_stop_reg.Q & !I0_state_reg_3_.Q & I0_inst_scl_falling_reg.Q
+       & !I0_inst_start_reg.Q & I0_state_reg_5_.Q & I0_inst_cmd_reg.Q
+    # I0_state_reg_3_.Q & I0_inst_start_reg.Q
+    # I0_inst_stop_reg.Q & I0_state_reg_3_.Q ; (5 pterms, 12 signals)
 I0_state_reg_3_.C = OSCOUT ; (1 pterm, 1 signal)
 
-I0_state_reg_4_.T = !I0_inst_stop_reg.Q & !I0_state_reg_4_.Q
-       & I0_inst_continue_reg.Q & I0_inst_scl_falling_reg.Q
-       & !I0_inst_start_reg.Q & I0_state_reg_1_.Q & !I0_inst_cmd_reg.Q
-    # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+I0_state_reg_4_.T = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
        & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
+       & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q & !I0_state_reg_5_.Q
+       & !I0_state_reg_1_.Q
+    # !I0_inst_stop_reg.Q & !I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
+       & I0_inst_continue_reg.Q & !I0_inst_start_reg.Q & I0_state_reg_1_.Q
+       & !I0_inst_cmd_reg.Q
     # !I0_inst_stop_reg.Q & !I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
        & !I0_inst_start_reg.Q & I0_state_reg_5_.Q & !I0_inst_cmd_reg.Q
     # I0_state_reg_4_.Q & I0_inst_start_reg.Q
@@ -894,10 +1381,10 @@ I0_state_reg_4_.C = OSCOUT ; (1 pterm, 1 signal)
 
 I0_state_reg_5_.D = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
        & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & !I0_addr_reg_0_.Q & !I0_addr_reg_1_.Q & !I0_addr_reg_3_.Q
-       & !I0_addr_reg_5_.Q & !I0_inst_stop_reg.Q & I0_state_reg_6_.Q
-       & I0_inst_scl_falling_reg.Q & I0_addr_reg_2_.Q & I0_addr_reg_4_.Q
-       & I0_addr_reg_6_.Q & !I0_inst_start_reg.Q
+       & !I0_addr_reg_1_.Q & !I0_addr_reg_5_.Q & !I0_addr_reg_6_.Q
+       & !I0_inst_stop_reg.Q & I0_inst_scl_falling_reg.Q & I0_state_reg_6_.Q
+       & I0_addr_reg_0_.Q & I0_addr_reg_2_.Q & I0_addr_reg_3_.Q
+       & I0_addr_reg_4_.Q & !I0_inst_start_reg.Q
     # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
        & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
        & !I0_inst_stop_reg.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
@@ -970,186 +1457,212 @@ I0_target_reg_7_.CE = !I0_bits_processed_reg_0_.Q
        & I0_bits_processed_reg_3_.Q & !I0_inst_reg_or_data_receive.Q
        & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 7 signals)
 
-P.D = I0_data_from_master_reg_7_.Q ; (1 pterm, 1 signal)
-P.C = OSCOUT ; (1 pterm, 1 signal)
-P.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
-       & !I0_target_reg_2_.Q & !I0_target_reg_4_.Q & !I0_target_reg_5_.Q
-       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
-       & I0_target_reg_1_.Q & I0_target_reg_3_.Q & I0_target_reg_6_.Q ; (1 pterm, 15 signals)
+IO_Select_DIG_00.D = I0_data_from_master_reg_0_.Q ; (1 pterm, 1 signal)
+IO_Select_DIG_00.C = OSCOUT ; (1 pterm, 1 signal)
+IO_Select_DIG_00.CE = !I0_bits_processed_reg_0_.Q
+       & !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_2_.Q
+       & I0_bits_processed_reg_3_.Q & I0_inst_reg_or_data_receive.Q
+       & I0_target_reg_0_.Q & I0_target_reg_1_.Q & I0_target_reg_2_.Q
+       & I0_target_reg_3_.Q & I0_target_reg_4_.Q & !I0_target_reg_5_.Q
+       & !I0_target_reg_6_.Q & !I0_target_reg_7_.Q & I0_state_reg_4_.Q
+       & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
 
-a.D = I0_data_from_master_reg_0_.Q ; (1 pterm, 1 signal)
-a.C = OSCOUT ; (1 pterm, 1 signal)
-a.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
-       & !I0_target_reg_2_.Q & !I0_target_reg_4_.Q & !I0_target_reg_5_.Q
-       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
-       & I0_target_reg_1_.Q & I0_target_reg_3_.Q & I0_target_reg_6_.Q ; (1 pterm, 15 signals)
+IO_Select_DIG_01.D = I0_data_from_master_reg_1_.Q ; (1 pterm, 1 signal)
+IO_Select_DIG_01.C = OSCOUT ; (1 pterm, 1 signal)
+IO_Select_DIG_01.CE = !I0_bits_processed_reg_0_.Q
+       & !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_2_.Q
+       & I0_bits_processed_reg_3_.Q & I0_inst_reg_or_data_receive.Q
+       & I0_target_reg_0_.Q & I0_target_reg_1_.Q & I0_target_reg_2_.Q
+       & I0_target_reg_3_.Q & I0_target_reg_4_.Q & !I0_target_reg_5_.Q
+       & !I0_target_reg_6_.Q & !I0_target_reg_7_.Q & I0_state_reg_4_.Q
+       & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
 
-b.D = I0_data_from_master_reg_1_.Q ; (1 pterm, 1 signal)
-b.C = OSCOUT ; (1 pterm, 1 signal)
-b.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+IO_Select_DIG_02.D = I0_data_from_master_reg_2_.Q ; (1 pterm, 1 signal)
+IO_Select_DIG_02.C = OSCOUT ; (1 pterm, 1 signal)
+IO_Select_DIG_02.CE = !I0_bits_processed_reg_0_.Q
+       & !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_2_.Q
+       & I0_bits_processed_reg_3_.Q & I0_inst_reg_or_data_receive.Q
+       & I0_target_reg_0_.Q & I0_target_reg_1_.Q & I0_target_reg_2_.Q
+       & I0_target_reg_3_.Q & I0_target_reg_4_.Q & !I0_target_reg_5_.Q
+       & !I0_target_reg_6_.Q & !I0_target_reg_7_.Q & I0_state_reg_4_.Q
+       & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+IO_Select_DIG_03.D = I0_data_from_master_reg_3_.Q ; (1 pterm, 1 signal)
+IO_Select_DIG_03.C = OSCOUT ; (1 pterm, 1 signal)
+IO_Select_DIG_03.CE = !I0_bits_processed_reg_0_.Q
+       & !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_2_.Q
+       & I0_bits_processed_reg_3_.Q & I0_inst_reg_or_data_receive.Q
+       & I0_target_reg_0_.Q & I0_target_reg_1_.Q & I0_target_reg_2_.Q
+       & I0_target_reg_3_.Q & I0_target_reg_4_.Q & !I0_target_reg_5_.Q
+       & !I0_target_reg_6_.Q & !I0_target_reg_7_.Q & I0_state_reg_4_.Q
+       & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+IO_Select_DIG_04.D = I0_data_from_master_reg_4_.Q ; (1 pterm, 1 signal)
+IO_Select_DIG_04.C = OSCOUT ; (1 pterm, 1 signal)
+IO_Select_DIG_04.CE = !I0_bits_processed_reg_0_.Q
+       & !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_2_.Q
+       & I0_bits_processed_reg_3_.Q & I0_inst_reg_or_data_receive.Q
+       & I0_target_reg_0_.Q & I0_target_reg_1_.Q & I0_target_reg_2_.Q
+       & I0_target_reg_3_.Q & I0_target_reg_4_.Q & !I0_target_reg_5_.Q
+       & !I0_target_reg_6_.Q & !I0_target_reg_7_.Q & I0_state_reg_4_.Q
+       & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+IO_Select_DIG_05.D = I0_data_from_master_reg_5_.Q ; (1 pterm, 1 signal)
+IO_Select_DIG_05.C = OSCOUT ; (1 pterm, 1 signal)
+IO_Select_DIG_05.CE = !I0_bits_processed_reg_0_.Q
+       & !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_2_.Q
+       & I0_bits_processed_reg_3_.Q & I0_inst_reg_or_data_receive.Q
+       & I0_target_reg_0_.Q & I0_target_reg_1_.Q & I0_target_reg_2_.Q
+       & I0_target_reg_3_.Q & I0_target_reg_4_.Q & !I0_target_reg_5_.Q
+       & !I0_target_reg_6_.Q & !I0_target_reg_7_.Q & I0_state_reg_4_.Q
+       & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+IO_Select_DIG_06.D = I0_data_from_master_reg_6_.Q ; (1 pterm, 1 signal)
+IO_Select_DIG_06.C = OSCOUT ; (1 pterm, 1 signal)
+IO_Select_DIG_06.CE = !I0_bits_processed_reg_0_.Q
+       & !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_2_.Q
+       & I0_bits_processed_reg_3_.Q & I0_inst_reg_or_data_receive.Q
+       & I0_target_reg_0_.Q & I0_target_reg_1_.Q & I0_target_reg_2_.Q
+       & I0_target_reg_3_.Q & I0_target_reg_4_.Q & !I0_target_reg_5_.Q
+       & !I0_target_reg_6_.Q & !I0_target_reg_7_.Q & I0_state_reg_4_.Q
+       & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+IO_Select_DIG_07.D = I0_data_from_master_reg_7_.Q ; (1 pterm, 1 signal)
+IO_Select_DIG_07.C = OSCOUT ; (1 pterm, 1 signal)
+IO_Select_DIG_07.CE = !I0_bits_processed_reg_0_.Q
+       & !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_2_.Q
+       & I0_bits_processed_reg_3_.Q & I0_inst_reg_or_data_receive.Q
+       & I0_target_reg_0_.Q & I0_target_reg_1_.Q & I0_target_reg_2_.Q
+       & I0_target_reg_3_.Q & I0_target_reg_4_.Q & !I0_target_reg_5_.Q
+       & !I0_target_reg_6_.Q & !I0_target_reg_7_.Q & I0_state_reg_4_.Q
+       & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+IO_Select_DIG_24.D = I0_data_from_master_reg_0_.Q ; (1 pterm, 1 signal)
+IO_Select_DIG_24.C = OSCOUT ; (1 pterm, 1 signal)
+IO_Select_DIG_24.CE = !I0_bits_processed_reg_0_.Q
+       & !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_2_.Q
+       & I0_bits_processed_reg_3_.Q & I0_inst_reg_or_data_receive.Q
+       & !I0_target_reg_0_.Q & I0_target_reg_1_.Q & !I0_target_reg_2_.Q
+       & !I0_target_reg_3_.Q & !I0_target_reg_4_.Q & I0_target_reg_5_.Q
+       & !I0_target_reg_6_.Q & !I0_target_reg_7_.Q & I0_state_reg_4_.Q
+       & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+IO_Select_DIG_25.D = I0_data_from_master_reg_1_.Q ; (1 pterm, 1 signal)
+IO_Select_DIG_25.C = OSCOUT ; (1 pterm, 1 signal)
+IO_Select_DIG_25.CE = !I0_bits_processed_reg_0_.Q
+       & !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_2_.Q
+       & I0_bits_processed_reg_3_.Q & I0_inst_reg_or_data_receive.Q
+       & !I0_target_reg_0_.Q & I0_target_reg_1_.Q & !I0_target_reg_2_.Q
+       & !I0_target_reg_3_.Q & !I0_target_reg_4_.Q & I0_target_reg_5_.Q
+       & !I0_target_reg_6_.Q & !I0_target_reg_7_.Q & I0_state_reg_4_.Q
+       & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+IO_Select_DIG_26.D = I0_data_from_master_reg_2_.Q ; (1 pterm, 1 signal)
+IO_Select_DIG_26.C = OSCOUT ; (1 pterm, 1 signal)
+IO_Select_DIG_26.CE = !I0_bits_processed_reg_0_.Q
+       & !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_2_.Q
+       & I0_bits_processed_reg_3_.Q & I0_inst_reg_or_data_receive.Q
+       & !I0_target_reg_0_.Q & I0_target_reg_1_.Q & !I0_target_reg_2_.Q
+       & !I0_target_reg_3_.Q & !I0_target_reg_4_.Q & I0_target_reg_5_.Q
+       & !I0_target_reg_6_.Q & !I0_target_reg_7_.Q & I0_state_reg_4_.Q
+       & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+IO_Select_DIG_27.D = I0_data_from_master_reg_3_.Q ; (1 pterm, 1 signal)
+IO_Select_DIG_27.C = OSCOUT ; (1 pterm, 1 signal)
+IO_Select_DIG_27.CE = !I0_bits_processed_reg_0_.Q
+       & !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_2_.Q
+       & I0_bits_processed_reg_3_.Q & I0_inst_reg_or_data_receive.Q
+       & !I0_target_reg_0_.Q & I0_target_reg_1_.Q & !I0_target_reg_2_.Q
+       & !I0_target_reg_3_.Q & !I0_target_reg_4_.Q & I0_target_reg_5_.Q
+       & !I0_target_reg_6_.Q & !I0_target_reg_7_.Q & I0_state_reg_4_.Q
+       & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+IO_Select_DIG_28.D = I0_data_from_master_reg_4_.Q ; (1 pterm, 1 signal)
+IO_Select_DIG_28.C = OSCOUT ; (1 pterm, 1 signal)
+IO_Select_DIG_28.CE = !I0_bits_processed_reg_0_.Q
+       & !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_2_.Q
+       & I0_bits_processed_reg_3_.Q & I0_inst_reg_or_data_receive.Q
+       & !I0_target_reg_0_.Q & I0_target_reg_1_.Q & !I0_target_reg_2_.Q
+       & !I0_target_reg_3_.Q & !I0_target_reg_4_.Q & I0_target_reg_5_.Q
+       & !I0_target_reg_6_.Q & !I0_target_reg_7_.Q & I0_state_reg_4_.Q
+       & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+IO_Select_DIG_29.D = I0_data_from_master_reg_5_.Q ; (1 pterm, 1 signal)
+IO_Select_DIG_29.C = OSCOUT ; (1 pterm, 1 signal)
+IO_Select_DIG_29.CE = !I0_bits_processed_reg_0_.Q
+       & !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_2_.Q
+       & I0_bits_processed_reg_3_.Q & I0_inst_reg_or_data_receive.Q
+       & !I0_target_reg_0_.Q & I0_target_reg_1_.Q & !I0_target_reg_2_.Q
+       & !I0_target_reg_3_.Q & !I0_target_reg_4_.Q & I0_target_reg_5_.Q
+       & !I0_target_reg_6_.Q & !I0_target_reg_7_.Q & I0_state_reg_4_.Q
+       & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+Pin_Enable.D = I0_data_from_master_reg_7_.Q ; (1 pterm, 1 signal)
+Pin_Enable.C = OSCOUT ; (1 pterm, 1 signal)
+Pin_Enable.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
        & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
-       & !I0_target_reg_2_.Q & !I0_target_reg_4_.Q & !I0_target_reg_5_.Q
-       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
-       & I0_target_reg_1_.Q & I0_target_reg_3_.Q & I0_target_reg_6_.Q ; (1 pterm, 15 signals)
+       & I0_inst_reg_or_data_receive.Q & !I0_target_reg_0_.Q
+       & I0_target_reg_1_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
+       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+RESERVED.D = I0_data_from_master_reg_6_.Q ; (1 pterm, 1 signal)
+RESERVED.C = OSCOUT ; (1 pterm, 1 signal)
+RESERVED.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & !I0_target_reg_0_.Q
+       & I0_target_reg_1_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
+       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
 
 bs_LSB.T = !bs_LSB.Q & !I0_bits_processed_reg_0_.Q
        & !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_2_.Q
        & I0_bits_processed_reg_3_.Q & I0_inst_reg_or_data_receive.Q
-       & !I0_target_reg_0_.Q & !I0_target_reg_2_.Q & !I0_target_reg_4_.Q
-       & !I0_target_reg_5_.Q & !I0_target_reg_7_.Q & I0_inst_scl_falling_reg.Q
-       & I0_target_reg_1_.Q & I0_target_reg_3_.Q & I0_target_reg_6_.Q
+       & I0_target_reg_0_.Q & I0_target_reg_1_.Q & I0_target_reg_2_.Q
+       & I0_target_reg_3_.Q & I0_target_reg_4_.Q & !I0_target_reg_5_.Q
+       & !I0_target_reg_6_.Q & !I0_target_reg_7_.Q & I0_inst_scl_falling_reg.Q
+    # !bs_LSB.Q & !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & !I0_target_reg_0_.Q
+       & I0_target_reg_1_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
+       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_inst_scl_falling_reg.Q
     # bs_LSB.Q & !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
        & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & I0_target_reg_0_.Q & !I0_target_reg_2_.Q & !I0_target_reg_4_.Q
-       & !I0_target_reg_5_.Q & !I0_target_reg_7_.Q & I0_inst_scl_falling_reg.Q
-       & I0_target_reg_1_.Q & I0_target_reg_3_.Q & I0_target_reg_6_.Q
+       & !I0_target_reg_1_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
+       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_inst_scl_falling_reg.Q
     # bs_LSB.Q & !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
        & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & !I0_inst_reg_or_data_receive.Q & I0_inst_scl_falling_reg.Q ; (3 pterms, 15 signals)
+       & !I0_inst_reg_or_data_receive.Q & I0_inst_scl_falling_reg.Q ; (4 pterms, 15 signals)
 bs_LSB.C = OSCOUT ; (1 pterm, 1 signal)
 bs_LSB.CE = I0_state_reg_4_.Q ; (1 pterm, 1 signal)
 
 bs_MSB.T = bs_MSB.Q & !I0_bits_processed_reg_0_.Q
        & !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_2_.Q
        & I0_bits_processed_reg_3_.Q & I0_inst_reg_or_data_receive.Q
-       & !I0_target_reg_0_.Q & !I0_target_reg_2_.Q & !I0_target_reg_4_.Q
-       & !I0_target_reg_5_.Q & !I0_target_reg_7_.Q & I0_inst_scl_falling_reg.Q
-       & I0_target_reg_1_.Q & I0_target_reg_3_.Q & I0_target_reg_6_.Q
+       & I0_target_reg_0_.Q & I0_target_reg_1_.Q & I0_target_reg_2_.Q
+       & I0_target_reg_3_.Q & I0_target_reg_4_.Q & !I0_target_reg_5_.Q
+       & !I0_target_reg_6_.Q & !I0_target_reg_7_.Q & I0_inst_scl_falling_reg.Q
+    # bs_MSB.Q & !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
+       & !I0_target_reg_1_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
+       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_inst_scl_falling_reg.Q
     # !bs_MSB.Q & !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
        & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & I0_target_reg_0_.Q & !I0_target_reg_2_.Q & !I0_target_reg_4_.Q
-       & !I0_target_reg_5_.Q & !I0_target_reg_7_.Q & I0_inst_scl_falling_reg.Q
-       & I0_target_reg_1_.Q & I0_target_reg_3_.Q & I0_target_reg_6_.Q
+       & !I0_target_reg_0_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
+       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_inst_scl_falling_reg.Q
     # !bs_MSB.Q & !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
        & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & !I0_inst_reg_or_data_receive.Q & I0_inst_scl_falling_reg.Q ; (3 pterms, 15 signals)
+       & !I0_inst_reg_or_data_receive.Q & I0_inst_scl_falling_reg.Q ; (4 pterms, 15 signals)
 bs_MSB.C = OSCOUT ; (1 pterm, 1 signal)
 bs_MSB.CE = I0_state_reg_4_.Q ; (1 pterm, 1 signal)
 
-c.D = I0_data_from_master_reg_2_.Q ; (1 pterm, 1 signal)
-c.C = OSCOUT ; (1 pterm, 1 signal)
-c.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
-       & !I0_target_reg_2_.Q & !I0_target_reg_4_.Q & !I0_target_reg_5_.Q
-       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
-       & I0_target_reg_1_.Q & I0_target_reg_3_.Q & I0_target_reg_6_.Q ; (1 pterm, 15 signals)
-
-d.D = I0_data_from_master_reg_3_.Q ; (1 pterm, 1 signal)
-d.C = OSCOUT ; (1 pterm, 1 signal)
-d.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
-       & !I0_target_reg_2_.Q & !I0_target_reg_4_.Q & !I0_target_reg_5_.Q
-       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
-       & I0_target_reg_1_.Q & I0_target_reg_3_.Q & I0_target_reg_6_.Q ; (1 pterm, 15 signals)
-
-e.D = I0_data_from_master_reg_4_.Q ; (1 pterm, 1 signal)
-e.C = OSCOUT ; (1 pterm, 1 signal)
-e.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
-       & !I0_target_reg_2_.Q & !I0_target_reg_4_.Q & !I0_target_reg_5_.Q
-       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
-       & I0_target_reg_1_.Q & I0_target_reg_3_.Q & I0_target_reg_6_.Q ; (1 pterm, 15 signals)
-
-f.D = I0_data_from_master_reg_5_.Q ; (1 pterm, 1 signal)
-f.C = OSCOUT ; (1 pterm, 1 signal)
-f.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
-       & !I0_target_reg_2_.Q & !I0_target_reg_4_.Q & !I0_target_reg_5_.Q
-       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
-       & I0_target_reg_1_.Q & I0_target_reg_3_.Q & I0_target_reg_6_.Q ; (1 pterm, 15 signals)
-
-g.D = I0_data_from_master_reg_6_.Q ; (1 pterm, 1 signal)
-g.C = OSCOUT ; (1 pterm, 1 signal)
-g.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
-       & !I0_target_reg_2_.Q & !I0_target_reg_4_.Q & !I0_target_reg_5_.Q
-       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
-       & I0_target_reg_1_.Q & I0_target_reg_3_.Q & I0_target_reg_6_.Q ; (1 pterm, 15 signals)
-
-sda = 0 ; (0 pterm, 0 signal)
+sda = I0_inst_sda_o_reg.Q & I0_inst_sda_o_reg_e.Q ; (1 pterm, 2 signals)
 sda.OE = I0_inst_sda_wen_reg.Q ; (1 pterm, 1 signal)
-
-y0.D = I0_data_from_master_reg_0_.Q ; (1 pterm, 1 signal)
-y0.C = OSCOUT ; (1 pterm, 1 signal)
-y0.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & I0_inst_reg_or_data_receive.Q & !I0_target_reg_0_.Q
-       & !I0_target_reg_2_.Q & !I0_target_reg_4_.Q & !I0_target_reg_5_.Q
-       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
-       & I0_target_reg_1_.Q & I0_target_reg_3_.Q & I0_target_reg_6_.Q ; (1 pterm, 15 signals)
-
-y1.D = I0_data_from_master_reg_1_.Q ; (1 pterm, 1 signal)
-y1.C = OSCOUT ; (1 pterm, 1 signal)
-y1.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & I0_inst_reg_or_data_receive.Q & !I0_target_reg_0_.Q
-       & !I0_target_reg_2_.Q & !I0_target_reg_4_.Q & !I0_target_reg_5_.Q
-       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
-       & I0_target_reg_1_.Q & I0_target_reg_3_.Q & I0_target_reg_6_.Q ; (1 pterm, 15 signals)
-
-y2.D = I0_data_from_master_reg_2_.Q ; (1 pterm, 1 signal)
-y2.C = OSCOUT ; (1 pterm, 1 signal)
-y2.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & I0_inst_reg_or_data_receive.Q & !I0_target_reg_0_.Q
-       & !I0_target_reg_2_.Q & !I0_target_reg_4_.Q & !I0_target_reg_5_.Q
-       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
-       & I0_target_reg_1_.Q & I0_target_reg_3_.Q & I0_target_reg_6_.Q ; (1 pterm, 15 signals)
-
-y3.D = I0_data_from_master_reg_3_.Q ; (1 pterm, 1 signal)
-y3.C = OSCOUT ; (1 pterm, 1 signal)
-y3.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & I0_inst_reg_or_data_receive.Q & !I0_target_reg_0_.Q
-       & !I0_target_reg_2_.Q & !I0_target_reg_4_.Q & !I0_target_reg_5_.Q
-       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
-       & I0_target_reg_1_.Q & I0_target_reg_3_.Q & I0_target_reg_6_.Q ; (1 pterm, 15 signals)
-
-y4.D = I0_data_from_master_reg_4_.Q ; (1 pterm, 1 signal)
-y4.C = OSCOUT ; (1 pterm, 1 signal)
-y4.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & I0_inst_reg_or_data_receive.Q & !I0_target_reg_0_.Q
-       & !I0_target_reg_2_.Q & !I0_target_reg_4_.Q & !I0_target_reg_5_.Q
-       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
-       & I0_target_reg_1_.Q & I0_target_reg_3_.Q & I0_target_reg_6_.Q ; (1 pterm, 15 signals)
-
-y5.D = I0_data_from_master_reg_5_.Q ; (1 pterm, 1 signal)
-y5.C = OSCOUT ; (1 pterm, 1 signal)
-y5.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & I0_inst_reg_or_data_receive.Q & !I0_target_reg_0_.Q
-       & !I0_target_reg_2_.Q & !I0_target_reg_4_.Q & !I0_target_reg_5_.Q
-       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
-       & I0_target_reg_1_.Q & I0_target_reg_3_.Q & I0_target_reg_6_.Q ; (1 pterm, 15 signals)
-
-y6.D = I0_data_from_master_reg_6_.Q ; (1 pterm, 1 signal)
-y6.C = OSCOUT ; (1 pterm, 1 signal)
-y6.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & I0_inst_reg_or_data_receive.Q & !I0_target_reg_0_.Q
-       & !I0_target_reg_2_.Q & !I0_target_reg_4_.Q & !I0_target_reg_5_.Q
-       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
-       & I0_target_reg_1_.Q & I0_target_reg_3_.Q & I0_target_reg_6_.Q ; (1 pterm, 15 signals)
-
-y7.D = I0_data_from_master_reg_7_.Q ; (1 pterm, 1 signal)
-y7.C = OSCOUT ; (1 pterm, 1 signal)
-y7.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & I0_inst_reg_or_data_receive.Q & !I0_target_reg_0_.Q
-       & !I0_target_reg_2_.Q & !I0_target_reg_4_.Q & !I0_target_reg_5_.Q
-       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
-       & I0_target_reg_1_.Q & I0_target_reg_3_.Q & I0_target_reg_6_.Q ; (1 pterm, 15 signals)
 
 
 

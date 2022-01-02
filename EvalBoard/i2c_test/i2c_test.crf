@@ -1,7 +1,7 @@
 // Signal Name Cross Reference File
 // ispLEVER Classic 2.1.00.02.49.20
 
-// Design 'i2c_test' created Sun Jan 02 10:49:45 2022
+// Design 'i2c_test' created Sun Jan 02 22:27:03 2022
 
 
 // LEGEND:  '>'  Functional Block Port Separator
@@ -10,6 +10,22 @@
 
 
 // Hierarchical Name                    Short Name
+I19/data_1_0_reg                     	I0_data_1_0_reg
+I19/data_1_1_reg                     	I0_data_1_1_reg
+I19/data_1_2_reg                     	I0_data_1_2_reg
+I19/data_1_3_reg                     	I0_data_1_3_reg
+I19/data_1_4_reg                     	I0_data_1_4_reg
+I19/data_1_5_reg                     	I0_data_1_5_reg
+I19/data_1_6_reg                     	I0_data_1_6_reg
+I19/data_1_7_reg                     	I0_data_1_7_reg
+I19/data_2_0_reg                     	I0_data_2_0_reg
+I19/data_2_1_reg                     	I0_data_2_1_reg
+I19/data_2_2_reg                     	I0_data_2_2_reg
+I19/data_2_3_reg                     	I0_data_2_3_reg
+I19/data_2_4_reg                     	I0_data_2_4_reg
+I19/data_2_5_reg                     	I0_data_2_5_reg
+I19/data_2_6_reg                     	I0_data_2_6_reg
+I19/data_2_7_reg                     	I0_data_2_7_reg
 I19/bits_processed_reg_0_            	I0_bits_processed_reg_0_
 I19/bits_processed_reg_1_            	I0_bits_processed_reg_1_
 I19/bits_processed_reg_2_            	I0_bits_processed_reg_2_
@@ -17,14 +33,16 @@ I19/bits_processed_reg_3_            	I0_bits_processed_reg_3_
 I19/inst_reg_or_data_receive         	I0_inst_reg_or_data_receive
 I19/inst_sda_pre_internal            	I0_inst_sda_pre_internal
 I19/inst_scl_pre_internal            	I0_inst_scl_pre_internal
-I19/addr_reg_0_                      	I0_addr_reg_0_
 I19/addr_reg_1_                      	I0_addr_reg_1_
-I19/addr_reg_3_                      	I0_addr_reg_3_
 I19/addr_reg_5_                      	I0_addr_reg_5_
+I19/addr_reg_6_                      	I0_addr_reg_6_
 I19/target_reg_0_                    	I0_target_reg_0_
+I19/target_reg_1_                    	I0_target_reg_1_
 I19/target_reg_2_                    	I0_target_reg_2_
+I19/target_reg_3_                    	I0_target_reg_3_
 I19/target_reg_4_                    	I0_target_reg_4_
 I19/target_reg_5_                    	I0_target_reg_5_
+I19/target_reg_6_                    	I0_target_reg_6_
 I19/target_reg_7_                    	I0_target_reg_7_
 I19/inst_scl_prev_reg                	I0_inst_scl_prev_reg
 I19/inst_sda_prev_reg                	I0_inst_sda_prev_reg
@@ -32,12 +50,16 @@ I19/inst_stop_reg                    	I0_inst_stop_reg
 I19/state_reg_2_                     	I0_state_reg_2_
 I19/inst_scl_rising_reg              	I0_inst_scl_rising_reg
 I19/state_reg_4_                     	I0_state_reg_4_
+I19/inst_sda_o_reg                   	I0_inst_sda_o_reg
+I19/inst_sda_o_reg_e                 	I0_inst_sda_o_reg_e
+I19/state_reg_3_                     	I0_state_reg_3_
+I19/inst_scl_falling_reg             	I0_inst_scl_falling_reg
 I19/state_reg_6_                     	I0_state_reg_6_
 I19/inst_continue_reg                	I0_inst_continue_reg
-I19/inst_scl_falling_reg             	I0_inst_scl_falling_reg
+I19/addr_reg_0_                      	I0_addr_reg_0_
 I19/addr_reg_2_                      	I0_addr_reg_2_
+I19/addr_reg_3_                      	I0_addr_reg_3_
 I19/addr_reg_4_                      	I0_addr_reg_4_
-I19/addr_reg_6_                      	I0_addr_reg_6_
 I19/data_reg_0_                      	I0_data_reg_0_
 I19/data_reg_1_                      	I0_data_reg_1_
 I19/data_reg_2_                      	I0_data_reg_2_
@@ -45,15 +67,19 @@ I19/data_reg_3_                      	I0_data_reg_3_
 I19/data_reg_4_                      	I0_data_reg_4_
 I19/data_reg_5_                      	I0_data_reg_5_
 I19/data_reg_6_                      	I0_data_reg_6_
-I19/target_reg_1_                    	I0_target_reg_1_
-I19/target_reg_3_                    	I0_target_reg_3_
-I19/target_reg_6_                    	I0_target_reg_6_
-I19/inst_start_reg                   	I0_inst_start_reg
-I19/state_reg_3_                     	I0_state_reg_3_
 I19/inst_sda_wen_reg                 	I0_inst_sda_wen_reg
+I19/inst_start_reg                   	I0_inst_start_reg
 I19/state_reg_5_                     	I0_state_reg_5_
 I19/state_reg_1_                     	I0_state_reg_1_
 I19/inst_cmd_reg                     	I0_inst_cmd_reg
+I19/data_to_master_reg_0_            	I0_data_to_master_reg_0_
+I19/data_to_master_reg_1_            	I0_data_to_master_reg_1_
+I19/data_to_master_reg_2_            	I0_data_to_master_reg_2_
+I19/data_to_master_reg_3_            	I0_data_to_master_reg_3_
+I19/data_to_master_reg_4_            	I0_data_to_master_reg_4_
+I19/data_to_master_reg_5_            	I0_data_to_master_reg_5_
+I19/data_to_master_reg_6_            	I0_data_to_master_reg_6_
+I19/data_to_master_reg_7_            	I0_data_to_master_reg_7_
 I19/data_from_master_reg_0_          	I0_data_from_master_reg_0_
 I19/data_from_master_reg_1_          	I0_data_from_master_reg_1_
 I19/data_from_master_reg_2_          	I0_data_from_master_reg_2_

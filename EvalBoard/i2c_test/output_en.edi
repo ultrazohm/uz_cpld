@@ -1,0 +1,108 @@
+(edif output_en
+  (edifVersion 2 0 0)
+  (edifLevel 0)
+  (keywordMap (keywordLevel 0))
+  (status
+    (written
+      (timeStamp 2022 1 2 20 29 38)
+      (author "Synopsys, Inc.")
+      (program "Synplify Pro" (version "I-2014.03LC , mapper maplat, Build 923R"))
+     )
+   )
+  (external ispmach4s
+    (edifLevel 0)
+    (technology (numberDefinition ))
+    (cell AND2 (cellType GENERIC)
+       (view prim (viewType NETLIST)
+         (interface
+           (port O (direction OUTPUT))
+           (port I0 (direction INPUT))
+           (port I1 (direction INPUT))
+         )
+       )
+    )
+    (cell IBUF (cellType GENERIC)
+       (view prim (viewType NETLIST)
+         (interface
+           (port O (direction OUTPUT))
+           (port I0 (direction INPUT))
+         )
+       )
+    )
+    (cell OBUF (cellType GENERIC)
+       (view prim (viewType NETLIST)
+         (interface
+           (port O (direction OUTPUT))
+           (port I0 (direction INPUT))
+         )
+       )
+    )
+  )
+  (library work
+    (edifLevel 0)
+    (technology (numberDefinition ))
+    (cell output_en (cellType GENERIC)
+       (view behavioral (viewType NETLIST)
+         (interface
+           (port output_in (direction INPUT))
+           (port output_out (direction OUTPUT))
+           (port input_in (direction INPUT))
+           (port input_out (direction OUTPUT))
+           (port en (direction INPUT))
+         )
+         (contents
+          (instance output_in (viewRef prim (cellRef IBUF (libraryRef ispmach4s)))          )
+          (instance output_out (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance input_in (viewRef prim (cellRef IBUF (libraryRef ispmach4s)))          )
+          (instance input_out (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
+          (instance en (viewRef prim (cellRef IBUF (libraryRef ispmach4s)))          )
+          (instance output_outand (viewRef prim (cellRef AND2 (libraryRef ispmach4s)))          )
+          (instance input_outand (viewRef prim (cellRef AND2 (libraryRef ispmach4s)))          )
+          (net output_in_c (joined
+           (portRef O (instanceRef output_in))
+           (portRef I1 (instanceRef output_outand))
+          ))
+          (net output_in (joined
+           (portRef output_in)
+           (portRef I0 (instanceRef output_in))
+          ))
+          (net output_out_c (joined
+           (portRef O (instanceRef output_outand))
+           (portRef I0 (instanceRef output_out))
+          ))
+          (net output_out (joined
+           (portRef O (instanceRef output_out))
+           (portRef output_out)
+          ))
+          (net input_in_c (joined
+           (portRef O (instanceRef input_in))
+           (portRef I1 (instanceRef input_outand))
+          ))
+          (net input_in (joined
+           (portRef input_in)
+           (portRef I0 (instanceRef input_in))
+          ))
+          (net input_out_c (joined
+           (portRef O (instanceRef input_outand))
+           (portRef I0 (instanceRef input_out))
+          ))
+          (net input_out (joined
+           (portRef O (instanceRef input_out))
+           (portRef input_out)
+          ))
+          (net en_c (joined
+           (portRef O (instanceRef en))
+           (portRef I0 (instanceRef input_outand))
+           (portRef I0 (instanceRef output_outand))
+          ))
+          (net en (joined
+           (portRef en)
+           (portRef I0 (instanceRef en))
+          ))
+         )
+        (property orig_inst_of (string "output_en"))
+       )
+    )
+  )
+  (design output_en (cellRef output_en (libraryRef work)))
+)

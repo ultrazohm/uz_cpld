@@ -1,0 +1,23 @@
+#defaultlanguage:vhdl
+#OPTIONS:"|-top|i2c_slave_USACH|-prodtype|synplify_pro|-nostructver|-encrypt|-pro|-lite|-compiler_compatible|-ui|-fid2|-ram|-sharing|on|-ll|2000|-autosm|-ignore_undefined_lib|-lib|work|-fileorder|C:\\git\\ultrazohm\\software\\cpld_lattice\\evalboard\\i2c_test\\syntmp\\hdlorder.tcl"
+#CUR:"C:\\ispLEVER_Classic2_1\\synpbase\\bin64\\c_vhdl.exe":1401220504
+#CUR:"C:\\ispLEVER_Classic2_1\\synpbase\\lib\\vhd\\location.map":1310453774
+#CUR:"C:\\ispLEVER_Classic2_1\\synpbase\\lib\\vhd\\std.vhd":1401220122
+#CUR:"C:\\ispLEVER_Classic2_1\\synpbase\\lib\\vhd\\snps_haps_pkg.vhd":1401220122
+#CUR:"C:\\ispLEVER_Classic2_1\\synpbase\\lib\\vhd\\std1164.vhd":1401220122
+#CUR:"C:\\ispLEVER_Classic2_1\\synpbase\\lib\\vhd\\numeric.vhd":1401220122
+#CUR:"C:\\ispLEVER_Classic2_1\\synpbase\\lib\\vhd\\umr_capim.vhd":1401220368
+#CUR:"C:\\ispLEVER_Classic2_1\\synpbase\\lib\\vhd\\arith.vhd":1401220122
+#CUR:"C:\\ispLEVER_Classic2_1\\synpbase\\lib\\vhd\\unsigned.vhd":1401220122
+#CUR:"C:\\git\\ultrazohm\\software\\cpld_lattice\\evalboard\\i2c_test\\I2C_slave_USACH.vhd":1641145546
+0 "C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_slave_USACH.vhd" vhdl
+
+# Dependency Lists (Uses list)
+0 -1
+
+# Dependency Lists (Users Of)
+0 -1
+
+# Design Unit to File Association
+arch work i2c_slave_usach i2c_slave 0
+module work i2c_slave_usach 0

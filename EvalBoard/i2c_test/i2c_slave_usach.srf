@@ -1,0 +1,49 @@
+#Build: Synplify Pro I-2014.03LC , Build 063R, May 27 2014
+#install: C:\ispLEVER_Classic2_1\synpbase
+#OS: Windows 7 6.2
+#Hostname: ELN176252
+
+#Implementation: i2c_test
+
+$ Start of Compile
+#Sun Jan 02 18:46:00 2022
+
+Synopsys VHDL Compiler, version comp201403rcp1, Build 060R, built May 27 2014
+@N|Running in 64-bit mode
+Copyright (C) 1994-2014 Synopsys, Inc. This software and the associated documentation are proprietary to Synopsys, Inc. This software may only be used in accordance with the terms and conditions of a written license agreement with Synopsys, Inc.  All other use, reproduction, or distribution of this software is strictly prohibited.
+
+@N: CD720 :"C:\ispLEVER_Classic2_1\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_slave_USACH.vhd":9:7:9:21|Top entity is set to i2c_slave_USACH.
+VHDL syntax check successful!
+@N: CD630 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_slave_USACH.vhd":9:7:9:21|Synthesizing work.i2c_slave_usach.i2c_slave 
+@N: CD231 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_slave_USACH.vhd":54:17:54:18|Using onehot encoding for type state_t (idle="10000000")
+Post processing for work.i2c_slave_usach.i2c_slave
+@N: CL201 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_slave_USACH.vhd":70:4:70:5|Trying to extract state machine for register state
+Extracted state machine for register state
+State machine has 8 reachable states with original encodings of:
+   00000001
+   00000010
+   00000100
+   00001000
+   00010000
+   00100000
+   01000000
+   10000000
+@W: CL249 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_slave_USACH.vhd":70:4:70:5|Initial value is not supported on state machine state
+@END
+
+At c_vhdl Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 70MB peak: 71MB)
+
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Sun Jan 02 18:46:01 2022
+
+###########################################################]
+Synopsys Netlist Linker, version comp201403rcp1, Build 060R, built May 27 2014
+@N|Running in 64-bit mode
+
+At syn_nfilter Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 67MB peak: 68MB)
+
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Sun Jan 02 18:46:02 2022
+
+###########################################################]

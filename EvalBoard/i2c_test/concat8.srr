@@ -6,7 +6,7 @@
 #Implementation: i2c_test
 
 $ Start of Compile
-#Tue Dec 28 18:14:24 2021
+#Sun Jan 02 19:06:00 2022
 
 Synopsys VHDL Compiler, version comp201403rcp1, Build 060R, built May 27 2014
 @N|Running in 64-bit mode
@@ -28,7 +28,7 @@ Post processing for work.concat8.arch_concat8
 At c_vhdl Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 68MB peak: 69MB)
 
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Tue Dec 28 18:14:24 2021
+# Sun Jan 02 19:06:00 2022
 
 ###########################################################]
 Synopsys Netlist Linker, version comp201403rcp1, Build 060R, built May 27 2014
@@ -40,7 +40,7 @@ Linker output is up to date. No re-linking necessary
 At syn_nfilter Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 67MB peak: 67MB)
 
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Tue Dec 28 18:14:25 2021
+# Sun Jan 02 19:06:01 2022
 
 ###########################################################]
 Map & Optimize Report
@@ -64,6 +64,6 @@ Mapper successful!
 At Mapper Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 37MB peak: 102MB)
 
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Tue Dec 28 18:14:25 2021
+# Sun Jan 02 19:06:01 2022
 
 ###########################################################]

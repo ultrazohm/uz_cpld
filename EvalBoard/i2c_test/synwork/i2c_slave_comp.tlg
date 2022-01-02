@@ -1,25 +1,15 @@
-@N: CD630 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd":59:7:59:15|Synthesizing work.i2c_slave.arch 
-@W: CG296 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd":133:0:133:6|Incomplete sensitivity list - assuming completeness
-@W: CG290 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd":136:18:136:23|Referenced variable sda_in is not in sensitivity list
-Post processing for work.i2c_slave.arch
-@N: CL201 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\uz_i2c_slave_D1.vhd":172:2:172:3|Trying to extract state machine for register sm_state
-Extracted state machine for register sm_state
-State machine has 18 reachable states with original encodings of:
-   00000
-   00001
-   00010
-   00011
-   00100
-   00101
-   00110
-   00111
-   01000
-   01001
-   01010
-   01011
-   01100
-   01101
-   01110
-   01111
-   10000
-   10001
+@N: CD630 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_slave_USACH.vhd":9:7:9:15|Synthesizing work.i2c_slave.i2c_slave 
+@N: CD231 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_slave_USACH.vhd":54:17:54:18|Using onehot encoding for type state_t (idle="10000000")
+Post processing for work.i2c_slave.i2c_slave
+@N: CL201 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_slave_USACH.vhd":70:4:70:5|Trying to extract state machine for register state
+Extracted state machine for register state
+State machine has 8 reachable states with original encodings of:
+   00000001
+   00000010
+   00000100
+   00001000
+   00010000
+   00100000
+   01000000
+   10000000
+@W: CL249 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_slave_USACH.vhd":70:4:70:5|Initial value is not supported on state machine state

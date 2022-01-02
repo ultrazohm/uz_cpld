@@ -1,0 +1,5 @@
+@N: CD630 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\output_en.vhd":6:7:6:15|Synthesizing work.output_en.behavioral 
+@W: CG296 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\output_en.vhd":18:0:18:6|Incomplete sensitivity list - assuming completeness
+@W: CG290 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\output_en.vhd":21:14:21:21|Referenced variable input_in is not in sensitivity list
+@W: CG290 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\output_en.vhd":20:15:20:23|Referenced variable output_in is not in sensitivity list
+Post processing for work.output_en.behavioral

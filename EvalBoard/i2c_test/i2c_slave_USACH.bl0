@@ -1,0 +1,918 @@
+#$ DATE Sun Jan 02 18:46:07 2022
+#$ TOOL EDIF2BLIF version IspLever 1.0 
+#$ MODULE i2c_slave_usach
+#$ PINS 22 rx_byte_0_ tx_byte_7_ rx_byte_7_ scl sda in_progress tx_done rx_data_rdy clk tx_byte_6_ tx_byte_5_ tx_byte_4_ tx_byte_3_ tx_byte_2_ tx_byte_1_ tx_byte_0_ rx_byte_6_ rx_byte_5_ rx_byte_4_ rx_byte_3_ rx_byte_2_ rx_byte_1_
+#$ NODES 303 N_297_i N_385_i rx_data_buf_0_reg N_382_i rx_data_buf_1_reg N_383_i rx_data_buf_2_reg rx_data_buf_3_reg N_404_i rx_data_buf_4_reg \
+#  N_309_i rx_data_buf_5_reg N_379_i rx_data_buf_6_reg N_381_i rx_data_buf_7_reg N_111_0 inst_rx_data_rdy_regreg N_377_i un1_tx_byte_buf_0_sqmuxa \
+#  state_0_ N_375_i inst_scl_d N_376_i inst_scl_d2 state_nsss_0_5__n inst_sda_d N_374_i inst_sda_d2 bit_counter_0_ \
+#  N_372_i bit_counter_1_ N_373_i bit_counter_2_ un1_tx_byte_buf_0_sqmuxa_0 bit_counter_3_ N_371_i addr_buf_0_ addr_buf_1_ addr_buf_2_ \
+#  N_93_0 addr_buf_3_ N_212_i addr_buf_5_ N_213_i addr_buf_6_ N_214_i inst_start_strobe bit_countere_0 inst_stop_strobe \
+#  N_147_0_1 state_3_ N_141_0_1 state_2_ N_170_0_1 inst_scl_rising_strobe N_269_1 inst_sda_o N_269_2 inst_sda_out_en \
+#  N_269_3 N_269_4 N_269_5 inst_scl_falling_strobe N_157_i_1 state_nsss_0_1_2__n N_150_i_1 state_4_ N_145_i_1 addr_buf_4_ \
+#  N_309_i_1 state_6_ N_101_0_1 inst_continue_read N_97_0_1 state_5_ N_93_0_1 state_1_ bit_countere_0_1 i2c_fsm_p_un3_scl_rising_strobe_n \
+#  bit_countere_0_2 inst_rw_command N_30_1 tx_byte_buf_0_ N_390_1 tx_byte_buf_1_ N_387_1 tx_byte_buf_2_ N_379_1 tx_byte_buf_3_ \
+#  N_375_1 tx_byte_buf_4_ N_373_1 tx_byte_buf_5_ strobe_p_un12_scl_d2_1_n tx_byte_buf_6_ strobe_p_un12_scl_d2_2_n tx_byte_buf_7_ strobe_p_un6_scl_d_1_n N_28 \
+#  strobe_p_un6_scl_d_2_n rw_command_1_sqmuxa_1 i2c_fsm_p_rx_data_buf_1_i_m2_5__un3_n bit_countere i2c_fsm_p_rx_data_buf_1_i_m2_5__un1_n state_i_7_reg i2c_fsm_p_rx_data_buf_1_i_m2_5__un0_n i2c_fsm_p_addr_buf_1_i_m2_4__un3_n i2c_fsm_p_addr_buf_1_i_m2_4__un1_n N_187 \
+#  i2c_fsm_p_addr_buf_1_i_m2_4__un0_n i2c_fsm_p_addr_buf_1_0_191_i_0_m2_un3_n i2c_fsm_p_addr_buf_1_0_191_i_0_m2_un1_n tx_done_0_sqmuxa i2c_fsm_p_addr_buf_1_0_191_i_0_m2_un0_n rx_data_buf_0_sqmuxa i2c_fsm_p_rx_data_buf_1_i_i_m2_4__un3_n i2c_fsm_p_rx_data_buf_1_i_i_m2_4__un1_n N_134 i2c_fsm_p_rx_data_buf_1_i_i_m2_4__un0_n \
+#  N_135 i2c_fsm_p_addr_buf_1_2_174_i_i_m2_un3_n N_139 i2c_fsm_p_addr_buf_1_2_174_i_i_m2_un1_n N_142 i2c_fsm_p_addr_buf_1_2_174_i_i_m2_un0_n N_149 i2c_fsm_p_sda_o_2_3_i_m2_un3_n N_151 i2c_fsm_p_sda_o_2_3_i_m2_un1_n \
+#  N_155 i2c_fsm_p_sda_o_2_3_i_m2_un0_n N_163 i2c_fsm_p_sda_o_2_6_i_m2_un3_n N_167 i2c_fsm_p_sda_o_2_6_i_m2_un1_n N_168 i2c_fsm_p_sda_o_2_6_i_m2_un0_n N_170 i2c_fsm_p_sda_o_2_7_i_m2_un3_n \
+#  N_335 i2c_fsm_p_sda_o_2_7_i_m2_un1_n N_338 i2c_fsm_p_sda_o_2_7_i_m2_un0_n N_180 i2c_fsm_p_sda_o_2_5_i_m2_un3_n N_362 i2c_fsm_p_sda_o_2_5_i_m2_un1_n N_361 i2c_fsm_p_sda_o_2_5_i_m2_un0_n \
+#  N_360 i2c_fsm_p_sda_o_2_4_i_m2_un3_n N_359 i2c_fsm_p_sda_o_2_4_i_m2_un1_n N_186 i2c_fsm_p_sda_o_2_4_i_m2_un0_n i2c_fsm_p_sda_o_2_2_i_m2_un3_n i2c_fsm_p_sda_o_2_2_i_m2_un1_n i2c_fsm_p_sda_o_2_2_i_m2_un0_n i2c_fsm_p_sda_o_2_1_i_m2_un3_n \
+#  i2c_fsm_p_sda_o_2_1_i_m2_un1_n i2c_fsm_p_sda_o_2_1_i_m2_un0_n i2c_fsm_p_rx_data_buf_1_i_m2_2__un3_n N_212 i2c_fsm_p_rx_data_buf_1_i_m2_2__un1_n N_213 i2c_fsm_p_rx_data_buf_1_i_m2_2__un0_n N_214 i2c_fsm_p_addr_buf_1_i_m2_2__un3_n N_371 \
+#  i2c_fsm_p_addr_buf_1_i_m2_2__un1_n N_372 i2c_fsm_p_addr_buf_1_i_m2_2__un0_n N_373 i2c_fsm_p_rx_data_buf_1_i_m2_3__un3_n N_374 i2c_fsm_p_rx_data_buf_1_i_m2_3__un1_n N_375 i2c_fsm_p_rx_data_buf_1_i_m2_3__un0_n N_376 \
+#  i2c_fsm_p_addr_buf_1_i_m2_5__un3_n N_377 i2c_fsm_p_addr_buf_1_i_m2_5__un1_n N_379 i2c_fsm_p_addr_buf_1_i_m2_5__un0_n N_381 i2c_fsm_p_rx_data_buf_1_i_m2_6__un3_n N_382 i2c_fsm_p_rx_data_buf_1_i_m2_6__un1_n N_383 \
+#  i2c_fsm_p_rx_data_buf_1_i_m2_6__un0_n N_385 i2c_fsm_p_addr_buf_1_i_m2_6__un3_n N_387 i2c_fsm_p_addr_buf_1_i_m2_6__un1_n N_389 i2c_fsm_p_addr_buf_1_i_m2_6__un0_n N_390 i2c_fsm_p_rx_data_buf_1_i_m2_7__un3_n N_391 \
+#  i2c_fsm_p_rx_data_buf_1_i_m2_7__un1_n N_393 i2c_fsm_p_rx_data_buf_1_i_m2_7__un0_n N_399 tx_done_0_un3_n N_402 tx_done_0_un1_n N_403 tx_done_0_un0_n N_404 \
+#  N_269 N_413 N_297 N_147 bit_counter_n3_i_x2 N_292 N_159 N_189 N_160 N_177 \
+#  N_257 N_136 N_164 N_154 N_211 N_405 N_206 N_207 N_204 N_205 \
+#  bit_counter_c0_i bit_counter_i_1__n bit_counter_i_2__n bit_counter_i_3__n rx_data_buf_i_0_0__n rx_data_buf_i_0_1__n addr_buf_i_0__n start_strobe_i sda_d_i addr_buf_i_1__n \
+#  addr_buf_i_2__n addr_buf_i_6__n addr_buf_i_5__n addr_buf_i_3__n state_i_6__n rx_data_buf_i_4__n state_i_1__n scl_falling_strobe_i rw_command_i scl_rising_strobe_i \
+#  state_i_2__n continue_read_i state_i_5__n state_i_0__n state_i_3__n state_i_4__n stop_strobe_i sda_d2_i scl_d_i scl_d2_i \
+#  tx_doneDFFreg clk_c N_257_0 N_139_0 N_205_i N_204_i N_207_i N_206_i N_405_i N_211_i \
+#  N_191_i_i N_136_0 N_144_0 N_147_0 N_154_0 N_159_0 N_160_0 N_164_0 N_269_i N_186_0 \
+#  N_170_0 N_168_0 N_167_0 N_163_0 N_155_0 N_413_i N_153_0 N_399_i N_152_i N_151_0 \
+#  N_149_0 N_142_0 N_141_0 N_138_i N_137_0 N_135_i N_134_0 N_391_i N_393_i N_387_i \
+#  N_389_i N_390_i state_nsss_0_2__n 
+.model i2c_slave_usach
+.inputs tx_byte_7_.BLIF scl.BLIF clk.BLIF tx_byte_6_.BLIF tx_byte_5_.BLIF tx_byte_4_.BLIF tx_byte_3_.BLIF tx_byte_2_.BLIF tx_byte_1_.BLIF \
+  tx_byte_0_.BLIF sda.BLIF N_297_i.BLIF N_385_i.BLIF rx_data_buf_0_reg.BLIF N_382_i.BLIF rx_data_buf_1_reg.BLIF N_383_i.BLIF rx_data_buf_2_reg.BLIF rx_data_buf_3_reg.BLIF \
+  N_404_i.BLIF rx_data_buf_4_reg.BLIF N_309_i.BLIF rx_data_buf_5_reg.BLIF N_379_i.BLIF rx_data_buf_6_reg.BLIF N_381_i.BLIF rx_data_buf_7_reg.BLIF N_111_0.BLIF \
+  inst_rx_data_rdy_regreg.BLIF N_377_i.BLIF un1_tx_byte_buf_0_sqmuxa.BLIF state_0_.BLIF N_375_i.BLIF inst_scl_d.BLIF N_376_i.BLIF inst_scl_d2.BLIF state_nsss_0_5__n.BLIF \
+  inst_sda_d.BLIF N_374_i.BLIF inst_sda_d2.BLIF bit_counter_0_.BLIF N_372_i.BLIF bit_counter_1_.BLIF N_373_i.BLIF bit_counter_2_.BLIF un1_tx_byte_buf_0_sqmuxa_0.BLIF \
+  bit_counter_3_.BLIF N_371_i.BLIF addr_buf_0_.BLIF addr_buf_1_.BLIF addr_buf_2_.BLIF N_93_0.BLIF addr_buf_3_.BLIF N_212_i.BLIF addr_buf_5_.BLIF \
+  N_213_i.BLIF addr_buf_6_.BLIF N_214_i.BLIF inst_start_strobe.BLIF bit_countere_0.BLIF inst_stop_strobe.BLIF N_147_0_1.BLIF state_3_.BLIF N_141_0_1.BLIF \
+  state_2_.BLIF N_170_0_1.BLIF inst_scl_rising_strobe.BLIF N_269_1.BLIF inst_sda_o.BLIF N_269_2.BLIF inst_sda_out_en.BLIF N_269_3.BLIF N_269_4.BLIF \
+  N_269_5.BLIF inst_scl_falling_strobe.BLIF N_157_i_1.BLIF state_nsss_0_1_2__n.BLIF N_150_i_1.BLIF state_4_.BLIF N_145_i_1.BLIF addr_buf_4_.BLIF N_309_i_1.BLIF \
+  state_6_.BLIF N_101_0_1.BLIF inst_continue_read.BLIF N_97_0_1.BLIF state_5_.BLIF N_93_0_1.BLIF state_1_.BLIF bit_countere_0_1.BLIF i2c_fsm_p_un3_scl_rising_strobe_n.BLIF \
+  bit_countere_0_2.BLIF inst_rw_command.BLIF N_30_1.BLIF tx_byte_buf_0_.BLIF N_390_1.BLIF tx_byte_buf_1_.BLIF N_387_1.BLIF tx_byte_buf_2_.BLIF N_379_1.BLIF \
+  tx_byte_buf_3_.BLIF N_375_1.BLIF tx_byte_buf_4_.BLIF N_373_1.BLIF tx_byte_buf_5_.BLIF strobe_p_un12_scl_d2_1_n.BLIF tx_byte_buf_6_.BLIF strobe_p_un12_scl_d2_2_n.BLIF tx_byte_buf_7_.BLIF \
+  strobe_p_un6_scl_d_1_n.BLIF N_28.BLIF strobe_p_un6_scl_d_2_n.BLIF rw_command_1_sqmuxa_1.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_5__un3_n.BLIF bit_countere.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_5__un1_n.BLIF state_i_7_reg.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_5__un0_n.BLIF \
+  i2c_fsm_p_addr_buf_1_i_m2_4__un3_n.BLIF i2c_fsm_p_addr_buf_1_i_m2_4__un1_n.BLIF N_187.BLIF i2c_fsm_p_addr_buf_1_i_m2_4__un0_n.BLIF i2c_fsm_p_addr_buf_1_0_191_i_0_m2_un3_n.BLIF i2c_fsm_p_addr_buf_1_0_191_i_0_m2_un1_n.BLIF tx_done_0_sqmuxa.BLIF i2c_fsm_p_addr_buf_1_0_191_i_0_m2_un0_n.BLIF rx_data_buf_0_sqmuxa.BLIF \
+  i2c_fsm_p_rx_data_buf_1_i_i_m2_4__un3_n.BLIF i2c_fsm_p_rx_data_buf_1_i_i_m2_4__un1_n.BLIF N_134.BLIF i2c_fsm_p_rx_data_buf_1_i_i_m2_4__un0_n.BLIF N_135.BLIF i2c_fsm_p_addr_buf_1_2_174_i_i_m2_un3_n.BLIF N_139.BLIF i2c_fsm_p_addr_buf_1_2_174_i_i_m2_un1_n.BLIF N_142.BLIF \
+  i2c_fsm_p_addr_buf_1_2_174_i_i_m2_un0_n.BLIF N_149.BLIF i2c_fsm_p_sda_o_2_3_i_m2_un3_n.BLIF N_151.BLIF i2c_fsm_p_sda_o_2_3_i_m2_un1_n.BLIF N_155.BLIF i2c_fsm_p_sda_o_2_3_i_m2_un0_n.BLIF N_163.BLIF i2c_fsm_p_sda_o_2_6_i_m2_un3_n.BLIF \
+  N_167.BLIF i2c_fsm_p_sda_o_2_6_i_m2_un1_n.BLIF N_168.BLIF i2c_fsm_p_sda_o_2_6_i_m2_un0_n.BLIF N_170.BLIF i2c_fsm_p_sda_o_2_7_i_m2_un3_n.BLIF N_335.BLIF i2c_fsm_p_sda_o_2_7_i_m2_un1_n.BLIF N_338.BLIF \
+  i2c_fsm_p_sda_o_2_7_i_m2_un0_n.BLIF N_180.BLIF i2c_fsm_p_sda_o_2_5_i_m2_un3_n.BLIF N_362.BLIF i2c_fsm_p_sda_o_2_5_i_m2_un1_n.BLIF N_361.BLIF i2c_fsm_p_sda_o_2_5_i_m2_un0_n.BLIF N_360.BLIF i2c_fsm_p_sda_o_2_4_i_m2_un3_n.BLIF \
+  N_359.BLIF i2c_fsm_p_sda_o_2_4_i_m2_un1_n.BLIF N_186.BLIF i2c_fsm_p_sda_o_2_4_i_m2_un0_n.BLIF i2c_fsm_p_sda_o_2_2_i_m2_un3_n.BLIF i2c_fsm_p_sda_o_2_2_i_m2_un1_n.BLIF i2c_fsm_p_sda_o_2_2_i_m2_un0_n.BLIF i2c_fsm_p_sda_o_2_1_i_m2_un3_n.BLIF i2c_fsm_p_sda_o_2_1_i_m2_un1_n.BLIF \
+  i2c_fsm_p_sda_o_2_1_i_m2_un0_n.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_2__un3_n.BLIF N_212.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_2__un1_n.BLIF N_213.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_2__un0_n.BLIF N_214.BLIF i2c_fsm_p_addr_buf_1_i_m2_2__un3_n.BLIF N_371.BLIF \
+  i2c_fsm_p_addr_buf_1_i_m2_2__un1_n.BLIF N_372.BLIF i2c_fsm_p_addr_buf_1_i_m2_2__un0_n.BLIF N_373.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_3__un3_n.BLIF N_374.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_3__un1_n.BLIF N_375.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_3__un0_n.BLIF \
+  N_376.BLIF i2c_fsm_p_addr_buf_1_i_m2_5__un3_n.BLIF N_377.BLIF i2c_fsm_p_addr_buf_1_i_m2_5__un1_n.BLIF N_379.BLIF i2c_fsm_p_addr_buf_1_i_m2_5__un0_n.BLIF N_381.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_6__un3_n.BLIF N_382.BLIF \
+  i2c_fsm_p_rx_data_buf_1_i_m2_6__un1_n.BLIF N_383.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_6__un0_n.BLIF N_385.BLIF i2c_fsm_p_addr_buf_1_i_m2_6__un3_n.BLIF N_387.BLIF i2c_fsm_p_addr_buf_1_i_m2_6__un1_n.BLIF N_389.BLIF i2c_fsm_p_addr_buf_1_i_m2_6__un0_n.BLIF \
+  N_390.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_7__un3_n.BLIF N_391.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_7__un1_n.BLIF N_393.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_7__un0_n.BLIF N_399.BLIF tx_done_0_un3_n.BLIF N_402.BLIF \
+  tx_done_0_un1_n.BLIF N_403.BLIF tx_done_0_un0_n.BLIF N_404.BLIF N_269.BLIF N_413.BLIF N_297.BLIF N_147.BLIF bit_counter_n3_i_x2.BLIF \
+  N_292.BLIF N_159.BLIF N_189.BLIF N_160.BLIF N_177.BLIF N_257.BLIF N_136.BLIF N_164.BLIF N_154.BLIF \
+  N_211.BLIF N_405.BLIF N_206.BLIF N_207.BLIF N_204.BLIF N_205.BLIF bit_counter_c0_i.BLIF bit_counter_i_1__n.BLIF bit_counter_i_2__n.BLIF \
+  bit_counter_i_3__n.BLIF rx_data_buf_i_0_0__n.BLIF rx_data_buf_i_0_1__n.BLIF addr_buf_i_0__n.BLIF start_strobe_i.BLIF sda_d_i.BLIF addr_buf_i_1__n.BLIF addr_buf_i_2__n.BLIF addr_buf_i_6__n.BLIF \
+  addr_buf_i_5__n.BLIF addr_buf_i_3__n.BLIF state_i_6__n.BLIF rx_data_buf_i_4__n.BLIF state_i_1__n.BLIF scl_falling_strobe_i.BLIF rw_command_i.BLIF scl_rising_strobe_i.BLIF state_i_2__n.BLIF \
+  continue_read_i.BLIF state_i_5__n.BLIF state_i_0__n.BLIF state_i_3__n.BLIF state_i_4__n.BLIF stop_strobe_i.BLIF sda_d2_i.BLIF scl_d_i.BLIF scl_d2_i.BLIF \
+  tx_doneDFFreg.BLIF clk_c.BLIF N_257_0.BLIF N_139_0.BLIF N_205_i.BLIF N_204_i.BLIF N_207_i.BLIF N_206_i.BLIF N_405_i.BLIF \
+  N_211_i.BLIF N_191_i_i.BLIF N_136_0.BLIF N_144_0.BLIF N_147_0.BLIF N_154_0.BLIF N_159_0.BLIF N_160_0.BLIF N_164_0.BLIF \
+  N_269_i.BLIF N_186_0.BLIF N_170_0.BLIF N_168_0.BLIF N_167_0.BLIF N_163_0.BLIF N_155_0.BLIF N_413_i.BLIF N_153_0.BLIF \
+  N_399_i.BLIF N_152_i.BLIF N_151_0.BLIF N_149_0.BLIF N_142_0.BLIF N_141_0.BLIF N_138_i.BLIF N_137_0.BLIF N_135_i.BLIF \
+  N_134_0.BLIF N_391_i.BLIF N_393_i.BLIF N_387_i.BLIF N_389_i.BLIF N_390_i.BLIF state_nsss_0_2__n.BLIF sda.PIN  
+.outputs rx_byte_7_ in_progress tx_done rx_data_rdy rx_byte_6_ rx_byte_5_ rx_byte_4_ rx_byte_3_ rx_byte_2_ rx_byte_1_ rx_byte_0_ \
+  state_i_7_reg.D state_i_7_reg.C state_6_.D state_6_.C state_5_.D state_5_.C state_4_.D state_4_.C state_3_.D state_3_.C state_2_.D \
+  state_2_.C state_1_.D state_1_.C state_0_.D state_0_.C rx_data_buf_0_reg.D rx_data_buf_0_reg.CE rx_data_buf_0_reg.C rx_data_buf_1_reg.D rx_data_buf_1_reg.CE rx_data_buf_1_reg.C \
+  rx_data_buf_2_reg.D rx_data_buf_2_reg.CE rx_data_buf_2_reg.C rx_data_buf_3_reg.D rx_data_buf_3_reg.CE rx_data_buf_3_reg.C rx_data_buf_4_reg.D rx_data_buf_4_reg.CE rx_data_buf_4_reg.C rx_data_buf_5_reg.D rx_data_buf_5_reg.CE \
+  rx_data_buf_5_reg.C rx_data_buf_6_reg.D rx_data_buf_6_reg.CE rx_data_buf_6_reg.C rx_data_buf_7_reg.D rx_data_buf_7_reg.CE rx_data_buf_7_reg.C addr_buf_0_.D addr_buf_0_.CE addr_buf_0_.C addr_buf_1_.D \
+  addr_buf_1_.CE addr_buf_1_.C addr_buf_2_.D addr_buf_2_.CE addr_buf_2_.C addr_buf_3_.D addr_buf_3_.CE addr_buf_3_.C addr_buf_4_.D addr_buf_4_.CE addr_buf_4_.C \
+  addr_buf_5_.D addr_buf_5_.CE addr_buf_5_.C addr_buf_6_.D addr_buf_6_.CE addr_buf_6_.C bit_counter_3_.D bit_counter_3_.CE bit_counter_3_.C tx_byte_buf_0_.D tx_byte_buf_0_.CE \
+  tx_byte_buf_0_.C tx_byte_buf_1_.D tx_byte_buf_1_.CE tx_byte_buf_1_.C tx_byte_buf_2_.D tx_byte_buf_2_.CE tx_byte_buf_2_.C tx_byte_buf_3_.D tx_byte_buf_3_.CE tx_byte_buf_3_.C tx_byte_buf_4_.D \
+  tx_byte_buf_4_.CE tx_byte_buf_4_.C tx_byte_buf_5_.D tx_byte_buf_5_.CE tx_byte_buf_5_.C tx_byte_buf_6_.D tx_byte_buf_6_.CE tx_byte_buf_6_.C tx_byte_buf_7_.D tx_byte_buf_7_.CE tx_byte_buf_7_.C \
+  bit_counter_0_.D bit_counter_0_.CE bit_counter_0_.C bit_counter_1_.D bit_counter_1_.CE bit_counter_1_.C bit_counter_2_.D bit_counter_2_.CE bit_counter_2_.C inst_continue_read.D inst_continue_read.CE \
+  inst_continue_read.C tx_doneDFFreg.D tx_doneDFFreg.C inst_sda_o.D inst_sda_o.C inst_start_strobe.D inst_start_strobe.C inst_stop_strobe.D inst_stop_strobe.C inst_rx_data_rdy_regreg.D inst_rx_data_rdy_regreg.C \
+  inst_sda_out_en.D inst_sda_out_en.C inst_rw_command.D inst_rw_command.CE inst_rw_command.C inst_scl_rising_strobe.D inst_scl_rising_strobe.C inst_scl_d2.D inst_scl_d2.C inst_sda_d2.D inst_sda_d2.C \
+  inst_scl_d.D inst_scl_d.C inst_sda_d.D inst_sda_d.C inst_scl_falling_strobe.D inst_scl_falling_strobe.C bit_counter_n3_i_x2.X1 bit_counter_n3_i_x2.X2 sda N_297_i N_385_i N_382_i \
+  N_383_i N_404_i N_309_i N_379_i N_381_i N_111_0 N_377_i un1_tx_byte_buf_0_sqmuxa N_375_i N_376_i state_nsss_0_5__n \
+  N_374_i N_372_i N_373_i un1_tx_byte_buf_0_sqmuxa_0 N_371_i N_93_0 N_212_i N_213_i N_214_i bit_countere_0 N_147_0_1 \
+  N_141_0_1 N_170_0_1 N_269_1 N_269_2 N_269_3 N_269_4 N_269_5 N_157_i_1 state_nsss_0_1_2__n N_150_i_1 N_145_i_1 \
+  N_309_i_1 N_101_0_1 N_97_0_1 N_93_0_1 bit_countere_0_1 i2c_fsm_p_un3_scl_rising_strobe_n bit_countere_0_2 N_30_1 N_390_1 N_387_1 N_379_1 \
+  N_375_1 N_373_1 strobe_p_un12_scl_d2_1_n strobe_p_un12_scl_d2_2_n strobe_p_un6_scl_d_1_n N_28 strobe_p_un6_scl_d_2_n rw_command_1_sqmuxa_1 i2c_fsm_p_rx_data_buf_1_i_m2_5__un3_n bit_countere i2c_fsm_p_rx_data_buf_1_i_m2_5__un1_n \
+  i2c_fsm_p_rx_data_buf_1_i_m2_5__un0_n i2c_fsm_p_addr_buf_1_i_m2_4__un3_n i2c_fsm_p_addr_buf_1_i_m2_4__un1_n N_187 i2c_fsm_p_addr_buf_1_i_m2_4__un0_n i2c_fsm_p_addr_buf_1_0_191_i_0_m2_un3_n i2c_fsm_p_addr_buf_1_0_191_i_0_m2_un1_n tx_done_0_sqmuxa i2c_fsm_p_addr_buf_1_0_191_i_0_m2_un0_n rx_data_buf_0_sqmuxa i2c_fsm_p_rx_data_buf_1_i_i_m2_4__un3_n \
+  i2c_fsm_p_rx_data_buf_1_i_i_m2_4__un1_n N_134 i2c_fsm_p_rx_data_buf_1_i_i_m2_4__un0_n N_135 i2c_fsm_p_addr_buf_1_2_174_i_i_m2_un3_n N_139 i2c_fsm_p_addr_buf_1_2_174_i_i_m2_un1_n N_142 i2c_fsm_p_addr_buf_1_2_174_i_i_m2_un0_n N_149 i2c_fsm_p_sda_o_2_3_i_m2_un3_n \
+  N_151 i2c_fsm_p_sda_o_2_3_i_m2_un1_n N_155 i2c_fsm_p_sda_o_2_3_i_m2_un0_n N_163 i2c_fsm_p_sda_o_2_6_i_m2_un3_n N_167 i2c_fsm_p_sda_o_2_6_i_m2_un1_n N_168 i2c_fsm_p_sda_o_2_6_i_m2_un0_n N_170 \
+  i2c_fsm_p_sda_o_2_7_i_m2_un3_n N_335 i2c_fsm_p_sda_o_2_7_i_m2_un1_n N_338 i2c_fsm_p_sda_o_2_7_i_m2_un0_n N_180 i2c_fsm_p_sda_o_2_5_i_m2_un3_n N_362 i2c_fsm_p_sda_o_2_5_i_m2_un1_n N_361 i2c_fsm_p_sda_o_2_5_i_m2_un0_n \
+  N_360 i2c_fsm_p_sda_o_2_4_i_m2_un3_n N_359 i2c_fsm_p_sda_o_2_4_i_m2_un1_n N_186 i2c_fsm_p_sda_o_2_4_i_m2_un0_n i2c_fsm_p_sda_o_2_2_i_m2_un3_n i2c_fsm_p_sda_o_2_2_i_m2_un1_n i2c_fsm_p_sda_o_2_2_i_m2_un0_n i2c_fsm_p_sda_o_2_1_i_m2_un3_n i2c_fsm_p_sda_o_2_1_i_m2_un1_n \
+  i2c_fsm_p_sda_o_2_1_i_m2_un0_n i2c_fsm_p_rx_data_buf_1_i_m2_2__un3_n N_212 i2c_fsm_p_rx_data_buf_1_i_m2_2__un1_n N_213 i2c_fsm_p_rx_data_buf_1_i_m2_2__un0_n N_214 i2c_fsm_p_addr_buf_1_i_m2_2__un3_n N_371 i2c_fsm_p_addr_buf_1_i_m2_2__un1_n N_372 \
+  i2c_fsm_p_addr_buf_1_i_m2_2__un0_n N_373 i2c_fsm_p_rx_data_buf_1_i_m2_3__un3_n N_374 i2c_fsm_p_rx_data_buf_1_i_m2_3__un1_n N_375 i2c_fsm_p_rx_data_buf_1_i_m2_3__un0_n N_376 i2c_fsm_p_addr_buf_1_i_m2_5__un3_n N_377 i2c_fsm_p_addr_buf_1_i_m2_5__un1_n \
+  N_379 i2c_fsm_p_addr_buf_1_i_m2_5__un0_n N_381 i2c_fsm_p_rx_data_buf_1_i_m2_6__un3_n N_382 i2c_fsm_p_rx_data_buf_1_i_m2_6__un1_n N_383 i2c_fsm_p_rx_data_buf_1_i_m2_6__un0_n N_385 i2c_fsm_p_addr_buf_1_i_m2_6__un3_n N_387 \
+  i2c_fsm_p_addr_buf_1_i_m2_6__un1_n N_389 i2c_fsm_p_addr_buf_1_i_m2_6__un0_n N_390 i2c_fsm_p_rx_data_buf_1_i_m2_7__un3_n N_391 i2c_fsm_p_rx_data_buf_1_i_m2_7__un1_n N_393 i2c_fsm_p_rx_data_buf_1_i_m2_7__un0_n N_399 tx_done_0_un3_n \
+  N_402 tx_done_0_un1_n N_403 tx_done_0_un0_n N_404 N_269 N_413 N_297 N_147 N_292 N_159 \
+  N_189 N_160 N_177 N_257 N_136 N_164 N_154 N_211 N_405 N_206 N_207 \
+  N_204 N_205 bit_counter_c0_i bit_counter_i_1__n bit_counter_i_2__n bit_counter_i_3__n rx_data_buf_i_0_0__n rx_data_buf_i_0_1__n addr_buf_i_0__n start_strobe_i sda_d_i \
+  addr_buf_i_1__n addr_buf_i_2__n addr_buf_i_6__n addr_buf_i_5__n addr_buf_i_3__n state_i_6__n rx_data_buf_i_4__n state_i_1__n scl_falling_strobe_i rw_command_i scl_rising_strobe_i \
+  state_i_2__n continue_read_i state_i_5__n state_i_0__n state_i_3__n state_i_4__n stop_strobe_i sda_d2_i scl_d_i scl_d2_i clk_c \
+  N_257_0 N_139_0 N_205_i N_204_i N_207_i N_206_i N_405_i N_211_i N_191_i_i N_136_0 N_144_0 \
+  N_147_0 N_154_0 N_159_0 N_160_0 N_164_0 N_269_i N_186_0 N_170_0 N_168_0 N_167_0 N_163_0 \
+  N_155_0 N_413_i N_153_0 N_399_i N_152_i N_151_0 N_149_0 N_142_0 N_141_0 N_138_i N_137_0 \
+  N_135_i N_134_0 N_391_i N_393_i N_387_i N_389_i N_390_i state_nsss_0_2__n sda.OE
+.names inst_sda_o.BLIF sda
+1 1
+.names sda.PIN inst_sda_d.D
+1 1
+.names inst_sda_out_en.BLIF sda.OE
+1 1
+.names  state_1_.BLIF state_i_1__n
+0 1
+.names  bit_counter_1_.BLIF i2c_fsm_p_sda_o_2_3_i_m2_un3_n
+0 1
+.names  N_360.BLIF bit_counter_1_.BLIF i2c_fsm_p_sda_o_2_3_i_m2_un1_n
+11 1
+.names  un1_tx_byte_buf_0_sqmuxa.BLIF tx_byte_buf_0_.CE
+1 1
+.names  N_359.BLIF i2c_fsm_p_sda_o_2_3_i_m2_un3_n.BLIF i2c_fsm_p_sda_o_2_3_i_m2_un0_n
+11 1
+.names  i2c_fsm_p_sda_o_2_3_i_m2_un1_n.BLIF i2c_fsm_p_sda_o_2_3_i_m2_un0_n.BLIF N_335
+1- 1
+-1 1
+.names  clk_c.BLIF tx_byte_buf_0_.C
+1 1
+.names  bit_counter_1_.BLIF i2c_fsm_p_sda_o_2_6_i_m2_un3_n
+0 1
+.names  N_362.BLIF bit_counter_1_.BLIF i2c_fsm_p_sda_o_2_6_i_m2_un1_n
+11 1
+.names  N_361.BLIF i2c_fsm_p_sda_o_2_6_i_m2_un3_n.BLIF i2c_fsm_p_sda_o_2_6_i_m2_un0_n
+11 1
+.names  i2c_fsm_p_sda_o_2_6_i_m2_un1_n.BLIF i2c_fsm_p_sda_o_2_6_i_m2_un0_n.BLIF N_338
+1- 1
+-1 1
+.names  un1_tx_byte_buf_0_sqmuxa.BLIF tx_byte_buf_1_.CE
+1 1
+.names  bit_counter_0_.BLIF i2c_fsm_p_sda_o_2_7_i_m2_un3_n
+0 1
+.names  N_338.BLIF bit_counter_0_.BLIF i2c_fsm_p_sda_o_2_7_i_m2_un1_n
+11 1
+.names  clk_c.BLIF tx_byte_buf_1_.C
+1 1
+.names  N_335.BLIF i2c_fsm_p_sda_o_2_7_i_m2_un3_n.BLIF i2c_fsm_p_sda_o_2_7_i_m2_un0_n
+11 1
+.names  i2c_fsm_p_sda_o_2_7_i_m2_un1_n.BLIF i2c_fsm_p_sda_o_2_7_i_m2_un0_n.BLIF N_180
+1- 1
+-1 1
+.names  bit_counter_2_.BLIF i2c_fsm_p_sda_o_2_5_i_m2_un3_n
+0 1
+.names  tx_byte_buf_0_.BLIF bit_counter_2_.BLIF i2c_fsm_p_sda_o_2_5_i_m2_un1_n
+11 1
+.names  un1_tx_byte_buf_0_sqmuxa.BLIF tx_byte_buf_2_.CE
+1 1
+.names  tx_byte_buf_4_.BLIF i2c_fsm_p_sda_o_2_5_i_m2_un3_n.BLIF i2c_fsm_p_sda_o_2_5_i_m2_un0_n
+11 1
+.names  i2c_fsm_p_sda_o_2_5_i_m2_un1_n.BLIF i2c_fsm_p_sda_o_2_5_i_m2_un0_n.BLIF N_362
+1- 1
+-1 1
+.names  clk_c.BLIF tx_byte_buf_2_.C
+1 1
+.names  bit_counter_2_.BLIF i2c_fsm_p_sda_o_2_4_i_m2_un3_n
+0 1
+.names  tx_byte_buf_2_.BLIF bit_counter_2_.BLIF i2c_fsm_p_sda_o_2_4_i_m2_un1_n
+11 1
+.names  tx_byte_buf_6_.BLIF i2c_fsm_p_sda_o_2_4_i_m2_un3_n.BLIF i2c_fsm_p_sda_o_2_4_i_m2_un0_n
+11 1
+.names  i2c_fsm_p_sda_o_2_4_i_m2_un1_n.BLIF i2c_fsm_p_sda_o_2_4_i_m2_un0_n.BLIF N_361
+1- 1
+-1 1
+.names  un1_tx_byte_buf_0_sqmuxa.BLIF tx_byte_buf_3_.CE
+1 1
+.names  bit_counter_2_.BLIF i2c_fsm_p_sda_o_2_2_i_m2_un3_n
+0 1
+.names  tx_byte_buf_1_.BLIF bit_counter_2_.BLIF i2c_fsm_p_sda_o_2_2_i_m2_un1_n
+11 1
+.names  clk_c.BLIF tx_byte_buf_3_.C
+1 1
+.names  tx_byte_buf_5_.BLIF i2c_fsm_p_sda_o_2_2_i_m2_un3_n.BLIF i2c_fsm_p_sda_o_2_2_i_m2_un0_n
+11 1
+.names  i2c_fsm_p_sda_o_2_2_i_m2_un1_n.BLIF i2c_fsm_p_sda_o_2_2_i_m2_un0_n.BLIF N_360
+1- 1
+-1 1
+.names  bit_counter_2_.BLIF i2c_fsm_p_sda_o_2_1_i_m2_un3_n
+0 1
+.names  tx_byte_buf_3_.BLIF bit_counter_2_.BLIF i2c_fsm_p_sda_o_2_1_i_m2_un1_n
+11 1
+.names  un1_tx_byte_buf_0_sqmuxa.BLIF tx_byte_buf_4_.CE
+1 1
+.names  tx_byte_buf_7_.BLIF i2c_fsm_p_sda_o_2_1_i_m2_un3_n.BLIF i2c_fsm_p_sda_o_2_1_i_m2_un0_n
+11 1
+.names  i2c_fsm_p_sda_o_2_1_i_m2_un1_n.BLIF i2c_fsm_p_sda_o_2_1_i_m2_un0_n.BLIF N_359
+1- 1
+-1 1
+.names  clk_c.BLIF tx_byte_buf_4_.C
+1 1
+.names  N_163.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_2__un3_n
+0 1
+.names  rx_data_buf_2_reg.BLIF N_163.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_2__un1_n
+11 1
+.names  inst_sda_d.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_2__un3_n.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_2__un0_n
+11 1
+.names  i2c_fsm_p_rx_data_buf_1_i_m2_2__un1_n.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_2__un0_n.BLIF rx_data_buf_2_reg.D
+1- 1
+-1 1
+.names  un1_tx_byte_buf_0_sqmuxa.BLIF tx_byte_buf_5_.CE
+1 1
+.names  N_151.BLIF i2c_fsm_p_addr_buf_1_i_m2_2__un3_n
+0 1
+.names  addr_buf_2_.BLIF N_151.BLIF i2c_fsm_p_addr_buf_1_i_m2_2__un1_n
+11 1
+.names  clk_c.BLIF tx_byte_buf_5_.C
+1 1
+.names  inst_sda_d.BLIF i2c_fsm_p_addr_buf_1_i_m2_2__un3_n.BLIF i2c_fsm_p_addr_buf_1_i_m2_2__un0_n
+11 1
+.names  i2c_fsm_p_addr_buf_1_i_m2_2__un1_n.BLIF i2c_fsm_p_addr_buf_1_i_m2_2__un0_n.BLIF addr_buf_2_.D
+1- 1
+-1 1
+.names  N_151.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_3__un3_n
+0 1
+.names  rx_data_buf_3_reg.BLIF N_151.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_3__un1_n
+11 1
+.names  un1_tx_byte_buf_0_sqmuxa.BLIF tx_byte_buf_6_.CE
+1 1
+.names  inst_sda_d.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_3__un3_n.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_3__un0_n
+11 1
+.names  i2c_fsm_p_rx_data_buf_1_i_m2_3__un1_n.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_3__un0_n.BLIF rx_data_buf_3_reg.D
+1- 1
+-1 1
+.names  clk_c.BLIF tx_byte_buf_6_.C
+1 1
+.names  N_149.BLIF i2c_fsm_p_addr_buf_1_i_m2_5__un3_n
+0 1
+.names  addr_buf_5_.BLIF N_149.BLIF i2c_fsm_p_addr_buf_1_i_m2_5__un1_n
+11 1
+.names  inst_sda_d.BLIF i2c_fsm_p_addr_buf_1_i_m2_5__un3_n.BLIF i2c_fsm_p_addr_buf_1_i_m2_5__un0_n
+11 1
+.names  i2c_fsm_p_addr_buf_1_i_m2_5__un1_n.BLIF i2c_fsm_p_addr_buf_1_i_m2_5__un0_n.BLIF addr_buf_5_.D
+1- 1
+-1 1
+.names  un1_tx_byte_buf_0_sqmuxa.BLIF tx_byte_buf_7_.CE
+1 1
+.names  N_149.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_6__un3_n
+0 1
+.names  rx_data_buf_6_reg.BLIF N_149.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_6__un1_n
+11 1
+.names  clk_c.BLIF tx_byte_buf_7_.C
+1 1
+.names  inst_sda_d.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_6__un3_n.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_6__un0_n
+11 1
+.names  i2c_fsm_p_rx_data_buf_1_i_m2_6__un1_n.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_6__un0_n.BLIF rx_data_buf_6_reg.D
+1- 1
+-1 1
+.names  N_135.BLIF i2c_fsm_p_addr_buf_1_i_m2_6__un3_n
+0 1
+.names  addr_buf_6_.BLIF N_135.BLIF i2c_fsm_p_addr_buf_1_i_m2_6__un1_n
+11 1
+.names  bit_countere.BLIF bit_counter_0_.CE
+1 1
+.names  inst_sda_d.BLIF i2c_fsm_p_addr_buf_1_i_m2_6__un3_n.BLIF i2c_fsm_p_addr_buf_1_i_m2_6__un0_n
+11 1
+.names  i2c_fsm_p_addr_buf_1_i_m2_6__un1_n.BLIF i2c_fsm_p_addr_buf_1_i_m2_6__un0_n.BLIF addr_buf_6_.D
+1- 1
+-1 1
+.names  clk_c.BLIF bit_counter_0_.C
+1 1
+.names  N_135.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_7__un3_n
+0 1
+.names  rx_data_buf_7_reg.BLIF N_135.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_7__un1_n
+11 1
+.names  inst_sda_d.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_7__un3_n.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_7__un0_n
+11 1
+.names  i2c_fsm_p_rx_data_buf_1_i_m2_7__un1_n.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_7__un0_n.BLIF rx_data_buf_7_reg.D
+1- 1
+-1 1
+.names  bit_countere.BLIF bit_counter_1_.CE
+1 1
+.names  bit_counter_0_.BLIF bit_counter_i_1__n.BLIF N_138_i
+11 1
+.names  inst_continue_read.BLIF continue_read_i
+0 1
+.names  clk_c.BLIF bit_counter_1_.C
+1 1
+.names  inst_continue_read.BLIF state_1_.BLIF N_142_0
+11 1
+.names  scl.BLIF inst_scl_d.D
+1 1
+.names  N_138_i.BLIF bit_counter_i_2__n.BLIF N_149_0
+11 1
+.names  N_134_0.BLIF bit_counter_2_.BLIF N_151_0
+11 1
+.names  state_i_7_reg.BLIF in_progress
+1 1
+.names  N_399_i.BLIF inst_scl_falling_strobe.BLIF N_152_i
+11 1
+.names  bit_countere.BLIF bit_counter_2_.CE
+1 1
+.names  tx_doneDFFreg.BLIF tx_done
+1 1
+.names  N_137_0.BLIF N_413_i.BLIF N_153_0
+11 1
+.names  tx_byte_0_.BLIF tx_byte_buf_0_.D
+1 1
+.names  inst_scl_rising_strobe.BLIF scl_rising_strobe_i
+0 1
+.names  clk_c.BLIF bit_counter_2_.C
+1 1
+.names  tx_byte_1_.BLIF tx_byte_buf_1_.D
+1 1
+.names  state_2_.BLIF state_i_2__n
+0 1
+.names  tx_byte_2_.BLIF tx_byte_buf_2_.D
+1 1
+.names  inst_scl_rising_strobe.BLIF state_2_.BLIF N_155_0
+11 1
+.names  tx_byte_3_.BLIF tx_byte_buf_3_.D
+1 1
+.names  N_138_i.BLIF bit_counter_2_.BLIF N_163_0
+11 1
+.names  sda_d_i.BLIF inst_continue_read.D
+1 1
+.names  tx_byte_4_.BLIF tx_byte_buf_4_.D
+1 1
+.names  inst_rw_command.BLIF rw_command_i
+0 1
+.names  tx_byte_5_.BLIF tx_byte_buf_5_.D
+1 1
+.names  N_152_i.BLIF inst_rw_command.BLIF N_167_0
+11 1
+.names  N_155_0.BLIF inst_continue_read.CE
+1 1
+.names  tx_byte_6_.BLIF tx_byte_buf_6_.D
+1 1
+.names  N_152_i.BLIF rw_command_i.BLIF N_168_0
+11 1
+.names  tx_byte_7_.BLIF tx_byte_buf_7_.D
+1 1
+.names  inst_scl_falling_strobe.BLIF scl_falling_strobe_i
+0 1
+.names  clk_c.BLIF inst_continue_read.C
+1 1
+.names  rx_data_buf_0_reg.BLIF rx_byte_0_
+1 1
+.names  state_0_.BLIF state_i_0__n
+0 1
+.names  rx_data_buf_1_reg.BLIF rx_byte_1_
+1 1
+.names  start_strobe_i.BLIF state_i_0__n.BLIF tx_done_0_sqmuxa
+11 1
+.names  rx_data_buf_2_reg.BLIF rx_byte_2_
+1 1
+.names  state_5_.BLIF state_i_5__n
+0 1
+.names  rx_data_buf_3_reg.BLIF rx_byte_3_
+1 1
+.names  N_142.BLIF state_i_5__n.BLIF N_399
+11 1
+.names  clk_c.BLIF tx_doneDFFreg.C
+1 1
+.names  rx_data_buf_4_reg.BLIF rx_byte_4_
+1 1
+.names  inst_scl_falling_strobe.BLIF state_3_.BLIF N_403
+11 1
+.names  rx_data_buf_5_reg.BLIF rx_byte_5_
+1 1
+.names  N_139_0.BLIF N_403.BLIF N_404
+11 1
+.names  rx_data_buf_6_reg.BLIF rx_byte_6_
+1 1
+.names  N_404.BLIF bit_counter_i_3__n.BLIF N_413
+11 1
+.names  rx_data_buf_7_reg.BLIF rx_byte_7_
+1 1
+.names  N_372_i.BLIF N_373_i.BLIF un1_tx_byte_buf_0_sqmuxa_0
+11 1
+.names  clk_c.BLIF inst_sda_o.C
+1 1
+.names  inst_rx_data_rdy_regreg.BLIF rx_data_rdy
+1 1
+.names  N_137_0.BLIF N_374_i.BLIF state_0_.D
+11 1
+.names  clk.BLIF clk_c
+1 1
+.names  N_375_i.BLIF N_376_i.BLIF state_nsss_0_5__n
+11 1
+.names  rw_command_1_sqmuxa_1.BLIF state_6_.BLIF inst_rw_command.CE
+11 1
+.names  N_153_0.BLIF N_377_i.BLIF state_3_.D
+11 1
+.names  N_137_0.BLIF scl_falling_strobe_i.BLIF N_387_1
+11 1
+.names  N_379_i.BLIF N_381_i.BLIF N_111_0
+11 1
+.names  clk_c.BLIF inst_start_strobe.C
+1 1
+.names  N_387_1.BLIF state_5_.BLIF N_387
+11 1
+.names  bit_counter_c0_i.BLIF bit_counter_i_1__n.BLIF N_134_0
+11 1
+.names  N_186.BLIF state_i_7_reg.BLIF N_379_1
+11 1
+.names  N_134_0.BLIF bit_counter_i_2__n.BLIF N_135_i
+11 1
+.names  N_379_1.BLIF stop_strobe_i.BLIF N_379
+11 1
+.names  start_strobe_i.BLIF stop_strobe_i.BLIF N_137_0
+11 1
+.names  N_137_0.BLIF scl_rising_strobe_i.BLIF N_375_1
+11 1
+.names  N_403.BLIF i2c_fsm_p_un3_scl_rising_strobe_n.BLIF N_214
+11 1
+.names  clk_c.BLIF inst_stop_strobe.C
+1 1
+.names  N_375_1.BLIF state_2_.BLIF N_375
+11 1
+.names  inst_sda_d2.BLIF sda_d2_i
+0 1
+.names  N_144_0.BLIF N_269.BLIF N_373_1
+11 1
+.names  N_155_0.BLIF sda_d_i.BLIF N_372
+11 1
+.names  N_373_1.BLIF inst_rw_command.BLIF N_373
+11 1
+.names  N_170.BLIF state_i_0__n.BLIF N_374
+11 1
+.names  inst_scl_d.BLIF inst_scl_d2.BLIF strobe_p_un12_scl_d2_1_n
+11 1
+.names  N_137_0.BLIF N_413.BLIF N_376
+11 1
+.names  clk_c.BLIF inst_rx_data_rdy_regreg.C
+1 1
+.names  inst_sda_d.BLIF sda_d2_i.BLIF strobe_p_un12_scl_d2_2_n
+11 1
+.names  N_167.BLIF state_i_3__n.BLIF N_377
+11 1
+.names  strobe_p_un12_scl_d2_1_n.BLIF strobe_p_un12_scl_d2_2_n.BLIF inst_stop_strobe.D
+11 1
+.names  inst_stop_strobe.BLIF stop_strobe_i
+0 1
+.names  inst_scl_d.BLIF inst_scl_d2.BLIF strobe_p_un6_scl_d_1_n
+11 1
+.names  inst_start_strobe.BLIF stop_strobe_i.BLIF N_381
+11 1
+.names  inst_sda_d2.BLIF sda_d_i.BLIF strobe_p_un6_scl_d_2_n
+11 1
+.names  N_155.BLIF state_i_1__n.BLIF N_382
+11 1
+.names  clk_c.BLIF inst_sda_out_en.C
+1 1
+.names  strobe_p_un6_scl_d_1_n.BLIF strobe_p_un6_scl_d_2_n.BLIF inst_start_strobe.D
+11 1
+.names  inst_scl_falling_strobe.BLIF state_i_2__n.BLIF N_383
+11 1
+.names  N_139_0.BLIF N_402.BLIF rw_command_1_sqmuxa_1
+11 1
+.names  state_4_.BLIF state_i_4__n
+0 1
+.names  N_137_0.BLIF N_404_i.BLIF N_309_i_1
+11 1
+.names  N_168.BLIF state_i_4__n.BLIF N_385
+11 1
+.names  inst_sda_d.BLIF inst_rw_command.D
+1 1
+.names  N_309_i_1.BLIF bit_counter_i_3__n.BLIF N_309_i
+11 1
+.names  start_strobe_i.BLIF state_i_6__n.BLIF N_391
+11 1
+.names  N_139.BLIF N_309_i.BLIF N_101_0_1
+11 1
+.names  state_3_.BLIF state_i_3__n
+0 1
+.names  N_101_0_1.BLIF N_371_i.BLIF bit_counter_2_.D
+11 1
+.names  state_i_3__n.BLIF state_i_5__n.BLIF N_187
+11 1
+.names  clk_c.BLIF inst_rw_command.C
+1 1
+.names  N_134.BLIF N_257.BLIF N_97_0_1
+11 1
+.names  N_187.BLIF inst_sda_out_en.D
+0 1
+.names  N_97_0_1.BLIF N_309_i.BLIF bit_counter_1_.D
+11 1
+.names  inst_scl_d2.BLIF scl_d2_i
+0 1
+.names  i2c_fsm_p_un3_scl_rising_strobe_n.BLIF inst_scl_rising_strobe.BLIF N_93_0_1
+11 1
+.names  inst_scl_d.BLIF scl_d2_i.BLIF inst_scl_rising_strobe.D
+11 1
+.names  N_93_0_1.BLIF state_6_.BLIF N_93_0
+11 1
+.names  inst_scl_d.BLIF scl_d_i
+0 1
+.names  clk_c.BLIF inst_scl_rising_strobe.C
+1 1
+.names  N_153_0.BLIF N_212_i.BLIF bit_countere_0_1
+11 1
+.names  inst_scl_d2.BLIF scl_d_i.BLIF inst_scl_falling_strobe.D
+11 1
+.names  N_213_i.BLIF N_214_i.BLIF bit_countere_0_2
+11 1
+.names  N_189.BLIF rx_data_buf_4_reg.D
+0 1
+.names  bit_countere_0_1.BLIF bit_countere_0_2.BLIF bit_countere_0
+11 1
+.names  N_292.BLIF addr_buf_1_.D
+0 1
+.names  inst_scl_d.BLIF inst_scl_d2.D
+1 1
+.names  N_180.BLIF state_3_.BLIF N_30_1
+11 1
+.names  N_177.BLIF addr_buf_3_.D
+0 1
+.names  N_30_1.BLIF state_i_7_reg.BLIF inst_sda_o.D
+11 1
+.names  tx_done_0_sqmuxa.BLIF tx_done_0_un3_n
+0 1
+.names  clk_c.BLIF inst_scl_d2.C
+1 1
+.names  N_269.BLIF N_137_0.BLIF N_390_1
+11 1
+.names  tx_doneDFFreg.BLIF tx_done_0_sqmuxa.BLIF tx_done_0_un1_n
+11 1
+.names  N_390_1.BLIF N_144_0.BLIF N_390
+11 1
+.names  start_strobe_i.BLIF tx_done_0_un3_n.BLIF tx_done_0_un0_n
+11 1
+.names  N_170_0_1.BLIF state_1_.BLIF N_170_0
+11 1
+.names  tx_done_0_un1_n.BLIF tx_done_0_un0_n.BLIF N_28
+1- 1
+-1 1
+.names  inst_sda_d.BLIF inst_sda_d2.D
+1 1
+.names  addr_buf_4_.BLIF addr_buf_i_0__n.BLIF N_269_1
+11 1
+.names  N_28.BLIF stop_strobe_i.BLIF tx_doneDFFreg.D
+11 1
+.names  addr_buf_i_1__n.BLIF addr_buf_i_2__n.BLIF N_269_2
+11 1
+.names  clk_c.BLIF inst_sda_d2.C
+1 1
+.names  addr_buf_i_3__n.BLIF addr_buf_i_5__n.BLIF N_269_3
+11 1
+.names  N_269_1.BLIF N_269_2.BLIF N_269_4
+11 1
+.names  N_269_3.BLIF addr_buf_i_6__n.BLIF N_269_5
+11 1
+.names  N_269_4.BLIF N_269_5.BLIF N_269
+11 1
+.names  clk_c.BLIF inst_scl_d.C
+1 1
+.names  N_391_i.BLIF N_393_i.BLIF N_157_i_1
+11 1
+.names  N_157_i_1.BLIF stop_strobe_i.BLIF state_6_.D
+11 1
+.names  N_390_i.BLIF N_387_i.BLIF state_nsss_0_1_2__n
+11 1
+.names  state_nsss_0_1_2__n.BLIF N_389_i.BLIF state_nsss_0_2__n
+11 1
+.names  clk_c.BLIF inst_sda_d.C
+1 1
+.names  N_137_0.BLIF N_297_i.BLIF N_150_i_1
+11 1
+.names  N_150_i_1.BLIF N_385_i.BLIF state_4_.D
+11 1
+.names  N_137_0.BLIF N_382_i.BLIF N_145_i_1
+11 1
+.names  N_145_i_1.BLIF N_383_i.BLIF state_1_.D
+11 1
+.names  clk_c.BLIF inst_scl_falling_strobe.C
+1 1
+.names  state_nsss_0_5__n.BLIF state_2_.D
+0 1
+.names  N_374.BLIF N_374_i
+0 1
+.names  N_372.BLIF N_372_i
+0 1
+.names  clk_c.BLIF state_i_7_reg.C
+1 1
+.names  N_139.BLIF bit_counter_n3_i_x2.X1
+1 1
+.names  N_373.BLIF N_373_i
+0 1
+.names  un1_tx_byte_buf_0_sqmuxa_0.BLIF un1_tx_byte_buf_0_sqmuxa
+0 1
+.names  bit_counter_3_.BLIF bit_counter_n3_i_x2.X2
+1 1
+.names  N_371.BLIF N_371_i
+0 1
+.names  N_212.BLIF N_212_i
+0 1
+.names  clk_c.BLIF state_6_.C
+1 1
+.names  N_213.BLIF N_213_i
+0 1
+.names  N_214.BLIF N_214_i
+0 1
+.names  bit_countere_0.BLIF bit_countere
+0 1
+.names  bit_counter_1_.BLIF bit_counter_c0_i.BLIF N_147_0_1
+11 1
+.names  clk_c.BLIF state_5_.C
+1 1
+.names  N_147_0_1.BLIF bit_counter_i_2__n.BLIF N_147_0
+11 1
+.names  N_135_i.BLIF bit_counter_3_.BLIF N_141_0_1
+11 1
+.names  N_141_0_1.BLIF inst_scl_falling_strobe.BLIF N_141_0
+11 1
+.names  continue_read_i.BLIF inst_scl_falling_strobe.BLIF N_170_0_1
+11 1
+.names  clk_c.BLIF state_4_.C
+1 1
+.names  N_387.BLIF N_387_i
+0 1
+.names  N_389.BLIF N_389_i
+0 1
+.names  N_390.BLIF N_390_i
+0 1
+.names  state_nsss_0_2__n.BLIF state_5_.D
+0 1
+.names  clk_c.BLIF state_3_.C
+1 1
+.names  N_297.BLIF N_297_i
+0 1
+.names  N_385.BLIF N_385_i
+0 1
+.names  N_382.BLIF N_382_i
+0 1
+.names  N_383.BLIF N_383_i
+0 1
+.names  clk_c.BLIF state_2_.C
+1 1
+.names  N_404.BLIF N_404_i
+0 1
+.names  N_379.BLIF N_379_i
+0 1
+.names  N_381.BLIF N_381_i
+0 1
+.names  N_111_0.BLIF state_i_7_reg.D
+0 1
+.names  clk_c.BLIF state_1_.C
+1 1
+.names  N_377.BLIF N_377_i
+0 1
+.names  N_375.BLIF N_375_i
+0 1
+.names  N_376.BLIF N_376_i
+0 1
+.names  N_186_0.BLIF N_186
+0 1
+.names  clk_c.BLIF state_0_.C
+1 1
+.names  N_170_0.BLIF N_170
+0 1
+.names  N_168_0.BLIF N_168
+0 1
+.names  N_167_0.BLIF N_167
+0 1
+.names  N_163_0.BLIF N_163
+0 1
+.names  rx_data_buf_0_sqmuxa.BLIF rx_data_buf_0_reg.CE
+1 1
+.names  N_155_0.BLIF N_155
+0 1
+.names  N_413.BLIF N_413_i
+0 1
+.names  clk_c.BLIF rx_data_buf_0_reg.C
+1 1
+.names  N_399.BLIF N_399_i
+0 1
+.names  N_151_0.BLIF N_151
+0 1
+.names  N_149_0.BLIF N_149
+0 1
+.names  N_142_0.BLIF N_142
+0 1
+.names  rx_data_buf_0_sqmuxa.BLIF rx_data_buf_1_reg.CE
+1 1
+.names  N_135_i.BLIF N_135
+0 1
+.names  N_134_0.BLIF N_134
+0 1
+.names  clk_c.BLIF rx_data_buf_1_reg.C
+1 1
+.names  N_391.BLIF N_391_i
+0 1
+.names  N_393.BLIF N_393_i
+0 1
+.names  N_139_0.BLIF N_139
+0 1
+.names  N_205.BLIF N_205_i
+0 1
+.names  rx_data_buf_0_sqmuxa.BLIF rx_data_buf_2_reg.CE
+1 1
+.names  N_204.BLIF N_204_i
+0 1
+.names  N_207.BLIF N_207_i
+0 1
+.names  clk_c.BLIF rx_data_buf_2_reg.C
+1 1
+.names  N_206.BLIF N_206_i
+0 1
+.names  N_405.BLIF N_405_i
+0 1
+.names  N_211.BLIF N_211_i
+0 1
+.names  bit_counter_n3_i_x2.BLIF N_191_i_i
+0 1
+.names  rx_data_buf_0_sqmuxa.BLIF rx_data_buf_3_reg.CE
+1 1
+.names  N_136_0.BLIF N_136
+0 1
+.names  N_147_0.BLIF N_147
+0 1
+.names  clk_c.BLIF rx_data_buf_3_reg.C
+1 1
+.names  N_154_0.BLIF N_154
+0 1
+.names  N_159_0.BLIF N_159
+0 1
+.names  N_160_0.BLIF N_160
+0 1
+.names  N_164_0.BLIF N_164
+0 1
+.names  rx_data_buf_0_sqmuxa.BLIF rx_data_buf_4_reg.CE
+1 1
+.names  N_269.BLIF N_269_i
+0 1
+.names  N_257_0.BLIF N_257
+0 1
+.names  clk_c.BLIF rx_data_buf_4_reg.C
+1 1
+.names  bit_counter_3_.BLIF bit_counter_i_3__n
+0 1
+.names  N_139.BLIF bit_counter_i_3__n.BLIF i2c_fsm_p_un3_scl_rising_strobe_n
+11 1
+.names  bit_counter_2_.BLIF bit_counter_i_2__n
+0 1
+.names  N_257_0.BLIF bit_counter_2_.BLIF N_139_0
+11 1
+.names  rx_data_buf_0_sqmuxa.BLIF rx_data_buf_5_reg.CE
+1 1
+.names  bit_counter_0_.BLIF bit_counter_c0_i
+0 1
+.names  bit_counter_1_.BLIF bit_counter_i_1__n
+0 1
+.names  clk_c.BLIF rx_data_buf_5_reg.C
+1 1
+.names  bit_counter_1_.BLIF bit_counter_0_.BLIF N_257_0
+11 1
+.names  N_141_0.BLIF start_strobe_i.BLIF N_393
+11 1
+.names  N_137_0.BLIF N_297.BLIF N_389
+11 1
+.names  N_257.BLIF bit_counter_i_2__n.BLIF N_371
+11 1
+.names  rx_data_buf_0_sqmuxa.BLIF rx_data_buf_6_reg.CE
+1 1
+.names  N_309_i.BLIF bit_counter_c0_i.BLIF bit_counter_0_.D
+11 1
+.names  N_141_0.BLIF N_154.BLIF N_213
+11 1
+.names  clk_c.BLIF rx_data_buf_6_reg.C
+1 1
+.names  N_154.BLIF N_402.BLIF N_212
+11 1
+.names  addr_buf_0_.BLIF addr_buf_i_0__n
+0 1
+.names  N_136.BLIF addr_buf_i_0__n.BLIF N_211
+11 1
+.names  N_139_0.BLIF rx_data_buf_0_sqmuxa.BLIF inst_rx_data_rdy_regreg.D
+11 1
+.names  rx_data_buf_0_sqmuxa.BLIF rx_data_buf_7_reg.CE
+1 1
+.names  N_405.BLIF bit_counter_c0_i.BLIF N_207
+11 1
+.names  rx_data_buf_1_reg.BLIF rx_data_buf_i_0_1__n
+0 1
+.names  clk_c.BLIF rx_data_buf_7_reg.C
+1 1
+.names  N_164.BLIF rx_data_buf_i_0_1__n.BLIF N_206
+11 1
+.names  N_405.BLIF bit_counter_0_.BLIF N_205
+11 1
+.names  rx_data_buf_0_reg.BLIF rx_data_buf_i_0_0__n
+0 1
+.names  N_139.BLIF rx_data_buf_i_0_0__n.BLIF N_204
+11 1
+.names  N_93_0.BLIF addr_buf_0_.CE
+1 1
+.names  N_191_i_i.BLIF N_309_i.BLIF bit_counter_3_.D
+11 1
+.names  N_211_i.BLIF N_405_i.BLIF addr_buf_0_.D
+11 1
+.names  clk_c.BLIF addr_buf_0_.C
+1 1
+.names  N_206_i.BLIF N_207_i.BLIF rx_data_buf_1_reg.D
+11 1
+.names  N_204_i.BLIF N_205_i.BLIF rx_data_buf_0_reg.D
+11 1
+.names  N_141_0.BLIF state_4_.BLIF N_297
+11 1
+.names  N_402.BLIF state_4_.BLIF rx_data_buf_0_sqmuxa
+11 1
+.names  N_93_0.BLIF addr_buf_1_.CE
+1 1
+.names  addr_buf_3_.BLIF addr_buf_i_3__n
+0 1
+.names  addr_buf_6_.BLIF addr_buf_i_6__n
+0 1
+.names  clk_c.BLIF addr_buf_1_.C
+1 1
+.names  addr_buf_5_.BLIF addr_buf_i_5__n
+0 1
+.names  addr_buf_1_.BLIF addr_buf_i_1__n
+0 1
+.names  addr_buf_2_.BLIF addr_buf_i_2__n
+0 1
+.names  inst_sda_d.BLIF sda_d_i
+0 1
+.names  N_93_0.BLIF addr_buf_2_.CE
+1 1
+.names  N_136_0.BLIF sda_d_i.BLIF N_405
+11 1
+.names  bit_counter_i_3__n.BLIF inst_scl_rising_strobe.BLIF N_402
+11 1
+.names  clk_c.BLIF addr_buf_2_.C
+1 1
+.names  inst_start_strobe.BLIF start_strobe_i
+0 1
+.names  N_147.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_5__un3_n
+0 1
+.names  rx_data_buf_5_reg.BLIF N_147.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_5__un1_n
+11 1
+.names  inst_sda_d.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_5__un3_n.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_5__un0_n
+11 1
+.names  N_93_0.BLIF addr_buf_3_.CE
+1 1
+.names  i2c_fsm_p_rx_data_buf_1_i_m2_5__un1_n.BLIF i2c_fsm_p_rx_data_buf_1_i_m2_5__un0_n.BLIF rx_data_buf_5_reg.D
+1- 1
+-1 1
+.names  N_147.BLIF i2c_fsm_p_addr_buf_1_i_m2_4__un3_n
+0 1
+.names  clk_c.BLIF addr_buf_3_.C
+1 1
+.names  addr_buf_4_.BLIF N_147.BLIF i2c_fsm_p_addr_buf_1_i_m2_4__un1_n
+11 1
+.names  inst_sda_d.BLIF i2c_fsm_p_addr_buf_1_i_m2_4__un3_n.BLIF i2c_fsm_p_addr_buf_1_i_m2_4__un0_n
+11 1
+.names  i2c_fsm_p_addr_buf_1_i_m2_4__un1_n.BLIF i2c_fsm_p_addr_buf_1_i_m2_4__un0_n.BLIF addr_buf_4_.D
+1- 1
+-1 1
+.names  N_93_0.BLIF addr_buf_4_.CE
+1 1
+.names  N_159.BLIF i2c_fsm_p_addr_buf_1_0_191_i_0_m2_un3_n
+0 1
+.names  addr_buf_i_1__n.BLIF N_159.BLIF i2c_fsm_p_addr_buf_1_0_191_i_0_m2_un1_n
+11 1
+.names  clk_c.BLIF addr_buf_4_.C
+1 1
+.names  sda_d_i.BLIF i2c_fsm_p_addr_buf_1_0_191_i_0_m2_un3_n.BLIF i2c_fsm_p_addr_buf_1_0_191_i_0_m2_un0_n
+11 1
+.names  i2c_fsm_p_addr_buf_1_0_191_i_0_m2_un1_n.BLIF i2c_fsm_p_addr_buf_1_0_191_i_0_m2_un0_n.BLIF N_292
+1- 1
+-1 1
+.names  rx_data_buf_4_reg.BLIF rx_data_buf_i_4__n
+0 1
+.names  N_160.BLIF i2c_fsm_p_rx_data_buf_1_i_i_m2_4__un3_n
+0 1
+.names  N_93_0.BLIF addr_buf_5_.CE
+1 1
+.names  rx_data_buf_i_4__n.BLIF N_160.BLIF i2c_fsm_p_rx_data_buf_1_i_i_m2_4__un1_n
+11 1
+.names  sda_d_i.BLIF i2c_fsm_p_rx_data_buf_1_i_i_m2_4__un3_n.BLIF i2c_fsm_p_rx_data_buf_1_i_i_m2_4__un0_n
+11 1
+.names  clk_c.BLIF addr_buf_5_.C
+1 1
+.names  i2c_fsm_p_rx_data_buf_1_i_i_m2_4__un1_n.BLIF i2c_fsm_p_rx_data_buf_1_i_i_m2_4__un0_n.BLIF N_189
+1- 1
+-1 1
+.names  N_144_0.BLIF N_269_i.BLIF N_186_0
+11 1
+.names  N_257.BLIF i2c_fsm_p_addr_buf_1_2_174_i_i_m2_un3_n
+0 1
+.names  addr_buf_i_3__n.BLIF N_257.BLIF i2c_fsm_p_addr_buf_1_2_174_i_i_m2_un1_n
+11 1
+.names  N_93_0.BLIF addr_buf_6_.CE
+1 1
+.names  sda_d_i.BLIF i2c_fsm_p_addr_buf_1_2_174_i_i_m2_un3_n.BLIF i2c_fsm_p_addr_buf_1_2_174_i_i_m2_un0_n
+11 1
+.names  i2c_fsm_p_addr_buf_1_2_174_i_i_m2_un1_n.BLIF i2c_fsm_p_addr_buf_1_2_174_i_i_m2_un0_n.BLIF N_177
+1- 1
+-1 1
+.names  clk_c.BLIF addr_buf_6_.C
+1 1
+.names  N_136_0.BLIF bit_counter_c0_i.BLIF N_164_0
+11 1
+.names  N_257_0.BLIF bit_counter_i_2__n.BLIF N_160_0
+11 1
+.names  bit_counter_2_.BLIF bit_counter_0_.BLIF N_159_0
+11 1
+.names  state_i_4__n.BLIF state_i_6__n.BLIF N_154_0
+11 1
+.names  bit_countere.BLIF bit_counter_3_.CE
+1 1
+.names  state_6_.BLIF state_i_6__n
+0 1
+.names  N_141_0.BLIF state_6_.BLIF N_144_0
+11 1
+.names  clk_c.BLIF bit_counter_3_.C
+1 1
+.names  bit_counter_1_.BLIF bit_counter_2_.BLIF N_136_0
+11 1
+.end

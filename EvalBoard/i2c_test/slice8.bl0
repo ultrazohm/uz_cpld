@@ -1,4 +1,4 @@
-#$ DATE Tue Dec 28 18:14:15 2021
+#$ DATE Sun Jan 02 19:05:51 2022
 #$ TOOL EDIF2BLIF version IspLever 1.0 
 #$ MODULE slice8
 #$ PINS 16 data_7_ y0 y1 y2 y3 y4 y5 y6 y7 data_6_ data_5_ data_4_ data_3_ data_2_ data_1_ data_0_

@@ -1,0 +1,15 @@
+@N: CD630 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_slave_USACH.vhd":9:7:9:21|Synthesizing work.i2c_slave_usach.i2c_slave 
+@N: CD231 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_slave_USACH.vhd":54:17:54:18|Using onehot encoding for type state_t (idle="10000000")
+Post processing for work.i2c_slave_usach.i2c_slave
+@N: CL201 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_slave_USACH.vhd":70:4:70:5|Trying to extract state machine for register state
+Extracted state machine for register state
+State machine has 8 reachable states with original encodings of:
+   00000001
+   00000010
+   00000100
+   00001000
+   00010000
+   00100000
+   01000000
+   10000000
+@W: CL249 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_slave_USACH.vhd":70:4:70:5|Initial value is not supported on state machine state

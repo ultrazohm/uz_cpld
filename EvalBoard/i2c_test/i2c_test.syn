@@ -8,16 +8,18 @@ MODULE source.vhd
 MODSTYLE source Normal
 MODULE sourceclocked.vhd
 MODSTYLE sourceclocked Normal
-MODULE slice16.vhd
-MODSTYLE slice16 Normal
 MODULE io_pins.sch
 MODSTYLE io_pins Normal
 MODULE concat8.vhd
 MODSTYLE concat8 Normal
-MODULE slicer8.vhd
-MODSTYLE slice8 Normal
+MODULE output_en.vhd
+MODSTYLE output_en Normal
+MODULE slice16.vhd
+MODSTYLE slice16 Normal
 MODULE ..\fpga-i2c-minion\I2C_minion.vhd
 MODSTYLE I2C_minion Normal
+MODULE slicer8.vhd
+MODSTYLE slice8 Normal
 MODULE ..\fpga-i2c-minion\debounce.vhd
 MODSTYLE debounce Normal
 SYNTHESIS_TOOL Synplify

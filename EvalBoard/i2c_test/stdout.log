@@ -3,54 +3,54 @@ Running in Lattice mode
 
 Starting:    C:\ispLEVER_Classic2_1\synpbase\win64\mbin\synbatch.exe
 Install:     C:\ispLEVER_Classic2_1\synpbase
-Date:        Sun Jan 02 10:49:26 2022
+Date:        Sun Jan 02 20:29:36 2022
 Version:     I-2014.03LC 
 
-Arguments:   -product synplify_pro  -batch c:/git/ultrazohm/software/cpld_lattice/evalboard/i2c_test\I2C_minion.prj
+Arguments:   -product synplify_pro  -batch c:/git/ultrazohm/software/cpld_lattice/evalboard/i2c_test\output_en.prj
 ProductType: synplify_pro
 
 
 
 
 
-log file: "C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_minion.srr"
+log file: "C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\output_en.srr"
 
 Generating HDL info...
 hdl_info_gen Completed
 Return Code: 0
-Run Time:0h:00m:01s
-log file: "C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_minion.srr"
+Run Time:0h:00m:00s
+log file: "C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\output_en.srr"
 
-Running I2C_minion|i2c_test
+Running output_en|i2c_test
 
-Running: Compile on I2C_minion|i2c_test
+Running: Compile on output_en|i2c_test
 
-Running: Compile Process on I2C_minion|i2c_test
+Running: Compile Process on output_en|i2c_test
 
-Running: Compile Input on I2C_minion|i2c_test
-Copied C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synwork\I2C_minion_comp.srs to C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_minion.srs
+Running: Compile Input on output_en|i2c_test
+Copied C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synwork\output_en_comp.srs to C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\output_en.srs
 compiler Completed
 Return Code: 0
 Run Time:0h:00m:01s
 
-Running: Multi-srs Generator on I2C_minion|i2c_test
-Copied C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synwork\I2C_minion_comp.srs to C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synwork\I2C_minion_s.srs
+Running: Multi-srs Generator on output_en|i2c_test
+Copied C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synwork\output_en_comp.srs to C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synwork\output_en_s.srs
 multi_srs_gen Completed
 Return Code: 0
-Run Time:0h:00m:00s
-Copied C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synwork\I2C_minion_mult.srs to C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_minion.srs
-Copied C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_minion.srr to C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\i2c_minion.srf
-Complete: Compile Process on I2C_minion|i2c_test
-Complete: Compile on I2C_minion|i2c_test
+Run Time:0h:00m:01s
+Copied C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synwork\output_en_mult.srs to C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\output_en.srs
+Copied C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\output_en.srr to C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\output_en.srf
+Complete: Compile Process on output_en|i2c_test
+Complete: Compile on output_en|i2c_test
 
-Running: Map on I2C_minion|i2c_test
+Running: Map on output_en|i2c_test
 
-Running: Map & Optimize on I2C_minion|i2c_test
-fpga_mapper Completed with warnings
-Return Code: 1
+Running: Map & Optimize on output_en|i2c_test
+fpga_mapper Completed
+Return Code: 0
 Run Time:0h:00m:00s
-Complete: Map on I2C_minion|i2c_test
-Complete: Logic Synthesis on I2C_minion|i2c_test
+Complete: Map on output_en|i2c_test
+Complete: Logic Synthesis on output_en|i2c_test
 
 exit status=0
 

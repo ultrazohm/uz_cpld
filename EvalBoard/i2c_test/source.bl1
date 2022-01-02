@@ -1,5 +1,5 @@
 #$ TOOL ispLEVER Classic 2.1.00.02.49.20
-#$ DATE Thu Dec 30 22:41:26 2021
+#$ DATE Sun Jan 02 19:05:37 2022
 #$ MODULE source
 #$ PINS 8 y0 y1 y2 y3 y4 y5 y6 y7
 #$ NODES 2 vcc_n_n gnd_n_n

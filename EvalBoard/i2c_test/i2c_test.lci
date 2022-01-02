@@ -13,7 +13,7 @@ EN_PinMacrocell = yes;
 [Revision]
 Parent = lc4k256e.lci;
 DATE = 12/30/2021;
-TIME = 21:06:02;
+TIME = 22:10:51;
 Source_Format = Schematic_VHDL;
 Synthesis = Synplify;
 
@@ -44,6 +44,14 @@ scl = Pin, 130, -, A, 2;
 sda = Pin, 131, -, A, 4;
 bs_LSB = Pin, 132, -, A, 6;
 bs_MSB = Pin, 133, -, A, 8;
+a = Pin, 134, -, A, 10;
+b = Pin, 135, -, A, 12;
+c = Pin, 138, -, B, 2;
+d = Pin, 139, -, B, 4;
+e = Pin, 140, -, B, 6;
+f = Pin, 141, -, B, 8;
+g = Pin, 142, -, B, 10;
+P = Pin, 143, -, B, 12;
 
 [Group Assignments]
 layer = OFF;
@@ -82,6 +90,14 @@ y4 = LVCMOS33, PIN, 1, -;
 y6 = LVCMOS33, PIN, 1, -;
 bs_LSB = LVCMOS33, PIN, 0, -;
 bs_MSB = LVCMOS33, PIN, 0, -;
+a = LVCMOS33, PIN, 0, -;
+b = LVCMOS33, PIN, 0, -;
+c = LVCMOS33, PIN, 0, -;
+d = LVCMOS33, PIN, 0, -;
+e = LVCMOS33, PIN, 0, -;
+f = LVCMOS33, PIN, 0, -;
+g = LVCMOS33, PIN, 0, -;
+P = LVCMOS33, PIN, 0, -;
 
 [Pullup]
 DOWN = FPGA, Adapter;

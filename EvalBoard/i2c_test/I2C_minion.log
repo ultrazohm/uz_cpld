@@ -6,10 +6,10 @@ EDIF2BLIF: Warning: Remove floating instance: :
 
 Inspect circuit I2C_minion
     Number of input ports   : 4
-    Number of output ports  : 5
+    Number of output ports  : 6
     Number of bidir ports   : 1
-    Number of instances     : 348
-    Number of nets          : 360
+    Number of instances     : 389
+    Number of nets          : 401
 
 No design errors found in circuit I2C_minion
 

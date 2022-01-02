@@ -4,6 +4,8 @@ PROJECT i2c_test
 DESIGN i2c_test Normal
 DEVKIT LC4256ZE-5TN144C
 ENTRY Schematic/VHDL
+MODULE source.vhd
+MODSTYLE source Normal
 MODULE sourceclocked.vhd
 MODSTYLE sourceclocked Normal
 MODULE slice16.vhd

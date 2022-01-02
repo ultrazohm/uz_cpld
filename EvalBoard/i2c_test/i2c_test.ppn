@@ -2,7 +2,7 @@
 // Software Version :  ispLEVER Classic 2.1.00.02.49.20  
 // Project Name	    :  i2c_test
 // Targeted Device  :  LC4256ZE-5TN144C
-// Date             :  Thu Dec 30 21:37:16 2021
+// Date             :  Sun Jan 02 10:49:55 2022
 //
                       GND          SYS           1
                    VCCIO0          SYS           3
@@ -44,5 +44,13 @@
                       sda          BIDI          131
                    bs_LSB          OUT           132
                    bs_MSB          OUT           133
+                        a          OUT           134
+                        b          OUT           135
                    VCCIO0          SYS           136
                    GNDIO0          SYS           137
+                        c          OUT           138
+                        d          OUT           139
+                        e          OUT           140
+                        f          OUT           141
+                        g          OUT           142
+                        P          OUT           143

@@ -3,7 +3,7 @@ Running in Lattice mode
 
 Starting:    C:\ispLEVER_Classic2_1\synpbase\win64\mbin\synbatch.exe
 Install:     C:\ispLEVER_Classic2_1\synpbase
-Date:        Thu Dec 30 21:36:47 2021
+Date:        Sun Jan 02 10:49:26 2022
 Version:     I-2014.03LC 
 
 Arguments:   -product synplify_pro  -batch c:/git/ultrazohm/software/cpld_lattice/evalboard/i2c_test\I2C_minion.prj
@@ -48,9 +48,8 @@ Running: Map on I2C_minion|i2c_test
 Running: Map & Optimize on I2C_minion|i2c_test
 fpga_mapper Completed with warnings
 Return Code: 1
-Run Time:0h:00m:01s
+Run Time:0h:00m:00s
 Complete: Map on I2C_minion|i2c_test
-Copied C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\I2C_minion.srr to C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\i2c_minion.srf
 Complete: Logic Synthesis on I2C_minion|i2c_test
 
 exit status=0

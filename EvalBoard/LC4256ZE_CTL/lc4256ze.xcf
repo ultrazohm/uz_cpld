@@ -18,9 +18,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:\Users\thscott\Documents\Projects\Evaluation Boards\BreakoutBoards\ispMACH4000ZE\LC4256ZE_CTL\LC4256ZE_CTL\lc4256ze.jed</File>
-			<FileTime>10/29/10 20:05:28</FileTime>
-			<JedecChecksum>0xE155</JedecChecksum>
+			<File>C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.jed</File>
+			<FileTime>12/30/21 22:41:54</FileTime>
+			<JedecChecksum>0xE129</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -28,6 +28,7 @@
 				<PreloadLength>260</PreloadLength>
 				<IOVectorData>0x00000000000000000000000000000000000000000000000000000000000000000</IOVectorData>
 				<OverideUES value="TRUE"/>
+				<DebugMode value="TRUE"/>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
 				<SVFProcessor>ispVM</SVFProcessor>
 				<Usercode>0xFFFFFFFF</Usercode>

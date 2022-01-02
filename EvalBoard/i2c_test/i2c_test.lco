@@ -15,7 +15,7 @@ RCS = "$Header $";
 Parent = lc4k256e.lci;
 Design = ;
 DATE = 12/30/2021;
-TIME = 21:06:02;
+TIME = 22:10:51;
 Source_Format = Schematic_VHDL;
 Type = ;
 Pre_Fit_Time = ;
@@ -98,80 +98,95 @@ Adjust_input_assignments = Off;
 // Block A
 scl=pin,130,-,A,2;
 sda=pin,131,-,A,5;
-bs_MSB=pin,133,-,A,11;
+b=pin,135,-,A,0;
+a=pin,134,-,A,1;
 bs_LSB=pin,132,-,A,7;
-I0_byte_step_1_=node,-,-,A,1;
+bs_MSB=pin,133,-,A,9;
+I0_inst_reg_or_data_receive=node,-,-,A,2;
+I0_target_reg_0_=node,-,-,A,3;
+I0_target_reg_1_=node,-,-,A,12;
+// Block B
+P=pin,143,-,B,1;
+g=pin,142,-,B,0;
+f=pin,141,-,B,8;
+e=pin,140,-,B,6;
+d=pin,139,-,B,4;
+c=pin,138,-,B,2;
+I0_bits_processed_reg_0_=node,-,-,B,3;
+I0_bits_processed_reg_1_=node,-,-,B,5;
+I0_target_reg_2_=node,-,-,B,7;
+I0_target_reg_4_=node,-,-,B,9;
+I0_target_reg_5_=node,-,-,B,10;
+I0_target_reg_7_=node,-,-,B,11;
+I0_target_reg_3_=node,-,-,B,12;
+I0_target_reg_6_=node,-,-,B,13;
 // Block C
-I0_bits_processed_reg_0_=node,-,-,C,0;
-I0_inst_scl_pre_internal=node,-,-,C,2;
-I0_inst_scl_prev_reg=node,-,-,C,3;
-I0_inst_stop_reg=node,-,-,C,5;
-I0_inst_scl_rising_reg=node,-,-,C,7;
-I0_state_reg_6_=node,-,-,C,1;
-I0_inst_scl_falling_reg=node,-,-,C,9;
-I0_inst_start_reg=node,-,-,C,12;
+I0_addr_reg_0__0=node,-,-,C,3;
+I0_data_reg_0__0=node,-,-,C,9;
 // Block D
-I0_bits_processed_reg_3_=node,-,-,D,1;
 I0_state_reg_2_=node,-,-,D,7;
+I0_state_reg_6_=node,-,-,D,1;
 I0_inst_continue_reg=node,-,-,D,3;
 I0_state_reg_1_=node,-,-,D,11;
 I0_inst_cmd_reg=node,-,-,D,5;
 // Block E
-I0_state_reg_4_=node,-,-,E,5;
-I0_state_reg_3_=node,-,-,E,2;
-I0_inst_sda_wen_reg=node,-,-,E,10;
+I0_bits_processed_reg_2_=node,-,-,E,9;
+I0_bits_processed_reg_3_=node,-,-,E,3;
 // Block F
-I0_bits_processed_reg_1_=node,-,-,F,9;
-I0_bits_processed_reg_2_=node,-,-,F,3;
+I0_bits_processed_reg_0__0=node,-,-,F,3;
+I0_data_from_master_reg_0__0=node,-,-,F,9;
 // Block G
-I0_bits_processed_reg_0__0=node,-,-,G,3;
-I0_data_from_master_reg_0__0=node,-,-,G,9;
-// Block H
-I0_addr_reg_0__0=node,-,-,H,3;
-I0_data_reg_0__0=node,-,-,H,9;
+I0_state_reg_4_=node,-,-,G,5;
+I0_state_reg_3_=node,-,-,G,2;
+I0_inst_sda_wen_reg=node,-,-,G,10;
 // Block I
 y2=pin,63,-,I,1;
 y3=pin,62,-,I,0;
-y4=pin,61,-,I,8;
-y5=pin,60,-,I,6;
-y6=pin,59,-,I,4;
+y4=pin,61,-,I,9;
+y5=pin,60,-,I,7;
+y6=pin,59,-,I,5;
 y7=pin,58,-,I,2;
-I0_inst_sda_prev_reg=node,-,-,I,12;
-I0_data_reg_2_=node,-,-,I,3;
-I0_data_reg_3_=node,-,-,I,5;
-I0_data_from_master_reg_3_=node,-,-,I,7;
-I0_data_from_master_reg_4_=node,-,-,I,9;
+I0_addr_reg_0_=node,-,-,I,12;
+I0_addr_reg_2_=node,-,-,I,3;
 // Block J
-y0=pin,71,-,J,1;
-y1=pin,70,-,J,0;
-I0_data_reg_0_=node,-,-,J,4;
-I0_data_reg_4_=node,-,-,J,2;
-I0_data_reg_6_=node,-,-,J,3;
-I0_data_from_master_reg_0_=node,-,-,J,5;
-I0_data_from_master_reg_1_=node,-,-,J,7;
-I0_data_from_master_reg_5_=node,-,-,J,9;
-I0_data_from_master_reg_7_=node,-,-,J,12;
+y0=pin,71,-,J,3;
+y1=pin,70,-,J,1;
+I0_addr_reg_1_=node,-,-,J,6;
+I0_state_reg_5_=node,-,-,J,10;
 // Block K
-I0_data_reg_1_=node,-,-,K,3;
-I0_data_reg_5_=node,-,-,K,1;
-I0_data_from_master_reg_2_=node,-,-,K,6;
-I0_data_from_master_reg_6_=node,-,-,K,10;
-// Block M
-I0_inst_sda_pre_internal=node,-,-,M,10;
-I0_addr_reg_5_=node,-,-,M,2;
-I0_addr_reg_2_=node,-,-,M,5;
+I0_addr_reg_3_=node,-,-,K,9;
+I0_addr_reg_4_=node,-,-,K,3;
+// Block L
+I0_addr_reg_5_=node,-,-,L,3;
+I0_addr_reg_6_=node,-,-,L,9;
 // Block N
-I0_addr_reg_1_=node,-,-,N,9;
-I0_addr_reg_4_=node,-,-,N,3;
+I0_inst_sda_pre_internal=node,-,-,N,9;
+I0_inst_scl_pre_internal=node,-,-,N,12;
+I0_data_reg_0_=node,-,-,N,1;
+I0_data_reg_1_=node,-,-,N,2;
+I0_data_reg_4_=node,-,-,N,0;
+I0_data_from_master_reg_1_=node,-,-,N,3;
+I0_data_from_master_reg_2_=node,-,-,N,5;
+I0_data_from_master_reg_5_=node,-,-,N,7;
 // Block O
-I0_byte_step_0_=node,-,-,O,10;
-I0_addr_reg_3_=node,-,-,O,2;
-I0_state_reg_5_=node,-,-,O,5;
+I0_inst_scl_prev_reg=node,-,-,O,5;
+I0_inst_sda_prev_reg=node,-,-,O,6;
+I0_inst_stop_reg=node,-,-,O,7;
+I0_inst_scl_rising_reg=node,-,-,O,8;
+I0_inst_scl_falling_reg=node,-,-,O,9;
+I0_data_reg_3_=node,-,-,O,1;
+I0_data_reg_5_=node,-,-,O,0;
+I0_inst_start_reg=node,-,-,O,12;
+I0_data_from_master_reg_0_=node,-,-,O,2;
+I0_data_from_master_reg_4_=node,-,-,O,3;
+I0_data_from_master_reg_6_=node,-,-,O,4;
 // Block P
 Adapter=pin,125,-,P,3;
-FPGA=pin,124,-,P,6;
-I0_addr_reg_0_=node,-,-,P,10;
-I0_addr_reg_6_=node,-,-,P,1;
+FPGA=pin,124,-,P,5;
+I0_data_reg_2_=node,-,-,P,1;
+I0_data_reg_6_=node,-,-,P,7;
+I0_data_from_master_reg_3_=node,-,-,P,9;
+I0_data_from_master_reg_7_=node,-,-,P,12;
 [PTOE ASSIGNMENTS]
 
 [INPUT REGISTERS]
@@ -183,8 +198,16 @@ scl=LVCMOS33,pin,-,-;
 sda=LVCMOS33_OD,pin,0,-;
 Adapter=LVCMOS33,pin,1,-;
 FPGA=LVCMOS33,pin,1,-;
-bs_MSB=LVCMOS33,pin,0,-;
+P=LVCMOS33,pin,0,-;
+g=LVCMOS33,pin,0,-;
+f=LVCMOS33,pin,0,-;
+e=LVCMOS33,pin,0,-;
+d=LVCMOS33,pin,0,-;
+c=LVCMOS33,pin,0,-;
+b=LVCMOS33,pin,0,-;
+a=LVCMOS33,pin,0,-;
 bs_LSB=LVCMOS33,pin,0,-;
+bs_MSB=LVCMOS33,pin,0,-;
 y0=LVCMOS33,pin,1,-;
 y1=LVCMOS33,pin,1,-;
 y2=LVCMOS33,pin,1,-;
@@ -213,16 +236,16 @@ UP=y1,y3,y5,y7,y0,y2,y4,y6,bs_LSB,bs_MSB;
 Default=DOWN;
 
 [FITTER RESULTS]
-I/O_pin_util = 12;
-I/O_pin = 12;
-Logic_PT_util = 13;
-Logic_PT = 172;
-Occupied_MC_util = 25;
-Occupied_MC = 64;
-Occupied_PT_util = 18;
-Occupied_PT = 239;
-GLB_input_util = 30;
-GLB_input = 176;
+I/O_pin_util = 20;
+I/O_pin = 20;
+Logic_PT_util = 16;
+Logic_PT = 206;
+Occupied_MC_util = 30;
+Occupied_MC = 79;
+Occupied_PT_util = 20;
+Occupied_PT = 271;
+GLB_input_util = 36;
+GLB_input = 212;
 
 [TIMING CONSTRAINTS]
 layer=OFF;

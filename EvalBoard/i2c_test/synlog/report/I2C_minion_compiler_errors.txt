@@ -1,4 +1,2 @@
-@E: CD216 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":340:2:340:3|label required for generate
-@E: CD415 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":368:21:368:21|Expecting keyword of
-@E|Parse errors encountered - exiting
+@E: CD297 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd":246:3:246:12|Width mismatch, location has width 7, value 8
 

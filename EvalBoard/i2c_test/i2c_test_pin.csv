@@ -1,7 +1,7 @@
  ispLEVER Classic 2.1.00.02.49.20 Fitter Report File 
 Project Name,i2c_test
 Project Path,C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test
-Project Fitted on,Thu Dec 30 21:37:16 2021
+Project Fitted on,Sun Jan 02 10:49:55 2022
 
 Pin,Pin_Type,Bank,GLB_Pad,Assigned,I/O_Type,Signal_Type,Signal_Name,PG
 1,GND,-,,,,,,
@@ -137,14 +137,14 @@ Pin,Pin_Type,Bank,GLB_Pad,Assigned,I/O_Type,Signal_Type,Signal_Name,PG
 131,I_O,0,A4,*,LVCMOS33_OD,Bidir,sda,
 132,I_O,0,A6,*,LVCMOS33,Output,bs_LSB,
 133,I_O,0,A8,*,LVCMOS33,Output,bs_MSB,
-134,I_O,0,A10,,,,,
-135,I_O,0,A12,,,,,
+134,I_O,0,A10,*,LVCMOS33,Output,a,
+135,I_O,0,A12,*,LVCMOS33,Output,b,
 136,VCCIO0,-,,,,,,
 137,GNDIO0,-,,,,,,
-138,I_O,0,B2,,,,,
-139,I_O,0,B4,,,,,
-140,I_O,0,B6,,,,,
-141,I_O,0,B8,,,,,
-142,I_O,0,B10,,,,,
-143,I_O,0,B12,,,,,
+138,I_O,0,B2,*,LVCMOS33,Output,c,
+139,I_O,0,B4,*,LVCMOS33,Output,d,
+140,I_O,0,B6,*,LVCMOS33,Output,e,
+141,I_O,0,B8,*,LVCMOS33,Output,f,
+142,I_O,0,B10,*,LVCMOS33,Output,g,
+143,I_O,0,B12,*,LVCMOS33,Output,P,
 144,IN9,0,,,,,,

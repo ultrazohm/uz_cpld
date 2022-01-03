@@ -1,7 +1,7 @@
 // Signal Name Cross Reference File
 // ispLEVER Classic 2.1.00.02.49.20
 
-// Design 'i2c_test' created Sun Jan 02 22:27:03 2022
+// Design 'i2c_test' created Tue Jan 04 00:27:14 2022
 
 
 // LEGEND:  '>'  Functional Block Port Separator
@@ -44,18 +44,24 @@ I19/target_reg_4_                    	I0_target_reg_4_
 I19/target_reg_5_                    	I0_target_reg_5_
 I19/target_reg_6_                    	I0_target_reg_6_
 I19/target_reg_7_                    	I0_target_reg_7_
+I19/read_reg_0_                      	I0_read_reg_0_
+I19/read_reg_1_                      	I0_read_reg_1_
+I19/read_reg_2_                      	I0_read_reg_2_
+I19/read_reg_3_                      	I0_read_reg_3_
+I19/read_reg_4_                      	I0_read_reg_4_
+I19/read_reg_5_                      	I0_read_reg_5_
+I19/read_reg_6_                      	I0_read_reg_6_
+I19/read_reg_7_                      	I0_read_reg_7_
 I19/inst_scl_prev_reg                	I0_inst_scl_prev_reg
 I19/inst_sda_prev_reg                	I0_inst_sda_prev_reg
 I19/inst_stop_reg                    	I0_inst_stop_reg
+I19/state_reg_4_                     	I0_state_reg_4_
+I19/state_reg_6_                     	I0_state_reg_6_
 I19/state_reg_2_                     	I0_state_reg_2_
 I19/inst_scl_rising_reg              	I0_inst_scl_rising_reg
-I19/state_reg_4_                     	I0_state_reg_4_
-I19/inst_sda_o_reg                   	I0_inst_sda_o_reg
-I19/inst_sda_o_reg_e                 	I0_inst_sda_o_reg_e
-I19/state_reg_3_                     	I0_state_reg_3_
-I19/inst_scl_falling_reg             	I0_inst_scl_falling_reg
-I19/state_reg_6_                     	I0_state_reg_6_
+I19/inst_sda_wen_reg                 	I0_inst_sda_wen_reg
 I19/inst_continue_reg                	I0_inst_continue_reg
+I19/inst_scl_falling_reg             	I0_inst_scl_falling_reg
 I19/addr_reg_0_                      	I0_addr_reg_0_
 I19/addr_reg_2_                      	I0_addr_reg_2_
 I19/addr_reg_3_                      	I0_addr_reg_3_
@@ -67,11 +73,11 @@ I19/data_reg_3_                      	I0_data_reg_3_
 I19/data_reg_4_                      	I0_data_reg_4_
 I19/data_reg_5_                      	I0_data_reg_5_
 I19/data_reg_6_                      	I0_data_reg_6_
-I19/inst_sda_wen_reg                 	I0_inst_sda_wen_reg
 I19/inst_start_reg                   	I0_inst_start_reg
+I19/state_reg_3_                     	I0_state_reg_3_
+I19/inst_cmd_reg                     	I0_inst_cmd_reg
 I19/state_reg_5_                     	I0_state_reg_5_
 I19/state_reg_1_                     	I0_state_reg_1_
-I19/inst_cmd_reg                     	I0_inst_cmd_reg
 I19/data_to_master_reg_0_            	I0_data_to_master_reg_0_
 I19/data_to_master_reg_1_            	I0_data_to_master_reg_1_
 I19/data_to_master_reg_2_            	I0_data_to_master_reg_2_
@@ -88,3 +94,6 @@ I19/data_from_master_reg_4_          	I0_data_from_master_reg_4_
 I19/data_from_master_reg_5_          	I0_data_from_master_reg_5_
 I19/data_from_master_reg_6_          	I0_data_from_master_reg_6_
 I19/data_from_master_reg_7_          	I0_data_from_master_reg_7_
+I19/N_539_0                          	I0_N_539_0
+I232/temp_y_2_reg                    	J0_temp_y_2_reg
+I232/temp_y_0_reg                    	J0_temp_y_0_reg

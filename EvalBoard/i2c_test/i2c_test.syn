@@ -6,6 +6,8 @@ DEVKIT LC4256ZE-5TN144C
 ENTRY Schematic/VHDL
 MODULE source.vhd
 MODSTYLE source Normal
+MODULE mux30_1.vhd
+MODSTYLE bi_d_mux Normal
 MODULE sourceclocked.vhd
 MODSTYLE sourceclocked Normal
 MODULE io_pins.sch

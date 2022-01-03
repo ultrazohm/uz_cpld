@@ -1,0 +1,144 @@
+#$ DATE Sun Jan 02 23:11:38 2022
+#$ TOOL EDIF2BLIF version IspLever 1.0 
+#$ MODULE bi_d_mux
+#$ PINS 22 in1_1_ in1_0_ in1_3_ in2_2_ in2_1_ in2_3_ in2_0_ out1_2_ out1_3_ out1_1_ out1_0_ out2_3_ out2_2_ out2_1_ S_1_ out2_0_ S_0_ IO_3_ IO_2_ IO_1_ IO_0_ in1_2_
+#$ NODES 43 in1_3_.BLIF N_1 N_2 N_3 N_4 io9 io10 s_i_0__n s_i_1__n in1_c_0__n \
+#  in1_c_1__n in1_c_2__n in1_c_3__n in2_c_0__n in2_c_1__n in2_c_2__n in2_c_3__n out1_c_0__n out1_c_1__n out1_c_2__n \
+#  out1_c_3__n out2_c_0__n out2_c_1__n out2_c_2__n out2_c_3__n s_c_0__n s_c_1__n io_c_0__n io_c_1__n io_c_2__n \
+#  io_c_3__n un1_in1_0__un3_n un1_in1_0__un1_n un1_in1_0__un0_n un1_in1_1__un3_n un1_in1_1__un1_n un1_in1_1__un0_n un1_in1_2__un3_n un1_in1_2__un1_n un1_in1_2__un0_n \
+#  un1_in1_3__un3_n un1_in1_3__un1_n un1_in1_3__un0_n 
+.model bi_d_mux
+.inputs in1_3_.BLIF in2_3_.BLIF S_1_.BLIF in1_2_.BLIF in1_1_.BLIF in1_0_.BLIF in2_2_.BLIF in2_1_.BLIF in2_0_.BLIF \
+  S_0_.BLIF IO_3_.BLIF IO_2_.BLIF IO_1_.BLIF IO_0_.BLIF in1_3_.BLIF.BLIF N_1.BLIF N_2.BLIF N_3.BLIF N_4.BLIF io9.BLIF io10.BLIF s_i_0__n.BLIF \
+  s_i_1__n.BLIF in1_c_0__n.BLIF in1_c_1__n.BLIF in1_c_2__n.BLIF in1_c_3__n.BLIF in2_c_0__n.BLIF in2_c_1__n.BLIF in2_c_2__n.BLIF in2_c_3__n.BLIF \
+  out1_c_0__n.BLIF out1_c_1__n.BLIF out1_c_2__n.BLIF out1_c_3__n.BLIF out2_c_0__n.BLIF out2_c_1__n.BLIF out2_c_2__n.BLIF out2_c_3__n.BLIF s_c_0__n.BLIF \
+  s_c_1__n.BLIF io_c_0__n.BLIF io_c_1__n.BLIF io_c_2__n.BLIF io_c_3__n.BLIF un1_in1_0__un3_n.BLIF un1_in1_0__un1_n.BLIF un1_in1_0__un0_n.BLIF un1_in1_1__un3_n.BLIF \
+  un1_in1_1__un1_n.BLIF un1_in1_1__un0_n.BLIF un1_in1_2__un3_n.BLIF un1_in1_2__un1_n.BLIF un1_in1_2__un0_n.BLIF un1_in1_3__un3_n.BLIF un1_in1_3__un1_n.BLIF un1_in1_3__un0_n.BLIF IO_0_.PIN \
+  IO_1_.PIN IO_2_.PIN IO_3_.PIN  
+.outputs out1_3_ out2_3_ out1_2_ out1_1_ out1_0_ out2_2_ out2_1_ out2_0_ IO_3_ IO_2_ IO_1_ IO_0_ N_1 N_2 N_3 \
+  N_4 io9 io10 s_i_0__n s_i_1__n in1_c_0__n in1_c_1__n in1_c_2__n in1_c_3__n in2_c_0__n in2_c_1__n \
+  in2_c_2__n in2_c_3__n out1_c_0__n out1_c_1__n out1_c_2__n out1_c_3__n out2_c_0__n out2_c_1__n out2_c_2__n out2_c_3__n s_c_0__n \
+  s_c_1__n io_c_0__n io_c_1__n io_c_2__n io_c_3__n un1_in1_0__un3_n un1_in1_0__un1_n un1_in1_0__un0_n un1_in1_1__un3_n un1_in1_1__un1_n un1_in1_1__un0_n \
+  un1_in1_2__un3_n un1_in1_2__un1_n un1_in1_2__un0_n un1_in1_3__un3_n un1_in1_3__un1_n un1_in1_3__un0_n IO_0_.OE IO_1_.OE IO_2_.OE \
+  IO_3_.OE
+.names N_1.BLIF IO_0_
+1 1
+.names IO_0_.PIN io_c_0__n
+1 1
+.names s_i_1__n.BLIF IO_0_.OE
+1 1
+.names N_2.BLIF IO_1_
+1 1
+.names IO_1_.PIN io_c_1__n
+1 1
+.names s_i_1__n.BLIF IO_1_.OE
+1 1
+.names N_3.BLIF IO_2_
+1 1
+.names IO_2_.PIN io_c_2__n
+1 1
+.names s_i_1__n.BLIF IO_2_.OE
+1 1
+.names N_4.BLIF IO_3_
+1 1
+.names IO_3_.PIN io_c_3__n
+1 1
+.names s_i_1__n.BLIF IO_3_.OE
+1 1
+.names  in1_0_.BLIF in1_c_0__n
+1 1
+.names  in1_1_.BLIF in1_c_1__n
+1 1
+.names  in1_2_.BLIF in1_c_2__n
+1 1
+.names  in1_3_.BLIF in1_c_3__n
+1 1
+.names  in2_0_.BLIF in2_c_0__n
+1 1
+.names  in2_1_.BLIF in2_c_1__n
+1 1
+.names  in2_2_.BLIF in2_c_2__n
+1 1
+.names  in2_3_.BLIF in2_c_3__n
+1 1
+.names  out1_c_0__n.BLIF out1_0_
+1 1
+.names  out1_c_1__n.BLIF out1_1_
+1 1
+.names  out1_c_2__n.BLIF out1_2_
+1 1
+.names  out1_c_3__n.BLIF out1_3_
+1 1
+.names  out2_c_0__n.BLIF out2_0_
+1 1
+.names  out2_c_1__n.BLIF out2_1_
+1 1
+.names  out2_c_2__n.BLIF out2_2_
+1 1
+.names  out2_c_3__n.BLIF out2_3_
+1 1
+.names  S_0_.BLIF s_c_0__n
+1 1
+.names  S_1_.BLIF s_c_1__n
+1 1
+.names  s_c_0__n.BLIF s_c_1__n.BLIF io10
+11 1
+.names  s_c_0__n.BLIF un1_in1_0__un3_n
+0 1
+.names  in2_c_0__n.BLIF s_c_0__n.BLIF un1_in1_0__un1_n
+11 1
+.names  in1_c_0__n.BLIF un1_in1_0__un3_n.BLIF un1_in1_0__un0_n
+11 1
+.names  un1_in1_0__un1_n.BLIF un1_in1_0__un0_n.BLIF N_1
+1- 1
+-1 1
+.names  s_c_0__n.BLIF un1_in1_1__un3_n
+0 1
+.names  in2_c_1__n.BLIF s_c_0__n.BLIF un1_in1_1__un1_n
+11 1
+.names  in1_c_1__n.BLIF un1_in1_1__un3_n.BLIF un1_in1_1__un0_n
+11 1
+.names  un1_in1_1__un1_n.BLIF un1_in1_1__un0_n.BLIF N_2
+1- 1
+-1 1
+.names  s_c_0__n.BLIF un1_in1_2__un3_n
+0 1
+.names  in2_c_2__n.BLIF s_c_0__n.BLIF un1_in1_2__un1_n
+11 1
+.names  in1_c_2__n.BLIF un1_in1_2__un3_n.BLIF un1_in1_2__un0_n
+11 1
+.names  un1_in1_2__un1_n.BLIF un1_in1_2__un0_n.BLIF N_3
+1- 1
+-1 1
+.names  s_c_0__n.BLIF un1_in1_3__un3_n
+0 1
+.names  in2_c_3__n.BLIF s_c_0__n.BLIF un1_in1_3__un1_n
+11 1
+.names  in1_c_3__n.BLIF un1_in1_3__un3_n.BLIF un1_in1_3__un0_n
+11 1
+.names  un1_in1_3__un1_n.BLIF un1_in1_3__un0_n.BLIF N_4
+1- 1
+-1 1
+.names  s_c_1__n.BLIF s_i_1__n
+0 1
+.names  io_c_3__n.BLIF io9.BLIF out1_c_3__n
+11 1
+.names  io_c_2__n.BLIF io9.BLIF out1_c_2__n
+11 1
+.names  io_c_1__n.BLIF io9.BLIF out1_c_1__n
+11 1
+.names  io_c_0__n.BLIF io9.BLIF out1_c_0__n
+11 1
+.names  io_c_3__n.BLIF io10.BLIF out2_c_3__n
+11 1
+.names  io_c_2__n.BLIF io10.BLIF out2_c_2__n
+11 1
+.names  io_c_1__n.BLIF io10.BLIF out2_c_1__n
+11 1
+.names  io_c_0__n.BLIF io10.BLIF out2_c_0__n
+11 1
+.names  s_c_0__n.BLIF s_i_0__n
+0 1
+.names  s_c_1__n.BLIF s_i_0__n.BLIF io9
+11 1
+.end

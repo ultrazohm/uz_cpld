@@ -1,1 +1,1 @@
-project -load c:/git/ultrazohm/software/cpld_lattice/evalboard/i2c_test/output_en.prj
+project -load c:/git/ultrazohm/software/cpld_lattice/evalboard/i2c_test/I2C_minion.prj

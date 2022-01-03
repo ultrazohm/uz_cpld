@@ -2,48 +2,48 @@
 // Software Version :  ispLEVER Classic 2.1.00.02.49.20  
 // Project Name	    :  i2c_test
 // Targeted Device  :  LC4256ZE-5TN144C
-// Date             :  Sun Jan 02 22:29:26 2022
+// Date             :  Tue Jan 04 00:27:32 2022
 //
                       GND          SYS           1
                    VCCIO0          SYS           3
-                DIG_IO_16          BIDI          4
-                   DIG_09          BIDI          6
-                DIG_IO_09          BIDI          7
-                   DIG_16          BIDI          8
+                   DIG_04          BIDI          5
+                DIG_IO_04          BIDI          6
+                   DIG_19          BIDI          7
+                   DIG_24          BIDI          8
                 DIG_IO_24          BIDI          9
                    GNDIO0          SYS           10
-                DIG_IO_14          BIDI          11
-                   DIG_21          BIDI          12
-                DIG_IO_21          BIDI          13
-                   DIG_04          BIDI          15
-                   DIG_08          BIDI          16
+                DIG_IO_23          BIDI          11
+                   DIG_20          BIDI          12
+         IO_Select_DIG_29          OUT           14
+                DIG_IO_10          BIDI          15
+                   DIG_23          BIDI          16
                    VCCIO0          SYS           19
-                DIG_IO_18          BIDI          21
-                DIG_IO_17          BIDI          22
-                   DIG_17          BIDI          23
-                   DIG_24          BIDI          24
-                   DIG_18          BIDI          26
+                   DIG_15          BIDI          21
+                   DIG_06          BIDI          22
+                DIG_IO_07          BIDI          23
+                   DIG_07          BIDI          24
+                DIG_IO_15          BIDI          25
                    GNDIO0          SYS           27
                 DIG_IO_28          BIDI          28
                    DIG_28          BIDI          29
-                   DIG_27          BIDI          30
-                   DIG_14          BIDI          31
-                DIG_IO_27          BIDI          33
+                DIG_IO_22          BIDI          30
+                   DIG_22          BIDI          31
+                DIG_IO_06          BIDI          32
                    VCCIO0          SYS           34
                       VCC          SYS           36
                       GND          SYS           37
-                   DIG_29          BIDI          39
-                   DIG_07          BIDI          41
-                DIG_IO_07          BIDI          42
-                DIG_IO_15          BIDI          43
-                DIG_IO_29          BIDI          44
+                   DIG_16          BIDI          40
+                DIG_IO_16          BIDI          41
+                   DIG_12          BIDI          42
+                DIG_IO_12          BIDI          43
+                DIG_IO_21          BIDI          44
                    GNDIO0          SYS           46
                    VCCIO0          SYS           47
-                   DIG_23          BIDI          48
-                DIG_IO_04          BIDI          50
-                   DIG_11          BIDI          51
-                DIG_IO_11          BIDI          52
-                DIG_IO_23          BIDI          53
+                   DIG_08          BIDI          49
+                DIG_IO_08          BIDI          50
+                   DIG_14          BIDI          51
+                DIG_IO_14          BIDI          52
+                DIG_IO_20          BIDI          53
                    GNDIO1          SYS           55
                       VCC          SYS           57
          IO_Select_DIG_07          OUT           58
@@ -54,45 +54,47 @@
          IO_Select_DIG_02          OUT           63
                    VCCIO1          SYS           64
                    GNDIO1          SYS           65
-                DIG_IO_13          BIDI          66
-                   DIG_13          BIDI          67
-                   DIG_15          BIDI          68
+           CPLD_DigOut_02          OUT           66
+           CPLD_DigOut_01          OUT           67
+                   DIG_05          BIDI          68
          IO_Select_DIG_01          OUT           70
          IO_Select_DIG_00          OUT           71
                       GND          SYS           73
                    VCCIO1          SYS           75
-                   DIG_26          BIDI          76
-                   DIG_19          BIDI          79
-                DIG_IO_19          BIDI          80
-                DIG_IO_26          BIDI          81
+                   DIG_13          BIDI          76
+                   DIG_11          BIDI          78
+                DIG_IO_11          BIDI          79
+                   DIG_09          BIDI          80
+                DIG_IO_13          BIDI          81
                    GNDIO1          SYS           82
-                DIG_IO_10          BIDI          83
-                   DIG_12          BIDI          84
-                DIG_IO_12          BIDI          85
-         IO_Select_DIG_29          OUT           87
-                   DIG_10          BIDI          88
+                DIG_IO_27          BIDI          84
+                DIG_IO_29          BIDI          85
+                   DIG_21          BIDI          86
+                DIG_IO_19          BIDI          87
+                   DIG_29          BIDI          88
                    VCCIO1          SYS           91
-                   DIG_05          BIDI          93
+                   DIG_27          BIDI          93
                 DIG_IO_03          BIDI          95
                 DIG_IO_02          BIDI          96
                 DIG_IO_01          BIDI          97
                 DIG_IO_00          BIDI          98
                    GNDIO1          SYS           99
-                   DIG_25          BIDI          100
-                DIG_IO_22          BIDI          101
-                   DIG_22          BIDI          102
-                DIG_IO_05          BIDI          103
-                DIG_IO_25          BIDI          104
+                DIG_IO_26          BIDI          100
+                   DIG_26          BIDI          101
+                DIG_IO_18          BIDI          102
+                   DIG_18          BIDI          103
+                DIG_IO_05          BIDI          104
                    VCCIO1          SYS           106
                       VCC          SYS           108
                       GND          SYS           109
-                   DIG_20          BIDI          111
-                   DIG_06          BIDI          114
-                DIG_IO_06          BIDI          115
-                DIG_IO_20          BIDI          116
+                DIG_IO_25          BIDI          112
+                DIG_IO_09          BIDI          113
+                   DIG_17          BIDI          114
+                DIG_IO_17          BIDI          115
+                   DIG_25          BIDI          116
                    GNDIO1          SYS           118
                    VCCIO1          SYS           119
-                DIG_IO_08          BIDI          121
+                   DIG_10          BIDI          121
                    DIG_03          BIDI          122
                    DIG_02          BIDI          123
                    DIG_01          BIDI          124

@@ -1,0 +1,37 @@
+C:/GIT/UltraZohm/Software/cpld_lattice/EvalBoard/FPGA-I2C-Minion/txt_util.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/GIT/UltraZohm/Software/cpld_lattice/EvalBoard/FPGA-I2C-Minion/txt_util.vhd
+Model Technology ModelSim - Lattice FPGA Edition vcom 2020.3 Compiler 2020.10 Oct 14 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling package txt_util
+-- Compiling package body txt_util
+-- Loading package txt_util
+
+} {} {}} C:/GIT/UltraZohm/Software/cpld_lattice/EvalBoard/FPGA-I2C-Minion/I2C_minion_TB_001_ideal.vhd {0 {vcom -work work -2002 -explicit -stats=none C:/GIT/UltraZohm/Software/cpld_lattice/EvalBoard/FPGA-I2C-Minion/I2C_minion_TB_001_ideal.vhd
+Model Technology ModelSim - Lattice FPGA Edition vcom 2020.3 Compiler 2020.10 Oct 14 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+** Error: (vcom-11) Could not find work.txt_util.
+** Error (suppressible): C:/GIT/UltraZohm/Software/cpld_lattice/EvalBoard/FPGA-I2C-Minion/I2C_minion_TB_001_ideal.vhd(13): (vcom-1195) Cannot find expanded name "work.txt_util".
+** Error: C:/GIT/UltraZohm/Software/cpld_lattice/EvalBoard/FPGA-I2C-Minion/I2C_minion_TB_001_ideal.vhd(13): Unknown expanded name.
+** Note: C:/GIT/UltraZohm/Software/cpld_lattice/EvalBoard/FPGA-I2C-Minion/I2C_minion_TB_001_ideal.vhd(15): VHDL Compiler exiting
+
+} {7.0 8.0 9.0 10.0} {}} C:/GIT/UltraZohm/Software/cpld_lattice/EvalBoard/FPGA-I2C-Minion/I2C_minion.vhd {0 {vcom -work work -2002 -explicit -stats=none C:/GIT/UltraZohm/Software/cpld_lattice/EvalBoard/FPGA-I2C-Minion/I2C_minion.vhd
+Model Technology ModelSim - Lattice FPGA Edition vcom 2020.3 Compiler 2020.10 Oct 14 2020
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity I2C_minion
+-- Compiling architecture arch of I2C_minion
+** Error: (vcom-11) Could not find work.debounce.
+** Error (suppressible): C:/GIT/UltraZohm/Software/cpld_lattice/EvalBoard/FPGA-I2C-Minion/I2C_minion.vhd(100): (vcom-1195) Cannot find expanded name "work.debounce".
+** Error: C:/GIT/UltraZohm/Software/cpld_lattice/EvalBoard/FPGA-I2C-Minion/I2C_minion.vhd(100): Unknown expanded name.
+** Error: (vcom-11) Could not find work.debounce.
+** Error (suppressible): C:/GIT/UltraZohm/Software/cpld_lattice/EvalBoard/FPGA-I2C-Minion/I2C_minion.vhd(110): (vcom-1195) Cannot find expanded name "work.debounce".
+** Error: C:/GIT/UltraZohm/Software/cpld_lattice/EvalBoard/FPGA-I2C-Minion/I2C_minion.vhd(110): Unknown expanded name.
+** Note: C:/GIT/UltraZohm/Software/cpld_lattice/EvalBoard/FPGA-I2C-Minion/I2C_minion.vhd(422): VHDL Compiler exiting
+
+} {9.0 10.0 11.0 13.0 14.0 15.0} {}}

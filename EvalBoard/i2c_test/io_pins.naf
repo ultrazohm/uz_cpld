@@ -1,3 +1,6 @@
+CPLD_DigIn_01  i
+CPLD_DigIn_02  i
+PILOT_IN  i
 IO_Select_DIG_00  o
 IO_Select_DIG_01  o
 IO_Select_DIG_02  o
@@ -16,6 +19,8 @@ IO_Select_DIG_28  o
 IO_Select_DIG_29  o
 RESERVED  o
 Pin_Enable  o
+CPLD_DigOut_01  o
+CPLD_DigOut_02  o
 DIG_IO_18  b
 DIG_IO_06  b
 DIG_18  b

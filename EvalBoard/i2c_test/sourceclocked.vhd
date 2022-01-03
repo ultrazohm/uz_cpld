@@ -16,7 +16,7 @@ entity sourceclocked is
 end entity;
 
 architecture rtl of sourceclocked is
-	signal temp_y : std_logic_vector(7 downto 0) :="00111100";
+	signal temp_y : std_logic_vector(7 downto 0) :="10111100";
 	signal a : std_logic := '0';
 begin
 
@@ -24,10 +24,12 @@ process(clk) begin
 
 if rising_edge(clk) then
 		if a = '0' then
-		temp_y <= "00111100";
+		temp_y <= "10111100";
+--		temp_y <= x"9F";
 		a <= '1';
 		elsif a = '1' then
 		temp_y <= "11000011";
+--		temp_y <= x"20";
 		a <= '0';
 		end if;
 end if;

@@ -1,0 +1,6 @@
+@N|Running in 64-bit mode
+@N: CD720 :"C:\ispLEVER_Classic2_1\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\debounce.vhd":16:7:16:14|Top entity is set to debounce.
+@N: CD630 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\debounce.vhd":16:7:16:14|Synthesizing work.debounce.arch 
+@N: CD233 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\debounce.vhd":26:15:26:16|Using sequential encoding for type state_t
+

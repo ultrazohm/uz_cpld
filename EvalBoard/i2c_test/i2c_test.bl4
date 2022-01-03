@@ -1,21 +1,22 @@
 #$ TOOL ispLEVER Classic 2.1.00.02.49.20
-#$ DATE Sun Jan 02 22:27:03 2022
+#$ DATE Tue Jan 04 00:27:14 2022
 #$ TITLE io_pins.bls 
 #$ PROPERTY LATTICE OSCTIMER TIMER_DIV = 1048576;
 #$ MODULE i2c_test
-#$ PINS 80 DIG_00'io'  DIG_IO_29'io'  DIG_IO_28'io'  DIG_IO_27'io'  DIG_IO_26'io'  DIG_IO_25'io'  \
-#  DIG_IO_24'io'  DIG_29'io'  DIG_28'io'  DIG_27'io'  DIG_26'io'  DIG_25'io'  DIG_24'io'  DIG_IO_18'io'  DIG_18'io'  \
-#  DIG_IO_19'io'  DIG_19'io'  DIG_IO_20'io'  DIG_20'io'  DIG_IO_21'io'  DIG_21'io'  DIG_IO_22'io'  DIG_22'io'  \
-#  DIG_IO_23'io'  DIG_23'io'  DIG_IO_12'io'  DIG_12'io'  DIG_IO_13'io'  DIG_13'io'  DIG_IO_14'io'  DIG_14'io'  \
-#  DIG_IO_15'io'  DIG_15'io'  DIG_IO_16'io'  DIG_16'io'  DIG_IO_17'io'  DIG_17'io'  DIG_IO_06'io'  DIG_06'io'  \
-#  DIG_IO_07'io'  DIG_07'io'  DIG_IO_08'io'  DIG_08'io'  DIG_IO_09'io'  DIG_09'io'  DIG_IO_10'io'  DIG_10'io'  \
-#  DIG_IO_11'io'  DIG_11'io'  DIG_IO_00'io'  DIG_IO_01'io'  DIG_01'io'  DIG_IO_02'io'  DIG_02'io'  \
-#  DIG_IO_03'io'  DIG_03'io'  DIG_IO_04'io'  DIG_04'io'  DIG_IO_05'io'  DIG_05'io'  scl'io'  sda'io'  Pin_Enable'o'  \
-#  RESERVED'o'  IO_Select_DIG_29'o'  IO_Select_DIG_28'o'  IO_Select_DIG_27'o'  IO_Select_DIG_26'o'  \
+#$ PINS 82 bs_LSB'o'  scl'io'  DIG_00'io'  DIG_IO_29'io'  DIG_IO_28'io'  DIG_IO_27'io'  DIG_IO_26'io'  \
+#  DIG_IO_25'io'  DIG_IO_24'io'  DIG_29'io'  DIG_28'io'  DIG_27'io'  DIG_26'io'  DIG_25'io'  DIG_24'io'  \
+#  DIG_IO_18'io'  DIG_18'io'  DIG_IO_19'io'  DIG_19'io'  DIG_IO_20'io'  DIG_20'io'  DIG_IO_21'io'  DIG_21'io'  \
+#  DIG_IO_22'io'  DIG_22'io'  DIG_IO_23'io'  DIG_23'io'  DIG_IO_12'io'  DIG_12'io'  DIG_IO_13'io'  DIG_13'io'  \
+#  DIG_IO_14'io'  DIG_14'io'  DIG_IO_15'io'  DIG_15'io'  DIG_IO_16'io'  DIG_16'io'  DIG_IO_17'io'  DIG_17'io'  \
+#  DIG_IO_06'io'  DIG_06'io'  DIG_IO_07'io'  DIG_07'io'  DIG_IO_08'io'  DIG_08'io'  DIG_IO_09'io'  DIG_09'io'  \
+#  DIG_IO_10'io'  DIG_10'io'  DIG_IO_11'io'  DIG_11'io'  DIG_IO_00'io'  DIG_IO_01'io'  DIG_01'io'  \
+#  DIG_IO_02'io'  DIG_02'io'  DIG_IO_03'io'  DIG_03'io'  DIG_IO_04'io'  DIG_04'io'  DIG_IO_05'io'  DIG_05'io'  \
+#  CPLD_DigOut_02'o'  CPLD_DigOut_01'o'  bs_MSB'o'  sda'io'  RESERVED'o'  Pin_Enable'o'  \
+#  IO_Select_DIG_29'o'  IO_Select_DIG_28'o'  IO_Select_DIG_27'o'  IO_Select_DIG_26'o'  \
 #  IO_Select_DIG_25'o'  IO_Select_DIG_24'o'  IO_Select_DIG_07'o'  IO_Select_DIG_06'o'  \
 #  IO_Select_DIG_05'o'  IO_Select_DIG_04'o'  IO_Select_DIG_03'o'  IO_Select_DIG_02'o'  \
-#  IO_Select_DIG_01'o'  IO_Select_DIG_00'o'  bs_LSB'o'  bs_MSB'o' 
-#$ NODES 82 TIMERRES TIMEROUT DYNOSCDIS OSCOUT I0_data_1_0_reg I0_data_1_1_reg \
+#  IO_Select_DIG_01'o'  IO_Select_DIG_00'o' 
+#$ NODES 91 TIMEROUT TIMERRES DYNOSCDIS OSCOUT I0_data_1_0_reg I0_data_1_1_reg \
 #  I0_data_1_2_reg I0_data_1_3_reg I0_data_1_4_reg I0_data_1_5_reg I0_data_1_6_reg \
 #  I0_data_1_7_reg I0_data_2_0_reg I0_data_2_1_reg I0_data_2_2_reg I0_data_2_3_reg \
 #  I0_data_2_4_reg I0_data_2_5_reg I0_data_2_6_reg I0_data_2_7_reg \
@@ -23,59 +24,62 @@
 #  I0_bits_processed_reg_3_ I0_inst_reg_or_data_receive I0_inst_sda_pre_internal \
 #  I0_inst_scl_pre_internal I0_addr_reg_1_ I0_addr_reg_5_ I0_addr_reg_6_ \
 #  I0_target_reg_0_ I0_target_reg_1_ I0_target_reg_2_ I0_target_reg_3_ \
-#  I0_target_reg_4_ I0_target_reg_5_ I0_target_reg_6_ I0_target_reg_7_ \
-#  I0_inst_scl_prev_reg I0_inst_sda_prev_reg I0_inst_stop_reg I0_state_reg_2_ \
-#  I0_inst_scl_rising_reg I0_state_reg_4_ I0_inst_sda_o_reg I0_inst_sda_o_reg_e \
-#  I0_state_reg_3_ I0_inst_scl_falling_reg I0_state_reg_6_ I0_inst_continue_reg \
-#  I0_addr_reg_0_ I0_addr_reg_2_ I0_addr_reg_3_ I0_addr_reg_4_ I0_data_reg_0_ \
-#  I0_data_reg_1_ I0_data_reg_2_ I0_data_reg_3_ I0_data_reg_4_ I0_data_reg_5_ \
-#  I0_data_reg_6_ I0_inst_sda_wen_reg I0_inst_start_reg I0_state_reg_5_ \
-#  I0_state_reg_1_ I0_inst_cmd_reg I0_data_to_master_reg_0_ I0_data_to_master_reg_1_ \
-#  I0_data_to_master_reg_2_ I0_data_to_master_reg_3_ I0_data_to_master_reg_4_ \
-#  I0_data_to_master_reg_5_ I0_data_to_master_reg_6_ I0_data_to_master_reg_7_ \
-#  I0_data_from_master_reg_0_ I0_data_from_master_reg_1_ I0_data_from_master_reg_2_ \
-#  I0_data_from_master_reg_3_ I0_data_from_master_reg_4_ I0_data_from_master_reg_5_ \
-#  I0_data_from_master_reg_6_ I0_data_from_master_reg_7_
+#  I0_target_reg_4_ I0_target_reg_5_ I0_target_reg_6_ I0_target_reg_7_ I0_read_reg_0_ \
+#  I0_read_reg_1_ I0_read_reg_2_ I0_read_reg_3_ I0_read_reg_4_ I0_read_reg_5_ \
+#  I0_read_reg_6_ I0_read_reg_7_ I0_inst_scl_prev_reg I0_inst_sda_prev_reg \
+#  I0_inst_stop_reg I0_state_reg_4_ I0_state_reg_6_ I0_state_reg_2_ \
+#  I0_inst_scl_rising_reg I0_inst_sda_wen_reg I0_inst_continue_reg \
+#  I0_inst_scl_falling_reg I0_addr_reg_0_ I0_addr_reg_2_ I0_addr_reg_3_ \
+#  I0_addr_reg_4_ I0_data_reg_0_ I0_data_reg_1_ I0_data_reg_2_ I0_data_reg_3_ \
+#  I0_data_reg_4_ I0_data_reg_5_ I0_data_reg_6_ I0_inst_start_reg I0_state_reg_3_ \
+#  I0_inst_cmd_reg I0_state_reg_5_ I0_state_reg_1_ I0_data_to_master_reg_0_ \
+#  I0_data_to_master_reg_1_ I0_data_to_master_reg_2_ I0_data_to_master_reg_3_ \
+#  I0_data_to_master_reg_4_ I0_data_to_master_reg_5_ I0_data_to_master_reg_6_ \
+#  I0_data_to_master_reg_7_ I0_data_from_master_reg_0_ I0_data_from_master_reg_1_ \
+#  I0_data_from_master_reg_2_ I0_data_from_master_reg_3_ I0_data_from_master_reg_4_ \
+#  I0_data_from_master_reg_5_ I0_data_from_master_reg_6_ I0_data_from_master_reg_7_ \
+#  I0_N_539_0 J0_temp_y_2_reg J0_temp_y_0_reg
 #$ EXTERNAL osctimer  4 DYNOSCDIS'i'  TIMERRES'i'  OSCOUT'o'  TIMEROUT'o' 
 #$ INSTANCE I15 osctimer 4 DYNOSCDIS TIMERRES OSCOUT TIMEROUT
 .model io_pins
-.inputs IO_Select_DIG_29.Q IO_Select_DIG_28.Q IO_Select_DIG_27.Q \
-IO_Select_DIG_26.Q IO_Select_DIG_25.Q IO_Select_DIG_05.Q IO_Select_DIG_04.Q \
-IO_Select_DIG_03.Q IO_Select_DIG_02.Q IO_Select_DIG_01.Q IO_Select_DIG_00.Q \
-IO_Select_DIG_07.Q IO_Select_DIG_06.Q DIG_23.PIN.BLIF DIG_IO_23.PIN.BLIF \
-DIG_22.PIN.BLIF DIG_IO_22.PIN.BLIF DIG_21.PIN.BLIF DIG_IO_21.PIN.BLIF \
-DIG_20.PIN.BLIF DIG_IO_20.PIN.BLIF DIG_19.PIN.BLIF DIG_IO_19.PIN.BLIF \
-DIG_18.PIN.BLIF DIG_IO_18.PIN.BLIF DIG_17.PIN.BLIF DIG_IO_17.PIN.BLIF \
-DIG_16.PIN.BLIF DIG_IO_16.PIN.BLIF DIG_15.PIN.BLIF DIG_IO_15.PIN.BLIF \
-DIG_14.PIN.BLIF DIG_IO_14.PIN.BLIF DIG_13.PIN.BLIF DIG_IO_13.PIN.BLIF \
-DIG_12.PIN.BLIF DIG_IO_12.PIN.BLIF DIG_11.PIN.BLIF DIG_IO_11.PIN.BLIF \
-DIG_10.PIN.BLIF DIG_IO_10.PIN.BLIF DIG_09.PIN.BLIF DIG_IO_09.PIN.BLIF \
-DIG_08.PIN.BLIF DIG_IO_08.PIN.BLIF DIG_07.PIN.BLIF DIG_IO_07.PIN.BLIF \
-DIG_06.PIN.BLIF DIG_IO_06.PIN.BLIF DIG_29.PIN.BLIF DIG_IO_29.PIN.BLIF \
-DIG_28.PIN.BLIF DIG_IO_28.PIN.BLIF DIG_27.PIN.BLIF DIG_IO_27.PIN.BLIF \
-DIG_26.PIN.BLIF DIG_IO_26.PIN.BLIF DIG_25.PIN.BLIF DIG_IO_25.PIN.BLIF \
-DIG_24.PIN.BLIF DIG_IO_24.PIN.BLIF DIG_05.PIN.BLIF DIG_IO_05.PIN.BLIF \
-DIG_04.PIN.BLIF DIG_IO_04.PIN.BLIF DIG_03.PIN.BLIF DIG_IO_03.PIN.BLIF \
-DIG_02.PIN.BLIF DIG_IO_02.PIN.BLIF DIG_01.PIN.BLIF DIG_IO_01.PIN.BLIF \
-DIG_00.PIN.BLIF DIG_IO_00.PIN.BLIF OSCOUT.BLIF scl.BLIF sda.PIN.BLIF \
-I0_data_1_0_reg.Q I0_data_1_1_reg.Q I0_data_1_2_reg.Q I0_data_1_3_reg.Q \
-I0_data_1_4_reg.Q I0_data_1_5_reg.Q I0_data_1_6_reg.Q I0_data_1_7_reg.Q \
-I0_data_2_0_reg.Q I0_data_2_1_reg.Q I0_data_2_2_reg.Q I0_data_2_3_reg.Q \
-I0_data_2_4_reg.Q I0_data_2_5_reg.Q I0_data_2_6_reg.Q I0_data_2_7_reg.Q \
-IO_Select_DIG_24.Q I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
+.inputs DIG_23.PIN.BLIF DIG_IO_23.PIN.BLIF DIG_22.PIN.BLIF DIG_IO_22.PIN.BLIF \
+DIG_21.PIN.BLIF DIG_IO_21.PIN.BLIF DIG_20.PIN.BLIF DIG_IO_20.PIN.BLIF \
+DIG_19.PIN.BLIF DIG_IO_19.PIN.BLIF DIG_18.PIN.BLIF DIG_IO_18.PIN.BLIF \
+DIG_17.PIN.BLIF DIG_IO_17.PIN.BLIF DIG_16.PIN.BLIF DIG_IO_16.PIN.BLIF \
+DIG_15.PIN.BLIF DIG_IO_15.PIN.BLIF DIG_14.PIN.BLIF DIG_IO_14.PIN.BLIF \
+DIG_13.PIN.BLIF DIG_IO_13.PIN.BLIF DIG_12.PIN.BLIF DIG_IO_12.PIN.BLIF \
+DIG_11.PIN.BLIF DIG_IO_11.PIN.BLIF DIG_10.PIN.BLIF DIG_IO_10.PIN.BLIF \
+DIG_09.PIN.BLIF DIG_IO_09.PIN.BLIF DIG_08.PIN.BLIF DIG_IO_08.PIN.BLIF \
+DIG_07.PIN.BLIF DIG_IO_07.PIN.BLIF DIG_06.PIN.BLIF DIG_IO_06.PIN.BLIF \
+DIG_29.PIN.BLIF DIG_IO_29.PIN.BLIF DIG_28.PIN.BLIF DIG_IO_28.PIN.BLIF \
+DIG_27.PIN.BLIF DIG_IO_27.PIN.BLIF DIG_26.PIN.BLIF DIG_IO_26.PIN.BLIF \
+DIG_25.PIN.BLIF DIG_IO_25.PIN.BLIF DIG_24.PIN.BLIF DIG_IO_24.PIN.BLIF \
+DIG_05.PIN.BLIF DIG_IO_05.PIN.BLIF DIG_04.PIN.BLIF DIG_IO_04.PIN.BLIF \
+DIG_03.PIN.BLIF DIG_IO_03.PIN.BLIF DIG_02.PIN.BLIF DIG_IO_02.PIN.BLIF \
+DIG_01.PIN.BLIF DIG_IO_01.PIN.BLIF DIG_00.PIN.BLIF DIG_IO_00.PIN.BLIF \
+OSCOUT.BLIF scl.BLIF sda.PIN.BLIF IO_Select_DIG_00.Q IO_Select_DIG_01.Q \
+IO_Select_DIG_02.Q IO_Select_DIG_03.Q IO_Select_DIG_04.Q IO_Select_DIG_05.Q \
+IO_Select_DIG_06.Q IO_Select_DIG_07.Q I0_data_1_0_reg.Q I0_data_1_1_reg.Q \
+I0_data_1_2_reg.Q I0_data_1_3_reg.Q I0_data_1_4_reg.Q I0_data_1_5_reg.Q \
+I0_data_1_6_reg.Q I0_data_1_7_reg.Q I0_data_2_0_reg.Q I0_data_2_1_reg.Q \
+I0_data_2_2_reg.Q I0_data_2_3_reg.Q I0_data_2_4_reg.Q I0_data_2_5_reg.Q \
+I0_data_2_6_reg.Q I0_data_2_7_reg.Q IO_Select_DIG_24.Q IO_Select_DIG_25.Q \
+IO_Select_DIG_26.Q IO_Select_DIG_27.Q IO_Select_DIG_28.Q IO_Select_DIG_29.Q \
+RESERVED.Q Pin_Enable.Q I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
 I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q \
-I0_inst_reg_or_data_receive.Q I0_inst_sda_pre_internal.Q bs_LSB.Q \
-I0_inst_scl_pre_internal.Q I0_addr_reg_1_.Q bs_MSB.Q I0_addr_reg_5_.Q \
-I0_addr_reg_6_.Q I0_target_reg_0_.Q I0_target_reg_1_.Q I0_target_reg_2_.Q \
-I0_target_reg_3_.Q I0_target_reg_4_.Q I0_target_reg_5_.Q I0_target_reg_6_.Q \
-I0_target_reg_7_.Q I0_inst_scl_prev_reg.Q I0_inst_sda_prev_reg.Q \
-I0_inst_stop_reg.Q I0_state_reg_2_.Q I0_inst_scl_rising_reg.Q \
-I0_state_reg_4_.Q I0_inst_sda_o_reg.Q I0_inst_sda_o_reg_e.Q I0_state_reg_3_.Q \
-I0_inst_scl_falling_reg.Q I0_state_reg_6_.Q I0_inst_continue_reg.Q \
+I0_inst_reg_or_data_receive.Q I0_inst_sda_pre_internal.Q \
+I0_inst_scl_pre_internal.Q I0_addr_reg_1_.Q I0_addr_reg_5_.Q I0_addr_reg_6_.Q \
+I0_target_reg_0_.Q I0_target_reg_1_.Q I0_target_reg_2_.Q I0_target_reg_3_.Q \
+I0_target_reg_4_.Q I0_target_reg_5_.Q I0_target_reg_6_.Q I0_target_reg_7_.Q \
+I0_read_reg_0_.Q I0_read_reg_1_.Q I0_read_reg_2_.Q I0_read_reg_3_.Q \
+I0_read_reg_4_.Q I0_read_reg_5_.Q I0_read_reg_6_.Q I0_read_reg_7_.Q \
+I0_inst_scl_prev_reg.Q I0_inst_sda_prev_reg.Q I0_inst_stop_reg.Q \
+I0_state_reg_4_.Q I0_state_reg_6_.Q I0_state_reg_2_.Q I0_inst_scl_rising_reg.Q \
+I0_inst_sda_wen_reg.Q I0_inst_continue_reg.Q I0_inst_scl_falling_reg.Q \
 I0_addr_reg_0_.Q I0_addr_reg_2_.Q I0_addr_reg_3_.Q I0_addr_reg_4_.Q \
 I0_data_reg_0_.Q I0_data_reg_1_.Q I0_data_reg_2_.Q I0_data_reg_3_.Q \
-I0_data_reg_4_.Q I0_data_reg_5_.Q I0_data_reg_6_.Q I0_inst_sda_wen_reg.Q \
-I0_inst_start_reg.Q I0_state_reg_5_.Q I0_state_reg_1_.Q I0_inst_cmd_reg.Q \
+I0_data_reg_4_.Q I0_data_reg_5_.Q I0_data_reg_6_.Q I0_inst_start_reg.Q \
+I0_state_reg_3_.Q I0_inst_cmd_reg.Q I0_state_reg_5_.Q I0_state_reg_1_.Q \
 I0_data_to_master_reg_0_.Q I0_data_to_master_reg_1_.Q \
 I0_data_to_master_reg_2_.Q I0_data_to_master_reg_3_.Q \
 I0_data_to_master_reg_4_.Q I0_data_to_master_reg_5_.Q \
@@ -83,7 +87,8 @@ I0_data_to_master_reg_6_.Q I0_data_to_master_reg_7_.Q \
 I0_data_from_master_reg_0_.Q I0_data_from_master_reg_1_.Q \
 I0_data_from_master_reg_2_.Q I0_data_from_master_reg_3_.Q \
 I0_data_from_master_reg_4_.Q I0_data_from_master_reg_5_.Q \
-I0_data_from_master_reg_6_.Q I0_data_from_master_reg_7_.Q
+I0_data_from_master_reg_6_.Q I0_data_from_master_reg_7_.Q bs_MSB.Q \
+I0_N_539_0.BLIF J0_temp_y_2_reg.Q J0_temp_y_0_reg.Q
 .outputs DIG_23 DIG_23.OE DIG_IO_23 DIG_IO_23.OE DIG_22 DIG_22.OE DIG_IO_22 \
 DIG_IO_22.OE DIG_21 DIG_21.OE DIG_IO_21 DIG_IO_21.OE DIG_20 DIG_20.OE \
 DIG_IO_20 DIG_IO_20.OE DIG_19 DIG_19.OE DIG_IO_19 DIG_IO_19.OE DIG_18 \
@@ -101,7 +106,7 @@ DIG_IO_25.OE DIG_24 DIG_24.OE DIG_IO_24 DIG_IO_24.OE DIG_05 DIG_05.OE \
 DIG_IO_05 DIG_IO_05.OE DIG_04 DIG_04.OE DIG_IO_04 DIG_IO_04.OE DIG_03 \
 DIG_03.OE DIG_IO_03 DIG_IO_03.OE DIG_02 DIG_02.OE DIG_IO_02 DIG_IO_02.OE \
 DIG_01 DIG_01.OE DIG_IO_01 DIG_IO_01.OE DIG_00 DIG_00.OE DIG_IO_00 \
-DIG_IO_00.OE sda sda.OE IO_Select_DIG_00.CE IO_Select_DIG_00.C \
+DIG_IO_00.OE bs_LSB sda.OE IO_Select_DIG_00.CE IO_Select_DIG_00.C \
 IO_Select_DIG_01.CE IO_Select_DIG_01.C IO_Select_DIG_02.CE IO_Select_DIG_02.C \
 IO_Select_DIG_03.CE IO_Select_DIG_03.C IO_Select_DIG_04.CE IO_Select_DIG_04.C \
 IO_Select_DIG_05.CE IO_Select_DIG_05.C IO_Select_DIG_06.CE IO_Select_DIG_06.C \
@@ -117,30 +122,34 @@ I0_data_2_7_reg.CE I0_data_2_7_reg.C IO_Select_DIG_24.CE IO_Select_DIG_24.C \
 IO_Select_DIG_25.CE IO_Select_DIG_25.C IO_Select_DIG_26.CE IO_Select_DIG_26.C \
 IO_Select_DIG_27.CE IO_Select_DIG_27.C IO_Select_DIG_28.CE IO_Select_DIG_28.C \
 IO_Select_DIG_29.CE IO_Select_DIG_29.C RESERVED.CE RESERVED.C Pin_Enable.CE \
-Pin_Enable.C I0_bits_processed_reg_0_.CE I0_bits_processed_reg_0_.C \
+Pin_Enable.C CPLD_DigOut_01.CE CPLD_DigOut_01.C CPLD_DigOut_02.CE \
+CPLD_DigOut_02.C I0_bits_processed_reg_0_.CE I0_bits_processed_reg_0_.C \
 I0_bits_processed_reg_1_.CE I0_bits_processed_reg_1_.C \
 I0_bits_processed_reg_2_.CE I0_bits_processed_reg_2_.C \
 I0_bits_processed_reg_3_.CE I0_bits_processed_reg_3_.C \
 I0_inst_reg_or_data_receive.CE I0_inst_reg_or_data_receive.C \
-I0_inst_sda_pre_internal.C bs_LSB.CE bs_LSB.C I0_inst_scl_pre_internal.C \
-I0_addr_reg_1_.CE I0_addr_reg_1_.C bs_MSB.CE bs_MSB.C I0_addr_reg_5_.CE \
-I0_addr_reg_5_.C I0_addr_reg_6_.CE I0_addr_reg_6_.C I0_target_reg_0_.CE \
-I0_target_reg_0_.C I0_target_reg_1_.CE I0_target_reg_1_.C I0_target_reg_2_.CE \
-I0_target_reg_2_.C I0_target_reg_3_.CE I0_target_reg_3_.C I0_target_reg_4_.CE \
-I0_target_reg_4_.C I0_target_reg_5_.CE I0_target_reg_5_.C I0_target_reg_6_.CE \
-I0_target_reg_6_.C I0_target_reg_7_.CE I0_target_reg_7_.C \
-I0_inst_scl_prev_reg.C I0_inst_sda_prev_reg.C I0_inst_stop_reg.C \
-I0_state_reg_2_.C I0_inst_scl_rising_reg.C I0_state_reg_4_.C \
-I0_inst_sda_o_reg.C I0_inst_sda_o_reg_e.C I0_state_reg_3_.C \
-I0_inst_scl_falling_reg.C I0_state_reg_6_.C I0_inst_continue_reg.CE \
-I0_inst_continue_reg.C I0_addr_reg_0_.CE I0_addr_reg_0_.C I0_addr_reg_2_.CE \
-I0_addr_reg_2_.C I0_addr_reg_3_.CE I0_addr_reg_3_.C I0_addr_reg_4_.CE \
-I0_addr_reg_4_.C I0_data_reg_0_.CE I0_data_reg_0_.C I0_data_reg_1_.CE \
-I0_data_reg_1_.C I0_data_reg_2_.CE I0_data_reg_2_.C I0_data_reg_3_.CE \
-I0_data_reg_3_.C I0_data_reg_4_.CE I0_data_reg_4_.C I0_data_reg_5_.CE \
-I0_data_reg_5_.C I0_data_reg_6_.CE I0_data_reg_6_.C I0_inst_sda_wen_reg.C \
-I0_inst_start_reg.C I0_state_reg_5_.C I0_state_reg_1_.C I0_inst_cmd_reg.CE \
-I0_inst_cmd_reg.C I0_data_to_master_reg_0_.CE I0_data_to_master_reg_0_.C \
+I0_inst_sda_pre_internal.C I0_inst_scl_pre_internal.C I0_addr_reg_1_.CE \
+I0_addr_reg_1_.C I0_addr_reg_5_.CE I0_addr_reg_5_.C I0_addr_reg_6_.CE \
+I0_addr_reg_6_.C I0_target_reg_0_.CE I0_target_reg_0_.C I0_target_reg_1_.CE \
+I0_target_reg_1_.C I0_target_reg_2_.CE I0_target_reg_2_.C I0_target_reg_3_.CE \
+I0_target_reg_3_.C I0_target_reg_4_.CE I0_target_reg_4_.C I0_target_reg_5_.CE \
+I0_target_reg_5_.C I0_target_reg_6_.CE I0_target_reg_6_.C I0_target_reg_7_.CE \
+I0_target_reg_7_.C I0_read_reg_0_.CE I0_read_reg_0_.C I0_read_reg_1_.CE \
+I0_read_reg_1_.C I0_read_reg_2_.CE I0_read_reg_2_.C I0_read_reg_3_.CE \
+I0_read_reg_3_.C I0_read_reg_4_.CE I0_read_reg_4_.C I0_read_reg_5_.CE \
+I0_read_reg_5_.C I0_read_reg_6_.CE I0_read_reg_6_.C I0_read_reg_7_.CE \
+I0_read_reg_7_.C I0_inst_scl_prev_reg.C I0_inst_sda_prev_reg.C \
+I0_inst_stop_reg.C I0_state_reg_4_.C I0_state_reg_6_.C I0_state_reg_2_.C \
+I0_inst_scl_rising_reg.C sda.C I0_inst_sda_wen_reg.C I0_inst_continue_reg.CE \
+I0_inst_continue_reg.C I0_inst_scl_falling_reg.C I0_addr_reg_0_.CE \
+I0_addr_reg_0_.C I0_addr_reg_2_.CE I0_addr_reg_2_.C I0_addr_reg_3_.CE \
+I0_addr_reg_3_.C I0_addr_reg_4_.CE I0_addr_reg_4_.C I0_data_reg_0_.CE \
+I0_data_reg_0_.C I0_data_reg_1_.CE I0_data_reg_1_.C I0_data_reg_2_.CE \
+I0_data_reg_2_.C I0_data_reg_3_.CE I0_data_reg_3_.C I0_data_reg_4_.CE \
+I0_data_reg_4_.C I0_data_reg_5_.CE I0_data_reg_5_.C I0_data_reg_6_.CE \
+I0_data_reg_6_.C I0_inst_start_reg.C I0_state_reg_3_.C I0_inst_cmd_reg.CE \
+I0_inst_cmd_reg.C I0_state_reg_5_.C I0_state_reg_1_.C \
+I0_data_to_master_reg_0_.CE I0_data_to_master_reg_0_.C \
 I0_data_to_master_reg_1_.CE I0_data_to_master_reg_1_.C \
 I0_data_to_master_reg_2_.CE I0_data_to_master_reg_2_.C \
 I0_data_to_master_reg_3_.CE I0_data_to_master_reg_3_.C \
@@ -155,29 +164,32 @@ I0_data_from_master_reg_3_.CE I0_data_from_master_reg_3_.C \
 I0_data_from_master_reg_4_.CE I0_data_from_master_reg_4_.C \
 I0_data_from_master_reg_5_.CE I0_data_from_master_reg_5_.C \
 I0_data_from_master_reg_6_.CE I0_data_from_master_reg_6_.C \
-I0_data_from_master_reg_7_.CE I0_data_from_master_reg_7_.C IO_Select_DIG_00.D \
-IO_Select_DIG_01.D IO_Select_DIG_02.D IO_Select_DIG_03.D IO_Select_DIG_04.D \
-IO_Select_DIG_05.D IO_Select_DIG_06.D IO_Select_DIG_07.D I0_data_1_0_reg.D \
-I0_data_1_1_reg.D I0_data_1_2_reg.D I0_data_1_3_reg.D I0_data_1_4_reg.D \
-I0_data_1_5_reg.D I0_data_1_6_reg.D I0_data_1_7_reg.D I0_data_2_0_reg.D \
-I0_data_2_1_reg.D I0_data_2_2_reg.D I0_data_2_3_reg.D I0_data_2_4_reg.D \
-I0_data_2_5_reg.D I0_data_2_6_reg.D I0_data_2_7_reg.D IO_Select_DIG_24.D \
-IO_Select_DIG_25.D IO_Select_DIG_26.D IO_Select_DIG_27.D IO_Select_DIG_28.D \
-IO_Select_DIG_29.D RESERVED.D Pin_Enable.D I0_bits_processed_reg_0_.D \
-I0_bits_processed_reg_1_.D I0_bits_processed_reg_2_.D \
-I0_bits_processed_reg_3_.D I0_inst_reg_or_data_receive.D \
-I0_inst_sda_pre_internal.D bs_LSB.T I0_inst_scl_pre_internal.D \
-I0_addr_reg_1_.D bs_MSB.T I0_addr_reg_5_.D I0_addr_reg_6_.D I0_target_reg_0_.D \
-I0_target_reg_1_.D I0_target_reg_2_.D I0_target_reg_3_.D I0_target_reg_4_.D \
-I0_target_reg_5_.D I0_target_reg_6_.D I0_target_reg_7_.D \
-I0_inst_scl_prev_reg.D I0_inst_sda_prev_reg.D I0_inst_stop_reg.D \
-I0_state_reg_2_.D I0_inst_scl_rising_reg.D I0_state_reg_4_.T \
-I0_inst_sda_o_reg.D I0_inst_sda_o_reg_e.D I0_state_reg_3_.T \
-I0_inst_scl_falling_reg.D I0_state_reg_6_.D I0_inst_continue_reg.D \
-I0_addr_reg_0_.D I0_addr_reg_2_.D I0_addr_reg_3_.D I0_addr_reg_4_.D \
-I0_data_reg_0_.D I0_data_reg_1_.D I0_data_reg_2_.D I0_data_reg_3_.D \
-I0_data_reg_4_.D I0_data_reg_5_.D I0_data_reg_6_.D I0_inst_sda_wen_reg.D \
-I0_inst_start_reg.D I0_state_reg_5_.D I0_state_reg_1_.D I0_inst_cmd_reg.D \
+I0_data_from_master_reg_7_.CE I0_data_from_master_reg_7_.C bs_MSB.C I0_N_539_0 \
+J0_temp_y_2_reg.C J0_temp_y_0_reg.C I0_bits_processed_reg_3_.D.X1 \
+I0_bits_processed_reg_3_.D.X2 IO_Select_DIG_00.D IO_Select_DIG_01.D \
+IO_Select_DIG_02.D IO_Select_DIG_03.D IO_Select_DIG_04.D IO_Select_DIG_05.D \
+IO_Select_DIG_06.D IO_Select_DIG_07.D I0_data_1_0_reg.D I0_data_1_1_reg.D \
+I0_data_1_2_reg.D I0_data_1_3_reg.D I0_data_1_4_reg.D I0_data_1_5_reg.D \
+I0_data_1_6_reg.D I0_data_1_7_reg.D I0_data_2_0_reg.D I0_data_2_1_reg.D \
+I0_data_2_2_reg.D I0_data_2_3_reg.D I0_data_2_4_reg.D I0_data_2_5_reg.D \
+I0_data_2_6_reg.D I0_data_2_7_reg.D IO_Select_DIG_24.D IO_Select_DIG_25.D \
+IO_Select_DIG_26.D IO_Select_DIG_27.D IO_Select_DIG_28.D IO_Select_DIG_29.D \
+RESERVED.D Pin_Enable.D CPLD_DigOut_01.D CPLD_DigOut_02.D \
+I0_bits_processed_reg_0_.D I0_bits_processed_reg_1_.D \
+I0_bits_processed_reg_2_.D I0_inst_reg_or_data_receive.D \
+I0_inst_sda_pre_internal.D I0_inst_scl_pre_internal.D I0_addr_reg_1_.D \
+I0_addr_reg_5_.D I0_addr_reg_6_.D I0_target_reg_0_.D I0_target_reg_1_.D \
+I0_target_reg_2_.D I0_target_reg_3_.D I0_target_reg_4_.D I0_target_reg_5_.D \
+I0_target_reg_6_.D I0_target_reg_7_.D I0_read_reg_0_.D I0_read_reg_1_.D \
+I0_read_reg_2_.D I0_read_reg_3_.D I0_read_reg_4_.D I0_read_reg_5_.D \
+I0_read_reg_6_.D I0_read_reg_7_.D I0_inst_scl_prev_reg.D \
+I0_inst_sda_prev_reg.D I0_inst_stop_reg.D I0_state_reg_4_.T I0_state_reg_6_.D \
+I0_state_reg_2_.D I0_inst_scl_rising_reg.D sda.D I0_inst_sda_wen_reg.D \
+I0_inst_continue_reg.D I0_inst_scl_falling_reg.D I0_addr_reg_0_.D \
+I0_addr_reg_2_.D I0_addr_reg_3_.D I0_addr_reg_4_.D I0_data_reg_0_.D \
+I0_data_reg_1_.D I0_data_reg_2_.D I0_data_reg_3_.D I0_data_reg_4_.D \
+I0_data_reg_5_.D I0_data_reg_6_.D I0_inst_start_reg.D I0_state_reg_3_.T \
+I0_inst_cmd_reg.D I0_state_reg_5_.D I0_state_reg_1_.D \
 I0_data_to_master_reg_0_.D I0_data_to_master_reg_1_.D \
 I0_data_to_master_reg_2_.D I0_data_to_master_reg_3_.D \
 I0_data_to_master_reg_4_.D I0_data_to_master_reg_5_.D \
@@ -185,248 +197,250 @@ I0_data_to_master_reg_6_.D I0_data_to_master_reg_7_.D \
 I0_data_from_master_reg_0_.D I0_data_from_master_reg_1_.D \
 I0_data_from_master_reg_2_.D I0_data_from_master_reg_3_.D \
 I0_data_from_master_reg_4_.D I0_data_from_master_reg_5_.D \
-I0_data_from_master_reg_6_.D I0_data_from_master_reg_7_.D
-.names I0_data_2_7_reg.Q IO_Select_DIG_24.Q DIG_23.OE
-01 1
-1- 0
--0 0
-.names I0_data_2_7_reg.Q IO_Select_DIG_24.Q DIG_IO_23.OE
+I0_data_from_master_reg_6_.D I0_data_from_master_reg_7_.D bs_MSB.D \
+J0_temp_y_2_reg.D J0_temp_y_0_reg.D
+.names Pin_Enable.Q I0_data_2_7_reg.Q DIG_23.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q I0_data_2_7_reg.Q DIG_IO_23.OE
 11 1
 0- 0
 -0 0
-.names I0_data_2_6_reg.Q IO_Select_DIG_24.Q DIG_22.OE
-01 1
-1- 0
--0 0
-.names I0_data_2_6_reg.Q IO_Select_DIG_24.Q DIG_IO_22.OE
+.names Pin_Enable.Q I0_data_2_6_reg.Q DIG_22.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q I0_data_2_6_reg.Q DIG_IO_22.OE
 11 1
 0- 0
 -0 0
-.names I0_data_2_5_reg.Q IO_Select_DIG_24.Q DIG_21.OE
-01 1
-1- 0
--0 0
-.names I0_data_2_5_reg.Q IO_Select_DIG_24.Q DIG_IO_21.OE
+.names Pin_Enable.Q I0_data_2_5_reg.Q DIG_21.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q I0_data_2_5_reg.Q DIG_IO_21.OE
 11 1
 0- 0
 -0 0
-.names I0_data_2_4_reg.Q IO_Select_DIG_24.Q DIG_20.OE
-01 1
-1- 0
--0 0
-.names I0_data_2_4_reg.Q IO_Select_DIG_24.Q DIG_IO_20.OE
+.names Pin_Enable.Q I0_data_2_4_reg.Q DIG_20.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q I0_data_2_4_reg.Q DIG_IO_20.OE
 11 1
 0- 0
 -0 0
-.names I0_data_2_3_reg.Q IO_Select_DIG_24.Q DIG_19.OE
-01 1
-1- 0
--0 0
-.names I0_data_2_3_reg.Q IO_Select_DIG_24.Q DIG_IO_19.OE
+.names Pin_Enable.Q I0_data_2_3_reg.Q DIG_19.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q I0_data_2_3_reg.Q DIG_IO_19.OE
 11 1
 0- 0
 -0 0
-.names I0_data_2_2_reg.Q IO_Select_DIG_24.Q DIG_18.OE
-01 1
-1- 0
--0 0
-.names I0_data_2_2_reg.Q IO_Select_DIG_24.Q DIG_IO_18.OE
+.names Pin_Enable.Q I0_data_2_2_reg.Q DIG_18.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q I0_data_2_2_reg.Q DIG_IO_18.OE
 11 1
 0- 0
 -0 0
-.names I0_data_2_1_reg.Q IO_Select_DIG_24.Q DIG_17.OE
-01 1
-1- 0
--0 0
-.names I0_data_2_1_reg.Q IO_Select_DIG_24.Q DIG_IO_17.OE
+.names Pin_Enable.Q I0_data_2_1_reg.Q DIG_17.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q I0_data_2_1_reg.Q DIG_IO_17.OE
 11 1
 0- 0
 -0 0
-.names I0_data_2_0_reg.Q IO_Select_DIG_24.Q DIG_16.OE
-01 1
-1- 0
--0 0
-.names I0_data_2_0_reg.Q IO_Select_DIG_24.Q DIG_IO_16.OE
+.names Pin_Enable.Q I0_data_2_0_reg.Q DIG_16.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q I0_data_2_0_reg.Q DIG_IO_16.OE
 11 1
 0- 0
 -0 0
-.names I0_data_1_7_reg.Q IO_Select_DIG_24.Q DIG_15.OE
-01 1
-1- 0
--0 0
-.names I0_data_1_7_reg.Q IO_Select_DIG_24.Q DIG_IO_15.OE
+.names Pin_Enable.Q I0_data_1_7_reg.Q DIG_15.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q I0_data_1_7_reg.Q DIG_IO_15.OE
 11 1
 0- 0
 -0 0
-.names I0_data_1_6_reg.Q IO_Select_DIG_24.Q DIG_14.OE
-01 1
-1- 0
--0 0
-.names I0_data_1_6_reg.Q IO_Select_DIG_24.Q DIG_IO_14.OE
+.names Pin_Enable.Q I0_data_1_6_reg.Q DIG_14.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q I0_data_1_6_reg.Q DIG_IO_14.OE
 11 1
 0- 0
 -0 0
-.names I0_data_1_5_reg.Q IO_Select_DIG_24.Q DIG_13.OE
-01 1
-1- 0
--0 0
-.names I0_data_1_5_reg.Q IO_Select_DIG_24.Q DIG_IO_13.OE
+.names Pin_Enable.Q I0_data_1_5_reg.Q DIG_13.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q I0_data_1_5_reg.Q DIG_IO_13.OE
 11 1
 0- 0
 -0 0
-.names I0_data_1_4_reg.Q IO_Select_DIG_24.Q DIG_12.OE
-01 1
-1- 0
--0 0
-.names I0_data_1_4_reg.Q IO_Select_DIG_24.Q DIG_IO_12.OE
+.names Pin_Enable.Q I0_data_1_4_reg.Q DIG_12.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q I0_data_1_4_reg.Q DIG_IO_12.OE
 11 1
 0- 0
 -0 0
-.names I0_data_1_3_reg.Q IO_Select_DIG_24.Q DIG_11.OE
-01 1
-1- 0
--0 0
-.names I0_data_1_3_reg.Q IO_Select_DIG_24.Q DIG_IO_11.OE
+.names Pin_Enable.Q I0_data_1_3_reg.Q DIG_11.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q I0_data_1_3_reg.Q DIG_IO_11.OE
 11 1
 0- 0
 -0 0
-.names I0_data_1_2_reg.Q IO_Select_DIG_24.Q DIG_10.OE
-01 1
-1- 0
--0 0
-.names I0_data_1_2_reg.Q IO_Select_DIG_24.Q DIG_IO_10.OE
+.names Pin_Enable.Q I0_data_1_2_reg.Q DIG_10.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q I0_data_1_2_reg.Q DIG_IO_10.OE
 11 1
 0- 0
 -0 0
-.names I0_data_1_1_reg.Q IO_Select_DIG_24.Q DIG_09.OE
-01 1
-1- 0
--0 0
-.names I0_data_1_1_reg.Q IO_Select_DIG_24.Q DIG_IO_09.OE
+.names Pin_Enable.Q I0_data_1_1_reg.Q DIG_09.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q I0_data_1_1_reg.Q DIG_IO_09.OE
 11 1
 0- 0
 -0 0
-.names I0_data_1_0_reg.Q IO_Select_DIG_24.Q DIG_08.OE
-01 1
-1- 0
--0 0
-.names I0_data_1_0_reg.Q IO_Select_DIG_24.Q DIG_IO_08.OE
+.names Pin_Enable.Q I0_data_1_0_reg.Q DIG_08.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q I0_data_1_0_reg.Q DIG_IO_08.OE
 11 1
 0- 0
 -0 0
-.names IO_Select_DIG_07.Q IO_Select_DIG_24.Q DIG_07.OE
-01 1
-1- 0
--0 0
-.names IO_Select_DIG_07.Q IO_Select_DIG_24.Q DIG_IO_07.OE
+.names Pin_Enable.Q IO_Select_DIG_07.Q DIG_07.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q IO_Select_DIG_07.Q DIG_IO_07.OE
 11 1
 0- 0
 -0 0
-.names IO_Select_DIG_06.Q IO_Select_DIG_24.Q DIG_06.OE
-01 1
-1- 0
--0 0
-.names IO_Select_DIG_06.Q IO_Select_DIG_24.Q DIG_IO_06.OE
+.names Pin_Enable.Q IO_Select_DIG_06.Q DIG_06.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q IO_Select_DIG_06.Q DIG_IO_06.OE
 11 1
 0- 0
 -0 0
-.names IO_Select_DIG_29.Q IO_Select_DIG_24.Q DIG_29.OE
-01 1
-1- 0
--0 0
-.names IO_Select_DIG_29.Q IO_Select_DIG_24.Q DIG_IO_29.OE
+.names Pin_Enable.Q IO_Select_DIG_29.Q DIG_29.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q IO_Select_DIG_29.Q DIG_IO_29.OE
 11 1
 0- 0
 -0 0
-.names IO_Select_DIG_28.Q IO_Select_DIG_24.Q DIG_28.OE
-01 1
-1- 0
--0 0
-.names IO_Select_DIG_28.Q IO_Select_DIG_24.Q DIG_IO_28.OE
+.names Pin_Enable.Q IO_Select_DIG_28.Q DIG_28.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q IO_Select_DIG_28.Q DIG_IO_28.OE
 11 1
 0- 0
 -0 0
-.names IO_Select_DIG_27.Q IO_Select_DIG_24.Q DIG_27.OE
-01 1
-1- 0
--0 0
-.names IO_Select_DIG_27.Q IO_Select_DIG_24.Q DIG_IO_27.OE
+.names Pin_Enable.Q IO_Select_DIG_27.Q DIG_27.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q IO_Select_DIG_27.Q DIG_IO_27.OE
 11 1
 0- 0
 -0 0
-.names IO_Select_DIG_26.Q IO_Select_DIG_24.Q DIG_26.OE
-01 1
-1- 0
--0 0
-.names IO_Select_DIG_26.Q IO_Select_DIG_24.Q DIG_IO_26.OE
+.names Pin_Enable.Q IO_Select_DIG_26.Q DIG_26.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q IO_Select_DIG_26.Q DIG_IO_26.OE
 11 1
 0- 0
 -0 0
-.names IO_Select_DIG_25.Q IO_Select_DIG_24.Q DIG_25.OE
-01 1
-1- 0
--0 0
-.names IO_Select_DIG_25.Q IO_Select_DIG_24.Q DIG_IO_25.OE
+.names Pin_Enable.Q IO_Select_DIG_25.Q DIG_25.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q IO_Select_DIG_25.Q DIG_IO_25.OE
 11 1
 0- 0
 -0 0
-.names DIG_24.OE
- 0
-.names IO_Select_DIG_24.Q DIG_IO_24.OE
-1 1
-0 0
-.names IO_Select_DIG_05.Q IO_Select_DIG_24.Q DIG_05.OE
-01 1
-1- 0
--0 0
-.names IO_Select_DIG_05.Q IO_Select_DIG_24.Q DIG_IO_05.OE
+.names Pin_Enable.Q IO_Select_DIG_24.Q DIG_24.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q IO_Select_DIG_24.Q DIG_IO_24.OE
 11 1
 0- 0
 -0 0
-.names IO_Select_DIG_04.Q IO_Select_DIG_24.Q DIG_04.OE
-01 1
-1- 0
--0 0
-.names IO_Select_DIG_04.Q IO_Select_DIG_24.Q DIG_IO_04.OE
+.names Pin_Enable.Q IO_Select_DIG_05.Q DIG_05.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q IO_Select_DIG_05.Q DIG_IO_05.OE
 11 1
 0- 0
 -0 0
-.names IO_Select_DIG_03.Q IO_Select_DIG_24.Q DIG_03.OE
-01 1
-1- 0
--0 0
-.names IO_Select_DIG_03.Q IO_Select_DIG_24.Q DIG_IO_03.OE
+.names Pin_Enable.Q IO_Select_DIG_04.Q DIG_04.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q IO_Select_DIG_04.Q DIG_IO_04.OE
 11 1
 0- 0
 -0 0
-.names IO_Select_DIG_02.Q IO_Select_DIG_24.Q DIG_02.OE
-01 1
-1- 0
--0 0
-.names IO_Select_DIG_02.Q IO_Select_DIG_24.Q DIG_IO_02.OE
+.names Pin_Enable.Q IO_Select_DIG_03.Q DIG_03.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q IO_Select_DIG_03.Q DIG_IO_03.OE
 11 1
 0- 0
 -0 0
-.names IO_Select_DIG_01.Q IO_Select_DIG_24.Q DIG_01.OE
-01 1
-1- 0
--0 0
-.names IO_Select_DIG_01.Q IO_Select_DIG_24.Q DIG_IO_01.OE
+.names Pin_Enable.Q IO_Select_DIG_02.Q DIG_02.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q IO_Select_DIG_02.Q DIG_IO_02.OE
 11 1
 0- 0
 -0 0
-.names IO_Select_DIG_00.Q IO_Select_DIG_24.Q DIG_00.OE
-01 1
-1- 0
--0 0
-.names IO_Select_DIG_00.Q IO_Select_DIG_24.Q DIG_IO_00.OE
+.names Pin_Enable.Q IO_Select_DIG_01.Q DIG_01.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q IO_Select_DIG_01.Q DIG_IO_01.OE
 11 1
 0- 0
 -0 0
-.names I0_inst_sda_o_reg.Q I0_inst_sda_o_reg_e.Q sda
+.names Pin_Enable.Q IO_Select_DIG_00.Q DIG_00.OE
+10 1
+0- 0
+-1 0
+.names Pin_Enable.Q IO_Select_DIG_00.Q DIG_IO_00.OE
 11 1
 0- 0
 -0 0
+.names bs_LSB
+ 1
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
 I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q \
 I0_inst_reg_or_data_receive.Q I0_target_reg_0_.Q I0_target_reg_1_.Q \
@@ -1132,101 +1146,145 @@ I0_inst_scl_falling_reg.Q Pin_Enable.CE
 1-------------- 0
 --------------0 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q \
+I0_inst_reg_or_data_receive.Q I0_target_reg_0_.Q I0_target_reg_1_.Q \
+I0_target_reg_2_.Q I0_target_reg_3_.Q I0_target_reg_4_.Q I0_target_reg_5_.Q \
+I0_target_reg_6_.Q I0_target_reg_7_.Q I0_state_reg_4_.Q \
+I0_inst_scl_falling_reg.Q CPLD_DigOut_01.CE
+000111100010011 1
+-------------0- 0
+------------1-- 0
+-----------1--- 0
+----------0---- 0
+---------1----- 0
+--------1------ 0
+-------1------- 0
+------0-------- 0
+-----0--------- 0
+----0---------- 0
+---0----------- 0
+--1------------ 0
+-1------------- 0
+1-------------- 0
+--------------0 0
+.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q \
+I0_inst_reg_or_data_receive.Q I0_target_reg_0_.Q I0_target_reg_1_.Q \
+I0_target_reg_2_.Q I0_target_reg_3_.Q I0_target_reg_4_.Q I0_target_reg_5_.Q \
+I0_target_reg_6_.Q I0_target_reg_7_.Q I0_state_reg_4_.Q \
+I0_inst_scl_falling_reg.Q CPLD_DigOut_02.CE
+000111100010011 1
+-------------0- 0
+------------1-- 0
+-----------1--- 0
+----------0---- 0
+---------1----- 0
+--------1------ 0
+-------1------- 0
+------0-------- 0
+-----0--------- 0
+----0---------- 0
+---0----------- 0
+--1------------ 0
+-1------------- 0
+1-------------- 0
+--------------0 0
+.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
 I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_stop_reg.Q \
-I0_inst_scl_rising_reg.Q I0_state_reg_4_.Q I0_state_reg_3_.Q \
-I0_inst_scl_falling_reg.Q I0_state_reg_6_.Q I0_inst_start_reg.Q \
+I0_state_reg_4_.Q I0_state_reg_6_.Q I0_inst_scl_rising_reg.Q \
+I0_inst_scl_falling_reg.Q I0_inst_start_reg.Q I0_state_reg_3_.Q \
 I0_bits_processed_reg_0_.CE
-0001----11- 1
 0001--1-1-- 1
-000----11-- 1
----0-1---1- 1
----0---11-- 1
------11---- 1
+0001-1--1-- 1
+---0--11--- 1
+-----1-1--- 1
+---0----1-1 1
+---------1- 1
 ----1------ 1
-----------1 1
----000-0--0 0
-----0-00-00 0
-----0-0-000 0
---1100----0 0
--1-100----0 0
-1--100----0 0
---110-0---0 0
--1-10-0---0 0
-1--10-0---0 0
----10-0-0-0 0
-----00--0-0 0
+----000-00- 0
+--110--0-0- 0
+-1-10--0-0- 0
+1--10--0-0- 0
+---1000--0- 0
+---00--0-00 0
+--1100---0- 0
+-1-100---0- 0
+1--100---0- 0
+---100--00- 0
+----0--000- 0
+----000--00 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
 I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_stop_reg.Q \
-I0_inst_scl_rising_reg.Q I0_state_reg_4_.Q I0_state_reg_3_.Q \
-I0_inst_scl_falling_reg.Q I0_state_reg_6_.Q I0_inst_start_reg.Q \
+I0_state_reg_4_.Q I0_state_reg_6_.Q I0_inst_scl_rising_reg.Q \
+I0_inst_scl_falling_reg.Q I0_inst_start_reg.Q I0_state_reg_3_.Q \
 I0_bits_processed_reg_1_.CE
-0001----11- 1
 0001--1-1-- 1
-000----11-- 1
----0-1---1- 1
----0---11-- 1
------11---- 1
+0001-1--1-- 1
+---0--11--- 1
+-----1-1--- 1
+---0----1-1 1
+---------1- 1
 ----1------ 1
-----------1 1
----000-0--0 0
-----0-00-00 0
-----0-0-000 0
---1100----0 0
--1-100----0 0
-1--100----0 0
---110-0---0 0
--1-10-0---0 0
-1--10-0---0 0
----10-0-0-0 0
-----00--0-0 0
+----000-00- 0
+--110--0-0- 0
+-1-10--0-0- 0
+1--10--0-0- 0
+---1000--0- 0
+---00--0-00 0
+--1100---0- 0
+-1-100---0- 0
+1--100---0- 0
+---100--00- 0
+----0--000- 0
+----000--00 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
 I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_stop_reg.Q \
-I0_inst_scl_rising_reg.Q I0_state_reg_4_.Q I0_state_reg_3_.Q \
-I0_inst_scl_falling_reg.Q I0_state_reg_6_.Q I0_inst_start_reg.Q \
+I0_state_reg_4_.Q I0_state_reg_6_.Q I0_inst_scl_rising_reg.Q \
+I0_inst_scl_falling_reg.Q I0_inst_start_reg.Q I0_state_reg_3_.Q \
 I0_bits_processed_reg_2_.CE
-0001----11- 1
 0001--1-1-- 1
-000----11-- 1
----0-1---1- 1
----0---11-- 1
------11---- 1
+0001-1--1-- 1
+---0--11--- 1
+-----1-1--- 1
+---0----1-1 1
+---------1- 1
 ----1------ 1
-----------1 1
----000-0--0 0
-----0-00-00 0
-----0-0-000 0
---1100----0 0
--1-100----0 0
-1--100----0 0
---110-0---0 0
--1-10-0---0 0
-1--10-0---0 0
----10-0-0-0 0
-----00--0-0 0
+----000-00- 0
+--110--0-0- 0
+-1-10--0-0- 0
+1--10--0-0- 0
+---1000--0- 0
+---00--0-00 0
+--1100---0- 0
+-1-100---0- 0
+1--100---0- 0
+---100--00- 0
+----0--000- 0
+----000--00 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
 I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_stop_reg.Q \
-I0_inst_scl_rising_reg.Q I0_state_reg_4_.Q I0_state_reg_3_.Q \
-I0_inst_scl_falling_reg.Q I0_state_reg_6_.Q I0_inst_start_reg.Q \
+I0_state_reg_4_.Q I0_state_reg_6_.Q I0_inst_scl_rising_reg.Q \
+I0_inst_scl_falling_reg.Q I0_inst_start_reg.Q I0_state_reg_3_.Q \
 I0_bits_processed_reg_3_.CE
-0001----11- 1
 0001--1-1-- 1
-000----11-- 1
----0-1---1- 1
----0---11-- 1
------11---- 1
+0001-1--1-- 1
+---0--11--- 1
+-----1-1--- 1
+---0----1-1 1
+---------1- 1
 ----1------ 1
-----------1 1
----000-0--0 0
-----0-00-00 0
-----0-0-000 0
---1100----0 0
--1-100----0 0
-1--100----0 0
---110-0---0 0
--1-10-0---0 0
-1--10-0---0 0
----10-0-0-0 0
-----00--0-0 0
+----000-00- 0
+--110--0-0- 0
+-1-10--0-0- 0
+1--10--0-0- 0
+---1000--0- 0
+---00--0-00 0
+--1100---0- 0
+-1-100---0- 0
+1--100---0- 0
+---100--00- 0
+----0--000- 0
+----000--00 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
 I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_state_reg_4_.Q \
 I0_inst_scl_falling_reg.Q I0_inst_reg_or_data_receive.CE
@@ -1238,8 +1296,8 @@ I0_inst_scl_falling_reg.Q I0_inst_reg_or_data_receive.CE
 1----- 0
 -----0 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_scl_rising_reg.Q \
-I0_state_reg_6_.Q I0_addr_reg_1_.CE
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_state_reg_6_.Q \
+I0_inst_scl_rising_reg.Q I0_addr_reg_1_.CE
 --0011 1
 -0-011 1
 0--011 1
@@ -1248,8 +1306,8 @@ I0_state_reg_6_.Q I0_addr_reg_1_.CE
 ---1-- 0
 -----0 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_scl_rising_reg.Q \
-I0_state_reg_6_.Q I0_addr_reg_5_.CE
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_state_reg_6_.Q \
+I0_inst_scl_rising_reg.Q I0_addr_reg_5_.CE
 --0011 1
 -0-011 1
 0--011 1
@@ -1258,8 +1316,8 @@ I0_state_reg_6_.Q I0_addr_reg_5_.CE
 ---1-- 0
 -----0 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_scl_rising_reg.Q \
-I0_state_reg_6_.Q I0_addr_reg_6_.CE
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_state_reg_6_.Q \
+I0_inst_scl_rising_reg.Q I0_addr_reg_6_.CE
 --0011 1
 -0-011 1
 0--011 1
@@ -1363,13 +1421,189 @@ I0_target_reg_7_.CE
 -1----- 0
 1------ 0
 ------0 0
+.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q \
+I0_inst_reg_or_data_receive.Q I0_target_reg_0_.Q I0_target_reg_1_.Q \
+I0_target_reg_2_.Q I0_target_reg_3_.Q I0_target_reg_4_.Q I0_target_reg_5_.Q \
+I0_target_reg_6_.Q I0_target_reg_7_.Q I0_state_reg_4_.Q \
+I0_inst_scl_falling_reg.Q I0_read_reg_0_.CE
+000111111111011 1
+-------------0- 0
+------------1-- 0
+-----------0--- 0
+----------0---- 0
+---------0----- 0
+--------0------ 0
+-------0------- 0
+------0-------- 0
+-----0--------- 0
+----0---------- 0
+---0----------- 0
+--1------------ 0
+-1------------- 0
+1-------------- 0
+--------------0 0
+.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q \
+I0_inst_reg_or_data_receive.Q I0_target_reg_0_.Q I0_target_reg_1_.Q \
+I0_target_reg_2_.Q I0_target_reg_3_.Q I0_target_reg_4_.Q I0_target_reg_5_.Q \
+I0_target_reg_6_.Q I0_target_reg_7_.Q I0_state_reg_4_.Q \
+I0_inst_scl_falling_reg.Q I0_read_reg_1_.CE
+000111111111011 1
+-------------0- 0
+------------1-- 0
+-----------0--- 0
+----------0---- 0
+---------0----- 0
+--------0------ 0
+-------0------- 0
+------0-------- 0
+-----0--------- 0
+----0---------- 0
+---0----------- 0
+--1------------ 0
+-1------------- 0
+1-------------- 0
+--------------0 0
+.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q \
+I0_inst_reg_or_data_receive.Q I0_target_reg_0_.Q I0_target_reg_1_.Q \
+I0_target_reg_2_.Q I0_target_reg_3_.Q I0_target_reg_4_.Q I0_target_reg_5_.Q \
+I0_target_reg_6_.Q I0_target_reg_7_.Q I0_state_reg_4_.Q \
+I0_inst_scl_falling_reg.Q I0_read_reg_2_.CE
+000111111111011 1
+-------------0- 0
+------------1-- 0
+-----------0--- 0
+----------0---- 0
+---------0----- 0
+--------0------ 0
+-------0------- 0
+------0-------- 0
+-----0--------- 0
+----0---------- 0
+---0----------- 0
+--1------------ 0
+-1------------- 0
+1-------------- 0
+--------------0 0
+.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q \
+I0_inst_reg_or_data_receive.Q I0_target_reg_0_.Q I0_target_reg_1_.Q \
+I0_target_reg_2_.Q I0_target_reg_3_.Q I0_target_reg_4_.Q I0_target_reg_5_.Q \
+I0_target_reg_6_.Q I0_target_reg_7_.Q I0_state_reg_4_.Q \
+I0_inst_scl_falling_reg.Q I0_read_reg_3_.CE
+000111111111011 1
+-------------0- 0
+------------1-- 0
+-----------0--- 0
+----------0---- 0
+---------0----- 0
+--------0------ 0
+-------0------- 0
+------0-------- 0
+-----0--------- 0
+----0---------- 0
+---0----------- 0
+--1------------ 0
+-1------------- 0
+1-------------- 0
+--------------0 0
+.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q \
+I0_inst_reg_or_data_receive.Q I0_target_reg_0_.Q I0_target_reg_1_.Q \
+I0_target_reg_2_.Q I0_target_reg_3_.Q I0_target_reg_4_.Q I0_target_reg_5_.Q \
+I0_target_reg_6_.Q I0_target_reg_7_.Q I0_state_reg_4_.Q \
+I0_inst_scl_falling_reg.Q I0_read_reg_4_.CE
+000111111111011 1
+-------------0- 0
+------------1-- 0
+-----------0--- 0
+----------0---- 0
+---------0----- 0
+--------0------ 0
+-------0------- 0
+------0-------- 0
+-----0--------- 0
+----0---------- 0
+---0----------- 0
+--1------------ 0
+-1------------- 0
+1-------------- 0
+--------------0 0
+.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q \
+I0_inst_reg_or_data_receive.Q I0_target_reg_0_.Q I0_target_reg_1_.Q \
+I0_target_reg_2_.Q I0_target_reg_3_.Q I0_target_reg_4_.Q I0_target_reg_5_.Q \
+I0_target_reg_6_.Q I0_target_reg_7_.Q I0_state_reg_4_.Q \
+I0_inst_scl_falling_reg.Q I0_read_reg_5_.CE
+000111111111011 1
+-------------0- 0
+------------1-- 0
+-----------0--- 0
+----------0---- 0
+---------0----- 0
+--------0------ 0
+-------0------- 0
+------0-------- 0
+-----0--------- 0
+----0---------- 0
+---0----------- 0
+--1------------ 0
+-1------------- 0
+1-------------- 0
+--------------0 0
+.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q \
+I0_inst_reg_or_data_receive.Q I0_target_reg_0_.Q I0_target_reg_1_.Q \
+I0_target_reg_2_.Q I0_target_reg_3_.Q I0_target_reg_4_.Q I0_target_reg_5_.Q \
+I0_target_reg_6_.Q I0_target_reg_7_.Q I0_state_reg_4_.Q \
+I0_inst_scl_falling_reg.Q I0_read_reg_6_.CE
+000111111111011 1
+-------------0- 0
+------------1-- 0
+-----------0--- 0
+----------0---- 0
+---------0----- 0
+--------0------ 0
+-------0------- 0
+------0-------- 0
+-----0--------- 0
+----0---------- 0
+---0----------- 0
+--1------------ 0
+-1------------- 0
+1-------------- 0
+--------------0 0
+.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q \
+I0_inst_reg_or_data_receive.Q I0_target_reg_0_.Q I0_target_reg_1_.Q \
+I0_target_reg_2_.Q I0_target_reg_3_.Q I0_target_reg_4_.Q I0_target_reg_5_.Q \
+I0_target_reg_6_.Q I0_target_reg_7_.Q I0_state_reg_4_.Q \
+I0_inst_scl_falling_reg.Q I0_read_reg_7_.CE
+000111111111011 1
+-------------0- 0
+------------1-- 0
+-----------0--- 0
+----------0---- 0
+---------0----- 0
+--------0------ 0
+-------0------- 0
+------0-------- 0
+-----0--------- 0
+----0---------- 0
+---0----------- 0
+--1------------ 0
+-1------------- 0
+1-------------- 0
+--------------0 0
 .names I0_inst_scl_rising_reg.Q I0_state_reg_2_.Q I0_inst_continue_reg.CE
 11 1
 0- 0
 -0 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_scl_rising_reg.Q \
-I0_state_reg_6_.Q I0_addr_reg_0_.CE
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_state_reg_6_.Q \
+I0_inst_scl_rising_reg.Q I0_addr_reg_0_.CE
 --0011 1
 -0-011 1
 0--011 1
@@ -1378,8 +1612,8 @@ I0_state_reg_6_.Q I0_addr_reg_0_.CE
 ---1-- 0
 -----0 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_scl_rising_reg.Q \
-I0_state_reg_6_.Q I0_addr_reg_2_.CE
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_state_reg_6_.Q \
+I0_inst_scl_rising_reg.Q I0_addr_reg_2_.CE
 --0011 1
 -0-011 1
 0--011 1
@@ -1388,8 +1622,8 @@ I0_state_reg_6_.Q I0_addr_reg_2_.CE
 ---1-- 0
 -----0 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_scl_rising_reg.Q \
-I0_state_reg_6_.Q I0_addr_reg_3_.CE
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_state_reg_6_.Q \
+I0_inst_scl_rising_reg.Q I0_addr_reg_3_.CE
 --0011 1
 -0-011 1
 0--011 1
@@ -1398,8 +1632,8 @@ I0_state_reg_6_.Q I0_addr_reg_3_.CE
 ---1-- 0
 -----0 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_scl_rising_reg.Q \
-I0_state_reg_6_.Q I0_addr_reg_4_.CE
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_state_reg_6_.Q \
+I0_inst_scl_rising_reg.Q I0_addr_reg_4_.CE
 --0011 1
 -0-011 1
 0--011 1
@@ -1408,8 +1642,8 @@ I0_state_reg_6_.Q I0_addr_reg_4_.CE
 ---1-- 0
 -----0 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_scl_rising_reg.Q \
-I0_state_reg_4_.Q I0_data_reg_0_.CE
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_state_reg_4_.Q \
+I0_inst_scl_rising_reg.Q I0_data_reg_0_.CE
 --0011 1
 -0-011 1
 0--011 1
@@ -1418,8 +1652,8 @@ I0_state_reg_4_.Q I0_data_reg_0_.CE
 ---1-- 0
 -----0 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_scl_rising_reg.Q \
-I0_state_reg_4_.Q I0_data_reg_1_.CE
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_state_reg_4_.Q \
+I0_inst_scl_rising_reg.Q I0_data_reg_1_.CE
 --0011 1
 -0-011 1
 0--011 1
@@ -1428,8 +1662,8 @@ I0_state_reg_4_.Q I0_data_reg_1_.CE
 ---1-- 0
 -----0 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_scl_rising_reg.Q \
-I0_state_reg_4_.Q I0_data_reg_2_.CE
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_state_reg_4_.Q \
+I0_inst_scl_rising_reg.Q I0_data_reg_2_.CE
 --0011 1
 -0-011 1
 0--011 1
@@ -1438,8 +1672,8 @@ I0_state_reg_4_.Q I0_data_reg_2_.CE
 ---1-- 0
 -----0 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_scl_rising_reg.Q \
-I0_state_reg_4_.Q I0_data_reg_3_.CE
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_state_reg_4_.Q \
+I0_inst_scl_rising_reg.Q I0_data_reg_3_.CE
 --0011 1
 -0-011 1
 0--011 1
@@ -1448,8 +1682,8 @@ I0_state_reg_4_.Q I0_data_reg_3_.CE
 ---1-- 0
 -----0 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_scl_rising_reg.Q \
-I0_state_reg_4_.Q I0_data_reg_4_.CE
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_state_reg_4_.Q \
+I0_inst_scl_rising_reg.Q I0_data_reg_4_.CE
 --0011 1
 -0-011 1
 0--011 1
@@ -1458,8 +1692,8 @@ I0_state_reg_4_.Q I0_data_reg_4_.CE
 ---1-- 0
 -----0 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_scl_rising_reg.Q \
-I0_state_reg_4_.Q I0_data_reg_5_.CE
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_state_reg_4_.Q \
+I0_inst_scl_rising_reg.Q I0_data_reg_5_.CE
 --0011 1
 -0-011 1
 0--011 1
@@ -1468,8 +1702,8 @@ I0_state_reg_4_.Q I0_data_reg_5_.CE
 ---1-- 0
 -----0 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_scl_rising_reg.Q \
-I0_state_reg_4_.Q I0_data_reg_6_.CE
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_state_reg_4_.Q \
+I0_inst_scl_rising_reg.Q I0_data_reg_6_.CE
 --0011 1
 -0-011 1
 0--011 1
@@ -1478,8 +1712,8 @@ I0_state_reg_4_.Q I0_data_reg_6_.CE
 ---1-- 0
 -----0 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_scl_rising_reg.Q \
-I0_state_reg_6_.Q I0_inst_cmd_reg.CE
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_state_reg_6_.Q \
+I0_inst_scl_rising_reg.Q I0_inst_cmd_reg.CE
 111011 1
 ----0- 0
 ---1-- 0
@@ -1487,409 +1721,33 @@ I0_state_reg_6_.Q I0_inst_cmd_reg.CE
 -0---- 0
 0----- 0
 -----0 0
+.names I0_N_539_0.BLIF I0_data_to_master_reg_0_.CE
+0 1
+1 0
+.names I0_N_539_0.BLIF I0_data_to_master_reg_1_.CE
+0 1
+1 0
+.names I0_N_539_0.BLIF I0_data_to_master_reg_2_.CE
+0 1
+1 0
+.names I0_N_539_0.BLIF I0_data_to_master_reg_3_.CE
+0 1
+1 0
+.names I0_N_539_0.BLIF I0_data_to_master_reg_4_.CE
+0 1
+1 0
+.names I0_N_539_0.BLIF I0_data_to_master_reg_5_.CE
+0 1
+1 0
+.names I0_N_539_0.BLIF I0_data_to_master_reg_6_.CE
+0 1
+1 0
+.names I0_N_539_0.BLIF I0_data_to_master_reg_7_.CE
+0 1
+1 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q \
-I0_inst_sda_pre_internal.Q I0_addr_reg_1_.Q I0_addr_reg_5_.Q I0_addr_reg_6_.Q \
-I0_state_reg_2_.Q I0_inst_scl_rising_reg.Q I0_inst_scl_falling_reg.Q \
-I0_state_reg_6_.Q I0_addr_reg_0_.Q I0_addr_reg_2_.Q I0_addr_reg_3_.Q \
-I0_addr_reg_4_.Q I0_inst_cmd_reg.Q I0_data_to_master_reg_0_.CE
-0001-000--1111111 1
-----0---11------- 1
----------0-----0- 0
---------0------0- 0
-----1----------0- 0
----------0----0-- 0
---------0-----0-- 0
-----1---------0-- 0
----------0---0--- 0
---------0----0--- 0
-----1--------0--- 0
----------0--0---- 0
---------0---0---- 0
-----1-------0---- 0
----------0-0----- 0
---------0--0----- 0
-----1------0----- 0
----------00------ 0
---------0-0------ 0
-----1-----0------ 0
--------1-0------- 0
-------1--0------- 0
------1---0------- 0
----0-----0------- 0
---1------0------- 0
--1-------0------- 0
-1--------0------- 0
--------10-------- 0
-------1-0-------- 0
------1--0-------- 0
----0----0-------- 0
---1-----0-------- 0
--1------0-------- 0
-1-------0-------- 0
-----1--1--------- 0
-----1-1---------- 0
-----11----------- 0
----01------------ 0
---1-1------------ 0
--1--1------------ 0
-1---1------------ 0
----------0------0 0
---------0-------0 0
-----1-----------0 0
-.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q \
-I0_inst_sda_pre_internal.Q I0_addr_reg_1_.Q I0_addr_reg_5_.Q I0_addr_reg_6_.Q \
-I0_state_reg_2_.Q I0_inst_scl_rising_reg.Q I0_inst_scl_falling_reg.Q \
-I0_state_reg_6_.Q I0_addr_reg_0_.Q I0_addr_reg_2_.Q I0_addr_reg_3_.Q \
-I0_addr_reg_4_.Q I0_inst_cmd_reg.Q I0_data_to_master_reg_1_.CE
-0001-000--1111111 1
-----0---11------- 1
----------0-----0- 0
---------0------0- 0
-----1----------0- 0
----------0----0-- 0
---------0-----0-- 0
-----1---------0-- 0
----------0---0--- 0
---------0----0--- 0
-----1--------0--- 0
----------0--0---- 0
---------0---0---- 0
-----1-------0---- 0
----------0-0----- 0
---------0--0----- 0
-----1------0----- 0
----------00------ 0
---------0-0------ 0
-----1-----0------ 0
--------1-0------- 0
-------1--0------- 0
------1---0------- 0
----0-----0------- 0
---1------0------- 0
--1-------0------- 0
-1--------0------- 0
--------10-------- 0
-------1-0-------- 0
------1--0-------- 0
----0----0-------- 0
---1-----0-------- 0
--1------0-------- 0
-1-------0-------- 0
-----1--1--------- 0
-----1-1---------- 0
-----11----------- 0
----01------------ 0
---1-1------------ 0
--1--1------------ 0
-1---1------------ 0
----------0------0 0
---------0-------0 0
-----1-----------0 0
-.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q \
-I0_inst_sda_pre_internal.Q I0_addr_reg_1_.Q I0_addr_reg_5_.Q I0_addr_reg_6_.Q \
-I0_state_reg_2_.Q I0_inst_scl_rising_reg.Q I0_inst_scl_falling_reg.Q \
-I0_state_reg_6_.Q I0_addr_reg_0_.Q I0_addr_reg_2_.Q I0_addr_reg_3_.Q \
-I0_addr_reg_4_.Q I0_inst_cmd_reg.Q I0_data_to_master_reg_2_.CE
-0001-000--1111111 1
-----0---11------- 1
----------0-----0- 0
---------0------0- 0
-----1----------0- 0
----------0----0-- 0
---------0-----0-- 0
-----1---------0-- 0
----------0---0--- 0
---------0----0--- 0
-----1--------0--- 0
----------0--0---- 0
---------0---0---- 0
-----1-------0---- 0
----------0-0----- 0
---------0--0----- 0
-----1------0----- 0
----------00------ 0
---------0-0------ 0
-----1-----0------ 0
--------1-0------- 0
-------1--0------- 0
------1---0------- 0
----0-----0------- 0
---1------0------- 0
--1-------0------- 0
-1--------0------- 0
--------10-------- 0
-------1-0-------- 0
------1--0-------- 0
----0----0-------- 0
---1-----0-------- 0
--1------0-------- 0
-1-------0-------- 0
-----1--1--------- 0
-----1-1---------- 0
-----11----------- 0
----01------------ 0
---1-1------------ 0
--1--1------------ 0
-1---1------------ 0
----------0------0 0
---------0-------0 0
-----1-----------0 0
-.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q \
-I0_inst_sda_pre_internal.Q I0_addr_reg_1_.Q I0_addr_reg_5_.Q I0_addr_reg_6_.Q \
-I0_state_reg_2_.Q I0_inst_scl_rising_reg.Q I0_inst_scl_falling_reg.Q \
-I0_state_reg_6_.Q I0_addr_reg_0_.Q I0_addr_reg_2_.Q I0_addr_reg_3_.Q \
-I0_addr_reg_4_.Q I0_inst_cmd_reg.Q I0_data_to_master_reg_3_.CE
-0001-000--1111111 1
-----0---11------- 1
----------0-----0- 0
---------0------0- 0
-----1----------0- 0
----------0----0-- 0
---------0-----0-- 0
-----1---------0-- 0
----------0---0--- 0
---------0----0--- 0
-----1--------0--- 0
----------0--0---- 0
---------0---0---- 0
-----1-------0---- 0
----------0-0----- 0
---------0--0----- 0
-----1------0----- 0
----------00------ 0
---------0-0------ 0
-----1-----0------ 0
--------1-0------- 0
-------1--0------- 0
------1---0------- 0
----0-----0------- 0
---1------0------- 0
--1-------0------- 0
-1--------0------- 0
--------10-------- 0
-------1-0-------- 0
------1--0-------- 0
----0----0-------- 0
---1-----0-------- 0
--1------0-------- 0
-1-------0-------- 0
-----1--1--------- 0
-----1-1---------- 0
-----11----------- 0
----01------------ 0
---1-1------------ 0
--1--1------------ 0
-1---1------------ 0
----------0------0 0
---------0-------0 0
-----1-----------0 0
-.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q \
-I0_inst_sda_pre_internal.Q I0_addr_reg_1_.Q I0_addr_reg_5_.Q I0_addr_reg_6_.Q \
-I0_state_reg_2_.Q I0_inst_scl_rising_reg.Q I0_inst_scl_falling_reg.Q \
-I0_state_reg_6_.Q I0_addr_reg_0_.Q I0_addr_reg_2_.Q I0_addr_reg_3_.Q \
-I0_addr_reg_4_.Q I0_inst_cmd_reg.Q I0_data_to_master_reg_4_.CE
-0001-000--1111111 1
-----0---11------- 1
----------0-----0- 0
---------0------0- 0
-----1----------0- 0
----------0----0-- 0
---------0-----0-- 0
-----1---------0-- 0
----------0---0--- 0
---------0----0--- 0
-----1--------0--- 0
----------0--0---- 0
---------0---0---- 0
-----1-------0---- 0
----------0-0----- 0
---------0--0----- 0
-----1------0----- 0
----------00------ 0
---------0-0------ 0
-----1-----0------ 0
--------1-0------- 0
-------1--0------- 0
------1---0------- 0
----0-----0------- 0
---1------0------- 0
--1-------0------- 0
-1--------0------- 0
--------10-------- 0
-------1-0-------- 0
------1--0-------- 0
----0----0-------- 0
---1-----0-------- 0
--1------0-------- 0
-1-------0-------- 0
-----1--1--------- 0
-----1-1---------- 0
-----11----------- 0
----01------------ 0
---1-1------------ 0
--1--1------------ 0
-1---1------------ 0
----------0------0 0
---------0-------0 0
-----1-----------0 0
-.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q \
-I0_inst_sda_pre_internal.Q I0_addr_reg_1_.Q I0_addr_reg_5_.Q I0_addr_reg_6_.Q \
-I0_state_reg_2_.Q I0_inst_scl_rising_reg.Q I0_inst_scl_falling_reg.Q \
-I0_state_reg_6_.Q I0_addr_reg_0_.Q I0_addr_reg_2_.Q I0_addr_reg_3_.Q \
-I0_addr_reg_4_.Q I0_inst_cmd_reg.Q I0_data_to_master_reg_5_.CE
-0001-000--1111111 1
-----0---11------- 1
----------0-----0- 0
---------0------0- 0
-----1----------0- 0
----------0----0-- 0
---------0-----0-- 0
-----1---------0-- 0
----------0---0--- 0
---------0----0--- 0
-----1--------0--- 0
----------0--0---- 0
---------0---0---- 0
-----1-------0---- 0
----------0-0----- 0
---------0--0----- 0
-----1------0----- 0
----------00------ 0
---------0-0------ 0
-----1-----0------ 0
--------1-0------- 0
-------1--0------- 0
------1---0------- 0
----0-----0------- 0
---1------0------- 0
--1-------0------- 0
-1--------0------- 0
--------10-------- 0
-------1-0-------- 0
------1--0-------- 0
----0----0-------- 0
---1-----0-------- 0
--1------0-------- 0
-1-------0-------- 0
-----1--1--------- 0
-----1-1---------- 0
-----11----------- 0
----01------------ 0
---1-1------------ 0
--1--1------------ 0
-1---1------------ 0
----------0------0 0
---------0-------0 0
-----1-----------0 0
-.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q \
-I0_inst_sda_pre_internal.Q I0_addr_reg_1_.Q I0_addr_reg_5_.Q I0_addr_reg_6_.Q \
-I0_state_reg_2_.Q I0_inst_scl_rising_reg.Q I0_inst_scl_falling_reg.Q \
-I0_state_reg_6_.Q I0_addr_reg_0_.Q I0_addr_reg_2_.Q I0_addr_reg_3_.Q \
-I0_addr_reg_4_.Q I0_inst_cmd_reg.Q I0_data_to_master_reg_6_.CE
-0001-000--1111111 1
-----0---11------- 1
----------0-----0- 0
---------0------0- 0
-----1----------0- 0
----------0----0-- 0
---------0-----0-- 0
-----1---------0-- 0
----------0---0--- 0
---------0----0--- 0
-----1--------0--- 0
----------0--0---- 0
---------0---0---- 0
-----1-------0---- 0
----------0-0----- 0
---------0--0----- 0
-----1------0----- 0
----------00------ 0
---------0-0------ 0
-----1-----0------ 0
--------1-0------- 0
-------1--0------- 0
------1---0------- 0
----0-----0------- 0
---1------0------- 0
--1-------0------- 0
-1--------0------- 0
--------10-------- 0
-------1-0-------- 0
------1--0-------- 0
----0----0-------- 0
---1-----0-------- 0
--1------0-------- 0
-1-------0-------- 0
-----1--1--------- 0
-----1-1---------- 0
-----11----------- 0
----01------------ 0
---1-1------------ 0
--1--1------------ 0
-1---1------------ 0
----------0------0 0
---------0-------0 0
-----1-----------0 0
-.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q \
-I0_inst_sda_pre_internal.Q I0_addr_reg_1_.Q I0_addr_reg_5_.Q I0_addr_reg_6_.Q \
-I0_state_reg_2_.Q I0_inst_scl_rising_reg.Q I0_inst_scl_falling_reg.Q \
-I0_state_reg_6_.Q I0_addr_reg_0_.Q I0_addr_reg_2_.Q I0_addr_reg_3_.Q \
-I0_addr_reg_4_.Q I0_inst_cmd_reg.Q I0_data_to_master_reg_7_.CE
-0001-000--1111111 1
-----0---11------- 1
----------0-----0- 0
---------0------0- 0
-----1----------0- 0
----------0----0-- 0
---------0-----0-- 0
-----1---------0-- 0
----------0---0--- 0
---------0----0--- 0
-----1--------0--- 0
----------0--0---- 0
---------0---0---- 0
-----1-------0---- 0
----------0-0----- 0
---------0--0----- 0
-----1------0----- 0
----------00------ 0
---------0-0------ 0
-----1-----0------ 0
--------1-0------- 0
-------1--0------- 0
------1---0------- 0
----0-----0------- 0
---1------0------- 0
--1-------0------- 0
-1--------0------- 0
--------10-------- 0
-------1-0-------- 0
------1--0-------- 0
----0----0-------- 0
---1-----0-------- 0
--1------0-------- 0
-1-------0-------- 0
-----1--1--------- 0
-----1-1---------- 0
-----11----------- 0
----01------------ 0
---1-1------------ 0
--1--1------------ 0
-1---1------------ 0
----------0------0 0
---------0-------0 0
-----1-----------0 0
-.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_scl_rising_reg.Q \
-I0_state_reg_4_.Q I0_data_from_master_reg_0_.CE
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_state_reg_4_.Q \
+I0_inst_scl_rising_reg.Q I0_data_from_master_reg_0_.CE
 111-11 1
 ---111 1
 --00-- 0
@@ -1898,8 +1756,8 @@ I0_state_reg_4_.Q I0_data_from_master_reg_0_.CE
 ----0- 0
 -----0 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_scl_rising_reg.Q \
-I0_state_reg_4_.Q I0_data_from_master_reg_1_.CE
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_state_reg_4_.Q \
+I0_inst_scl_rising_reg.Q I0_data_from_master_reg_1_.CE
 111-11 1
 ---111 1
 --00-- 0
@@ -1908,8 +1766,8 @@ I0_state_reg_4_.Q I0_data_from_master_reg_1_.CE
 ----0- 0
 -----0 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_scl_rising_reg.Q \
-I0_state_reg_4_.Q I0_data_from_master_reg_2_.CE
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_state_reg_4_.Q \
+I0_inst_scl_rising_reg.Q I0_data_from_master_reg_2_.CE
 111-11 1
 ---111 1
 --00-- 0
@@ -1918,8 +1776,8 @@ I0_state_reg_4_.Q I0_data_from_master_reg_2_.CE
 ----0- 0
 -----0 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_scl_rising_reg.Q \
-I0_state_reg_4_.Q I0_data_from_master_reg_3_.CE
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_state_reg_4_.Q \
+I0_inst_scl_rising_reg.Q I0_data_from_master_reg_3_.CE
 111-11 1
 ---111 1
 --00-- 0
@@ -1928,8 +1786,8 @@ I0_state_reg_4_.Q I0_data_from_master_reg_3_.CE
 ----0- 0
 -----0 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_scl_rising_reg.Q \
-I0_state_reg_4_.Q I0_data_from_master_reg_4_.CE
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_state_reg_4_.Q \
+I0_inst_scl_rising_reg.Q I0_data_from_master_reg_4_.CE
 111-11 1
 ---111 1
 --00-- 0
@@ -1938,8 +1796,8 @@ I0_state_reg_4_.Q I0_data_from_master_reg_4_.CE
 ----0- 0
 -----0 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_scl_rising_reg.Q \
-I0_state_reg_4_.Q I0_data_from_master_reg_5_.CE
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_state_reg_4_.Q \
+I0_inst_scl_rising_reg.Q I0_data_from_master_reg_5_.CE
 111-11 1
 ---111 1
 --00-- 0
@@ -1948,8 +1806,8 @@ I0_state_reg_4_.Q I0_data_from_master_reg_5_.CE
 ----0- 0
 -----0 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_scl_rising_reg.Q \
-I0_state_reg_4_.Q I0_data_from_master_reg_6_.CE
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_state_reg_4_.Q \
+I0_inst_scl_rising_reg.Q I0_data_from_master_reg_6_.CE
 111-11 1
 ---111 1
 --00-- 0
@@ -1958,8 +1816,8 @@ I0_state_reg_4_.Q I0_data_from_master_reg_6_.CE
 ----0- 0
 -----0 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_scl_rising_reg.Q \
-I0_state_reg_4_.Q I0_data_from_master_reg_7_.CE
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_state_reg_4_.Q \
+I0_inst_scl_rising_reg.Q I0_data_from_master_reg_7_.CE
 111-11 1
 ---111 1
 --00-- 0
@@ -1967,6 +1825,54 @@ I0_state_reg_4_.Q I0_data_from_master_reg_7_.CE
 0--0-- 0
 ----0- 0
 -----0 0
+.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q \
+I0_inst_sda_pre_internal.Q I0_addr_reg_1_.Q I0_addr_reg_5_.Q I0_addr_reg_6_.Q \
+I0_state_reg_6_.Q I0_state_reg_2_.Q I0_inst_scl_rising_reg.Q \
+I0_inst_scl_falling_reg.Q I0_addr_reg_0_.Q I0_addr_reg_2_.Q I0_addr_reg_3_.Q \
+I0_addr_reg_4_.Q I0_inst_cmd_reg.Q I0_N_539_0
+--------1------0- 1
+--------1-----0-- 1
+--------1----0--- 1
+--------1---0---- 1
+--------1--0----- 1
+---------10------ 1
+--------00------- 1
+----1----1------- 1
+-------11-------- 1
+------1-1-------- 1
+-----1--1-------- 1
+---0----1-------- 1
+--1-----1-------- 1
+-1------1-------- 1
+1-------1-------- 1
+--------1-------0 1
+00010000-11111111 0
+0001-00010-111111 0
+----0---011------ 0
+.names I0_bits_processed_reg_3_.Q I0_inst_stop_reg.Q I0_inst_start_reg.Q \
+I0_bits_processed_reg_3_.D.X1
+100 1
+0-- 0
+-1- 0
+--1 0
+.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_stop_reg.Q \
+I0_inst_scl_falling_reg.Q I0_inst_start_reg.Q I0_state_reg_3_.Q \
+I0_bits_processed_reg_3_.D.X2
+111-000- 1
+111-0-00 1
+0001010- 1
+11110-0- 1
+----1--- 0
+------1- 0
+01------ 0
+10------ 0
+0-1----- 0
+1-0----- 0
+0--0---- 0
+0----0-- 0
+---0-1-1 0
 .names DIG_IO_23.PIN.BLIF DIG_23
 1 1
 0 0
@@ -2246,6 +2152,12 @@ I0_state_reg_4_.Q I0_data_from_master_reg_7_.CE
 .names OSCOUT.BLIF Pin_Enable.C
 1 1
 0 0
+.names OSCOUT.BLIF CPLD_DigOut_01.C
+1 1
+0 0
+.names OSCOUT.BLIF CPLD_DigOut_02.C
+1 1
+0 0
 .names OSCOUT.BLIF I0_bits_processed_reg_0_.C
 1 1
 0 0
@@ -2264,22 +2176,10 @@ I0_state_reg_4_.Q I0_data_from_master_reg_7_.CE
 .names OSCOUT.BLIF I0_inst_sda_pre_internal.C
 1 1
 0 0
-.names I0_state_reg_4_.Q bs_LSB.CE
-1 1
-0 0
-.names OSCOUT.BLIF bs_LSB.C
-1 1
-0 0
 .names OSCOUT.BLIF I0_inst_scl_pre_internal.C
 1 1
 0 0
 .names OSCOUT.BLIF I0_addr_reg_1_.C
-1 1
-0 0
-.names I0_state_reg_4_.Q bs_MSB.CE
-1 1
-0 0
-.names OSCOUT.BLIF bs_MSB.C
 1 1
 0 0
 .names OSCOUT.BLIF I0_addr_reg_5_.C
@@ -2312,6 +2212,30 @@ I0_state_reg_4_.Q I0_data_from_master_reg_7_.CE
 .names OSCOUT.BLIF I0_target_reg_7_.C
 1 1
 0 0
+.names OSCOUT.BLIF I0_read_reg_0_.C
+1 1
+0 0
+.names OSCOUT.BLIF I0_read_reg_1_.C
+1 1
+0 0
+.names OSCOUT.BLIF I0_read_reg_2_.C
+1 1
+0 0
+.names OSCOUT.BLIF I0_read_reg_3_.C
+1 1
+0 0
+.names OSCOUT.BLIF I0_read_reg_4_.C
+1 1
+0 0
+.names OSCOUT.BLIF I0_read_reg_5_.C
+1 1
+0 0
+.names OSCOUT.BLIF I0_read_reg_6_.C
+1 1
+0 0
+.names OSCOUT.BLIF I0_read_reg_7_.C
+1 1
+0 0
 .names OSCOUT.BLIF I0_inst_scl_prev_reg.C
 1 1
 0 0
@@ -2321,31 +2245,28 @@ I0_state_reg_4_.Q I0_data_from_master_reg_7_.CE
 .names OSCOUT.BLIF I0_inst_stop_reg.C
 1 1
 0 0
+.names OSCOUT.BLIF I0_state_reg_4_.C
+1 1
+0 0
+.names OSCOUT.BLIF I0_state_reg_6_.C
+1 1
+0 0
 .names OSCOUT.BLIF I0_state_reg_2_.C
 1 1
 0 0
 .names OSCOUT.BLIF I0_inst_scl_rising_reg.C
 1 1
 0 0
-.names OSCOUT.BLIF I0_state_reg_4_.C
+.names OSCOUT.BLIF sda.C
 1 1
 0 0
-.names OSCOUT.BLIF I0_inst_sda_o_reg.C
-1 1
-0 0
-.names OSCOUT.BLIF I0_inst_sda_o_reg_e.C
-1 1
-0 0
-.names OSCOUT.BLIF I0_state_reg_3_.C
-1 1
-0 0
-.names OSCOUT.BLIF I0_inst_scl_falling_reg.C
-1 1
-0 0
-.names OSCOUT.BLIF I0_state_reg_6_.C
+.names OSCOUT.BLIF I0_inst_sda_wen_reg.C
 1 1
 0 0
 .names OSCOUT.BLIF I0_inst_continue_reg.C
+1 1
+0 0
+.names OSCOUT.BLIF I0_inst_scl_falling_reg.C
 1 1
 0 0
 .names OSCOUT.BLIF I0_addr_reg_0_.C
@@ -2381,19 +2302,19 @@ I0_state_reg_4_.Q I0_data_from_master_reg_7_.CE
 .names OSCOUT.BLIF I0_data_reg_6_.C
 1 1
 0 0
-.names OSCOUT.BLIF I0_inst_sda_wen_reg.C
+.names OSCOUT.BLIF I0_inst_start_reg.C
 1 1
 0 0
-.names OSCOUT.BLIF I0_inst_start_reg.C
+.names OSCOUT.BLIF I0_state_reg_3_.C
+1 1
+0 0
+.names OSCOUT.BLIF I0_inst_cmd_reg.C
 1 1
 0 0
 .names OSCOUT.BLIF I0_state_reg_5_.C
 1 1
 0 0
 .names OSCOUT.BLIF I0_state_reg_1_.C
-1 1
-0 0
-.names OSCOUT.BLIF I0_inst_cmd_reg.C
 1 1
 0 0
 .names OSCOUT.BLIF I0_data_to_master_reg_0_.C
@@ -2442,6 +2363,15 @@ I0_state_reg_4_.Q I0_data_from_master_reg_7_.CE
 1 1
 0 0
 .names OSCOUT.BLIF I0_data_from_master_reg_7_.C
+1 1
+0 0
+.names OSCOUT.BLIF bs_MSB.C
+1 1
+0 0
+.names OSCOUT.BLIF J0_temp_y_2_reg.C
+1 1
+0 0
+.names OSCOUT.BLIF J0_temp_y_0_reg.C
 1 1
 0 0
 .names I0_data_from_master_reg_0_.Q IO_Select_DIG_00.D
@@ -2540,6 +2470,12 @@ I0_state_reg_4_.Q I0_data_from_master_reg_7_.CE
 .names I0_data_from_master_reg_7_.Q Pin_Enable.D
 1 1
 0 0
+.names I0_data_from_master_reg_0_.Q CPLD_DigOut_01.D
+1 1
+0 0
+.names I0_data_from_master_reg_1_.Q CPLD_DigOut_02.D
+1 1
+0 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
 I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_stop_reg.Q \
 I0_inst_scl_falling_reg.Q I0_inst_start_reg.Q I0_bits_processed_reg_0_.D
@@ -2570,52 +2506,12 @@ I0_bits_processed_reg_2_.D
 0-0-- 0
 ---1- 0
 ----1 0
-.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_stop_reg.Q \
-I0_inst_scl_falling_reg.Q I0_inst_start_reg.Q I0_bits_processed_reg_3_.D
---01000 1
--1010-0 1
-0-110-0 1
-10-10-0 1
-11100-0 1
-1111--- 0
-000--1- 0
---00--- 0
--0-0--- 0
-0--0--- 0
-----1-- 0
-------1 0
 .names I0_inst_reg_or_data_receive.Q I0_inst_reg_or_data_receive.D
 0 1
 1 0
 .names sda.PIN.BLIF I0_inst_sda_pre_internal.D
 1 1
 0 0
-.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q \
-I0_inst_reg_or_data_receive.Q bs_LSB.Q I0_target_reg_0_.Q I0_target_reg_1_.Q \
-I0_target_reg_2_.Q I0_target_reg_3_.Q I0_target_reg_4_.Q I0_target_reg_5_.Q \
-I0_target_reg_6_.Q I0_target_reg_7_.Q I0_inst_scl_falling_reg.Q bs_LSB.T
-000110111110001 1
-000110010001001 1
-0001-1-00001001 1
-000101--------1 1
------01----1--- 0
-----1--01------ 0
-----1----0-0--- 0
-----1----10---- 0
-----1---0-1---- 0
-----1-0-1------ 0
-----11-1------- 0
------0-0------- 0
-----00--------- 0
-----1--------1- 0
-----1-------1-- 0
----0----------- 0
---1------------ 0
--1------------- 0
-1-------------- 0
---------------0 0
 .names scl.BLIF I0_inst_scl_pre_internal.D
 1 1
 0 0
@@ -2627,31 +2523,6 @@ I0_inst_sda_pre_internal.Q I0_addr_reg_1_.Q I0_addr_reg_1_.D
 110- 0
 -0-0 0
 0--0 0
-.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q \
-I0_inst_reg_or_data_receive.Q bs_MSB.Q I0_target_reg_0_.Q I0_target_reg_1_.Q \
-I0_target_reg_2_.Q I0_target_reg_3_.Q I0_target_reg_4_.Q I0_target_reg_5_.Q \
-I0_target_reg_6_.Q I0_target_reg_7_.Q I0_inst_scl_falling_reg.Q bs_MSB.T
-000111111110001 1
-000111100001001 1
-0001-00-0001001 1
-000100--------1 1
------1-10------ 0
-----1-0----0--- 0
-----1----1-1--- 0
-----1---1-0---- 0
-----1----01---- 0
-----1--0---0--- 0
-----101-------- 0
-----01--------- 0
------10-------- 0
-----1--------1- 0
-----1-------1-- 0
----0----------- 0
---1------------ 0
--1------------- 0
-1-------------- 0
---------------0 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
 I0_bits_processed_reg_2_.Q I0_inst_sda_pre_internal.Q I0_addr_reg_5_.Q \
 I0_addr_reg_5_.D
@@ -2698,6 +2569,30 @@ I0_addr_reg_6_.D
 .names I0_data_from_master_reg_7_.Q I0_target_reg_7_.D
 1 1
 0 0
+.names I0_data_from_master_reg_0_.Q I0_read_reg_0_.D
+1 1
+0 0
+.names I0_data_from_master_reg_1_.Q I0_read_reg_1_.D
+1 1
+0 0
+.names I0_data_from_master_reg_2_.Q I0_read_reg_2_.D
+1 1
+0 0
+.names I0_data_from_master_reg_3_.Q I0_read_reg_3_.D
+1 1
+0 0
+.names I0_data_from_master_reg_4_.Q I0_read_reg_4_.D
+1 1
+0 0
+.names I0_data_from_master_reg_5_.Q I0_read_reg_5_.D
+1 1
+0 0
+.names I0_data_from_master_reg_6_.Q I0_read_reg_6_.D
+1 1
+0 0
+.names I0_data_from_master_reg_7_.Q I0_read_reg_7_.D
+1 1
+0 0
 .names I0_inst_scl_pre_internal.Q I0_inst_scl_prev_reg.D
 1 1
 0 0
@@ -2713,57 +2608,70 @@ I0_inst_scl_prev_reg.Q I0_inst_sda_prev_reg.Q I0_inst_stop_reg.D
 ---1 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
 I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_stop_reg.Q \
-I0_state_reg_2_.Q I0_inst_scl_rising_reg.Q I0_state_reg_3_.Q \
-I0_inst_scl_falling_reg.Q I0_inst_start_reg.Q I0_state_reg_2_.D
-00010--110 1
-----010--0 1
-------1-0- 0
------0--0- 0
+I0_state_reg_4_.Q I0_inst_continue_reg.Q I0_inst_scl_falling_reg.Q \
+I0_inst_start_reg.Q I0_inst_cmd_reg.Q I0_state_reg_5_.Q I0_state_reg_1_.Q \
+I0_state_reg_4_.T
+0001-1-1--00 1
+----001100-1 1
+----00-1001- 1
+-----1--1--- 1
+----11------ 1
+1---01--0--- 0
+-----00---0- 0
+-1--01--0--- 0
+--1-01--0--- 0
+---001--0--- 0
+-----0---1-- 0
+----01--0-1- 0
+----0--00--- 0
+----01--0--1 0
+-----0--1--- 0
+----10------ 0
+-----0----00 0
+.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_stop_reg.Q \
+I0_state_reg_6_.Q I0_inst_scl_falling_reg.Q I0_inst_start_reg.Q \
+I0_state_reg_6_.D
+----010- 1
+---001-- 1
+--1-01-- 1
+-1--01-- 1
+1---01-- 1
+----0--1 1
+0001--10 0
+----1--- 0
+-----0-0 0
+.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_stop_reg.Q \
+I0_state_reg_2_.Q I0_inst_scl_rising_reg.Q I0_inst_scl_falling_reg.Q \
+I0_inst_start_reg.Q I0_state_reg_3_.Q I0_state_reg_2_.D
+11100--101 1
+----010-0- 1
 ------10-- 0
 -----0-0-- 0
----0--1--- 0
---1---1--- 0
--1----1--- 0
-1-----1--- 0
----0-0---- 0
---1--0---- 0
--1---0---- 0
-1----0---- 0
+---1--1--- 0
+--0---1--- 0
+-0----1--- 0
+0-----1--- 0
+---1-0---- 0
+--0--0---- 0
+-0---0---- 0
+0----0---- 0
+--------1- 0
 ----1----- 0
----------1 0
+------1--0 0
+-----0---0 0
 .names I0_inst_scl_pre_internal.Q I0_inst_scl_prev_reg.Q \
 I0_inst_scl_rising_reg.D
 10 1
 0- 0
 -1 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_stop_reg.Q \
-I0_state_reg_4_.Q I0_inst_scl_falling_reg.Q I0_inst_continue_reg.Q \
-I0_inst_start_reg.Q I0_state_reg_5_.Q I0_state_reg_1_.Q I0_inst_cmd_reg.Q \
-I0_state_reg_4_.T
-0001-11--00- 1
-----00110-10 1
-----001-01-0 1
------1--1--- 1
-----11------ 1
-1---01--0--- 0
------0-0-0-- 0
--1--01--0--- 0
---1-01--0--- 0
----001--0--- 0
------0-----1 0
------0---00- 0
-----01--0-1- 0
-----01--01-- 0
------0--1--- 0
-----10------ 0
-----0-0-0--- 0
-.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
 I0_bits_processed_reg_2_.Q I0_state_reg_3_.Q I0_data_to_master_reg_0_.Q \
 I0_data_to_master_reg_1_.Q I0_data_to_master_reg_2_.Q \
 I0_data_to_master_reg_3_.Q I0_data_to_master_reg_4_.Q \
 I0_data_to_master_reg_5_.Q I0_data_to_master_reg_6_.Q \
-I0_data_to_master_reg_7_.Q I0_inst_sda_o_reg.D
+I0_data_to_master_reg_7_.Q sda.D
 1001------1- 1
 0101-----1-- 1
 0011---1---- 1
@@ -2781,82 +2689,18 @@ I0_data_to_master_reg_7_.Q I0_inst_sda_o_reg.D
 111-0------- 0
 000--------0 0
 ---0-------- 0
-.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_state_reg_3_.Q \
-I0_inst_scl_falling_reg.Q I0_data_to_master_reg_0_.Q \
-I0_data_to_master_reg_1_.Q I0_data_to_master_reg_2_.Q \
-I0_data_to_master_reg_3_.Q I0_data_to_master_reg_4_.Q \
-I0_data_to_master_reg_5_.Q I0_data_to_master_reg_6_.Q \
-I0_data_to_master_reg_7_.Q I0_inst_sda_o_reg_e.D
-100---------0- 1
-010--------0-- 1
-001------0---- 1
-110-------0--- 1
-101-----0----- 1
-011----0------ 1
-111---0------- 1
-000----------0 1
----0-1-------- 1
-----0--------- 1
-100-10------1- 0
-10011-------1- 0
-010-10-----1-- 0
-01011------1-- 0
-001-10---1---- 0
-00111----1---- 0
-110-10----1--- 0
-11011-----1--- 0
-101-10--1----- 0
-10111---1----- 0
-011-10-1------ 0
-01111--1------ 0
-111-101------- 0
-11111-1------- 0
-000-10-------1 0
-00011--------1 0
-.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_stop_reg.Q \
-I0_state_reg_3_.Q I0_inst_scl_falling_reg.Q I0_inst_continue_reg.Q \
-I0_inst_start_reg.Q I0_state_reg_5_.Q I0_state_reg_1_.Q I0_inst_cmd_reg.Q \
-I0_state_reg_3_.T
-0001-11--00- 1
-----00110-11 1
-----001-01-1 1
------1--1--- 1
-----11------ 1
-1---01--0--- 0
------0-0-0-- 0
--1--01--0--- 0
---1-01--0--- 0
----001--0--- 0
------0-----0 0
------0---00- 0
-----01--0-1- 0
-----01--01-- 0
------0--1--- 0
-----10------ 0
-----0-0-0--- 0
+.names I0_state_reg_3_.Q I0_state_reg_5_.Q I0_inst_sda_wen_reg.D
+1- 1
+-1 1
+00 0
+.names I0_inst_sda_pre_internal.Q I0_inst_continue_reg.D
+0 1
+1 0
 .names I0_inst_scl_pre_internal.Q I0_inst_scl_prev_reg.Q \
 I0_inst_scl_falling_reg.D
 01 1
 1- 0
 -0 0
-.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
-I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_stop_reg.Q \
-I0_inst_scl_falling_reg.Q I0_state_reg_6_.Q I0_inst_start_reg.Q \
-I0_state_reg_6_.D
-----001- 1
----00-1- 1
---1-0-1- 1
--1--0-1- 1
-1---0-1- 1
-----0--1 1
-0001-1-0 0
-----1--- 0
-------00 0
-.names I0_inst_sda_pre_internal.Q I0_inst_continue_reg.D
-0 1
-1 0
 .names I0_bits_processed_reg_1_.Q I0_bits_processed_reg_2_.Q \
 I0_inst_sda_pre_internal.Q I0_addr_reg_0_.Q I0_addr_reg_0_.D
 111- 1
@@ -2963,10 +2807,6 @@ I0_data_reg_6_.D
 --1-0 0
 -1--0 0
 1---0 0
-.names I0_state_reg_3_.Q I0_state_reg_5_.Q I0_inst_sda_wen_reg.D
-1- 1
--1 1
-00 0
 .names I0_inst_sda_pre_internal.Q I0_inst_scl_pre_internal.Q \
 I0_inst_scl_prev_reg.Q I0_inst_sda_prev_reg.Q I0_inst_start_reg.D
 0111 1
@@ -2975,27 +2815,52 @@ I0_inst_scl_prev_reg.Q I0_inst_sda_prev_reg.Q I0_inst_start_reg.D
 1--- 0
 ---0 0
 .names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
+I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_inst_stop_reg.Q \
+I0_inst_continue_reg.Q I0_inst_scl_falling_reg.Q I0_inst_start_reg.Q \
+I0_state_reg_3_.Q I0_inst_cmd_reg.Q I0_state_reg_5_.Q I0_state_reg_1_.Q \
+I0_state_reg_3_.T
+1110--1-1-00 1
+----011001-1 1
+----0-10011- 1
+-------11--- 1
+----1---1--- 1
+0---0--01--- 0
+-----0--0-0- 0
+-0--0--01--- 0
+--0-0--01--- 0
+---10--01--- 0
+--------00-- 0
+----0--01-1- 0
+----0-00---- 0
+----0--01--1 0
+-------10--- 0
+----1---0--- 0
+--------0-00 0
+.names I0_inst_sda_pre_internal.Q I0_inst_cmd_reg.D
+1 1
+0 0
+.names I0_bits_processed_reg_0_.Q I0_bits_processed_reg_1_.Q \
 I0_bits_processed_reg_2_.Q I0_bits_processed_reg_3_.Q I0_addr_reg_1_.Q \
 I0_addr_reg_5_.Q I0_addr_reg_6_.Q I0_inst_stop_reg.Q I0_state_reg_4_.Q \
-I0_inst_scl_falling_reg.Q I0_state_reg_6_.Q I0_addr_reg_0_.Q I0_addr_reg_2_.Q \
+I0_state_reg_6_.Q I0_inst_scl_falling_reg.Q I0_addr_reg_0_.Q I0_addr_reg_2_.Q \
 I0_addr_reg_3_.Q I0_addr_reg_4_.Q I0_inst_start_reg.Q I0_state_reg_5_.Q \
 I0_state_reg_5_.D
 00010000-1111110- 1
-0001---011-----0- 1
--------0-0-----01 1
---------01----0-- 0
---------01---0--- 0
---------01--0---- 0
---------01-0----- 0
---------010------ 0
-------1-01------- 0
------1--01------- 0
-----1---01------- 0
----0-----1------- 0
---1------1------- 0
--1-------1------- 0
-1--------1------- 0
----------0------0 0
+0001---01-1----0- 1
+-------0--0----01 1
+--------0-1---0-- 0
+--------0-1--0--- 0
+--------0-1-0---- 0
+--------0-10----- 0
+--------001------ 0
+------1-0-1------ 0
+-----1--0-1------ 0
+----1---0-1------ 0
+---0------1------ 0
+--1-------1------ 0
+-1--------1------ 0
+1---------1------ 0
+----------0-----0 0
 ---------------1- 0
 -------1--------- 0
 .names I0_inst_stop_reg.Q I0_state_reg_2_.Q I0_inst_scl_rising_reg.Q \
@@ -3009,29 +2874,296 @@ I0_state_reg_1_.D
 ----1- 0
 1----- 0
 -0---0 0
-.names I0_inst_sda_pre_internal.Q I0_inst_cmd_reg.D
-1 1
-0 0
-.names I0_data_to_master_reg_0_.D
-.names I0_state_reg_6_.Q I0_data_to_master_reg_1_.D
-1 1
-0 0
-.names I0_state_reg_6_.Q I0_data_to_master_reg_2_.D
-0 1
-1 0
-.names I0_state_reg_6_.Q I0_data_to_master_reg_3_.D
-0 1
-1 0
-.names I0_state_reg_6_.Q I0_data_to_master_reg_4_.D
-0 1
-1 0
-.names I0_state_reg_6_.Q I0_data_to_master_reg_5_.D
-0 1
-1 0
-.names I0_state_reg_6_.Q I0_data_to_master_reg_6_.D
-1 1
-0 0
-.names I0_data_to_master_reg_7_.D
+.names IO_Select_DIG_00.Q I0_data_1_0_reg.Q I0_data_2_0_reg.Q \
+IO_Select_DIG_24.Q I0_read_reg_0_.Q I0_read_reg_1_.Q I0_read_reg_2_.Q \
+I0_read_reg_3_.Q I0_read_reg_4_.Q I0_read_reg_5_.Q I0_read_reg_6_.Q \
+I0_read_reg_7_.Q I0_state_reg_6_.Q I0_state_reg_2_.Q J0_temp_y_0_reg.Q \
+I0_data_to_master_reg_0_.D
+----11-0------1 1
+----0----0----1 1
+------1--1----1 1
+-------10-----1 1
+------0-1-----1 1
+-----0---0----1 1
+1---111110001-- 1
+-1--000001001-- 1
+--1-100001001-- 1
+---1010001001-- 1
+-------------11 1
+-----------1--1 1
+----------1---1 1
+0-------1-----0 0
+--0-1----1----0 0
+---0-1---1----0 0
+----0----0----0 0
+----11-0------0 0
+-----0---0----0 0
+------1--1----0 0
+-------10-----0 0
+------0-1-----0 0
+0---11111000-0- 0
+----1111100000- 0
+-0--00000100-0- 0
+--0-10000100-0- 0
+---001000100-0- 0
+-----000010000- 0
+----0-00010000- 0
+-0--00--------0 0
+-----------1--0 0
+----------1---0 0
+------------0-0 0
+.names IO_Select_DIG_01.Q I0_data_1_1_reg.Q I0_data_2_1_reg.Q \
+IO_Select_DIG_25.Q I0_read_reg_0_.Q I0_read_reg_1_.Q I0_read_reg_2_.Q \
+I0_read_reg_3_.Q I0_read_reg_4_.Q I0_read_reg_5_.Q I0_read_reg_6_.Q \
+I0_read_reg_7_.Q I0_state_reg_6_.Q I0_state_reg_2_.Q J0_temp_y_0_reg.Q \
+I0_data_to_master_reg_1_.D
+----11-0------1 1
+----0----0----1 1
+------1--1----1 1
+-------10-----1 1
+------0-1-----1 1
+-----0---0----1 1
+1---111110001-- 1
+-1--000001001-- 1
+--1-100001001-- 1
+---1010001001-- 1
+-------------11 1
+-----------1--1 1
+----------1---1 1
+0-------1-----0 0
+--0-1----1----0 0
+---0-1---1----0 0
+----0----0----0 0
+----11-0------0 0
+-----0---0----0 0
+------1--1----0 0
+-------10-----0 0
+------0-1-----0 0
+0---11111000-0- 0
+----1111100000- 0
+-0--00000100-0- 0
+--0-10000100-0- 0
+---001000100-0- 0
+-----000010000- 0
+----0-00010000- 0
+-0--00--------0 0
+-----------1--0 0
+----------1---0 0
+------------0-0 0
+.names IO_Select_DIG_02.Q I0_data_1_2_reg.Q I0_data_2_2_reg.Q \
+IO_Select_DIG_26.Q I0_read_reg_0_.Q I0_read_reg_1_.Q I0_read_reg_2_.Q \
+I0_read_reg_3_.Q I0_read_reg_4_.Q I0_read_reg_5_.Q I0_read_reg_6_.Q \
+I0_read_reg_7_.Q I0_state_reg_6_.Q I0_state_reg_2_.Q J0_temp_y_2_reg.Q \
+I0_data_to_master_reg_2_.D
+----11-0------1 1
+----0----0----1 1
+------1--1----1 1
+-------10-----1 1
+------0-1-----1 1
+-----0---0----1 1
+1---111110001-- 1
+-1--000001001-- 1
+--1-100001001-- 1
+---1010001001-- 1
+-------------11 1
+-----------1--1 1
+----------1---1 1
+0-------1-----0 0
+--0-1----1----0 0
+---0-1---1----0 0
+----0----0----0 0
+----11-0------0 0
+-----0---0----0 0
+------1--1----0 0
+-------10-----0 0
+------0-1-----0 0
+0---11111000-0- 0
+----1111100000- 0
+-0--00000100-0- 0
+--0-10000100-0- 0
+---001000100-0- 0
+-----000010000- 0
+----0-00010000- 0
+-0--00--------0 0
+-----------1--0 0
+----------1---0 0
+------------0-0 0
+.names IO_Select_DIG_03.Q I0_data_1_3_reg.Q I0_data_2_3_reg.Q \
+IO_Select_DIG_27.Q I0_read_reg_0_.Q I0_read_reg_1_.Q I0_read_reg_2_.Q \
+I0_read_reg_3_.Q I0_read_reg_4_.Q I0_read_reg_5_.Q I0_read_reg_6_.Q \
+I0_read_reg_7_.Q I0_state_reg_6_.Q I0_state_reg_2_.Q J0_temp_y_2_reg.Q \
+I0_data_to_master_reg_3_.D
+----11-0------1 1
+----0----0----1 1
+------1--1----1 1
+-------10-----1 1
+------0-1-----1 1
+-----0---0----1 1
+1---111110001-- 1
+-1--000001001-- 1
+--1-100001001-- 1
+---1010001001-- 1
+-------------11 1
+-----------1--1 1
+----------1---1 1
+0-------1-----0 0
+--0-1----1----0 0
+---0-1---1----0 0
+----0----0----0 0
+----11-0------0 0
+-----0---0----0 0
+------1--1----0 0
+-------10-----0 0
+------0-1-----0 0
+0---11111000-0- 0
+----1111100000- 0
+-0--00000100-0- 0
+--0-10000100-0- 0
+---001000100-0- 0
+-----000010000- 0
+----0-00010000- 0
+-0--00--------0 0
+-----------1--0 0
+----------1---0 0
+------------0-0 0
+.names IO_Select_DIG_04.Q I0_data_1_4_reg.Q I0_data_2_4_reg.Q \
+IO_Select_DIG_28.Q I0_read_reg_0_.Q I0_read_reg_1_.Q I0_read_reg_2_.Q \
+I0_read_reg_3_.Q I0_read_reg_4_.Q I0_read_reg_5_.Q I0_read_reg_6_.Q \
+I0_read_reg_7_.Q I0_state_reg_6_.Q I0_state_reg_2_.Q J0_temp_y_2_reg.Q \
+I0_data_to_master_reg_4_.D
+----11-0------1 1
+----0----0----1 1
+------1--1----1 1
+-------10-----1 1
+------0-1-----1 1
+-----0---0----1 1
+1---111110001-- 1
+-1--000001001-- 1
+--1-100001001-- 1
+---1010001001-- 1
+-------------11 1
+-----------1--1 1
+----------1---1 1
+0-------1-----0 0
+--0-1----1----0 0
+---0-1---1----0 0
+----0----0----0 0
+----11-0------0 0
+-----0---0----0 0
+------1--1----0 0
+-------10-----0 0
+------0-1-----0 0
+0---11111000-0- 0
+----1111100000- 0
+-0--00000100-0- 0
+--0-10000100-0- 0
+---001000100-0- 0
+-----000010000- 0
+----0-00010000- 0
+-0--00--------0 0
+-----------1--0 0
+----------1---0 0
+------------0-0 0
+.names IO_Select_DIG_05.Q I0_data_1_5_reg.Q I0_data_2_5_reg.Q \
+IO_Select_DIG_29.Q I0_read_reg_0_.Q I0_read_reg_1_.Q I0_read_reg_2_.Q \
+I0_read_reg_3_.Q I0_read_reg_4_.Q I0_read_reg_5_.Q I0_read_reg_6_.Q \
+I0_read_reg_7_.Q I0_state_reg_6_.Q I0_state_reg_2_.Q J0_temp_y_2_reg.Q \
+I0_data_to_master_reg_5_.D
+----11-0------1 1
+----0----0----1 1
+------1--1----1 1
+-------10-----1 1
+------0-1-----1 1
+-----0---0----1 1
+1---111110001-- 1
+-1--000001001-- 1
+--1-100001001-- 1
+---1010001001-- 1
+-------------11 1
+-----------1--1 1
+----------1---1 1
+0-------1-----0 0
+--0-1----1----0 0
+---0-1---1----0 0
+----0----0----0 0
+----11-0------0 0
+-----0---0----0 0
+------1--1----0 0
+-------10-----0 0
+------0-1-----0 0
+0---11111000-0- 0
+----1111100000- 0
+-0--00000100-0- 0
+--0-10000100-0- 0
+---001000100-0- 0
+-----000010000- 0
+----0-00010000- 0
+-0--00--------0 0
+-----------1--0 0
+----------1---0 0
+------------0-0 0
+.names IO_Select_DIG_06.Q I0_data_1_6_reg.Q I0_data_2_6_reg.Q RESERVED.Q \
+I0_read_reg_0_.Q I0_read_reg_1_.Q I0_read_reg_2_.Q I0_read_reg_3_.Q \
+I0_read_reg_4_.Q I0_read_reg_5_.Q I0_read_reg_6_.Q I0_read_reg_7_.Q \
+I0_state_reg_6_.Q I0_state_reg_2_.Q J0_temp_y_0_reg.Q \
+I0_data_to_master_reg_6_.D
+----11-0------1 1
+----0----0----1 1
+------1--1----1 1
+-------10-----1 1
+------0-1-----1 1
+-----0---0----1 1
+1---111110001-- 1
+-1--000001001-- 1
+--1-100001001-- 1
+---1010001001-- 1
+-------------11 1
+-----------1--1 1
+----------1---1 1
+0-------1-----0 0
+--0-1----1----0 0
+---0-1---1----0 0
+----0----0----0 0
+----11-0------0 0
+-----0---0----0 0
+------1--1----0 0
+-------10-----0 0
+------0-1-----0 0
+0---11111000-0- 0
+----1111100000- 0
+-0--00000100-0- 0
+--0-10000100-0- 0
+---001000100-0- 0
+-----000010000- 0
+----0-00010000- 0
+-0--00--------0 0
+-----------1--0 0
+----------1---0 0
+------------0-0 0
+.names IO_Select_DIG_07.Q I0_data_1_7_reg.Q I0_data_2_7_reg.Q Pin_Enable.Q \
+I0_read_reg_0_.Q I0_read_reg_1_.Q I0_read_reg_2_.Q I0_read_reg_3_.Q \
+I0_read_reg_4_.Q I0_read_reg_5_.Q I0_read_reg_6_.Q I0_read_reg_7_.Q \
+I0_state_reg_6_.Q I0_state_reg_2_.Q I0_data_to_master_reg_7_.D
+1-------1---1- 1
+--1-1---0---1- 1
+---1-1-0----1- 1
+----0----0---- 1
+----110------- 1
+-----0---0---- 1
+--------11---- 1
+-------10----- 1
+------10------ 1
+-1--00------1- 1
+-----------1-- 1
+----------1--- 1
+-------------1 1
+0---11111000-0 0
+----1111100000 0
+-0--00000100-0 0
+--0-10000100-0 0
+---001000100-0 0
+-----000010000 0
+----0-00010000 0
 .names I0_inst_sda_pre_internal.Q I0_data_from_master_reg_0_.D
 1 1
 0 0
@@ -3054,6 +3186,16 @@ I0_state_reg_1_.D
 1 1
 0 0
 .names I0_data_reg_6_.Q I0_data_from_master_reg_7_.D
+1 1
+0 0
+.names I0_state_reg_4_.Q bs_MSB.Q bs_MSB.D
+01 1
+1- 0
+-0 0
+.names J0_temp_y_2_reg.Q J0_temp_y_2_reg.D
+0 1
+1 0
+.names J0_temp_y_2_reg.Q J0_temp_y_0_reg.D
 1 1
 0 0
 .end

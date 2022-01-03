@@ -1,1 +1,0 @@
-@W: FC103 :|Internal tri state sda_o_reg_tri_7_1 converted to mux. Simulation mismatch can happen 

@@ -1,0 +1,4 @@
+@N: CD630 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\debounce.vhd":16:7:16:14|Synthesizing work.debounce.arch 
+@N: CD233 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\debounce.vhd":26:15:26:16|Using sequential encoding for type state_t
+@E: CL104 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\debounce.vhd":28:61:28:69|Couldn't find binding for variable signal_in
+@END

@@ -4,7 +4,7 @@
   (keywordMap (keywordLevel 0))
   (status
     (written
-      (timeStamp 2022 1 2 19 5 32)
+      (timeStamp 2022 1 3 1 42 11)
       (author "Synopsys, Inc.")
       (program "Synplify Pro" (version "I-2014.03LC , mapper maplat, Build 923R"))
      )
@@ -46,13 +46,13 @@
           (instance y6 (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
           (instance y7 (viewRef prim (cellRef OBUF (libraryRef ispmach4s)))          )
           (net VCC (joined
+           (portRef I0 (instanceRef y0))
            (portRef I0 (instanceRef y2))
            (portRef I0 (instanceRef y3))
            (portRef I0 (instanceRef y4))
            (portRef I0 (instanceRef y5))
           ))
           (net GND (joined
-           (portRef I0 (instanceRef y0))
            (portRef I0 (instanceRef y1))
            (portRef I0 (instanceRef y6))
            (portRef I0 (instanceRef y7))

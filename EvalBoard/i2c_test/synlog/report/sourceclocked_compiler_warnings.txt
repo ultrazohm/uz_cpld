@@ -1,3 +1,4 @@
-@W: CL279 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\sourceclocked.vhd":25:0:25:1|Pruning register bits 7 to 3 of temp_y(7 downto 0)  
+@W: CL279 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\sourceclocked.vhd":25:0:25:1|Pruning register bits 6 to 3 of temp_y(7 downto 0)  
 @W: CL260 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\sourceclocked.vhd":25:0:25:1|Pruning register bit 1 of temp_y(7 downto 0)  
+@W: CL189 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\sourceclocked.vhd":25:0:25:1|Register bit temp_y(7) is always 1, optimizing ...
 

@@ -1,0 +1,5 @@
+@N|Running in 64-bit mode
+@N: CD720 :"C:\ispLEVER_Classic2_1\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\mux30_1.vhd":6:7:6:14|Top entity is set to bi_d_mux.
+@N: CD630 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\mux30_1.vhd":6:7:6:14|Synthesizing work.bi_d_mux.simple 
+

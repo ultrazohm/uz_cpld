@@ -1,97 +1,116 @@
 #$ TOOL ispLEVER Classic 2.1.00.02.49.20
-#$ DATE Sun Jan 02 22:27:03 2022
+#$ DATE Tue Jan 04 00:27:14 2022
 #$ TITLE io_pins.bls 
 #$ PROPERTY LATTICE OSCTIMER TIMER_DIV = 1048576;
 #$ MODULE io_pins
-#$ PINS 80 Pin_Enable RESERVED IO_Select_DIG_29 IO_Select_DIG_28 IO_Select_DIG_27 \
-#  IO_Select_DIG_26 IO_Select_DIG_25 IO_Select_DIG_24 DIG_00'io'  IO_Select_DIG_07 \
-#  IO_Select_DIG_06 IO_Select_DIG_05 IO_Select_DIG_04 IO_Select_DIG_03 \
-#  IO_Select_DIG_02 IO_Select_DIG_01 IO_Select_DIG_00 DIG_IO_29'io'  DIG_IO_28'io'  \
-#  DIG_IO_27'io'  DIG_IO_26'io'  DIG_IO_25'io'  DIG_IO_24'io'  DIG_29'io'  DIG_28'io'  DIG_27'io'  DIG_26'io'  \
-#  DIG_25'io'  DIG_24'io'  DIG_IO_18'io'  DIG_18'io'  DIG_IO_19'io'  DIG_19'io'  DIG_IO_20'io'  DIG_20'io'  \
-#  DIG_IO_21'io'  DIG_21'io'  DIG_IO_22'io'  DIG_22'io'  DIG_IO_23'io'  DIG_23'io'  DIG_IO_12'io'  DIG_12'io'  \
-#  DIG_IO_13'io'  DIG_13'io'  DIG_IO_14'io'  DIG_14'io'  DIG_IO_15'io'  DIG_15'io'  DIG_IO_16'io'  DIG_16'io'  \
-#  DIG_IO_17'io'  DIG_17'io'  DIG_IO_06'io'  DIG_06'io'  DIG_IO_07'io'  DIG_07'io'  DIG_IO_08'io'  DIG_08'io'  \
-#  DIG_IO_09'io'  DIG_09'io'  DIG_IO_10'io'  DIG_10'io'  DIG_IO_11'io'  DIG_11'io'  DIG_IO_00'io'  \
-#  DIG_IO_01'io'  DIG_01'io'  DIG_IO_02'io'  DIG_02'io'  DIG_IO_03'io'  DIG_03'io'  DIG_IO_04'io'  DIG_04'io'  \
-#  DIG_IO_05'io'  DIG_05'io'  bs_LSB bs_MSB scl sda
-#$ NODES 225 IO_Select_DIG_23 IO_Select_DIG_22 IO_Select_DIG_21 IO_Select_DIG_20 \
-#  IO_Select_DIG_19 IO_Select_DIG_18 IO_Select_DIG_17 IO_Select_DIG_16 \
-#  IO_Select_DIG_15 IO_Select_DIG_14 IO_Select_DIG_13 IO_Select_DIG_12 \
-#  IO_Select_DIG_11 IO_Select_DIG_10 IO_Select_DIG_09 IO_Select_DIG_08 \
-#  IO_Select_1_8_0_ IO_Select_1_8_1_ IO_Select_1_8_2_ IO_Select_1_8_3_ \
-#  IO_Select_1_8_4_ IO_Select_1_8_5_ IO_Select_1_8_6_ IO_Select_1_8_7_ N_239'o'  N_240'o'  \
-#  N_241'o'  N_242'o'  N_243'o'  N_244'o'  N_245'o'  N_246'o'  N_247'o'  N_248'o'  N_249'o'  N_250'o'  N_251'o'  N_252'o'  N_253'o'  \
-#  N_254'o'  N_255'o'  N_256'o'  N_257'o'  N_258'o'  N_259'o'  N_260'o'  N_261'o'  N_262'o'  N_263'o'  N_264'o'  N_265'o'  N_266'o'  \
-#  N_267'o'  N_268'o'  N_275'o'  N_276'o'  N_277'o'  N_278'o'  N_279'o'  N_280'o'  N_281'o'  N_282'o'  N_283'o'  N_284'o'  N_285'o'  \
-#  N_286'o'  N_287'o'  N_288'o'  N_289'o'  N_290'o'  N_291'o'  N_292'o'  N_293'o'  N_294'o'  N_295'o'  N_296'o'  N_297'o'  N_298'o'  \
-#  N_299'o'  N_300'o'  N_301'o'  N_302'o'  N_303'o'  N_304'o'  N_311'o'  N_312'o'  N_313'o'  N_314'o'  N_315'o'  N_316'o'  N_317'o'  \
-#  N_318'o'  N_319'o'  N_320'o'  N_321'o'  N_322'o'  N_323'o'  N_324'o'  N_325'o'  N_326'o'  N_327'o'  N_328'o'  N_329'o'  N_330'o'  \
-#  N_331'o'  N_332'o'  N_333'o'  N_334'o'  N_335'o'  N_336'o'  N_337'o'  N_338'o'  N_339'o'  N_340'o'  N_347'o'  N_348'o'  N_349'o'  \
-#  N_350'o'  N_351'o'  N_352'o'  N_353'o'  N_354'o'  N_355'o'  N_356'o'  N_357'o'  N_358'o'  N_359'o'  N_360'o'  N_361'o'  N_362'o'  \
-#  N_363'o'  N_364'o'  N_365'o'  N_366'o'  N_367'o'  N_368'o'  N_369'o'  N_370'o'  N_371'o'  N_372'o'  N_373'o'  N_374'o'  N_375'o'  \
-#  N_376'o'  N_383'o'  N_384'o'  N_385'o'  N_386'o'  N_387'o'  N_388'o'  N_389'o'  N_390'o'  N_391'o'  N_392'o'  N_393'o'  N_394'o'  \
-#  N_395'o'  N_396'o'  N_397'o'  N_398'o'  N_399'o'  N_400'o'  N_401'o'  N_402'o'  N_403'o'  N_404'o'  N_405'o'  N_406'o'  N_407'o'  \
-#  N_408'o'  N_409'o'  N_410'o'  N_411'o'  N_412'o'  data_to_master_0_ data_to_master_1_ \
-#  data_to_master_2_ data_to_master_3_ data_to_master_4_ data_to_master_5_ \
-#  data_to_master_6_ data_to_master_7_ i2c_data_1_0_ i2c_data_1_1_ i2c_data_1_2_ \
-#  i2c_data_1_3_ i2c_data_1_4_ i2c_data_1_5_ i2c_data_1_6_ i2c_data_1_7_ read_req \
-#  data_valid i2c_data_2_0_ i2c_data_2_1_ i2c_data_2_2_ i2c_data_2_3_ i2c_data_2_4_ \
-#  i2c_data_2_5_ i2c_data_2_6_ i2c_data_2_7_ i2c_data_3_1_ i2c_data_3_2_ i2c_data_3_3_ \
-#  i2c_data_3_4_ i2c_data_3_5_ i2c_data_3_6_ i2c_data_3_7_ N_158'o'  TIMERRES TIMEROUT \
-#  DYNOSCDIS OSCOUT N_231 N_232 N_233 N_234 N_235 N_236 N_237 N_238 i2c_data_3_0_ \
-#  I15>TIMEROUT I15>OSCOUT I15>TIMERRES I15>DYNOSCDIS
+#$ PINS 85 CPLD_DigOut_02 CPLD_DigOut_01 bs_LSB bs_MSB scl sda CPLD_DigIn_01 PILOT_IN \
+#  CPLD_DigIn_02 RESERVED Pin_Enable IO_Select_DIG_29 IO_Select_DIG_28 \
+#  IO_Select_DIG_27 IO_Select_DIG_26 IO_Select_DIG_25 IO_Select_DIG_24 DIG_00'io'  \
+#  IO_Select_DIG_07 IO_Select_DIG_06 IO_Select_DIG_05 IO_Select_DIG_04 \
+#  IO_Select_DIG_03 IO_Select_DIG_02 IO_Select_DIG_01 IO_Select_DIG_00 DIG_IO_29'io'  \
+#  DIG_IO_28'io'  DIG_IO_27'io'  DIG_IO_26'io'  DIG_IO_25'io'  DIG_IO_24'io'  DIG_29'io'  DIG_28'io'  \
+#  DIG_27'io'  DIG_26'io'  DIG_25'io'  DIG_24'io'  DIG_IO_18'io'  DIG_18'io'  DIG_IO_19'io'  DIG_19'io'  \
+#  DIG_IO_20'io'  DIG_20'io'  DIG_IO_21'io'  DIG_21'io'  DIG_IO_22'io'  DIG_22'io'  DIG_IO_23'io'  DIG_23'io'  \
+#  DIG_IO_12'io'  DIG_12'io'  DIG_IO_13'io'  DIG_13'io'  DIG_IO_14'io'  DIG_14'io'  DIG_IO_15'io'  DIG_15'io'  \
+#  DIG_IO_16'io'  DIG_16'io'  DIG_IO_17'io'  DIG_17'io'  DIG_IO_06'io'  DIG_06'io'  DIG_IO_07'io'  DIG_07'io'  \
+#  DIG_IO_08'io'  DIG_08'io'  DIG_IO_09'io'  DIG_09'io'  DIG_IO_10'io'  DIG_10'io'  DIG_IO_11'io'  DIG_11'io'  \
+#  DIG_IO_00'io'  DIG_IO_01'io'  DIG_01'io'  DIG_IO_02'io'  DIG_02'io'  DIG_IO_03'io'  DIG_03'io'  \
+#  DIG_IO_04'io'  DIG_04'io'  DIG_IO_05'io'  DIG_05'io' 
+#$ NODES 239 N_422'o'  y7 y6 y5 y4 y3 y2 CPLD_Dig_IO_out_0_ CPLD_Dig_IO_out_1_ \
+#  CPLD_Dig_IO_out_2_ CPLD_Dig_IO_out_3_ CPLD_Dig_IO_out_4_ CPLD_Dig_IO_out_5_ \
+#  CPLD_Dig_IO_out_6_ CPLD_Dig_IO_out_7_ IO_Select_24_29_OE_0_ IO_Select_24_29_OE_1_ \
+#  IO_Select_24_29_OE_2_ IO_Select_24_29_OE_3_ IO_Select_24_29_OE_4_ \
+#  IO_Select_24_29_OE_5_ IO_Select_24_29_OE_6_ IO_Select_24_29_OE_7_ \
+#  IO_Select_16_23_0_ IO_Select_16_23_1_ IO_Select_16_23_2_ IO_Select_16_23_3_ \
+#  IO_Select_16_23_4_ IO_Select_16_23_5_ IO_Select_16_23_6_ IO_Select_16_23_7_ \
+#  IO_Select_8_15_0_ IO_Select_8_15_1_ IO_Select_8_15_2_ IO_Select_8_15_3_ \
+#  IO_Select_8_15_4_ IO_Select_8_15_5_ IO_Select_8_15_6_ IO_Select_8_15_7_ \
+#  IO_Select_0_7_0_ IO_Select_0_7_1_ IO_Select_0_7_2_ IO_Select_0_7_3_ \
+#  IO_Select_0_7_4_ IO_Select_0_7_5_ IO_Select_0_7_6_ IO_Select_0_7_7_ TIMEROUT N_414 \
+#  N_415 N_416 N_417 N_418 N_419 N_420 N_421 IO_Select_DIG_23 IO_Select_DIG_22 \
+#  IO_Select_DIG_21 IO_Select_DIG_20 IO_Select_DIG_19 IO_Select_DIG_18 \
+#  IO_Select_DIG_17 IO_Select_DIG_16 IO_Select_DIG_15 IO_Select_DIG_14 \
+#  IO_Select_DIG_13 IO_Select_DIG_12 IO_Select_DIG_11 IO_Select_DIG_10 \
+#  IO_Select_DIG_09 IO_Select_DIG_08 N_239'o'  N_240'o'  N_241'o'  N_242'o'  N_243'o'  N_244'o'  N_245'o'  \
+#  N_246'o'  N_247'o'  N_248'o'  N_249'o'  N_250'o'  N_251'o'  N_252'o'  N_253'o'  N_254'o'  N_255'o'  N_256'o'  N_257'o'  N_258'o'  \
+#  N_259'o'  N_260'o'  N_261'o'  N_262'o'  N_263'o'  N_264'o'  N_265'o'  N_266'o'  N_267'o'  N_268'o'  N_275'o'  N_276'o'  N_277'o'  \
+#  N_278'o'  N_279'o'  N_280'o'  N_281'o'  N_282'o'  N_283'o'  N_284'o'  N_285'o'  N_286'o'  N_287'o'  N_288'o'  N_289'o'  N_290'o'  \
+#  N_291'o'  N_292'o'  N_293'o'  N_294'o'  N_295'o'  N_296'o'  N_297'o'  N_298'o'  N_299'o'  N_300'o'  N_301'o'  N_302'o'  N_303'o'  \
+#  N_304'o'  N_311'o'  N_312'o'  N_313'o'  N_314'o'  N_315'o'  N_316'o'  N_317'o'  N_318'o'  N_319'o'  N_320'o'  N_321'o'  N_322'o'  \
+#  N_323'o'  N_324'o'  N_325'o'  N_326'o'  N_327'o'  N_328'o'  N_329'o'  N_330'o'  N_331'o'  N_332'o'  N_333'o'  N_334'o'  N_335'o'  \
+#  N_336'o'  N_337'o'  N_338'o'  N_339'o'  N_340'o'  N_347'o'  N_348'o'  N_349'o'  N_350'o'  N_351'o'  N_352'o'  N_353'o'  N_354'o'  \
+#  N_355'o'  N_356'o'  N_357'o'  N_358'o'  N_359'o'  N_360'o'  N_361'o'  N_362'o'  N_363'o'  N_364'o'  N_365'o'  N_366'o'  N_367'o'  \
+#  N_368'o'  N_369'o'  N_370'o'  N_371'o'  N_372'o'  N_373'o'  N_374'o'  N_375'o'  N_376'o'  N_383'o'  N_384'o'  N_385'o'  N_386'o'  \
+#  N_387'o'  N_388'o'  N_389'o'  N_390'o'  N_391'o'  N_392'o'  N_393'o'  N_394'o'  N_395'o'  N_396'o'  N_397'o'  N_398'o'  N_399'o'  \
+#  N_400'o'  N_401'o'  N_402'o'  N_403'o'  N_404'o'  N_405'o'  N_406'o'  N_407'o'  N_408'o'  N_409'o'  N_410'o'  N_411'o'  N_412'o'  \
+#  data_to_master_0_ data_to_master_1_ data_to_master_2_ data_to_master_3_ \
+#  data_to_master_4_ data_to_master_5_ data_to_master_6_ data_to_master_7_ read_req \
+#  data_valid TIMERRES DYNOSCDIS OSCOUT I15>TIMEROUT I15>OSCOUT I15>TIMERRES \
+#  I15>DYNOSCDIS
 #$ INTERFACE concat8  16 u0'i'  u1'i'  u2'i'  u3'i'  u4'i'  u5'i'  u6'i'  u7'i'  y_0_'o'  y_1_'o'  y_2_'o'  y_3_'o'  y_4_'o'  y_5_'o'  y_6_'o'  y_7_'o' 
-#$ INTERFACE i2c_minion  48 clk'i'  data_to_master_0_'i'  data_to_master_1_'i'  \
+#$ INTERFACE i2c_minion  56 clk'i'  data_to_master_0_'i'  data_to_master_1_'i'  \
 #  data_to_master_2_'i'  data_to_master_3_'i'  data_to_master_4_'i'  data_to_master_5_'i'  \
-#  data_to_master_6_'i'  data_to_master_7_'i'  rst'i'  IO_Select_17_24_0_'o'  IO_Select_17_24_1_'o'  \
-#  IO_Select_17_24_2_'o'  IO_Select_17_24_3_'o'  IO_Select_17_24_4_'o'  IO_Select_17_24_5_'o'  \
-#  IO_Select_17_24_6_'o'  IO_Select_17_24_7_'o'  IO_Select_1_8_0_'o'  IO_Select_1_8_1_'o'  \
-#  IO_Select_1_8_2_'o'  IO_Select_1_8_3_'o'  IO_Select_1_8_4_'o'  IO_Select_1_8_5_'o'  \
-#  IO_Select_1_8_6_'o'  IO_Select_1_8_7_'o'  IO_Select_25_30_OE_0_'o'  IO_Select_25_30_OE_1_'o'  \
-#  IO_Select_25_30_OE_2_'o'  IO_Select_25_30_OE_3_'o'  IO_Select_25_30_OE_4_'o'  \
-#  IO_Select_25_30_OE_5_'o'  IO_Select_25_30_OE_6_'o'  IO_Select_25_30_OE_7_'o'  \
-#  IO_Select_9_16_0_'o'  IO_Select_9_16_1_'o'  IO_Select_9_16_2_'o'  IO_Select_9_16_3_'o'  \
-#  IO_Select_9_16_4_'o'  IO_Select_9_16_5_'o'  IO_Select_9_16_6_'o'  IO_Select_9_16_7_'o'  \
+#  data_to_master_6_'i'  data_to_master_7_'i'  rst'i'  CPLD_DigIO_out_0_'o'  CPLD_DigIO_out_1_'o'  \
+#  CPLD_DigIO_out_2_'o'  CPLD_DigIO_out_3_'o'  CPLD_DigIO_out_4_'o'  CPLD_DigIO_out_5_'o'  \
+#  CPLD_DigIO_out_6_'o'  CPLD_DigIO_out_7_'o'  IO_Select_0_7_0_'o'  IO_Select_0_7_1_'o'  \
+#  IO_Select_0_7_2_'o'  IO_Select_0_7_3_'o'  IO_Select_0_7_4_'o'  IO_Select_0_7_5_'o'  \
+#  IO_Select_0_7_6_'o'  IO_Select_0_7_7_'o'  IO_Select_16_23_0_'o'  IO_Select_16_23_1_'o'  \
+#  IO_Select_16_23_2_'o'  IO_Select_16_23_3_'o'  IO_Select_16_23_4_'o'  IO_Select_16_23_5_'o'  \
+#  IO_Select_16_23_6_'o'  IO_Select_16_23_7_'o'  IO_Select_24_29_OE_0_'o'  IO_Select_24_29_OE_1_'o'  \
+#  IO_Select_24_29_OE_2_'o'  IO_Select_24_29_OE_3_'o'  IO_Select_24_29_OE_4_'o'  \
+#  IO_Select_24_29_OE_5_'o'  IO_Select_24_29_OE_6_'o'  IO_Select_24_29_OE_7_'o'  \
+#  IO_Select_8_15_0_'o'  IO_Select_8_15_1_'o'  IO_Select_8_15_2_'o'  IO_Select_8_15_3_'o'  \
+#  IO_Select_8_15_4_'o'  IO_Select_8_15_5_'o'  IO_Select_8_15_6_'o'  IO_Select_8_15_7_'o'  \
 #  byte_step_LSB'o'  byte_step_MSB'o'  data_valid'o'  read_req'o'  scl'io'  sda'io' 
 #$ EXTERNAL osctimer  4 DYNOSCDIS'i'  TIMERRES'i'  OSCOUT'o'  TIMEROUT'o' 
 #$ INTERFACE slice8  16 data_0_'i'  data_1_'i'  data_2_'i'  data_3_'i'  data_4_'i'  data_5_'i'  data_6_'i'  data_7_'i'  \
 #  y0'o'  y1'o'  y2'o'  y3'o'  y4'o'  y5'o'  y6'o'  y7'o' 
-#$ INTERFACE source  8 y0'o'  y1'o'  y2'o'  y3'o'  y4'o'  y5'o'  y6'o'  y7'o' 
-#$ INSTANCE I10 concat8 16 N_231 N_232 N_233 N_234 N_235 N_236 N_237 N_238 \
+#$ INTERFACE sourceclocked  9 clk'i'  y0'o'  y1'o'  y2'o'  y3'o'  y4'o'  y5'o'  y6'o'  y7'o' 
+#$ INSTANCE I10 concat8 16 N_414 N_415 N_416 N_417 N_418 N_419 N_420 N_421 \
 #  data_to_master_0_ data_to_master_1_ data_to_master_2_ data_to_master_3_ \
 #  data_to_master_4_ data_to_master_5_ data_to_master_6_ data_to_master_7_
-#$ INSTANCE I19 i2c_minion 48 OSCOUT data_to_master_0_ data_to_master_1_ \
+#$ INSTANCE I19 i2c_minion 56 OSCOUT data_to_master_0_ data_to_master_1_ \
 #  data_to_master_2_ data_to_master_3_ data_to_master_4_ data_to_master_5_ \
-#  data_to_master_6_ data_to_master_7_ N_158 i2c_data_2_0_ i2c_data_2_1_ i2c_data_2_2_ \
-#  i2c_data_2_3_ i2c_data_2_4_ i2c_data_2_5_ i2c_data_2_6_ i2c_data_2_7_ \
-#  IO_Select_1_8_0_ IO_Select_1_8_1_ IO_Select_1_8_2_ IO_Select_1_8_3_ \
-#  IO_Select_1_8_4_ IO_Select_1_8_5_ IO_Select_1_8_6_ IO_Select_1_8_7_ i2c_data_3_0_ \
-#  i2c_data_3_1_ i2c_data_3_2_ i2c_data_3_3_ i2c_data_3_4_ i2c_data_3_5_ i2c_data_3_6_ \
-#  i2c_data_3_7_ i2c_data_1_0_ i2c_data_1_1_ i2c_data_1_2_ i2c_data_1_3_ i2c_data_1_4_ \
-#  i2c_data_1_5_ i2c_data_1_6_ i2c_data_1_7_ bs_LSB bs_MSB data_valid read_req scl sda
+#  data_to_master_6_ data_to_master_7_ N_422 CPLD_Dig_IO_out_0_ CPLD_Dig_IO_out_1_ \
+#  CPLD_Dig_IO_out_2_ CPLD_Dig_IO_out_3_ CPLD_Dig_IO_out_4_ CPLD_Dig_IO_out_5_ \
+#  CPLD_Dig_IO_out_6_ CPLD_Dig_IO_out_7_ IO_Select_0_7_0_ IO_Select_0_7_1_ \
+#  IO_Select_0_7_2_ IO_Select_0_7_3_ IO_Select_0_7_4_ IO_Select_0_7_5_ \
+#  IO_Select_0_7_6_ IO_Select_0_7_7_ IO_Select_16_23_0_ IO_Select_16_23_1_ \
+#  IO_Select_16_23_2_ IO_Select_16_23_3_ IO_Select_16_23_4_ IO_Select_16_23_5_ \
+#  IO_Select_16_23_6_ IO_Select_16_23_7_ IO_Select_24_29_OE_0_ IO_Select_24_29_OE_1_ \
+#  IO_Select_24_29_OE_2_ IO_Select_24_29_OE_3_ IO_Select_24_29_OE_4_ \
+#  IO_Select_24_29_OE_5_ IO_Select_24_29_OE_6_ IO_Select_24_29_OE_7_ \
+#  IO_Select_8_15_0_ IO_Select_8_15_1_ IO_Select_8_15_2_ IO_Select_8_15_3_ \
+#  IO_Select_8_15_4_ IO_Select_8_15_5_ IO_Select_8_15_6_ IO_Select_8_15_7_ bs_LSB \
+#  bs_MSB data_valid read_req scl sda
 #$ INSTANCE I15 osctimer 4 I15>DYNOSCDIS I15>TIMERRES I15>OSCOUT I15>TIMEROUT
-#$ INSTANCE I21 slice8 16 IO_Select_1_8_0_ IO_Select_1_8_1_ IO_Select_1_8_2_ \
-#  IO_Select_1_8_3_ IO_Select_1_8_4_ IO_Select_1_8_5_ IO_Select_1_8_6_ \
-#  IO_Select_1_8_7_ IO_Select_DIG_00 IO_Select_DIG_01 IO_Select_DIG_02 \
+#$ INSTANCE I21 slice8 16 IO_Select_0_7_0_ IO_Select_0_7_1_ IO_Select_0_7_2_ \
+#  IO_Select_0_7_3_ IO_Select_0_7_4_ IO_Select_0_7_5_ IO_Select_0_7_6_ \
+#  IO_Select_0_7_7_ IO_Select_DIG_00 IO_Select_DIG_01 IO_Select_DIG_02 \
 #  IO_Select_DIG_03 IO_Select_DIG_04 IO_Select_DIG_05 IO_Select_DIG_06 \
 #  IO_Select_DIG_07
-#$ INSTANCE I22 slice8 16 i2c_data_3_0_ i2c_data_3_1_ i2c_data_3_2_ i2c_data_3_3_ \
-#  i2c_data_3_4_ i2c_data_3_5_ i2c_data_3_6_ i2c_data_3_7_ IO_Select_DIG_24 \
-#  IO_Select_DIG_25 IO_Select_DIG_26 IO_Select_DIG_27 IO_Select_DIG_28 \
-#  IO_Select_DIG_29 RESERVED Pin_Enable
-#$ INSTANCE I230 slice8 16 i2c_data_1_0_ i2c_data_1_1_ i2c_data_1_2_ i2c_data_1_3_ \
-#  i2c_data_1_4_ i2c_data_1_5_ i2c_data_1_6_ i2c_data_1_7_ IO_Select_DIG_08 \
-#  IO_Select_DIG_09 IO_Select_DIG_10 IO_Select_DIG_11 IO_Select_DIG_12 \
-#  IO_Select_DIG_13 IO_Select_DIG_14 IO_Select_DIG_15
-#$ INSTANCE I231 slice8 16 i2c_data_2_0_ i2c_data_2_1_ i2c_data_2_2_ i2c_data_2_3_ \
-#  i2c_data_2_4_ i2c_data_2_5_ i2c_data_2_6_ i2c_data_2_7_ IO_Select_DIG_16 \
-#  IO_Select_DIG_17 IO_Select_DIG_18 IO_Select_DIG_19 IO_Select_DIG_20 \
-#  IO_Select_DIG_21 IO_Select_DIG_22 IO_Select_DIG_23
-#$ INSTANCE I23 source 8 N_231 N_232 N_233 N_234 N_235 N_236 N_237 N_238
+#$ INSTANCE I22 slice8 16 IO_Select_24_29_OE_0_ IO_Select_24_29_OE_1_ \
+#  IO_Select_24_29_OE_2_ IO_Select_24_29_OE_3_ IO_Select_24_29_OE_4_ \
+#  IO_Select_24_29_OE_5_ IO_Select_24_29_OE_6_ IO_Select_24_29_OE_7_ \
+#  IO_Select_DIG_24 IO_Select_DIG_25 IO_Select_DIG_26 IO_Select_DIG_27 \
+#  IO_Select_DIG_28 IO_Select_DIG_29 RESERVED Pin_Enable
+#$ INSTANCE I230 slice8 16 IO_Select_8_15_0_ IO_Select_8_15_1_ IO_Select_8_15_2_ \
+#  IO_Select_8_15_3_ IO_Select_8_15_4_ IO_Select_8_15_5_ IO_Select_8_15_6_ \
+#  IO_Select_8_15_7_ IO_Select_DIG_08 IO_Select_DIG_09 IO_Select_DIG_10 \
+#  IO_Select_DIG_11 IO_Select_DIG_12 IO_Select_DIG_13 IO_Select_DIG_14 \
+#  IO_Select_DIG_15
+#$ INSTANCE I231 slice8 16 IO_Select_16_23_0_ IO_Select_16_23_1_ IO_Select_16_23_2_ \
+#  IO_Select_16_23_3_ IO_Select_16_23_4_ IO_Select_16_23_5_ IO_Select_16_23_6_ \
+#  IO_Select_16_23_7_ IO_Select_DIG_16 IO_Select_DIG_17 IO_Select_DIG_18 \
+#  IO_Select_DIG_19 IO_Select_DIG_20 IO_Select_DIG_21 IO_Select_DIG_22 \
+#  IO_Select_DIG_23
+#$ INSTANCE I233 slice8 16 CPLD_Dig_IO_out_0_ CPLD_Dig_IO_out_1_ CPLD_Dig_IO_out_2_ \
+#  CPLD_Dig_IO_out_3_ CPLD_Dig_IO_out_4_ CPLD_Dig_IO_out_5_ CPLD_Dig_IO_out_6_ \
+#  CPLD_Dig_IO_out_7_ CPLD_DigOut_01 CPLD_DigOut_02 y2 y3 y4 y5 y6 y7
+#$ INSTANCE I232 sourceclocked 9 OSCOUT N_414 N_415 N_416 N_417 N_418 N_419 N_420 N_421
 .model io_pins
 .inputs I15>TIMEROUT.BLIF I15>OSCOUT.BLIF TIMERRES.BLIF DYNOSCDIS.BLIF \
-N_267.BLIF i2c_data_3_0_.BLIF IO_Select_DIG_29.BLIF N_262.BLIF \
+N_267.BLIF Pin_Enable.BLIF IO_Select_DIG_29.BLIF N_262.BLIF \
 IO_Select_DIG_28.BLIF N_257.BLIF IO_Select_DIG_27.BLIF N_252.BLIF \
 IO_Select_DIG_26.BLIF N_247.BLIF IO_Select_DIG_25.BLIF N_242.BLIF \
 IO_Select_DIG_24.BLIF N_411.BLIF IO_Select_DIG_05.BLIF N_406.BLIF \
@@ -164,157 +183,127 @@ DIG_03.OE N_400 DIG_IO_03 DIG_IO_03.OE N_394 DIG_02 DIG_02.OE N_395 DIG_IO_02 \
 DIG_IO_02.OE N_389 DIG_01 DIG_01.OE N_390 DIG_IO_01 DIG_IO_01.OE N_384 DIG_00 \
 DIG_00.OE N_385 DIG_IO_00 DIG_IO_00.OE N_267 N_262 N_257 N_252 N_247 N_242 \
 N_411 N_406 N_401 N_396 N_391 N_386 N_303 N_298 N_293 N_288 N_283 N_278 N_339 \
-N_334 N_329 N_324 N_319 N_314 N_375 N_370 N_365 N_360 N_355 N_350 N_158
+N_334 N_329 N_324 N_319 N_314 N_375 N_370 N_365 N_360 N_355 N_350 N_422
 
-.subckt g_2and A.BLIF=N_267.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_268
-\
+.subckt g_2and A.BLIF=N_267.BLIF B.BLIF=Pin_Enable.BLIF Y=N_268
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_29.BLIF Y=N_264
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_29.BLIF Y=N_264
 
-.subckt g_2and A.BLIF=N_262.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_263
-\
+.subckt g_2and A.BLIF=N_262.BLIF B.BLIF=Pin_Enable.BLIF Y=N_263
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_28.BLIF Y=N_259
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_28.BLIF Y=N_259
 
-.subckt g_2and A.BLIF=N_257.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_258
-\
+.subckt g_2and A.BLIF=N_257.BLIF B.BLIF=Pin_Enable.BLIF Y=N_258
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_27.BLIF Y=N_254
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_27.BLIF Y=N_254
 
-.subckt g_2and A.BLIF=N_252.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_253
-\
+.subckt g_2and A.BLIF=N_252.BLIF B.BLIF=Pin_Enable.BLIF Y=N_253
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_26.BLIF Y=N_249
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_26.BLIF Y=N_249
 
-.subckt g_2and A.BLIF=N_247.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_248
-\
+.subckt g_2and A.BLIF=N_247.BLIF B.BLIF=Pin_Enable.BLIF Y=N_248
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_25.BLIF Y=N_244
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_25.BLIF Y=N_244
 
-.subckt g_2and A.BLIF=N_242.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_243
-\
+.subckt g_2and A.BLIF=N_242.BLIF B.BLIF=Pin_Enable.BLIF Y=N_243
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_24.BLIF Y=N_239
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_24.BLIF Y=N_239
 
-.subckt g_2and A.BLIF=N_411.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_412
-\
+.subckt g_2and A.BLIF=N_411.BLIF B.BLIF=Pin_Enable.BLIF Y=N_412
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_05.BLIF Y=N_408
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_05.BLIF Y=N_408
 
-.subckt g_2and A.BLIF=N_406.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_407
-\
+.subckt g_2and A.BLIF=N_406.BLIF B.BLIF=Pin_Enable.BLIF Y=N_407
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_04.BLIF Y=N_403
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_04.BLIF Y=N_403
 
-.subckt g_2and A.BLIF=N_401.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_402
-\
+.subckt g_2and A.BLIF=N_401.BLIF B.BLIF=Pin_Enable.BLIF Y=N_402
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_03.BLIF Y=N_398
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_03.BLIF Y=N_398
 
-.subckt g_2and A.BLIF=N_396.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_397
-\
+.subckt g_2and A.BLIF=N_396.BLIF B.BLIF=Pin_Enable.BLIF Y=N_397
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_02.BLIF Y=N_393
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_02.BLIF Y=N_393
 
-.subckt g_2and A.BLIF=N_391.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_392
-\
+.subckt g_2and A.BLIF=N_391.BLIF B.BLIF=Pin_Enable.BLIF Y=N_392
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_01.BLIF Y=N_388
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_01.BLIF Y=N_388
 
-.subckt g_2and A.BLIF=N_386.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_387
-\
+.subckt g_2and A.BLIF=N_386.BLIF B.BLIF=Pin_Enable.BLIF Y=N_387
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_00.BLIF Y=N_383
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_00.BLIF Y=N_383
 
-.subckt g_2and A.BLIF=N_303.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_304
-\
+.subckt g_2and A.BLIF=N_303.BLIF B.BLIF=Pin_Enable.BLIF Y=N_304
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_23.BLIF Y=N_300
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_23.BLIF Y=N_300
 
-.subckt g_2and A.BLIF=N_298.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_299
-\
+.subckt g_2and A.BLIF=N_298.BLIF B.BLIF=Pin_Enable.BLIF Y=N_299
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_22.BLIF Y=N_295
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_22.BLIF Y=N_295
 
-.subckt g_2and A.BLIF=N_293.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_294
-\
+.subckt g_2and A.BLIF=N_293.BLIF B.BLIF=Pin_Enable.BLIF Y=N_294
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_21.BLIF Y=N_290
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_21.BLIF Y=N_290
 
-.subckt g_2and A.BLIF=N_288.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_289
-\
+.subckt g_2and A.BLIF=N_288.BLIF B.BLIF=Pin_Enable.BLIF Y=N_289
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_20.BLIF Y=N_285
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_20.BLIF Y=N_285
 
-.subckt g_2and A.BLIF=N_283.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_284
-\
+.subckt g_2and A.BLIF=N_283.BLIF B.BLIF=Pin_Enable.BLIF Y=N_284
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_19.BLIF Y=N_280
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_19.BLIF Y=N_280
 
-.subckt g_2and A.BLIF=N_278.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_279
-\
+.subckt g_2and A.BLIF=N_278.BLIF B.BLIF=Pin_Enable.BLIF Y=N_279
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_18.BLIF Y=N_275
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_18.BLIF Y=N_275
 
-.subckt g_2and A.BLIF=N_339.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_340
-\
+.subckt g_2and A.BLIF=N_339.BLIF B.BLIF=Pin_Enable.BLIF Y=N_340
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_17.BLIF Y=N_336
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_17.BLIF Y=N_336
 
-.subckt g_2and A.BLIF=N_334.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_335
-\
+.subckt g_2and A.BLIF=N_334.BLIF B.BLIF=Pin_Enable.BLIF Y=N_335
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_16.BLIF Y=N_331
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_16.BLIF Y=N_331
 
-.subckt g_2and A.BLIF=N_329.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_330
-\
+.subckt g_2and A.BLIF=N_329.BLIF B.BLIF=Pin_Enable.BLIF Y=N_330
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_15.BLIF Y=N_326
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_15.BLIF Y=N_326
 
-.subckt g_2and A.BLIF=N_324.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_325
-\
+.subckt g_2and A.BLIF=N_324.BLIF B.BLIF=Pin_Enable.BLIF Y=N_325
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_14.BLIF Y=N_321
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_14.BLIF Y=N_321
 
-.subckt g_2and A.BLIF=N_319.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_320
-\
+.subckt g_2and A.BLIF=N_319.BLIF B.BLIF=Pin_Enable.BLIF Y=N_320
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_13.BLIF Y=N_316
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_13.BLIF Y=N_316
 
-.subckt g_2and A.BLIF=N_314.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_315
-\
+.subckt g_2and A.BLIF=N_314.BLIF B.BLIF=Pin_Enable.BLIF Y=N_315
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_12.BLIF Y=N_311
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_12.BLIF Y=N_311
 
-.subckt g_2and A.BLIF=N_375.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_376
-\
+.subckt g_2and A.BLIF=N_375.BLIF B.BLIF=Pin_Enable.BLIF Y=N_376
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_11.BLIF Y=N_372
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_11.BLIF Y=N_372
 
-.subckt g_2and A.BLIF=N_370.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_371
-\
+.subckt g_2and A.BLIF=N_370.BLIF B.BLIF=Pin_Enable.BLIF Y=N_371
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_10.BLIF Y=N_367
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_10.BLIF Y=N_367
 
-.subckt g_2and A.BLIF=N_365.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_366
-\
+.subckt g_2and A.BLIF=N_365.BLIF B.BLIF=Pin_Enable.BLIF Y=N_366
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_09.BLIF Y=N_362
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_09.BLIF Y=N_362
 
-.subckt g_2and A.BLIF=N_360.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_361
-\
+.subckt g_2and A.BLIF=N_360.BLIF B.BLIF=Pin_Enable.BLIF Y=N_361
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_08.BLIF Y=N_357
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_08.BLIF Y=N_357
 
-.subckt g_2and A.BLIF=N_355.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_356
-\
+.subckt g_2and A.BLIF=N_355.BLIF B.BLIF=Pin_Enable.BLIF Y=N_356
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_07.BLIF Y=N_352
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_07.BLIF Y=N_352
 
-.subckt g_2and A.BLIF=N_350.BLIF B.BLIF=i2c_data_3_0_.BLIF Y=N_351
-\
+.subckt g_2and A.BLIF=N_350.BLIF B.BLIF=Pin_Enable.BLIF Y=N_351
 
-.subckt g_2and A.BLIF=i2c_data_3_0_.BLIF B.BLIF=IO_Select_DIG_06.BLIF Y=N_347
+.subckt g_2and A.BLIF=Pin_Enable.BLIF B.BLIF=IO_Select_DIG_06.BLIF Y=N_347
 \
 
 .subckt g_bidir I.BLIF=N_302.BLIF OE.BLIF=N_304.BLIF O.PIN.BLIF=DIG_23.PIN.BLIF FBK=N_301 \
@@ -616,7 +605,7 @@ N_334 N_329 N_324 N_319 N_314 N_375 N_370 N_365 N_360 N_355 N_350 N_158
 
 .subckt g_inv A.BLIF=IO_Select_DIG_06.BLIF YN=N_350
 
-.subckt gnd x=N_158
+.subckt gnd x=N_422
 .names I15>TIMEROUT.BLIF TIMEROUT
 1 1
 0 0

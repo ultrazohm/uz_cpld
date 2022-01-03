@@ -8,185 +8,218 @@
 Equations:
 
 
+CPLD_DigOut_01.D = I0_data_from_master_reg_0_.Q ; (1 pterm, 1 signal)
+CPLD_DigOut_01.C = OSCOUT ; (1 pterm, 1 signal)
+CPLD_DigOut_01.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
+       & I0_target_reg_1_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
+       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+CPLD_DigOut_02.D = I0_data_from_master_reg_1_.Q ; (1 pterm, 1 signal)
+CPLD_DigOut_02.C = OSCOUT ; (1 pterm, 1 signal)
+CPLD_DigOut_02.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
+       & I0_target_reg_1_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
+       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
 DIG_00 = DIG_IO_00.PIN ; (1 pterm, 1 signal)
-DIG_00.OE = IO_Select_DIG_24.Q & !IO_Select_DIG_00.Q ; (1 pterm, 2 signals)
+DIG_00.OE = Pin_Enable.Q & !IO_Select_DIG_00.Q ; (1 pterm, 2 signals)
 
 DIG_01 = DIG_IO_01.PIN ; (1 pterm, 1 signal)
-DIG_01.OE = IO_Select_DIG_24.Q & !IO_Select_DIG_01.Q ; (1 pterm, 2 signals)
+DIG_01.OE = Pin_Enable.Q & !IO_Select_DIG_01.Q ; (1 pterm, 2 signals)
 
 DIG_02 = DIG_IO_02.PIN ; (1 pterm, 1 signal)
-DIG_02.OE = IO_Select_DIG_24.Q & !IO_Select_DIG_02.Q ; (1 pterm, 2 signals)
+DIG_02.OE = Pin_Enable.Q & !IO_Select_DIG_02.Q ; (1 pterm, 2 signals)
 
 DIG_03 = DIG_IO_03.PIN ; (1 pterm, 1 signal)
-DIG_03.OE = IO_Select_DIG_24.Q & !IO_Select_DIG_03.Q ; (1 pterm, 2 signals)
+DIG_03.OE = Pin_Enable.Q & !IO_Select_DIG_03.Q ; (1 pterm, 2 signals)
 
 DIG_04 = DIG_IO_04.PIN ; (1 pterm, 1 signal)
-DIG_04.OE = IO_Select_DIG_24.Q & !IO_Select_DIG_04.Q ; (1 pterm, 2 signals)
+DIG_04.OE = Pin_Enable.Q & !IO_Select_DIG_04.Q ; (1 pterm, 2 signals)
 
 DIG_05 = DIG_IO_05.PIN ; (1 pterm, 1 signal)
-DIG_05.OE = IO_Select_DIG_24.Q & !IO_Select_DIG_05.Q ; (1 pterm, 2 signals)
+DIG_05.OE = Pin_Enable.Q & !IO_Select_DIG_05.Q ; (1 pterm, 2 signals)
 
 DIG_06 = DIG_IO_06.PIN ; (1 pterm, 1 signal)
-DIG_06.OE = IO_Select_DIG_24.Q & !IO_Select_DIG_06.Q ; (1 pterm, 2 signals)
+DIG_06.OE = Pin_Enable.Q & !IO_Select_DIG_06.Q ; (1 pterm, 2 signals)
 
 DIG_07 = DIG_IO_07.PIN ; (1 pterm, 1 signal)
-DIG_07.OE = IO_Select_DIG_24.Q & !IO_Select_DIG_07.Q ; (1 pterm, 2 signals)
+DIG_07.OE = Pin_Enable.Q & !IO_Select_DIG_07.Q ; (1 pterm, 2 signals)
 
 DIG_08 = DIG_IO_08.PIN ; (1 pterm, 1 signal)
-DIG_08.OE = IO_Select_DIG_24.Q & !I0_data_1_0_reg.Q ; (1 pterm, 2 signals)
+DIG_08.OE = Pin_Enable.Q & !I0_data_1_0_reg.Q ; (1 pterm, 2 signals)
 
 DIG_09 = DIG_IO_09.PIN ; (1 pterm, 1 signal)
-DIG_09.OE = IO_Select_DIG_24.Q & !I0_data_1_1_reg.Q ; (1 pterm, 2 signals)
+DIG_09.OE = Pin_Enable.Q & !I0_data_1_1_reg.Q ; (1 pterm, 2 signals)
 
 DIG_10 = DIG_IO_10.PIN ; (1 pterm, 1 signal)
-DIG_10.OE = IO_Select_DIG_24.Q & !I0_data_1_2_reg.Q ; (1 pterm, 2 signals)
+DIG_10.OE = Pin_Enable.Q & !I0_data_1_2_reg.Q ; (1 pterm, 2 signals)
 
 DIG_11 = DIG_IO_11.PIN ; (1 pterm, 1 signal)
-DIG_11.OE = IO_Select_DIG_24.Q & !I0_data_1_3_reg.Q ; (1 pterm, 2 signals)
+DIG_11.OE = Pin_Enable.Q & !I0_data_1_3_reg.Q ; (1 pterm, 2 signals)
 
 DIG_12 = DIG_IO_12.PIN ; (1 pterm, 1 signal)
-DIG_12.OE = IO_Select_DIG_24.Q & !I0_data_1_4_reg.Q ; (1 pterm, 2 signals)
+DIG_12.OE = Pin_Enable.Q & !I0_data_1_4_reg.Q ; (1 pterm, 2 signals)
 
 DIG_13 = DIG_IO_13.PIN ; (1 pterm, 1 signal)
-DIG_13.OE = IO_Select_DIG_24.Q & !I0_data_1_5_reg.Q ; (1 pterm, 2 signals)
+DIG_13.OE = Pin_Enable.Q & !I0_data_1_5_reg.Q ; (1 pterm, 2 signals)
 
 DIG_14 = DIG_IO_14.PIN ; (1 pterm, 1 signal)
-DIG_14.OE = IO_Select_DIG_24.Q & !I0_data_1_6_reg.Q ; (1 pterm, 2 signals)
+DIG_14.OE = Pin_Enable.Q & !I0_data_1_6_reg.Q ; (1 pterm, 2 signals)
 
 DIG_15 = DIG_IO_15.PIN ; (1 pterm, 1 signal)
-DIG_15.OE = IO_Select_DIG_24.Q & !I0_data_1_7_reg.Q ; (1 pterm, 2 signals)
+DIG_15.OE = Pin_Enable.Q & !I0_data_1_7_reg.Q ; (1 pterm, 2 signals)
 
 DIG_16 = DIG_IO_16.PIN ; (1 pterm, 1 signal)
-DIG_16.OE = IO_Select_DIG_24.Q & !I0_data_2_0_reg.Q ; (1 pterm, 2 signals)
+DIG_16.OE = Pin_Enable.Q & !I0_data_2_0_reg.Q ; (1 pterm, 2 signals)
 
 DIG_17 = DIG_IO_17.PIN ; (1 pterm, 1 signal)
-DIG_17.OE = IO_Select_DIG_24.Q & !I0_data_2_1_reg.Q ; (1 pterm, 2 signals)
+DIG_17.OE = Pin_Enable.Q & !I0_data_2_1_reg.Q ; (1 pterm, 2 signals)
 
 DIG_18 = DIG_IO_18.PIN ; (1 pterm, 1 signal)
-DIG_18.OE = IO_Select_DIG_24.Q & !I0_data_2_2_reg.Q ; (1 pterm, 2 signals)
+DIG_18.OE = Pin_Enable.Q & !I0_data_2_2_reg.Q ; (1 pterm, 2 signals)
 
 DIG_19 = DIG_IO_19.PIN ; (1 pterm, 1 signal)
-DIG_19.OE = IO_Select_DIG_24.Q & !I0_data_2_3_reg.Q ; (1 pterm, 2 signals)
+DIG_19.OE = Pin_Enable.Q & !I0_data_2_3_reg.Q ; (1 pterm, 2 signals)
 
 DIG_20 = DIG_IO_20.PIN ; (1 pterm, 1 signal)
-DIG_20.OE = IO_Select_DIG_24.Q & !I0_data_2_4_reg.Q ; (1 pterm, 2 signals)
+DIG_20.OE = Pin_Enable.Q & !I0_data_2_4_reg.Q ; (1 pterm, 2 signals)
 
 DIG_21 = DIG_IO_21.PIN ; (1 pterm, 1 signal)
-DIG_21.OE = IO_Select_DIG_24.Q & !I0_data_2_5_reg.Q ; (1 pterm, 2 signals)
+DIG_21.OE = Pin_Enable.Q & !I0_data_2_5_reg.Q ; (1 pterm, 2 signals)
 
 DIG_22 = DIG_IO_22.PIN ; (1 pterm, 1 signal)
-DIG_22.OE = IO_Select_DIG_24.Q & !I0_data_2_6_reg.Q ; (1 pterm, 2 signals)
+DIG_22.OE = Pin_Enable.Q & !I0_data_2_6_reg.Q ; (1 pterm, 2 signals)
 
 DIG_23 = DIG_IO_23.PIN ; (1 pterm, 1 signal)
-DIG_23.OE = IO_Select_DIG_24.Q & !I0_data_2_7_reg.Q ; (1 pterm, 2 signals)
+DIG_23.OE = Pin_Enable.Q & !I0_data_2_7_reg.Q ; (1 pterm, 2 signals)
 
 DIG_24 = DIG_IO_24.PIN ; (1 pterm, 1 signal)
-DIG_24.OE = 0 ; (0 pterm, 0 signal)
+DIG_24.OE = Pin_Enable.Q & !IO_Select_DIG_24.Q ; (1 pterm, 2 signals)
 
 DIG_25 = DIG_IO_25.PIN ; (1 pterm, 1 signal)
-DIG_25.OE = !IO_Select_DIG_25.Q & IO_Select_DIG_24.Q ; (1 pterm, 2 signals)
+DIG_25.OE = Pin_Enable.Q & !IO_Select_DIG_25.Q ; (1 pterm, 2 signals)
 
 DIG_26 = DIG_IO_26.PIN ; (1 pterm, 1 signal)
-DIG_26.OE = !IO_Select_DIG_26.Q & IO_Select_DIG_24.Q ; (1 pterm, 2 signals)
+DIG_26.OE = Pin_Enable.Q & !IO_Select_DIG_26.Q ; (1 pterm, 2 signals)
 
 DIG_27 = DIG_IO_27.PIN ; (1 pterm, 1 signal)
-DIG_27.OE = !IO_Select_DIG_27.Q & IO_Select_DIG_24.Q ; (1 pterm, 2 signals)
+DIG_27.OE = Pin_Enable.Q & !IO_Select_DIG_27.Q ; (1 pterm, 2 signals)
 
 DIG_28 = DIG_IO_28.PIN ; (1 pterm, 1 signal)
-DIG_28.OE = !IO_Select_DIG_28.Q & IO_Select_DIG_24.Q ; (1 pterm, 2 signals)
+DIG_28.OE = Pin_Enable.Q & !IO_Select_DIG_28.Q ; (1 pterm, 2 signals)
 
 DIG_29 = DIG_IO_29.PIN ; (1 pterm, 1 signal)
-DIG_29.OE = !IO_Select_DIG_29.Q & IO_Select_DIG_24.Q ; (1 pterm, 2 signals)
+DIG_29.OE = Pin_Enable.Q & !IO_Select_DIG_29.Q ; (1 pterm, 2 signals)
 
 DIG_IO_00 = DIG_00.PIN ; (1 pterm, 1 signal)
-DIG_IO_00.OE = IO_Select_DIG_24.Q & IO_Select_DIG_00.Q ; (1 pterm, 2 signals)
+DIG_IO_00.OE = Pin_Enable.Q & IO_Select_DIG_00.Q ; (1 pterm, 2 signals)
 
 DIG_IO_01 = DIG_01.PIN ; (1 pterm, 1 signal)
-DIG_IO_01.OE = IO_Select_DIG_24.Q & IO_Select_DIG_01.Q ; (1 pterm, 2 signals)
+DIG_IO_01.OE = Pin_Enable.Q & IO_Select_DIG_01.Q ; (1 pterm, 2 signals)
 
 DIG_IO_02 = DIG_02.PIN ; (1 pterm, 1 signal)
-DIG_IO_02.OE = IO_Select_DIG_24.Q & IO_Select_DIG_02.Q ; (1 pterm, 2 signals)
+DIG_IO_02.OE = Pin_Enable.Q & IO_Select_DIG_02.Q ; (1 pterm, 2 signals)
 
 DIG_IO_03 = DIG_03.PIN ; (1 pterm, 1 signal)
-DIG_IO_03.OE = IO_Select_DIG_24.Q & IO_Select_DIG_03.Q ; (1 pterm, 2 signals)
+DIG_IO_03.OE = Pin_Enable.Q & IO_Select_DIG_03.Q ; (1 pterm, 2 signals)
 
 DIG_IO_04 = DIG_04.PIN ; (1 pterm, 1 signal)
-DIG_IO_04.OE = IO_Select_DIG_24.Q & IO_Select_DIG_04.Q ; (1 pterm, 2 signals)
+DIG_IO_04.OE = Pin_Enable.Q & IO_Select_DIG_04.Q ; (1 pterm, 2 signals)
 
 DIG_IO_05 = DIG_05.PIN ; (1 pterm, 1 signal)
-DIG_IO_05.OE = IO_Select_DIG_24.Q & IO_Select_DIG_05.Q ; (1 pterm, 2 signals)
+DIG_IO_05.OE = Pin_Enable.Q & IO_Select_DIG_05.Q ; (1 pterm, 2 signals)
 
 DIG_IO_06 = DIG_06.PIN ; (1 pterm, 1 signal)
-DIG_IO_06.OE = IO_Select_DIG_24.Q & IO_Select_DIG_06.Q ; (1 pterm, 2 signals)
+DIG_IO_06.OE = Pin_Enable.Q & IO_Select_DIG_06.Q ; (1 pterm, 2 signals)
 
 DIG_IO_07 = DIG_07.PIN ; (1 pterm, 1 signal)
-DIG_IO_07.OE = IO_Select_DIG_24.Q & IO_Select_DIG_07.Q ; (1 pterm, 2 signals)
+DIG_IO_07.OE = Pin_Enable.Q & IO_Select_DIG_07.Q ; (1 pterm, 2 signals)
 
 DIG_IO_08 = DIG_08.PIN ; (1 pterm, 1 signal)
-DIG_IO_08.OE = IO_Select_DIG_24.Q & I0_data_1_0_reg.Q ; (1 pterm, 2 signals)
+DIG_IO_08.OE = Pin_Enable.Q & I0_data_1_0_reg.Q ; (1 pterm, 2 signals)
 
 DIG_IO_09 = DIG_09.PIN ; (1 pterm, 1 signal)
-DIG_IO_09.OE = IO_Select_DIG_24.Q & I0_data_1_1_reg.Q ; (1 pterm, 2 signals)
+DIG_IO_09.OE = Pin_Enable.Q & I0_data_1_1_reg.Q ; (1 pterm, 2 signals)
 
 DIG_IO_10 = DIG_10.PIN ; (1 pterm, 1 signal)
-DIG_IO_10.OE = IO_Select_DIG_24.Q & I0_data_1_2_reg.Q ; (1 pterm, 2 signals)
+DIG_IO_10.OE = Pin_Enable.Q & I0_data_1_2_reg.Q ; (1 pterm, 2 signals)
 
 DIG_IO_11 = DIG_11.PIN ; (1 pterm, 1 signal)
-DIG_IO_11.OE = IO_Select_DIG_24.Q & I0_data_1_3_reg.Q ; (1 pterm, 2 signals)
+DIG_IO_11.OE = Pin_Enable.Q & I0_data_1_3_reg.Q ; (1 pterm, 2 signals)
 
 DIG_IO_12 = DIG_12.PIN ; (1 pterm, 1 signal)
-DIG_IO_12.OE = IO_Select_DIG_24.Q & I0_data_1_4_reg.Q ; (1 pterm, 2 signals)
+DIG_IO_12.OE = Pin_Enable.Q & I0_data_1_4_reg.Q ; (1 pterm, 2 signals)
 
 DIG_IO_13 = DIG_13.PIN ; (1 pterm, 1 signal)
-DIG_IO_13.OE = IO_Select_DIG_24.Q & I0_data_1_5_reg.Q ; (1 pterm, 2 signals)
+DIG_IO_13.OE = Pin_Enable.Q & I0_data_1_5_reg.Q ; (1 pterm, 2 signals)
 
 DIG_IO_14 = DIG_14.PIN ; (1 pterm, 1 signal)
-DIG_IO_14.OE = IO_Select_DIG_24.Q & I0_data_1_6_reg.Q ; (1 pterm, 2 signals)
+DIG_IO_14.OE = Pin_Enable.Q & I0_data_1_6_reg.Q ; (1 pterm, 2 signals)
 
 DIG_IO_15 = DIG_15.PIN ; (1 pterm, 1 signal)
-DIG_IO_15.OE = IO_Select_DIG_24.Q & I0_data_1_7_reg.Q ; (1 pterm, 2 signals)
+DIG_IO_15.OE = Pin_Enable.Q & I0_data_1_7_reg.Q ; (1 pterm, 2 signals)
 
 DIG_IO_16 = DIG_16.PIN ; (1 pterm, 1 signal)
-DIG_IO_16.OE = IO_Select_DIG_24.Q & I0_data_2_0_reg.Q ; (1 pterm, 2 signals)
+DIG_IO_16.OE = Pin_Enable.Q & I0_data_2_0_reg.Q ; (1 pterm, 2 signals)
 
 DIG_IO_17 = DIG_17.PIN ; (1 pterm, 1 signal)
-DIG_IO_17.OE = IO_Select_DIG_24.Q & I0_data_2_1_reg.Q ; (1 pterm, 2 signals)
+DIG_IO_17.OE = Pin_Enable.Q & I0_data_2_1_reg.Q ; (1 pterm, 2 signals)
 
 DIG_IO_18 = DIG_18.PIN ; (1 pterm, 1 signal)
-DIG_IO_18.OE = IO_Select_DIG_24.Q & I0_data_2_2_reg.Q ; (1 pterm, 2 signals)
+DIG_IO_18.OE = Pin_Enable.Q & I0_data_2_2_reg.Q ; (1 pterm, 2 signals)
 
 DIG_IO_19 = DIG_19.PIN ; (1 pterm, 1 signal)
-DIG_IO_19.OE = IO_Select_DIG_24.Q & I0_data_2_3_reg.Q ; (1 pterm, 2 signals)
+DIG_IO_19.OE = Pin_Enable.Q & I0_data_2_3_reg.Q ; (1 pterm, 2 signals)
 
 DIG_IO_20 = DIG_20.PIN ; (1 pterm, 1 signal)
-DIG_IO_20.OE = IO_Select_DIG_24.Q & I0_data_2_4_reg.Q ; (1 pterm, 2 signals)
+DIG_IO_20.OE = Pin_Enable.Q & I0_data_2_4_reg.Q ; (1 pterm, 2 signals)
 
 DIG_IO_21 = DIG_21.PIN ; (1 pterm, 1 signal)
-DIG_IO_21.OE = IO_Select_DIG_24.Q & I0_data_2_5_reg.Q ; (1 pterm, 2 signals)
+DIG_IO_21.OE = Pin_Enable.Q & I0_data_2_5_reg.Q ; (1 pterm, 2 signals)
 
 DIG_IO_22 = DIG_22.PIN ; (1 pterm, 1 signal)
-DIG_IO_22.OE = IO_Select_DIG_24.Q & I0_data_2_6_reg.Q ; (1 pterm, 2 signals)
+DIG_IO_22.OE = Pin_Enable.Q & I0_data_2_6_reg.Q ; (1 pterm, 2 signals)
 
 DIG_IO_23 = DIG_23.PIN ; (1 pterm, 1 signal)
-DIG_IO_23.OE = IO_Select_DIG_24.Q & I0_data_2_7_reg.Q ; (1 pterm, 2 signals)
+DIG_IO_23.OE = Pin_Enable.Q & I0_data_2_7_reg.Q ; (1 pterm, 2 signals)
 
 DIG_IO_24 = DIG_24.PIN ; (1 pterm, 1 signal)
-DIG_IO_24.OE = IO_Select_DIG_24.Q ; (1 pterm, 1 signal)
+DIG_IO_24.OE = Pin_Enable.Q & IO_Select_DIG_24.Q ; (1 pterm, 2 signals)
 
 DIG_IO_25 = DIG_25.PIN ; (1 pterm, 1 signal)
-DIG_IO_25.OE = IO_Select_DIG_25.Q & IO_Select_DIG_24.Q ; (1 pterm, 2 signals)
+DIG_IO_25.OE = Pin_Enable.Q & IO_Select_DIG_25.Q ; (1 pterm, 2 signals)
 
 DIG_IO_26 = DIG_26.PIN ; (1 pterm, 1 signal)
-DIG_IO_26.OE = IO_Select_DIG_26.Q & IO_Select_DIG_24.Q ; (1 pterm, 2 signals)
+DIG_IO_26.OE = Pin_Enable.Q & IO_Select_DIG_26.Q ; (1 pterm, 2 signals)
 
 DIG_IO_27 = DIG_27.PIN ; (1 pterm, 1 signal)
-DIG_IO_27.OE = IO_Select_DIG_27.Q & IO_Select_DIG_24.Q ; (1 pterm, 2 signals)
+DIG_IO_27.OE = Pin_Enable.Q & IO_Select_DIG_27.Q ; (1 pterm, 2 signals)
 
 DIG_IO_28 = DIG_28.PIN ; (1 pterm, 1 signal)
-DIG_IO_28.OE = IO_Select_DIG_28.Q & IO_Select_DIG_24.Q ; (1 pterm, 2 signals)
+DIG_IO_28.OE = Pin_Enable.Q & IO_Select_DIG_28.Q ; (1 pterm, 2 signals)
 
 DIG_IO_29 = DIG_29.PIN ; (1 pterm, 1 signal)
-DIG_IO_29.OE = IO_Select_DIG_29.Q & IO_Select_DIG_24.Q ; (1 pterm, 2 signals)
+DIG_IO_29.OE = Pin_Enable.Q & IO_Select_DIG_29.Q ; (1 pterm, 2 signals)
+
+I0_N_539_0 = !( !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & !I0_inst_sda_pre_internal.Q & !I0_addr_reg_1_.Q & !I0_addr_reg_5_.Q
+       & !I0_addr_reg_6_.Q & I0_state_reg_2_.Q & I0_inst_scl_rising_reg.Q
+       & I0_inst_scl_falling_reg.Q & I0_addr_reg_0_.Q & I0_addr_reg_2_.Q
+       & I0_addr_reg_3_.Q & I0_addr_reg_4_.Q & I0_inst_cmd_reg.Q
+    # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & !I0_addr_reg_1_.Q & !I0_addr_reg_5_.Q & !I0_addr_reg_6_.Q
+       & I0_state_reg_6_.Q & !I0_state_reg_2_.Q & I0_inst_scl_falling_reg.Q
+       & I0_addr_reg_0_.Q & I0_addr_reg_2_.Q & I0_addr_reg_3_.Q
+       & I0_addr_reg_4_.Q & I0_inst_cmd_reg.Q
+    # !I0_inst_sda_pre_internal.Q & !I0_state_reg_6_.Q & I0_state_reg_2_.Q
+       & I0_inst_scl_rising_reg.Q ) ; (3 pterms, 17 signals)
 
 I0_addr_reg_0_.D = I0_bits_processed_reg_1_.Q & I0_bits_processed_reg_2_.Q
        & I0_inst_sda_pre_internal.Q
@@ -203,11 +236,11 @@ I0_addr_reg_1_.C = OSCOUT ; (1 pterm, 1 signal)
 I0_addr_reg_1_.CE = I0_addr_reg_1__0 ; (1 pterm, 1 signal)
 
 I0_addr_reg_1__0 = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_3_.Q
-       & I0_inst_scl_rising_reg.Q & I0_state_reg_6_.Q
+       & I0_state_reg_6_.Q & I0_inst_scl_rising_reg.Q
     # !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_3_.Q
-       & I0_inst_scl_rising_reg.Q & I0_state_reg_6_.Q
+       & I0_state_reg_6_.Q & I0_inst_scl_rising_reg.Q
     # !I0_bits_processed_reg_2_.Q & !I0_bits_processed_reg_3_.Q
-       & I0_inst_scl_rising_reg.Q & I0_state_reg_6_.Q ; (3 pterms, 6 signals)
+       & I0_state_reg_6_.Q & I0_inst_scl_rising_reg.Q ; (3 pterms, 6 signals)
 
 I0_addr_reg_2_.D = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
        & I0_bits_processed_reg_2_.Q & I0_inst_sda_pre_internal.Q
@@ -259,21 +292,19 @@ I0_bits_processed_reg_0_.D = !I0_bits_processed_reg_0_.Q & !I0_inst_stop_reg.Q
 I0_bits_processed_reg_0_.C = OSCOUT ; (1 pterm, 1 signal)
 I0_bits_processed_reg_0_.CE = I0_bits_processed_reg_0__0 ; (1 pterm, 1 signal)
 
-I0_bits_processed_reg_0__0.X1 = I0_inst_stop_reg.Q
+I0_bits_processed_reg_0__0 = I0_inst_stop_reg.Q
     # I0_inst_start_reg.Q
-    # I0_inst_scl_rising_reg.Q & I0_state_reg_4_.Q
-    # !I0_bits_processed_reg_3_.Q & I0_inst_scl_rising_reg.Q
-       & I0_state_reg_6_.Q
-    # !I0_bits_processed_reg_3_.Q & I0_state_reg_3_.Q
-       & I0_inst_scl_falling_reg.Q
+    # I0_state_reg_4_.Q & I0_inst_scl_rising_reg.Q
+    # !I0_bits_processed_reg_3_.Q & I0_inst_scl_falling_reg.Q
+       & I0_state_reg_3_.Q
+    # !I0_bits_processed_reg_3_.Q & I0_state_reg_6_.Q
+       & I0_inst_scl_rising_reg.Q
     # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
        & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & I0_inst_scl_falling_reg.Q ; (6 pterms, 11 signals)
-I0_bits_processed_reg_0__0.X2 = !I0_bits_processed_reg_0_.Q
-       & !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_2_.Q
-       & I0_bits_processed_reg_3_.Q & !I0_inst_stop_reg.Q & !I0_state_reg_4_.Q
-       & !I0_state_reg_3_.Q & I0_inst_scl_falling_reg.Q & !I0_state_reg_6_.Q
-       & !I0_inst_start_reg.Q ; (1 pterm, 10 signals)
+       & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
+    # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_state_reg_6_.Q & I0_inst_scl_falling_reg.Q ; (7 pterms, 11 signals)
 
 I0_bits_processed_reg_1_.D = I0_bits_processed_reg_0_.Q
        & !I0_bits_processed_reg_1_.Q & !I0_inst_stop_reg.Q
@@ -295,11 +326,18 @@ I0_bits_processed_reg_2_.CE = I0_bits_processed_reg_0__0 ; (1 pterm, 1 signal)
 
 I0_bits_processed_reg_3_.D.X1 = I0_bits_processed_reg_0_.Q
        & I0_bits_processed_reg_1_.Q & I0_bits_processed_reg_2_.Q
-       & !I0_inst_stop_reg.Q & !I0_inst_start_reg.Q
+       & !I0_inst_stop_reg.Q & !I0_inst_scl_falling_reg.Q
+       & !I0_inst_start_reg.Q
+    # I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & I0_bits_processed_reg_2_.Q & !I0_inst_stop_reg.Q
+       & !I0_inst_start_reg.Q & !I0_state_reg_3_.Q
     # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
        & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
        & !I0_inst_stop_reg.Q & I0_inst_scl_falling_reg.Q
-       & !I0_inst_start_reg.Q ; (2 pterms, 7 signals)
+       & !I0_inst_start_reg.Q
+    # I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & !I0_inst_stop_reg.Q & !I0_inst_start_reg.Q ; (4 pterms, 8 signals)
 I0_bits_processed_reg_3_.D.X2 = I0_bits_processed_reg_3_.Q
        & !I0_inst_stop_reg.Q & !I0_inst_start_reg.Q ; (1 pterm, 3 signals)
 I0_bits_processed_reg_3_.C = OSCOUT ; (1 pterm, 1 signal)
@@ -453,11 +491,11 @@ I0_data_from_master_reg_0_.D = I0_inst_sda_pre_internal.Q ; (1 pterm, 1 signal)
 I0_data_from_master_reg_0_.C = OSCOUT ; (1 pterm, 1 signal)
 I0_data_from_master_reg_0_.CE = I0_data_from_master_reg_0__0 ; (1 pterm, 1 signal)
 
-I0_data_from_master_reg_0__0 = I0_bits_processed_reg_3_.Q
-       & I0_inst_scl_rising_reg.Q & I0_state_reg_4_.Q
+I0_data_from_master_reg_0__0 = I0_bits_processed_reg_3_.Q & I0_state_reg_4_.Q
+       & I0_inst_scl_rising_reg.Q
     # I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
-       & I0_bits_processed_reg_2_.Q & I0_inst_scl_rising_reg.Q
-       & I0_state_reg_4_.Q ; (2 pterms, 6 signals)
+       & I0_bits_processed_reg_2_.Q & I0_state_reg_4_.Q
+       & I0_inst_scl_rising_reg.Q ; (2 pterms, 6 signals)
 
 I0_data_from_master_reg_1_.D = I0_data_reg_0_.Q ; (1 pterm, 1 signal)
 I0_data_from_master_reg_1_.C = OSCOUT ; (1 pterm, 1 signal)
@@ -495,11 +533,11 @@ I0_data_reg_0_.C = OSCOUT ; (1 pterm, 1 signal)
 I0_data_reg_0_.CE = I0_data_reg_0__0 ; (1 pterm, 1 signal)
 
 I0_data_reg_0__0 = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_3_.Q
-       & I0_inst_scl_rising_reg.Q & I0_state_reg_4_.Q
+       & I0_state_reg_4_.Q & I0_inst_scl_rising_reg.Q
     # !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_3_.Q
-       & I0_inst_scl_rising_reg.Q & I0_state_reg_4_.Q
+       & I0_state_reg_4_.Q & I0_inst_scl_rising_reg.Q
     # !I0_bits_processed_reg_2_.Q & !I0_bits_processed_reg_3_.Q
-       & I0_inst_scl_rising_reg.Q & I0_state_reg_4_.Q ; (3 pterms, 6 signals)
+       & I0_state_reg_4_.Q & I0_inst_scl_rising_reg.Q ; (3 pterms, 6 signals)
 
 I0_data_reg_1_.D = I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_2_.Q
        & I0_inst_sda_pre_internal.Q
@@ -547,52 +585,241 @@ I0_data_reg_6_.D = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
 I0_data_reg_6_.C = OSCOUT ; (1 pterm, 1 signal)
 I0_data_reg_6_.CE = I0_data_reg_0__0 ; (1 pterm, 1 signal)
 
-I0_data_to_master_reg_0_.D = 0 ; (0 pterm, 0 signal)
+I0_data_to_master_reg_0_.D = I0_read_reg_0_.Q & I0_read_reg_1_.Q
+       & !I0_read_reg_3_.Q & J0_temp_y_0_reg.Q
+    # !I0_read_reg_0_.Q & !I0_read_reg_5_.Q & J0_temp_y_0_reg.Q
+    # I0_read_reg_2_.Q & I0_read_reg_5_.Q & J0_temp_y_0_reg.Q
+    # I0_read_reg_3_.Q & !I0_read_reg_4_.Q & J0_temp_y_0_reg.Q
+    # !I0_read_reg_2_.Q & I0_read_reg_4_.Q & J0_temp_y_0_reg.Q
+    # !I0_read_reg_1_.Q & !I0_read_reg_5_.Q & J0_temp_y_0_reg.Q
+    # IO_Select_DIG_00.Q & I0_read_reg_0_.Q & I0_read_reg_1_.Q
+       & I0_read_reg_2_.Q & I0_read_reg_3_.Q & I0_read_reg_4_.Q
+       & !I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # I0_data_1_0_reg.Q & !I0_read_reg_0_.Q & !I0_read_reg_1_.Q
+       & !I0_read_reg_2_.Q & !I0_read_reg_3_.Q & !I0_read_reg_4_.Q
+       & I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # I0_data_2_0_reg.Q & I0_read_reg_0_.Q & !I0_read_reg_1_.Q
+       & !I0_read_reg_2_.Q & !I0_read_reg_3_.Q & !I0_read_reg_4_.Q
+       & I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # IO_Select_DIG_24.Q & !I0_read_reg_0_.Q & I0_read_reg_1_.Q
+       & !I0_read_reg_2_.Q & !I0_read_reg_3_.Q & !I0_read_reg_4_.Q
+       & I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # I0_state_reg_2_.Q & J0_temp_y_0_reg.Q
+    # I0_read_reg_7_.Q & J0_temp_y_0_reg.Q
+    # I0_read_reg_6_.Q & J0_temp_y_0_reg.Q ; (13 pterms, 15 signals)
 I0_data_to_master_reg_0_.C = OSCOUT ; (1 pterm, 1 signal)
-I0_data_to_master_reg_0_.CE = I0_data_to_master_reg_0__0 ; (1 pterm, 1 signal)
+I0_data_to_master_reg_0_.CE = !I0_N_539_0 ; (1 pterm, 1 signal)
 
-I0_data_to_master_reg_0__0 = !I0_inst_sda_pre_internal.Q & I0_state_reg_2_.Q
-       & I0_inst_scl_rising_reg.Q
-    # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & !I0_addr_reg_1_.Q & !I0_addr_reg_5_.Q & !I0_addr_reg_6_.Q
-       & I0_inst_scl_falling_reg.Q & I0_state_reg_6_.Q & I0_addr_reg_0_.Q
-       & I0_addr_reg_2_.Q & I0_addr_reg_3_.Q & I0_addr_reg_4_.Q
-       & I0_inst_cmd_reg.Q ; (2 pterms, 17 signals)
-
-I0_data_to_master_reg_1_.D = I0_state_reg_6_.Q ; (1 pterm, 1 signal)
+I0_data_to_master_reg_1_.D = I0_read_reg_0_.Q & I0_read_reg_1_.Q
+       & !I0_read_reg_3_.Q & J0_temp_y_0_reg.Q
+    # !I0_read_reg_0_.Q & !I0_read_reg_5_.Q & J0_temp_y_0_reg.Q
+    # I0_read_reg_2_.Q & I0_read_reg_5_.Q & J0_temp_y_0_reg.Q
+    # I0_read_reg_3_.Q & !I0_read_reg_4_.Q & J0_temp_y_0_reg.Q
+    # !I0_read_reg_2_.Q & I0_read_reg_4_.Q & J0_temp_y_0_reg.Q
+    # !I0_read_reg_1_.Q & !I0_read_reg_5_.Q & J0_temp_y_0_reg.Q
+    # IO_Select_DIG_01.Q & I0_read_reg_0_.Q & I0_read_reg_1_.Q
+       & I0_read_reg_2_.Q & I0_read_reg_3_.Q & I0_read_reg_4_.Q
+       & !I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # I0_data_1_1_reg.Q & !I0_read_reg_0_.Q & !I0_read_reg_1_.Q
+       & !I0_read_reg_2_.Q & !I0_read_reg_3_.Q & !I0_read_reg_4_.Q
+       & I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # I0_data_2_1_reg.Q & I0_read_reg_0_.Q & !I0_read_reg_1_.Q
+       & !I0_read_reg_2_.Q & !I0_read_reg_3_.Q & !I0_read_reg_4_.Q
+       & I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # IO_Select_DIG_25.Q & !I0_read_reg_0_.Q & I0_read_reg_1_.Q
+       & !I0_read_reg_2_.Q & !I0_read_reg_3_.Q & !I0_read_reg_4_.Q
+       & I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # I0_state_reg_2_.Q & J0_temp_y_0_reg.Q
+    # I0_read_reg_7_.Q & J0_temp_y_0_reg.Q
+    # I0_read_reg_6_.Q & J0_temp_y_0_reg.Q ; (13 pterms, 15 signals)
 I0_data_to_master_reg_1_.C = OSCOUT ; (1 pterm, 1 signal)
-I0_data_to_master_reg_1_.CE = I0_data_to_master_reg_0__0 ; (1 pterm, 1 signal)
+I0_data_to_master_reg_1_.CE = !I0_N_539_0 ; (1 pterm, 1 signal)
 
-I0_data_to_master_reg_2_.D = !I0_state_reg_6_.Q ; (1 pterm, 1 signal)
+I0_data_to_master_reg_2_.D = I0_read_reg_0_.Q & I0_read_reg_1_.Q
+       & !I0_read_reg_3_.Q & J0_temp_y_2_reg.Q
+    # !I0_read_reg_0_.Q & !I0_read_reg_5_.Q & J0_temp_y_2_reg.Q
+    # I0_read_reg_2_.Q & I0_read_reg_5_.Q & J0_temp_y_2_reg.Q
+    # I0_read_reg_3_.Q & !I0_read_reg_4_.Q & J0_temp_y_2_reg.Q
+    # !I0_read_reg_2_.Q & I0_read_reg_4_.Q & J0_temp_y_2_reg.Q
+    # !I0_read_reg_1_.Q & !I0_read_reg_5_.Q & J0_temp_y_2_reg.Q
+    # IO_Select_DIG_02.Q & I0_read_reg_0_.Q & I0_read_reg_1_.Q
+       & I0_read_reg_2_.Q & I0_read_reg_3_.Q & I0_read_reg_4_.Q
+       & !I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # I0_data_1_2_reg.Q & !I0_read_reg_0_.Q & !I0_read_reg_1_.Q
+       & !I0_read_reg_2_.Q & !I0_read_reg_3_.Q & !I0_read_reg_4_.Q
+       & I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # I0_data_2_2_reg.Q & I0_read_reg_0_.Q & !I0_read_reg_1_.Q
+       & !I0_read_reg_2_.Q & !I0_read_reg_3_.Q & !I0_read_reg_4_.Q
+       & I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # IO_Select_DIG_26.Q & !I0_read_reg_0_.Q & I0_read_reg_1_.Q
+       & !I0_read_reg_2_.Q & !I0_read_reg_3_.Q & !I0_read_reg_4_.Q
+       & I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # I0_state_reg_2_.Q & J0_temp_y_2_reg.Q
+    # I0_read_reg_7_.Q & J0_temp_y_2_reg.Q
+    # I0_read_reg_6_.Q & J0_temp_y_2_reg.Q ; (13 pterms, 15 signals)
 I0_data_to_master_reg_2_.C = OSCOUT ; (1 pterm, 1 signal)
-I0_data_to_master_reg_2_.CE = I0_data_to_master_reg_0__0 ; (1 pterm, 1 signal)
+I0_data_to_master_reg_2_.CE = !I0_N_539_0 ; (1 pterm, 1 signal)
 
-I0_data_to_master_reg_3_.D = !I0_state_reg_6_.Q ; (1 pterm, 1 signal)
+I0_data_to_master_reg_3_.D = I0_read_reg_0_.Q & I0_read_reg_1_.Q
+       & !I0_read_reg_3_.Q & J0_temp_y_2_reg.Q
+    # !I0_read_reg_0_.Q & !I0_read_reg_5_.Q & J0_temp_y_2_reg.Q
+    # I0_read_reg_2_.Q & I0_read_reg_5_.Q & J0_temp_y_2_reg.Q
+    # I0_read_reg_3_.Q & !I0_read_reg_4_.Q & J0_temp_y_2_reg.Q
+    # !I0_read_reg_2_.Q & I0_read_reg_4_.Q & J0_temp_y_2_reg.Q
+    # !I0_read_reg_1_.Q & !I0_read_reg_5_.Q & J0_temp_y_2_reg.Q
+    # IO_Select_DIG_03.Q & I0_read_reg_0_.Q & I0_read_reg_1_.Q
+       & I0_read_reg_2_.Q & I0_read_reg_3_.Q & I0_read_reg_4_.Q
+       & !I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # I0_data_1_3_reg.Q & !I0_read_reg_0_.Q & !I0_read_reg_1_.Q
+       & !I0_read_reg_2_.Q & !I0_read_reg_3_.Q & !I0_read_reg_4_.Q
+       & I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # I0_data_2_3_reg.Q & I0_read_reg_0_.Q & !I0_read_reg_1_.Q
+       & !I0_read_reg_2_.Q & !I0_read_reg_3_.Q & !I0_read_reg_4_.Q
+       & I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # IO_Select_DIG_27.Q & !I0_read_reg_0_.Q & I0_read_reg_1_.Q
+       & !I0_read_reg_2_.Q & !I0_read_reg_3_.Q & !I0_read_reg_4_.Q
+       & I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # I0_state_reg_2_.Q & J0_temp_y_2_reg.Q
+    # I0_read_reg_7_.Q & J0_temp_y_2_reg.Q
+    # I0_read_reg_6_.Q & J0_temp_y_2_reg.Q ; (13 pterms, 15 signals)
 I0_data_to_master_reg_3_.C = OSCOUT ; (1 pterm, 1 signal)
-I0_data_to_master_reg_3_.CE = I0_data_to_master_reg_0__0 ; (1 pterm, 1 signal)
+I0_data_to_master_reg_3_.CE = !I0_N_539_0 ; (1 pterm, 1 signal)
 
-I0_data_to_master_reg_4_.D = !I0_state_reg_6_.Q ; (1 pterm, 1 signal)
+I0_data_to_master_reg_4_.D = I0_read_reg_0_.Q & I0_read_reg_1_.Q
+       & !I0_read_reg_3_.Q & J0_temp_y_2_reg.Q
+    # !I0_read_reg_0_.Q & !I0_read_reg_5_.Q & J0_temp_y_2_reg.Q
+    # I0_read_reg_2_.Q & I0_read_reg_5_.Q & J0_temp_y_2_reg.Q
+    # I0_read_reg_3_.Q & !I0_read_reg_4_.Q & J0_temp_y_2_reg.Q
+    # !I0_read_reg_2_.Q & I0_read_reg_4_.Q & J0_temp_y_2_reg.Q
+    # !I0_read_reg_1_.Q & !I0_read_reg_5_.Q & J0_temp_y_2_reg.Q
+    # IO_Select_DIG_04.Q & I0_read_reg_0_.Q & I0_read_reg_1_.Q
+       & I0_read_reg_2_.Q & I0_read_reg_3_.Q & I0_read_reg_4_.Q
+       & !I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # I0_data_1_4_reg.Q & !I0_read_reg_0_.Q & !I0_read_reg_1_.Q
+       & !I0_read_reg_2_.Q & !I0_read_reg_3_.Q & !I0_read_reg_4_.Q
+       & I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # I0_data_2_4_reg.Q & I0_read_reg_0_.Q & !I0_read_reg_1_.Q
+       & !I0_read_reg_2_.Q & !I0_read_reg_3_.Q & !I0_read_reg_4_.Q
+       & I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # IO_Select_DIG_28.Q & !I0_read_reg_0_.Q & I0_read_reg_1_.Q
+       & !I0_read_reg_2_.Q & !I0_read_reg_3_.Q & !I0_read_reg_4_.Q
+       & I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # I0_state_reg_2_.Q & J0_temp_y_2_reg.Q
+    # I0_read_reg_7_.Q & J0_temp_y_2_reg.Q
+    # I0_read_reg_6_.Q & J0_temp_y_2_reg.Q ; (13 pterms, 15 signals)
 I0_data_to_master_reg_4_.C = OSCOUT ; (1 pterm, 1 signal)
-I0_data_to_master_reg_4_.CE = I0_data_to_master_reg_0__0 ; (1 pterm, 1 signal)
+I0_data_to_master_reg_4_.CE = !I0_N_539_0 ; (1 pterm, 1 signal)
 
-I0_data_to_master_reg_5_.D = !I0_state_reg_6_.Q ; (1 pterm, 1 signal)
+I0_data_to_master_reg_5_.D = I0_read_reg_0_.Q & I0_read_reg_1_.Q
+       & !I0_read_reg_3_.Q & J0_temp_y_2_reg.Q
+    # !I0_read_reg_0_.Q & !I0_read_reg_5_.Q & J0_temp_y_2_reg.Q
+    # I0_read_reg_2_.Q & I0_read_reg_5_.Q & J0_temp_y_2_reg.Q
+    # I0_read_reg_3_.Q & !I0_read_reg_4_.Q & J0_temp_y_2_reg.Q
+    # !I0_read_reg_2_.Q & I0_read_reg_4_.Q & J0_temp_y_2_reg.Q
+    # !I0_read_reg_1_.Q & !I0_read_reg_5_.Q & J0_temp_y_2_reg.Q
+    # IO_Select_DIG_05.Q & I0_read_reg_0_.Q & I0_read_reg_1_.Q
+       & I0_read_reg_2_.Q & I0_read_reg_3_.Q & I0_read_reg_4_.Q
+       & !I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # I0_data_1_5_reg.Q & !I0_read_reg_0_.Q & !I0_read_reg_1_.Q
+       & !I0_read_reg_2_.Q & !I0_read_reg_3_.Q & !I0_read_reg_4_.Q
+       & I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # I0_data_2_5_reg.Q & I0_read_reg_0_.Q & !I0_read_reg_1_.Q
+       & !I0_read_reg_2_.Q & !I0_read_reg_3_.Q & !I0_read_reg_4_.Q
+       & I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # IO_Select_DIG_29.Q & !I0_read_reg_0_.Q & I0_read_reg_1_.Q
+       & !I0_read_reg_2_.Q & !I0_read_reg_3_.Q & !I0_read_reg_4_.Q
+       & I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # I0_state_reg_2_.Q & J0_temp_y_2_reg.Q
+    # I0_read_reg_7_.Q & J0_temp_y_2_reg.Q
+    # I0_read_reg_6_.Q & J0_temp_y_2_reg.Q ; (13 pterms, 15 signals)
 I0_data_to_master_reg_5_.C = OSCOUT ; (1 pterm, 1 signal)
-I0_data_to_master_reg_5_.CE = I0_data_to_master_reg_0__0 ; (1 pterm, 1 signal)
+I0_data_to_master_reg_5_.CE = !I0_N_539_0 ; (1 pterm, 1 signal)
 
-I0_data_to_master_reg_6_.D = I0_state_reg_6_.Q ; (1 pterm, 1 signal)
+I0_data_to_master_reg_6_.D = I0_read_reg_0_.Q & I0_read_reg_1_.Q
+       & !I0_read_reg_3_.Q & J0_temp_y_0_reg.Q
+    # !I0_read_reg_0_.Q & !I0_read_reg_5_.Q & J0_temp_y_0_reg.Q
+    # I0_read_reg_2_.Q & I0_read_reg_5_.Q & J0_temp_y_0_reg.Q
+    # I0_read_reg_3_.Q & !I0_read_reg_4_.Q & J0_temp_y_0_reg.Q
+    # !I0_read_reg_2_.Q & I0_read_reg_4_.Q & J0_temp_y_0_reg.Q
+    # !I0_read_reg_1_.Q & !I0_read_reg_5_.Q & J0_temp_y_0_reg.Q
+    # IO_Select_DIG_06.Q & I0_read_reg_0_.Q & I0_read_reg_1_.Q
+       & I0_read_reg_2_.Q & I0_read_reg_3_.Q & I0_read_reg_4_.Q
+       & !I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # I0_data_1_6_reg.Q & !I0_read_reg_0_.Q & !I0_read_reg_1_.Q
+       & !I0_read_reg_2_.Q & !I0_read_reg_3_.Q & !I0_read_reg_4_.Q
+       & I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # I0_data_2_6_reg.Q & I0_read_reg_0_.Q & !I0_read_reg_1_.Q
+       & !I0_read_reg_2_.Q & !I0_read_reg_3_.Q & !I0_read_reg_4_.Q
+       & I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & I0_state_reg_6_.Q
+    # RESERVED.Q & !I0_read_reg_0_.Q & I0_read_reg_1_.Q & !I0_read_reg_2_.Q
+       & !I0_read_reg_3_.Q & !I0_read_reg_4_.Q & I0_read_reg_5_.Q
+       & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q & I0_state_reg_6_.Q
+    # I0_state_reg_2_.Q & J0_temp_y_0_reg.Q
+    # I0_read_reg_7_.Q & J0_temp_y_0_reg.Q
+    # I0_read_reg_6_.Q & J0_temp_y_0_reg.Q ; (13 pterms, 15 signals)
 I0_data_to_master_reg_6_.C = OSCOUT ; (1 pterm, 1 signal)
-I0_data_to_master_reg_6_.CE = I0_data_to_master_reg_0__0 ; (1 pterm, 1 signal)
+I0_data_to_master_reg_6_.CE = !I0_N_539_0 ; (1 pterm, 1 signal)
 
-I0_data_to_master_reg_7_.D = 0 ; (0 pterm, 0 signal)
+I0_data_to_master_reg_7_.D = !( !IO_Select_DIG_07.Q & I0_read_reg_0_.Q
+       & I0_read_reg_1_.Q & I0_read_reg_2_.Q & I0_read_reg_3_.Q
+       & I0_read_reg_4_.Q & !I0_read_reg_5_.Q & !I0_read_reg_6_.Q
+       & !I0_read_reg_7_.Q & !I0_state_reg_2_.Q
+    # I0_read_reg_0_.Q & I0_read_reg_1_.Q & I0_read_reg_2_.Q
+       & I0_read_reg_3_.Q & I0_read_reg_4_.Q & !I0_read_reg_5_.Q
+       & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q & !I0_state_reg_6_.Q
+       & !I0_state_reg_2_.Q
+    # !I0_data_1_7_reg.Q & !I0_read_reg_0_.Q & !I0_read_reg_1_.Q
+       & !I0_read_reg_2_.Q & !I0_read_reg_3_.Q & !I0_read_reg_4_.Q
+       & I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & !I0_state_reg_2_.Q
+    # !I0_data_2_7_reg.Q & I0_read_reg_0_.Q & !I0_read_reg_1_.Q
+       & !I0_read_reg_2_.Q & !I0_read_reg_3_.Q & !I0_read_reg_4_.Q
+       & I0_read_reg_5_.Q & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q
+       & !I0_state_reg_2_.Q
+    # !Pin_Enable.Q & !I0_read_reg_0_.Q & I0_read_reg_1_.Q & !I0_read_reg_2_.Q
+       & !I0_read_reg_3_.Q & !I0_read_reg_4_.Q & I0_read_reg_5_.Q
+       & !I0_read_reg_6_.Q & !I0_read_reg_7_.Q & !I0_state_reg_2_.Q
+    # !I0_read_reg_1_.Q & !I0_read_reg_2_.Q & !I0_read_reg_3_.Q
+       & !I0_read_reg_4_.Q & I0_read_reg_5_.Q & !I0_read_reg_6_.Q
+       & !I0_read_reg_7_.Q & !I0_state_reg_6_.Q & !I0_state_reg_2_.Q
+    # !I0_read_reg_0_.Q & !I0_read_reg_2_.Q & !I0_read_reg_3_.Q
+       & !I0_read_reg_4_.Q & I0_read_reg_5_.Q & !I0_read_reg_6_.Q
+       & !I0_read_reg_7_.Q & !I0_state_reg_6_.Q & !I0_state_reg_2_.Q ) ; (7 pterms, 14 signals)
 I0_data_to_master_reg_7_.C = OSCOUT ; (1 pterm, 1 signal)
-I0_data_to_master_reg_7_.CE = I0_data_to_master_reg_0__0 ; (1 pterm, 1 signal)
+I0_data_to_master_reg_7_.CE = !I0_N_539_0 ; (1 pterm, 1 signal)
 
 I0_inst_cmd_reg.D = I0_inst_sda_pre_internal.Q ; (1 pterm, 1 signal)
 I0_inst_cmd_reg.C = OSCOUT ; (1 pterm, 1 signal)
 I0_inst_cmd_reg.CE = I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
        & I0_bits_processed_reg_2_.Q & !I0_bits_processed_reg_3_.Q
-       & I0_inst_scl_rising_reg.Q & I0_state_reg_6_.Q ; (1 pterm, 6 signals)
+       & I0_state_reg_6_.Q & I0_inst_scl_rising_reg.Q ; (1 pterm, 6 signals)
 
 I0_inst_continue_reg.D = !I0_inst_sda_pre_internal.Q ; (1 pterm, 1 signal)
 I0_inst_continue_reg.C = OSCOUT ; (1 pterm, 1 signal)
@@ -619,53 +846,6 @@ I0_inst_scl_rising_reg.D = I0_inst_scl_pre_internal.Q
        & !I0_inst_scl_prev_reg.Q ; (1 pterm, 2 signals)
 I0_inst_scl_rising_reg.C = OSCOUT ; (1 pterm, 1 signal)
 
-I0_inst_sda_o_reg.D = I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_state_reg_3_.Q
-       & I0_data_to_master_reg_6_.Q
-    # !I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_state_reg_3_.Q
-       & I0_data_to_master_reg_5_.Q
-    # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & I0_bits_processed_reg_2_.Q & I0_state_reg_3_.Q
-       & I0_data_to_master_reg_3_.Q
-    # I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_state_reg_3_.Q
-       & I0_data_to_master_reg_4_.Q
-    # I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & I0_bits_processed_reg_2_.Q & I0_state_reg_3_.Q
-       & I0_data_to_master_reg_2_.Q
-    # !I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
-       & I0_bits_processed_reg_2_.Q & I0_state_reg_3_.Q
-       & I0_data_to_master_reg_1_.Q
-    # I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
-       & I0_bits_processed_reg_2_.Q & I0_state_reg_3_.Q
-       & I0_data_to_master_reg_0_.Q
-    # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_state_reg_3_.Q
-       & I0_data_to_master_reg_7_.Q ; (8 pterms, 12 signals)
-I0_inst_sda_o_reg.C = OSCOUT ; (1 pterm, 1 signal)
-
-I0_inst_sda_o_reg_e.D = I0_bits_processed_reg_0_.Q
-       & !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_2_.Q
-       & !I0_data_to_master_reg_6_.Q
-    # !I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & !I0_data_to_master_reg_5_.Q
-    # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & I0_bits_processed_reg_2_.Q & !I0_data_to_master_reg_3_.Q
-    # I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & !I0_data_to_master_reg_4_.Q
-    # I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & I0_bits_processed_reg_2_.Q & !I0_data_to_master_reg_2_.Q
-    # !I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
-       & I0_bits_processed_reg_2_.Q & !I0_data_to_master_reg_1_.Q
-    # I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
-       & I0_bits_processed_reg_2_.Q & !I0_data_to_master_reg_0_.Q
-    # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & !I0_data_to_master_reg_7_.Q
-    # !I0_bits_processed_reg_3_.Q & I0_inst_scl_falling_reg.Q
-    # !I0_state_reg_3_.Q ; (10 pterms, 14 signals)
-I0_inst_sda_o_reg_e.C = OSCOUT ; (1 pterm, 1 signal)
-
 I0_inst_sda_pre_internal.D = sda.PIN ; (1 pterm, 1 signal)
 I0_inst_sda_pre_internal.C = OSCOUT ; (1 pterm, 1 signal)
 
@@ -683,6 +863,78 @@ I0_inst_stop_reg.D = I0_inst_sda_pre_internal.Q & I0_inst_scl_pre_internal.Q
        & I0_inst_scl_prev_reg.Q & !I0_inst_sda_prev_reg.Q ; (1 pterm, 4 signals)
 I0_inst_stop_reg.C = OSCOUT ; (1 pterm, 1 signal)
 
+I0_read_reg_0_.D = I0_data_from_master_reg_0_.Q ; (1 pterm, 1 signal)
+I0_read_reg_0_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_read_reg_0_.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
+       & I0_target_reg_1_.Q & I0_target_reg_2_.Q & I0_target_reg_3_.Q
+       & I0_target_reg_4_.Q & I0_target_reg_5_.Q & I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+I0_read_reg_1_.D = I0_data_from_master_reg_1_.Q ; (1 pterm, 1 signal)
+I0_read_reg_1_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_read_reg_1_.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
+       & I0_target_reg_1_.Q & I0_target_reg_2_.Q & I0_target_reg_3_.Q
+       & I0_target_reg_4_.Q & I0_target_reg_5_.Q & I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+I0_read_reg_2_.D = I0_data_from_master_reg_2_.Q ; (1 pterm, 1 signal)
+I0_read_reg_2_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_read_reg_2_.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
+       & I0_target_reg_1_.Q & I0_target_reg_2_.Q & I0_target_reg_3_.Q
+       & I0_target_reg_4_.Q & I0_target_reg_5_.Q & I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+I0_read_reg_3_.D = I0_data_from_master_reg_3_.Q ; (1 pterm, 1 signal)
+I0_read_reg_3_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_read_reg_3_.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
+       & I0_target_reg_1_.Q & I0_target_reg_2_.Q & I0_target_reg_3_.Q
+       & I0_target_reg_4_.Q & I0_target_reg_5_.Q & I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+I0_read_reg_4_.D = I0_data_from_master_reg_4_.Q ; (1 pterm, 1 signal)
+I0_read_reg_4_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_read_reg_4_.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
+       & I0_target_reg_1_.Q & I0_target_reg_2_.Q & I0_target_reg_3_.Q
+       & I0_target_reg_4_.Q & I0_target_reg_5_.Q & I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+I0_read_reg_5_.D = I0_data_from_master_reg_5_.Q ; (1 pterm, 1 signal)
+I0_read_reg_5_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_read_reg_5_.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
+       & I0_target_reg_1_.Q & I0_target_reg_2_.Q & I0_target_reg_3_.Q
+       & I0_target_reg_4_.Q & I0_target_reg_5_.Q & I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+I0_read_reg_6_.D = I0_data_from_master_reg_6_.Q ; (1 pterm, 1 signal)
+I0_read_reg_6_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_read_reg_6_.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
+       & I0_target_reg_1_.Q & I0_target_reg_2_.Q & I0_target_reg_3_.Q
+       & I0_target_reg_4_.Q & I0_target_reg_5_.Q & I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
+I0_read_reg_7_.D = I0_data_from_master_reg_7_.Q ; (1 pterm, 1 signal)
+I0_read_reg_7_.C = OSCOUT ; (1 pterm, 1 signal)
+I0_read_reg_7_.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
+       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
+       & I0_target_reg_1_.Q & I0_target_reg_2_.Q & I0_target_reg_3_.Q
+       & I0_target_reg_4_.Q & I0_target_reg_5_.Q & I0_target_reg_6_.Q
+       & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
+
 I0_state_reg_1_.D = !I0_inst_stop_reg.Q & I0_state_reg_2_.Q
        & I0_inst_scl_rising_reg.Q & !I0_inst_start_reg.Q
     # !I0_inst_stop_reg.Q & !I0_inst_scl_falling_reg.Q & !I0_inst_start_reg.Q
@@ -691,24 +943,24 @@ I0_state_reg_1_.D = !I0_inst_stop_reg.Q & I0_state_reg_2_.Q
        & I0_state_reg_1_.Q ; (3 pterms, 6 signals)
 I0_state_reg_1_.C = OSCOUT ; (1 pterm, 1 signal)
 
-I0_state_reg_2_.D = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & !I0_inst_stop_reg.Q & I0_state_reg_3_.Q & I0_inst_scl_falling_reg.Q
-       & !I0_inst_start_reg.Q
+I0_state_reg_2_.D = I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & I0_bits_processed_reg_2_.Q & !I0_bits_processed_reg_3_.Q
+       & !I0_inst_stop_reg.Q & I0_inst_scl_falling_reg.Q
+       & !I0_inst_start_reg.Q & I0_state_reg_3_.Q
     # !I0_inst_stop_reg.Q & I0_state_reg_2_.Q & !I0_inst_scl_rising_reg.Q
        & !I0_inst_start_reg.Q ; (2 pterms, 10 signals)
 I0_state_reg_2_.C = OSCOUT ; (1 pterm, 1 signal)
 
-I0_state_reg_3_.T = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & I0_state_reg_3_.Q & I0_inst_scl_falling_reg.Q & !I0_state_reg_5_.Q
+I0_state_reg_3_.T = I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & I0_bits_processed_reg_2_.Q & !I0_bits_processed_reg_3_.Q
+       & I0_inst_scl_falling_reg.Q & I0_state_reg_3_.Q & !I0_state_reg_5_.Q
        & !I0_state_reg_1_.Q
-    # !I0_inst_stop_reg.Q & !I0_state_reg_3_.Q & I0_inst_scl_falling_reg.Q
-       & I0_inst_continue_reg.Q & !I0_inst_start_reg.Q & I0_state_reg_1_.Q
-       & I0_inst_cmd_reg.Q
-    # !I0_inst_stop_reg.Q & !I0_state_reg_3_.Q & I0_inst_scl_falling_reg.Q
-       & !I0_inst_start_reg.Q & I0_state_reg_5_.Q & I0_inst_cmd_reg.Q
-    # I0_state_reg_3_.Q & I0_inst_start_reg.Q
+    # !I0_inst_stop_reg.Q & I0_inst_continue_reg.Q & I0_inst_scl_falling_reg.Q
+       & !I0_inst_start_reg.Q & !I0_state_reg_3_.Q & I0_inst_cmd_reg.Q
+       & I0_state_reg_1_.Q
+    # !I0_inst_stop_reg.Q & I0_inst_scl_falling_reg.Q & !I0_inst_start_reg.Q
+       & !I0_state_reg_3_.Q & I0_inst_cmd_reg.Q & I0_state_reg_5_.Q
+    # I0_inst_start_reg.Q & I0_state_reg_3_.Q
     # I0_inst_stop_reg.Q & I0_state_reg_3_.Q ; (5 pterms, 12 signals)
 I0_state_reg_3_.C = OSCOUT ; (1 pterm, 1 signal)
 
@@ -716,11 +968,11 @@ I0_state_reg_4_.T = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
        & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
        & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q & !I0_state_reg_5_.Q
        & !I0_state_reg_1_.Q
+    # !I0_inst_stop_reg.Q & !I0_state_reg_4_.Q & I0_inst_continue_reg.Q
+       & I0_inst_scl_falling_reg.Q & !I0_inst_start_reg.Q & !I0_inst_cmd_reg.Q
+       & I0_state_reg_1_.Q
     # !I0_inst_stop_reg.Q & !I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
-       & I0_inst_continue_reg.Q & !I0_inst_start_reg.Q & I0_state_reg_1_.Q
-       & !I0_inst_cmd_reg.Q
-    # !I0_inst_stop_reg.Q & !I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q
-       & !I0_inst_start_reg.Q & I0_state_reg_5_.Q & !I0_inst_cmd_reg.Q
+       & !I0_inst_start_reg.Q & !I0_inst_cmd_reg.Q & I0_state_reg_5_.Q
     # I0_state_reg_4_.Q & I0_inst_start_reg.Q
     # I0_inst_stop_reg.Q & I0_state_reg_4_.Q ; (5 pterms, 12 signals)
 I0_state_reg_4_.C = OSCOUT ; (1 pterm, 1 signal)
@@ -728,7 +980,7 @@ I0_state_reg_4_.C = OSCOUT ; (1 pterm, 1 signal)
 I0_state_reg_5_.D = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
        & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
        & !I0_addr_reg_1_.Q & !I0_addr_reg_5_.Q & !I0_addr_reg_6_.Q
-       & !I0_inst_stop_reg.Q & I0_inst_scl_falling_reg.Q & I0_state_reg_6_.Q
+       & !I0_inst_stop_reg.Q & I0_state_reg_6_.Q & I0_inst_scl_falling_reg.Q
        & I0_addr_reg_0_.Q & I0_addr_reg_2_.Q & I0_addr_reg_3_.Q
        & I0_addr_reg_4_.Q & !I0_inst_start_reg.Q
     # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
@@ -943,6 +1195,12 @@ IO_Select_DIG_29.CE = !I0_bits_processed_reg_0_.Q
        & !I0_target_reg_6_.Q & !I0_target_reg_7_.Q & I0_state_reg_4_.Q
        & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
 
+J0_temp_y_0_reg.D = J0_temp_y_2_reg.Q ; (1 pterm, 1 signal)
+J0_temp_y_0_reg.C = OSCOUT ; (1 pterm, 1 signal)
+
+J0_temp_y_2_reg.D = !J0_temp_y_2_reg.Q ; (1 pterm, 1 signal)
+J0_temp_y_2_reg.C = OSCOUT ; (1 pterm, 1 signal)
+
 Pin_Enable.D = I0_data_from_master_reg_7_.Q ; (1 pterm, 1 signal)
 Pin_Enable.C = OSCOUT ; (1 pterm, 1 signal)
 Pin_Enable.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
@@ -961,52 +1219,35 @@ RESERVED.CE = !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
        & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
        & !I0_target_reg_7_.Q & I0_state_reg_4_.Q & I0_inst_scl_falling_reg.Q ; (1 pterm, 15 signals)
 
-bs_LSB.T = !bs_LSB.Q & !I0_bits_processed_reg_0_.Q
-       & !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_2_.Q
-       & I0_bits_processed_reg_3_.Q & I0_inst_reg_or_data_receive.Q
-       & I0_target_reg_0_.Q & I0_target_reg_1_.Q & I0_target_reg_2_.Q
-       & I0_target_reg_3_.Q & I0_target_reg_4_.Q & !I0_target_reg_5_.Q
-       & !I0_target_reg_6_.Q & !I0_target_reg_7_.Q & I0_inst_scl_falling_reg.Q
-    # !bs_LSB.Q & !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & I0_inst_reg_or_data_receive.Q & !I0_target_reg_0_.Q
-       & I0_target_reg_1_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
-       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
-       & !I0_target_reg_7_.Q & I0_inst_scl_falling_reg.Q
-    # bs_LSB.Q & !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & !I0_target_reg_1_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
-       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
-       & !I0_target_reg_7_.Q & I0_inst_scl_falling_reg.Q
-    # bs_LSB.Q & !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & !I0_inst_reg_or_data_receive.Q & I0_inst_scl_falling_reg.Q ; (4 pterms, 15 signals)
-bs_LSB.C = OSCOUT ; (1 pterm, 1 signal)
-bs_LSB.CE = I0_state_reg_4_.Q ; (1 pterm, 1 signal)
+bs_LSB = 1 ; (1 pterm, 0 signal)
 
-bs_MSB.T = bs_MSB.Q & !I0_bits_processed_reg_0_.Q
-       & !I0_bits_processed_reg_1_.Q & !I0_bits_processed_reg_2_.Q
-       & I0_bits_processed_reg_3_.Q & I0_inst_reg_or_data_receive.Q
-       & I0_target_reg_0_.Q & I0_target_reg_1_.Q & I0_target_reg_2_.Q
-       & I0_target_reg_3_.Q & I0_target_reg_4_.Q & !I0_target_reg_5_.Q
-       & !I0_target_reg_6_.Q & !I0_target_reg_7_.Q & I0_inst_scl_falling_reg.Q
-    # bs_MSB.Q & !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & I0_inst_reg_or_data_receive.Q & I0_target_reg_0_.Q
-       & !I0_target_reg_1_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
-       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
-       & !I0_target_reg_7_.Q & I0_inst_scl_falling_reg.Q
-    # !bs_MSB.Q & !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & !I0_target_reg_0_.Q & !I0_target_reg_2_.Q & !I0_target_reg_3_.Q
-       & !I0_target_reg_4_.Q & I0_target_reg_5_.Q & !I0_target_reg_6_.Q
-       & !I0_target_reg_7_.Q & I0_inst_scl_falling_reg.Q
-    # !bs_MSB.Q & !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
-       & !I0_bits_processed_reg_2_.Q & I0_bits_processed_reg_3_.Q
-       & !I0_inst_reg_or_data_receive.Q & I0_inst_scl_falling_reg.Q ; (4 pterms, 15 signals)
+bs_MSB.D = bs_MSB.Q & !I0_state_reg_4_.Q ; (1 pterm, 2 signals)
 bs_MSB.C = OSCOUT ; (1 pterm, 1 signal)
-bs_MSB.CE = I0_state_reg_4_.Q ; (1 pterm, 1 signal)
 
-sda = I0_inst_sda_o_reg.Q & I0_inst_sda_o_reg_e.Q ; (1 pterm, 2 signals)
+sda.D = I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_state_reg_3_.Q
+       & I0_data_to_master_reg_6_.Q
+    # !I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_state_reg_3_.Q
+       & I0_data_to_master_reg_5_.Q
+    # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & I0_bits_processed_reg_2_.Q & I0_state_reg_3_.Q
+       & I0_data_to_master_reg_3_.Q
+    # I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_state_reg_3_.Q
+       & I0_data_to_master_reg_4_.Q
+    # I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & I0_bits_processed_reg_2_.Q & I0_state_reg_3_.Q
+       & I0_data_to_master_reg_2_.Q
+    # !I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & I0_bits_processed_reg_2_.Q & I0_state_reg_3_.Q
+       & I0_data_to_master_reg_1_.Q
+    # I0_bits_processed_reg_0_.Q & I0_bits_processed_reg_1_.Q
+       & I0_bits_processed_reg_2_.Q & I0_state_reg_3_.Q
+       & I0_data_to_master_reg_0_.Q
+    # !I0_bits_processed_reg_0_.Q & !I0_bits_processed_reg_1_.Q
+       & !I0_bits_processed_reg_2_.Q & I0_state_reg_3_.Q
+       & I0_data_to_master_reg_7_.Q ; (8 pterms, 12 signals)
 sda.OE = I0_inst_sda_wen_reg.Q ; (1 pterm, 1 signal)
+sda.C = OSCOUT ; (1 pterm, 1 signal)
 

@@ -5,8 +5,8 @@ Inspect circuit sourceclocked
     Number of input ports   : 1
     Number of output ports  : 8
     Number of bidir ports   : 0
-    Number of instances     : 12
-    Number of nets          : 13
+    Number of instances     : 13
+    Number of nets          : 14
 
 No design errors found in circuit sourceclocked
 

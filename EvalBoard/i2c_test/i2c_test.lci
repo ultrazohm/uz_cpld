@@ -12,8 +12,8 @@ EN_PinMacrocell = yes;
 
 [Revision]
 Parent = lc4k256e.lci;
-DATE = 01/02/2022;
-TIME = 22:29:13;
+DATE = 01/04/2022;
+TIME = 00:07:13;
 Source_Format = Schematic_VHDL;
 Synthesis = Synplify;
 
@@ -161,11 +161,13 @@ IO_Select_DIG_28 = LVCMOS33, PIN, 0, -;
 IO_Select_DIG_29 = LVCMOS33, PIN, -, -;
 RESERVED = LVCMOS33, PIN, 0, -;
 Pin_Enable = LVCMOS33, PIN, 0, -;
+CPLD_DigOut_01 = LVCMOS33, PIN, -, -;
+CPLD_DigOut_02 = LVCMOS33, PIN, -, -;
 
 [Pullup]
-OFF = sda, scl;
-UP = bs_LSB, bs_MSB, IO_Select_DIG_00, IO_Select_DIG_01, IO_Select_DIG_02, IO_Select_DIG_03, 
-	IO_Select_DIG_04, IO_Select_DIG_05, IO_Select_DIG_06, IO_Select_DIG_07;
+UP = sda, scl, bs_LSB, bs_MSB, IO_Select_DIG_00, IO_Select_DIG_01, IO_Select_DIG_02, 
+	IO_Select_DIG_03, IO_Select_DIG_04, IO_Select_DIG_05, IO_Select_DIG_06, 
+	IO_Select_DIG_07;
 
 [Slewrate]
 

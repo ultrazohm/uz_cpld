@@ -1,5 +1,5 @@
 #$ TOOL ispLEVER Classic 2.1.00.02.49.20
-#$ DATE Sun Jan 02 19:05:37 2022
+#$ DATE Mon Jan 03 01:42:17 2022
 #$ MODULE source
 #$ PINS 8 y0 y1 y2 y3 y4 y5 y6 y7
 #$ NODES 2 vcc_n_n gnd_n_n
@@ -9,7 +9,7 @@
 .names vcc_n_n
  1
 .names gnd_n_n
-.names gnd_n_n.BLIF y0
+.names vcc_n_n.BLIF y0
 1 1
 0 0
 .names gnd_n_n.BLIF y1

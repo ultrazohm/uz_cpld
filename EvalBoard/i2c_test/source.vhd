@@ -15,7 +15,7 @@ entity source is
 end entity;
 
 architecture rtl of source is
-	signal temp_y : std_logic_vector(7 downto 0) :="00111100";
+	signal temp_y : std_logic_vector(7 downto 0) :="00111101";
 begin
 		y0 <= temp_y(0);
 		y1 <= temp_y(1);

@@ -19,7 +19,7 @@ The file contains the job information from mapper to be displayed as part of the
 </report_link>
 </info>
 <info name="Warnings">
-<data>1</data>
+<data>0</data>
 <report_link name="more">
 <data>C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synlog\report\I2C_minion_fpga_mapper_warnings.txt</data>
 </report_link>
@@ -37,10 +37,10 @@ The file contains the job information from mapper to be displayed as part of the
 <data>0h:00m:00s</data>
 </info>
 <info name="Peak Memory">
-<data>105MB</data>
+<data>107MB</data>
 </info>
 <info name="Date &amp; Time">
-<data type="timestamp">1641147739</data>
+<data type="timestamp">1641252419</data>
 </info>
 </job_info>
 </job_run_status>

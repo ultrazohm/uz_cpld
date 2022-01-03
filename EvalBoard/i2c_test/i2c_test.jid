@@ -3,8 +3,9 @@ I19.SCL_debounce debounce ..\fpga-i2c-minion\debounce.vhd c:\git\ultrazohm\softw
 I10 concat8 concat8.vhd c:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\concat8.vhd
 I21 slice8 slicer8.vhd c:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\slicer8.vhd
 I22 slice8 slicer8.vhd c:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\slicer8.vhd
-I23 source source.vhd c:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\source.vhd
-I230 slice8 slicer8.vhd c:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\slicer8.vhd
+I232 sourceclocked sourceclocked.vhd c:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\sourceclocked.vhd
+I233 slice8 slicer8.vhd c:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\slicer8.vhd
 I231 slice8 slicer8.vhd c:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\slicer8.vhd
+I230 slice8 slicer8.vhd c:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\slicer8.vhd
 I19 I2C_minion ..\fpga-i2c-minion\I2C_minion.vhd c:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\I2C_minion.vhd
 I19.SDA_debounce debounce ..\fpga-i2c-minion\debounce.vhd c:\git\ultrazohm\software\cpld_lattice\evalboard\fpga-i2c-minion\debounce.vhd

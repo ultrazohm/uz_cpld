@@ -3,10 +3,10 @@ readEDIF ended normally.
 
 Inspect circuit I2C_minion
     Number of input ports   : 4
-    Number of output ports  : 8
+    Number of output ports  : 9
     Number of bidir ports   : 1
-    Number of instances     : 508
-    Number of nets          : 520
+    Number of instances     : 661
+    Number of nets          : 673
 
 No design errors found in circuit I2C_minion
 

@@ -1,3 +1,6 @@
 # Reading pref.tcl
-# Load canceled
-view source
+# Loading project i2c
+# Compile of I2C_minion.vhd failed with 6 errors.
+# Compile of I2C_minion_TB_001_ideal.vhd failed with 3 errors.
+# Compile of txt_util.vhd was successful.
+# 3 compiles, 2 failed with 9 errors.

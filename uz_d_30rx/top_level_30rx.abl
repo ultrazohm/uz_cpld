@@ -1,0 +1,201 @@
+MODULE UZ_CPLD
+
+library 'lattice';
+
+
+" ----------------------------
+" NOTE 1: Comments begin with
+" double-quote
+
+" NOTE 2: ABEL keywords are not
+" case sensitive.
+
+" NOTE 3: Your identifiers (signal
+" names) ARE case sensitive.
+" ----------------------------
+
+
+" ----------------------------
+" Default Pull Assignment
+LAT_PULL_DEFAULT(DOWN);
+
+" ----------------------------
+" PIN ASSIGNMENTS 
+" FPGA pins
+fpga_00 pin 3;
+fpga_01 pin 4;
+fpga_02 pin 5;
+fpga_03 pin 6;
+fpga_04 pin 8;
+fpga_05 pin 9;
+fpga_06 pin 10;
+fpga_07 pin 11;
+fpga_08 pin 14;
+fpga_09 pin 15;
+fpga_10 pin 16;
+fpga_11 pin 17;
+fpga_12 pin 19;
+fpga_13 pin 20;
+fpga_14 pin 21;
+fpga_15 pin 22;
+fpga_16 pin 28;
+fpga_17 pin 29;
+fpga_18 pin 30;
+fpga_19 pin 31;
+fpga_20 pin 34;
+fpga_21 pin 35;
+fpga_22 pin 36;
+fpga_23 pin 37;
+fpga_24 pin 91;
+fpga_25 pin 92;
+fpga_26 pin 93;
+fpga_27 pin 94;
+fpga_28 pin 97;
+fpga_29 pin 98;
+
+
+
+" Digital Adapter pins
+d_00 pin 50;
+d_01 pin 53;
+d_02 pin 49;
+d_03 pin 54;
+d_04 pin 48;
+d_05 pin 55;
+d_06 pin 47;
+d_07 pin 56;
+d_08 pin 41;
+d_09 pin 58;
+d_10 pin 42;
+d_11 pin 59;
+d_12 pin 43;
+d_13 pin 60;
+d_14 pin 44;
+d_15 pin 61;
+d_16 pin 84;
+d_17 pin 64;
+d_18 pin 85;
+d_19 pin 65;
+d_20 pin 86;
+d_21 pin 66;
+d_22 pin 87;
+d_23 pin 67;
+d_24 pin 81;
+d_25 pin 72;
+d_26 pin 80;
+d_27 pin 71;
+d_28 pin 79;
+d_29 pin 70;
+
+
+" ----------------------------
+" IO TYPES 
+" IO Types Digital Adapter Card
+LAT_IOTYPES(d_00,LVCMOS33,-);
+LAT_IOTYPES(d_01,LVCMOS33,-);
+LAT_IOTYPES(d_02,LVCMOS33,-);
+LAT_IOTYPES(d_03,LVCMOS33,-);
+LAT_IOTYPES(d_04,LVCMOS33,-);
+LAT_IOTYPES(d_05,LVCMOS33,-);
+LAT_IOTYPES(d_06,LVCMOS33,-);
+LAT_IOTYPES(d_07,LVCMOS33,-);
+LAT_IOTYPES(d_08,LVCMOS33,-);
+LAT_IOTYPES(d_09,LVCMOS33,-);
+LAT_IOTYPES(d_10,LVCMOS33,-);
+LAT_IOTYPES(d_11,LVCMOS33,-);
+LAT_IOTYPES(d_12,LVCMOS33,-);
+LAT_IOTYPES(d_13,LVCMOS33,-);
+LAT_IOTYPES(d_14,LVCMOS33,-);
+LAT_IOTYPES(d_15,LVCMOS33,-);
+LAT_IOTYPES(d_16,LVCMOS33,-);
+LAT_IOTYPES(d_17,LVCMOS33,-);
+LAT_IOTYPES(d_18,LVCMOS33,-);
+LAT_IOTYPES(d_19,LVCMOS33,-);
+LAT_IOTYPES(d_20,LVCMOS33,-);
+LAT_IOTYPES(d_21,LVCMOS33,-);
+LAT_IOTYPES(d_22,LVCMOS33,-);
+LAT_IOTYPES(d_23,LVCMOS33,-);
+LAT_IOTYPES(d_24,LVCMOS33,-);
+LAT_IOTYPES(d_25,LVCMOS33,-);
+LAT_IOTYPES(d_26,LVCMOS33,-);
+LAT_IOTYPES(d_27,LVCMOS33,-);
+LAT_IOTYPES(d_28,LVCMOS33,-);
+LAT_IOTYPES(d_29,LVCMOS33,-);
+
+" IO Types Digital Adapter Card
+LAT_IOTYPES(fpga_00,LVCMOS18,-);
+LAT_IOTYPES(fpga_01,LVCMOS18,-);
+LAT_IOTYPES(fpga_02,LVCMOS18,-);
+LAT_IOTYPES(fpga_03,LVCMOS18,-);
+LAT_IOTYPES(fpga_04,LVCMOS18,-);
+LAT_IOTYPES(fpga_05,LVCMOS18,-);
+LAT_IOTYPES(fpga_06,LVCMOS18,-);
+LAT_IOTYPES(fpga_07,LVCMOS18,-);
+LAT_IOTYPES(fpga_08,LVCMOS18,-);
+LAT_IOTYPES(fpga_09,LVCMOS18,-);
+LAT_IOTYPES(fpga_10,LVCMOS18,-);
+LAT_IOTYPES(fpga_11,LVCMOS18,-);
+LAT_IOTYPES(fpga_12,LVCMOS18,-);
+LAT_IOTYPES(fpga_13,LVCMOS18,-);
+LAT_IOTYPES(fpga_14,LVCMOS18,-);
+LAT_IOTYPES(fpga_15,LVCMOS18,-);
+LAT_IOTYPES(fpga_16,LVCMOS18,-);
+LAT_IOTYPES(fpga_17,LVCMOS18,-);
+LAT_IOTYPES(fpga_18,LVCMOS18,-);
+LAT_IOTYPES(fpga_19,LVCMOS18,-);
+LAT_IOTYPES(fpga_20,LVCMOS18,-);
+LAT_IOTYPES(fpga_21,LVCMOS18,-);
+LAT_IOTYPES(fpga_22,LVCMOS18,-);
+LAT_IOTYPES(fpga_23,LVCMOS18,-);
+LAT_IOTYPES(fpga_24,LVCMOS18,-);
+LAT_IOTYPES(fpga_25,LVCMOS18,-);
+LAT_IOTYPES(fpga_26,LVCMOS18,-);
+LAT_IOTYPES(fpga_27,LVCMOS18,-);
+LAT_IOTYPES(fpga_28,LVCMOS18,-);
+LAT_IOTYPES(fpga_29,LVCMOS18,-);
+
+
+
+" ----------------------------
+" Circuit functionality
+EQUATIONS
+fpga_00 = d_00; 
+fpga_01 = d_01; 
+fpga_02 = d_02; 
+fpga_03 = d_03; 
+fpga_04 = d_04; 
+fpga_05 = d_05; 
+fpga_06 = d_06; 
+fpga_07 = d_07; 
+fpga_08 = d_08; 
+fpga_09 = d_09; 
+fpga_10 = d_10; 
+fpga_11 = d_11; 
+fpga_12 = d_12; 
+fpga_13 = d_13; 
+fpga_14 = d_14; 
+fpga_15 = d_15; 
+fpga_16 = d_16; 
+fpga_17 = d_17; 
+fpga_18 = d_18; 
+fpga_19 = d_19; 
+fpga_20 = d_20; 
+fpga_21 = d_21; 
+fpga_22 = d_22; 
+fpga_23 = d_23; 
+fpga_24 = d_24; 
+fpga_25 = d_25; 
+fpga_26 = d_26; 
+fpga_27 = d_27; 
+fpga_28 = d_28; 
+fpga_29 = d_29; 
+
+
+
+
+" ----------------------------
+" All done!
+
+END
+
+

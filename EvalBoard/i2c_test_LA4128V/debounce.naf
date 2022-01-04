@@ -1,0 +1,3 @@
+signal_in  i
+signal_out  o
+clk  i

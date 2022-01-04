@@ -1,7 +1,7 @@
 ispLEVER Auto-Make Log File
 ---------------------------
 
-Updating: JEDEC File
+Updating: Fit Design
 Start to record tcl script...
 Finished recording TCL script.
 
@@ -16,6 +16,28 @@ Note    0:
 BLIFOPT complete - Time 0 seconds
 Done: completed successfully.
 
+Starting: 'C:\ispLEVER_Classic2_1\ispcpld\bin\mblifopt.exe sourceclocked.bl0 -collapse none -reduce none -keepwires -gui -err automake.err -family'
+
+BLIFOPT  Open-ABEL Optimizer 
+U.C. Berkeley, SIS Ver. 1.0, supported by Lattice Semiconductor
+ispLEVER Classic 2.1 Copyright 1992-2020 Lattice Semiconductor. All Rights Reserved.
+Reading Open-ABEL 2 file sourceclocked.bl0...
+Writing Open-ABEL 2 (BLIF) file sourceclocked.bl1...
+Note    0: 
+BLIFOPT complete - Time 0 seconds
+Done: completed successfully.
+
+Starting: 'C:\ispLEVER_Classic2_1\ispcpld\bin\mblifopt.exe slice8.bl0 -collapse none -reduce none -keepwires -gui -err automake.err -family'
+
+BLIFOPT  Open-ABEL Optimizer 
+U.C. Berkeley, SIS Ver. 1.0, supported by Lattice Semiconductor
+ispLEVER Classic 2.1 Copyright 1992-2020 Lattice Semiconductor. All Rights Reserved.
+Reading Open-ABEL 2 file slice8.bl0...
+Writing Open-ABEL 2 (BLIF) file slice8.bl1...
+Note    0: 
+BLIFOPT complete - Time 0 seconds
+Done: completed successfully.
+
 Starting: 'C:\ispLEVER_Classic2_1\ispcpld\bin\mblifopt.exe I2C_minion.bl0 -collapse none -reduce none -keepwires -gui -err automake.err -family'
 
 BLIFOPT  Open-ABEL Optimizer 
@@ -23,6 +45,17 @@ U.C. Berkeley, SIS Ver. 1.0, supported by Lattice Semiconductor
 ispLEVER Classic 2.1 Copyright 1992-2020 Lattice Semiconductor. All Rights Reserved.
 Reading Open-ABEL 2 file I2C_minion.bl0...
 Writing Open-ABEL 2 (BLIF) file I2C_minion.bl1...
+Note    0: 
+BLIFOPT complete - Time 0 seconds
+Done: completed successfully.
+
+Starting: 'C:\ispLEVER_Classic2_1\ispcpld\bin\mblifopt.exe concat8.bl0 -collapse none -reduce none -keepwires -gui -err automake.err -family'
+
+BLIFOPT  Open-ABEL Optimizer 
+U.C. Berkeley, SIS Ver. 1.0, supported by Lattice Semiconductor
+ispLEVER Classic 2.1 Copyright 1992-2020 Lattice Semiconductor. All Rights Reserved.
+Reading Open-ABEL 2 file concat8.bl0...
+Writing Open-ABEL 2 (BLIF) file concat8.bl1...
 Note    0: 
 BLIFOPT complete - Time 0 seconds
 Done: completed successfully.
@@ -852,7 +885,7 @@ Done: completed successfully.
 
 Starting: 'C:\ispLEVER_Classic2_1\ispcpld\bin\prefit.exe -blif -inp i2c_test.bl4 -out i2c_test.bl5 -err automake.err -log i2c_test.log -mod io_pins @i2c_test.l0 -gui -sc'
 
-Prefit Logic Optimizer (May 31 2012)  Tue Jan 04 00:27:30 2022
+Prefit Logic Optimizer (May 31 2012)  Tue Jan 04 15:41:04 2022
 
 C:\ispLEVER_Classic2_1\ispcpld\bin\prefit.exe -blif -inp i2c_test.bl4 -out i2c_test.bl5 -err automake.err -log i2c_test.log -mod io_pins @i2c_test.l0 -gui -sc 
 <Note> F34000: I0_bits_processed_reg_0_.CE has too many product terms. An node will be applied.
@@ -890,7 +923,7 @@ Number of pins (IO)    :    82
 Number of outputs (MC) :   172
 Number of registers    :   106
 Number of logic pterms :   342
-C:\ispLEVER_Classic2_1\ispcpld\bin\prefit.exe complete - Time 1 seconds
+C:\ispLEVER_Classic2_1\ispcpld\bin\prefit.exe complete - Time 0 seconds
 
 Done: completed successfully.
 

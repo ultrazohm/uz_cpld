@@ -1,0 +1,65 @@
+#Build: Synplify Pro I-2014.03LC , Build 063R, May 27 2014
+#install: C:\ispLEVER_Classic2_1\synpbase
+#OS: Windows 7 6.2
+#Hostname: ELN176252
+
+#Implementation: i2c_test_la4128v
+
+$ Start of Compile
+#Tue Jan 04 13:47:57 2022
+
+Synopsys VHDL Compiler, version comp201403rcp1, Build 060R, built May 27 2014
+@N|Running in 64-bit mode
+Copyright (C) 1994-2014 Synopsys, Inc. This software and the associated documentation are proprietary to Synopsys, Inc. This software may only be used in accordance with the terms and conditions of a written license agreement with Synopsys, Inc.  All other use, reproduction, or distribution of this software is strictly prohibited.
+
+@N: CD720 :"C:\ispLEVER_Classic2_1\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\sourceclocked.vhd":6:7:6:19|Top entity is set to sourceclocked.
+VHDL syntax check successful!
+@N: CD630 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\sourceclocked.vhd":6:7:6:19|Synthesizing work.sourceclocked.rtl 
+Post processing for work.sourceclocked.rtl
+@W: CL279 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\sourceclocked.vhd":25:0:25:1|Pruning register bits 6 to 3 of temp_y(7 downto 0)  
+@W: CL260 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\sourceclocked.vhd":25:0:25:1|Pruning register bit 1 of temp_y(7 downto 0)  
+@W: CL189 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\sourceclocked.vhd":25:0:25:1|Register bit temp_y(7) is always 1, optimizing ...
+@END
+
+At c_vhdl Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 68MB peak: 70MB)
+
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Tue Jan 04 13:47:57 2022
+
+###########################################################]
+Synopsys Netlist Linker, version comp201403rcp1, Build 060R, built May 27 2014
+@N|Running in 64-bit mode
+
+At syn_nfilter Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 67MB peak: 68MB)
+
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Tue Jan 04 13:47:59 2022
+
+###########################################################]
+Map & Optimize Report
+
+Synopsys CPLD Technology Mapper, Version maplat, Build 923R, Built May  6 2014
+Copyright (C) 1994-2013, Synopsys, Inc. This software and the associated documentation are proprietary to Synopsys, Inc. This software may only be used in accordance with the terms and conditions of a written license agreement with Synopsys, Inc.  All other use or distribution of the software is strictly prohibited.
+Product Version I-2014.03LC 
+@N: MF248 |Running in 64-bit mode.
+---------------------------------------
+Resource Usage Report
+
+Simple gate primitives:
+DFF             2 uses
+IBUF            1 use
+OBUF            8 uses
+INV             1 use
+
+
+@N: FC100 |Timing Report not generated for this device, please use place and route tools for timing analysis.
+I-2014.03LC 
+Mapper successful!
+
+At Mapper Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 37MB peak: 102MB)
+
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Tue Jan 04 13:47:59 2022
+
+###########################################################]

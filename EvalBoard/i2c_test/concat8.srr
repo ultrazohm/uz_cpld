@@ -6,7 +6,7 @@
 #Implementation: i2c_test
 
 $ Start of Compile
-#Mon Jan 03 23:54:50 2022
+#Tue Jan 04 15:38:57 2022
 
 Synopsys VHDL Compiler, version comp201403rcp1, Build 060R, built May 27 2014
 @N|Running in 64-bit mode
@@ -14,13 +14,9 @@ Copyright (C) 1994-2014 Synopsys, Inc. This software and the associated document
 
 @N: CD720 :"C:\ispLEVER_Classic2_1\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
 @N:"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\concat8.vhd":6:7:6:13|Top entity is set to concat8.
-
-File Dependency file is up to date.  It will not be rewritten.
-
+File C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\concat8.vhd changed - recompiling
 VHDL syntax check successful!
-
-Compiler output is up to date.  No re-compile necessary
-
+File C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\concat8.vhd changed - recompiling
 @N: CD630 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\concat8.vhd":6:7:6:13|Synthesizing work.concat8.arch_concat8 
 Post processing for work.concat8.arch_concat8
 @END
@@ -28,19 +24,17 @@ Post processing for work.concat8.arch_concat8
 At c_vhdl Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 68MB peak: 69MB)
 
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Mon Jan 03 23:54:50 2022
+# Tue Jan 04 15:38:57 2022
 
 ###########################################################]
 Synopsys Netlist Linker, version comp201403rcp1, Build 060R, built May 27 2014
 @N|Running in 64-bit mode
+File C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\synwork\concat8_comp.srs changed - recompiling
 
-Linker output is up to date. No re-linking necessary
-
-
-At syn_nfilter Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 67MB peak: 67MB)
+At syn_nfilter Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 67MB peak: 68MB)
 
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Mon Jan 03 23:54:51 2022
+# Tue Jan 04 15:38:58 2022
 
 ###########################################################]
 Map & Optimize Report
@@ -64,6 +58,6 @@ Mapper successful!
 At Mapper Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 37MB peak: 102MB)
 
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Mon Jan 03 23:54:52 2022
+# Tue Jan 04 15:38:59 2022
 
 ###########################################################]

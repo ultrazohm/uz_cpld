@@ -1,5 +1,5 @@
 #$ TOOL   ispLEVER Classic 2.1.00.02.49.20
-#$ DATE   Tue Jan 04 00:27:33 2022
+#$ DATE   Tue Jan 04 15:41:07 2022
 #$ MODULE   io_pins
 #$ TITLE   io_pins.bls 
 #$ PROPERTY   LATTICE OSCTIMER TIMER_DIV = 1048576;

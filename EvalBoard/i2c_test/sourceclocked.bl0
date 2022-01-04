@@ -1,4 +1,4 @@
-#$ DATE Mon Jan 03 23:54:13 2022
+#$ DATE Tue Jan 04 15:39:50 2022
 #$ TOOL EDIF2BLIF version IspLever 1.0 
 #$ MODULE sourceclocked
 #$ PINS 9 clk y0 y1 y2 y3 y4 y5 y6 y7

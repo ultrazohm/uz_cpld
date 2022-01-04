@@ -1,7 +1,7 @@
  ispLEVER Classic 2.1.00.02.49.20 Fitter Report File 
 Project Name,i2c_test
 Project Path,C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test
-Project Fitted on,Tue Jan 04 00:27:32 2022
+Project Fitted on,Tue Jan 04 15:41:07 2022
 
 Pin,Pin_Type,Bank,GLB_Pad,Assigned,I/O_Type,Signal_Type,Signal_Name,PG
 1,GND,-,,,,,,

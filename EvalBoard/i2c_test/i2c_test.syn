@@ -18,11 +18,11 @@ MODULE output_en.vhd
 MODSTYLE output_en Normal
 MODULE slice16.vhd
 MODSTYLE slice16 Normal
-MODULE ..\fpga-i2c-minion\I2C_minion.vhd
+MODULE I2C_minion.vhd
 MODSTYLE I2C_minion Normal
 MODULE slicer8.vhd
 MODSTYLE slice8 Normal
-MODULE ..\fpga-i2c-minion\debounce.vhd
+MODULE debounce.vhd
 MODSTYLE debounce Normal
 SYNTHESIS_TOOL Synplify
 SIMULATOR_TOOL ModelSim

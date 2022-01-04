@@ -1,0 +1,1 @@
+-nodal -src i2c_test_la4128v.bl5 -type BLIF -presrc i2c_test_la4128v.bl3 -crf i2c_test_la4128v.crf -sif i2c_test_la4128v.sif -devfile "C:/ispLEVER_Classic2_1/ispcpld/dat/lc4k/m4s_128_64.dev" -lci i2c_test_la4128v.lct

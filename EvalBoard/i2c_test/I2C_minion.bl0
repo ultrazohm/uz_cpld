@@ -1,4 +1,4 @@
-#$ DATE Tue Jan 04 00:27:04 2022
+#$ DATE Tue Jan 04 15:40:13 2022
 #$ TOOL EDIF2BLIF version IspLever 1.0 
 #$ MODULE i2c_minion
 #$ PINS 56 IO_Select_24_29_OE_6_ IO_Select_24_29_OE_5_ data_to_master_7_ IO_Select_24_29_OE_4_ IO_Select_24_29_OE_3_ IO_Select_0_7_7_ IO_Select_24_29_OE_2_ IO_Select_24_29_OE_1_ IO_Select_8_15_7_ IO_Select_24_29_OE_0_ CPLD_DigIO_out_6_ IO_Select_16_23_7_ CPLD_DigIO_out_5_ CPLD_DigIO_out_4_ IO_Select_24_29_OE_7_ CPLD_DigIO_out_3_ CPLD_DigIO_out_2_ CPLD_DigIO_out_7_ CPLD_DigIO_out_1_ scl CPLD_DigIO_out_0_ sda clk rst read_req data_valid byte_step_LSB byte_step_MSB data_to_master_6_ data_to_master_5_ data_to_master_4_ data_to_master_3_ data_to_master_2_ data_to_master_1_ data_to_master_0_ IO_Select_0_7_6_ IO_Select_0_7_5_ IO_Select_0_7_4_ IO_Select_0_7_3_ IO_Select_0_7_2_ IO_Select_0_7_1_ IO_Select_0_7_0_ IO_Select_8_15_6_ IO_Select_8_15_5_ IO_Select_8_15_4_ IO_Select_8_15_3_ IO_Select_8_15_2_ IO_Select_8_15_1_ IO_Select_8_15_0_ IO_Select_16_23_6_ IO_Select_16_23_5_ IO_Select_16_23_4_ IO_Select_16_23_3_ IO_Select_16_23_2_ IO_Select_16_23_1_ IO_Select_16_23_0_

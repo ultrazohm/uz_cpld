@@ -1,0 +1,9 @@
+C:\ispLEVER_Classic2_1\synpbase\bin64\m_cpld.exe  -prodtype  synplify_pro  -encrypt  -pro  -rundir  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v  -part LC4064B  -package T44C  -grade -2.5   -ispmach4s -RWCheckOnRam 1 -areadelay 0 -minc -auto_constrain_io -summaryfile C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\synlog\report\I2C_minion_fpga_mapper.xml -top_level_module  I2C_minion  -multisrs  -ta_num_paths 3  -ta_num_points 0  -oedif  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.edi  -freq 200.000  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\synwork\I2C_minion_mult.srs  -ologparam  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\syntmp\I2C_minion.plg  -osyn  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.srm  -prjdir  c:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\  -prjname  I2C_minion  -log  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\synlog\I2C_minion_fpga_mapper.srr 
+rc:0 success:1
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.edi|o|1641302448|239355
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\synwork\I2C_minion_mult.srs|i|1641302448|7908
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\syntmp\I2C_minion.plg|o|1641302448|0
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.srm|o|1641302448|89294
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\synlog\I2C_minion_fpga_mapper.srr|o|1641302448|1661
+C:\ispLEVER_Classic2_1\synpbase\bin\m_cpld.exe|i|1399362084|7067648
+C:\ispLEVER_Classic2_1\synpbase\bin64\m_cpld.exe|i|1399364922|8049664

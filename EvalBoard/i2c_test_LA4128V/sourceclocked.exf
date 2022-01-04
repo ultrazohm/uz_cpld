@@ -1,0 +1,20 @@
+Section Cross Reference File
+Design 'sourceclocked' created Tue Jan 04 13:48:04 2022
+   Type              New Name                               Original Name
+// ----------------------------------------------------------------------
+   Inst              temp_y_0_                                 temp_y[0]
+   Inst              temp_y_2_                                 temp_y[2]
+   Net                 vcc_n_n                                       VCC
+End
+Section Type      Name
+// ----------------------------------------------------------------------
+        Input     clk
+        Output     y0
+        Output     y1
+        Output     y2
+        Output     y3
+        Output     y4
+        Output     y5
+        Output     y6
+        Output     y7
+End

@@ -1,0 +1,8 @@
+C:\ispLEVER_Classic2_1\synpbase\bin64\c_vhdl.exe  -osyn  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\synwork\I2C_minion_hdl_.srs  -top  I2C_minion  -prodtype  synplify_pro  -nostructver -encrypt  -pro  -dmgen  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\dm  -lite -compiler_compatible -ui -fid2 -ram -sharing on -ll 2000 -autosm -ignore_undefined_lib  -lib work C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\debounce.vhd -lib work C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.vhd -loga  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\syntax.log  -fileorder  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\syntmp\hdlorder.tcl 
+rc:0 success:1
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\synwork\I2C_minion_hdl_.srs|o|0|0
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\debounce.vhd|i|1640710808|2087
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.vhd|i|1641302434|14773
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\syntax.log|o|1641302446|1139
+C:\ispLEVER_Classic2_1\synpbase\bin\c_vhdl.exe|i|1401220298|2046976
+C:\ispLEVER_Classic2_1\synpbase\bin64\c_vhdl.exe|i|1401220504|5533184

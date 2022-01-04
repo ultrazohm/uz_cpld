@@ -32,10 +32,11 @@ entity I2C_minion is
     read_req         : out   std_logic;
     data_to_master   : in    std_logic_vector(7 downto 0);
     data_valid       : out   std_logic;
-    IO_Select_1_8      : out   std_logic_vector(7 downto 0);
-    IO_Select_9_16     : out   std_logic_vector(7 downto 0);
-    IO_Select_17_24    : out   std_logic_vector(7 downto 0);
-    IO_Select_25_30_OE : out   std_logic_vector(7 downto 0);
+    IO_Select_0_7      : out   std_logic_vector(7 downto 0);
+    IO_Select_8_15     : out   std_logic_vector(7 downto 0);
+    IO_Select_16_23    : out   std_logic_vector(7 downto 0);
+    IO_Select_24_29_OE : out   std_logic_vector(7 downto 0);
+    CPLD_DigIO_out     : out   std_logic_vector(7 downto 0);
     byte_step_LSB    : out   std_logic :='1'; --indicators for value of byte_step
     byte_step_MSB    : out   std_logic :='1'); --indicators for value of byte_step
 end entity I2C_minion;
@@ -72,6 +73,7 @@ architecture arch of I2C_minion is
   signal addr_reg             : std_logic_vector(6 downto 0) := (others => '0');
   signal data_reg             : std_logic_vector(6 downto 0) := (others => '0');
   signal target_reg           : std_logic_vector(7 downto 0) := (others => '0');
+  signal read_reg             : std_logic_vector(7 downto 0) := (others => '0');
   signal data_from_master_reg : std_logic_vector(7 downto 0) := (others => '0');
 
   signal scl_prev_reg : std_logic := 'Z';
@@ -91,6 +93,7 @@ architecture arch of I2C_minion is
   signal data_1             : std_logic_vector(7 downto 0) := (others => '0');
   signal data_2             : std_logic_vector(7 downto 0) := (others => '0');
   signal data_3             : std_logic_vector(7 downto 0) := (others => '0');
+  signal data_4             : std_logic_vector(7 downto 0) := (others => '0');
 
 begin
 
@@ -206,7 +209,22 @@ begin
               state_reg <= answer_ack_start;
               if cmd_reg = '1' then  -- issue read request 
                 read_req_reg       <= '1';
-                data_to_master_reg <= x"42";--data_to_master;
+--                data_to_master_reg <= data_to_master;
+		
+		-- decode read registers
+		if read_reg = x"1F" then 
+			data_to_master_reg <= data_0; 
+		elsif read_reg = x"20" then
+			data_to_master_reg <= data_1;
+		elsif read_reg = x"21" then
+			data_to_master_reg <= data_2;
+		elsif read_reg = x"22" then
+			data_to_master_reg <= data_3;
+		else 
+			data_to_master_reg <= data_to_master;
+		end if;
+
+
               end if;
             else
               assert false
@@ -245,36 +263,43 @@ begin
             end if;
           end if; -- end rising edge
 
-	
+		byte_step_LSB <= '1';
+		byte_step_MSB <= '0';	
+
           if scl_falling_reg = '1' and bits_processed_reg = 8 then
             state_reg          <= answer_ack_start;
             bits_processed_reg <= 0;
 
 		if reg_or_data_receive = '0' then -- receive target register
 			target_reg <= data_from_master_reg;
-			byte_step_LSB <= '0';
-			byte_step_MSB <= '1';
+			--byte_step_LSB <= '0';
+			--byte_step_MSB <= '1';
 			reg_or_data_receive <= '1';
 
 		elsif reg_or_data_receive = '1' then -- receive data for target register
 			
 			if target_reg = x"1F" then -- register 1F for on board LEDs
 			data_0 <= data_from_master_reg;
-			byte_step_LSB <= '1';
-			byte_step_MSB <= '0';
+			--byte_step_LSB <= '1';
+			--byte_step_MSB <= '0';
 			elsif target_reg = x"20" then -- register 20 for 7-segment display
 			data_1 <= data_from_master_reg;
-			byte_step_LSB <= '0';
-			byte_step_MSB <= '1';
+			--byte_step_LSB <= '0';
+			--byte_step_MSB <= '1';
 			elsif target_reg = x"21" then -- register 21
 			data_2 <= data_from_master_reg;
-			byte_step_LSB <= '0';
-			byte_step_MSB <= '0';
+			--byte_step_LSB <= '0';
+			--byte_step_MSB <= '0';
 			elsif target_reg = x"22" then -- register 22
 			data_3 <= data_from_master_reg;
-			byte_step_LSB <= '1';
-			byte_step_MSB <= '1';
+			--byte_step_LSB <= '1';
+			--byte_step_MSB <= '1';
+			elsif target_reg = x"23" then
+			data_4 <= data_from_master_reg;
+			elsif target_reg = x"7F" then -- this is the read request register
+			read_reg <= data_from_master_reg; -- store the register to read from in the next read action
 			end if;
+			
 		reg_or_data_receive <= '0';
 		end if;
 
@@ -285,17 +310,18 @@ begin
         ----------------------------------------------------
         when read =>
           sda_wen_reg <= '1';
-          if data_to_master_reg(7-bits_processed_reg) = '0' then
+          if data_to_master_reg(7-bits_processed_reg) = '0' then -- with this approach MSB gets lost!!!
             sda_o_reg <= '0';
-          else
-            sda_o_reg <= 'Z';
+         else
+            sda_o_reg <= '1'; --actively driving 1 is not allowed but works instead of Z
           end if;
 
+--	sda_o_reg <= data_to_master_reg(7-bits_processed_reg); -- with this approach LSB gets lost!!!
+
           if scl_falling_reg = '1' then
-            if bits_processed_reg < 8 then		
-		sda_o_reg <= data_to_master_reg(7-bits_processed_reg);
-		bits_processed_reg <= bits_processed_reg + 1;
-            elsif bits_processed_reg = 8 then
+            if bits_processed_reg < 7 then
+              bits_processed_reg <= bits_processed_reg + 1;
+            elsif bits_processed_reg = 7 then
               state_reg          <= read_ack_start;
               bits_processed_reg <= 0;
             end if;
@@ -371,11 +397,12 @@ begin
   -- User interface
   ----------------------------------------------------------
   -- Master writes
-  data_valid       <= data_valid_reg;
-  IO_Select_1_8  	<= data_0;   
-  IO_Select_9_16    	<= data_1;
-  IO_Select_17_24   	<= data_2;
-  IO_Select_25_30_OE	<= data_3;
+  data_valid       	<= data_valid_reg;
+  IO_Select_0_7  	<= data_0;   
+  IO_Select_8_15    	<= data_1;
+  IO_Select_16_23   	<= data_2;
+  IO_Select_24_29_OE	<= data_3;
+  CPLD_DigIO_out	<= data_4;
   -- Master reads
-  read_req         <= read_req_reg;
+  read_req         	<= read_req_reg;
 end architecture arch;

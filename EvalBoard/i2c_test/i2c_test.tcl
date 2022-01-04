@@ -67507,3 +67507,669 @@ if [runCmd "\"$cpld_bin/synsvf\" -exe \"$install_dir/ispvmsystem/ispufw\" -prj i
 
 ########## Tcl recorder end at 01/04/22 00:27:18 ###########
 
+
+########## Tcl recorder starts at 01/04/22 15:38:01 ##########
+
+# Commands to make the Process: 
+# Hierarchy
+if [runCmd "\"$cpld_bin/vhd2jhd\" concat8.vhd -o concat8.jhd -m \"$install_dir/ispcpld/generic/lib/vhd/location.map\" -p \"$install_dir/ispcpld/generic/lib\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/vhd2jhd\" source.vhd -o source.jhd -m \"$install_dir/ispcpld/generic/lib/vhd/location.map\" -p \"$install_dir/ispcpld/generic/lib\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/vhd2jhd\" mux30_1.vhd -o mux30_1.jhd -m \"$install_dir/ispcpld/generic/lib/vhd/location.map\" -p \"$install_dir/ispcpld/generic/lib\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/vhd2jhd\" ../fpga-i2c-minion/debounce.vhd -o debounce.jhd -m \"$install_dir/ispcpld/generic/lib/vhd/location.map\" -p \"$install_dir/ispcpld/generic/lib\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/vhd2jhd\" sourceclocked.vhd -o sourceclocked.jhd -m \"$install_dir/ispcpld/generic/lib/vhd/location.map\" -p \"$install_dir/ispcpld/generic/lib\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/vhd2jhd\" output_en.vhd -o output_en.jhd -m \"$install_dir/ispcpld/generic/lib/vhd/location.map\" -p \"$install_dir/ispcpld/generic/lib\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/vhd2jhd\" I2C_minion.vhd -o I2C_minion.jhd -m \"$install_dir/ispcpld/generic/lib/vhd/location.map\" -p \"$install_dir/ispcpld/generic/lib\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/vhd2jhd\" slice16.vhd -o slice16.jhd -m \"$install_dir/ispcpld/generic/lib/vhd/location.map\" -p \"$install_dir/ispcpld/generic/lib\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/vhd2jhd\" slicer8.vhd -o slicer8.jhd -m \"$install_dir/ispcpld/generic/lib/vhd/location.map\" -p \"$install_dir/ispcpld/generic/lib\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/sch2jhd\" io_pins.sch "] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+
+########## Tcl recorder end at 01/04/22 15:38:01 ###########
+
+
+########## Tcl recorder starts at 01/04/22 15:38:27 ##########
+
+# Commands to make the Process: 
+# Hierarchy
+if [runCmd "\"$cpld_bin/vhd2jhd\" concat8.vhd -o concat8.jhd -m \"$install_dir/ispcpld/generic/lib/vhd/location.map\" -p \"$install_dir/ispcpld/generic/lib\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/vhd2jhd\" source.vhd -o source.jhd -m \"$install_dir/ispcpld/generic/lib/vhd/location.map\" -p \"$install_dir/ispcpld/generic/lib\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/vhd2jhd\" mux30_1.vhd -o mux30_1.jhd -m \"$install_dir/ispcpld/generic/lib/vhd/location.map\" -p \"$install_dir/ispcpld/generic/lib\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/vhd2jhd\" I2C_minion.vhd -o I2C_minion.jhd -m \"$install_dir/ispcpld/generic/lib/vhd/location.map\" -p \"$install_dir/ispcpld/generic/lib\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/vhd2jhd\" sourceclocked.vhd -o sourceclocked.jhd -m \"$install_dir/ispcpld/generic/lib/vhd/location.map\" -p \"$install_dir/ispcpld/generic/lib\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/vhd2jhd\" output_en.vhd -o output_en.jhd -m \"$install_dir/ispcpld/generic/lib/vhd/location.map\" -p \"$install_dir/ispcpld/generic/lib\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/vhd2jhd\" debounce.vhd -o debounce.jhd -m \"$install_dir/ispcpld/generic/lib/vhd/location.map\" -p \"$install_dir/ispcpld/generic/lib\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/vhd2jhd\" slice16.vhd -o slice16.jhd -m \"$install_dir/ispcpld/generic/lib/vhd/location.map\" -p \"$install_dir/ispcpld/generic/lib\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/vhd2jhd\" slicer8.vhd -o slicer8.jhd -m \"$install_dir/ispcpld/generic/lib/vhd/location.map\" -p \"$install_dir/ispcpld/generic/lib\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/sch2jhd\" io_pins.sch "] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+
+########## Tcl recorder end at 01/04/22 15:38:27 ###########
+
+
+########## Tcl recorder starts at 01/04/22 15:38:49 ##########
+
+# Commands to make the Process: 
+# Compile EDIF File
+if [catch {open concat8.cmd w} rspFile] {
+	puts stderr "Cannot create response file concat8.cmd: $rspFile"
+} else {
+	puts $rspFile "STYFILENAME: i2c_test.sty
+PROJECT: concat8
+WORKING_PATH: \"$proj_dir\"
+MODULE: concat8
+VHDL_FILE_LIST: concat8.vhd
+OUTPUT_FILE_NAME: concat8
+SUFFIX_NAME: edi
+FREQUENCY:  200
+FANIN_LIMIT:  20
+DISABLE_IO_INSERTION: false
+MAX_TERMS_PER_MACROCELL:  16
+MAP_LOGIC: false
+SYMBOLIC_FSM_COMPILER: true
+NUM_CRITICAL_PATHS:   3
+AUTO_CONSTRAIN_IO: true
+NUM_STARTEND_POINTS:   0
+AREADELAY:  0
+WRITE_PRF: true
+RESOURCE_SHARING: true
+COMPILER_COMPATIBLE: true
+DEFAULT_ENUM_ENCODING: default
+ARRANGE_VHDL_FILES: true
+synthesis_onoff_pragma: false
+"
+	close $rspFile
+}
+if [runCmd "\"$cpld_bin/Synpwrap\" -e concat8 -target ispmach4000b -pro "] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+file delete concat8.cmd
+if [runCmd "\"$cpld_bin/edif2blf\" -edf concat8.edi -out concat8.bl0 -err automake.err -log concat8.log -prj i2c_test -lib \"$install_dir/ispcpld/dat/mach.edn\" -net_Vcc VCC -net_GND GND -nbx -dse -tlw -cvt YES -xor"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+
+########## Tcl recorder end at 01/04/22 15:38:49 ###########
+
+
+########## Tcl recorder starts at 01/04/22 15:39:06 ##########
+
+# Commands to make the Process: 
+# Generate Schematic Symbol
+if [runCmd "\"$cpld_bin/naf2sym\" concat8"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+
+########## Tcl recorder end at 01/04/22 15:39:06 ###########
+
+
+########## Tcl recorder starts at 01/04/22 15:39:12 ##########
+
+# Commands to make the Process: 
+# Compile EDIF File
+if [catch {open slice8.cmd w} rspFile] {
+	puts stderr "Cannot create response file slice8.cmd: $rspFile"
+} else {
+	puts $rspFile "STYFILENAME: i2c_test.sty
+PROJECT: slice8
+WORKING_PATH: \"$proj_dir\"
+MODULE: slice8
+VHDL_FILE_LIST: slicer8.vhd
+OUTPUT_FILE_NAME: slice8
+SUFFIX_NAME: edi
+FREQUENCY:  200
+FANIN_LIMIT:  20
+DISABLE_IO_INSERTION: false
+MAX_TERMS_PER_MACROCELL:  16
+MAP_LOGIC: false
+SYMBOLIC_FSM_COMPILER: true
+NUM_CRITICAL_PATHS:   3
+AUTO_CONSTRAIN_IO: true
+NUM_STARTEND_POINTS:   0
+AREADELAY:  0
+WRITE_PRF: true
+RESOURCE_SHARING: true
+COMPILER_COMPATIBLE: true
+DEFAULT_ENUM_ENCODING: default
+ARRANGE_VHDL_FILES: true
+synthesis_onoff_pragma: false
+"
+	close $rspFile
+}
+if [runCmd "\"$cpld_bin/Synpwrap\" -e slice8 -target ispmach4000b -pro "] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+file delete slice8.cmd
+if [runCmd "\"$cpld_bin/edif2blf\" -edf slice8.edi -out slice8.bl0 -err automake.err -log slice8.log -prj i2c_test -lib \"$install_dir/ispcpld/dat/mach.edn\" -net_Vcc VCC -net_GND GND -nbx -dse -tlw -cvt YES -xor"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+
+########## Tcl recorder end at 01/04/22 15:39:12 ###########
+
+
+########## Tcl recorder starts at 01/04/22 15:39:29 ##########
+
+# Commands to make the Process: 
+# Generate Schematic Symbol
+if [runCmd "\"$cpld_bin/naf2sym\" slice8"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+
+########## Tcl recorder end at 01/04/22 15:39:29 ###########
+
+
+########## Tcl recorder starts at 01/04/22 15:39:35 ##########
+
+# Commands to make the Process: 
+# Compile EDIF File
+if [catch {open sourceclocked.cmd w} rspFile] {
+	puts stderr "Cannot create response file sourceclocked.cmd: $rspFile"
+} else {
+	puts $rspFile "STYFILENAME: i2c_test.sty
+PROJECT: sourceclocked
+WORKING_PATH: \"$proj_dir\"
+MODULE: sourceclocked
+VHDL_FILE_LIST: sourceclocked.vhd
+OUTPUT_FILE_NAME: sourceclocked
+SUFFIX_NAME: edi
+FREQUENCY:  200
+FANIN_LIMIT:  20
+DISABLE_IO_INSERTION: false
+MAX_TERMS_PER_MACROCELL:  16
+MAP_LOGIC: false
+SYMBOLIC_FSM_COMPILER: true
+NUM_CRITICAL_PATHS:   3
+AUTO_CONSTRAIN_IO: true
+NUM_STARTEND_POINTS:   0
+AREADELAY:  0
+WRITE_PRF: true
+RESOURCE_SHARING: true
+COMPILER_COMPATIBLE: true
+DEFAULT_ENUM_ENCODING: default
+ARRANGE_VHDL_FILES: true
+synthesis_onoff_pragma: false
+"
+	close $rspFile
+}
+if [runCmd "\"$cpld_bin/Synpwrap\" -e sourceclocked -target ispmach4000b -pro "] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+file delete sourceclocked.cmd
+if [runCmd "\"$cpld_bin/edif2blf\" -edf sourceclocked.edi -out sourceclocked.bl0 -err automake.err -log sourceclocked.log -prj i2c_test -lib \"$install_dir/ispcpld/dat/mach.edn\" -net_Vcc VCC -net_GND GND -nbx -dse -tlw -cvt YES -xor"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+
+########## Tcl recorder end at 01/04/22 15:39:35 ###########
+
+
+########## Tcl recorder starts at 01/04/22 15:39:52 ##########
+
+# Commands to make the Process: 
+# Generate Schematic Symbol
+if [runCmd "\"$cpld_bin/naf2sym\" sourceclocked"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+
+########## Tcl recorder end at 01/04/22 15:39:52 ###########
+
+
+########## Tcl recorder starts at 01/04/22 15:39:58 ##########
+
+# Commands to make the Process: 
+# Compile EDIF File
+if [catch {open I2C_minion.cmd w} rspFile] {
+	puts stderr "Cannot create response file I2C_minion.cmd: $rspFile"
+} else {
+	puts $rspFile "STYFILENAME: i2c_test.sty
+PROJECT: I2C_minion
+WORKING_PATH: \"$proj_dir\"
+MODULE: I2C_minion
+VHDL_FILE_LIST: debounce.vhd I2C_minion.vhd
+OUTPUT_FILE_NAME: I2C_minion
+SUFFIX_NAME: edi
+FREQUENCY:  200
+FANIN_LIMIT:  20
+DISABLE_IO_INSERTION: false
+MAX_TERMS_PER_MACROCELL:  16
+MAP_LOGIC: false
+SYMBOLIC_FSM_COMPILER: true
+NUM_CRITICAL_PATHS:   3
+AUTO_CONSTRAIN_IO: true
+NUM_STARTEND_POINTS:   0
+AREADELAY:  0
+WRITE_PRF: true
+RESOURCE_SHARING: true
+COMPILER_COMPATIBLE: true
+DEFAULT_ENUM_ENCODING: default
+ARRANGE_VHDL_FILES: true
+synthesis_onoff_pragma: false
+"
+	close $rspFile
+}
+if [runCmd "\"$cpld_bin/Synpwrap\" -e I2C_minion -target ispmach4000b -pro "] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+file delete I2C_minion.cmd
+if [runCmd "\"$cpld_bin/edif2blf\" -edf I2C_minion.edi -out I2C_minion.bl0 -err automake.err -log I2C_minion.log -prj i2c_test -lib \"$install_dir/ispcpld/dat/mach.edn\" -net_Vcc VCC -net_GND GND -nbx -dse -tlw -cvt YES -xor"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+
+########## Tcl recorder end at 01/04/22 15:39:58 ###########
+
+
+########## Tcl recorder starts at 01/04/22 15:40:17 ##########
+
+# Commands to make the Process: 
+# Generate Schematic Symbol
+if [runCmd "\"$cpld_bin/naf2sym\" I2C_minion"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+
+########## Tcl recorder end at 01/04/22 15:40:17 ###########
+
+
+########## Tcl recorder starts at 01/04/22 15:40:46 ##########
+
+# Commands to make the Process: 
+# Hierarchy
+if [runCmd "\"$cpld_bin/sch2jhd\" io_pins.sch "] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+
+########## Tcl recorder end at 01/04/22 15:40:46 ###########
+
+
+########## Tcl recorder starts at 01/04/22 15:40:49 ##########
+
+# Commands to make the Process: 
+# Compile Schematic
+if [runCmd "\"$cpld_bin/sch2blf\" -dev Lattice -sup io_pins.sch  -err automake.err"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/mblflink\" \"io_pins.bls\" -o \"io_pins.bl0\" -ipo  -family -err \"automake.err\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+
+########## Tcl recorder end at 01/04/22 15:40:49 ###########
+
+
+########## Tcl recorder starts at 01/04/22 15:40:52 ##########
+
+# Commands to make the Process: 
+# Update All Schematic Files
+if [runCmd "\"$cpld_bin/updatesc\" io_pins.sch -yield"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+
+########## Tcl recorder end at 01/04/22 15:40:52 ###########
+
+
+########## Tcl recorder starts at 01/04/22 15:40:54 ##########
+
+# Commands to make the Process: 
+# Fit Design
+if [runCmd "\"$cpld_bin/mblifopt\" -i io_pins.bl0 -o io_pins.bl1 -collapse none -reduce none  -err automake.err -keepwires -family"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/mblifopt\" sourceclocked.bl0 -collapse none -reduce none -keepwires  -err automake.err -family"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/mblifopt\" slice8.bl0 -collapse none -reduce none -keepwires  -err automake.err -family"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/mblifopt\" I2C_minion.bl0 -collapse none -reduce none -keepwires  -err automake.err -family"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/mblifopt\" concat8.bl0 -collapse none -reduce none -keepwires  -err automake.err -family"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/mblflink\" \"io_pins.bl1\" -o \"i2c_test.bl2\" -omod \"i2c_test\"  -err \"automake.err\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/impsrc\"  -prj i2c_test -lci i2c_test.lct -log i2c_test.imp -err automake.err -tti i2c_test.bl2 -dir $proj_dir"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/abelvci\" -vci i2c_test.lct -blifopt i2c_test.b2_"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/mblifopt\" i2c_test.bl2 -sweep -mergefb -err automake.err -o i2c_test.bl3 @i2c_test.b2_ "] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/abelvci\" -vci i2c_test.lct -dev lc4k -diofft i2c_test.d0"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/mdiofft\" i2c_test.bl3 -family AMDMACH -idev van -o i2c_test.bl4 -oxrf i2c_test.xrf -err automake.err @i2c_test.d0 "] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/abelvci\" -vci i2c_test.lct -dev lc4k -prefit i2c_test.l0"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/prefit\" -blif -inp i2c_test.bl4 -out i2c_test.bl5 -err automake.err -log i2c_test.log -mod io_pins @i2c_test.l0  -sc"] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [catch {open i2c_test.rs1 w} rspFile] {
+	puts stderr "Cannot create response file i2c_test.rs1: $rspFile"
+} else {
+	puts $rspFile "-i i2c_test.bl5 -lci i2c_test.lct -d m4e_256_96 -lco i2c_test.lco -html_rpt -fti i2c_test.fti -fmt PLA -tto i2c_test.tt4 -nojed -eqn i2c_test.eq3 -tmv NoInput.tmv
+-rpt_num 1
+"
+	close $rspFile
+}
+if [catch {open i2c_test.rs2 w} rspFile] {
+	puts stderr "Cannot create response file i2c_test.rs2: $rspFile"
+} else {
+	puts $rspFile "-i i2c_test.bl5 -lci i2c_test.lct -d m4e_256_96 -lco i2c_test.lco -html_rpt -fti i2c_test.fti -fmt PLA -tto i2c_test.tt4 -eqn i2c_test.eq3 -tmv NoInput.tmv
+-rpt_num 1
+"
+	close $rspFile
+}
+if [runCmd "\"$cpld_bin/lpf4k\" \"@i2c_test.rs2\""] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+file delete i2c_test.rs1
+file delete i2c_test.rs2
+if [runCmd "\"$cpld_bin/tda\" -i i2c_test.bl5 -o i2c_test.tda -lci i2c_test.lct -dev m4e_256_96 -family lc4k -mod io_pins -ovec NoInput.tmv -err tda.err "] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+if [runCmd "\"$cpld_bin/synsvf\" -exe \"$install_dir/ispvmsystem/ispufw\" -prj i2c_test -if i2c_test.jed -j2s -log i2c_test.svl "] {
+	return
+} else {
+	vwait done
+	if [checkResult $done] {
+		return
+	}
+}
+
+########## Tcl recorder end at 01/04/22 15:40:54 ###########
+

@@ -1,0 +1,13 @@
+Starting EDIF2BLIF....
+readEDIF ended normally.
+
+Inspect circuit I2C_minion
+    Number of input ports   : 4
+    Number of output ports  : 7
+    Number of bidir ports   : 1
+    Number of instances     : 656
+    Number of nets          : 668
+
+No design errors found in circuit I2C_minion
+
+WriteBLIF ended normally.

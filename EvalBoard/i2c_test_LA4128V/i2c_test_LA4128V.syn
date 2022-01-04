@@ -1,0 +1,21 @@
+JDF B
+// Created by Version 2.1 
+PROJECT i2c_test_LA4128V
+DESIGN i2c_test_la4128v Normal
+DEVKIT LA4128V-75TN100E
+ENTRY Schematic/VHDL
+MODULE sourceclocked.vhd
+MODSTYLE sourceclocked Normal
+MODULE io_pins.sch
+MODSTYLE io_pins Normal
+MODULE concat8.vhd
+MODSTYLE concat8 Normal
+MODULE I2C_minion.vhd
+MODSTYLE I2C_minion Normal
+MODULE debounce.vhd
+MODSTYLE debounce Normal
+MODULE slicer8.vhd
+MODSTYLE slice8 Normal
+SYNTHESIS_TOOL Synplify
+SIMULATOR_TOOL ModelSim
+TOPMODULE io_pins

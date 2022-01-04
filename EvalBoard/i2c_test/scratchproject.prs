@@ -3,8 +3,8 @@
 #--  Project file C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test\scratchproject.prs
 
 #project files
-add_file -vhdl -lib work "C:/git/ultrazohm/software/cpld_lattice/evalboard/fpga-i2c-minion/debounce.vhd"
-add_file -vhdl -lib work "C:/git/ultrazohm/software/cpld_lattice/evalboard/fpga-i2c-minion/I2C_minion.vhd"
+add_file -vhdl -lib work "C:/git/ultrazohm/software/cpld_lattice/evalboard/i2c_test/debounce.vhd"
+add_file -vhdl -lib work "C:/git/ultrazohm/software/cpld_lattice/evalboard/i2c_test/I2C_minion.vhd"
 
 
 

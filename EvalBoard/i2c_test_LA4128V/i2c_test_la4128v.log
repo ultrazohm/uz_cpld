@@ -1,0 +1,2 @@
+<Error>  F38019:  Number of logic functions 174 in the design exceeds the device limit of 128.
+Project 'i2c_test_la4128v' failed during design rules check!

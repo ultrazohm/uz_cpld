@@ -59,7 +59,7 @@ Section Member   Rename                   Array-Notation          Array Number  
         Port      CPLD_DigIO_out_0_               CPLD_DigIO_out[0]                       6            7            
 End
 Section Cross Reference File
-Design 'I2C_minion' created Tue Jan 04 00:27:04 2022
+Design 'I2C_minion' created Tue Jan 04 15:40:13 2022
    Type              New Name                               Original Name
 // ----------------------------------------------------------------------
    Inst                 i_4848                                     sda

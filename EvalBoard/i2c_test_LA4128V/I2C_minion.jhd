@@ -1,0 +1,7 @@
+
+
+MODULE I2C_minion
+
+	SUBMODULE debounce
+		INSTANCE SCL_debounce
+		INSTANCE SDA_debounce

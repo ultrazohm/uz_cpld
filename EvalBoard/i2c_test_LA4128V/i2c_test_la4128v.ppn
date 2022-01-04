@@ -1,0 +1,28 @@
+//
+// Software Version :  ispLEVER Classic 2.1.00.02.49.20  
+// Project Name	    :  i2c_test_la4128v
+// Targeted Device  :  LA4128V-75TN100E
+// Date             :  Tue Jan 04 14:22:23 2022
+//
+                      GND          SYS           1
+                   GNDIO0          SYS           7
+                   VCCIO0          SYS           13
+                   GNDIO0          SYS           18
+                      VCC          SYS           25
+                      GND          SYS           26
+                   GNDIO0          SYS           32
+                   VCCIO0          SYS           33
+                      VCC          SYS           40
+                   VCCIO1          SYS           45
+                   GNDIO1          SYS           46
+                      GND          SYS           51
+                   GNDIO1          SYS           57
+                   VCCIO1          SYS           63
+                   GNDIO1          SYS           68
+                      VCC          SYS           75
+                      GND          SYS           76
+                   GNDIO1          SYS           82
+                   VCCIO1          SYS           83
+                      VCC          SYS           90
+                   VCCIO0          SYS           95
+                   GNDIO0          SYS           96

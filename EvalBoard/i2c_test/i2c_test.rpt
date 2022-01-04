@@ -14,7 +14,7 @@ Project_Summary
 ~~~~~~~~~~~~~~~
 Project Name         :  i2c_test
 Project Path         :  C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test
-Project Fitted on    :  Tue Jan 04 00:27:32 2022
+Project Fitted on    :  Tue Jan 04 15:41:07 2022
 
 Device               :  M4256_96
 Package              :  144
@@ -32,9 +32,9 @@ Compilation_Times
 ~~~~~~~~~~~~~~~~~
 Prefit Time                     0 secs
 Load Design Time                0.11 secs
-Partition Time                  0.47 secs
-Place Time                      0.06 secs
-Route Time                      0.00 secs
+Partition Time                  0.42 secs
+Place Time                      0.03 secs
+Route Time                      0.02 secs
 Total Fit Time                  00:00:01
 
 

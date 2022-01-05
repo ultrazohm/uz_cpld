@@ -1,0 +1,7 @@
+C:\ispLEVER_Classic2_1\synpbase\bin64\syn_nfilter.exe  -link  -top  sourceNull  -multisrs  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\synwork\sourceNull_comp.srs  -osyn  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\synwork\sourceNull_mult.srs  -log  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\synlog\sourceNull_multi_srs_gen.srr 
+rc:0 success:1
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\synwork\sourceNull_comp.srs|i|1641400334|1596
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\synwork\sourceNull_mult.srs|o|1641400335|1634
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\synlog\sourceNull_multi_srs_gen.srr|o|1641400335|376
+C:\ispLEVER_Classic2_1\synpbase\bin\syn_nfilter.exe|i|1401220336|2741760
+C:\ispLEVER_Classic2_1\synpbase\bin64\syn_nfilter.exe|i|1401220532|6337536

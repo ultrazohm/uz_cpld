@@ -1,0 +1,25 @@
+JDF B
+// Created by Version 2.1 
+PROJECT i2c_test_LC4256V
+DESIGN i2c_test_lc4256v Normal
+DEVKIT LC4256V-75T100C
+ENTRY Schematic/VHDL
+MODULE slicer862.vhd
+MODSTYLE slicer862 Normal
+MODULE sourceclocked.vhd
+MODSTYLE sourceclocked Normal
+MODULE io_pins.sch
+MODSTYLE io_pins Normal
+MODULE concat8.vhd
+MODSTYLE concat8 Normal
+MODULE I2C_minion.vhd
+MODSTYLE I2C_minion Normal
+MODULE debounce.vhd
+MODSTYLE debounce Normal
+MODULE slicer8.vhd
+MODSTYLE slice8 Normal
+MODULE sourcenull.vhd
+MODSTYLE sourceNull Normal
+SYNTHESIS_TOOL Synplify
+SIMULATOR_TOOL ModelSim
+TOPMODULE io_pins

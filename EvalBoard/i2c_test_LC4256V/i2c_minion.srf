@@ -1,0 +1,59 @@
+#Build: Synplify Pro I-2014.03LC , Build 063R, May 27 2014
+#install: C:\ispLEVER_Classic2_1\synpbase
+#OS: Windows 7 6.2
+#Hostname: ELN176252
+
+#Implementation: i2c_test_la4128v
+
+$ Start of Compile
+#Tue Jan 04 14:20:46 2022
+
+Synopsys VHDL Compiler, version comp201403rcp1, Build 060R, built May 27 2014
+@N|Running in 64-bit mode
+Copyright (C) 1994-2014 Synopsys, Inc. This software and the associated documentation are proprietary to Synopsys, Inc. This software may only be used in accordance with the terms and conditions of a written license agreement with Synopsys, Inc.  All other use, reproduction, or distribution of this software is strictly prohibited.
+
+@N: CD720 :"C:\ispLEVER_Classic2_1\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.vhd":12:7:12:16|Top entity is set to I2C_minion.
+File C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.vhd changed - recompiling
+VHDL syntax check successful!
+File C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.vhd changed - recompiling
+@N: CD630 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.vhd":12:7:12:16|Synthesizing work.i2c_minion.arch 
+@N: CD231 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.vhd":43:15:43:16|Using onehot encoding for type state_t (idle="10000000")
+@W: CD604 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.vhd":361:8:361:21|OTHERS clause is not synthesized 
+@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.vhd":54:9:54:15|Signal scl_reg is undriven 
+@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.vhd":55:9:55:15|Signal sda_reg is undriven 
+@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.vhd":56:9:56:21|Signal scl_debounced is undriven 
+@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.vhd":57:9:57:21|Signal sda_debounced is undriven 
+@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.vhd":79:9:79:19|Signal scl_wen_reg is undriven 
+@W: CD638 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.vhd":80:9:80:17|Signal scl_o_reg is undriven 
+Post processing for work.i2c_minion.arch
+@N: CL201 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.vhd":177:4:177:5|Trying to extract state machine for register state_reg
+Extracted state machine for register state_reg
+State machine has 8 reachable states with original encodings of:
+   00000001
+   00000010
+   00000100
+   00001000
+   00010000
+   00100000
+   01000000
+   10000000
+@W: CL249 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.vhd":177:4:177:5|Initial value is not supported on state machine state_reg
+@END
+
+At c_vhdl Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 71MB peak: 72MB)
+
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Tue Jan 04 14:20:46 2022
+
+###########################################################]
+Synopsys Netlist Linker, version comp201403rcp1, Build 060R, built May 27 2014
+@N|Running in 64-bit mode
+File C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\synwork\I2C_minion_comp.srs changed - recompiling
+
+At syn_nfilter Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 67MB peak: 68MB)
+
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Tue Jan 04 14:20:48 2022
+
+###########################################################]

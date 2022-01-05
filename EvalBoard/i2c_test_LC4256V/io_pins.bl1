@@ -1,0 +1,1113 @@
+#$ TOOL ispLEVER Classic 2.1.00.02.49.20
+#$ DATE Wed Jan 05 17:33:14 2022
+#$ TITLE io_pins.bls 
+#$ MODULE io_pins
+#$ PINS 68 CPLD_DigIn_01 CPLD_DigIn_02 PILOT_IN DIG_29_24_0_'io'  DIG_29_24_1_'io'  \
+#  DIG_29_24_2_'io'  DIG_29_24_3_'io'  DIG_29_24_4_'io'  DIG_29_24_5_'io'  DIG_23_16_0_'io'  \
+#  DIG_23_16_1_'io'  DIG_23_16_2_'io'  DIG_23_16_3_'io'  DIG_23_16_4_'io'  DIG_23_16_5_'io'  \
+#  DIG_23_16_6_'io'  DIG_23_16_7_'io'  DIG_15_8_0_'io'  DIG_15_8_1_'io'  DIG_15_8_2_'io'  \
+#  DIG_15_8_3_'io'  DIG_15_8_4_'io'  DIG_15_8_5_'io'  DIG_15_8_6_'io'  DIG_15_8_7_'io'  DIG_7_0_0_'io'  \
+#  DIG_7_0_1_'io'  DIG_7_0_2_'io'  DIG_7_0_3_'io'  DIG_7_0_4_'io'  DIG_7_0_5_'io'  DIG_7_0_6_'io'  \
+#  DIG_7_0_7_'io'  CPLD_DigOut_02 CPLD_DIGOut_01 DIG_IO_29_24_0_'io'  DIG_IO_29_24_1_'io'  \
+#  DIG_IO_29_24_2_'io'  DIG_IO_29_24_3_'io'  DIG_IO_29_24_4_'io'  DIG_IO_29_24_5_'io'  \
+#  DIG_IO_23_16_0_'io'  DIG_IO_23_16_1_'io'  DIG_IO_23_16_2_'io'  DIG_IO_23_16_3_'io'  \
+#  DIG_IO_23_16_4_'io'  DIG_IO_23_16_5_'io'  DIG_IO_23_16_6_'io'  DIG_IO_23_16_7_'io'  \
+#  DIG_IO_7_0_0_'io'  DIG_IO_7_0_1_'io'  DIG_IO_7_0_2_'io'  DIG_IO_7_0_3_'io'  DIG_IO_7_0_4_'io'  \
+#  DIG_IO_7_0_5_'io'  DIG_IO_7_0_6_'io'  DIG_IO_7_0_7_'io'  DIG_IO_15_8_0_'io'  DIG_IO_15_8_1_'io'  \
+#  DIG_IO_15_8_2_'io'  DIG_IO_15_8_3_'io'  DIG_IO_15_8_4_'io'  DIG_IO_15_8_5_'io'  \
+#  DIG_IO_15_8_6_'io'  DIG_IO_15_8_7_'io'  clk2 scl sda
+#$ NODES 220 N_14 N_15 N_16 N_17 N_18 IO_Select_29_24_0_ IO_Select_29_24_1_ \
+#  IO_Select_29_24_2_ IO_Select_29_24_3_ IO_Select_29_24_4_ IO_Select_29_24_5_ \
+#  RESERVED ADPT_AND_29_24_0_'o'  ADPT_AND_29_24_1_'o'  ADPT_AND_29_24_2_'o'  \
+#  ADPT_AND_29_24_3_'o'  ADPT_AND_29_24_4_'o'  ADPT_AND_29_24_5_'o'  NOT_29_25_0_'o'  \
+#  NOT_29_25_1_'o'  NOT_29_25_2_'o'  NOT_29_25_3_'o'  NOT_29_25_4_'o'  NOT_29_25_5_'o'  \
+#  FPGA_AND_29_24_0_'o'  FPGA_AND_29_24_1_'o'  FPGA_AND_29_24_2_'o'  FPGA_AND_29_24_3_'o'  \
+#  FPGA_AND_29_24_4_'o'  FPGA_AND_29_24_5_'o'  IN_29_24_0_'o'  IN_29_24_1_'o'  IN_29_24_2_'o'  \
+#  IN_29_24_3_'o'  IN_29_24_4_'o'  IN_29_24_5_'o'  OUT_29_24_0_'o'  OUT_29_24_1_'o'  OUT_29_24_2_'o'  \
+#  OUT_29_24_3_'o'  OUT_29_24_4_'o'  OUT_29_24_5_'o'  NOT_23_16_0_'o'  NOT_23_16_1_'o'  NOT_23_16_2_'o'  \
+#  NOT_23_16_3_'o'  NOT_23_16_4_'o'  NOT_23_16_5_'o'  NOT_23_16_6_'o'  NOT_23_16_7_'o'  \
+#  FPGA_AND_23_16_0_'o'  FPGA_AND_23_16_1_'o'  FPGA_AND_23_16_2_'o'  FPGA_AND_23_16_3_'o'  \
+#  FPGA_AND_23_16_4_'o'  FPGA_AND_23_16_5_'o'  FPGA_AND_23_16_6_'o'  FPGA_AND_23_16_7_'o'  \
+#  ADPT_AND_23_16_0_'o'  ADPT_AND_23_16_1_'o'  ADPT_AND_23_16_2_'o'  ADPT_AND_23_16_3_'o'  \
+#  ADPT_AND_23_16_4_'o'  ADPT_AND_23_16_5_'o'  ADPT_AND_23_16_6_'o'  ADPT_AND_23_16_7_'o'  \
+#  IN_23_16_0_'o'  IN_23_16_1_'o'  IN_23_16_2_'o'  IN_23_16_3_'o'  IN_23_16_4_'o'  IN_23_16_5_'o'  \
+#  IN_23_16_6_'o'  IN_23_16_7_'o'  OUT_23_16_0_'o'  OUT_23_16_1_'o'  OUT_23_16_2_'o'  OUT_23_16_3_'o'  \
+#  OUT_23_16_4_'o'  OUT_23_16_5_'o'  OUT_23_16_6_'o'  OUT_23_16_7_'o'  FPGA_AND_15_8_0_'o'  \
+#  FPGA_AND_15_8_1_'o'  FPGA_AND_15_8_2_'o'  FPGA_AND_15_8_3_'o'  FPGA_AND_15_8_4_'o'  \
+#  FPGA_AND_15_8_5_'o'  FPGA_AND_15_8_6_'o'  FPGA_AND_15_8_7_'o'  ADPT_AND_7_0_0_'o'  \
+#  ADPT_AND_7_0_1_'o'  ADPT_AND_7_0_2_'o'  ADPT_AND_7_0_3_'o'  ADPT_AND_7_0_4_'o'  \
+#  ADPT_AND_7_0_5_'o'  ADPT_AND_7_0_6_'o'  ADPT_AND_7_0_7_'o'  ADPT_AND_15_8_0_'o'  \
+#  ADPT_AND_15_8_1_'o'  ADPT_AND_15_8_2_'o'  ADPT_AND_15_8_3_'o'  ADPT_AND_15_8_4_'o'  \
+#  ADPT_AND_15_8_5_'o'  ADPT_AND_15_8_6_'o'  ADPT_AND_15_8_7_'o'  NOT_15_8_0_'o'  NOT_15_8_1_'o'  \
+#  NOT_15_8_2_'o'  NOT_15_8_3_'o'  NOT_15_8_4_'o'  NOT_15_8_5_'o'  NOT_15_8_6_'o'  NOT_15_8_7_'o'  \
+#  IN_15_8_0_'o'  IN_15_8_1_'o'  IN_15_8_2_'o'  IN_15_8_3_'o'  IN_15_8_4_'o'  IN_15_8_5_'o'  IN_15_8_6_'o'  \
+#  IN_15_8_7_'o'  OUT_15_8_0_'o'  OUT_15_8_1_'o'  OUT_15_8_2_'o'  OUT_15_8_3_'o'  OUT_15_8_4_'o'  \
+#  OUT_15_8_5_'o'  OUT_15_8_6_'o'  OUT_15_8_7_'o'  FPGA_AND_7_0_0_'o'  FPGA_AND_7_0_1_'o'  \
+#  FPGA_AND_7_0_2_'o'  FPGA_AND_7_0_3_'o'  FPGA_AND_7_0_4_'o'  FPGA_AND_7_0_5_'o'  \
+#  FPGA_AND_7_0_6_'o'  FPGA_AND_7_0_7_'o'  NOT_7_0_0_'o'  NOT_7_0_1_'o'  NOT_7_0_2_'o'  NOT_7_0_3_'o'  \
+#  NOT_7_0_4_'o'  NOT_7_0_5_'o'  NOT_7_0_6_'o'  NOT_7_0_7_'o'  OUT_7_0_0_'o'  OUT_7_0_1_'o'  OUT_7_0_2_'o'  \
+#  OUT_7_0_3_'o'  OUT_7_0_4_'o'  OUT_7_0_5_'o'  OUT_7_0_6_'o'  OUT_7_0_7_'o'  IN_7_0_0_'o'  IN_7_0_1_'o'  \
+#  IN_7_0_2_'o'  IN_7_0_3_'o'  IN_7_0_4_'o'  IN_7_0_5_'o'  IN_7_0_6_'o'  IN_7_0_7_'o'  data_to_master_0_ \
+#  data_to_master_1_ data_to_master_2_ data_to_master_3_ data_to_master_4_ \
+#  data_to_master_5_ data_to_master_6_ data_to_master_7_ y7 y6 y5 y4 y3 y2 \
+#  IO_Select_OE_29_24_0_ IO_Select_OE_29_24_1_ IO_Select_OE_29_24_2_ \
+#  IO_Select_OE_29_24_3_ IO_Select_OE_29_24_4_ IO_Select_OE_29_24_5_ \
+#  IO_Select_OE_29_24_6_ IO_Select_OE_29_24_7_ IO_Select_23_16_0_ IO_Select_23_16_1_ \
+#  IO_Select_23_16_2_ IO_Select_23_16_3_ IO_Select_23_16_4_ IO_Select_23_16_5_ \
+#  IO_Select_23_16_6_ IO_Select_23_16_7_ IO_Select_15_8_0_ IO_Select_15_8_1_ \
+#  IO_Select_15_8_2_ IO_Select_15_8_3_ IO_Select_15_8_4_ IO_Select_15_8_5_ \
+#  IO_Select_15_8_6_ IO_Select_15_8_7_ IO_Select_7_0_0_ IO_Select_7_0_1_ \
+#  IO_Select_7_0_2_ IO_Select_7_0_3_ IO_Select_7_0_4_ IO_Select_7_0_5_ \
+#  IO_Select_7_0_6_ IO_Select_7_0_7_ read_req data_valid CPLD_Dig_IO_out_0_ \
+#  CPLD_Dig_IO_out_1_ CPLD_Dig_IO_out_2_ CPLD_Dig_IO_out_3_ CPLD_Dig_IO_out_4_ \
+#  CPLD_Dig_IO_out_5_ CPLD_Dig_IO_out_6_ CPLD_Dig_IO_out_7_ Pin_Enable N_13'o' 
+#$ INTERFACE concat8  16 u0'i'  u1'i'  u2'i'  u3'i'  u4'i'  u5'i'  u6'i'  u7'i'  y_0_'o'  y_1_'o'  y_2_'o'  y_3_'o'  y_4_'o'  y_5_'o'  y_6_'o'  y_7_'o' 
+#$ INTERFACE i2c_minion  54 clk'i'  data_to_master_0_'i'  data_to_master_1_'i'  \
+#  data_to_master_2_'i'  data_to_master_3_'i'  data_to_master_4_'i'  data_to_master_5_'i'  \
+#  data_to_master_6_'i'  data_to_master_7_'i'  rst'i'  CPLD_DigIO_out_0_'o'  CPLD_DigIO_out_1_'o'  \
+#  CPLD_DigIO_out_2_'o'  CPLD_DigIO_out_3_'o'  CPLD_DigIO_out_4_'o'  CPLD_DigIO_out_5_'o'  \
+#  CPLD_DigIO_out_6_'o'  CPLD_DigIO_out_7_'o'  IO_Select_0_7_0_'o'  IO_Select_0_7_1_'o'  \
+#  IO_Select_0_7_2_'o'  IO_Select_0_7_3_'o'  IO_Select_0_7_4_'o'  IO_Select_0_7_5_'o'  \
+#  IO_Select_0_7_6_'o'  IO_Select_0_7_7_'o'  IO_Select_16_23_0_'o'  IO_Select_16_23_1_'o'  \
+#  IO_Select_16_23_2_'o'  IO_Select_16_23_3_'o'  IO_Select_16_23_4_'o'  IO_Select_16_23_5_'o'  \
+#  IO_Select_16_23_6_'o'  IO_Select_16_23_7_'o'  IO_Select_24_29_OE_0_'o'  IO_Select_24_29_OE_1_'o'  \
+#  IO_Select_24_29_OE_2_'o'  IO_Select_24_29_OE_3_'o'  IO_Select_24_29_OE_4_'o'  \
+#  IO_Select_24_29_OE_5_'o'  IO_Select_24_29_OE_6_'o'  IO_Select_24_29_OE_7_'o'  \
+#  IO_Select_8_15_0_'o'  IO_Select_8_15_1_'o'  IO_Select_8_15_2_'o'  IO_Select_8_15_3_'o'  \
+#  IO_Select_8_15_4_'o'  IO_Select_8_15_5_'o'  IO_Select_8_15_6_'o'  IO_Select_8_15_7_'o'  data_valid'o'  \
+#  read_req'o'  scl'io'  sda'io' 
+#$ INTERFACE slice8  16 data_0_'i'  data_1_'i'  data_2_'i'  data_3_'i'  data_4_'i'  data_5_'i'  data_6_'i'  data_7_'i'  \
+#  y0'o'  y1'o'  y2'o'  y3'o'  y4'o'  y5'o'  y6'o'  y7'o' 
+#$ INTERFACE slicer862  16 data_0_'i'  data_1_'i'  data_2_'i'  data_3_'i'  data_4_'i'  data_5_'i'  data_6_'i'  \
+#  data_7_'i'  y0_0_'o'  y0_1_'o'  y0_2_'o'  y0_3_'o'  y0_4_'o'  y0_5_'o'  y6'o'  y7'o' 
+#$ INTERFACE sourcenull  5 y1'o'  y2'o'  y3'o'  y4'o'  y5'o' 
+#$ INSTANCE I244 concat8 16 CPLD_DigIn_01 CPLD_DigIn_02 PILOT_IN N_14 N_15 N_16 N_17 \
+#  N_18 data_to_master_0_ data_to_master_1_ data_to_master_2_ data_to_master_3_ \
+#  data_to_master_4_ data_to_master_5_ data_to_master_6_ data_to_master_7_
+#$ INSTANCE I19 i2c_minion 54 clk2 data_to_master_0_ data_to_master_1_ \
+#  data_to_master_2_ data_to_master_3_ data_to_master_4_ data_to_master_5_ \
+#  data_to_master_6_ data_to_master_7_ N_13 CPLD_Dig_IO_out_0_ CPLD_Dig_IO_out_1_ \
+#  CPLD_Dig_IO_out_2_ CPLD_Dig_IO_out_3_ CPLD_Dig_IO_out_4_ CPLD_Dig_IO_out_5_ \
+#  CPLD_Dig_IO_out_6_ CPLD_Dig_IO_out_7_ IO_Select_7_0_0_ IO_Select_7_0_1_ \
+#  IO_Select_7_0_2_ IO_Select_7_0_3_ IO_Select_7_0_4_ IO_Select_7_0_5_ \
+#  IO_Select_7_0_6_ IO_Select_7_0_7_ IO_Select_23_16_0_ IO_Select_23_16_1_ \
+#  IO_Select_23_16_2_ IO_Select_23_16_3_ IO_Select_23_16_4_ IO_Select_23_16_5_ \
+#  IO_Select_23_16_6_ IO_Select_23_16_7_ IO_Select_OE_29_24_0_ IO_Select_OE_29_24_1_ \
+#  IO_Select_OE_29_24_2_ IO_Select_OE_29_24_3_ IO_Select_OE_29_24_4_ \
+#  IO_Select_OE_29_24_5_ IO_Select_OE_29_24_6_ IO_Select_OE_29_24_7_ \
+#  IO_Select_15_8_0_ IO_Select_15_8_1_ IO_Select_15_8_2_ IO_Select_15_8_3_ \
+#  IO_Select_15_8_4_ IO_Select_15_8_5_ IO_Select_15_8_6_ IO_Select_15_8_7_ data_valid \
+#  read_req scl sda
+#$ INSTANCE I245 slice8 16 CPLD_Dig_IO_out_0_ CPLD_Dig_IO_out_1_ CPLD_Dig_IO_out_2_ \
+#  CPLD_Dig_IO_out_3_ CPLD_Dig_IO_out_4_ CPLD_Dig_IO_out_5_ CPLD_Dig_IO_out_6_ \
+#  CPLD_Dig_IO_out_7_ CPLD_DIGOut_01 CPLD_DigOut_02 y2 y3 y4 y5 y6 y7
+#$ INSTANCE I246 slicer862 16 IO_Select_OE_29_24_0_ IO_Select_OE_29_24_1_ \
+#  IO_Select_OE_29_24_2_ IO_Select_OE_29_24_3_ IO_Select_OE_29_24_4_ \
+#  IO_Select_OE_29_24_5_ IO_Select_OE_29_24_6_ IO_Select_OE_29_24_7_ \
+#  IO_Select_29_24_0_ IO_Select_29_24_1_ IO_Select_29_24_2_ IO_Select_29_24_3_ \
+#  IO_Select_29_24_4_ IO_Select_29_24_5_ RESERVED Pin_Enable
+#$ INSTANCE I247 sourcenull 5 N_14 N_15 N_16 N_17 N_18
+.model io_pins
+.inputs Pin_Enable.BLIF IO_Select_15_8_0_.BLIF IO_Select_15_8_1_.BLIF \
+IO_Select_15_8_2_.BLIF IO_Select_15_8_3_.BLIF IO_Select_15_8_4_.BLIF \
+IO_Select_15_8_5_.BLIF IO_Select_15_8_6_.BLIF IO_Select_15_8_7_.BLIF \
+IO_Select_23_16_0_.BLIF IO_Select_23_16_1_.BLIF IO_Select_23_16_2_.BLIF \
+IO_Select_23_16_3_.BLIF IO_Select_23_16_4_.BLIF IO_Select_23_16_5_.BLIF \
+IO_Select_23_16_6_.BLIF IO_Select_23_16_7_.BLIF IO_Select_29_24_0_.BLIF \
+IO_Select_29_24_1_.BLIF IO_Select_29_24_2_.BLIF IO_Select_29_24_3_.BLIF \
+IO_Select_29_24_4_.BLIF IO_Select_29_24_5_.BLIF IO_Select_7_0_0_.BLIF \
+IO_Select_7_0_1_.BLIF IO_Select_7_0_2_.BLIF IO_Select_7_0_3_.BLIF \
+IO_Select_7_0_4_.BLIF IO_Select_7_0_5_.BLIF IO_Select_7_0_6_.BLIF \
+IO_Select_7_0_7_.BLIF NOT_15_8_0_.BLIF NOT_15_8_1_.BLIF NOT_15_8_2_.BLIF \
+NOT_15_8_3_.BLIF NOT_15_8_4_.BLIF NOT_15_8_5_.BLIF NOT_15_8_6_.BLIF \
+NOT_15_8_7_.BLIF NOT_23_16_0_.BLIF NOT_23_16_1_.BLIF NOT_23_16_2_.BLIF \
+NOT_23_16_3_.BLIF NOT_23_16_4_.BLIF NOT_23_16_5_.BLIF NOT_23_16_6_.BLIF \
+NOT_23_16_7_.BLIF NOT_29_25_0_.BLIF NOT_29_25_1_.BLIF NOT_29_25_2_.BLIF \
+NOT_29_25_3_.BLIF NOT_29_25_4_.BLIF NOT_29_25_5_.BLIF NOT_7_0_0_.BLIF \
+NOT_7_0_1_.BLIF NOT_7_0_2_.BLIF NOT_7_0_3_.BLIF NOT_7_0_4_.BLIF \
+NOT_7_0_5_.BLIF NOT_7_0_6_.BLIF NOT_7_0_7_.BLIF IN_15_8_0_.BLIF \
+FPGA_AND_15_8_0_.BLIF DIG_15_8_0_.PIN.BLIF IN_15_8_1_.BLIF \
+FPGA_AND_15_8_1_.BLIF DIG_15_8_1_.PIN.BLIF IN_15_8_2_.BLIF \
+FPGA_AND_15_8_2_.BLIF DIG_15_8_2_.PIN.BLIF IN_15_8_3_.BLIF \
+FPGA_AND_15_8_3_.BLIF DIG_15_8_3_.PIN.BLIF IN_15_8_4_.BLIF \
+FPGA_AND_15_8_4_.BLIF DIG_15_8_4_.PIN.BLIF IN_15_8_5_.BLIF \
+FPGA_AND_15_8_5_.BLIF DIG_15_8_5_.PIN.BLIF IN_15_8_6_.BLIF \
+FPGA_AND_15_8_6_.BLIF DIG_15_8_6_.PIN.BLIF IN_15_8_7_.BLIF \
+FPGA_AND_15_8_7_.BLIF DIG_15_8_7_.PIN.BLIF IN_23_16_0_.BLIF \
+FPGA_AND_23_16_0_.BLIF DIG_23_16_0_.PIN.BLIF IN_23_16_1_.BLIF \
+FPGA_AND_23_16_1_.BLIF DIG_23_16_1_.PIN.BLIF IN_23_16_2_.BLIF \
+FPGA_AND_23_16_2_.BLIF DIG_23_16_2_.PIN.BLIF IN_23_16_3_.BLIF \
+FPGA_AND_23_16_3_.BLIF DIG_23_16_3_.PIN.BLIF IN_23_16_4_.BLIF \
+FPGA_AND_23_16_4_.BLIF DIG_23_16_4_.PIN.BLIF IN_23_16_5_.BLIF \
+FPGA_AND_23_16_5_.BLIF DIG_23_16_5_.PIN.BLIF IN_23_16_6_.BLIF \
+FPGA_AND_23_16_6_.BLIF DIG_23_16_6_.PIN.BLIF IN_23_16_7_.BLIF \
+FPGA_AND_23_16_7_.BLIF DIG_23_16_7_.PIN.BLIF IN_7_0_0_.BLIF \
+FPGA_AND_7_0_0_.BLIF DIG_7_0_0_.PIN.BLIF IN_7_0_1_.BLIF FPGA_AND_7_0_1_.BLIF \
+DIG_7_0_1_.PIN.BLIF IN_7_0_2_.BLIF FPGA_AND_7_0_2_.BLIF DIG_7_0_2_.PIN.BLIF \
+IN_7_0_3_.BLIF FPGA_AND_7_0_3_.BLIF DIG_7_0_3_.PIN.BLIF IN_7_0_4_.BLIF \
+FPGA_AND_7_0_4_.BLIF DIG_7_0_4_.PIN.BLIF IN_7_0_5_.BLIF FPGA_AND_7_0_5_.BLIF \
+DIG_7_0_5_.PIN.BLIF IN_7_0_6_.BLIF FPGA_AND_7_0_6_.BLIF DIG_7_0_6_.PIN.BLIF \
+IN_7_0_7_.BLIF FPGA_AND_7_0_7_.BLIF DIG_7_0_7_.PIN.BLIF IN_29_24_0_.BLIF \
+FPGA_AND_29_24_0_.BLIF DIG_29_24_0_.PIN.BLIF IN_29_24_1_.BLIF \
+FPGA_AND_29_24_1_.BLIF DIG_29_24_1_.PIN.BLIF IN_29_24_2_.BLIF \
+FPGA_AND_29_24_2_.BLIF DIG_29_24_2_.PIN.BLIF IN_29_24_3_.BLIF \
+FPGA_AND_29_24_3_.BLIF DIG_29_24_3_.PIN.BLIF IN_29_24_4_.BLIF \
+FPGA_AND_29_24_4_.BLIF DIG_29_24_4_.PIN.BLIF IN_29_24_5_.BLIF \
+FPGA_AND_29_24_5_.BLIF DIG_29_24_5_.PIN.BLIF OUT_15_8_0_.BLIF \
+ADPT_AND_15_8_0_.BLIF DIG_IO_15_8_0_.PIN.BLIF OUT_15_8_1_.BLIF \
+ADPT_AND_15_8_1_.BLIF DIG_IO_15_8_1_.PIN.BLIF OUT_15_8_2_.BLIF \
+ADPT_AND_15_8_2_.BLIF DIG_IO_15_8_2_.PIN.BLIF OUT_15_8_3_.BLIF \
+ADPT_AND_15_8_3_.BLIF DIG_IO_15_8_3_.PIN.BLIF OUT_15_8_4_.BLIF \
+ADPT_AND_15_8_4_.BLIF DIG_IO_15_8_4_.PIN.BLIF OUT_15_8_5_.BLIF \
+ADPT_AND_15_8_5_.BLIF DIG_IO_15_8_5_.PIN.BLIF OUT_15_8_6_.BLIF \
+ADPT_AND_15_8_6_.BLIF DIG_IO_15_8_6_.PIN.BLIF OUT_15_8_7_.BLIF \
+ADPT_AND_15_8_7_.BLIF DIG_IO_15_8_7_.PIN.BLIF OUT_23_16_0_.BLIF \
+ADPT_AND_23_16_0_.BLIF DIG_IO_23_16_0_.PIN.BLIF OUT_23_16_1_.BLIF \
+ADPT_AND_23_16_1_.BLIF DIG_IO_23_16_1_.PIN.BLIF OUT_23_16_2_.BLIF \
+ADPT_AND_23_16_2_.BLIF DIG_IO_23_16_2_.PIN.BLIF OUT_23_16_3_.BLIF \
+ADPT_AND_23_16_3_.BLIF DIG_IO_23_16_3_.PIN.BLIF OUT_23_16_4_.BLIF \
+ADPT_AND_23_16_4_.BLIF DIG_IO_23_16_4_.PIN.BLIF OUT_23_16_5_.BLIF \
+ADPT_AND_23_16_5_.BLIF DIG_IO_23_16_5_.PIN.BLIF OUT_23_16_6_.BLIF \
+ADPT_AND_23_16_6_.BLIF DIG_IO_23_16_6_.PIN.BLIF OUT_23_16_7_.BLIF \
+ADPT_AND_23_16_7_.BLIF DIG_IO_23_16_7_.PIN.BLIF OUT_29_24_0_.BLIF \
+ADPT_AND_29_24_0_.BLIF DIG_IO_29_24_0_.PIN.BLIF OUT_29_24_1_.BLIF \
+ADPT_AND_29_24_1_.BLIF DIG_IO_29_24_1_.PIN.BLIF OUT_29_24_2_.BLIF \
+ADPT_AND_29_24_2_.BLIF DIG_IO_29_24_2_.PIN.BLIF OUT_29_24_3_.BLIF \
+ADPT_AND_29_24_3_.BLIF DIG_IO_29_24_3_.PIN.BLIF OUT_29_24_4_.BLIF \
+ADPT_AND_29_24_4_.BLIF DIG_IO_29_24_4_.PIN.BLIF OUT_29_24_5_.BLIF \
+ADPT_AND_29_24_5_.BLIF DIG_IO_29_24_5_.PIN.BLIF OUT_7_0_0_.BLIF \
+ADPT_AND_7_0_0_.BLIF DIG_IO_7_0_0_.PIN.BLIF OUT_7_0_1_.BLIF \
+ADPT_AND_7_0_1_.BLIF DIG_IO_7_0_1_.PIN.BLIF OUT_7_0_2_.BLIF \
+ADPT_AND_7_0_2_.BLIF DIG_IO_7_0_2_.PIN.BLIF OUT_7_0_3_.BLIF \
+ADPT_AND_7_0_3_.BLIF DIG_IO_7_0_3_.PIN.BLIF OUT_7_0_4_.BLIF \
+ADPT_AND_7_0_4_.BLIF DIG_IO_7_0_4_.PIN.BLIF OUT_7_0_5_.BLIF \
+ADPT_AND_7_0_5_.BLIF DIG_IO_7_0_5_.PIN.BLIF OUT_7_0_6_.BLIF \
+ADPT_AND_7_0_6_.BLIF DIG_IO_7_0_6_.PIN.BLIF OUT_7_0_7_.BLIF \
+ADPT_AND_7_0_7_.BLIF DIG_IO_7_0_7_.PIN.BLIF
+.outputs ADPT_AND_15_8_0_ ADPT_AND_15_8_1_ ADPT_AND_15_8_2_ ADPT_AND_15_8_3_ \
+ADPT_AND_15_8_4_ ADPT_AND_15_8_5_ ADPT_AND_15_8_6_ ADPT_AND_15_8_7_ \
+ADPT_AND_23_16_0_ ADPT_AND_23_16_1_ ADPT_AND_23_16_2_ ADPT_AND_23_16_3_ \
+ADPT_AND_23_16_4_ ADPT_AND_23_16_5_ ADPT_AND_23_16_6_ ADPT_AND_23_16_7_ \
+ADPT_AND_29_24_0_ ADPT_AND_29_24_1_ ADPT_AND_29_24_2_ ADPT_AND_29_24_3_ \
+ADPT_AND_29_24_4_ ADPT_AND_29_24_5_ ADPT_AND_7_0_0_ ADPT_AND_7_0_1_ \
+ADPT_AND_7_0_2_ ADPT_AND_7_0_3_ ADPT_AND_7_0_4_ ADPT_AND_7_0_5_ \
+ADPT_AND_7_0_6_ ADPT_AND_7_0_7_ FPGA_AND_15_8_0_ FPGA_AND_15_8_1_ \
+FPGA_AND_15_8_2_ FPGA_AND_15_8_3_ FPGA_AND_15_8_4_ FPGA_AND_15_8_5_ \
+FPGA_AND_15_8_6_ FPGA_AND_15_8_7_ FPGA_AND_23_16_0_ FPGA_AND_23_16_1_ \
+FPGA_AND_23_16_2_ FPGA_AND_23_16_3_ FPGA_AND_23_16_4_ FPGA_AND_23_16_5_ \
+FPGA_AND_23_16_6_ FPGA_AND_23_16_7_ FPGA_AND_29_24_0_ FPGA_AND_29_24_1_ \
+FPGA_AND_29_24_2_ FPGA_AND_29_24_3_ FPGA_AND_29_24_4_ FPGA_AND_29_24_5_ \
+FPGA_AND_7_0_0_ FPGA_AND_7_0_1_ FPGA_AND_7_0_2_ FPGA_AND_7_0_3_ \
+FPGA_AND_7_0_4_ FPGA_AND_7_0_5_ FPGA_AND_7_0_6_ FPGA_AND_7_0_7_ OUT_15_8_0_ \
+DIG_15_8_0_ DIG_15_8_0_.OE OUT_15_8_1_ DIG_15_8_1_ DIG_15_8_1_.OE OUT_15_8_2_ \
+DIG_15_8_2_ DIG_15_8_2_.OE OUT_15_8_3_ DIG_15_8_3_ DIG_15_8_3_.OE OUT_15_8_4_ \
+DIG_15_8_4_ DIG_15_8_4_.OE OUT_15_8_5_ DIG_15_8_5_ DIG_15_8_5_.OE OUT_15_8_6_ \
+DIG_15_8_6_ DIG_15_8_6_.OE OUT_15_8_7_ DIG_15_8_7_ DIG_15_8_7_.OE OUT_23_16_0_ \
+DIG_23_16_0_ DIG_23_16_0_.OE OUT_23_16_1_ DIG_23_16_1_ DIG_23_16_1_.OE \
+OUT_23_16_2_ DIG_23_16_2_ DIG_23_16_2_.OE OUT_23_16_3_ DIG_23_16_3_ \
+DIG_23_16_3_.OE OUT_23_16_4_ DIG_23_16_4_ DIG_23_16_4_.OE OUT_23_16_5_ \
+DIG_23_16_5_ DIG_23_16_5_.OE OUT_23_16_6_ DIG_23_16_6_ DIG_23_16_6_.OE \
+OUT_23_16_7_ DIG_23_16_7_ DIG_23_16_7_.OE OUT_7_0_0_ DIG_7_0_0_ DIG_7_0_0_.OE \
+OUT_7_0_1_ DIG_7_0_1_ DIG_7_0_1_.OE OUT_7_0_2_ DIG_7_0_2_ DIG_7_0_2_.OE \
+OUT_7_0_3_ DIG_7_0_3_ DIG_7_0_3_.OE OUT_7_0_4_ DIG_7_0_4_ DIG_7_0_4_.OE \
+OUT_7_0_5_ DIG_7_0_5_ DIG_7_0_5_.OE OUT_7_0_6_ DIG_7_0_6_ DIG_7_0_6_.OE \
+OUT_7_0_7_ DIG_7_0_7_ DIG_7_0_7_.OE OUT_29_24_0_ DIG_29_24_0_ DIG_29_24_0_.OE \
+OUT_29_24_1_ DIG_29_24_1_ DIG_29_24_1_.OE OUT_29_24_2_ DIG_29_24_2_ \
+DIG_29_24_2_.OE OUT_29_24_3_ DIG_29_24_3_ DIG_29_24_3_.OE OUT_29_24_4_ \
+DIG_29_24_4_ DIG_29_24_4_.OE OUT_29_24_5_ DIG_29_24_5_ DIG_29_24_5_.OE \
+IN_15_8_0_ DIG_IO_15_8_0_ DIG_IO_15_8_0_.OE IN_15_8_1_ DIG_IO_15_8_1_ \
+DIG_IO_15_8_1_.OE IN_15_8_2_ DIG_IO_15_8_2_ DIG_IO_15_8_2_.OE IN_15_8_3_ \
+DIG_IO_15_8_3_ DIG_IO_15_8_3_.OE IN_15_8_4_ DIG_IO_15_8_4_ DIG_IO_15_8_4_.OE \
+IN_15_8_5_ DIG_IO_15_8_5_ DIG_IO_15_8_5_.OE IN_15_8_6_ DIG_IO_15_8_6_ \
+DIG_IO_15_8_6_.OE IN_15_8_7_ DIG_IO_15_8_7_ DIG_IO_15_8_7_.OE IN_23_16_0_ \
+DIG_IO_23_16_0_ DIG_IO_23_16_0_.OE IN_23_16_1_ DIG_IO_23_16_1_ \
+DIG_IO_23_16_1_.OE IN_23_16_2_ DIG_IO_23_16_2_ DIG_IO_23_16_2_.OE IN_23_16_3_ \
+DIG_IO_23_16_3_ DIG_IO_23_16_3_.OE IN_23_16_4_ DIG_IO_23_16_4_ \
+DIG_IO_23_16_4_.OE IN_23_16_5_ DIG_IO_23_16_5_ DIG_IO_23_16_5_.OE IN_23_16_6_ \
+DIG_IO_23_16_6_ DIG_IO_23_16_6_.OE IN_23_16_7_ DIG_IO_23_16_7_ \
+DIG_IO_23_16_7_.OE IN_29_24_0_ DIG_IO_29_24_0_ DIG_IO_29_24_0_.OE IN_29_24_1_ \
+DIG_IO_29_24_1_ DIG_IO_29_24_1_.OE IN_29_24_2_ DIG_IO_29_24_2_ \
+DIG_IO_29_24_2_.OE IN_29_24_3_ DIG_IO_29_24_3_ DIG_IO_29_24_3_.OE IN_29_24_4_ \
+DIG_IO_29_24_4_ DIG_IO_29_24_4_.OE IN_29_24_5_ DIG_IO_29_24_5_ \
+DIG_IO_29_24_5_.OE IN_7_0_0_ DIG_IO_7_0_0_ DIG_IO_7_0_0_.OE IN_7_0_1_ \
+DIG_IO_7_0_1_ DIG_IO_7_0_1_.OE IN_7_0_2_ DIG_IO_7_0_2_ DIG_IO_7_0_2_.OE \
+IN_7_0_3_ DIG_IO_7_0_3_ DIG_IO_7_0_3_.OE IN_7_0_4_ DIG_IO_7_0_4_ \
+DIG_IO_7_0_4_.OE IN_7_0_5_ DIG_IO_7_0_5_ DIG_IO_7_0_5_.OE IN_7_0_6_ \
+DIG_IO_7_0_6_ DIG_IO_7_0_6_.OE IN_7_0_7_ DIG_IO_7_0_7_ DIG_IO_7_0_7_.OE \
+NOT_15_8_0_ NOT_15_8_1_ NOT_15_8_2_ NOT_15_8_3_ NOT_15_8_4_ NOT_15_8_5_ \
+NOT_15_8_6_ NOT_15_8_7_ NOT_23_16_0_ NOT_23_16_1_ NOT_23_16_2_ NOT_23_16_3_ \
+NOT_23_16_4_ NOT_23_16_5_ NOT_23_16_6_ NOT_23_16_7_ NOT_29_25_0_ NOT_29_25_1_ \
+NOT_29_25_2_ NOT_29_25_3_ NOT_29_25_4_ NOT_29_25_5_ NOT_7_0_0_ NOT_7_0_1_ \
+NOT_7_0_2_ NOT_7_0_3_ NOT_7_0_4_ NOT_7_0_5_ NOT_7_0_6_ NOT_7_0_7_ N_13
+.names Pin_Enable.BLIF IO_Select_15_8_0_.BLIF ADPT_AND_15_8_0_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_15_8_1_.BLIF ADPT_AND_15_8_1_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_15_8_2_.BLIF ADPT_AND_15_8_2_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_15_8_3_.BLIF ADPT_AND_15_8_3_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_15_8_4_.BLIF ADPT_AND_15_8_4_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_15_8_5_.BLIF ADPT_AND_15_8_5_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_15_8_6_.BLIF ADPT_AND_15_8_6_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_15_8_7_.BLIF ADPT_AND_15_8_7_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_23_16_0_.BLIF ADPT_AND_23_16_0_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_23_16_1_.BLIF ADPT_AND_23_16_1_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_23_16_2_.BLIF ADPT_AND_23_16_2_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_23_16_3_.BLIF ADPT_AND_23_16_3_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_23_16_4_.BLIF ADPT_AND_23_16_4_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_23_16_5_.BLIF ADPT_AND_23_16_5_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_23_16_6_.BLIF ADPT_AND_23_16_6_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_23_16_7_.BLIF ADPT_AND_23_16_7_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_29_24_0_.BLIF ADPT_AND_29_24_0_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_29_24_1_.BLIF ADPT_AND_29_24_1_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_29_24_2_.BLIF ADPT_AND_29_24_2_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_29_24_3_.BLIF ADPT_AND_29_24_3_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_29_24_4_.BLIF ADPT_AND_29_24_4_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_29_24_5_.BLIF ADPT_AND_29_24_5_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_7_0_0_.BLIF ADPT_AND_7_0_0_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_7_0_1_.BLIF ADPT_AND_7_0_1_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_7_0_2_.BLIF ADPT_AND_7_0_2_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_7_0_3_.BLIF ADPT_AND_7_0_3_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_7_0_4_.BLIF ADPT_AND_7_0_4_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_7_0_5_.BLIF ADPT_AND_7_0_5_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_7_0_6_.BLIF ADPT_AND_7_0_6_
+11 1
+0- 0
+-0 0
+.names Pin_Enable.BLIF IO_Select_7_0_7_.BLIF ADPT_AND_7_0_7_
+11 1
+0- 0
+-0 0
+.names NOT_15_8_0_.BLIF Pin_Enable.BLIF FPGA_AND_15_8_0_
+11 1
+0- 0
+-0 0
+.names NOT_15_8_1_.BLIF Pin_Enable.BLIF FPGA_AND_15_8_1_
+11 1
+0- 0
+-0 0
+.names NOT_15_8_2_.BLIF Pin_Enable.BLIF FPGA_AND_15_8_2_
+11 1
+0- 0
+-0 0
+.names NOT_15_8_3_.BLIF Pin_Enable.BLIF FPGA_AND_15_8_3_
+11 1
+0- 0
+-0 0
+.names NOT_15_8_4_.BLIF Pin_Enable.BLIF FPGA_AND_15_8_4_
+11 1
+0- 0
+-0 0
+.names NOT_15_8_5_.BLIF Pin_Enable.BLIF FPGA_AND_15_8_5_
+11 1
+0- 0
+-0 0
+.names NOT_15_8_6_.BLIF Pin_Enable.BLIF FPGA_AND_15_8_6_
+11 1
+0- 0
+-0 0
+.names NOT_15_8_7_.BLIF Pin_Enable.BLIF FPGA_AND_15_8_7_
+11 1
+0- 0
+-0 0
+.names NOT_23_16_0_.BLIF Pin_Enable.BLIF FPGA_AND_23_16_0_
+11 1
+0- 0
+-0 0
+.names NOT_23_16_1_.BLIF Pin_Enable.BLIF FPGA_AND_23_16_1_
+11 1
+0- 0
+-0 0
+.names NOT_23_16_2_.BLIF Pin_Enable.BLIF FPGA_AND_23_16_2_
+11 1
+0- 0
+-0 0
+.names NOT_23_16_3_.BLIF Pin_Enable.BLIF FPGA_AND_23_16_3_
+11 1
+0- 0
+-0 0
+.names NOT_23_16_4_.BLIF Pin_Enable.BLIF FPGA_AND_23_16_4_
+11 1
+0- 0
+-0 0
+.names NOT_23_16_5_.BLIF Pin_Enable.BLIF FPGA_AND_23_16_5_
+11 1
+0- 0
+-0 0
+.names NOT_23_16_6_.BLIF Pin_Enable.BLIF FPGA_AND_23_16_6_
+11 1
+0- 0
+-0 0
+.names NOT_23_16_7_.BLIF Pin_Enable.BLIF FPGA_AND_23_16_7_
+11 1
+0- 0
+-0 0
+.names NOT_29_25_0_.BLIF Pin_Enable.BLIF FPGA_AND_29_24_0_
+11 1
+0- 0
+-0 0
+.names NOT_29_25_1_.BLIF Pin_Enable.BLIF FPGA_AND_29_24_1_
+11 1
+0- 0
+-0 0
+.names NOT_29_25_2_.BLIF Pin_Enable.BLIF FPGA_AND_29_24_2_
+11 1
+0- 0
+-0 0
+.names NOT_29_25_3_.BLIF Pin_Enable.BLIF FPGA_AND_29_24_3_
+11 1
+0- 0
+-0 0
+.names NOT_29_25_4_.BLIF Pin_Enable.BLIF FPGA_AND_29_24_4_
+11 1
+0- 0
+-0 0
+.names NOT_29_25_5_.BLIF Pin_Enable.BLIF FPGA_AND_29_24_5_
+11 1
+0- 0
+-0 0
+.names NOT_7_0_0_.BLIF Pin_Enable.BLIF FPGA_AND_7_0_0_
+11 1
+0- 0
+-0 0
+.names NOT_7_0_1_.BLIF Pin_Enable.BLIF FPGA_AND_7_0_1_
+11 1
+0- 0
+-0 0
+.names NOT_7_0_2_.BLIF Pin_Enable.BLIF FPGA_AND_7_0_2_
+11 1
+0- 0
+-0 0
+.names NOT_7_0_3_.BLIF Pin_Enable.BLIF FPGA_AND_7_0_3_
+11 1
+0- 0
+-0 0
+.names NOT_7_0_4_.BLIF Pin_Enable.BLIF FPGA_AND_7_0_4_
+11 1
+0- 0
+-0 0
+.names NOT_7_0_5_.BLIF Pin_Enable.BLIF FPGA_AND_7_0_5_
+11 1
+0- 0
+-0 0
+.names NOT_7_0_6_.BLIF Pin_Enable.BLIF FPGA_AND_7_0_6_
+11 1
+0- 0
+-0 0
+.names NOT_7_0_7_.BLIF Pin_Enable.BLIF FPGA_AND_7_0_7_
+11 1
+0- 0
+-0 0
+.names IO_Select_15_8_0_.BLIF NOT_15_8_0_
+0 1
+1 0
+.names IO_Select_15_8_1_.BLIF NOT_15_8_1_
+0 1
+1 0
+.names IO_Select_15_8_2_.BLIF NOT_15_8_2_
+0 1
+1 0
+.names IO_Select_15_8_3_.BLIF NOT_15_8_3_
+0 1
+1 0
+.names IO_Select_15_8_4_.BLIF NOT_15_8_4_
+0 1
+1 0
+.names IO_Select_15_8_5_.BLIF NOT_15_8_5_
+0 1
+1 0
+.names IO_Select_15_8_6_.BLIF NOT_15_8_6_
+0 1
+1 0
+.names IO_Select_15_8_7_.BLIF NOT_15_8_7_
+0 1
+1 0
+.names IO_Select_23_16_0_.BLIF NOT_23_16_0_
+0 1
+1 0
+.names IO_Select_23_16_1_.BLIF NOT_23_16_1_
+0 1
+1 0
+.names IO_Select_23_16_2_.BLIF NOT_23_16_2_
+0 1
+1 0
+.names IO_Select_23_16_3_.BLIF NOT_23_16_3_
+0 1
+1 0
+.names IO_Select_23_16_4_.BLIF NOT_23_16_4_
+0 1
+1 0
+.names IO_Select_23_16_5_.BLIF NOT_23_16_5_
+0 1
+1 0
+.names IO_Select_23_16_6_.BLIF NOT_23_16_6_
+0 1
+1 0
+.names IO_Select_23_16_7_.BLIF NOT_23_16_7_
+0 1
+1 0
+.names IO_Select_29_24_0_.BLIF NOT_29_25_0_
+0 1
+1 0
+.names IO_Select_29_24_1_.BLIF NOT_29_25_1_
+0 1
+1 0
+.names IO_Select_29_24_2_.BLIF NOT_29_25_2_
+0 1
+1 0
+.names IO_Select_29_24_3_.BLIF NOT_29_25_3_
+0 1
+1 0
+.names IO_Select_29_24_4_.BLIF NOT_29_25_4_
+0 1
+1 0
+.names IO_Select_29_24_5_.BLIF NOT_29_25_5_
+0 1
+1 0
+.names IO_Select_7_0_0_.BLIF NOT_7_0_0_
+0 1
+1 0
+.names IO_Select_7_0_1_.BLIF NOT_7_0_1_
+0 1
+1 0
+.names IO_Select_7_0_2_.BLIF NOT_7_0_2_
+0 1
+1 0
+.names IO_Select_7_0_3_.BLIF NOT_7_0_3_
+0 1
+1 0
+.names IO_Select_7_0_4_.BLIF NOT_7_0_4_
+0 1
+1 0
+.names IO_Select_7_0_5_.BLIF NOT_7_0_5_
+0 1
+1 0
+.names IO_Select_7_0_6_.BLIF NOT_7_0_6_
+0 1
+1 0
+.names IO_Select_7_0_7_.BLIF NOT_7_0_7_
+0 1
+1 0
+.names N_13
+.names DIG_15_8_0_.PIN.BLIF OUT_15_8_0_
+1 1
+0 0
+.names IN_15_8_0_.BLIF DIG_15_8_0_
+1 1
+0 0
+.names FPGA_AND_15_8_0_.BLIF DIG_15_8_0_.OE
+1 1
+0 0
+.names DIG_15_8_1_.PIN.BLIF OUT_15_8_1_
+1 1
+0 0
+.names IN_15_8_1_.BLIF DIG_15_8_1_
+1 1
+0 0
+.names FPGA_AND_15_8_1_.BLIF DIG_15_8_1_.OE
+1 1
+0 0
+.names DIG_15_8_2_.PIN.BLIF OUT_15_8_2_
+1 1
+0 0
+.names IN_15_8_2_.BLIF DIG_15_8_2_
+1 1
+0 0
+.names FPGA_AND_15_8_2_.BLIF DIG_15_8_2_.OE
+1 1
+0 0
+.names DIG_15_8_3_.PIN.BLIF OUT_15_8_3_
+1 1
+0 0
+.names IN_15_8_3_.BLIF DIG_15_8_3_
+1 1
+0 0
+.names FPGA_AND_15_8_3_.BLIF DIG_15_8_3_.OE
+1 1
+0 0
+.names DIG_15_8_4_.PIN.BLIF OUT_15_8_4_
+1 1
+0 0
+.names IN_15_8_4_.BLIF DIG_15_8_4_
+1 1
+0 0
+.names FPGA_AND_15_8_4_.BLIF DIG_15_8_4_.OE
+1 1
+0 0
+.names DIG_15_8_5_.PIN.BLIF OUT_15_8_5_
+1 1
+0 0
+.names IN_15_8_5_.BLIF DIG_15_8_5_
+1 1
+0 0
+.names FPGA_AND_15_8_5_.BLIF DIG_15_8_5_.OE
+1 1
+0 0
+.names DIG_15_8_6_.PIN.BLIF OUT_15_8_6_
+1 1
+0 0
+.names IN_15_8_6_.BLIF DIG_15_8_6_
+1 1
+0 0
+.names FPGA_AND_15_8_6_.BLIF DIG_15_8_6_.OE
+1 1
+0 0
+.names DIG_15_8_7_.PIN.BLIF OUT_15_8_7_
+1 1
+0 0
+.names IN_15_8_7_.BLIF DIG_15_8_7_
+1 1
+0 0
+.names FPGA_AND_15_8_7_.BLIF DIG_15_8_7_.OE
+1 1
+0 0
+.names DIG_23_16_0_.PIN.BLIF OUT_23_16_0_
+1 1
+0 0
+.names IN_23_16_0_.BLIF DIG_23_16_0_
+1 1
+0 0
+.names FPGA_AND_23_16_0_.BLIF DIG_23_16_0_.OE
+1 1
+0 0
+.names DIG_23_16_1_.PIN.BLIF OUT_23_16_1_
+1 1
+0 0
+.names IN_23_16_1_.BLIF DIG_23_16_1_
+1 1
+0 0
+.names FPGA_AND_23_16_1_.BLIF DIG_23_16_1_.OE
+1 1
+0 0
+.names DIG_23_16_2_.PIN.BLIF OUT_23_16_2_
+1 1
+0 0
+.names IN_23_16_2_.BLIF DIG_23_16_2_
+1 1
+0 0
+.names FPGA_AND_23_16_2_.BLIF DIG_23_16_2_.OE
+1 1
+0 0
+.names DIG_23_16_3_.PIN.BLIF OUT_23_16_3_
+1 1
+0 0
+.names IN_23_16_3_.BLIF DIG_23_16_3_
+1 1
+0 0
+.names FPGA_AND_23_16_3_.BLIF DIG_23_16_3_.OE
+1 1
+0 0
+.names DIG_23_16_4_.PIN.BLIF OUT_23_16_4_
+1 1
+0 0
+.names IN_23_16_4_.BLIF DIG_23_16_4_
+1 1
+0 0
+.names FPGA_AND_23_16_4_.BLIF DIG_23_16_4_.OE
+1 1
+0 0
+.names DIG_23_16_5_.PIN.BLIF OUT_23_16_5_
+1 1
+0 0
+.names IN_23_16_5_.BLIF DIG_23_16_5_
+1 1
+0 0
+.names FPGA_AND_23_16_5_.BLIF DIG_23_16_5_.OE
+1 1
+0 0
+.names DIG_23_16_6_.PIN.BLIF OUT_23_16_6_
+1 1
+0 0
+.names IN_23_16_6_.BLIF DIG_23_16_6_
+1 1
+0 0
+.names FPGA_AND_23_16_6_.BLIF DIG_23_16_6_.OE
+1 1
+0 0
+.names DIG_23_16_7_.PIN.BLIF OUT_23_16_7_
+1 1
+0 0
+.names IN_23_16_7_.BLIF DIG_23_16_7_
+1 1
+0 0
+.names FPGA_AND_23_16_7_.BLIF DIG_23_16_7_.OE
+1 1
+0 0
+.names DIG_7_0_0_.PIN.BLIF OUT_7_0_0_
+1 1
+0 0
+.names IN_7_0_0_.BLIF DIG_7_0_0_
+1 1
+0 0
+.names FPGA_AND_7_0_0_.BLIF DIG_7_0_0_.OE
+1 1
+0 0
+.names DIG_7_0_1_.PIN.BLIF OUT_7_0_1_
+1 1
+0 0
+.names IN_7_0_1_.BLIF DIG_7_0_1_
+1 1
+0 0
+.names FPGA_AND_7_0_1_.BLIF DIG_7_0_1_.OE
+1 1
+0 0
+.names DIG_7_0_2_.PIN.BLIF OUT_7_0_2_
+1 1
+0 0
+.names IN_7_0_2_.BLIF DIG_7_0_2_
+1 1
+0 0
+.names FPGA_AND_7_0_2_.BLIF DIG_7_0_2_.OE
+1 1
+0 0
+.names DIG_7_0_3_.PIN.BLIF OUT_7_0_3_
+1 1
+0 0
+.names IN_7_0_3_.BLIF DIG_7_0_3_
+1 1
+0 0
+.names FPGA_AND_7_0_3_.BLIF DIG_7_0_3_.OE
+1 1
+0 0
+.names DIG_7_0_4_.PIN.BLIF OUT_7_0_4_
+1 1
+0 0
+.names IN_7_0_4_.BLIF DIG_7_0_4_
+1 1
+0 0
+.names FPGA_AND_7_0_4_.BLIF DIG_7_0_4_.OE
+1 1
+0 0
+.names DIG_7_0_5_.PIN.BLIF OUT_7_0_5_
+1 1
+0 0
+.names IN_7_0_5_.BLIF DIG_7_0_5_
+1 1
+0 0
+.names FPGA_AND_7_0_5_.BLIF DIG_7_0_5_.OE
+1 1
+0 0
+.names DIG_7_0_6_.PIN.BLIF OUT_7_0_6_
+1 1
+0 0
+.names IN_7_0_6_.BLIF DIG_7_0_6_
+1 1
+0 0
+.names FPGA_AND_7_0_6_.BLIF DIG_7_0_6_.OE
+1 1
+0 0
+.names DIG_7_0_7_.PIN.BLIF OUT_7_0_7_
+1 1
+0 0
+.names IN_7_0_7_.BLIF DIG_7_0_7_
+1 1
+0 0
+.names FPGA_AND_7_0_7_.BLIF DIG_7_0_7_.OE
+1 1
+0 0
+.names DIG_29_24_0_.PIN.BLIF OUT_29_24_0_
+1 1
+0 0
+.names IN_29_24_0_.BLIF DIG_29_24_0_
+1 1
+0 0
+.names FPGA_AND_29_24_0_.BLIF DIG_29_24_0_.OE
+1 1
+0 0
+.names DIG_29_24_1_.PIN.BLIF OUT_29_24_1_
+1 1
+0 0
+.names IN_29_24_1_.BLIF DIG_29_24_1_
+1 1
+0 0
+.names FPGA_AND_29_24_1_.BLIF DIG_29_24_1_.OE
+1 1
+0 0
+.names DIG_29_24_2_.PIN.BLIF OUT_29_24_2_
+1 1
+0 0
+.names IN_29_24_2_.BLIF DIG_29_24_2_
+1 1
+0 0
+.names FPGA_AND_29_24_2_.BLIF DIG_29_24_2_.OE
+1 1
+0 0
+.names DIG_29_24_3_.PIN.BLIF OUT_29_24_3_
+1 1
+0 0
+.names IN_29_24_3_.BLIF DIG_29_24_3_
+1 1
+0 0
+.names FPGA_AND_29_24_3_.BLIF DIG_29_24_3_.OE
+1 1
+0 0
+.names DIG_29_24_4_.PIN.BLIF OUT_29_24_4_
+1 1
+0 0
+.names IN_29_24_4_.BLIF DIG_29_24_4_
+1 1
+0 0
+.names FPGA_AND_29_24_4_.BLIF DIG_29_24_4_.OE
+1 1
+0 0
+.names DIG_29_24_5_.PIN.BLIF OUT_29_24_5_
+1 1
+0 0
+.names IN_29_24_5_.BLIF DIG_29_24_5_
+1 1
+0 0
+.names FPGA_AND_29_24_5_.BLIF DIG_29_24_5_.OE
+1 1
+0 0
+.names DIG_IO_15_8_0_.PIN.BLIF IN_15_8_0_
+1 1
+0 0
+.names OUT_15_8_0_.BLIF DIG_IO_15_8_0_
+1 1
+0 0
+.names ADPT_AND_15_8_0_.BLIF DIG_IO_15_8_0_.OE
+1 1
+0 0
+.names DIG_IO_15_8_1_.PIN.BLIF IN_15_8_1_
+1 1
+0 0
+.names OUT_15_8_1_.BLIF DIG_IO_15_8_1_
+1 1
+0 0
+.names ADPT_AND_15_8_1_.BLIF DIG_IO_15_8_1_.OE
+1 1
+0 0
+.names DIG_IO_15_8_2_.PIN.BLIF IN_15_8_2_
+1 1
+0 0
+.names OUT_15_8_2_.BLIF DIG_IO_15_8_2_
+1 1
+0 0
+.names ADPT_AND_15_8_2_.BLIF DIG_IO_15_8_2_.OE
+1 1
+0 0
+.names DIG_IO_15_8_3_.PIN.BLIF IN_15_8_3_
+1 1
+0 0
+.names OUT_15_8_3_.BLIF DIG_IO_15_8_3_
+1 1
+0 0
+.names ADPT_AND_15_8_3_.BLIF DIG_IO_15_8_3_.OE
+1 1
+0 0
+.names DIG_IO_15_8_4_.PIN.BLIF IN_15_8_4_
+1 1
+0 0
+.names OUT_15_8_4_.BLIF DIG_IO_15_8_4_
+1 1
+0 0
+.names ADPT_AND_15_8_4_.BLIF DIG_IO_15_8_4_.OE
+1 1
+0 0
+.names DIG_IO_15_8_5_.PIN.BLIF IN_15_8_5_
+1 1
+0 0
+.names OUT_15_8_5_.BLIF DIG_IO_15_8_5_
+1 1
+0 0
+.names ADPT_AND_15_8_5_.BLIF DIG_IO_15_8_5_.OE
+1 1
+0 0
+.names DIG_IO_15_8_6_.PIN.BLIF IN_15_8_6_
+1 1
+0 0
+.names OUT_15_8_6_.BLIF DIG_IO_15_8_6_
+1 1
+0 0
+.names ADPT_AND_15_8_6_.BLIF DIG_IO_15_8_6_.OE
+1 1
+0 0
+.names DIG_IO_15_8_7_.PIN.BLIF IN_15_8_7_
+1 1
+0 0
+.names OUT_15_8_7_.BLIF DIG_IO_15_8_7_
+1 1
+0 0
+.names ADPT_AND_15_8_7_.BLIF DIG_IO_15_8_7_.OE
+1 1
+0 0
+.names DIG_IO_23_16_0_.PIN.BLIF IN_23_16_0_
+1 1
+0 0
+.names OUT_23_16_0_.BLIF DIG_IO_23_16_0_
+1 1
+0 0
+.names ADPT_AND_23_16_0_.BLIF DIG_IO_23_16_0_.OE
+1 1
+0 0
+.names DIG_IO_23_16_1_.PIN.BLIF IN_23_16_1_
+1 1
+0 0
+.names OUT_23_16_1_.BLIF DIG_IO_23_16_1_
+1 1
+0 0
+.names ADPT_AND_23_16_1_.BLIF DIG_IO_23_16_1_.OE
+1 1
+0 0
+.names DIG_IO_23_16_2_.PIN.BLIF IN_23_16_2_
+1 1
+0 0
+.names OUT_23_16_2_.BLIF DIG_IO_23_16_2_
+1 1
+0 0
+.names ADPT_AND_23_16_2_.BLIF DIG_IO_23_16_2_.OE
+1 1
+0 0
+.names DIG_IO_23_16_3_.PIN.BLIF IN_23_16_3_
+1 1
+0 0
+.names OUT_23_16_3_.BLIF DIG_IO_23_16_3_
+1 1
+0 0
+.names ADPT_AND_23_16_3_.BLIF DIG_IO_23_16_3_.OE
+1 1
+0 0
+.names DIG_IO_23_16_4_.PIN.BLIF IN_23_16_4_
+1 1
+0 0
+.names OUT_23_16_4_.BLIF DIG_IO_23_16_4_
+1 1
+0 0
+.names ADPT_AND_23_16_4_.BLIF DIG_IO_23_16_4_.OE
+1 1
+0 0
+.names DIG_IO_23_16_5_.PIN.BLIF IN_23_16_5_
+1 1
+0 0
+.names OUT_23_16_5_.BLIF DIG_IO_23_16_5_
+1 1
+0 0
+.names ADPT_AND_23_16_5_.BLIF DIG_IO_23_16_5_.OE
+1 1
+0 0
+.names DIG_IO_23_16_6_.PIN.BLIF IN_23_16_6_
+1 1
+0 0
+.names OUT_23_16_6_.BLIF DIG_IO_23_16_6_
+1 1
+0 0
+.names ADPT_AND_23_16_6_.BLIF DIG_IO_23_16_6_.OE
+1 1
+0 0
+.names DIG_IO_23_16_7_.PIN.BLIF IN_23_16_7_
+1 1
+0 0
+.names OUT_23_16_7_.BLIF DIG_IO_23_16_7_
+1 1
+0 0
+.names ADPT_AND_23_16_7_.BLIF DIG_IO_23_16_7_.OE
+1 1
+0 0
+.names DIG_IO_29_24_0_.PIN.BLIF IN_29_24_0_
+1 1
+0 0
+.names OUT_29_24_0_.BLIF DIG_IO_29_24_0_
+1 1
+0 0
+.names ADPT_AND_29_24_0_.BLIF DIG_IO_29_24_0_.OE
+1 1
+0 0
+.names DIG_IO_29_24_1_.PIN.BLIF IN_29_24_1_
+1 1
+0 0
+.names OUT_29_24_1_.BLIF DIG_IO_29_24_1_
+1 1
+0 0
+.names ADPT_AND_29_24_1_.BLIF DIG_IO_29_24_1_.OE
+1 1
+0 0
+.names DIG_IO_29_24_2_.PIN.BLIF IN_29_24_2_
+1 1
+0 0
+.names OUT_29_24_2_.BLIF DIG_IO_29_24_2_
+1 1
+0 0
+.names ADPT_AND_29_24_2_.BLIF DIG_IO_29_24_2_.OE
+1 1
+0 0
+.names DIG_IO_29_24_3_.PIN.BLIF IN_29_24_3_
+1 1
+0 0
+.names OUT_29_24_3_.BLIF DIG_IO_29_24_3_
+1 1
+0 0
+.names ADPT_AND_29_24_3_.BLIF DIG_IO_29_24_3_.OE
+1 1
+0 0
+.names DIG_IO_29_24_4_.PIN.BLIF IN_29_24_4_
+1 1
+0 0
+.names OUT_29_24_4_.BLIF DIG_IO_29_24_4_
+1 1
+0 0
+.names ADPT_AND_29_24_4_.BLIF DIG_IO_29_24_4_.OE
+1 1
+0 0
+.names DIG_IO_29_24_5_.PIN.BLIF IN_29_24_5_
+1 1
+0 0
+.names OUT_29_24_5_.BLIF DIG_IO_29_24_5_
+1 1
+0 0
+.names ADPT_AND_29_24_5_.BLIF DIG_IO_29_24_5_.OE
+1 1
+0 0
+.names DIG_IO_7_0_0_.PIN.BLIF IN_7_0_0_
+1 1
+0 0
+.names OUT_7_0_0_.BLIF DIG_IO_7_0_0_
+1 1
+0 0
+.names ADPT_AND_7_0_0_.BLIF DIG_IO_7_0_0_.OE
+1 1
+0 0
+.names DIG_IO_7_0_1_.PIN.BLIF IN_7_0_1_
+1 1
+0 0
+.names OUT_7_0_1_.BLIF DIG_IO_7_0_1_
+1 1
+0 0
+.names ADPT_AND_7_0_1_.BLIF DIG_IO_7_0_1_.OE
+1 1
+0 0
+.names DIG_IO_7_0_2_.PIN.BLIF IN_7_0_2_
+1 1
+0 0
+.names OUT_7_0_2_.BLIF DIG_IO_7_0_2_
+1 1
+0 0
+.names ADPT_AND_7_0_2_.BLIF DIG_IO_7_0_2_.OE
+1 1
+0 0
+.names DIG_IO_7_0_3_.PIN.BLIF IN_7_0_3_
+1 1
+0 0
+.names OUT_7_0_3_.BLIF DIG_IO_7_0_3_
+1 1
+0 0
+.names ADPT_AND_7_0_3_.BLIF DIG_IO_7_0_3_.OE
+1 1
+0 0
+.names DIG_IO_7_0_4_.PIN.BLIF IN_7_0_4_
+1 1
+0 0
+.names OUT_7_0_4_.BLIF DIG_IO_7_0_4_
+1 1
+0 0
+.names ADPT_AND_7_0_4_.BLIF DIG_IO_7_0_4_.OE
+1 1
+0 0
+.names DIG_IO_7_0_5_.PIN.BLIF IN_7_0_5_
+1 1
+0 0
+.names OUT_7_0_5_.BLIF DIG_IO_7_0_5_
+1 1
+0 0
+.names ADPT_AND_7_0_5_.BLIF DIG_IO_7_0_5_.OE
+1 1
+0 0
+.names DIG_IO_7_0_6_.PIN.BLIF IN_7_0_6_
+1 1
+0 0
+.names OUT_7_0_6_.BLIF DIG_IO_7_0_6_
+1 1
+0 0
+.names ADPT_AND_7_0_6_.BLIF DIG_IO_7_0_6_.OE
+1 1
+0 0
+.names DIG_IO_7_0_7_.PIN.BLIF IN_7_0_7_
+1 1
+0 0
+.names OUT_7_0_7_.BLIF DIG_IO_7_0_7_
+1 1
+0 0
+.names ADPT_AND_7_0_7_.BLIF DIG_IO_7_0_7_.OE
+1 1
+0 0
+.end

@@ -1,0 +1,2 @@
+@E: CD605 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\slicer862.vhd":6:7:6:15|Top level entity slicer862 has no ports 
+

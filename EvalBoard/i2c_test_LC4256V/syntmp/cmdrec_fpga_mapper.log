@@ -1,0 +1,9 @@
+C:\ispLEVER_Classic2_1\synpbase\bin64\m_cpld.exe  -prodtype  synplify_pro  -encrypt  -pro  -rundir  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v  -part LC4064B  -package T44C  -grade -2.5   -ispmach4s -RWCheckOnRam 1 -areadelay 0 -minc -auto_constrain_io -summaryfile C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\synlog\report\sourceNull_fpga_mapper.xml -top_level_module  sourceNull  -multisrs  -ta_num_paths 3  -ta_num_points 0  -oedif  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\sourceNull.edi  -freq 200.000  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\synwork\sourceNull_mult.srs  -ologparam  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\syntmp\sourceNull.plg  -osyn  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\sourceNull.srm  -prjdir  c:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\  -prjname  sourceNull  -log  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\synlog\sourceNull_fpga_mapper.srr 
+rc:0 success:1
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\sourceNull.edi|o|1641400336|2370
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\synwork\sourceNull_mult.srs|i|1641400335|1634
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\syntmp\sourceNull.plg|o|1641400336|0
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\sourceNull.srm|o|1641400336|2731
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\synlog\sourceNull_fpga_mapper.srr|o|1641400336|994
+C:\ispLEVER_Classic2_1\synpbase\bin\m_cpld.exe|i|1399362084|7067648
+C:\ispLEVER_Classic2_1\synpbase\bin64\m_cpld.exe|i|1399364922|8049664

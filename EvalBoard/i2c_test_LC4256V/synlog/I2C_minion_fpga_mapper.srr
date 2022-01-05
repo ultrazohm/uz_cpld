@@ -1,0 +1,40 @@
+Synopsys CPLD Technology Mapper, Version maplat, Build 923R, Built May  6 2014
+Copyright (C) 1994-2013, Synopsys, Inc. This software and the associated documentation are proprietary to Synopsys, Inc. This software may only be used in accordance with the terms and conditions of a written license agreement with Synopsys, Inc.  All other use or distribution of the software is strictly prohibited.
+Product Version I-2014.03LC 
+@N: MF248 |Running in 64-bit mode.
+@N:"c:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\i2c_minion.vhd":177:4:177:5|Found counter in view:work.I2C_minion(arch) inst bits_processed_reg[3:0]
+Encoding state machine state_reg[0:7] (view:work.I2C_minion(arch))
+original code -> new code
+   00000001 -> 00000000
+   00000010 -> 00000011
+   00000100 -> 00000101
+   00001000 -> 00001001
+   00010000 -> 00010001
+   00100000 -> 00100001
+   01000000 -> 01000001
+   10000000 -> 10000001
+---------------------------------------
+Resource Usage Report
+
+Simple gate primitives:
+DFF             20 uses
+DFFC            93 uses
+IBUF            11 uses
+BI_DIR          1 use
+OBUF            42 uses
+AND2            283 uses
+INV             188 uses
+XOR2            2 uses
+OR2             10 uses
+
+
+@N: FC100 |Timing Report not generated for this device, please use place and route tools for timing analysis.
+I-2014.03LC 
+Mapper successful!
+
+At Mapper Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 40MB peak: 107MB)
+
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Tue Jan 04 14:20:48 2022
+
+###########################################################]

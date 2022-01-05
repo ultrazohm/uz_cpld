@@ -1,0 +1,20 @@
+#$ DATE Wed Jan 05 17:32:21 2022
+#$ TOOL EDIF2BLIF version IspLever 1.0 
+#$ MODULE sourcenull
+#$ PINS 5 y1 y2 y3 y4 y5
+#$ NODES 1 gnd_n_n 
+.model sourcenull
+.inputs gnd_n_n.BLIF  
+.outputs y1 y2 y3 y4 y5 gnd_n_n
+.names  gnd_n_n.BLIF y1
+1 1
+.names  gnd_n_n.BLIF y2
+1 1
+.names  gnd_n_n.BLIF y3
+1 1
+.names  gnd_n_n.BLIF y4
+1 1
+.names  gnd_n_n.BLIF y5
+1 1
+.names  gnd_n_n
+.end

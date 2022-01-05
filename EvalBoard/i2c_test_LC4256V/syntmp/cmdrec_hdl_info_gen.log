@@ -1,0 +1,7 @@
+C:\ispLEVER_Classic2_1\synpbase\bin64\c_vhdl.exe  -osyn  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\synwork\sourceNull_hdl_.srs  -top  sourceNull  -prodtype  synplify_pro  -nostructver -encrypt  -pro  -dmgen  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\dm  -lite -compiler_compatible -ui -fid2 -ram -sharing on -ll 2000 -autosm -ignore_undefined_lib  -lib work C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\sourcenull.vhd -loga  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\syntax.log  -fileorder  C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\syntmp\hdlorder.tcl 
+rc:0 success:1
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\synwork\sourceNull_hdl_.srs|o|0|0
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\sourcenull.vhd|i|1641400320|397
+C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\syntax.log|o|1641400334|1137
+C:\ispLEVER_Classic2_1\synpbase\bin\c_vhdl.exe|i|1401220298|2046976
+C:\ispLEVER_Classic2_1\synpbase\bin64\c_vhdl.exe|i|1401220504|5533184

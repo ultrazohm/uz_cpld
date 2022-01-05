@@ -1,0 +1,39 @@
+#Build: Synplify Pro I-2014.03LC , Build 063R, May 27 2014
+#install: C:\ispLEVER_Classic2_1\synpbase
+#OS: Windows 7 6.2
+#Hostname: ELN176252
+
+#Implementation: i2c_test_lc4256v
+
+$ Start of Compile
+#Wed Jan 05 17:12:24 2022
+
+Synopsys VHDL Compiler, version comp201403rcp1, Build 060R, built May 27 2014
+@N|Running in 64-bit mode
+Copyright (C) 1994-2014 Synopsys, Inc. This software and the associated documentation are proprietary to Synopsys, Inc. This software may only be used in accordance with the terms and conditions of a written license agreement with Synopsys, Inc.  All other use, reproduction, or distribution of this software is strictly prohibited.
+
+@N: CD720 :"C:\ispLEVER_Classic2_1\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\slicer862.vhd":6:7:6:15|Top entity is set to slicer862.
+File C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\slicer862.vhd changed - recompiling
+VHDL syntax check successful!
+File C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\slicer862.vhd changed - recompiling
+@N: CD630 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\slicer862.vhd":6:7:6:15|Synthesizing work.slicer862.behavioral 
+Post processing for work.slicer862.behavioral
+@END
+
+At c_vhdl Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 68MB peak: 69MB)
+
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jan 05 17:12:24 2022
+
+###########################################################]
+Synopsys Netlist Linker, version comp201403rcp1, Build 060R, built May 27 2014
+@N|Running in 64-bit mode
+File C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_lc4256v\synwork\slicer862_comp.srs changed - recompiling
+
+At syn_nfilter Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 67MB peak: 68MB)
+
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+# Wed Jan 05 17:12:25 2022
+
+###########################################################]

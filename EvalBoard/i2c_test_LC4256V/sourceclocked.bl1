@@ -1,0 +1,50 @@
+#$ TOOL ispLEVER Classic 2.1.00.02.49.20
+#$ DATE Tue Jan 04 13:48:04 2022
+#$ MODULE sourceclocked
+#$ PINS 9 clk y0 y1 y2 y3 y4 y5 y6 y7
+#$ NODES 4 vcc_n_n temp_y_2_reg clk_c temp_y_0_reg
+.model sourceclocked
+.inputs clk.BLIF vcc_n_n.BLIF temp_y_2_reg.BLIF clk_c.BLIF temp_y_0_reg.BLIF
+.outputs y0 y1 y2 y3 y4 y5 y6 y7 temp_y_0_reg.D temp_y_0_reg.C temp_y_2_reg.D \
+temp_y_2_reg.C vcc_n_n clk_c
+.names temp_y_2_reg.BLIF temp_y_2_reg.D
+0 1
+.names vcc_n_n
+ 1
+.names temp_y_0_reg.BLIF y0
+1 1
+0 0
+.names temp_y_0_reg.BLIF y1
+1 1
+0 0
+.names temp_y_2_reg.BLIF y2
+1 1
+0 0
+.names temp_y_2_reg.BLIF y3
+1 1
+0 0
+.names temp_y_2_reg.BLIF y4
+1 1
+0 0
+.names temp_y_2_reg.BLIF y5
+1 1
+0 0
+.names temp_y_0_reg.BLIF y6
+1 1
+0 0
+.names vcc_n_n.BLIF y7
+1 1
+0 0
+.names temp_y_2_reg.BLIF temp_y_0_reg.D
+1 1
+0 0
+.names clk_c.BLIF temp_y_0_reg.C
+1 1
+0 0
+.names clk_c.BLIF temp_y_2_reg.C
+1 1
+0 0
+.names clk.BLIF clk_c
+1 1
+0 0
+.end

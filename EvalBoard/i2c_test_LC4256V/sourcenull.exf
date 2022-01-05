@@ -1,0 +1,14 @@
+Section Cross Reference File
+Design 'sourceNull' created Wed Jan 05 17:32:21 2022
+   Type              New Name                               Original Name
+// ----------------------------------------------------------------------
+   Net                 gnd_n_n                                       GND
+End
+Section Type      Name
+// ----------------------------------------------------------------------
+        Output     y1
+        Output     y2
+        Output     y3
+        Output     y4
+        Output     y5
+End

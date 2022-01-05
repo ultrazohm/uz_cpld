@@ -1,0 +1,429 @@
+[DEVICE]
+Family = lc4k;
+PartType = LC4256V;
+Package = 100TQFP;
+PartNumber = LC4256V-75T100C;
+Speed = -7.5;
+Operating_condition = COM;
+EN_Segment = Yes;
+Pin_MC_1to1 = No;
+Default_Device_Io_Types=LVCMOS18,-;
+Voltage = 3.3;
+
+[REVISION]
+RCS = "$Header $";
+Parent = lc4k256v.lci;
+Design = ;
+DATE = 01/05/2022;
+TIME = 17:24:14;
+Source_Format = Schematic_VHDL;
+Type = ;
+Pre_Fit_Time = ;
+
+[IGNORE ASSIGNMENTS]
+Pin_Assignments = No;
+Pin_Keep_Block = No;
+Pin_Keep_Segment = No;
+Group_Assignments = No;
+Macrocell_Assignments = No;
+Macrocell_Keep_Block = No;
+Macrocell_Keep_Segment = No;
+Pin_Reservation = No;
+Block_Reservation = No;
+Segment_Reservation = No;
+Timing_Constraints = No;
+IO_Types = No;
+
+[CLEAR ASSIGNMENTS]
+Pin_Assignments = No;
+Pin_Keep_Block = No;
+Pin_Keep_Segment = No;
+Group_Assignments = No;
+Macrocell_Assignments = No;
+Macrocell_Keep_Block = No;
+Macrocell_Keep_Segment = No;
+Pin_Reservation = No;
+Block_Reservation = No;
+Segment_Reservation = No;
+Timing_Constraints = No;
+IO_Types = No;
+
+[BACKANNOTATE ASSIGNMENTS]
+Pin_Assignment = No;
+Pin_Block = No;
+Pin_Macrocell_Block = No;
+Routing = No;
+Io_Types = No;
+
+[GLOBAL CONSTRAINTS]
+Max_Fanin = 24;
+Max_PTerm_Split = 80;
+Max_PTerm_Collapse = 16;
+Max_Pin_Percent = 100;
+Max_Macrocell_Percent = 100;
+Max_GLB_Input_Percent = 100;
+Logic_Reduction = Yes;
+XOR_Synthesis = Yes;
+Keep_XOR = No;
+DT_Synthesis = Yes;
+Node_Collapse = Yes;
+Nodes_collapsing_mode = FMAX;
+Fmax_Logic_Level = 1;
+Use_CE = Yes;
+Use_Internal_COM_FB = Yes;
+Set_Reset_Swap = No;
+Clock_Optimize = No;
+EN_Set_Reset_Dont_Care = No;
+TOE_AS_IO = No;
+Set_Reset_Dont_Care = No;
+EN_In_Reg_Optimize = No;
+In_Reg_Optimize = Yes;
+Run_Time = 0;
+Routing_Attempts = 2;
+Balanced_Partitioning = Yes;
+Spread_Placement = Yes;
+Usercode = ;
+Usercode_Format = HEX;
+Vcc = ;
+Dual_Function_Macrocell = 1;
+Global_PTOE = Yes;
+Hard_Fast_Bypass = No;
+Fitter_Effort_Level = LOW;
+Auto_buffering_for_high_glb_fanin = Off;
+Auto_buffering_for_low_bonded_io = Off;
+User_max_glb_fanin = 36;
+Adjust_input_assignments = Off;
+
+[LOCATION ASSIGNMENTS]
+// Block A
+DIG_29_24_0_=pin,91,-,A,2;
+DIG_29_24_1_=pin,92,-,A,6;
+DIG_29_24_2_=pin,93,-,A,0;
+DIG_29_24_3_=pin,94,-,A,1;
+I0_data_0_6_reg=node,-,-,A,8;
+I0_data_1_6_reg=node,-,-,A,9;
+I0_data_2_6_reg=node,-,-,A,10;
+I0_data_3_6_reg=node,-,-,A,11;
+I0_bits_processed_reg_0_=node,-,-,A,5;
+I0_bits_processed_reg_2_=node,-,-,A,7;
+I0_target_reg_6_=node,-,-,A,12;
+I0_read_reg_6_=node,-,-,A,13;
+I0_state_reg_4_=node,-,-,A,3;
+I0_inst_sda_wen_reg=node,-,-,A,14;
+I0_state_reg_3_=node,-,-,A,4;
+// Block B
+scl=pin,99,-,B,10;
+DIG_29_24_4_=pin,97,-,B,2;
+DIG_29_24_5_=pin,98,-,B,6;
+sda=pin,100,-,B,1;
+I0_data_0_5_reg=node,-,-,B,12;
+I0_data_0_7_reg=node,-,-,B,13;
+I0_data_1_5_reg=node,-,-,B,0;
+I0_data_1_7_reg=node,-,-,B,3;
+I0_data_2_7_reg=node,-,-,B,4;
+I0_data_3_5_reg=node,-,-,B,5;
+I0_data_3_7_reg=node,-,-,B,7;
+I0_target_reg_5_=node,-,-,B,8;
+I0_target_reg_7_=node,-,-,B,9;
+I0_read_reg_5_=node,-,-,B,10;
+I0_read_reg_7_=node,-,-,B,11;
+// Block C
+DIG_7_0_0_=pin,3,-,C,1;
+DIG_7_0_1_=pin,4,-,C,0;
+DIG_7_0_2_=pin,5,-,C,6;
+DIG_7_0_3_=pin,6,-,C,2;
+I0_data_0_2_reg=node,-,-,C,5;
+I0_data_1_2_reg=node,-,-,C,7;
+I0_data_2_2_reg=node,-,-,C,8;
+I0_data_3_2_reg=node,-,-,C,9;
+I0_bits_processed_reg_1_=node,-,-,C,12;
+I0_bits_processed_reg_3_=node,-,-,C,3;
+I0_target_reg_2_=node,-,-,C,10;
+I0_read_reg_2_=node,-,-,C,11;
+I0_state_reg_2_=node,-,-,C,13;
+I0_state_reg_1_=node,-,-,C,4;
+// Block D
+DIG_7_0_4_=pin,8,-,D,1;
+DIG_7_0_5_=pin,9,-,D,0;
+DIG_7_0_6_=pin,10,-,D,6;
+DIG_7_0_7_=pin,11,-,D,4;
+I0_data_0_3_reg=node,-,-,D,3;
+I0_data_1_3_reg=node,-,-,D,7;
+I0_data_2_3_reg=node,-,-,D,12;
+I0_data_2_5_reg=node,-,-,D,13;
+I0_data_3_3_reg=node,-,-,D,8;
+I0_inst_reg_or_data_receive=node,-,-,D,9;
+I0_target_reg_3_=node,-,-,D,10;
+I0_read_reg_3_=node,-,-,D,11;
+I0_state_reg_6_=node,-,-,D,5;
+I0_bits_processed_reg_0__0=node,-,-,D,2;
+// Block E
+DIG_15_8_0_=pin,14,-,E,5;
+DIG_15_8_1_=pin,15,-,E,7;
+DIG_15_8_2_=pin,16,-,E,0;
+DIG_15_8_3_=pin,17,-,E,1;
+I0_inst_sda_pre_internal=node,-,-,E,9;
+I0_inst_scl_pre_internal=node,-,-,E,12;
+I0_data_to_master_reg_3_=node,-,-,E,2;
+I0_data_to_master_reg_4_=node,-,-,E,3;
+// Block F
+DIG_15_8_4_=pin,19,-,F,2;
+DIG_15_8_5_=pin,20,-,F,6;
+DIG_15_8_6_=pin,21,-,F,0;
+DIG_15_8_7_=pin,22,-,F,1;
+I0_data_reg_1_=node,-,-,F,5;
+I0_data_reg_2_=node,-,-,F,3;
+I0_data_reg_3_=node,-,-,F,7;
+I0_data_reg_6_=node,-,-,F,4;
+I0_data_from_master_reg_0_=node,-,-,F,8;
+I0_data_from_master_reg_2_=node,-,-,F,9;
+I0_data_from_master_reg_3_=node,-,-,F,10;
+I0_data_from_master_reg_4_=node,-,-,F,11;
+I0_data_from_master_reg_7_=node,-,-,F,13;
+// Block G
+DIG_23_16_0_=pin,28,-,G,13;
+DIG_23_16_1_=pin,29,-,G,1;
+DIG_23_16_2_=pin,30,-,G,7;
+DIG_23_16_3_=pin,31,-,G,3;
+I0_data_to_master_reg_1_=node,-,-,G,5;
+// Block H
+DIG_23_16_4_=pin,34,-,H,12;
+DIG_23_16_5_=pin,35,-,H,1;
+DIG_23_16_6_=pin,36,-,H,7;
+DIG_23_16_7_=pin,37,-,H,3;
+I0_data_to_master_reg_6_=node,-,-,H,5;
+I0_data_to_master_reg_7_=node,-,-,H,9;
+// Block I
+DIG_IO_15_8_0_=pin,41,-,I,3;
+DIG_IO_15_8_2_=pin,42,-,I,7;
+DIG_IO_15_8_4_=pin,43,-,I,1;
+DIG_IO_15_8_6_=pin,44,-,I,12;
+I0_data_to_master_reg_0_=node,-,-,I,5;
+I0_data_to_master_reg_5_=node,-,-,I,9;
+// Block J
+DIG_IO_7_0_0_=pin,50,-,J,13;
+DIG_IO_7_0_2_=pin,49,-,J,1;
+DIG_IO_7_0_4_=pin,48,-,J,7;
+DIG_IO_7_0_6_=pin,47,-,J,3;
+I0_data_to_master_reg_2_=node,-,-,J,5;
+// Block K
+DIG_IO_7_0_1_=pin,53,-,K,13;
+DIG_IO_7_0_3_=pin,54,-,K,1;
+DIG_IO_7_0_5_=pin,55,-,K,7;
+DIG_IO_7_0_7_=pin,56,-,K,3;
+I0_data_reg_0_=node,-,-,K,5;
+// Block L
+DIG_IO_15_8_1_=pin,58,-,L,1;
+DIG_IO_15_8_3_=pin,59,-,L,0;
+DIG_IO_15_8_5_=pin,60,-,L,6;
+DIG_IO_15_8_7_=pin,61,-,L,4;
+I0_inst_sda_prev_reg=node,-,-,L,5;
+I0_data_reg_4_=node,-,-,L,2;
+I0_data_reg_5_=node,-,-,L,3;
+I0_data_from_master_reg_1_=node,-,-,L,7;
+I0_data_from_master_reg_5_=node,-,-,L,9;
+I0_data_from_master_reg_6_=node,-,-,L,12;
+// Block M
+DIG_IO_23_16_1_=pin,64,-,M,4;
+DIG_IO_23_16_3_=pin,65,-,M,6;
+DIG_IO_23_16_5_=pin,66,-,M,0;
+DIG_IO_23_16_7_=pin,67,-,M,1;
+I0_data_0_4_reg=node,-,-,M,7;
+I0_data_1_4_reg=node,-,-,M,8;
+I0_data_2_4_reg=node,-,-,M,9;
+I0_data_3_4_reg=node,-,-,M,10;
+I0_addr_reg_1_=node,-,-,M,2;
+I0_target_reg_4_=node,-,-,M,11;
+I0_read_reg_4_=node,-,-,M,13;
+I0_addr_reg_0_=node,-,-,M,3;
+I0_addr_reg_3_=node,-,-,M,5;
+// Block N
+DIG_IO_29_24_1_=pin,72,-,N,1;
+DIG_IO_29_24_3_=pin,71,-,N,0;
+DIG_IO_29_24_5_=pin,70,-,N,6;
+CPLD_DIGOut_01=pin,69,-,N,2;
+I0_data_0_0_reg=node,-,-,N,5;
+I0_data_1_0_reg=node,-,-,N,7;
+I0_data_2_0_reg=node,-,-,N,8;
+I0_data_3_0_reg=node,-,-,N,9;
+I0_addr_reg_5_=node,-,-,N,3;
+I0_target_reg_0_=node,-,-,N,10;
+I0_read_reg_0_=node,-,-,N,11;
+I0_addr_reg_4_=node,-,-,N,4;
+I0_data_from_master_reg_0__0=node,-,-,N,13;
+// Block O
+DIG_IO_29_24_0_=pin,81,-,O,2;
+DIG_IO_29_24_2_=pin,80,-,O,6;
+DIG_IO_29_24_4_=pin,79,-,O,0;
+CPLD_DigOut_02=pin,78,-,O,1;
+I0_data_0_1_reg=node,-,-,O,7;
+I0_data_1_1_reg=node,-,-,O,8;
+I0_data_2_1_reg=node,-,-,O,9;
+I0_data_3_1_reg=node,-,-,O,10;
+I0_addr_reg_6_=node,-,-,O,3;
+I0_target_reg_1_=node,-,-,O,11;
+I0_read_reg_1_=node,-,-,O,13;
+I0_addr_reg_2_=node,-,-,O,4;
+I0_addr_reg_1__0=node,-,-,O,5;
+// Block P
+DIG_IO_23_16_0_=pin,84,-,P,1;
+DIG_IO_23_16_2_=pin,85,-,P,0;
+DIG_IO_23_16_4_=pin,86,-,P,6;
+DIG_IO_23_16_6_=pin,87,-,P,2;
+I0_inst_scl_prev_reg=node,-,-,P,8;
+I0_inst_stop_reg=node,-,-,P,9;
+I0_inst_scl_rising_reg=node,-,-,P,10;
+I0_inst_continue_reg=node,-,-,P,11;
+I0_inst_scl_falling_reg=node,-,-,P,12;
+I0_inst_start_reg=node,-,-,P,13;
+I0_inst_cmd_reg=node,-,-,P,7;
+I0_state_reg_5_=node,-,-,P,3;
+I0_N_22_0=node,-,-,P,4;
+I0_data_reg_0__0=node,-,-,P,5;
+// Input/Clock Pins
+clk2=pin,39,-,-,-;
+
+// Input Pins
+CPLD_DigIn_01=pin,62,-,-,-;
+CPLD_DigIn_02=pin,73,-,-,-;
+PILOT_IN=pin,77,-,-,-;
+
+[PTOE ASSIGNMENTS]
+
+[FAST BYPASS]
+Default=NONE;
+BYPASS=;
+
+[ORP BYPASS]
+default=NONE;
+
+[INPUT REGISTERS]
+Default=NONE;
+;
+
+[IO TYPES]
+CPLD_DigIn_01=LVCMOS33,pin,-,-;
+CPLD_DigIn_02=LVCMOS33,pin,-,-;
+PILOT_IN=LVCMOS33,pin,-,-;
+clk2=LVCMOS33,pin,-,-;
+scl=LVCMOS18,pin,-,-;
+DIG_29_24_0_=LVCMOS18,pin,0,-;
+DIG_29_24_1_=LVCMOS18,pin,0,-;
+DIG_29_24_2_=LVCMOS18,pin,0,-;
+DIG_29_24_3_=LVCMOS18,pin,0,-;
+DIG_29_24_4_=LVCMOS18,pin,0,-;
+DIG_29_24_5_=LVCMOS18,pin,0,-;
+DIG_23_16_0_=LVCMOS18,pin,0,-;
+DIG_23_16_1_=LVCMOS18,pin,0,-;
+DIG_23_16_2_=LVCMOS18,pin,0,-;
+DIG_23_16_3_=LVCMOS18,pin,0,-;
+DIG_23_16_4_=LVCMOS18,pin,0,-;
+DIG_23_16_5_=LVCMOS18,pin,0,-;
+DIG_23_16_6_=LVCMOS18,pin,0,-;
+DIG_23_16_7_=LVCMOS18,pin,0,-;
+DIG_15_8_0_=LVCMOS18,pin,0,-;
+DIG_15_8_1_=LVCMOS18,pin,0,-;
+DIG_15_8_2_=LVCMOS18,pin,0,-;
+DIG_15_8_3_=LVCMOS18,pin,0,-;
+DIG_15_8_4_=LVCMOS18,pin,0,-;
+DIG_15_8_5_=LVCMOS18,pin,0,-;
+DIG_15_8_6_=LVCMOS18,pin,0,-;
+DIG_15_8_7_=LVCMOS18,pin,0,-;
+DIG_7_0_0_=LVCMOS18,pin,0,-;
+DIG_7_0_1_=LVCMOS18,pin,0,-;
+DIG_7_0_2_=LVCMOS18,pin,0,-;
+DIG_7_0_3_=LVCMOS18,pin,0,-;
+DIG_7_0_4_=LVCMOS18,pin,0,-;
+DIG_7_0_5_=LVCMOS18,pin,0,-;
+DIG_7_0_6_=LVCMOS18,pin,0,-;
+DIG_7_0_7_=LVCMOS18,pin,0,-;
+DIG_IO_29_24_0_=LVCMOS33,pin,1,-;
+DIG_IO_29_24_1_=LVCMOS33,pin,1,-;
+DIG_IO_29_24_2_=LVCMOS33,pin,1,-;
+DIG_IO_29_24_3_=LVCMOS33,pin,1,-;
+DIG_IO_29_24_4_=LVCMOS33,pin,1,-;
+DIG_IO_29_24_5_=LVCMOS33,pin,1,-;
+DIG_IO_23_16_0_=LVCMOS33,pin,1,-;
+DIG_IO_23_16_1_=LVCMOS33,pin,1,-;
+DIG_IO_23_16_2_=LVCMOS33,pin,1,-;
+DIG_IO_23_16_3_=LVCMOS33,pin,1,-;
+DIG_IO_23_16_4_=LVCMOS33,pin,1,-;
+DIG_IO_23_16_5_=LVCMOS33,pin,1,-;
+DIG_IO_23_16_6_=LVCMOS33,pin,1,-;
+DIG_IO_23_16_7_=LVCMOS33,pin,1,-;
+DIG_IO_7_0_0_=LVCMOS33,pin,1,-;
+DIG_IO_7_0_1_=LVCMOS33,pin,1,-;
+DIG_IO_7_0_2_=LVCMOS33,pin,1,-;
+DIG_IO_7_0_3_=LVCMOS33,pin,1,-;
+DIG_IO_7_0_4_=LVCMOS33,pin,1,-;
+DIG_IO_7_0_5_=LVCMOS33,pin,1,-;
+DIG_IO_7_0_6_=LVCMOS33,pin,1,-;
+DIG_IO_7_0_7_=LVCMOS33,pin,1,-;
+DIG_IO_15_8_0_=LVCMOS33,pin,1,-;
+DIG_IO_15_8_1_=LVCMOS33,pin,1,-;
+DIG_IO_15_8_2_=LVCMOS33,pin,1,-;
+DIG_IO_15_8_3_=LVCMOS33,pin,1,-;
+DIG_IO_15_8_4_=LVCMOS33,pin,1,-;
+DIG_IO_15_8_5_=LVCMOS33,pin,1,-;
+DIG_IO_15_8_6_=LVCMOS33,pin,1,-;
+DIG_IO_15_8_7_=LVCMOS33,pin,1,-;
+CPLD_DigOut_02=LVCMOS33,pin,1,-;
+CPLD_DIGOut_01=LVCMOS33,pin,1,-;
+sda=LVCMOS18_OD,pin,0,-;
+
+[PLL ASSIGNMENTS]
+
+[RESOURCE RESERVATIONS]
+layer=OFF;
+
+[SLEWRATE]
+Default=FAST;
+
+[PULLUP]
+Default=DOWN;
+
+[FITTER RESULTS]
+I/O_pin_util = 96;
+I/O_pin = 62;
+Logic_PT_util = 32;
+Logic_PT = 411;
+Occupied_MC_util = 67;
+Occupied_MC = 174;
+Occupied_PT_util = 38;
+Occupied_PT = 502;
+GLB_input_util = 73;
+GLB_input = 424;
+
+[TIMING CONSTRAINTS]
+layer=OFF;
+
+[FITTER REPORT FORMAT]
+Fitter_Options = Yes;
+Pinout_Diagram = No;
+Pinout_Listing = Yes;
+Detailed_Block_Segment_Summary = Yes;
+Input_Signal_List = Yes;
+Output_Signal_List = Yes;
+Bidir_Signal_List = Yes;
+Node_Signal_List = Yes;
+Signal_Fanout_List = Yes;
+Block_Segment_Fanin_List = Yes;
+Postfit_Eqn = Yes;
+Page_Break = Yes;
+Detailed = No;
+
+[POWER]
+Default=HIGH;
+
+[SOURCE_CONSTRAINT_OPTION]
+
+[HARDWARE DEVICE OPTIONS]
+Zero_Hold_Time = No;
+Signature_Word = ;
+Pullup = No;
+Slew_Rate = FAST;
+
+[TIMING ANALYZER]
+Last_source=;
+Last_source_type=Fmax;
+

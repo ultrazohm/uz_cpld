@@ -1,0 +1,78 @@
+Section Type   Array Num   Name                     Real Name          Base     Number     Increment
+// -------------------------------------------------------------------------------------------------
+      Port          1      data(7:0)                     data                  7          8            -1
+      Port          2      y0(5:0)                       y0                  5          6            -1
+End
+Section Member   Rename                   Array-Notation          Array Number     Index
+// -------------------------------------------------------------------------------------
+        Port      data_7_                     data[7]                       1            0            
+        Port      data_6_                     data[6]                       1            1            
+        Port      data_5_                     data[5]                       1            2            
+        Port      data_4_                     data[4]                       1            3            
+        Port      data_3_                     data[3]                       1            4            
+        Port      data_2_                     data[2]                       1            5            
+        Port      data_1_                     data[1]                       1            6            
+        Port      data_0_                     data[0]                       1            7            
+        Port      y0_5_                       y0[5]                       2            0            
+        Port      y0_4_                       y0[4]                       2            1            
+        Port      y0_3_                       y0[3]                       2            2            
+        Port      y0_2_                       y0[2]                       2            3            
+        Port      y0_1_                       y0[1]                       2            4            
+        Port      y0_0_                       y0[0]                       2            5            
+End
+Section Cross Reference File
+Design 'slicer862' created Wed Jan 05 17:12:30 2022
+   Type              New Name                               Original Name
+// ----------------------------------------------------------------------
+   Inst                data_0_                                   data[0]
+   Inst                data_1_                                   data[1]
+   Inst                data_2_                                   data[2]
+   Inst                data_3_                                   data[3]
+   Inst                data_4_                                   data[4]
+   Inst                data_5_                                   data[5]
+   Inst                data_6_                                   data[6]
+   Inst                data_7_                                   data[7]
+   Inst                  y0_0_                                     y0[0]
+   Inst                  y0_1_                                     y0[1]
+   Inst                  y0_2_                                     y0[2]
+   Inst                  y0_3_                                     y0[3]
+   Inst                  y0_4_                                     y0[4]
+   Inst                  y0_5_                                     y0[5]
+   Net               data_0__n                                   data[0]
+   Net               data_1__n                                   data[1]
+   Net               data_2__n                                   data[2]
+   Net               data_3__n                                   data[3]
+   Net               data_4__n                                   data[4]
+   Net               data_5__n                                   data[5]
+   Net               data_6__n                                   data[6]
+   Net               y0_c_0__n                                   y0_c[0]
+   Net                 y0_0__n                                     y0[0]
+   Net               y0_c_1__n                                   y0_c[1]
+   Net                 y0_1__n                                     y0[1]
+   Net               y0_c_2__n                                   y0_c[2]
+   Net                 y0_2__n                                     y0[2]
+   Net               y0_c_3__n                                   y0_c[3]
+   Net                 y0_3__n                                     y0[3]
+   Net               y0_c_4__n                                   y0_c[4]
+   Net                 y0_4__n                                     y0[4]
+   Net               y0_c_5__n                                   y0_c[5]
+End
+Section Type      Name
+// ----------------------------------------------------------------------
+        Input     data_7_
+        Input     data_6_
+        Input     data_5_
+        Input     data_4_
+        Input     data_3_
+        Input     data_2_
+        Input     data_1_
+        Input     data_0_
+        Output     y0_5_
+        Output     y6
+        Output     y7
+        Output     y0_4_
+        Output     y0_3_
+        Output     y0_2_
+        Output     y0_1_
+        Output     y0_0_
+End

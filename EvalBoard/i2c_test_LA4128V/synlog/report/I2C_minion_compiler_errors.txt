@@ -1,0 +1,4 @@
+@E: CD540 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.vhd":39:0:39:2|Expecting identifier:  Unbalanced parenthesis around port list?
+@E: CD632 :"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.vhd":39:21:39:21|duplicate entity name i2c_minion
+@E|Parse errors encountered - exiting
+

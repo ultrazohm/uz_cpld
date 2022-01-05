@@ -19,7 +19,7 @@
 				<BScanVal>0</BScanVal>
 			</Bypass>
 			<File>C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test\i2c_test.jed</File>
-			<FileTime>01/04/22 00:27:33</FileTime>
+			<FileTime>01/04/22 15:41:07</FileTime>
 			<JedecChecksum>0xC14D</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>

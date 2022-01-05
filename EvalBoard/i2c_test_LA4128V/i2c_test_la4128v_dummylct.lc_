@@ -14,8 +14,8 @@ Voltage = 3.3;
 RCS = "$Header $";
 Parent = lc4k128v.lci;
 Design = ;
-DATE = 01/04/2022;
-TIME = 14:06:28;
+DATE = 01/05/2022;
+TIME = 17:47:07;
 Source_Format = Schematic_VHDL;
 Type = ;
 Pre_Fit_Time = ;
@@ -124,12 +124,12 @@ Default=DOWN;
 [FITTER RESULTS]
 I/O_pin_util = 0;
 I/O_pin = 0;
-Logic_PT_util = 112;
-Logic_PT = 723;
+Logic_PT_util = 87;
+Logic_PT = 557;
 Occupied_MC_util = 0;
 Occupied_MC = 0;
-Occupied_PT_util = 109;
-Occupied_PT = 723;
+Occupied_PT_util = 84;
+Occupied_PT = 557;
 GLB_input_util = 0;
 GLB_input = 0;
 

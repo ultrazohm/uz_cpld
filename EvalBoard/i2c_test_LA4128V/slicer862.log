@@ -1,0 +1,13 @@
+Starting EDIF2BLIF....
+readEDIF ended normally.
+
+Inspect circuit slicer862
+    Number of input ports   : 1
+    Number of output ports  : 3
+    Number of bidir ports   : 0
+    Number of instances     : 18
+    Number of nets          : 26
+
+No design errors found in circuit slicer862
+
+WriteBLIF ended normally.

@@ -3,54 +3,55 @@ Running in Lattice mode
 
 Starting:    C:\ispLEVER_Classic2_1\synpbase\win64\mbin\synbatch.exe
 Install:     C:\ispLEVER_Classic2_1\synpbase
-Date:        Tue Jan 04 14:20:46 2022
+Date:        Wed Jan 05 17:42:58 2022
 Version:     I-2014.03LC 
 
-Arguments:   -product synplify_pro  -batch c:/git/ultrazohm/software/cpld_lattice/evalboard/i2c_test_la4128v\I2C_minion.prj
+Arguments:   -product synplify_pro  -batch c:/git/ultrazohm/software/cpld_lattice/evalboard/i2c_test_la4128v\slicer862.prj
 ProductType: synplify_pro
 
 
 
 
 
-log file: "C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.srr"
+log file: "C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\slicer862.srr"
 
 Generating HDL info...
 hdl_info_gen Completed
 Return Code: 0
 Run Time:0h:00m:00s
-log file: "C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.srr"
+log file: "C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\slicer862.srr"
 
-Running I2C_minion|i2c_test_la4128v
+Running slicer862|i2c_test_la4128v
 
-Running: Compile on I2C_minion|i2c_test_la4128v
+Running: Compile on slicer862|i2c_test_la4128v
 
-Running: Compile Process on I2C_minion|i2c_test_la4128v
+Running: Compile Process on slicer862|i2c_test_la4128v
 
-Running: Compile Input on I2C_minion|i2c_test_la4128v
-Copied C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\synwork\I2C_minion_comp.srs to C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.srs
+Running: Compile Input on slicer862|i2c_test_la4128v
+Copied C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\synwork\slicer862_comp.srs to C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\slicer862.srs
 compiler Completed
 Return Code: 0
 Run Time:0h:00m:01s
 
-Running: Multi-srs Generator on I2C_minion|i2c_test_la4128v
-Copied C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\synwork\I2C_minion_comp.srs to C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\synwork\I2C_minion_s.srs
+Running: Multi-srs Generator on slicer862|i2c_test_la4128v
+Copied C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\synwork\slicer862_comp.srs to C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\synwork\slicer862_s.srs
 multi_srs_gen Completed
 Return Code: 0
-Run Time:0h:00m:01s
-Copied C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\synwork\I2C_minion_mult.srs to C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.srs
-Copied C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.srr to C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\i2c_minion.srf
-Complete: Compile Process on I2C_minion|i2c_test_la4128v
-Complete: Compile on I2C_minion|i2c_test_la4128v
+Run Time:0h:00m:00s
+Copied C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\synwork\slicer862_mult.srs to C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\slicer862.srs
+Copied C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\slicer862.srr to C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\slicer862.srf
+Complete: Compile Process on slicer862|i2c_test_la4128v
+Complete: Compile on slicer862|i2c_test_la4128v
 
-Running: Map on I2C_minion|i2c_test_la4128v
+Running: Map on slicer862|i2c_test_la4128v
 
-Running: Map & Optimize on I2C_minion|i2c_test_la4128v
+Running: Map & Optimize on slicer862|i2c_test_la4128v
 fpga_mapper Completed
 Return Code: 0
-Run Time:0h:00m:00s
-Complete: Map on I2C_minion|i2c_test_la4128v
-Complete: Logic Synthesis on I2C_minion|i2c_test_la4128v
+Run Time:0h:00m:01s
+Complete: Map on slicer862|i2c_test_la4128v
+Copied C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\slicer862.srr to C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\slicer862.srf
+Complete: Logic Synthesis on slicer862|i2c_test_la4128v
 
 exit status=0
 

@@ -1,1 +1,91 @@
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_7_0_0_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_7_0_1_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_7_0_2_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_7_0_3_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_7_0_4_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_7_0_5_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_7_0_6_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_7_0_7_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_15_8_0_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_15_8_1_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_15_8_2_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_15_8_3_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_15_8_4_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_15_8_5_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_15_8_6_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_15_8_7_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_23_16_0_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_23_16_1_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_23_16_2_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_23_16_3_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_23_16_4_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_23_16_5_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_23_16_6_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_23_16_7_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_29_24_0_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_29_24_1_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_29_24_2_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_29_24_3_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_29_24_4_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_29_24_5_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_7_0_0_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_7_0_1_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_7_0_2_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_7_0_3_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_7_0_4_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_7_0_5_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_7_0_6_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_7_0_7_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_15_8_0_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_15_8_1_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_15_8_2_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_15_8_3_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_15_8_4_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_15_8_5_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_15_8_6_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_15_8_7_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_23_16_0_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_23_16_1_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_23_16_2_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_23_16_3_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_23_16_4_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_23_16_5_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_23_16_6_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_23_16_7_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_29_24_0_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_29_24_1_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_29_24_2_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_29_24_3_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_29_24_4_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0104> : Location Assignment 'DIG_IO_29_24_5_' : Can not find this signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_7_0_0_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_7_0_1_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_7_0_2_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_7_0_3_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_7_0_4_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_7_0_5_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_7_0_6_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_7_0_7_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_15_8_0_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_15_8_1_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_15_8_2_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_15_8_3_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_15_8_4_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_15_8_5_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_15_8_6_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_15_8_7_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_23_16_0_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_23_16_1_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_23_16_2_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_23_16_3_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_23_16_4_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_23_16_5_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_23_16_6_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_23_16_7_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_29_24_0_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_29_24_1_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_29_24_2_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_29_24_3_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_29_24_4_' : Invalid signal name.
+C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct : <W0601> : IO Types Setting 'DIG_IO_29_24_5_' : Invalid signal name.
 Loading Lattice Constraint File 'C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V\i2c_test_la4128v.lct' done!

@@ -4,18 +4,18 @@
 #Hostname: ELN176252
 
 $ Start of Compile
-#Tue Jan 04 14:20:46 2022
+#Wed Jan 05 17:42:58 2022
 
 Synopsys VHDL Compiler, version comp201403rcp1, Build 060R, built May 27 2014
 @N|Running in 64-bit mode
 Copyright (C) 1994-2014 Synopsys, Inc. This software and the associated documentation are proprietary to Synopsys, Inc. This software may only be used in accordance with the terms and conditions of a written license agreement with Synopsys, Inc.  All other use, reproduction, or distribution of this software is strictly prohibited.
 
 @N: CD720 :"C:\ispLEVER_Classic2_1\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
-@N:"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\I2C_minion.vhd":12:7:12:16|Top entity is set to I2C_minion.
+@N:"C:\git\ultrazohm\software\cpld_lattice\evalboard\i2c_test_la4128v\slicer862.vhd":6:7:6:15|Top entity is set to slicer862.
 
 At c_vhdl Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 68MB peak: 69MB)
 
 Process took 0h:00m:01s realtime, 0h:00m:01s cputime
-# Tue Jan 04 14:20:46 2022
+# Wed Jan 05 17:42:58 2022
 
 ###########################################################]

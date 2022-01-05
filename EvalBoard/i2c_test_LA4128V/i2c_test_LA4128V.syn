@@ -4,6 +4,8 @@ PROJECT i2c_test_LA4128V
 DESIGN i2c_test_la4128v Normal
 DEVKIT LA4128V-75TN100E
 ENTRY Schematic/VHDL
+MODULE slicer862.vhd
+MODSTYLE slicer862 Normal
 MODULE sourceclocked.vhd
 MODSTYLE sourceclocked Normal
 MODULE io_pins.sch
@@ -16,6 +18,8 @@ MODULE debounce.vhd
 MODSTYLE debounce Normal
 MODULE slicer8.vhd
 MODSTYLE slice8 Normal
+MODULE sourcenull.vhd
+MODSTYLE sourceNull Normal
 SYNTHESIS_TOOL Synplify
 SIMULATOR_TOOL ModelSim
 TOPMODULE io_pins

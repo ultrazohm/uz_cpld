@@ -1,19 +1,19 @@
  ispLEVER Classic 2.1.00.02.49.20 Fitter Report File 
 Project Name,i2c_test_la4128v
 Project Path,C:\GIT\UltraZohm\Software\cpld_lattice\EvalBoard\i2c_test_LA4128V
-Project Fitted on,Tue Jan 04 14:22:23 2022
+Project Fitted on,Wed Jan 05 18:01:17 2022
 
 Pin,Pin_Type,Bank,GLB_Pad,Assigned,I/O_Type,Signal_Type,Signal_Name
 1,GND,-,,,,,
 2,TDI,-,,,,,
-3,I_O,0,B0,,,,
+3,I_O,0,B0,*,LVCMOS18,Input,DIG_00
 4,I_O,0,B2,,,,
 5,I_O,0,B4,,,,
 6,I_O,0,B6,,,,
 7,GNDIO0,-,,,,,
 8,I_O,0,B8,,,,
 9,I_O,0,B10,,,,
-10,I_O,0,B12,,,,
+10,I_O,0,B12,*,LVCMOS18,Bidir,DIG_06
 11,I_O,0,B13,,,,
 12,IN0,0,,,,,
 13,VCCIO0,-,,,,,
@@ -42,7 +42,7 @@ Pin,Pin_Type,Bank,GLB_Pad,Assigned,I/O_Type,Signal_Type,Signal_Name
 36,I_O,0,D2,,,,
 37,I_O,0,D0,,,,
 38,INCLK1,0,,,,,
-39,INCLK2,1,,,,,
+39,INCLK2,1,,*,LVCMOS33,Input,clk2
 40,VCC,-,,,,,
 41,I_O,1,E0,,,,
 42,I_O,1,E2,,,,
@@ -50,10 +50,10 @@ Pin,Pin_Type,Bank,GLB_Pad,Assigned,I/O_Type,Signal_Type,Signal_Name
 44,I_O,1,E6,,,,
 45,VCCIO1,-,,,,,
 46,GNDIO1,-,,,,,
-47,I_O,1,E8,,,,
+47,I_O,1,E8,*,LVCMOS33,Bidir,DIG_IO_06
 48,I_O,1,E10,,,,
 49,I_O,1,E12,,,,
-50,I_O,1,E14,,,,
+50,I_O,1,E14,*,LVCMOS33,Output,DIG_IO_00
 51,GND,-,,,,,
 52,TMS,-,,,,,
 53,I_O,1,F0,,,,
@@ -65,23 +65,23 @@ Pin,Pin_Type,Bank,GLB_Pad,Assigned,I/O_Type,Signal_Type,Signal_Name
 59,I_O,1,F10,,,,
 60,I_O,1,F12,,,,
 61,I_O,1,F13,,,,
-62,IN3,1,,,,,
+62,IN3,1,,*,LVCMOS33,Input,CPLD_DigIn_01
 63,VCCIO1,-,,,,,
 64,I_O,1,G14,,,,
 65,I_O,1,G12,,,,
 66,I_O,1,G10,,,,
 67,I_O,1,G8,,,,
 68,GNDIO1,-,,,,,
-69,I_O,1,G6,,,,
+69,I_O,1,G6,*,LVCMOS33,Output,CPLD_DIGOut_01
 70,I_O,1,G5,,,,
 71,I_O,1,G4,,,,
 72,I_O,1,G2,,,,
-73,IN4,1,,,,,
+73,IN4,1,,*,LVCMOS33,Input,CPLD_DigIn_02
 74,TDO,-,,,,,
 75,VCC,-,,,,,
 76,GND,-,,,,,
-77,IN5,1,,,,,
-78,I_O,1,H13,,,,
+77,IN5,1,,*,LVCMOS33,Input,PILOT_IN
+78,I_O,1,H13,*,LVCMOS33,Output,CPLD_DigOut_02
 79,I_O,1,H12,,,,
 80,I_O,1,H10,,,,
 81,I_O,1,H8,,,,
@@ -102,5 +102,5 @@ Pin,Pin_Type,Bank,GLB_Pad,Assigned,I/O_Type,Signal_Type,Signal_Name
 96,GNDIO0,-,,,,,
 97,I_O,0,A8,,,,
 98,I_O,0,A10,,,,
-99,I_O,0,A12,,,,
-100,I_O,0,A14,,,,
+99,I_O,0,A12,*,LVCMOS18,Input,scl
+100,I_O,0,A14,*,LVCMOS18_OD,Bidir,sda

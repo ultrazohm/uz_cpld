@@ -1,0 +1,62 @@
+#$ TOOL ispLEVER Classic 2.1.00.02.49.20
+#$ DATE Wed Jan 05 17:43:04 2022
+#$ MODULE slicer862
+#$ PINS 16 data_7_ y0_5_ y6 y7 data_6_ data_5_ data_4_ data_3_ data_2_ data_1_ data_0_ \
+#  y0_4_ y0_3_ y0_2_ y0_1_ y0_0_
+#$ NODES 8 y0_c_0__n y0_c_1__n y0_c_2__n y0_c_3__n y0_c_4__n y0_c_5__n y6_c y7_c
+.model slicer862
+.inputs data_7_.BLIF data_6_.BLIF data_5_.BLIF data_4_.BLIF data_3_.BLIF \
+data_2_.BLIF data_1_.BLIF data_0_.BLIF y0_c_0__n.BLIF y0_c_1__n.BLIF \
+y0_c_2__n.BLIF y0_c_3__n.BLIF y0_c_4__n.BLIF y0_c_5__n.BLIF y6_c.BLIF \
+y7_c.BLIF
+.outputs y0_5_ y6 y7 y0_4_ y0_3_ y0_2_ y0_1_ y0_0_ y0_c_0__n y0_c_1__n \
+y0_c_2__n y0_c_3__n y0_c_4__n y0_c_5__n y6_c y7_c
+.names y0_c_5__n.BLIF y0_5_
+1 1
+0 0
+.names y6_c.BLIF y6
+1 1
+0 0
+.names y7_c.BLIF y7
+1 1
+0 0
+.names y0_c_4__n.BLIF y0_4_
+1 1
+0 0
+.names y0_c_3__n.BLIF y0_3_
+1 1
+0 0
+.names y0_c_2__n.BLIF y0_2_
+1 1
+0 0
+.names y0_c_1__n.BLIF y0_1_
+1 1
+0 0
+.names y0_c_0__n.BLIF y0_0_
+1 1
+0 0
+.names data_0_.BLIF y0_c_0__n
+1 1
+0 0
+.names data_1_.BLIF y0_c_1__n
+1 1
+0 0
+.names data_2_.BLIF y0_c_2__n
+1 1
+0 0
+.names data_3_.BLIF y0_c_3__n
+1 1
+0 0
+.names data_4_.BLIF y0_c_4__n
+1 1
+0 0
+.names data_5_.BLIF y0_c_5__n
+1 1
+0 0
+.names data_6_.BLIF y6_c
+1 1
+0 0
+.names data_7_.BLIF y7_c
+1 1
+0 0
+.end

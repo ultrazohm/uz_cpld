@@ -1,0 +1,32 @@
+#$ TOOL ispLEVER Classic 2.1.00.02.49.20
+#$ DATE Mon Mar 22 15:48:00 2021
+#$ TITLE io_pins.bls 
+#$ MODULE io_pins
+#$ PINS 3 IOselector Adapter'io'  FPGA'io' 
+#$ NODES 3 N_4'o'  N_5'o'  N_6'o' 
+.model io_pins
+.inputs N_6.BLIF IOselector.BLIF Adapter.PIN.BLIF N_5.BLIF N_4.BLIF \
+FPGA.PIN.BLIF
+.outputs N_5 Adapter Adapter.OE N_6 FPGA FPGA.OE N_4
+.names IOselector.BLIF N_4
+0 1
+1 0
+.names Adapter.PIN.BLIF N_5
+1 1
+0 0
+.names N_6.BLIF Adapter
+1 1
+0 0
+.names IOselector.BLIF Adapter.OE
+1 1
+0 0
+.names FPGA.PIN.BLIF N_6
+1 1
+0 0
+.names N_5.BLIF FPGA
+1 1
+0 0
+.names N_4.BLIF FPGA.OE
+1 1
+0 0
+.end

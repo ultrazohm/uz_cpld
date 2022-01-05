@@ -1,1 +1,0 @@
--nodal -src la128v_io_example.bl5 -type BLIF -presrc la128v_io_example.bl3 -crf la128v_io_example.crf -sif la128v_io_example.sif -devfile "C:/ispLEVER_Classic2_0/ispcpld/dat/lc4k/m4s_128_64.dev" -lci la128v_io_example.lct

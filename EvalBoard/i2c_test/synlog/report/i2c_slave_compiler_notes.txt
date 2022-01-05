@@ -1,0 +1,6 @@
+@N|Running in 64-bit mode
+@N: CD720 :"C:\ispLEVER_Classic2_1\synpbase\lib\vhd\std.vhd":123:18:123:21|Setting time resolution to ns
+@N:"C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\i2c_slave.vhd":59:7:59:15|Top entity is set to i2c_slave.
+@N: CD630 :"C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\i2c_slave.vhd":59:7:59:15|Synthesizing work.i2c_slave.arch 
+@N: CL201 :"C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\i2c_slave.vhd":171:2:171:3|Trying to extract state machine for register sm_state
+

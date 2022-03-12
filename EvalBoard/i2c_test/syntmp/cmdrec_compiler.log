@@ -1,7 +1,0 @@
-C:\ispLEVER_Classic2_1\synpbase\bin64\c_vhdl.exe  -osyn  C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\synwork\i2c_slave_comp.srs  -top  i2c_slave  -prodtype  synplify_pro  -nostructver -encrypt  -pro  -dmgen  C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\dm  -lite -compiler_compatible -ui -fid2 -ram -sharing on -ll 2000 -autosm -ignore_undefined_lib  -lib work C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\i2c_slave.vhd -loga  C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\i2c_slave.srr 
-rc:0 success:1
-C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\synwork\i2c_slave_comp.srs|o|1616327071|4516
-C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\i2c_slave.vhd|i|1426688478|13207
-C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\i2c_slave.srr|o|1616327071|2112
-C:\ispLEVER_Classic2_1\synpbase\bin\c_vhdl.exe|i|1401220298|2046976
-C:\ispLEVER_Classic2_1\synpbase\bin64\c_vhdl.exe|i|1401220504|5533184

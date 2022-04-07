@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE		ispXCF	SYSTEM	"IspXCF.dtd" >
+<ispXCF version="18.1">
+	<Comment></Comment>
+	<Chain>
+		<Comm>JTAG</Comm>
+		<Device>
+			<Pos>1</Pos>
+			<Vendor>Lattice</Vendor>
+			<Family>ispMACH4000</Family>
+			<Name>LA4128V</Name>
+			<IDCode>0x01811043</IDCode>
+			<Package>100-pin TQFP</Package>
+			<PON>LA4128V-XXTN100</PON>
+			<Bypass>
+				<InstrLen>8</InstrLen>
+				<InstrVal>11111111</InstrVal>
+				<BScanLen>1</BScanLen>
+				<BScanVal>0</BScanVal>
+			</Bypass>
+			<File>C:\GIT\UltraZohm\software\cpld_lattice\encoder_rev02\uz_encoder_rev02.jed</File>
+			<FileTime>04/06/22 13:51:16</FileTime>
+			<JedecChecksum>0x9A68</JedecChecksum>
+			<Operation>Bypass</Operation>
+			<Option>
+				<SVFVendor>JTAG STANDARD</SVFVendor>
+				<IOState>HighZ</IOState>
+				<PreloadLength>196</PreloadLength>
+				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
+				<OverideUES value="TRUE"/>
+				<DebugMode value="TRUE"/>
+				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<SVFProcessor>SVF Processor</SVFProcessor>
+				<Usercode>0xFFFFFFFF</Usercode>
+				<AccessMode>JTAG</AccessMode>
+			</Option>
+		</Device>
+		<Device>
+			<Pos>2</Pos>
+			<Vendor>Lattice</Vendor>
+			<Family>ispMACH4000</Family>
+			<Name>LA4128V</Name>
+			<IDCode>0x01811043</IDCode>
+			<Package>100-pin TQFP</Package>
+			<PON>LA4128V-XXTN100</PON>
+			<Bypass>
+				<InstrLen>8</InstrLen>
+				<InstrVal>11111111</InstrVal>
+				<BScanLen>1</BScanLen>
+				<BScanVal>0</BScanVal>
+			</Bypass>
+			<File>C:\GIT\UltraZohm\software\cpld_lattice\encoder_rev02\uz_encoder_rev02.jed</File>
+			<FileTime>04/06/22 13:51:16</FileTime>
+			<JedecChecksum>0x9A68</JedecChecksum>
+			<Operation>Bypass</Operation>
+			<Option>
+				<SVFVendor>JTAG STANDARD</SVFVendor>
+				<IOState>HighZ</IOState>
+				<PreloadLength>196</PreloadLength>
+				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
+				<OverideUES value="TRUE"/>
+				<DebugMode value="TRUE"/>
+				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<SVFProcessor>SVF Processor</SVFProcessor>
+				<Usercode>0xFFFFFFFF</Usercode>
+				<AccessMode>JTAG</AccessMode>
+			</Option>
+		</Device>
+		<Device>
+			<Pos>3</Pos>
+			<Vendor>Lattice</Vendor>
+			<Family>ispMACH4000</Family>
+			<Name>LA4128V</Name>
+			<IDCode>0x01811043</IDCode>
+			<Package>100-pin TQFP</Package>
+			<PON>LA4128V-XXTN100</PON>
+			<Bypass>
+				<InstrLen>8</InstrLen>
+				<InstrVal>11111111</InstrVal>
+				<BScanLen>1</BScanLen>
+				<BScanVal>0</BScanVal>
+			</Bypass>
+			<File>C:\GIT\UltraZohm\software\cpld_lattice\encoder_rev02\uz_encoder_rev02.jed</File>
+			<FileTime>04/06/22 13:51:16</FileTime>
+			<JedecChecksum>0x9A68</JedecChecksum>
+			<Operation>Bypass</Operation>
+			<Option>
+				<SVFVendor>JTAG STANDARD</SVFVendor>
+				<IOState>HighZ</IOState>
+				<PreloadLength>196</PreloadLength>
+				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
+				<OverideUES value="TRUE"/>
+				<DebugMode value="TRUE"/>
+				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<SVFProcessor>SVF Processor</SVFProcessor>
+				<Usercode>0xFFFFFFFF</Usercode>
+				<AccessMode>JTAG</AccessMode>
+			</Option>
+		</Device>
+		<Device>
+			<Pos>4</Pos>
+			<Vendor>Lattice</Vendor>
+			<Family>ispMACH4000</Family>
+			<Name>LA4128V</Name>
+			<IDCode>0x01811043</IDCode>
+			<Package>100-pin TQFP</Package>
+			<PON>LA4128V-XXTN100</PON>
+			<Bypass>
+				<InstrLen>8</InstrLen>
+				<InstrVal>11111111</InstrVal>
+				<BScanLen>1</BScanLen>
+				<BScanVal>0</BScanVal>
+			</Bypass>
+			<File>C:\GIT\UltraZohm\software\cpld_lattice\encoder_rev02\uz_encoder_rev02.jed</File>
+			<FileTime>04/06/22 13:51:16</FileTime>
+			<JedecChecksum>0x9A68</JedecChecksum>
+			<Operation>Bypass</Operation>
+			<Option>
+				<SVFVendor>JTAG STANDARD</SVFVendor>
+				<IOState>HighZ</IOState>
+				<PreloadLength>196</PreloadLength>
+				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
+				<OverideUES value="TRUE"/>
+				<DebugMode value="TRUE"/>
+				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<SVFProcessor>SVF Processor</SVFProcessor>
+				<Usercode>0xFFFFFFFF</Usercode>
+				<AccessMode>JTAG</AccessMode>
+			</Option>
+		</Device>
+		<Device>
+			<Pos>5</Pos>
+			<Vendor>Lattice</Vendor>
+			<Family>ispMACH4000</Family>
+			<Name>LA4128V</Name>
+			<IDCode>0x01811043</IDCode>
+			<Package>100-pin TQFP</Package>
+			<PON>LA4128V-XXTN100</PON>
+			<Bypass>
+				<InstrLen>8</InstrLen>
+				<InstrVal>11111111</InstrVal>
+				<BScanLen>1</BScanLen>
+				<BScanVal>0</BScanVal>
+			</Bypass>
+			<File>C:\GIT\UltraZohm\software\cpld_lattice\encoder_rev02\uz_encoder_rev02.jed</File>
+			<FileTime>04/06/22 13:51:16</FileTime>
+			<JedecChecksum>0x9A68</JedecChecksum>
+			<Operation>Erase,Program,Verify</Operation>
+			<Option>
+				<SVFVendor>JTAG STANDARD</SVFVendor>
+				<IOState>HighZ</IOState>
+				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
+				<OverideUES value="TRUE"/>
+				<DebugMode value="TRUE"/>
+				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<SVFProcessor>SVF Processor</SVFProcessor>
+				<Usercode>0xFFFFFFFF</Usercode>
+				<AccessMode>JTAG</AccessMode>
+			</Option>
+		</Device>
+	</Chain>
+	<ProjectOptions>
+		<Program>SEQUENTIAL</Program>
+		<Process>ENTIRED CHAIN</Process>
+		<OperationOverride>No Override</OperationOverride>
+		<StartTAP>TLR</StartTAP>
+		<EndTAP>TLR</EndTAP>
+		<DeGlitch value="TRUE"/>
+		<VerifyUsercode value="TRUE"/>
+		<PinSetting>
+			TMS	LOW;
+			TCK	LOW;
+			TDI	LOW;
+			TDO	LOW;
+		</PinSetting>
+	</ProjectOptions>
+	<USBOptions>
+		<PortAdd>FTUSB-0</PortAdd>
+	</USBOptions>
+</ispXCF>

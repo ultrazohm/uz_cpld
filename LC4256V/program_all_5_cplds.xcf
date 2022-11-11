@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE		ispXCF	SYSTEM	"IspXCF.dtd" >
+<ispXCF version="18.1">
+	<Comment></Comment>
+	<Chain>
+		<Comm>JTAG</Comm>
+		<Device>
+			<Pos>1</Pos>
+			<Vendor>Lattice</Vendor>
+			<Family>ispMACH4000</Family>
+			<Name>LC4256V</Name>
+			<IDCode>0x11815043</IDCode>
+			<Package>All</Package>
+			<PON>LC4256V</PON>
+			<Bypass>
+				<InstrLen>8</InstrLen>
+				<InstrVal>11111111</InstrVal>
+				<BScanLen>1</BScanLen>
+				<BScanVal>0</BScanVal>
+			</Bypass>
+			<File>C:\GIT\UltraZohm\software\cpld_lattice\LC4256V\26tx_with_enable\uz_cpld_26tx_with_enable.jed</File>
+			<FileTime>11/11/22 11:02:34</FileTime>
+			<JedecChecksum>0x9F50</JedecChecksum>
+			<Operation>Erase,Program,Verify</Operation>
+			<Option>
+				<SVFVendor>JTAG STANDARD</SVFVendor>
+				<IOState>HighZ</IOState>
+				<PreloadLength>260</PreloadLength>
+				<IOVectorData>0x00000000000000000000000000000000000000000000000000000000000000000</IOVectorData>
+				<OverideUES value="TRUE"/>
+				<DebugMode value="TRUE"/>
+				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<SVFProcessor>SVF Processor</SVFProcessor>
+				<Usercode>0xFFFFFFFF</Usercode>
+				<AccessMode>JTAG</AccessMode>
+			</Option>
+		</Device>
+		<Device>
+			<Pos>2</Pos>
+			<Vendor>Lattice</Vendor>
+			<Family>ispMACH4000</Family>
+			<Name>LC4256V</Name>
+			<IDCode>0x11815043</IDCode>
+			<Package>All</Package>
+			<PON>LC4256V</PON>
+			<Bypass>
+				<InstrLen>8</InstrLen>
+				<InstrVal>11111111</InstrVal>
+				<BScanLen>1</BScanLen>
+				<BScanVal>0</BScanVal>
+			</Bypass>
+			<File>C:\GIT\UltraZohm\software\cpld_lattice\LC4256V\26tx_with_enable\uz_cpld_26tx_with_enable.jed</File>
+			<FileTime>11/11/22 11:02:34</FileTime>
+			<JedecChecksum>0x9F50</JedecChecksum>
+			<Operation>Erase,Program,Verify</Operation>
+			<Option>
+				<SVFVendor>JTAG STANDARD</SVFVendor>
+				<IOState>HighZ</IOState>
+				<PreloadLength>260</PreloadLength>
+				<IOVectorData>0x00000000000000000000000000000000000000000000000000000000000000000</IOVectorData>
+				<OverideUES value="TRUE"/>
+				<DebugMode value="TRUE"/>
+				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<SVFProcessor>SVF Processor</SVFProcessor>
+				<Usercode>0xFFFFFFFF</Usercode>
+				<AccessMode>JTAG</AccessMode>
+			</Option>
+		</Device>
+		<Device>
+			<Pos>3</Pos>
+			<Vendor>Lattice</Vendor>
+			<Family>ispMACH4000</Family>
+			<Name>LC4256V</Name>
+			<IDCode>0x11815043</IDCode>
+			<Package>All</Package>
+			<PON>LC4256V</PON>
+			<Bypass>
+				<InstrLen>8</InstrLen>
+				<InstrVal>11111111</InstrVal>
+				<BScanLen>1</BScanLen>
+				<BScanVal>0</BScanVal>
+			</Bypass>
+			<File>C:\GIT\UltraZohm\software\cpld_lattice\LC4256V\26tx_with_enable\uz_cpld_26tx_with_enable.jed</File>
+			<FileTime>11/11/22 11:02:34</FileTime>
+			<JedecChecksum>0x9F50</JedecChecksum>
+			<Operation>Erase,Program,Verify</Operation>
+			<Option>
+				<SVFVendor>JTAG STANDARD</SVFVendor>
+				<IOState>HighZ</IOState>
+				<PreloadLength>260</PreloadLength>
+				<IOVectorData>0x00000000000000000000000000000000000000000000000000000000000000000</IOVectorData>
+				<OverideUES value="TRUE"/>
+				<DebugMode value="TRUE"/>
+				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<SVFProcessor>SVF Processor</SVFProcessor>
+				<Usercode>0xFFFFFFFF</Usercode>
+				<AccessMode>JTAG</AccessMode>
+			</Option>
+		</Device>
+		<Device>
+			<Pos>4</Pos>
+			<Vendor>Lattice</Vendor>
+			<Family>ispMACH4000</Family>
+			<Name>LC4256V</Name>
+			<IDCode>0x11815043</IDCode>
+			<Package>All</Package>
+			<PON>LC4256V</PON>
+			<Bypass>
+				<InstrLen>8</InstrLen>
+				<InstrVal>11111111</InstrVal>
+				<BScanLen>1</BScanLen>
+				<BScanVal>0</BScanVal>
+			</Bypass>
+			<File>C:\GIT\UltraZohm\software\cpld_lattice\LC4256V\26tx_with_enable\uz_cpld_26tx_with_enable.jed</File>
+			<FileTime>11/11/22 11:02:34</FileTime>
+			<JedecChecksum>0x9F50</JedecChecksum>
+			<Operation>Erase,Program,Verify</Operation>
+			<Option>
+				<SVFVendor>JTAG STANDARD</SVFVendor>
+				<IOState>HighZ</IOState>
+				<PreloadLength>260</PreloadLength>
+				<IOVectorData>0x00000000000000000000000000000000000000000000000000000000000000000</IOVectorData>
+				<OverideUES value="TRUE"/>
+				<DebugMode value="TRUE"/>
+				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<SVFProcessor>SVF Processor</SVFProcessor>
+				<Usercode>0xFFFFFFFF</Usercode>
+				<AccessMode>JTAG</AccessMode>
+			</Option>
+		</Device>
+		<Device>
+			<Pos>5</Pos>
+			<Vendor>Lattice</Vendor>
+			<Family>ispMACH4000</Family>
+			<Name>LC4256V</Name>
+			<IDCode>0x11815043</IDCode>
+			<Package>All</Package>
+			<PON>LC4256V</PON>
+			<Bypass>
+				<InstrLen>8</InstrLen>
+				<InstrVal>11111111</InstrVal>
+				<BScanLen>1</BScanLen>
+				<BScanVal>0</BScanVal>
+			</Bypass>
+			<File>C:\GIT\UltraZohm\software\cpld_lattice\LC4256V\30rx\uz_cpld_30rx.jed</File>
+			<FileTime>11/11/22 11:05:17</FileTime>
+			<JedecChecksum>0x9060</JedecChecksum>
+			<Operation>Erase,Program,Verify</Operation>
+			<Option>
+				<SVFVendor>JTAG STANDARD</SVFVendor>
+				<IOState>HighZ</IOState>
+				<PreloadLength>260</PreloadLength>
+				<IOVectorData>0x00000000000000000000000000000000000000000000000000000000000000000</IOVectorData>
+				<OverideUES value="TRUE"/>
+				<DebugMode value="TRUE"/>
+				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<SVFProcessor>SVF Processor</SVFProcessor>
+				<Usercode>0xFFFFFFFF</Usercode>
+				<AccessMode>JTAG</AccessMode>
+			</Option>
+		</Device>
+	</Chain>
+	<ProjectOptions>
+		<Program>SEQUENTIAL</Program>
+		<Process>ENTIRED CHAIN</Process>
+		<OperationOverride>No Override</OperationOverride>
+		<StartTAP>TLR</StartTAP>
+		<EndTAP>TLR</EndTAP>
+		<DeGlitch value="TRUE"/>
+		<VerifyUsercode value="TRUE"/>
+		<PinSetting>
+			TMS	LOW;
+			TCK	LOW;
+			TDI	LOW;
+			TDO	LOW;
+		</PinSetting>
+	</ProjectOptions>
+	<USBOptions>
+		<PortAdd>FTUSB-0</PortAdd>
+		<USBID>Digilent USB Device A Location 0000 Serial 251633005B1EA</USBID>
+	</USBOptions>
+</ispXCF>

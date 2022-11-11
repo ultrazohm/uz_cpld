@@ -1,8 +1,8 @@
 JDF B
-// Created by Version 2.0 
+// Created by Version 2.1 
 PROJECT UltraZohm_CPLD_Digital
 DESIGN uz_cpld_30rx Normal
-DEVKIT LA4128V-75TN100E
+DEVKIT LC4256V-75T100E
 ENTRY ABEL/Schematic
 MODULE top_level.abl
 MODSTYLE UZ_CPLD Normal

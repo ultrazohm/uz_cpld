@@ -167,40 +167,27 @@ EQUATIONS
 enable_signal = !fpga_26 & !fpga_27 & fpga_28 & fpga_29;
 
 " FPGA to Adapter Board
-d_00 = fpga_00;
-d_01 = fpga_01;  
-d_02 = fpga_02;  
-d_03 = fpga_03;  
-d_04 = fpga_04;  
-d_05 = fpga_05;  
-d_06 = fpga_06;  
-d_07 = fpga_07;  
-  
+d_06 = fpga_06;
+d_07 = fpga_07; 
+d_08 = fpga_08; 
 d_09 = fpga_09;  
 d_10 = fpga_10;  
 d_11 = fpga_11;  
 d_12 = fpga_12;  
 d_13 = fpga_13;  
-d_14 = fpga_14;
+
 d_15 = fpga_15;
 d_16 = fpga_16;
-
+d_17 = fpga_17;
 d_18 = fpga_18;
 d_19 = fpga_19;
 d_20 = fpga_20;
 d_21 = fpga_21;
 d_22 = fpga_22;
-d_23 = fpga_23;
-d_24 = fpga_24;
-d_25 = fpga_25;
-
 
 " Adapter Board to FPGA
-fpga_08 = d_08;
-fpga_17 = d_17;
-fpga_26 = d_26;
-
-
+fpga_14 = d_08;
+fpga_23 = d_17;
 
 
 " ----------------------------

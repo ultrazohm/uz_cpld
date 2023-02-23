@@ -21,7 +21,7 @@ Tools->Fitter Report File Format...
 <BR>
 Project Name         :  uz_cpld_uz_d_resolver_d5
 Project Path         :  C:\GIT\UltraZohm\software\cpld_lattice\uz_d_resolver\digital_D5
-Project Fitted on    :  Wed Feb 22 14:09:41 2023
+Project Fitted on    :  Wed Feb 22 15:23:59 2023
 
 Device               :  M4128_64
 Package              :  100
@@ -99,11 +99,11 @@ Control Product Terms:
   Macrocell Presets               128        0    128    -->     0
 
 Global Routing Pool               220       18    202    -->     8
-  GRP from IFB                     ..       16     ..    -->    ..
-    (from input signals)           ..       16     ..    -->    ..
+  GRP from IFB                     ..       18     ..    -->    ..
+    (from input signals)           ..       18     ..    -->    ..
     (from output signals)          ..        0     ..    -->    ..
     (from bidir signals)           ..        0     ..    -->    ..
-  GRP from MFB                     ..        2     ..    -->    ..
+  GRP from MFB                     ..        0     ..    -->    ..
 ----------------------------------------------------------------------
 
 &lt;Note&gt; 1 : The available PT is the product term that has not been used.
@@ -125,10 +125,10 @@ Maximum
   GLB    C      1     0     1      8/8      0    1      0             15        1        1
   GLB    D      1     0     1      8/8      0    1      0             15        1        1
 -------------------------------------------------------------------------------------------
-  GLB    E      4     0     4      8/8      0    4      0             12        4        4
-  GLB    F      5     0     5      8/8      0    5      0             11        5        5
-  GLB    G      3     0     3      7/8      0    3      0             13        3        3
-  GLB    H      4     0     4      6/8      0    4      0             12        4        4
+  GLB    E      7     0     7      8/8      0    7      0              9        7        7
+  GLB    F      8     0     8      8/8      0    8      0              8        8        8
+  GLB    G      0     0     0      7/8      0    0      0             16        0        0
+  GLB    H      1     0     1      6/8      0    1      0             15        1        1
 -------------------------------------------------------------------------------------------
 TOTALS:        18     0    18     58/64     0   18      0            110       18       18
 
@@ -267,21 +267,21 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name
 38    |INCLK1 |   0  |    |        |                 |       |
 39    |INCLK2 |   1  |    |        |                 |       |
 40    | VCC   |   -  |    |        |                 |       |
-41    |  I_O  |   1  |E0  |    *   |LVCMOS33         | Output|<A href=#44>d_08</A>
+41    |  I_O  |   1  |E0  |    *   |LVCMOS33         | Input |<A href=#44>d_08</A>
 42    |  I_O  |   1  |E2  |    *   |LVCMOS33         | Output|<A href=#46>d_10</A>
 43    |  I_O  |   1  |E4  |    *   |LVCMOS33         | Output|<A href=#48>d_12</A>
-44    |  I_O  |   1  |E6  |    *   |LVCMOS33         | Input |<A href=#50>d_14</A>
+44    |  I_O  |   1  |E6  |    *   |LVCMOS33         | Output|<A href=#50>d_14</A>
 45    |VCCIO1 |   -  |    |        |                 |       |
 46    |GNDIO1 |   -  |    |        |                 |       |
 47    |  I_O  |   1  |E8  |    *   |LVCMOS33         | Output|<A href=#42>d_06</A>
-48    |  I_O  |   1  |E10 |    *   |LVCMOS33         | Input |<A href=#40>d_04</A>
-49    |  I_O  |   1  |E12 |    *   |LVCMOS33         | Input |<A href=#38>d_02</A>
-50    |  I_O  |   1  |E14 |    *   |LVCMOS33         | Input |<A href=#36>d_00</A>
+48    |  I_O  |   1  |E10 |    *   |LVCMOS33         | Output|<A href=#40>d_04</A>
+49    |  I_O  |   1  |E12 |    *   |LVCMOS33         | Output|<A href=#38>d_02</A>
+50    |  I_O  |   1  |E14 |    *   |LVCMOS33         | Output|<A href=#36>d_00</A>
 51    | GND   |   -  |    |        |                 |       |
 52    | TMS   |   -  |    |        |                 |       |
-53    |  I_O  |   1  |F0  |    *   |LVCMOS33         | Input |<A href=#37>d_01</A>
-54    |  I_O  |   1  |F2  |    *   |LVCMOS33         | Input |<A href=#39>d_03</A>
-55    |  I_O  |   1  |F4  |    *   |LVCMOS33         | Input |<A href=#41>d_05</A>
+53    |  I_O  |   1  |F0  |    *   |LVCMOS33         | Output|<A href=#37>d_01</A>
+54    |  I_O  |   1  |F2  |    *   |LVCMOS33         | Output|<A href=#39>d_03</A>
+55    |  I_O  |   1  |F4  |    *   |LVCMOS33         | Output|<A href=#41>d_05</A>
 56    |  I_O  |   1  |F6  |    *   |LVCMOS33         | Output|<A href=#43>d_07</A>
 57    |GNDIO1 |   -  |    |        |                 |       |
 58    |  I_O  |   1  |F8  |    *   |LVCMOS33         | Output|<A href=#45>d_09</A>
@@ -290,9 +290,9 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name
 61    |  I_O  |   1  |F13 |    *   |LVCMOS33         | Output|<A href=#51>d_15</A>
 62    | IN3   |   1  |    |        |                 |       |
 63    |VCCIO1 |   -  |    |        |                 |       |
-64    |  I_O  |   1  |G14 |    *   |LVCMOS33         | Output|<A href=#53>d_17</A>
-65    |  I_O  |   1  |G12 |    *   |LVCMOS33         | Output|<A href=#55>d_19</A>
-66    |  I_O  |   1  |G10 |    *   |LVCMOS33         | Output|<A href=#57>d_21</A>
+64    |  I_O  |   1  |G14 |    *   |LVCMOS33         | Input |<A href=#53>d_17</A>
+65    |  I_O  |   1  |G12 |    *   |LVCMOS33         | Input |<A href=#55>d_19</A>
+66    |  I_O  |   1  |G10 |    *   |LVCMOS33         | Input |<A href=#57>d_21</A>
 67    |  I_O  |   1  |G8  |    *   |LVCMOS33         | Input |<A href=#59>d_23</A>
 68    |GNDIO1 |   -  |    |        |                 |       |
 69    |  I_O  |   1  |G6  |        |                 |       |
@@ -311,9 +311,9 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name
 82    |GNDIO1 |   -  |    |        |                 |       |
 83    |VCCIO1 |   -  |    |        |                 |       |
 84    |  I_O  |   1  |H6  |    *   |LVCMOS33         | Output|<A href=#52>d_16</A>
-85    |  I_O  |   1  |H4  |    *   |LVCMOS33         | Output|<A href=#54>d_18</A>
-86    |  I_O  |   1  |H2  |    *   |LVCMOS33         | Output|<A href=#56>d_20</A>
-87    | I_O/OE|   1  |H0  |    *   |LVCMOS33         | Output|<A href=#58>d_22</A>
+85    |  I_O  |   1  |H4  |    *   |LVCMOS33         | Input |<A href=#54>d_18</A>
+86    |  I_O  |   1  |H2  |    *   |LVCMOS33         | Input |<A href=#56>d_20</A>
+87    | I_O/OE|   1  |H0  |    *   |LVCMOS33         | Input |<A href=#58>d_22</A>
 88    |INCLK3 |   1  |    |        |                 |       |
 89    |INCLK0 |   0  |    |        |                 |       |
 90    | VCC   |   -  |    |        |                 |       |
@@ -346,13 +346,13 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name
          Pin    Fanout
  Pin GLB Type               Pullup Signal
 </B>------------------------------------------
-  50   E  I/O     --------    Down <A name=36>d_00</A>
-  53   F  I/O     --------    Down <A name=37>d_01</A>
-  49   E  I/O     --------    Down <A name=38>d_02</A>
-  54   F  I/O     --------    Down <A name=39>d_03</A>
-  48   E  I/O     --------    Down <A name=40>d_04</A>
-  55   F  I/O     --------    Down <A name=41>d_05</A>
-  44   E  I/O     --------    Down <A name=50>d_14</A>
+  41   E  I/O   1 --C-----    Down <A name=44>d_08</A>
+  64   G  I/O   1 ---D----    Down <A name=53>d_17</A>
+  85   H  I/O     --------    Down <A name=54>d_18</A>
+  65   G  I/O     --------    Down <A name=55>d_19</A>
+  86   H  I/O     --------    Down <A name=56>d_20</A>
+  66   G  I/O     --------    Down <A name=57>d_21</A>
+  87   H  I/O     --------    Down <A name=58>d_22</A>
   67   G  I/O     --------    Down <A name=59>d_23</A>
   81   H  I/O     --------    Down <A name=60>d_24</A>
   72   G  I/O     --------    Down <A name=61>d_25</A>
@@ -375,12 +375,12 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name
   19   C  I/O   1 ----E---    Down <A name=18>fpga_12</A>
   20   C  I/O   1 -----F--    Down <A name=19>fpga_13</A>
   22   C  I/O   1 -----F--    Down <A name=21>fpga_15</A>
-  28   D  I/O   1 -------H    Down <A name=22>fpga_16</A>
-  29   D  I/O   1 ------G-    Down <A name=23>fpga_17</A>
-  30   D  I/O   1 -------H    Down <A name=24>fpga_18</A>
-  31   D  I/O   1 ------G-    Down <A name=25>fpga_19</A>
-  34   D  I/O   1 -------H    Down <A name=26>fpga_20</A>
-  35   D  I/O   1 ------G-    Down <A name=27>fpga_21</A>
+  28   D  I/O   1 ----E---    Down <A name=22>fpga_16</A>
+  29   D  I/O   1 -----F--    Down <A name=23>fpga_17</A>
+  30   D  I/O   1 ----E---    Down <A name=24>fpga_18</A>
+  31   D  I/O   1 -----F--    Down <A name=25>fpga_19</A>
+  34   D  I/O   1 ----E---    Down <A name=26>fpga_20</A>
+  35   D  I/O   1 -----F--    Down <A name=27>fpga_21</A>
   36   D  I/O   1 -------H    Down <A name=28>fpga_22</A>
   91   A  I/O     --------    Down <A name=30>fpga_24</A>
   92   A  I/O     --------    Down <A name=31>fpga_25</A>
@@ -397,24 +397,24 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name
           N         L Mc   R E U C O F B Fanout
  Pin GLB  P LL PTs  S Type E S P E E P P             Slew Pullup Signal
 </B>------------------------------------------------------------------------
+  50   E  1  1   1  1 COM                  --------  Fast   Down <A href=#36>d_00</A>
+  53   F  1  1   1  1 COM                  --------  Fast   Down <A href=#37>d_01</A>
+  49   E  1  1   1  1 COM                  --------  Fast   Down <A href=#38>d_02</A>
+  54   F  1  1   1  1 COM                  --------  Fast   Down <A href=#39>d_03</A>
+  48   E  1  1   1  1 COM                  --------  Fast   Down <A href=#40>d_04</A>
+  55   F  1  1   1  1 COM                  --------  Fast   Down <A href=#41>d_05</A>
   47   E  1  1   1  1 COM                  --------  Fast   Down <A href=#42>d_06</A>
   56   F  1  1   1  1 COM                  --------  Fast   Down <A href=#43>d_07</A>
-  41   E  1  1   1  1 COM                1 --C-----  Fast   Down <A href=#44>d_08</A>
   58   F  1  1   1  1 COM                  --------  Fast   Down <A href=#45>d_09</A>
   42   E  1  1   1  1 COM                  --------  Fast   Down <A href=#46>d_10</A>
   59   F  1  1   1  1 COM                  --------  Fast   Down <A href=#47>d_11</A>
   43   E  1  1   1  1 COM                  --------  Fast   Down <A href=#48>d_12</A>
   60   F  1  1   1  1 COM                  --------  Fast   Down <A href=#49>d_13</A>
+  44   E  1  1   1  1 COM                  --------  Fast   Down <A href=#50>d_14</A>
   61   F  1  1   1  1 COM                  --------  Fast   Down <A href=#51>d_15</A>
   84   H  1  1   1  1 COM                  --------  Fast   Down <A href=#52>d_16</A>
-  64   G  1  1   1  1 COM                1 ---D----  Fast   Down <A href=#53>d_17</A>
-  85   H  1  1   1  1 COM                  --------  Fast   Down <A href=#54>d_18</A>
-  65   G  1  1   1  1 COM                  --------  Fast   Down <A href=#55>d_19</A>
-  86   H  1  1   1  1 COM                  --------  Fast   Down <A href=#56>d_20</A>
-  66   G  1  1   1  1 COM                  --------  Fast   Down <A href=#57>d_21</A>
-  87   H  1  1   1  1 COM                  --------  Fast   Down <A href=#58>d_22</A>
-  21   C  1  2   1  1 COM                  --------  Fast   Down <A href=#20>fpga_14</A>
-  37   D  1  2   1  1 COM                  --------  Fast   Down <A href=#29>fpga_23</A>
+  21   C  1  1   1  1 COM                  --------  Fast   Down <A href=#20>fpga_14</A>
+  37   D  1  1   1  1 COM                  --------  Fast   Down <A href=#29>fpga_23</A>
 ------------------------------------------------------------------------
 
 &lt;Note&gt; CLS = Number of clusters used
@@ -457,37 +457,37 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name
 
 <A name="PostFit_Equations"></A><FONT COLOR=maroon><U><B><big>PostFit_Equations</big></B></U></FONT>
 <BR>
-<A name=42>d_06</A> = <A href=#12>fpga_06</A> ; (1 pterm, 1 signal)
+<A name=36>d_00</A> = <A href=#12>fpga_06</A> ; (1 pterm, 1 signal)
 
-<A name=43>d_07</A> = <A href=#13>fpga_07</A> ; (1 pterm, 1 signal)
+<A name=37>d_01</A> = <A href=#13>fpga_07</A> ; (1 pterm, 1 signal)
 
-<A name=44>d_08</A> = <A href=#14>fpga_08</A> ; (1 pterm, 1 signal)
+<A name=38>d_02</A> = <A href=#14>fpga_08</A> ; (1 pterm, 1 signal)
 
-<A name=45>d_09</A> = <A href=#15>fpga_09</A> ; (1 pterm, 1 signal)
+<A name=39>d_03</A> = <A href=#15>fpga_09</A> ; (1 pterm, 1 signal)
 
-<A name=46>d_10</A> = <A href=#16>fpga_10</A> ; (1 pterm, 1 signal)
+<A name=40>d_04</A> = <A href=#16>fpga_10</A> ; (1 pterm, 1 signal)
 
-<A name=47>d_11</A> = <A href=#17>fpga_11</A> ; (1 pterm, 1 signal)
+<A name=41>d_05</A> = <A href=#17>fpga_11</A> ; (1 pterm, 1 signal)
 
-<A name=48>d_12</A> = <A href=#18>fpga_12</A> ; (1 pterm, 1 signal)
+<A name=42>d_06</A> = <A href=#18>fpga_12</A> ; (1 pterm, 1 signal)
 
-<A name=49>d_13</A> = <A href=#19>fpga_13</A> ; (1 pterm, 1 signal)
+<A name=43>d_07</A> = <A href=#19>fpga_13</A> ; (1 pterm, 1 signal)
 
-<A name=51>d_15</A> = <A href=#21>fpga_15</A> ; (1 pterm, 1 signal)
+<A name=45>d_09</A> = <A href=#21>fpga_15</A> ; (1 pterm, 1 signal)
 
-<A name=52>d_16</A> = <A href=#22>fpga_16</A> ; (1 pterm, 1 signal)
+<A name=46>d_10</A> = <A href=#22>fpga_16</A> ; (1 pterm, 1 signal)
 
-<A name=53>d_17</A> = <A href=#23>fpga_17</A> ; (1 pterm, 1 signal)
+<A name=47>d_11</A> = <A href=#23>fpga_17</A> ; (1 pterm, 1 signal)
 
-<A name=54>d_18</A> = <A href=#24>fpga_18</A> ; (1 pterm, 1 signal)
+<A name=48>d_12</A> = <A href=#24>fpga_18</A> ; (1 pterm, 1 signal)
 
-<A name=55>d_19</A> = <A href=#25>fpga_19</A> ; (1 pterm, 1 signal)
+<A name=49>d_13</A> = <A href=#25>fpga_19</A> ; (1 pterm, 1 signal)
 
-<A name=56>d_20</A> = <A href=#26>fpga_20</A> ; (1 pterm, 1 signal)
+<A name=50>d_14</A> = <A href=#26>fpga_20</A> ; (1 pterm, 1 signal)
 
-<A name=57>d_21</A> = <A href=#27>fpga_21</A> ; (1 pterm, 1 signal)
+<A name=51>d_15</A> = <A href=#27>fpga_21</A> ; (1 pterm, 1 signal)
 
-<A name=58>d_22</A> = <A href=#28>fpga_22</A> ; (1 pterm, 1 signal)
+<A name=52>d_16</A> = <A href=#28>fpga_22</A> ; (1 pterm, 1 signal)
 
 <A name=20>fpga_14</A> = <A href=#44>d_08</A> ; (1 pterm, 1 signal)
 

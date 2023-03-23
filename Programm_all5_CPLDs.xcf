@@ -1,11 +1,10 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <!DOCTYPE		ispXCF	SYSTEM	"IspXCF.dtd" >
-<ispXCF version="3.11.0">
+<ispXCF version="18.1">
 	<Comment></Comment>
 	<Chain>
 		<Comm>JTAG</Comm>
 		<Device>
-			<SelectedProg value="TRUE"/>
 			<Pos>1</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>ispMACH4000</Family>
@@ -19,15 +18,16 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/Users/ga92wum/git/UltraZohm/Software/CPLD/26tx_with_enable/uz_cpld_26tx_with_enable.jed</File>
-			<FileTime>01/03/22 12:10:08</FileTime>
-			<JedecChecksum>0x34FF</JedecChecksum>
+			<File>C:\GIT\UltraZohm\software\cpld_lattice\optical_14tx_4rx_wo_enbl\uz_cpld_14tx_4rx_wo_enbl.jed</File>
+			<FileTime>03/16/23 23:04:34</FileTime>
+			<JedecChecksum>0x6ACB</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
 				<IOState>HighZ</IOState>
 				<PreloadLength>196</PreloadLength>
 				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
+				<DebugMode value="TRUE"/>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
 				<SVFProcessor>SVF Processor</SVFProcessor>
 				<Usercode>0xFFFFFFFF</Usercode>
@@ -35,7 +35,6 @@
 			</Option>
 		</Device>
 		<Device>
-			<SelectedProg value="TRUE"/>
 			<Pos>2</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>ispMACH4000</Family>
@@ -49,15 +48,16 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/Users/ga92wum/git/UltraZohm/Software/CPLD/26tx_with_enable/uz_cpld_26tx_with_enable.jed</File>
-			<FileTime>01/03/22 12:10:08</FileTime>
-			<JedecChecksum>0x34FF</JedecChecksum>
+			<File>C:\GIT\UltraZohm\software\cpld_lattice\optical_14tx_4rx_wo_enbl\uz_cpld_14tx_4rx_wo_enbl.jed</File>
+			<FileTime>03/16/23 23:04:34</FileTime>
+			<JedecChecksum>0x6ACB</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
 				<IOState>HighZ</IOState>
 				<PreloadLength>196</PreloadLength>
 				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
+				<DebugMode value="TRUE"/>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
 				<SVFProcessor>SVF Processor</SVFProcessor>
 				<Usercode>0xFFFFFFFF</Usercode>
@@ -65,7 +65,6 @@
 			</Option>
 		</Device>
 		<Device>
-			<SelectedProg value="TRUE"/>
 			<Pos>3</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>ispMACH4000</Family>
@@ -79,15 +78,16 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/Users/ga92wum/git/UltraZohm/Software/CPLD/26tx_with_enable/uz_cpld_26tx_with_enable.jed</File>
-			<FileTime>01/03/22 12:10:08</FileTime>
-			<JedecChecksum>0x34FF</JedecChecksum>
+			<File>C:\GIT\UltraZohm\software\cpld_lattice\30rx\uz_cpld_30rx.jed</File>
+			<FileTime>02/21/23 10:09:55</FileTime>
+			<JedecChecksum>0x3266</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
 				<IOState>HighZ</IOState>
 				<PreloadLength>196</PreloadLength>
 				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
+				<DebugMode value="TRUE"/>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
 				<SVFProcessor>SVF Processor</SVFProcessor>
 				<Usercode>0xFFFFFFFF</Usercode>
@@ -95,7 +95,6 @@
 			</Option>
 		</Device>
 		<Device>
-			<SelectedProg value="TRUE"/>
 			<Pos>4</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>ispMACH4000</Family>
@@ -109,15 +108,16 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/Users/ga92wum/git/UltraZohm/Software/CPLD/26tx_with_enable/uz_cpld_26tx_with_enable.jed</File>
-			<FileTime>01/03/22 12:10:08</FileTime>
-			<JedecChecksum>0x34FF</JedecChecksum>
+			<File>C:\GIT\UltraZohm\software\cpld_lattice\30tx\uz_cpld_30tx.jed</File>
+			<FileTime>02/21/23 10:09:55</FileTime>
+			<JedecChecksum>0x3114</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
 				<IOState>HighZ</IOState>
 				<PreloadLength>196</PreloadLength>
 				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
+				<DebugMode value="TRUE"/>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
 				<SVFProcessor>SVF Processor</SVFProcessor>
 				<Usercode>0xFFFFFFFF</Usercode>
@@ -125,7 +125,6 @@
 			</Option>
 		</Device>
 		<Device>
-			<SelectedProg value="TRUE"/>
 			<Pos>5</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>ispMACH4000</Family>
@@ -139,15 +138,16 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/Users/ga92wum/git/UltraZohm/Software/CPLD/30rx/uz_cpld_30rx.jed</File>
-			<FileTime>01/03/22 10:49:02</FileTime>
-			<JedecChecksum>0x3266</JedecChecksum>
+			<File>C:\GIT\UltraZohm\software\cpld_lattice\uz_d_resolver\digital_D5\uz_cpld_uz_d_resolver_d5.jed</File>
+			<FileTime>02/23/23 11:05:51</FileTime>
+			<JedecChecksum>0x6A09</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
 				<IOState>HighZ</IOState>
 				<PreloadLength>196</PreloadLength>
 				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
+				<DebugMode value="TRUE"/>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
 				<SVFProcessor>SVF Processor</SVFProcessor>
 				<Usercode>0xFFFFFFFF</Usercode>
@@ -161,12 +161,16 @@
 		<OperationOverride>No Override</OperationOverride>
 		<StartTAP>TLR</StartTAP>
 		<EndTAP>TLR</EndTAP>
-		<VerifyUsercode value="FALSE"/>
-		<TCKDelay>1</TCKDelay>
+		<VerifyUsercode value="TRUE"/>
+		<PinSetting>
+			TMS	LOW;
+			TCK	LOW;
+			TDI	LOW;
+			TDO	LOW;
+		</PinSetting>
 	</ProjectOptions>
-	<CableOptions>
-		<CableName>USB2</CableName>
+	<USBOptions>
 		<PortAdd>FTUSB-0</PortAdd>
-		<USBID>Dual RS232-HS A Location 0000 Serial A</USBID>
-	</CableOptions>
+		<USBID>Digilent USB Device A Location 0000 Serial 2516330066BDA</USBID>
+	</USBOptions>
 </ispXCF>

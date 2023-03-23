@@ -1,9 +1,0 @@
-ispLEVER Auto-Make Log File
----------------------------
-
-Updating: Timing Analysis
-Start to record tcl script...
-Finished recording TCL script.
-
-Launching: 'C:\ispLEVER_Classic2_1\ispcpld\bin\timing.exe -prj "uz_temperature_card" -tti "uz_temperature_card.tt4" -gui -dir "e:\01_repos\ultrazohm\cpld_lattice_local\05_ultrazohm_carrierboard_temperature_card"'
-

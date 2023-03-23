@@ -1,0 +1,76 @@
+#$ TOOL SCH2BLF 2.1.00.02 
+#$ TITLE uz_tempcard_cpld_schematic.bls 
+#$ MODULE uz_tempcard_cpld_schematic 
+#$ PINS 60  O_29 O_28 O_27 O_26 O_25 O_24 O_23 O_22 O_21 O_20 O_19 \
+#   O_18 O_17 O_16 O_15 O_14 O_13 O_12 O_11 O_10 O_9 O_8 O_7 O_6 O_5 \
+#   O_4 O_3 O_2 O_1 O_0 I_29 I_28 I_27 I_26 I_25 I_24 I_23 I_22 I_21 \
+#   I_20 I_19 I_18 I_17 I_16 I_15 I_14 I_13 I_12 I_11 I_10 I_9 I_8 \
+#   I_7 I_6 I_5 I_4 I_3 I_2 I_1 I_0
+#$ NODES 30 D_0_ D_1_ D_2_ D_3_ D_4_ D_5_ D_6_ D_7_ D_8_ D_9_ D_10_  \
+#  D_11_ D_12_ D_13_ D_14_ D_15_ D_16_ D_17_ D_18_ D_19_ D_20_  \
+#  D_21_ D_22_ D_23_ D_24_ D_25_ D_26_ D_27_ D_28_ D_29_ 
+#$ INTERFACE g_input 2 I'i' O'o'
+#$ INTERFACE g_output 2 I'i' O'o'
+#$ PRIMITIVE I31 g_input 2 I_0 D_0_
+#$ PRIMITIVE I32 g_input 2 I_29 D_29_
+#$ PRIMITIVE I33 g_input 2 I_28 D_28_
+#$ PRIMITIVE I34 g_input 2 I_27 D_27_
+#$ PRIMITIVE I35 g_input 2 I_26 D_26_
+#$ PRIMITIVE I36 g_input 2 I_25 D_25_
+#$ PRIMITIVE I37 g_input 2 I_24 D_24_
+#$ PRIMITIVE I38 g_input 2 I_23 D_23_
+#$ PRIMITIVE I39 g_input 2 I_22 D_22_
+#$ PRIMITIVE I40 g_input 2 I_21 D_21_
+#$ PRIMITIVE I41 g_input 2 I_20 D_20_
+#$ PRIMITIVE I42 g_input 2 I_19 D_19_
+#$ PRIMITIVE I43 g_input 2 I_18 D_18_
+#$ PRIMITIVE I44 g_input 2 I_17 D_17_
+#$ PRIMITIVE I45 g_input 2 I_16 D_16_
+#$ PRIMITIVE I46 g_input 2 I_15 D_15_
+#$ PRIMITIVE I47 g_input 2 I_14 D_14_
+#$ PRIMITIVE I48 g_input 2 I_13 D_13_
+#$ PRIMITIVE I49 g_input 2 I_12 D_12_
+#$ PRIMITIVE I50 g_input 2 I_11 D_11_
+#$ PRIMITIVE I51 g_input 2 I_10 D_10_
+#$ PRIMITIVE I52 g_input 2 I_7 D_7_
+#$ PRIMITIVE I53 g_input 2 I_6 D_6_
+#$ PRIMITIVE I54 g_input 2 I_8 D_8_
+#$ PRIMITIVE I55 g_input 2 I_2 D_2_
+#$ PRIMITIVE I56 g_input 2 I_9 D_9_
+#$ PRIMITIVE I57 g_input 2 I_5 D_5_
+#$ PRIMITIVE I58 g_input 2 I_4 D_4_
+#$ PRIMITIVE I59 g_input 2 I_3 D_3_
+#$ PRIMITIVE I60 g_input 2 I_1 D_1_
+#$ PRIMITIVE I1 g_output 2 D_28_ O_28
+#$ PRIMITIVE I10 g_output 2 D_20_ O_20
+#$ PRIMITIVE I11 g_output 2 D_19_ O_19
+#$ PRIMITIVE I12 g_output 2 D_18_ O_18
+#$ PRIMITIVE I13 g_output 2 D_17_ O_17
+#$ PRIMITIVE I14 g_output 2 D_16_ O_16
+#$ PRIMITIVE I15 g_output 2 D_15_ O_15
+#$ PRIMITIVE I16 g_output 2 D_13_ O_13
+#$ PRIMITIVE I17 g_output 2 D_14_ O_14
+#$ PRIMITIVE I18 g_output 2 D_12_ O_12
+#$ PRIMITIVE I19 g_output 2 D_11_ O_11
+#$ PRIMITIVE I2 g_output 2 D_29_ O_29
+#$ PRIMITIVE I20 g_output 2 D_10_ O_10
+#$ PRIMITIVE I21 g_output 2 D_9_ O_9
+#$ PRIMITIVE I22 g_output 2 D_8_ O_8
+#$ PRIMITIVE I23 g_output 2 D_7_ O_7
+#$ PRIMITIVE I24 g_output 2 D_6_ O_6
+#$ PRIMITIVE I25 g_output 2 D_5_ O_5
+#$ PRIMITIVE I26 g_output 2 D_4_ O_4
+#$ PRIMITIVE I27 g_output 2 D_3_ O_3
+#$ PRIMITIVE I28 g_output 2 D_2_ O_2
+#$ PRIMITIVE I29 g_output 2 D_1_ O_1
+#$ PRIMITIVE I3 g_output 2 D_27_ O_27
+#$ PRIMITIVE I30 g_output 2 D_0_ O_0
+#$ PRIMITIVE I4 g_output 2 D_26_ O_26
+#$ PRIMITIVE I5 g_output 2 D_25_ O_25
+#$ PRIMITIVE I6 g_output 2 D_24_ O_24
+#$ PRIMITIVE I7 g_output 2 D_23_ O_23
+#$ PRIMITIVE I8 g_output 2 D_22_ O_22
+#$ PRIMITIVE I9 g_output 2 D_21_ O_21
+.model uz_tempcard_cpld_schematic
+
+.end

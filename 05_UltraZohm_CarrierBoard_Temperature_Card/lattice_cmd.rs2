@@ -1,0 +1,1 @@
+-nodal -src uz_temperature_card.bl5 -type BLIF -presrc uz_temperature_card.bl3 -crf uz_temperature_card.crf -sif uz_temperature_card.sif -devfile "C:/ispLEVER_Classic2_1/ispcpld/dat/lc4k/m4s_128_64.dev" -lci uz_temperature_card.lct

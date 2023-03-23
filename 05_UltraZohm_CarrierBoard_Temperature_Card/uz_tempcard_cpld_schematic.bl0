@@ -1,0 +1,161 @@
+#$ TOOL ispLEVER Classic 2.1.00.02.49.20
+#$ DATE Fri May 21 11:45:32 2021
+#$ TITLE uz_tempcard_cpld_schematic.bls 
+#$ MODULE uz_tempcard_cpld_schematic
+#$ PINS 60 O_29'o'  O_28'o'  O_27'o'  O_26'o'  O_25'o'  O_24'o'  O_23'o'  O_22'o'  O_21'o'  O_20'o'  O_19'o'  O_18'o'  O_17'o'  \
+#  O_16'o'  O_15'o'  O_14'o'  O_13'o'  O_12'o'  O_11'o'  O_10'o'  O_9'o'  O_8'o'  O_7'o'  O_6'o'  O_5'o'  O_4'o'  O_3'o'  O_2'o'  O_1'o'  O_0'o'  \
+#  I_29 I_28 I_27 I_26 I_25 I_24 I_23 I_22 I_21 I_20 I_19 I_18 I_17 I_16 I_15 I_14 I_13 I_12 I_11 \
+#  I_10 I_9 I_8 I_7 I_6 I_5 I_4 I_3 I_2 I_1 I_0
+#$ NODES 30 D_0_'o'  D_1_'o'  D_2_'o'  D_3_'o'  D_4_'o'  D_5_'o'  D_6_'o'  D_7_'o'  D_8_'o'  D_9_'o'  D_10_'o'  D_11_'o'  \
+#  D_12_'o'  D_13_'o'  D_14_'o'  D_15_'o'  D_16_'o'  D_17_'o'  D_18_'o'  D_19_'o'  D_20_'o'  D_21_'o'  D_22_'o'  D_23_'o'  D_24_'o'  \
+#  D_25_'o'  D_26_'o'  D_27_'o'  D_28_'o'  D_29_'o' 
+.model uz_tempcard_cpld_schematic
+.inputs I_0.BLIF I_29.BLIF I_28.BLIF I_27.BLIF I_26.BLIF I_25.BLIF I_24.BLIF \
+I_23.BLIF I_22.BLIF I_21.BLIF I_20.BLIF I_19.BLIF I_18.BLIF I_17.BLIF \
+I_16.BLIF I_15.BLIF I_14.BLIF I_13.BLIF I_12.BLIF I_11.BLIF I_10.BLIF I_7.BLIF \
+I_6.BLIF I_8.BLIF I_2.BLIF I_9.BLIF I_5.BLIF I_4.BLIF I_3.BLIF I_1.BLIF \
+D_28_.BLIF D_20_.BLIF D_19_.BLIF D_18_.BLIF D_17_.BLIF D_16_.BLIF D_15_.BLIF \
+D_13_.BLIF D_14_.BLIF D_12_.BLIF D_11_.BLIF D_29_.BLIF D_10_.BLIF D_9_.BLIF \
+D_8_.BLIF D_7_.BLIF D_6_.BLIF D_5_.BLIF D_4_.BLIF D_3_.BLIF D_2_.BLIF \
+D_1_.BLIF D_27_.BLIF D_0_.BLIF D_26_.BLIF D_25_.BLIF D_24_.BLIF D_23_.BLIF \
+D_22_.BLIF D_21_.BLIF
+.outputs D_0_ D_29_ D_28_ D_27_ D_26_ D_25_ D_24_ D_23_ D_22_ D_21_ D_20_ \
+D_19_ D_18_ D_17_ D_16_ D_15_ D_14_ D_13_ D_12_ D_11_ D_10_ D_7_ D_6_ D_8_ \
+D_2_ D_9_ D_5_ D_4_ D_3_ D_1_ O_28 O_20 O_19 O_18 O_17 O_16 O_15 O_13 O_14 \
+O_12 O_11 O_29 O_10 O_9 O_8 O_7 O_6 O_5 O_4 O_3 O_2 O_1 O_27 O_0 O_26 O_25 \
+O_24 O_23 O_22 O_21
+
+.subckt g_input I.BLIF=I_0.BLIF O=D_0_
+
+.subckt g_input I.BLIF=I_29.BLIF O=D_29_
+
+.subckt g_input I.BLIF=I_28.BLIF O=D_28_
+
+.subckt g_input I.BLIF=I_27.BLIF O=D_27_
+
+.subckt g_input I.BLIF=I_26.BLIF O=D_26_
+
+.subckt g_input I.BLIF=I_25.BLIF O=D_25_
+
+.subckt g_input I.BLIF=I_24.BLIF O=D_24_
+
+.subckt g_input I.BLIF=I_23.BLIF O=D_23_
+
+.subckt g_input I.BLIF=I_22.BLIF O=D_22_
+
+.subckt g_input I.BLIF=I_21.BLIF O=D_21_
+
+.subckt g_input I.BLIF=I_20.BLIF O=D_20_
+
+.subckt g_input I.BLIF=I_19.BLIF O=D_19_
+
+.subckt g_input I.BLIF=I_18.BLIF O=D_18_
+
+.subckt g_input I.BLIF=I_17.BLIF O=D_17_
+
+.subckt g_input I.BLIF=I_16.BLIF O=D_16_
+
+.subckt g_input I.BLIF=I_15.BLIF O=D_15_
+
+.subckt g_input I.BLIF=I_14.BLIF O=D_14_
+
+.subckt g_input I.BLIF=I_13.BLIF O=D_13_
+
+.subckt g_input I.BLIF=I_12.BLIF O=D_12_
+
+.subckt g_input I.BLIF=I_11.BLIF O=D_11_
+
+.subckt g_input I.BLIF=I_10.BLIF O=D_10_
+
+.subckt g_input I.BLIF=I_7.BLIF O=D_7_
+
+.subckt g_input I.BLIF=I_6.BLIF O=D_6_
+
+.subckt g_input I.BLIF=I_8.BLIF O=D_8_
+
+.subckt g_input I.BLIF=I_2.BLIF O=D_2_
+
+.subckt g_input I.BLIF=I_9.BLIF O=D_9_
+
+.subckt g_input I.BLIF=I_5.BLIF O=D_5_
+
+.subckt g_input I.BLIF=I_4.BLIF O=D_4_
+
+.subckt g_input I.BLIF=I_3.BLIF O=D_3_
+
+.subckt g_input I.BLIF=I_1.BLIF O=D_1_
+
+.subckt g_output I.BLIF=D_28_.BLIF O=O_28
+
+.subckt g_output I.BLIF=D_20_.BLIF O=O_20
+
+.subckt g_output I.BLIF=D_19_.BLIF O=O_19
+
+.subckt g_output I.BLIF=D_18_.BLIF O=O_18
+
+.subckt g_output I.BLIF=D_17_.BLIF O=O_17
+
+.subckt g_output I.BLIF=D_16_.BLIF O=O_16
+
+.subckt g_output I.BLIF=D_15_.BLIF O=O_15
+
+.subckt g_output I.BLIF=D_13_.BLIF O=O_13
+
+.subckt g_output I.BLIF=D_14_.BLIF O=O_14
+
+.subckt g_output I.BLIF=D_12_.BLIF O=O_12
+
+.subckt g_output I.BLIF=D_11_.BLIF O=O_11
+
+.subckt g_output I.BLIF=D_29_.BLIF O=O_29
+
+.subckt g_output I.BLIF=D_10_.BLIF O=O_10
+
+.subckt g_output I.BLIF=D_9_.BLIF O=O_9
+
+.subckt g_output I.BLIF=D_8_.BLIF O=O_8
+
+.subckt g_output I.BLIF=D_7_.BLIF O=O_7
+
+.subckt g_output I.BLIF=D_6_.BLIF O=O_6
+
+.subckt g_output I.BLIF=D_5_.BLIF O=O_5
+
+.subckt g_output I.BLIF=D_4_.BLIF O=O_4
+
+.subckt g_output I.BLIF=D_3_.BLIF O=O_3
+
+.subckt g_output I.BLIF=D_2_.BLIF O=O_2
+
+.subckt g_output I.BLIF=D_1_.BLIF O=O_1
+
+.subckt g_output I.BLIF=D_27_.BLIF O=O_27
+
+.subckt g_output I.BLIF=D_0_.BLIF O=O_0
+
+.subckt g_output I.BLIF=D_26_.BLIF O=O_26
+
+.subckt g_output I.BLIF=D_25_.BLIF O=O_25
+
+.subckt g_output I.BLIF=D_24_.BLIF O=O_24
+
+.subckt g_output I.BLIF=D_23_.BLIF O=O_23
+
+.subckt g_output I.BLIF=D_22_.BLIF O=O_22
+
+.subckt g_output I.BLIF=D_21_.BLIF O=O_21
+.end
+.model g_input
+.inputs I.BLIF
+.outputs O
+.names I.BLIF O
+1 1
+0 0
+.end
+.model g_output
+.inputs I.BLIF
+.outputs O
+.names I.BLIF O
+1 1
+0 0
+.end

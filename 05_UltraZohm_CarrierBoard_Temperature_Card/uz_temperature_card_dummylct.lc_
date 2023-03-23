@@ -1,0 +1,297 @@
+[DEVICE]
+Family = lc4k;
+PartType = LA4128V;
+Package = 100TQFP;
+PartNumber = LA4128V-75TN100E;
+Speed = -7.5;
+Operating_condition = AUTO;
+EN_Segment = Yes;
+Pin_MC_1to1 = No;
+Default_Device_Io_Types=LVCMOS18,-;
+Voltage = 3.3;
+
+[REVISION]
+RCS = "$Header $";
+Parent = lc4k128v.lci;
+Design = ;
+DATE = 05/21/2021;
+TIME = 11:45:18;
+Source_Format = Schematic_VHDL;
+Type = ;
+Pre_Fit_Time = ;
+
+[IGNORE ASSIGNMENTS]
+Pin_Assignments = No;
+Pin_Keep_Block = No;
+Pin_Keep_Segment = No;
+Group_Assignments = No;
+Macrocell_Assignments = No;
+Macrocell_Keep_Block = No;
+Macrocell_Keep_Segment = No;
+Pin_Reservation = No;
+Block_Reservation = No;
+Segment_Reservation = No;
+Timing_Constraints = No;
+IO_Types = No;
+
+[CLEAR ASSIGNMENTS]
+Pin_Assignments = No;
+Pin_Keep_Block = No;
+Pin_Keep_Segment = No;
+Group_Assignments = No;
+Macrocell_Assignments = No;
+Macrocell_Keep_Block = No;
+Macrocell_Keep_Segment = No;
+Pin_Reservation = No;
+Block_Reservation = No;
+Segment_Reservation = No;
+Timing_Constraints = No;
+IO_Types = No;
+
+[BACKANNOTATE ASSIGNMENTS]
+Pin_Assignment = No;
+Pin_Block = No;
+Pin_Macrocell_Block = No;
+Routing = No;
+Io_Types = No;
+
+[GLOBAL CONSTRAINTS]
+Max_Fanin = 24;
+Max_PTerm_Split = 80;
+Max_PTerm_Collapse = 16;
+Max_Pin_Percent = 100;
+Max_Macrocell_Percent = 100;
+Max_GLB_Input_Percent = 100;
+Logic_Reduction = Yes;
+XOR_Synthesis = Yes;
+Keep_XOR = No;
+DT_Synthesis = Yes;
+Node_Collapse = Yes;
+Nodes_collapsing_mode = FMAX;
+Fmax_Logic_Level = 1;
+Use_CE = Yes;
+Use_Internal_COM_FB = Yes;
+Set_Reset_Swap = No;
+Clock_Optimize = No;
+EN_Set_Reset_Dont_Care = No;
+TOE_AS_IO = No;
+Set_Reset_Dont_Care = No;
+EN_In_Reg_Optimize = No;
+In_Reg_Optimize = Yes;
+Run_Time = 0;
+Routing_Attempts = 2;
+Balanced_Partitioning = Yes;
+Spread_Placement = Yes;
+Usercode = ;
+Usercode_Format = HEX;
+Vcc = ;
+Dual_Function_Macrocell = 1;
+Global_PTOE = Yes;
+Hard_Fast_Bypass = No;
+Fitter_Effort_Level = LOW;
+Auto_buffering_for_high_glb_fanin = Off;
+Auto_buffering_for_low_bonded_io = Off;
+User_max_glb_fanin = 36;
+Adjust_input_assignments = Off;
+
+[LOCATION ASSIGNMENTS]
+// Block A
+I_29=pin,98,-,A,10;
+I_28=pin,97,-,A,8;
+I_27=pin,94,-,A,6;
+I_26=pin,93,-,A,4;
+I_25=pin,92,-,A,2;
+I_24=pin,91,-,A,0;
+// Block B
+I_7=pin,11,-,B,13;
+I_6=pin,10,-,B,12;
+I_3=pin,6,-,B,6;
+I_1=pin,4,-,B,2;
+I_0=pin,3,-,B,0;
+O_5=pin,9,-,B,11;
+O_4=pin,8,-,B,8;
+O_2=pin,5,-,B,4;
+// Block C
+I_15=pin,22,-,C,2;
+I_13=pin,20,-,C,5;
+I_12=pin,19,-,C,6;
+I_9=pin,15,-,C,12;
+O_14=pin,21,-,C,6;
+O_11=pin,17,-,C,10;
+O_10=pin,16,-,C,1;
+O_8=pin,14,-,C,3;
+// Block D
+I_23=pin,37,-,D,0;
+I_22=pin,36,-,D,2;
+I_21=pin,35,-,D,4;
+I_20=pin,34,-,D,6;
+I_19=pin,31,-,D,8;
+I_18=pin,30,-,D,10;
+O_17=pin,29,-,D,3;
+O_16=pin,28,-,D,13;
+// Block E
+I_14=pin,44,-,E,6;
+I_10=pin,42,-,E,2;
+I_8=pin,41,-,E,0;
+I_4=pin,48,-,E,10;
+I_2=pin,49,-,E,12;
+O_12=pin,43,-,E,5;
+O_6=pin,47,-,E,10;
+O_0=pin,50,-,E,2;
+// Block F
+I_11=pin,59,-,F,10;
+I_5=pin,55,-,F,4;
+O_15=pin,61,-,F,0;
+O_13=pin,60,-,F,1;
+O_9=pin,58,-,F,8;
+O_7=pin,56,-,F,6;
+O_3=pin,54,-,F,2;
+O_1=pin,53,-,F,3;
+// Block G
+I_17=pin,64,-,G,14;
+O_29=pin,70,-,G,5;
+O_27=pin,71,-,G,7;
+O_25=pin,72,-,G,3;
+O_23=pin,67,-,G,9;
+O_21=pin,66,-,G,1;
+O_19=pin,65,-,G,12;
+// Block H
+I_16=pin,84,-,H,6;
+O_28=pin,79,-,H,1;
+O_26=pin,80,-,H,12;
+O_24=pin,81,-,H,9;
+O_22=pin,87,-,H,3;
+O_20=pin,86,-,H,5;
+O_18=pin,85,-,H,7;
+[PTOE ASSIGNMENTS]
+
+[FAST BYPASS]
+Default=NONE;
+BYPASS=;
+
+[ORP BYPASS]
+default=NONE;
+
+[INPUT REGISTERS]
+Default=NONE;
+;
+
+[IO TYPES]
+I_29=LVCMOS18,pin,-,-;
+I_28=LVCMOS18,pin,-,-;
+I_27=LVCMOS18,pin,-,-;
+I_26=LVCMOS18,pin,-,-;
+I_25=LVCMOS18,pin,-,-;
+I_24=LVCMOS18,pin,-,-;
+I_23=LVCMOS18,pin,-,-;
+I_22=LVCMOS18,pin,-,-;
+I_21=LVCMOS18,pin,-,-;
+I_20=LVCMOS18,pin,-,-;
+I_19=LVCMOS18,pin,-,-;
+I_18=LVCMOS18,pin,-,-;
+I_17=LVCMOS33,pin,-,-;
+I_16=LVCMOS33,pin,-,-;
+I_15=LVCMOS18,pin,-,-;
+I_14=LVCMOS33,pin,-,-;
+I_13=LVCMOS18,pin,-,-;
+I_12=LVCMOS18,pin,-,-;
+I_11=LVCMOS33,pin,-,-;
+I_10=LVCMOS33,pin,-,-;
+I_9=LVCMOS18,pin,-,-;
+I_8=LVCMOS33,pin,-,-;
+I_7=LVCMOS18,pin,-,-;
+I_6=LVCMOS18,pin,-,-;
+I_5=LVCMOS33,pin,-,-;
+I_4=LVCMOS33,pin,-,-;
+I_3=LVCMOS18,pin,-,-;
+I_2=LVCMOS33,pin,-,-;
+I_1=LVCMOS18,pin,-,-;
+I_0=LVCMOS18,pin,-,-;
+O_29=LVCMOS33,pin,1,-;
+O_28=LVCMOS33,pin,1,-;
+O_27=LVCMOS33,pin,1,-;
+O_26=LVCMOS33,pin,1,-;
+O_25=LVCMOS33,pin,1,-;
+O_24=LVCMOS33,pin,1,-;
+O_23=LVCMOS33,pin,1,-;
+O_22=LVCMOS33,pin,1,-;
+O_21=LVCMOS33,pin,1,-;
+O_20=LVCMOS33,pin,1,-;
+O_19=LVCMOS33,pin,1,-;
+O_18=LVCMOS33,pin,1,-;
+O_17=LVCMOS18,pin,0,-;
+O_16=LVCMOS18,pin,0,-;
+O_15=LVCMOS33,pin,1,-;
+O_14=LVCMOS18,pin,0,-;
+O_13=LVCMOS33,pin,1,-;
+O_12=LVCMOS33,pin,1,-;
+O_11=LVCMOS18,pin,0,-;
+O_10=LVCMOS18,pin,0,-;
+O_9=LVCMOS33,pin,1,-;
+O_8=LVCMOS18,pin,0,-;
+O_7=LVCMOS33,pin,1,-;
+O_6=LVCMOS33,pin,1,-;
+O_5=LVCMOS18,pin,0,-;
+O_4=LVCMOS18,pin,0,-;
+O_3=LVCMOS33,pin,1,-;
+O_2=LVCMOS18,pin,0,-;
+O_1=LVCMOS33,pin,1,-;
+O_0=LVCMOS33,pin,1,-;
+
+[PLL ASSIGNMENTS]
+
+[RESOURCE RESERVATIONS]
+layer=OFF;
+
+[SLEWRATE]
+FAST=O_0;
+Default=FAST;
+
+[PULLUP]
+Default=UP;
+
+[FITTER RESULTS]
+I/O_pin_util = 90;
+I/O_pin = 58;
+Logic_PT_util = 4;
+Logic_PT = 30;
+Occupied_MC_util = 25;
+Occupied_MC = 32;
+Occupied_PT_util = 7;
+Occupied_PT = 47;
+GLB_input_util = 10;
+GLB_input = 30;
+
+[TIMING CONSTRAINTS]
+layer=OFF;
+
+[FITTER REPORT FORMAT]
+Fitter_Options = Yes;
+Pinout_Diagram = No;
+Pinout_Listing = Yes;
+Detailed_Block_Segment_Summary = Yes;
+Input_Signal_List = Yes;
+Output_Signal_List = Yes;
+Bidir_Signal_List = Yes;
+Node_Signal_List = Yes;
+Signal_Fanout_List = Yes;
+Block_Segment_Fanin_List = Yes;
+Postfit_Eqn = Yes;
+Page_Break = Yes;
+Detailed = No;
+
+[POWER]
+Default=HIGH;
+
+[SOURCE_CONSTRAINT_OPTION]
+
+[HARDWARE DEVICE OPTIONS]
+Zero_Hold_Time = No;
+Signature_Word = ;
+Pullup = No;
+Slew_Rate = FAST;
+
+[TIMING ANALYZER]
+Last_source=;
+Last_source_type=Fmax;
+

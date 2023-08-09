@@ -1,0 +1,134 @@
+ispLEVER Auto-Make Log File
+---------------------------
+
+Updating: JEDEC File
+Start to record tcl script...
+Finished recording TCL script.
+
+Starting: 'C:\ispLEVER_Classic2_1\ispcpld\bin\ahdl2blf.exe top_level.abl -mod UZ_CPLD -ojhd compile -ret -def _AMDMACH_ _MACH_ _LSI5K_ _LATTICE_ _PLSI_ _MACH4ZE_  -err automake.err -gui'
+
+AHDL2BLF  ABEL-HDL Processor
+ispLEVER Classic 2.1 Copyright(C), 1992-2005, Lattice Semiconductor Corporation. All rights reserved
+Portions Copyright(c), 1992-1999, Vantis Corporation
+Portions Copyright(C), 1993-1998, Data I/O Corporation
+Portions Copyright(C), 1997-1998, MINC Washington Corporation
+Portions Copyright(C), Alan Phillips, Lancaster University Computer Centre 1992-1998
+Module: 'UZ_CPLD'
+
+  Processing equations...
+
+  Module parsing complete. Building logic network...
+
+  Creating Open-ABEL 2 (BLIF) file uz_cpld.bl0...
+
+
+
+Module 'uz_cpld' processing complete.
+
+AHDL2BLF complete - 0 errors, 0 warnings. Time: 1 seconds
+
+Done: completed successfully.
+
+Starting: 'C:\ispLEVER_Classic2_1\ispcpld\bin\mblifopt.exe UZ_CPLD.bl0 -collapse none -reduce none -err automake.err -gui -keepwires'
+
+BLIFOPT  Open-ABEL Optimizer 
+U.C. Berkeley, SIS Ver. 1.0, supported by Lattice Semiconductor
+ispLEVER Classic 2.1 Copyright 1992-2020 Lattice Semiconductor. All Rights Reserved.
+Reading Open-ABEL 2 file UZ_CPLD.bl0...
+Writing Open-ABEL 2 (BLIF) file UZ_CPLD.bl1...
+Note    0: 
+BLIFOPT complete - Time 0 seconds
+Done: completed successfully.
+
+Starting: 'C:\ispLEVER_Classic2_1\ispcpld\bin\mblflink.exe "UZ_CPLD.bl1" -o "uz_cpld_enc01_2_increip.bl2" -omod "uz_cpld_enc01_2_increip" -gui -err "automake.err"'
+
+BLIFLINK  Top-Down Design Linker
+ispLEVER Classic 2.1 Copyright 1992-2020 Lattice Semiconductor. All Rights Reserved.
+
+Top-level file: 'UZ_CPLD.bl1'
+
+Hierarchical BLIF: 'uz_cpld_enc01_2_increip.bl2'
+
+BLIFLINK complete.  Time: 1 second 
+Done: completed successfully.
+
+Starting: 'C:\ispLEVER_Classic2_1\ispcpld\bin\impsrc.exe @9800.rsp'
+Original: 'impsrc -gui -prj uz_cpld_enc01_2_increip -lci uz_cpld_enc01_2_increip.lct -log uz_cpld_enc01_2_increip.imp -err automake.err -tti uz_cpld_enc01_2_increip.bl2 -dir c:\git\ultrazohm\software\cpld_lattice\encoder_rev01_2_increencoderip'
+
+Source constraints were successfully imported to the current project.
+Done: completed successfully.
+
+Starting: 'C:\ispLEVER_Classic2_1\ispcpld\bin\abelvci.exe -vci uz_cpld_enc01_2_increip.lct -blifopt uz_cpld_enc01_2_increip.b2_'
+
+Done: completed successfully.
+
+Starting: 'C:\ispLEVER_Classic2_1\ispcpld\bin\mblifopt.exe uz_cpld_enc01_2_increip.bl2 -sweep -mergefb -err automake.err -o uz_cpld_enc01_2_increip.bl3 @uz_cpld_enc01_2_increip.b2_ -gui'
+
+BLIFOPT  Open-ABEL Optimizer 
+U.C. Berkeley, SIS Ver. 1.0, supported by Lattice Semiconductor
+ispLEVER Classic 2.1 Copyright 1992-2020 Lattice Semiconductor. All Rights Reserved.
+Reading Open-ABEL 2 file uz_cpld_enc01_2_increip.bl2...
+Merging feedbacks...
+Note 13707: Fmax mode satisfied
+Control path optimization...
+Performing 'bypin choose' optimization...
+Note    0: Estimated (clusters + macrocells): 30, Fmax Logic Level: 0
+Writing Open-ABEL 2 (BLIF) file uz_cpld_enc01_2_increip.bl3...
+Note    0: 
+BLIFOPT complete - Time 0 seconds
+Done: completed successfully.
+
+Starting: 'C:\ispLEVER_Classic2_1\ispcpld\bin\abelvci.exe -vci uz_cpld_enc01_2_increip.lct -dev lc4k -diofft uz_cpld_enc01_2_increip.d0'
+
+Done: completed successfully.
+
+Starting: 'C:\ispLEVER_Classic2_1\ispcpld\bin\mdiofft.exe uz_cpld_enc01_2_increip.bl3 -family AMDMACH -idev van -o uz_cpld_enc01_2_increip.bl4 -oxrf uz_cpld_enc01_2_increip.xrf -err automake.err @uz_cpld_enc01_2_increip.d0 -gui'
+
+DIOFFT  Flip-Flop Transformation program
+ispLEVER Classic 2.1 Copyright 1992-2020 Lattice Semiconductor. All Rights Reserved.
+Input file: uz_cpld_enc01_2_increip.bl3.
+Output file: uz_cpld_enc01_2_increip.bl4.
+Cross reference file: uz_cpld_enc01_2_increip.xrf.
+
+Shortening signal names...
+Writing signal name cross reference file uz_cpld_enc01_2_increip.xrf... 
+
+DIOFFT complete - Time 0 seconds
+Done: completed successfully.
+
+Starting: 'C:\ispLEVER_Classic2_1\ispcpld\bin\abelvci.exe -vci uz_cpld_enc01_2_increip.lct -dev lc4k -prefit uz_cpld_enc01_2_increip.l0'
+
+Done: completed successfully.
+
+Starting: 'C:\ispLEVER_Classic2_1\ispcpld\bin\prefit.exe -blif -inp uz_cpld_enc01_2_increip.bl4 -out uz_cpld_enc01_2_increip.bl5 -err automake.err -log uz_cpld_enc01_2_increip.log -mod UZ_CPLD @uz_cpld_enc01_2_increip.l0 -gui -sc'
+
+Prefit Logic Optimizer (May 31 2012)  Wed Mar 30 14:38:20 2022
+
+C:\ispLEVER_Classic2_1\ispcpld\bin\prefit.exe -blif -inp uz_cpld_enc01_2_increip.bl4 -out uz_cpld_enc01_2_increip.bl5 -err automake.err -log uz_cpld_enc01_2_increip.log -mod UZ_CPLD @uz_cpld_enc01_2_increip.l0 -gui -sc 
+Number of pins (IO)    :    60
+Number of outputs (MC) :    30
+Number of registers    :     0
+Number of logic pterms :    30
+C:\ispLEVER_Classic2_1\ispcpld\bin\prefit.exe complete - Time 0 seconds
+
+Done: completed successfully.
+
+Starting: 'C:\ispLEVER_Classic2_1\ispcpld\bin\lpf4k.exe @"uz_cpld_enc01_2_increip.rs2"'
+
+Project 'uz_cpld_enc01_2_increip' was Fitted Successfully!
+
+Done: completed successfully.
+
+Starting: 'C:\ispLEVER_Classic2_1\ispcpld\bin\tda.exe -i uz_cpld_enc01_2_increip.bl5 -o uz_cpld_enc01_2_increip.tda -lci uz_cpld_enc01_2_increip.lct -dev m4s_128_64 -family lc4k -mod UZ_CPLD -ovec NoInput.tmv -err tda.err -gui'
+
+TDA  - Timing Driven Analyze 
+Ver. 1.0, supported by Lattice Semiconductor
+ispLEVER Classic 2.1 Copyright 1992-2020 Lattice Semiconductor. All Rights Reserved.
+
+TDA complete - Time 1 seconds
+Done: completed successfully.
+
+Starting: 'C:\ispLEVER_Classic2_1\ispcpld\bin\synsvf.exe -exe "C:\ispLEVER_Classic2_1\ispvmsystem/ispufw" -prj uz_cpld_enc01_2_increip -if uz_cpld_enc01_2_increip.jed -j2s -log uz_cpld_enc01_2_increip.svl -gui'
+
+Need not generate svf file according to the constraints, exit
+Done: completed successfully.

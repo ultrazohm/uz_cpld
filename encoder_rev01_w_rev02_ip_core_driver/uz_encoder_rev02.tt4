@@ -1,0 +1,88 @@
+#$ TOOL   ispLEVER Classic 2.1.00.02.49.20
+#$ DATE   Thu Apr 07 09:43:37 2022
+#$ JEDECFILE   uz_cpld
+#$ MODULE   UZ_CPLD
+#$ PROPERTY   Lattice PULL Default=DOWN;
+#$ PROPERTY   Lattice IO_TYPES d_00=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_01=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_02=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_03=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_04=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_05=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_06=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_07=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_08=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_09=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_10=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_11=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_12=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_13=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_14=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_15=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_16=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_17=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_18=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_19=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_20=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_21=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_22=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_23=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_24=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_25=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_26=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_27=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_28=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES d_29=LVCMOS33,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_00=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_01=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_02=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_03=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_04=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_05=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_06=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_07=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_08=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_09=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_10=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_11=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_12=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_13=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_14=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_15=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_16=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_17=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_18=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_19=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_20=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_21=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_22=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_23=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_24=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_25=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_26=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_27=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_28=LVCMOS18,pin,-,-;
+#$ PROPERTY   Lattice IO_TYPES fpga_29=LVCMOS18,pin,-,-;
+#$ PINS 60 fpga_00 fpga_01 fpga_02 fpga_03 fpga_04 fpga_05 fpga_06 fpga_07
+ fpga_08 fpga_09 fpga_10 fpga_11 fpga_12 fpga_13 fpga_14 fpga_15 fpga_16 fpga_17
+ fpga_18 fpga_19 fpga_20 fpga_21 fpga_22 fpga_23 fpga_24 fpga_25 fpga_26 fpga_27
+ fpga_28 fpga_29 d_00 d_01 d_02 d_03 d_04 d_05 d_06 d_07 d_08 d_09 d_10 d_11
+ d_12 d_13 d_14 d_15 d_16 d_17 d_18 d_19 d_20 d_21 d_22 d_23 d_24 d_25 d_26 d_27
+ d_28 d_29
+.type f
+.i 9
+.o 9
+.ilb fpga_07 fpga_08 d_05 fpga_10 fpga_11 fpga_12 fpga_13 fpga_14 fpga_15
+.ob fpga_09 d_01 d_02 d_03 d_04 d_06 d_07 d_08 d_09
+.phase 111111111
+.p 9
+--1------ 100000000
+---1----- 010000000
+--------1 001000000
+----1---- 000100000
+-----1--- 000010000
+-1------- 000001000
+1-------- 000000100
+------1-- 000000010
+-------1- 000000001
+.end

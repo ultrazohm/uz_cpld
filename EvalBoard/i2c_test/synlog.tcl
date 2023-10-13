@@ -1,1 +1,0 @@
-project -load c:/zynqultra/60_software/cpld_lattice/evalboard/i2c_test/i2c_slave.prj

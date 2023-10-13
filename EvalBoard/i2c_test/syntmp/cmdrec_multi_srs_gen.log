@@ -1,7 +1,0 @@
-C:\ispLEVER_Classic2_1\synpbase\bin64\syn_nfilter.exe  -link  -top  i2c_slave  -multisrs  C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\synwork\i2c_slave_comp.srs  -osyn  C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\synwork\i2c_slave_mult.srs  -log  C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\synlog\i2c_slave_multi_srs_gen.srr 
-rc:0 success:1
-C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\synwork\i2c_slave_comp.srs|i|1616327071|4516
-C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\synwork\i2c_slave_mult.srs|o|1616327073|4835
-C:\zynqultra\60_software\cpld_lattice\evalboard\i2c_test\synlog\i2c_slave_multi_srs_gen.srr|o|1616327073|376
-C:\ispLEVER_Classic2_1\synpbase\bin\syn_nfilter.exe|i|1401220336|2741760
-C:\ispLEVER_Classic2_1\synpbase\bin64\syn_nfilter.exe|i|1401220532|6337536

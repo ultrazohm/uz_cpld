@@ -18,9 +18,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:\GIT\UltraZohm\software\cpld_lattice\LC4256V\26tx_with_enable\uz_cpld_26tx_with_enable.jed</File>
-			<FileTime>11/11/22 11:02:34</FileTime>
-			<JedecChecksum>0x9F50</JedecChecksum>
+			<File>C:\GIT\UltraZohm\software\cpld_lattice_clean\LC4256V\30tx\uz_cpld_30tx.jed</File>
+			<FileTime>02/14/24 14:38:54</FileTime>
+			<JedecChecksum>0x9E1F</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -49,9 +49,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:\GIT\UltraZohm\software\cpld_lattice\LC4256V\26tx_with_enable\uz_cpld_26tx_with_enable.jed</File>
-			<FileTime>11/11/22 11:02:34</FileTime>
-			<JedecChecksum>0x9F50</JedecChecksum>
+			<File>C:\GIT\UltraZohm\software\cpld_lattice_clean\LC4256V\30tx\uz_cpld_30tx.jed</File>
+			<FileTime>02/14/24 14:38:54</FileTime>
+			<JedecChecksum>0x9E1F</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -80,9 +80,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:\GIT\UltraZohm\software\cpld_lattice\LC4256V\26tx_with_enable\uz_cpld_26tx_with_enable.jed</File>
-			<FileTime>11/11/22 11:02:34</FileTime>
-			<JedecChecksum>0x9F50</JedecChecksum>
+			<File>C:\GIT\UltraZohm\software\cpld_lattice_clean\LC4256V\30tx\uz_cpld_30tx.jed</File>
+			<FileTime>02/14/24 14:38:54</FileTime>
+			<JedecChecksum>0x9E1F</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -111,9 +111,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:\GIT\UltraZohm\software\cpld_lattice\LC4256V\26tx_with_enable\uz_cpld_26tx_with_enable.jed</File>
-			<FileTime>11/11/22 11:02:34</FileTime>
-			<JedecChecksum>0x9F50</JedecChecksum>
+			<File>C:\GIT\UltraZohm\software\cpld_lattice_clean\LC4256V\uz_d_temperature_ltc2983\uz_temperature_card.jed</File>
+			<FileTime>11/09/23 15:46:44</FileTime>
+			<JedecChecksum>0x98CC</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -142,9 +142,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:\GIT\UltraZohm\software\cpld_lattice\LC4256V\30rx\uz_cpld_30rx.jed</File>
-			<FileTime>11/11/22 11:05:17</FileTime>
-			<JedecChecksum>0x9060</JedecChecksum>
+			<File>C:\GIT\UltraZohm\software\cpld_lattice_clean\LC4256V\uz_d_resolver\digital_D5\uz_cpld_uz_d_resolver_d5.jed</File>
+			<FileTime>02/05/24 16:58:45</FileTime>
+			<JedecChecksum>0xE72C</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>

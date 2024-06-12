@@ -1,0 +1,11 @@
+JDF B
+// Created by Version 2.1 
+PROJECT UltraZohm_CPLD_Digital
+DESIGN uz_cpld_30tx_all_pins_zero Normal
+DEVKIT LA4128V-75TN100E
+ENTRY ABEL/Schematic
+MODULE top_level.abl
+MODSTYLE UZ_CPLD Normal
+SYNTHESIS_TOOL Synplify
+SIMULATOR_TOOL ActiveHDL
+TOPMODULE UZ_CPLD

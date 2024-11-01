@@ -1,0 +1,10 @@
+----------------------------------------------------------------------
+Report for cell SignalRouter.TECH
+Register bits:  0 of 2352 (0.000%)
+I/O cells:      59
+                                  Cell usage:
+                               cell     count   Res Usage(%)
+                                GSR         1          100.0
+                                 IB        18          100.0
+                                 OB        41          100.0
+                              TOTAL        60

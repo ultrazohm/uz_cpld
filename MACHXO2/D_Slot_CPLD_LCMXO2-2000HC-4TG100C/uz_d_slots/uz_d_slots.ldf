@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BaliProject version="3.2" title="uz_d_slots" device="LCMXO2-2000HC-4TG100C" default_implementation="uz_d_3ph_inverter">
+    <Options/>
+    <Implementation title="rx30" dir="rx30" description="rx30" synthesis="lse" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="rx30.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="tx26_w_enable" dir="tx26_w_enable" description="tx26_w_enable" synthesis="lse" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="tx26_w_enable.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="tx30" dir="tx30" description="tx30" synthesis="lse" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="tx30.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="uz_d_3ph_inverter" dir="uz_d_3ph_inverter" description="uz_d_3ph_inverter" synthesis="lse" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="uz_d_3ph_inverter.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="uz_d_resolver_d1_to_d4" dir="uz_d_resolver_d1_to_d4" description="uz_d_resolver_d1_to_d4" synthesis="lse" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="uz_d_resolver_d1_to_d4.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="uz_d_resolver_d5" dir="uz_d_resolver_d5" description="uz_d_resolver_d5" synthesis="lse" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="uz_d_resolve_d5.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Strategy name="Strategy1" file="uz_d_slots1.sty"/>
+</BaliProject>

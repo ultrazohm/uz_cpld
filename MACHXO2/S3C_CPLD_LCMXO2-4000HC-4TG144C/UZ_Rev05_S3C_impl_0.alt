@@ -1,0 +1,27 @@
+NOTE Copyright (C), 1992-2010, Lattice Semiconductor Corporation *
+NOTE All Rights Reserved *
+NOTE DATE CREATED: Thu Oct 24 13:13:11 2024 *
+NOTE DESIGN NAME: Powerup_V0 *
+NOTE DEVICE NAME: LCMXO2-4000HC-4TQFP144 *
+NOTE PIN ASSIGNMENTS *
+NOTE PINS Carrier_PG_1V8 : 107 : out *
+NOTE PINS Carrier_PwrOn : 1 : out *
+NOTE PINS SD_Select : 41 : out *
+NOTE PINS FPIO_FlexMIO52 : 109 : out *
+NOTE PINS FlexMio61ExternalStop : 50 : out *
+NOTE PINS FP_UsrLED1 : 95 : out *
+NOTE PINS FP_UsrLED2 : 96 : out *
+NOTE PINS FP_UsrLED3 : 97 : out *
+NOTE PINS FP_UsrLED4 : 98 : out *
+NOTE PINS FP_SysLEDg : 141 : out *
+NOTE PINS FP_SysLEDr : 142 : out *
+NOTE PINS FP_SysLEDb : 143 : out *
+NOTE PINS SysSW_Pwr_NC : 121 : in *
+NOTE PINS FlexMIOs52_PCIe : 47 : in *
+NOTE PINS FPIO_ExternalStop : 114 : in *
+NOTE PINS SYSCONFIG_PIN_MCLK : 44 : inout *
+NOTE PINS SYSCONFIG_PIN_SO : 45 : inout *
+NOTE PINS SYSCONFIG_PIN_SN : 70 : in *
+NOTE PINS SYSCONFIG_PIN_SI : 71 : inout *
+NOTE CONFIGURATION MODE: NONE *
+NOTE COMPRESSION: on *

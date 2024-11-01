@@ -1,0 +1,5 @@
+
+
+-g RamCfg:Reset
+
+-path "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots"  

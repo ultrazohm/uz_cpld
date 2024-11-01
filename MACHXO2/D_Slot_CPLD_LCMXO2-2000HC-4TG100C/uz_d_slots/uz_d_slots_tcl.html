@@ -24,6 +24,85 @@ prj_project close
 
 
 
+<A name="pn241101163828"></A><B><U><big>pn241101163828</big></U></B>
+#Start recording tcl command: 11/1/2024 13:59:31
+#Project Location: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots; Project name: uz_d_slots
+prj_project open "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_slots.ldf"
+prj_impl active "rx30"
+prj_impl active "tx30"
+prj_src remove "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/top_level.vhdl"
+prj_src add "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30.vhdl"
+prj_run Synthesis -impl tx30
+prj_run PAR -impl tx30
+prj_run Export -impl tx30
+prj_impl active "rx30"
+prj_src add "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/rx30.vhdl"
+prj_run Synthesis -impl rx30
+prj_run Synthesis -impl rx30
+prj_impl active "tx30"
+prj_run Synthesis -impl tx30
+prj_run PAR -impl tx30
+prj_run Export -impl tx30
+prj_impl active "rx30"
+prj_impl active "tx30"
+prj_impl active "rx30"
+prj_run Synthesis -impl rx30
+prj_impl active "tx30"
+prj_impl active "rx30"
+prj_run Synthesis -impl rx30
+prj_src exclude "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/rx30.vhdl"
+prj_src enable "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/rx30.vhdl"
+prj_impl active "tx30"
+prj_src exclude "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30.vhdl"
+prj_impl active "rx30"
+prj_run Synthesis -impl rx30
+prj_impl active "tx30"
+prj_src enable "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30.vhdl"
+prj_impl active "rx30"
+prj_run Synthesis -impl rx30
+prj_run PAR -impl rx30
+prj_run Export -impl rx30
+prj_impl new "tx26_w_enable" -dir "tx26_w_enable" -strategy "Strategy1" -synthesis "lse"
+prj_impl active "tx26_w_enable"
+prj_src add "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx26_w_enable.vhdl"
+prj_run Synthesis -impl tx26_w_enable
+prj_run Synthesis -impl tx26_w_enable
+prj_run Synthesis -impl tx26_w_enable
+prj_run Synthesis -impl tx26_w_enable
+prj_run PAR -impl tx26_w_enable
+prj_run Export -impl tx26_w_enable
+prj_impl new "uz_d_resolver_d1_to_d4" -dir "uz_d_resolver_d1_to_d4" -strategy "Strategy1" -synthesis "lse"
+prj_impl active "uz_d_resolver_d1_to_d4"
+prj_src add "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_resolver_d1_to_d4.vhdl"
+prj_run Synthesis -impl uz_d_resolver_d1_to_d4
+prj_run PAR -impl uz_d_resolver_d1_to_d4
+prj_run Export -impl uz_d_resolver_d1_to_d4
+prj_impl new "uz_d_resolver_d5" -dir "uz_d_resolver_d5" -strategy "Strategy1" -synthesis "lse"
+prj_impl active "uz_d_resolver_d5"
+prj_src add "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_resolve_d5.vhdl"
+prj_run Synthesis -impl uz_d_resolver_d5
+prj_run Synthesis -impl uz_d_resolver_d5
+prj_run PAR -impl uz_d_resolver_d5
+prj_run Export -impl uz_d_resolver_d5
+prj_impl new "uz_d_3ph_inverter" -dir "uz_d_3ph_inverter" -strategy "Strategy1" -synthesis "lse"
+prj_impl active "uz_d_3ph_inverter"
+prj_src add "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_3ph_inverter.vhdl"
+prj_run Synthesis -impl uz_d_3ph_inverter
+prj_run PAR -impl uz_d_3ph_inverter
+prj_run Export -impl uz_d_3ph_inverter
+#Stop recording: 11/1/2024 16:38:28
+
+
+
+<A name="pn241101180712"></A><B><U><big>pn241101180712</big></U></B>
+#Start recording tcl command: 11/1/2024 18:03:26
+#Project Location: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots; Project name: uz_d_slots
+prj_project open "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_slots.ldf"
+prj_impl active "uz_d_resolver_d5"
+#Stop recording: 11/1/2024 18:07:12
+
+
+
 <BR>
 <BR>
 <BR>

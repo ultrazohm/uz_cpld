@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<BaliProject version="3.2" title="uz_d_slots" device="LCMXO2-2000HC-4TG100C" default_implementation="uz_d_3ph_inverter">
+<BaliProject version="3.2" title="uz_d_slots" device="LCMXO2-2000HC-4TG100C" default_implementation="uz_d_resolver_d5">
     <Options/>
+    <Implementation title="optical_14tx_4rx" dir="optical_14tx_4rx" description="optical_14tx_4rx" synthesis="lse" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="optical_14tx_4rx.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
     <Implementation title="rx30" dir="rx30" description="rx30" synthesis="lse" default_strategy="Strategy1">
         <Options def_top="SignalRouter"/>
         <Source name="rx30.vhdl" type="VHDL" type_short="VHDL">

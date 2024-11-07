@@ -91,12 +91,12 @@ architecture behavior of Powerup_V0 is
     constant debounce_limit : integer := 20800; -- 10ms, bei 2.08MhZ
 
     -- Entprell-Zähler und stabile Zustände der Taster
-    type debounce_array is array (0 to 3) of integer;
+    type debounce_array is array (0 to 4) of integer;
     signal debounce_counters : debounce_array := (others => 0);
-    signal button_inputs  : STD_LOGIC_VECTOR(3 downto 0);  -- Tastereingänge
-	signal stable_state : STD_LOGIC_VECTOR(3 downto 0) := (others => '1');
-    signal debounced    : STD_LOGIC_VECTOR(3 downto 0) := (others => '1');
-    signal button_debounced : STD_LOGIC_VECTOR(3 downto 0) := (others => '0');  -- Entprellte Ausgänge
+    signal button_inputs  : STD_LOGIC_VECTOR(4 downto 0);  -- Tastereingänge
+	signal stable_state : STD_LOGIC_VECTOR(4 downto 0) := (others => '1');
+    signal debounced    : STD_LOGIC_VECTOR(4 downto 0) := (others => '1');
+    signal button_debounced : STD_LOGIC_VECTOR(4 downto 0) := (others => '0');  -- Entprellte Ausgänge
 
 	-- internen oszillator definieren
 	COMPONENT OSCH
@@ -128,7 +128,7 @@ FPIO_FlexMIO52 <= FlexMIOs52_PCIe;
 FlexMio61ExternalStop <= FPIO_ExternalStop;
 
 -- Mapping der Taster zu einem Vektor für einfachere Handhabung
-button_inputs <= SysSW_Pwr_NC & FP_UsrSW1 & FP_UsrSW2 & FP_UsrSW3;
+button_inputs <= SysSW_Pwr_NC & FP_UsrSW1 & FP_UsrSW2 & FP_UsrSW3 & FPIO_ExternalStop;
 
 -- Prozess für Taster debouncen und Power enablen
 process(clk, PG_Module)
@@ -136,10 +136,9 @@ process(clk, PG_Module)
         if PG_Module = '0' then
             debounce_counters <= (others => 0);
             button_debounced <= (others => '1');
-			
         elsif rising_edge(clk) then
             -- Entprellung für jedes Signal im Vektor
-            for i in 0 to 3 loop
+            for i in 0 to 4 loop
                 if button_inputs(i) = '0' then  -- Taster gedrückt (LOW)
                     if debounce_counters(i) < debounce_limit then
                         debounce_counters(i) <= debounce_counters(i) + 1;
@@ -168,6 +167,9 @@ process(current_state, button_debounced)
         next_state <= current_state;  -- Standardzuweisung, um unerwünschte Latchs zu vermeiden
         case current_state is
             when Powerup =>
+			FP_SysLEDr <= '1';	
+			FP_SysLEDb <= '0';	
+			FP_SysLEDg <= '0';	
 			if button_debounced(0) = '0' then
 				Carrier_PwrOn <= '1';  -- Alle Rails enablen
 			else
@@ -177,7 +179,10 @@ process(current_state, button_debounced)
                 next_state <= EthernetPhy_Reset;
 
             when EthernetPhy_Reset =>
-                -- Übergang in den Safe_State nach Ethernet Reset
+            -- Übergang in den Safe_State nach Ethernet Reset
+			FP_SysLEDr <= '0';	
+			FP_SysLEDb <= '1';	
+			FP_SysLEDg <= '0';	
 			if rising_edge(clk) then
             if not count_done_100ms then
                 -- Zähle zuerst 100ms
@@ -202,27 +207,33 @@ process(current_state, button_debounced)
                 next_state <= Safe_State;
 
             when Safe_State =>
-					FP_UsrLED1  <=  '1';
-					FP_UsrLED2  <=  '1';
-					FP_UsrLED3  <=  '1';
-					FP_UsrLED4  <=  '1';
+				FP_SysLEDr <= '0';	
+				FP_SysLEDb <= '0';	
+				FP_SysLEDg <= '1';	
 					
 					if power_on = true then  -- Powertaster gedrückt
 						Carrier_PwrOn <= '1';  -- Alle Rails enablen
 					else
 						Carrier_PwrOn <= '0';  -- Alle Rails aus, nur Systemcpld lebt
 					end if;
-                -- Integriere die Tasterlogik: Stop- und Power-Taster steuern Übergänge
-                if button_debounced(1) = '0' then  -- STOP-Taster gedrückt
-                    next_state <= Error_State;
+                -- when externer Stop gedrückt dann in Error springen
+                if button_debounced(4) = '0' then  -- STOP-Taster gedrückt
+                    next_state <= Shutdown_Extern;
                 end if;
             when Error_State =>
                 -- Von Error_State geht es zurück zu Powerdown oder Shutdown
                 next_state <= Powerdown;
             when Shutdown_Extern =>
+				FP_SysLEDr <= '1';	
+				FP_SysLEDb <= '1';	
+				FP_SysLEDg <= '1';	
+				Carrier_PwrOn <= '0';  -- Alle Rails aus, nur Systemcpld lebt
                 -- Von Shutdown_Extern wechselt das System zu Powerdown
                 next_state <= Powerdown;
             when Powerdown =>
+				FP_SysLEDr <= '1';	
+				FP_SysLEDb <= '0';	
+				FP_SysLEDg <= '1';	
                 -- Endzustand; das System bleibt hier
 				Carrier_PwrOn <= '0';   -- Alle Rails aus, nur Systemcpld lebt
                 next_state <= Powerdown;

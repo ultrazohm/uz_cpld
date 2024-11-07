@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BaliProject version="3.2" title="UZ_Rev05_S3C" device="LCMXO2-4000HC-4TG144C" default_implementation="impl_0">
+    <Options/>
+    <Implementation title="impl_0" dir="impl_0" description="impl_0" synthesis="lse" default_strategy="Strategy1">
+        <Options def_top="Powerup_V0"/>
+        <Source name="POWER_ON.vhd" type="VHDL" type_short="VHDL" excluded="TRUE">
+            <Options/>
+        </Source>
+        <Source name="Power_on_debounce.vhd" type="VHDL" type_short="VHDL">
+            <Options top_module="Powerup_V0"/>
+        </Source>
+        <Source name="impl_0/impl_0.xcf" type="Programming Project File" type_short="Programming">
+            <Options/>
+        </Source>
+        <Source name="UZ_Rev05_S3C.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Strategy name="Strategy1" file="UZ_Rev05_S3C1.sty"/>
+</BaliProject>

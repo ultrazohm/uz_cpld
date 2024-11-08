@@ -76,15 +76,12 @@ end Waiting_for_Powerbutton_pressed_V0;
 
 architecture behavior of Waiting_for_Powerbutton_pressed_V0 is
 	signal clk	:	STD_LOGIC;
-	signal count_100ms : integer range 0 to 208000 := 0; 	-- Zähler für 100ms -> Powergood 1.8V ist high
-	signal count_50ms  : integer range 0 to 104000 := 0; 	-- Zähler für 50ms -> Powergood 1,8V ist low
+	signal counter : integer range 0 to 2080000 := 0; 	-- Zähler 
 	signal count_done_100ms : boolean := false; 			-- Flag für 100ms Ende
 	signal reset_triggered : boolean := false; -- Flag, um zu tracken, dass resetn auf '0' gesetzt wurde
-	signal power_on			: boolean := false; -- Flag ob Powertaster gedrückt wurde
-	signal count_1000ms  : integer range 0 to 2080000 := 0; 	-- Zähler für 1000ms -> 1 Sekunde in jedem state
 
     -- Definition der Zustände der State Machine
-    type state_type is (Waiting_for_Powerbutton_pressed,Waiting_for_Powerbutton_released, EthernetPhy_Reset, Ready_State, Error_State, Shutdown_Extern, Powerdown);
+    type state_type is (Waiting_for_Powerbutton_pressed,Waiting_for_Powerbutton_released,Wait_State, EthernetPhy_Reset, Ready_State, Error_State, Shutdown_Extern, Powerdown);
     signal next_state : state_type:= Waiting_for_Powerbutton_pressed;
 	
     -- Entprell-Zeitkonstante
@@ -127,7 +124,9 @@ FPIO_FlexMIO52 <= FlexMIOs52_PCIe;
 FlexMio61ExternalStop <= FPIO_ExternalStop;
 
 -- Mapping der Taster zu einem Vektor für einfachere Handhabung, Enable System und Control werden nicht debounced
-button_inputs <= SysSW_Pwr_NC & FP_UsrSW3 & FPIO_ExternalStop;
+button_inputs(0) <= SysSW_Pwr_NC;
+button_inputs(1) <= FP_UsrSW3;
+button_inputs(2) <= FPIO_ExternalStop;
 
 -- Achtung!!! Signal muss noch durch twoStageSynchronizer!!
 -- siehe https://www.digikey.com/en/articles/how-to-debounce-a-button-input-using-programmable-logic
@@ -159,6 +158,8 @@ process(clk)
         end if;
 end process;
 
+FP_UsrLED1 <= button_inputs(2);
+FP_UsrLED2 <= buttons_debounced(2);
 -- State machine
 process(clk)
     begin
@@ -172,41 +173,56 @@ process(clk)
 				next_state <= Waiting_for_Powerbutton_released;
 			else
 				Carrier_PwrOn <= '0';  -- Alle Rails aus, nur Systemcpld lebt
+				Carrier_PG_3V3 <= '0';
 				Carrier_PG_1V8 <= 'Z';  -- Hochohmig, solange System aus
 			end if;
 
 			when Waiting_for_Powerbutton_released =>
+			FP_SysLEDr <= '1';	
+			FP_SysLEDb <= '0';	
+			FP_SysLEDg <= '1';
 			if buttons_debounced(0) = '1' then
 				Carrier_PwrOn <= '1';  -- Alle Rails enablen
+				Carrier_PG_3V3 <= '1'; -- Hack IsoIo ein wenn PwrOn
+				counter <= 2080000;
 				-- neuer Zustand wenn button ausgelassen
-				next_state <= EthernetPhy_Reset;
+				next_state <= Wait_State;	
+			end if;
+			
+			when Wait_State =>
+			FP_SysLEDr <= '0';	
+			FP_SysLEDb <= '1';	
+			FP_SysLEDg <= '0';
+			if counter > 0 then
+				counter <= counter - 1;
+			else
+				next_state <= Ready_State;
 			end if;
 			
             when EthernetPhy_Reset =>
             -- Übergang in den Ready_State nach Ethernet Reset
-			FP_SysLEDr <= '0';	
-			FP_SysLEDb <= '1';	
-			FP_SysLEDg <= '0';	
-			if rising_edge(clk) then
-				if not count_done_100ms then
-					-- Zähle zuerst 100ms
-					if count_100ms < 256000 then
-						count_100ms <= count_100ms + 1;
-					else
-						count_done_100ms <= true;  -- 100ms abgelaufen, Zähler für 50ms starten
-						Carrier_PG_1V8 <= '0';  -- resetn für 50ms auf '0' setzen
-					end if;
-				elsif count_done_100ms and not reset_triggered then
-					-- Zähle 50ms, nachdem 100ms abgelaufen sind
-					if count_50ms < 128000 then
-						count_50ms <= count_50ms + 1;
-					else
-						Carrier_PG_1V8 <= 'Z';  -- Nach 50ms wieder auf 'Z' setzen
-						reset_triggered <= true;  -- Markiere, dass resetn auf 'Z' gesetzt wurde
-						next_state <= Ready_State;
-					end if;
-				end if;
-			end if;
+			--FP_SysLEDr <= '0';	
+			--FP_SysLEDb <= '1';	
+			--FP_SysLEDg <= '0';
+			--if not count_done_100ms then
+				 --Zähle zuerst 100ms
+				--if count_100ms < 256000 then
+					--count_100ms <= count_100ms + 1;
+				--else
+					--count_done_100ms <= true;  -- 100ms abgelaufen, Zähler für 50ms starten
+					--Carrier_PG_1V8 <= '0';  -- resetn für 50ms auf '0' setzen
+					--FP_SysLEDr <= '1';	
+				--end if;
+			--elsif count_done_100ms and not reset_triggered then
+				 --Zähle 50ms, nachdem 100ms abgelaufen sind
+				--if count_50ms < 128000 then
+					--count_50ms <= count_50ms + 1;
+				--else
+					--Carrier_PG_1V8 <= 'Z';  -- Nach 50ms wieder auf 'Z' setzen
+					--reset_triggered <= true;  -- Markiere, dass resetn auf 'Z' gesetzt wurde
+					--next_state <= Ready_State;
+				--end if;
+			--end if;	
 			
             when Ready_State =>
 				FP_SysLEDr <= '0';	
@@ -227,12 +243,13 @@ process(clk)
 				FP_SysLEDb <= '0';	
 				FP_SysLEDg <= '0';	
                 -- Von Error_State geht es direkt in Powerdown
-                next_state <= Powerdown;
+ --               next_state <= Powerdown;
             when Shutdown_Extern =>
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '1';	
 				Carrier_PwrOn <= '0';  -- Alle Rails aus, nur Systemcpld lebt
+				Carrier_PG_3V3 <= '0';
                 -- Von Shutdown_Extern wechselt das System zu Powerdown
 --                next_state <= Powerdown;
             when Powerdown =>
@@ -241,7 +258,10 @@ process(clk)
 				FP_SysLEDg <= '1';	
                 -- Endzustand; das System bleibt hier
 				Carrier_PwrOn <= '0';   -- Alle Rails aus, nur Systemcpld lebt
-                next_state <= Waiting_for_Powerbutton_pressed;
+				Carrier_PG_3V3 <= '0';
+				if buttons_debounced(0) = '1' then
+					next_state <= Waiting_for_Powerbutton_pressed;
+				end if;
             when others =>
                 next_state <= Waiting_for_Powerbutton_pressed;
         end case;

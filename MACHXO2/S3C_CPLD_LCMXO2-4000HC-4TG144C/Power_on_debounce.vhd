@@ -5,7 +5,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
-entity Powerup_V0 is
+entity Waiting_for_Powerbutton_pressed_V0 is
     Port (
 		-- Mapping nach Bänken
 		--- Bank 0, 3.3V
@@ -72,9 +72,9 @@ entity Powerup_V0 is
 		PG_Module 		: in STD_LOGIC		-- PIN 9
     );
 	
-end Powerup_V0;
+end Waiting_for_Powerbutton_pressed_V0;
 
-architecture behavior of Powerup_V0 is
+architecture behavior of Waiting_for_Powerbutton_pressed_V0 is
 	signal clk	:	STD_LOGIC;
 	signal count_100ms : integer range 0 to 208000 := 0; 	-- Zähler für 100ms -> Powergood 1.8V ist high
 	signal count_50ms  : integer range 0 to 104000 := 0; 	-- Zähler für 50ms -> Powergood 1,8V ist low
@@ -84,19 +84,18 @@ architecture behavior of Powerup_V0 is
 	signal count_1000ms  : integer range 0 to 2080000 := 0; 	-- Zähler für 1000ms -> 1 Sekunde in jedem state
 
     -- Definition der Zustände der State Machine
-    type state_type is (Powerup, EthernetPhy_Reset, Safe_State, Error_State, Shutdown_Extern, Powerdown);
-    signal current_state, next_state : state_type;
-
+    type state_type is (Waiting_for_Powerbutton_pressed,Waiting_for_Powerbutton_released, EthernetPhy_Reset, Ready_State, Error_State, Shutdown_Extern, Powerdown);
+    signal next_state : state_type:= Waiting_for_Powerbutton_pressed;
+	
     -- Entprell-Zeitkonstante
     constant debounce_limit : integer := 20800; -- 10ms, bei 2.08MhZ
 
     -- Entprell-Zähler und stabile Zustände der Taster
-    type debounce_array is array (0 to 4) of integer;
+    type debounce_array is array (0 to 2) of integer;
     signal debounce_counters : debounce_array := (others => 0);
-    signal button_inputs  : STD_LOGIC_VECTOR(4 downto 0);  -- Tastereingänge
-	signal stable_state : STD_LOGIC_VECTOR(4 downto 0) := (others => '1');
-    signal debounced    : STD_LOGIC_VECTOR(4 downto 0) := (others => '1');
-    signal button_debounced : STD_LOGIC_VECTOR(4 downto 0) := (others => '0');  -- Entprellte Ausgänge
+    signal button_inputs  : STD_LOGIC_VECTOR(2 downto 0);  -- Tastereingänge
+	signal pushed : STD_LOGIC_VECTOR(2 downto 0) := (others => '0');
+    signal buttons_debounced    : STD_LOGIC_VECTOR(2 downto 0) := (others => '1');
 
 	-- internen oszillator definieren
 	COMPONENT OSCH
@@ -127,101 +126,107 @@ SD_SEL <= '0';
 FPIO_FlexMIO52 <= FlexMIOs52_PCIe;
 FlexMio61ExternalStop <= FPIO_ExternalStop;
 
--- Mapping der Taster zu einem Vektor für einfachere Handhabung
-button_inputs <= SysSW_Pwr_NC & FP_UsrSW1 & FP_UsrSW2 & FP_UsrSW3 & FPIO_ExternalStop;
+-- Mapping der Taster zu einem Vektor für einfachere Handhabung, Enable System und Control werden nicht debounced
+button_inputs <= SysSW_Pwr_NC & FP_UsrSW3 & FPIO_ExternalStop;
 
--- Prozess für Taster debouncen und Power enablen
-process(clk, PG_Module)
+-- Achtung!!! Signal muss noch durch twoStageSynchronizer!!
+-- siehe https://www.digikey.com/en/articles/how-to-debounce-a-button-input-using-programmable-logic
+-- 2FF Synchronizer
+
+-- Taster debouncen
+process(clk)
     begin
-        if PG_Module = '0' then
-            debounce_counters <= (others => 0);
-            button_debounced <= (others => '1');
-        elsif rising_edge(clk) then
+        if rising_edge(clk) then
             -- Entprellung für jedes Signal im Vektor
-            for i in 0 to 4 loop
+            for i in 0 to 2 loop
                 if button_inputs(i) = '0' then  -- Taster gedrückt (LOW)
                     if debounce_counters(i) < debounce_limit then
                         debounce_counters(i) <= debounce_counters(i) + 1;
                     else
-                        stable_state(i) <= '0';  -- Taster bleibt gedrückt
+                        pushed(i) <= '1';  -- Taster bleibt gedrückt
                     end if;
                 else  -- Taster losgelassen (HIGH)
                     debounce_counters(i) <= 0;
-                    stable_state(i) <= '1';
+                    pushed(i) <= '0';
                 end if;
-
-                -- Ausgabe nur dann setzen, wenn entprellter Zustand LOW ist
-                if stable_state(i) = '0' then
-                    debounced(i) <= '0';
+                -- Ausgabe negiert
+                if pushed(i) = '1' then
+                    buttons_debounced(i) <= '0';
                 else
-                    debounced(i) <= '1';
+                    buttons_debounced(i) <= '1';
                 end if;
             end loop;
-            button_debounced <= debounced; -- Setze die entprellten Signale als Ausgang
         end if;
 end process;
 
--- Zustandsübergänge und Aktionen
-process(current_state, button_debounced)
+-- State machine
+process(clk)
     begin
-        next_state <= current_state;  -- Standardzuweisung, um unerwünschte Latchs zu vermeiden
-        case current_state is
-            when Powerup =>
+	if rising_edge(clk) then
+        case next_state is
+            when Waiting_for_Powerbutton_pressed =>
 			FP_SysLEDr <= '1';	
 			FP_SysLEDb <= '0';	
 			FP_SysLEDg <= '0';	
-			if button_debounced(0) = '0' then
-				Carrier_PwrOn <= '1';  -- Alle Rails enablen
+			if buttons_debounced(0) = '0' then
+				next_state <= Waiting_for_Powerbutton_released;
 			else
 				Carrier_PwrOn <= '0';  -- Alle Rails aus, nur Systemcpld lebt
+				Carrier_PG_1V8 <= 'Z';  -- Hochohmig, solange System aus
 			end if;
-                -- Übergang zu EthernetPhy_Reset nach Initialisierung
-                next_state <= EthernetPhy_Reset;
 
+			when Waiting_for_Powerbutton_released =>
+			if buttons_debounced(0) = '1' then
+				Carrier_PwrOn <= '1';  -- Alle Rails enablen
+				-- neuer Zustand wenn button ausgelassen
+				next_state <= EthernetPhy_Reset;
+			end if;
+			
             when EthernetPhy_Reset =>
-            -- Übergang in den Safe_State nach Ethernet Reset
+            -- Übergang in den Ready_State nach Ethernet Reset
 			FP_SysLEDr <= '0';	
 			FP_SysLEDb <= '1';	
 			FP_SysLEDg <= '0';	
 			if rising_edge(clk) then
-            if not count_done_100ms then
-                -- Zähle zuerst 100ms
-                if count_100ms < 256000 then
-                    count_100ms <= count_100ms + 1;
-                else
-                    count_done_100ms <= true;  -- 100ms abgelaufen, Zähler für 50ms starten
-					Carrier_PG_1V8 <= '0';  -- resetn für 50ms auf '0' setzen
-					FP_UsrLED1 <= '1'; -- led an wenn reset
-                end if;
-            elsif count_done_100ms and not reset_triggered then
-                -- Zähle 50ms, nachdem 100ms abgelaufen sind
-                if count_50ms < 128000 then
-                    count_50ms <= count_50ms + 1;
-                else
-                    Carrier_PG_1V8 <= 'Z';  -- Nach 50ms wieder auf 'Z' setzen
-                    reset_triggered <= true;  -- Markiere, dass resetn auf 'Z' gesetzt wurde
-					FP_UsrLED1 <= '0';
-                end if;
-            end if;
-        end if;
-                next_state <= Safe_State;
-
-            when Safe_State =>
+				if not count_done_100ms then
+					-- Zähle zuerst 100ms
+					if count_100ms < 256000 then
+						count_100ms <= count_100ms + 1;
+					else
+						count_done_100ms <= true;  -- 100ms abgelaufen, Zähler für 50ms starten
+						Carrier_PG_1V8 <= '0';  -- resetn für 50ms auf '0' setzen
+					end if;
+				elsif count_done_100ms and not reset_triggered then
+					-- Zähle 50ms, nachdem 100ms abgelaufen sind
+					if count_50ms < 128000 then
+						count_50ms <= count_50ms + 1;
+					else
+						Carrier_PG_1V8 <= 'Z';  -- Nach 50ms wieder auf 'Z' setzen
+						reset_triggered <= true;  -- Markiere, dass resetn auf 'Z' gesetzt wurde
+						next_state <= Ready_State;
+					end if;
+				end if;
+			end if;
+			
+            when Ready_State =>
 				FP_SysLEDr <= '0';	
 				FP_SysLEDb <= '0';	
 				FP_SysLEDg <= '1';	
-					
-					if power_on = true then  -- Powertaster gedrückt
-						Carrier_PwrOn <= '1';  -- Alle Rails enablen
-					else
-						Carrier_PwrOn <= '0';  -- Alle Rails aus, nur Systemcpld lebt
-					end if;
-                -- when externer Stop gedrückt dann in Error springen
-                if button_debounced(4) = '0' then  -- STOP-Taster gedrückt
+                -- wenn externer Stop gedrückt dann in Shutdown springen
+                if buttons_debounced(2) = '0' then  -- Externer STOP-Taster gedrückt
                     next_state <= Shutdown_Extern;
+				-- wenn Stop gedrückt dann in Error springen
+                elsif buttons_debounced(1) = '0' then  -- STOP-Taster gedrückt
+                    next_state <= Error_State;
+				-- TODO auf 1s auf den Powertaster drücken erweitern
+                elsif buttons_debounced(0) = '0' then  -- Power Taster gedrückt
+                    next_state <= Powerdown;
                 end if;
             when Error_State =>
-                -- Von Error_State geht es zurück zu Powerdown oder Shutdown
+				FP_SysLEDr <= '1';	
+				FP_SysLEDb <= '0';	
+				FP_SysLEDg <= '0';	
+                -- Von Error_State geht es direkt in Powerdown
                 next_state <= Powerdown;
             when Shutdown_Extern =>
 				FP_SysLEDr <= '1';	
@@ -229,17 +234,18 @@ process(current_state, button_debounced)
 				FP_SysLEDg <= '1';	
 				Carrier_PwrOn <= '0';  -- Alle Rails aus, nur Systemcpld lebt
                 -- Von Shutdown_Extern wechselt das System zu Powerdown
-                next_state <= Powerdown;
+--                next_state <= Powerdown;
             when Powerdown =>
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '0';	
 				FP_SysLEDg <= '1';	
                 -- Endzustand; das System bleibt hier
 				Carrier_PwrOn <= '0';   -- Alle Rails aus, nur Systemcpld lebt
-                next_state <= Powerdown;
+                next_state <= Waiting_for_Powerbutton_pressed;
             when others =>
-                next_state <= Powerdown;
+                next_state <= Waiting_for_Powerbutton_pressed;
         end case;
+	end if;
 end process;
 
 end behavior;

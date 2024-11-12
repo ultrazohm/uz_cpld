@@ -15,6 +15,7 @@ entity Waiting_for_Powerbutton_pressed_V0 is
 		Carrier_PG_3V3	: out STD_LOGIC := 'Z';  -- Powergood 3.3V, PIN 115
 		FPIO_FlexMIO52 	: out STD_LOGIC; -- wird in ps invertiert, FlexMIOs52_PCIe durchgeroutet, PIN 109	
 		FPIO_ExternalStop	: in  STD_LOGIC; -- FP Externer Stop taster, PIN 114
+		FPIO_isoCtrlRSTn	: out  STD_LOGIC; -- FP IO PIN 119
 		-- Tastersignale FP
 		SysSW_Pwr_NC 	: 		in  STD_LOGIC;	-- Eingang durch Powerbutton, PIN 121
 		FP_UsrSW1		:		in  STD_LOGIC; 	-- Eingang SW1 Enable System, PIN 128
@@ -25,6 +26,7 @@ entity Waiting_for_Powerbutton_pressed_V0 is
 		FP_UsrLED2		: out STD_LOGIC; -- LED 2 Running, PIN 96
 		FP_UsrLED3		: out STD_LOGIC; -- LED 3 Error, PIN 97
 		FP_UsrLED4		: out STD_LOGIC; -- LED 4 User, PIN 98
+		FP_SysLEDs		: out STD_LOGIC; -- LED rot STOP, PIN 104
 		Carrier_PG_1V8	: out STD_LOGIC := 'Z';  -- ResetN Port, Powergood 1.8V PIN 107
 		SD0_CD			: in STD_LOGIC;  -- PIN 100
 		SD1_CD			: in STD_LOGIC;  -- PIN 103
@@ -174,6 +176,7 @@ process(clk)
 			else
 				Carrier_PwrOn <= '0';  -- Alle Rails aus, nur Systemcpld lebt
 				Carrier_PG_3V3 <= '0';
+				FPIO_isoCtrlRSTn <= '0'; -- Reset IsoIO einschalten
 				Carrier_PG_1V8 <= 'Z';  -- Hochohmig, solange System aus
 			end if;
 
@@ -190,44 +193,35 @@ process(clk)
 			end if;
 			
 			when Wait_State =>
+			FP_SysLEDr <= '1';	
+			FP_SysLEDb <= '1';	
+			FP_SysLEDg <= '0';
+			if counter > 0 then
+				counter <= counter - 1;
+			else 
+				counter <= 104000;
+				Carrier_PG_1V8 <= '0';  -- resetn für 50ms auf '0' setzen
+				next_state <= EthernetPhy_Reset;
+			end if;
+			
+			when EthernetPhy_Reset =>
+            --Übergang in den Ready_State nach Ethernet Reset
 			FP_SysLEDr <= '0';	
 			FP_SysLEDb <= '1';	
 			FP_SysLEDg <= '0';
 			if counter > 0 then
 				counter <= counter - 1;
 			else
+				Carrier_PG_1V8 <= 'Z';  -- Nach 50ms wieder auf 'Z' setzen
+				FPIO_isoCtrlRSTn <= '1'; -- Reset IsoIO ausschalten
 				next_state <= Ready_State;
 			end if;
-			
-            when EthernetPhy_Reset =>
-            -- Übergang in den Ready_State nach Ethernet Reset
-			--FP_SysLEDr <= '0';	
-			--FP_SysLEDb <= '1';	
-			--FP_SysLEDg <= '0';
-			--if not count_done_100ms then
-				 --Zähle zuerst 100ms
-				--if count_100ms < 256000 then
-					--count_100ms <= count_100ms + 1;
-				--else
-					--count_done_100ms <= true;  -- 100ms abgelaufen, Zähler für 50ms starten
-					--Carrier_PG_1V8 <= '0';  -- resetn für 50ms auf '0' setzen
-					--FP_SysLEDr <= '1';	
-				--end if;
-			--elsif count_done_100ms and not reset_triggered then
-				 --Zähle 50ms, nachdem 100ms abgelaufen sind
-				--if count_50ms < 128000 then
-					--count_50ms <= count_50ms + 1;
-				--else
-					--Carrier_PG_1V8 <= 'Z';  -- Nach 50ms wieder auf 'Z' setzen
-					--reset_triggered <= true;  -- Markiere, dass resetn auf 'Z' gesetzt wurde
-					--next_state <= Ready_State;
-				--end if;
-			--end if;	
 			
             when Ready_State =>
 				FP_SysLEDr <= '0';	
 				FP_SysLEDb <= '0';	
-				FP_SysLEDg <= '1';	
+				FP_SysLEDg <= '1';
+				FP_SysLEDs <= '1';
                 -- wenn externer Stop gedrückt dann in Shutdown springen
                 if buttons_debounced(2) = '0' then  -- Externer STOP-Taster gedrückt
                     next_state <= Shutdown_Extern;
@@ -241,24 +235,29 @@ process(clk)
             when Error_State =>
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '0';	
-				FP_SysLEDg <= '0';	
+				FP_SysLEDg <= '0';
+				FP_SysLEDs <= '0';
                 -- Von Error_State geht es direkt in Powerdown
  --               next_state <= Powerdown;
             when Shutdown_Extern =>
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '1';	
-				FP_SysLEDg <= '1';	
+				FP_SysLEDg <= '1';
+				FP_SysLEDs <= '0';	
 				Carrier_PwrOn <= '0';  -- Alle Rails aus, nur Systemcpld lebt
 				Carrier_PG_3V3 <= '0';
+				FPIO_isoCtrlRSTn <= '0'; -- Reset IsoIO einschalten
                 -- Von Shutdown_Extern wechselt das System zu Powerdown
 --                next_state <= Powerdown;
             when Powerdown =>
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '0';	
-				FP_SysLEDg <= '1';	
+				FP_SysLEDg <= '1';
+				FP_SysLEDs <= '0';	
                 -- Endzustand; das System bleibt hier
 				Carrier_PwrOn <= '0';   -- Alle Rails aus, nur Systemcpld lebt
 				Carrier_PG_3V3 <= '0';
+				FPIO_isoCtrlRSTn <= '0'; -- Reset IsoIO einschalten
 				if buttons_debounced(0) = '1' then
 					next_state <= Waiting_for_Powerbutton_pressed;
 				end if;

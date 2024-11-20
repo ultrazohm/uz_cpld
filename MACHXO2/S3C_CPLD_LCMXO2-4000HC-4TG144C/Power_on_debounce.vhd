@@ -52,6 +52,7 @@ entity Waiting_for_Powerbutton_pressed_V0 is
 		SD_SEL		: out STD_LOGIC := '0'; -- Signal, dass auf 0 getrieben werden soll, PIN 41
 		FlexMIOs52_PCIe	: in  STD_LOGIC; -- Durchrouten zu FrontpanelIO.FlexMIO52_PCIe-R¯S¯T¯, invertierung in PS PIN 47
 		FlexMio61ExternalStop 	: out STD_LOGIC; -- ExternalStop durchgeroutet, PIN 50
+		FlexMIOs53_GPIO_PowerDown:out  STD_LOGIC; -- GPIO perform SoM Shutdown Signal, PIN 48
 		
 		--- Bank 3, 1.8V
 
@@ -71,6 +72,8 @@ entity Waiting_for_Powerbutton_pressed_V0 is
 		
 		--- Bank 5, 3.3V
         Carrier_PwrOn 	: out STD_LOGIC;   	-- PIN 1
+		PG_VIN			: in STD_LOGIC;		-- PIN 2
+		PPn_VIN			: in STD_LOGIC;		-- PIN 3
 		PG_Module 		: in STD_LOGIC		-- PIN 9
     );
 	
@@ -78,24 +81,25 @@ end Waiting_for_Powerbutton_pressed_V0;
 
 architecture behavior of Waiting_for_Powerbutton_pressed_V0 is
 	signal clk	:	STD_LOGIC;
-	signal counter : integer range 0 to 2080000 := 0; 	-- Zähler 
+	signal counter : integer range 0 to 4160000 := 0; 	-- Zähler 
 	signal count_done_100ms : boolean := false; 			-- Flag für 100ms Ende
 	signal reset_triggered : boolean := false; -- Flag, um zu tracken, dass resetn auf '0' gesetzt wurde
 
     -- Definition der Zustände der State Machine
-    type state_type is (Waiting_for_Powerbutton_pressed,Waiting_for_Powerbutton_released,Wait_State, EthernetPhy_Reset, Ready_State, Error_State, Shutdown_Extern, Powerdown);
+    type state_type is (Waiting_for_Powerbutton_pressed,Waiting_for_Powerbutton_released,Wait_State, EthernetPhy_Reset,SoftPowerOff, Ready_State, Warning, Error, PowerOff);
     signal next_state : state_type:= Waiting_for_Powerbutton_pressed;
 	
     -- Entprell-Zeitkonstante
     constant debounce_limit : integer := 20800; -- 10ms, bei 2.08MhZ
 
     -- Entprell-Zähler und stabile Zustände der Taster
-    type debounce_array is array (0 to 2) of integer;
+    type debounce_array is array (0 to 1) of integer;
     signal debounce_counters : debounce_array := (others => 0);
-    signal button_inputs  : STD_LOGIC_VECTOR(2 downto 0);  -- Tastereingänge
-	signal pushed : STD_LOGIC_VECTOR(2 downto 0) := (others => '0');
-    signal buttons_debounced    : STD_LOGIC_VECTOR(2 downto 0) := (others => '1');
-
+	signal button_inputs  : STD_LOGIC_VECTOR(1 downto 0);  -- Tastereingänge
+    signal button_inputs_asyn1  : STD_LOGIC_VECTOR(1 downto 0) := (others => '1');  -- Tastereingänge nach 1. flip flop
+	signal button_inputs_asyn2  : STD_LOGIC_VECTOR(1 downto 0) := (others => '1'); -- Tastereingänge nach 2. flip flop
+	signal pushed : STD_LOGIC_VECTOR(1 downto 0) := (others => '0');
+    signal buttons_debounced_syn   : STD_LOGIC_VECTOR(1 downto 0) := (others => '1');
 	-- internen oszillator definieren
 	COMPONENT OSCH
 	-- synthesis translate_off
@@ -106,10 +110,10 @@ architecture behavior of Waiting_for_Powerbutton_pressed_V0 is
 		OSC		:	OUT	std_logic;
 		SEDSTDBY:	OUT	std_logic);
 	END COMPONENT;
-attribute NOM_FREQ : string;
-attribute NOM_FREQ of OSCinst0 : label is "2.08";
-
-
+	attribute NOM_FREQ 	: string;
+	attribute NOM_FREQ of OSCinst0 : label is "2.08";
+	attribute HGROUP 	: string;
+	
 begin
 	OSCInst0: OSCH
 	-- synthesis translate_off
@@ -120,6 +124,9 @@ begin
 	SEDSTDBY => open
 	);
 	
+-- Apply the HGROUP attribute to both flip-flops
+--attribute HGROUP of button_inputs_asyn1, button_inputs_asyn2 : signal is "sync_group";
+
 -- Ports default setzen + durchrouten
 SD_SEL <= '0';
 FPIO_FlexMIO52 <= FlexMIOs52_PCIe;
@@ -127,24 +134,28 @@ FlexMio61ExternalStop <= FPIO_ExternalStop;
 
 -- Mapping der Taster zu einem Vektor für einfachere Handhabung, Enable System und Control werden nicht debounced
 button_inputs(0) <= SysSW_Pwr_NC;
-button_inputs(1) <= FP_UsrSW3;
-button_inputs(2) <= FPIO_ExternalStop;
+button_inputs(1) <= FPIO_ExternalStop;
 
 -- Achtung!!! Signal muss noch durch twoStageSynchronizer!!
 -- siehe https://www.digikey.com/en/articles/how-to-debounce-a-button-input-using-programmable-logic
--- 2FF Synchronizer
+-- realisiert 18.11. und getestet
+-- 2FF Synchronizer von https://vhdlwhiz.com/snippets/fork-and-join/
 
--- Taster debouncen
 process(clk)
     begin
         if rising_edge(clk) then
+			--2FF
+			button_inputs_asyn1 <= button_inputs;
+			button_inputs_asyn2 <= button_inputs_asyn1; 
+			-- button_inputs_asyn2 ist safe, keine metastabilität probleme
+			
             -- Entprellung für jedes Signal im Vektor
-            for i in 0 to 2 loop
-                if button_inputs(i) = '0' then  -- Taster gedrückt (LOW)
+            for i in 0 to 1 loop
+                if button_inputs_asyn2(i) = '0' then  -- Taster gedrückt (LOW)
                     if debounce_counters(i) < debounce_limit then
                         debounce_counters(i) <= debounce_counters(i) + 1;
                     else
-                        pushed(i) <= '1';  -- Taster bleibt gedrückt
+                        pushed(i) <= '1';  -- Taster gedrückt = True
                     end if;
                 else  -- Taster losgelassen (HIGH)
                     debounce_counters(i) <= 0;
@@ -152,26 +163,54 @@ process(clk)
                 end if;
                 -- Ausgabe negiert
                 if pushed(i) = '1' then
-                    buttons_debounced(i) <= '0';
+                    buttons_debounced_syn(i) <= '0';
                 else
-                    buttons_debounced(i) <= '1';
+                    buttons_debounced_syn(i) <= '1';
                 end if;
             end loop;
         end if;
 end process;
 
-FP_UsrLED1 <= button_inputs(2);
-FP_UsrLED2 <= buttons_debounced(2);
+-- Taster debouncen
+--process(clk)
+    --begin
+        --if rising_edge(clk) then
+             --Entprellung für jedes Signal im Vektor
+            --for i in 0 to 2 loop
+                --if button_inputs_asyn1(i) = '0' then  -- Taster gedrückt (LOW)
+                    --if debounce_counters(i) < debounce_limit then
+                        --debounce_counters(i) <= debounce_counters(i) + 1;
+                    --else
+                        --pushed(i) <= '1';  -- Taster bleibt gedrückt
+                    --end if;
+                --else  -- Taster losgelassen (HIGH)
+                    --debounce_counters(i) <= 0;
+                    --pushed(i) <= '0';
+                --end if;
+                 --Ausgabe negiert
+                --if pushed(i) = '1' then
+                    --buttons_debounced_syn(i) <= '0';
+                --else
+                    --buttons_debounced_syn(i) <= '1';
+                --end if;
+            --end loop;
+        --end if;
+--end process;
+
+FP_UsrLED1 <= PG_VIN AND PG_Module AND PPn_VIN;
+FP_UsrLED2 <= buttons_debounced_syn(0);
+
 -- State machine
 process(clk)
     begin
 	if rising_edge(clk) then
         case next_state is
             when Waiting_for_Powerbutton_pressed =>
+			FlexMIOs53_GPIO_PowerDown <= '0';
 			FP_SysLEDr <= '1';	
 			FP_SysLEDb <= '0';	
 			FP_SysLEDg <= '0';	
-			if buttons_debounced(0) = '0' then
+			if buttons_debounced_syn(0) = '0' then
 				next_state <= Waiting_for_Powerbutton_released;
 			else
 				Carrier_PwrOn <= '0';  -- Alle Rails aus, nur Systemcpld lebt
@@ -184,7 +223,7 @@ process(clk)
 			FP_SysLEDr <= '1';	
 			FP_SysLEDb <= '0';	
 			FP_SysLEDg <= '1';
-			if buttons_debounced(0) = '1' then
+			if buttons_debounced_syn(0) = '1' then
 				Carrier_PwrOn <= '1';  -- Alle Rails enablen
 				Carrier_PG_3V3 <= '1'; -- Hack IsoIo ein wenn PwrOn
 				counter <= 2080000;
@@ -223,23 +262,21 @@ process(clk)
 				FP_SysLEDg <= '1';
 				FP_SysLEDs <= '1';
                 -- wenn externer Stop gedrückt dann in Shutdown springen
-                if buttons_debounced(2) = '0' then  -- Externer STOP-Taster gedrückt
-                    next_state <= Shutdown_Extern;
-				-- wenn Stop gedrückt dann in Error springen
-                elsif buttons_debounced(1) = '0' then  -- STOP-Taster gedrückt
-                    next_state <= Error_State;
+                if buttons_debounced_syn(1) = '0' then  -- Externer STOP-Taster gedrückt
+                    next_state <= Error;
 				-- TODO auf 1s auf den Powertaster drücken erweitern
-                elsif buttons_debounced(0) = '0' then  -- Power Taster gedrückt
-                    next_state <= Powerdown;
-                end if;
-            when Error_State =>
+                elsif buttons_debounced_syn(0) = '0' then  -- Power Taster gedrückt
+					counter <= 4160000;
+					next_state <= SoftPowerOff;
+				end if;
+            when Warning =>
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '0';	
 				FP_SysLEDg <= '0';
 				FP_SysLEDs <= '0';
-                -- Von Error_State geht es direkt in Powerdown
- --               next_state <= Powerdown;
-            when Shutdown_Extern =>
+                -- Von Warning geht es direkt in PowerOff
+ --               next_state <= PowerOff;
+            when Error =>
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '1';
@@ -247,9 +284,23 @@ process(clk)
 				Carrier_PwrOn <= '0';  -- Alle Rails aus, nur Systemcpld lebt
 				Carrier_PG_3V3 <= '0';
 				FPIO_isoCtrlRSTn <= '0'; -- Reset IsoIO einschalten
-                -- Von Shutdown_Extern wechselt das System zu Powerdown
---                next_state <= Powerdown;
-            when Powerdown =>
+                -- Von Error wechselt das System zu PowerOff
+--                next_state <= PowerOff;
+			when SoftPowerOff =>
+				FlexMIOs53_GPIO_PowerDown <= '1';
+				if counter > 0 then
+					counter <= counter - 1;
+				else
+					if buttons_debounced_syn(0) = '0' then
+						FlexMIOs53_GPIO_PowerDown <= '0';
+						next_state <= PowerOff;
+					end if;
+				end if;
+				if buttons_debounced_syn(0) = '1' then 
+					FlexMIOs53_GPIO_PowerDown <= '0';
+					next_state <= Ready_State;
+				end if;
+            when PowerOff =>
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '0';	
 				FP_SysLEDg <= '1';
@@ -258,7 +309,7 @@ process(clk)
 				Carrier_PwrOn <= '0';   -- Alle Rails aus, nur Systemcpld lebt
 				Carrier_PG_3V3 <= '0';
 				FPIO_isoCtrlRSTn <= '0'; -- Reset IsoIO einschalten
-				if buttons_debounced(0) = '1' then
+				if buttons_debounced_syn(0) = '1' then
 					next_state <= Waiting_for_Powerbutton_pressed;
 				end if;
             when others =>
@@ -266,5 +317,4 @@ process(clk)
         end case;
 	end if;
 end process;
-
 end behavior;

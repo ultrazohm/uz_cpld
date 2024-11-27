@@ -173,7 +173,7 @@ begin
         I2C2_CLK_DIVIDER=>  1, I2C2_BUS_PERF=> "100kHz", I2C2_SLAVE_ADDR=> "0b0001001", 
         I2C2_ADDRESSING=> "7BIT", EFB_I2C2=> "DISABLED", I2C1_WAKEUP=> "DISABLED", 
         I2C1_GEN_CALL=> "DISABLED", I2C1_CLK_DIVIDER=>  25, 
-        I2C1_BUS_PERF=> "100kHz", I2C1_SLAVE_ADDR=> "0b0001001", 
+        I2C1_BUS_PERF=> "100kHz", I2C1_SLAVE_ADDR=> "0b0011001", 
         I2C1_ADDRESSING=> "7BIT", EFB_I2C1=> "ENABLED", EFB_WB_CLK_FREQ=> "10.0")
         port map (WBCLKI=>wb_clk_i, WBRSTI=>wb_rst_i, WBCYCI=>wb_cyc_i, 
             WBSTBI=>wb_stb_i, WBWEI=>wb_we_i, WBADRI7=>wb_adr_i(7), 

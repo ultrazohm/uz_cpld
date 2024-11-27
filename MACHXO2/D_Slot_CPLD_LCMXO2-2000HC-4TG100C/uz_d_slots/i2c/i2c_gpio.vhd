@@ -63,7 +63,7 @@ entity i2c_gpio is
              GPI_PORT_NUM       : integer    := 1;       -- GPI port number
 			 GPI_DATA_WIDTH     : integer    := 8;       -- GPI data width
 			 GPO_PORT_NUM       : integer    := 1;       -- GPO port number
-			 GPO_DATA_WIDTH     : integer    := 2;       -- GPO data width
+			 GPO_DATA_WIDTH     : integer    := 8;       -- GPO data width
 			 MEM_ADDR_WIDTH     : integer    := 8;       -- Memory addrss width
 			 IRQ_NUM            : integer    := 4;       -- Interrupt request number
 			 MAX_MEM_BURST_NUM  : std_logic_vector (7 downto 0)    := "00001000";       -- Maximum memory burst number
@@ -79,12 +79,7 @@ IRQ      : in std_logic_vector (IRQ_NUM-1 downto 0);
 GPI_0    : in std_logic_vector (GPI_DATA_WIDTH-1 downto 0);
 Enable   : out std_logic;
 INTQ     : out std_logic:='1';
-RST_N    : in std_logic;
-MEM_CLK  : out std_logic;
-MEM_WR   : out std_logic;
-MEM_ADDR : out std_logic_vector(MEM_ADDR_WIDTH-1 downto 0);        
-MEM_WD   : out std_logic_vector(7 downto 0);
-MEM_RD   : in std_logic_vector(7 downto 0)
+RST_N    : in std_logic
 );
 end entity;
 
@@ -388,32 +383,23 @@ if (CLK'event and CLK='1') then
 --//                                          //
 --//////////////////////////////////////////////   
   
-  GPIO_Write <= '1' when (i2c_cmd = "00000001") else '0';
+GPIO_Write <= '1' when (i2c_cmd = "00000001") else '0';
    
 --process(CLK,RST_N) is
 --begin
 --if (CLK'event and CLK='1') then
    
---   if( RST_N='0') then
---         GPO_0 <= (others=>'0');
---		 GPO_1 <= (others=>'0');
---		 GPO_2 <= (others=>'0');
---		 GPO_3 <= (others=>'0');		 
---      elsif ((dat_rdy_del and c)='1') then 
---       case reg_addr is
---          when "00000000" =>
---		  GPO_0 <= temp3;
---		  when "00000001" =>
---		  GPO_1 <= temp3;
---		  when "00000010" =>
---		  GPO_2 <= temp3;
---		  when "00000011" =>
---		  GPO_3 <= temp3; 
---		  when others=>
---		  NULL;
---	   end case;	  
---	end if;
--- end if;	
+   --if( RST_N='0') then
+         --GPO_0 <= (others=>'0');	 
+      --elsif ((dat_rdy_del and c)='1') then 
+       --case reg_addr is
+          --when "00000000" =>
+		  --GPO_0 <= temp3;
+		  --when others=>
+		  --NULL;
+	   --end case;	  
+	--end if;
+ --end if;	
 --end process;
 
 
@@ -476,88 +462,7 @@ if (CLK'event and CLK='1') then
    GPI_DATA(0) <= GPI_0;
 
 
---/////////////////////////////////////////////
---//                                          //
---//    Memory Interface BLock                //
---//                                          //
---//////////////////////////////////////////////   
 
-Memory_Write <='1' when (i2c_cmd = "00000010") else '0'; 
-MEM_CLK  <= CLK ; 
-process(CLK,RST_N) is
-begin
-
- 
-if (CLK'event and CLK='1') then
-   
-   if( RST_N='0') then
-         MEM_WD  <= (others=>'0');
-		 mem_wr1  <= '0' ;
-      
-	elsif ((dat_rdy_del and Memory_Write)='1') then 
-		 MEM_WD  <= temp3 after 1 ns;
-		 mem_wr1  <= '1' after 1 ns;
-       
-	else 
-        mem_wr1 <= '0' after 1 ns ;	
-   end if;
-end if;
-end process;
-
-process(CLK,RST_N) is
-begin
-if(CLK'event and CLK='1')then
-
-if(RST_N='0')then
-MEM_WR <= '0';
-else
-MEM_WR <= mem_wr1;
-end if;
-end if;
-end process;
-
-
-
-
-
-Memory_Write_or_Read <= '1' when ((i2c_cmd = "00000010") or (i2c_cmd = "00001011")) else '0';
-
-process(CLK , RST_N) is
-begin
-if (CLK'event and CLK='1') then
-   
-   if( RST_N='0') then
-         memory_addr <= (others=>'0');
-      
-	elsif ((reg_rdy and Memory_Write_or_Read)='1')then  
-		 memory_addr <=  temp2 after 1 ns;
-
-	elsif (   ((c_state = state15) and (wb_ack_o = '1') and (efb_flag = '1')) 
-	       or ((c_state = state19) and (n_state = state14) and (mem_command = '1'))) then  
-         memory_addr <=  memory_addr + '1' after 1 ns ; 	
-       
-   end if;
-end if;
-end process;
-MEM_ADDR <= memory_addr;    
-
-process(CLK , RST_N) is
-begin
-if (CLK'event and CLK='1') then
-   
-   if( RST_N='0') then 
-         Enable <= '0' ;      
-	elsif (i2c_cmd = "00000110")then
-		 Enable <= '1' ;
-	elsif (i2c_cmd = "00000100")then
-		 Enable <= '0' ;
-	--else
-       --  Enable <= '0';
-		 
-	
-   end if;
-end if;
-end process;
 
 --/////////////////////////////////////////////
 --//                                         //
@@ -1268,8 +1173,6 @@ m: process (intr_command, gpio_command, mem_command, wb_dat_o, n_state, c_state,
 	when others=>
 	NULL;
      
-	 
- 
 end case;
 end process;
 end i2c_vhdl;

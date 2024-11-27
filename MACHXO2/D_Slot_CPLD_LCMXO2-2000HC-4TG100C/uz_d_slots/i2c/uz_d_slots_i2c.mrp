@@ -16,24 +16,24 @@ Target Vendor:  LATTICE
 Target Device:  LCMXO2-2000HCTQFP100
 Target Performance:   4
 Mapper:  xo2c00,  version:  Diamond (64-bit) 3.13.0.56.2
-Mapped on:  11/26/24  18:06:04
+Mapped on:  11/27/24  15:45:56
 
 Design Summary
 --------------
 
-   Number of registers:    117 out of  2352 (5%)
-      PFU registers:          117 out of  2112 (6%)
+   Number of registers:    100 out of  2352 (4%)
+      PFU registers:          100 out of  2112 (5%)
       PIO registers:            0 out of   240 (0%)
-   Number of SLICEs:       101 out of  1056 (10%)
-      SLICEs as Logic/ROM:    101 out of  1056 (10%)
+   Number of SLICEs:        91 out of  1056 (9%)
+      SLICEs as Logic/ROM:     91 out of  1056 (9%)
       SLICEs as RAM:            0 out of   792 (0%)
-      SLICEs as Carry:         10 out of  1056 (1%)
-   Number of LUT4s:        198 out of  2112 (9%)
-      Number used as logic LUTs:        178
+      SLICEs as Carry:          5 out of  1056 (0%)
+   Number of LUT4s:        178 out of  2112 (8%)
+      Number used as logic LUTs:        168
       Number used as distributed RAM:     0
-      Number used as ripple logic:       20
+      Number used as ripple logic:       10
       Number used as shift registers:     0
-   Number of PIO sites used: 37 + 4(JTAG) out of 80 (51%)
+   Number of PIO sites used: 25 + 4(JTAG) out of 80 (36%)
    Number of block RAMs:  0 out of 8 (0%)
    Number of GSRs:        1 out of 1 (100%)
    EFB used :        Yes
@@ -59,14 +59,14 @@ Design Summary
       2. Number of logic LUT4s does not include count of distributed RAM and
      ripple logic.
    Number of clocks:  6
-     Net MEM_CLK_c: 65 loads, 65 rising, 0 falling (Driver: OSCInst0 )
+     Net clk: 55 loads, 55 rising, 0 falling (Driver: OSCInst0 )
 
                                     Page 1
 
 
 
 
-Design:  i2c_gpio                                      Date:  11/26/24  18:06:04
+Design:  i2c_gpio                                      Date:  11/27/24  15:45:56
 
 Design Summary (cont)
 ---------------------
@@ -75,43 +75,41 @@ Design Summary (cont)
      Net IRQ_c_3: 1 loads, 1 rising, 0 falling (Driver: PIO IRQ[3] )
      Net IRQ_c_1: 1 loads, 1 rising, 0 falling (Driver: PIO IRQ[1] )
      Net IRQ_c_0: 1 loads, 1 rising, 0 falling (Driver: PIO IRQ[0] )
-   Number of Clock Enables:  14
-     Net MEM_CLK_c_enable_27: 2 loads, 2 LSLICEs
-     Net MEM_CLK_c_enable_24: 4 loads, 4 LSLICEs
-     Net reg_rdy_N_598: 4 loads, 4 LSLICEs
-     Net dat_rdy_N_602: 4 loads, 4 LSLICEs
-     Net MEM_CLK_c_enable_13: 4 loads, 4 LSLICEs
-     Net MEM_CLK_c_enable_14: 1 loads, 1 LSLICEs
-     Net irq_en_3: 1 loads, 1 LSLICEs
-     Net MEM_CLK_c_enable_34: 6 loads, 6 LSLICEs
-     Net MEM_CLK_c_enable_35: 1 loads, 1 LSLICEs
-     Net MEM_CLK_c_enable_23: 2 loads, 2 LSLICEs
+   Number of Clock Enables:  12
+     Net clk_enable_33: 4 loads, 4 LSLICEs
+     Net dat_rdy_N_574: 4 loads, 4 LSLICEs
+     Net reg_rdy_N_570: 2 loads, 2 LSLICEs
+     Net clk_enable_16: 2 loads, 2 LSLICEs
+     Net clk_enable_13: 4 loads, 4 LSLICEs
+     Net clk_enable_26: 6 loads, 6 LSLICEs
+     Net clk_enable_19: 2 loads, 2 LSLICEs
      Net irq_en_0: 1 loads, 1 LSLICEs
+     Net clk_enable_12: 1 loads, 1 LSLICEs
+     Net irq_en_3: 1 loads, 1 LSLICEs
      Net irq_en_2: 1 loads, 1 LSLICEs
      Net irq_en_1: 1 loads, 1 LSLICEs
-     Net MEM_CLK_c_enable_36: 1 loads, 1 LSLICEs
    Number of LSRs:  4
-     Net RST_N_c: 63 loads, 62 LSLICEs
-     Net irq_status_clr_0: 1 loads, 1 LSLICEs
+     Net RST_N_c: 54 loads, 53 LSLICEs
      Net irq_status_clr_2: 1 loads, 1 LSLICEs
      Net irq_status_clr_1: 1 loads, 1 LSLICEs
+     Net irq_status_clr_0: 1 loads, 1 LSLICEs
    Number of nets driven by tri-state buffers:  0
    Top 10 highest fanout non-clock nets:
-     Net RST_N_c: 77 loads
-     Net MEM_CLK_c_enable_35: 24 loads
-     Net temp1_0: 24 loads
-     Net wb_stb_i: 24 loads
-     Net n_temp1_7__N_81: 23 loads
-     Net temp1_1: 22 loads
-     Net wb_ack_o: 21 loads
-     Net n_temp1_7__N_80: 14 loads
+     Net RST_N_c: 64 loads
+     Net wb_stb_i: 27 loads
+     Net wb_ack_o: 24 loads
+     Net clk_enable_12: 22 loads
+     Net n_temp1_7__N_71: 22 loads
+     Net temp1_1: 21 loads
+     Net temp1_0: 20 loads
+     Net dat_rdy_N_576: 14 loads
+     Net temp1_3: 14 loads
      Net temp1_5: 14 loads
-     Net temp1_3: 13 loads
 
 
 
 
-   Number of warnings:  24
+   Number of warnings:  26
    Number of errors:    0
      
 
@@ -119,71 +117,129 @@ Design Errors/Warnings
 ----------------------
 
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(54): Semantic error in "IOBUF PORT "MEM_RD[0]"
+     _d_slots/uz_d_slots.lpf(36): Semantic error in "IOBUF PORT "MEM_RD[0]"
      IO_TYPE=LVCMOS18 ;": Port "MEM_RD[0]" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(55): Semantic error in "IOBUF PORT "MEM_RD[1]"
+     _d_slots/uz_d_slots.lpf(37): Semantic error in "IOBUF PORT "MEM_RD[1]"
      IO_TYPE=LVCMOS18 ;": Port "MEM_RD[1]" does not exist in the design. This
      preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(38): Semantic error in "IOBUF PORT "MEM_RD[2]"
 
                                     Page 2
 
 
 
 
-Design:  i2c_gpio                                      Date:  11/26/24  18:06:04
+Design:  i2c_gpio                                      Date:  11/27/24  15:45:56
 
 Design Errors/Warnings (cont)
 -----------------------------
-WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(56): Semantic error in "IOBUF PORT "MEM_RD[2]"
      IO_TYPE=LVCMOS18 ;": Port "MEM_RD[2]" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(57): Semantic error in "IOBUF PORT "MEM_RD[3]"
+     _d_slots/uz_d_slots.lpf(39): Semantic error in "IOBUF PORT "MEM_RD[3]"
      IO_TYPE=LVCMOS18 ;": Port "MEM_RD[3]" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(58): Semantic error in "IOBUF PORT "MEM_RD[4]"
+     _d_slots/uz_d_slots.lpf(40): Semantic error in "IOBUF PORT "MEM_RD[4]"
      IO_TYPE=LVCMOS18 ;": Port "MEM_RD[4]" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(59): Semantic error in "IOBUF PORT "MEM_RD[5]"
+     _d_slots/uz_d_slots.lpf(41): Semantic error in "IOBUF PORT "MEM_RD[5]"
      IO_TYPE=LVCMOS18 ;": Port "MEM_RD[5]" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(60): Semantic error in "IOBUF PORT "MEM_RD[6]"
+     _d_slots/uz_d_slots.lpf(42): Semantic error in "IOBUF PORT "MEM_RD[6]"
      IO_TYPE=LVCMOS18 ;": Port "MEM_RD[6]" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(61): Semantic error in "IOBUF PORT "MEM_RD[7]"
+     _d_slots/uz_d_slots.lpf(43): Semantic error in "IOBUF PORT "MEM_RD[7]"
      IO_TYPE=LVCMOS18 ;": Port "MEM_RD[7]" does not exist in the design. This
      preference has been disabled.
-WARNING - map: input pad net 'MEM_RD[7]' has no legal load.
-WARNING - map: input pad net 'MEM_RD[6]' has no legal load.
-WARNING - map: input pad net 'MEM_RD[5]' has no legal load.
-WARNING - map: input pad net 'MEM_RD[4]' has no legal load.
-WARNING - map: input pad net 'MEM_RD[3]' has no legal load.
-WARNING - map: input pad net 'MEM_RD[2]' has no legal load.
-WARNING - map: input pad net 'MEM_RD[1]' has no legal load.
-WARNING - map: input pad net 'MEM_RD[0]' has no legal load.
-WARNING - map: IO buffer missing for top level port MEM_RD[7:0](7)...logic will
-     be discarded.
-WARNING - map: IO buffer missing for top level port MEM_RD[7:0](6)...logic will
-     be discarded.
-WARNING - map: IO buffer missing for top level port MEM_RD[7:0](5)...logic will
-     be discarded.
-WARNING - map: IO buffer missing for top level port MEM_RD[7:0](4)...logic will
-     be discarded.
-WARNING - map: IO buffer missing for top level port MEM_RD[7:0](3)...logic will
-     be discarded.
-WARNING - map: IO buffer missing for top level port MEM_RD[7:0](2)...logic will
-     be discarded.
-WARNING - map: IO buffer missing for top level port MEM_RD[7:0](1)...logic will
-     be discarded.
-WARNING - map: IO buffer missing for top level port MEM_RD[7:0](0)...logic will
-     be discarded.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(52): Semantic error in "IOBUF PORT "MEM_ADDR[0]"
+     IO_TYPE=LVCMOS33 ;": Port "MEM_ADDR[0]" does not exist in the design. This
+     preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(53): Semantic error in "IOBUF PORT "MEM_ADDR[1]"
+     IO_TYPE=LVCMOS33 ;": Port "MEM_ADDR[1]" does not exist in the design. This
+     preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(54): Semantic error in "IOBUF PORT "MEM_ADDR[2]"
+     IO_TYPE=LVCMOS33 ;": Port "MEM_ADDR[2]" does not exist in the design. This
+     preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(55): Semantic error in "IOBUF PORT "MEM_ADDR[3]"
+     IO_TYPE=LVCMOS33 ;": Port "MEM_ADDR[3]" does not exist in the design. This
+     preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(56): Semantic error in "IOBUF PORT "MEM_ADDR[4]"
+     IO_TYPE=LVCMOS33 ;": Port "MEM_ADDR[4]" does not exist in the design. This
+     preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(57): Semantic error in "IOBUF PORT "MEM_ADDR[5]"
+     IO_TYPE=LVCMOS33 ;": Port "MEM_ADDR[5]" does not exist in the design. This
+     preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(58): Semantic error in "IOBUF PORT "MEM_ADDR[6]"
+     IO_TYPE=LVCMOS33 ;": Port "MEM_ADDR[6]" does not exist in the design. This
+     preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(59): Semantic error in "IOBUF PORT "MEM_ADDR[7]"
+     IO_TYPE=LVCMOS33 ;": Port "MEM_ADDR[7]" does not exist in the design. This
+     preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(60): Semantic error in "IOBUF PORT "MEM_CLK"
+
+                                    Page 3
+
+
+
+
+Design:  i2c_gpio                                      Date:  11/27/24  15:45:56
+
+Design Errors/Warnings (cont)
+-----------------------------
+     IO_TYPE=LVCMOS33 ;": Port "MEM_CLK" does not exist in the design. This
+     preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(61): Semantic error in "IOBUF PORT "MEM_WD[0]"
+     IO_TYPE=LVCMOS33 ;": Port "MEM_WD[0]" does not exist in the design. This
+     preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(62): Semantic error in "IOBUF PORT "MEM_WD[1]"
+     IO_TYPE=LVCMOS33 ;": Port "MEM_WD[1]" does not exist in the design. This
+     preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(63): Semantic error in "IOBUF PORT "MEM_WD[2]"
+     IO_TYPE=LVCMOS33 ;": Port "MEM_WD[2]" does not exist in the design. This
+     preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(64): Semantic error in "IOBUF PORT "MEM_WD[3]"
+     IO_TYPE=LVCMOS33 ;": Port "MEM_WD[3]" does not exist in the design. This
+     preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(65): Semantic error in "IOBUF PORT "MEM_WD[4]"
+     IO_TYPE=LVCMOS33 ;": Port "MEM_WD[4]" does not exist in the design. This
+     preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(66): Semantic error in "IOBUF PORT "MEM_WD[5]"
+     IO_TYPE=LVCMOS33 ;": Port "MEM_WD[5]" does not exist in the design. This
+     preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(67): Semantic error in "IOBUF PORT "MEM_WD[6]"
+     IO_TYPE=LVCMOS33 ;": Port "MEM_WD[6]" does not exist in the design. This
+     preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(68): Semantic error in "IOBUF PORT "MEM_WD[7]"
+     IO_TYPE=LVCMOS33 ;": Port "MEM_WD[7]" does not exist in the design. This
+     preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(69): Semantic error in "IOBUF PORT "MEM_WR"
+     IO_TYPE=LVCMOS33 ;": Port "MEM_WR" does not exist in the design. This
+     preference has been disabled.
 
 IO (PIO) Attributes
 -------------------
@@ -192,19 +248,31 @@ IO (PIO) Attributes
 | IO Name             | Direction | Levelmode | IO         |
 |                     |           |  IO_TYPE  | Register   |
 +---------------------+-----------+-----------+------------+
-
-                                    Page 3
-
-
-
-
-Design:  i2c_gpio                                      Date:  11/26/24  18:06:04
-
-IO (PIO) Attributes (cont)
---------------------------
 | SCL                 | BIDIR     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | SDA                 | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| GPO_0[7]            | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| GPO_0[6]            | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| GPO_0[5]            | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+
+                                    Page 4
+
+
+
+
+Design:  i2c_gpio                                      Date:  11/27/24  15:45:56
+
+IO (PIO) Attributes (cont)
+--------------------------
+| GPO_0[4]            | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| GPO_0[3]            | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| GPO_0[2]            | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | GPO_0[1]            | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
@@ -214,42 +282,6 @@ IO (PIO) Attributes (cont)
 +---------------------+-----------+-----------+------------+
 | INTQ                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| MEM_CLK             | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| MEM_WR              | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| MEM_ADDR[7]         | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| MEM_ADDR[6]         | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| MEM_ADDR[5]         | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| MEM_ADDR[4]         | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| MEM_ADDR[3]         | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| MEM_ADDR[2]         | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| MEM_ADDR[1]         | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| MEM_ADDR[0]         | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| MEM_WD[7]           | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| MEM_WD[6]           | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| MEM_WD[5]           | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| MEM_WD[4]           | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| MEM_WD[3]           | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| MEM_WD[2]           | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| MEM_WD[1]           | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| MEM_WD[0]           | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
 | IRQ[3]              | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | IRQ[2]              | INPUT     | LVCMOS18  |            |
@@ -258,16 +290,6 @@ IO (PIO) Attributes (cont)
 +---------------------+-----------+-----------+------------+
 | IRQ[0]              | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-
-                                    Page 4
-
-
-
-
-Design:  i2c_gpio                                      Date:  11/26/24  18:06:04
-
-IO (PIO) Attributes (cont)
---------------------------
 | GPI_0[7]            | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | GPI_0[6]            | INPUT     | LVCMOS18  |            |
@@ -291,17 +313,24 @@ Removed logic
 -------------
 
 Signal VCC_net undriven or does not drive anything - clipped.
-Signal add_458_9/S1 undriven or does not drive anything - clipped.
-Signal add_458_9/CO undriven or does not drive anything - clipped.
-Signal add_77_1/S1 undriven or does not drive anything - clipped.
-Signal add_77_1/S0 undriven or does not drive anything - clipped.
-Signal add_77_1/CI undriven or does not drive anything - clipped.
-Signal add_77_9/CO undriven or does not drive anything - clipped.
-Signal add_458_1/S0 undriven or does not drive anything - clipped.
-Signal add_458_1/CI undriven or does not drive anything - clipped.
+Signal add_416_9/S1 undriven or does not drive anything - clipped.
+Signal add_416_9/CO undriven or does not drive anything - clipped.
+Signal add_416_1/S0 undriven or does not drive anything - clipped.
+Signal add_416_1/CI undriven or does not drive anything - clipped.
 Block i2 was optimized away.
 
      
+
+
+
+
+
+                                    Page 5
+
+
+
+
+Design:  i2c_gpio                                      Date:  11/27/24  15:45:56
 
 OSC Summary
 -----------
@@ -310,30 +339,20 @@ OSC 1:                                     Pin/Node Value
   OSC Instance Name:                                OSCInst0
   OSC Type:                                         OSCH
   STDBY Input:                                      NONE
-  OSC Output:                              PIN,NODE MEM_CLK_c
+  OSC Output:                              NODE     clk
   OSC Nominal Frequency (MHz):                      7.00
 
 Embedded Functional Block Connection Summary
 --------------------------------------------
 
    Desired WISHBONE clock frequency: 10.0 MHz
-   Clock source:                     MEM_CLK_c
+   Clock source:                     clk
    Reset source:                     RST_N_c
    Functions mode:
       I2C #1 (Primary) Function:     ENABLED
       I2C #2 (Secondary) Function:   DISABLED
       SPI Function:                  DISABLED
       Timer/Counter Function:        DISABLED
-
-                                    Page 5
-
-
-
-
-Design:  i2c_gpio                                      Date:  11/26/24  18:06:04
-
-Embedded Functional Block Connection Summary (cont)
----------------------------------------------------
       Timer/Counter Mode:            WB
       UFM Connection:                DISABLED
       PLL0 Connection:               DISABLED
@@ -343,13 +362,13 @@ Embedded Functional Block Connection Summary (cont)
       I2C Component:          PRIMARY
       I2C Addressing:         7BIT
       I2C Performance:        100kHz
-      Slave Address:          0b0001001
+      Slave Address:          0b0011001
       General Call:           DISABLED
       I2C Wake Up:            DISABLED
       I2C Component:          UFM/Configuration
       I2C Addressing:         7BIT
       I2C Performance:        100kHz
-      Slave Address:          0b0001000
+      Slave Address:          0b0011000
    SPI Function Summary:
    --------------------
       None
@@ -368,6 +387,16 @@ Embedded Functional Block Connection Summary (cont)
            WID		EBR Instance
       ---		------------
 
+
+
+
+
+                                    Page 6
+
+
+
+
+Design:  i2c_gpio                                      Date:  11/27/24  15:45:56
 
 ASIC Components
 ---------------
@@ -390,16 +419,6 @@ GSR Component:
    The design components with GSR property set to ENABLED will respond to global
         set reset while the components with GSR property set to DISABLED will
         not.
-
-                                    Page 6
-
-
-
-
-Design:  i2c_gpio                                      Date:  11/26/24  18:06:04
-
-GSR Usage (cont)
-----------------
         
 
      Components with disabled GSR Property
@@ -409,91 +428,88 @@ GSR Usage (cont)
      not respond to the reset signal 'irq_status_clr_3' via the GSR component.
 
      Type and number of components of the type: 
-   Register = 116 
+   Register = 99 
 
      Type and instance name of component: 
-   Register : irq_clr__i0
-   Register : memory_addr__i1
    Register : GPI_DAT__i0
+   Register : dat_rdy_332
+   Register : wb_stb_i_348
+   Register : wb_dat_i__i5
    Register : temp2__i0
+   Register : wb_we_i_350
    Register : temp3__i0
-   Register : MEM_WD__i1
-   Register : MEM_WR_379
+   Register : irq_clr__i0
    Register : GPO_DATA_0___i1
-   Register : mem_wr1_378
-   Register : reg_rdy_366
-   Register : wb_we_i_391
+   Register : reg_rdy_330
    Register : wb_dat_i__i0
    Register : data0__i0
    Register : wb_adr_i__i1
    Register : dat_count__i0
+   Register : dat_rdy_del_333
    Register : irq_en__i0
-   Register : dat_rdy_368
-   Register : dat_rdy_del_369
-   Register : MEM_WD__i8
-   Register : MEM_WD__i7
-   Register : MEM_WD__i6
-   Register : MEM_WD__i5
-   Register : MEM_WD__i4
-   Register : MEM_WD__i3
-   Register : MEM_WD__i2
+   Register : wb_dat_i__i4
+   Register : wb_dat_i__i3
+   Register : wb_dat_i__i2
    Register : c_state_FSM_i1
-   Register : temp3__i7
-   Register : temp3__i6
-   Register : temp3__i5
-   Register : temp3__i4
-   Register : temp3__i3
-   Register : temp3__i2
+   Register : reg_rdy_del_331
+   Register : c_state_FSM_i19
+   Register : wb_dat_i__i1
    Register : temp1__i0
-   Register : reg_rdy_del_367
-   Register : temp3__i1
-   Register : temp2__i7
-   Register : temp2__i6
-   Register : temp2__i5
-   Register : temp2__i4
-   Register : temp2__i3
-   Register : GPO_DATA_0___i2
-   Register : temp2__i2
-   Register : temp2__i1
-   Register : GPI_DAT__i7
+   Register : GPO_DATA_0___i8
 
                                     Page 7
 
 
 
 
-Design:  i2c_gpio                                      Date:  11/26/24  18:06:04
+Design:  i2c_gpio                                      Date:  11/27/24  15:45:56
 
 GSR Usage (cont)
 ----------------
-   Register : GPI_DAT__i6
-   Register : wb_stb_i_389
-   Register : GPI_DAT__i5
-   Register : GPI_DAT__i4
-   Register : GPI_DAT__i3
-   Register : GPI_DAT__i2
+   Register : GPO_DATA_0___i7
+   Register : GPO_DATA_0___i6
+   Register : GPO_DATA_0___i5
+   Register : GPO_DATA_0___i4
+   Register : GPO_DATA_0___i3
+   Register : c_state_FSM_i18
+   Register : c_state_FSM_i17
+   Register : c_state_FSM_i16
+   Register : c_state_FSM_i15
+   Register : wb_dat_i__i7
+   Register : wb_dat_i__i6
+   Register : c_state_FSM_i14
+   Register : GPO_DATA_0___i2
+   Register : irq_clr__i3
+   Register : irq_clr__i2
+   Register : irq_clr__i1
+   Register : temp3__i7
+   Register : temp3__i6
+   Register : c_state_FSM_i13
+   Register : c_state_FSM_i12
+   Register : c_state_FSM_i11
+   Register : c_state_FSM_i10
+   Register : c_state_FSM_i9
+   Register : c_state_FSM_i8
+   Register : temp3__i5
+   Register : c_state_FSM_i7
+   Register : c_state_FSM_i6
+   Register : c_state_FSM_i5
+   Register : c_state_FSM_i4
+   Register : c_state_FSM_i3
+   Register : c_state_FSM_i2
+   Register : temp3__i4
+   Register : temp3__i3
+   Register : irq_status_2__343
+   Register : irq_status_1__342
+   Register : irq_status_0__341
    Register : irq_en__i3
    Register : irq_en__i2
    Register : irq_en__i1
-   Register : irq_status_2__384
-   Register : irq_status_1__383
-   Register : irq_status_0__382
-   Register : GPI_DAT__i1
-   Register : memory_addr__i8
-   Register : memory_addr__i7
-   Register : memory_addr__i6
-   Register : memory_addr__i5
-   Register : memory_addr__i4
-   Register : memory_addr__i3
-   Register : memory_addr__i2
    Register : dat_count__i7
    Register : dat_count__i6
    Register : dat_count__i5
    Register : dat_count__i4
    Register : dat_count__i3
-   Register : irq_clr__i3
-   Register : irq_clr__i2
-   Register : irq_clr__i1
    Register : dat_count__i2
    Register : dat_count__i1
    Register : wb_adr_i__i3
@@ -505,41 +521,28 @@ GSR Usage (cont)
    Register : data0__i3
    Register : data0__i2
    Register : data0__i1
-   Register : wb_dat_i__i7
-   Register : wb_dat_i__i6
-   Register : wb_dat_i__i5
-   Register : wb_dat_i__i4
-   Register : wb_dat_i__i3
-   Register : wb_dat_i__i2
-   Register : wb_dat_i__i1
-   Register : c_state_FSM_i2
-   Register : c_state_FSM_i3
-   Register : c_state_FSM_i4
-   Register : c_state_FSM_i5
-   Register : c_state_FSM_i6
-   Register : c_state_FSM_i7
-   Register : c_state_FSM_i8
-   Register : c_state_FSM_i9
-   Register : c_state_FSM_i10
-   Register : c_state_FSM_i11
+   Register : temp3__i2
 
                                     Page 8
 
 
 
 
-Design:  i2c_gpio                                      Date:  11/26/24  18:06:04
+Design:  i2c_gpio                                      Date:  11/27/24  15:45:56
 
 GSR Usage (cont)
 ----------------
-   Register : c_state_FSM_i12
-   Register : c_state_FSM_i13
-   Register : c_state_FSM_i14
-   Register : c_state_FSM_i15
-   Register : c_state_FSM_i16
-   Register : c_state_FSM_i17
-   Register : c_state_FSM_i18
-   Register : c_state_FSM_i19
+   Register : temp3__i1
+   Register : temp2__i3
+   Register : temp2__i2
+   Register : temp2__i1
+   Register : GPI_DAT__i7
+   Register : GPI_DAT__i6
+   Register : GPI_DAT__i5
+   Register : GPI_DAT__i4
+   Register : GPI_DAT__i3
+   Register : GPI_DAT__i2
+   Register : GPI_DAT__i1
    Register : temp1__i1
    Register : temp1__i2
    Register : temp1__i3
@@ -547,17 +550,14 @@ GSR Usage (cont)
    Register : temp1__i5
    Register : temp1__i6
    Register : temp1__i7
-   Register : Enable_381
 
 Run Time and Memory Usage
 -------------------------
 
    Total CPU Time: 0 secs  
    Total REAL Time: 2 secs  
-   Peak Memory Usage: 46 MB
+   Peak Memory Usage: 45 MB
         
-
-
 
 
 

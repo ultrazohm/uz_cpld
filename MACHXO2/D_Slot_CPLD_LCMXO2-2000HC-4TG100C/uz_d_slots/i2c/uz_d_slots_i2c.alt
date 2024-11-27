@@ -1,33 +1,21 @@
 NOTE Copyright (C), 1992-2010, Lattice Semiconductor Corporation *
 NOTE All Rights Reserved *
-NOTE DATE CREATED: Tue Nov 26 18:07:34 2024 *
+NOTE DATE CREATED: Wed Nov 27 15:46:44 2024 *
 NOTE DESIGN NAME: i2c_gpio *
 NOTE DEVICE NAME: LCMXO2-2000HC-4TQFP100 *
 NOTE PIN ASSIGNMENTS *
 NOTE PINS SCL : 86 : inout *
 NOTE PINS SDA : 85 : inout *
+NOTE PINS GPO_0[7] : 54 : out *
+NOTE PINS GPO_0[6] : 14 : out *
+NOTE PINS GPO_0[5] : 53 : out *
+NOTE PINS GPO_0[4] : 15 : out *
+NOTE PINS GPO_0[3] : 52 : out *
+NOTE PINS GPO_0[2] : 16 : out *
 NOTE PINS GPO_0[1] : 51 : out *
 NOTE PINS GPO_0[0] : 17 : out *
 NOTE PINS Enable : 10 : out *
 NOTE PINS INTQ : 58 : out *
-NOTE PINS MEM_CLK : 63 : out *
-NOTE PINS MEM_WR : 12 : out *
-NOTE PINS MEM_ADDR[7] : 7 : out *
-NOTE PINS MEM_ADDR[6] : 64 : out *
-NOTE PINS MEM_ADDR[5] : 2 : out *
-NOTE PINS MEM_ADDR[4] : 65 : out *
-NOTE PINS MEM_ADDR[3] : 1 : out *
-NOTE PINS MEM_ADDR[2] : 66 : out *
-NOTE PINS MEM_ADDR[1] : 74 : out *
-NOTE PINS MEM_ADDR[0] : 67 : out *
-NOTE PINS MEM_WD[7] : 59 : out *
-NOTE PINS MEM_WD[6] : 75 : out *
-NOTE PINS MEM_WD[5] : 70 : out *
-NOTE PINS MEM_WD[4] : 69 : out *
-NOTE PINS MEM_WD[3] : 68 : out *
-NOTE PINS MEM_WD[2] : 4 : out *
-NOTE PINS MEM_WD[1] : 62 : out *
-NOTE PINS MEM_WD[0] : 8 : out *
 NOTE PINS IRQ[3] : 99 : in *
 NOTE PINS IRQ[2] : 98 : in *
 NOTE PINS IRQ[1] : 97 : in *

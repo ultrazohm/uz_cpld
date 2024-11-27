@@ -3,18 +3,16 @@ Report for cell i2c_gpio
    Instance path: i2c_gpio
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	     101.00        100.0
-                                  LUT4	     178.00        100.0
-                                 IOBUF	         37        100.0
-                                PFUREG	        117        100.0
-                                RIPPLE	         10        100.0
+                                  SLIC	      91.00        100.0
+                                  LUT4	     168.00        100.0
+                                 IOBUF	         25        100.0
+                                PFUREG	        100        100.0
+                                RIPPLE	          5        100.0
 SUB MODULES
                                   cell	      count    SLC Usage(%)
-                              efb_vhdl	          1         0.7
+                              efb_vhdl	          1         0.0
 ---------------------------------------------------
 Report for cell efb_vhdl
    Instance path: i2c_gpio/dut
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	       0.75         0.7
-                                  LUT4	       2.00         1.1

@@ -1,0 +1,334 @@
+<HTML>
+<HEAD><TITLE>Lattice Synthesis Timing Report</TITLE>
+<STYLE TYPE="text/css">
+<!--
+ body,pre{    font-family:'Courier New', monospace;    color: #000000;    font-size:88%;    background-color: #ffffff;}h1 {    font-weight: bold;    margin-top: 24px;    margin-bottom: 10px;    border-bottom: 3px solid #000;    font-size: 1em;}h2 {    font-weight: bold;    margin-top: 18px;    margin-bottom: 5px;    font-size: 0.90em;}h3 {    font-weight: bold;    margin-top: 12px;    margin-bottom: 5px;    font-size: 0.80em;}p {    font-size:78%;}P.Table {    margin-top: 4px;    margin-bottom: 4px;    margin-right: 4px;    margin-left: 4px;}table{    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    border-collapse: collapse;}th {    font-weight:bold;    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    text-align:left;    font-size:78%;}td {    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    font-size:78%;}a {    color:#013C9A;    text-decoration:none;}a:visited {    color:#013C9A;}a:hover, a:active {    text-decoration:underline;    color:#5BAFD4;}.pass{background-color: #00ff00;}.fail{background-color: #ff0000;}.comment{    font-size: 90%;    font-style: italic;}
+-->
+</STYLE>
+</HEAD>
+<PRE><A name="Map_Twr"></A><B><U><big>Lattice Synthesis Timing Report</big></U></B>
+--------------------------------------------------------------------------------
+Lattice Synthesis Timing Report, Version  
+Tue Nov 26 18:05:50 2024
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
+
+<A name="mtw1_ri"></A><B><U><big>Report Information</big></U></B>
+------------------
+Design:     i2c_gpio
+Constraint file:  
+Report level:    verbose report, limited to 3 items per constraint
+--------------------------------------------------------------------------------
+
+
+
+================================================================================
+Constraint: create_clock -period 5.000000 -name clk4 [get_nets IRQ_c_0]
+            0 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+================================================================================
+Constraint: create_clock -period 5.000000 -name clk3 [get_nets IRQ_c_1]
+            0 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+================================================================================
+Constraint: create_clock -period 5.000000 -name clk2 [get_nets IRQ_c_3]
+            0 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+================================================================================
+Constraint: create_clock -period 5.000000 -name clk1 [get_nets IRQ_c_2]
+            0 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+================================================================================
+Constraint: create_clock -period 5.000000 -name clk0 [get_nets MEM_CLK_c]
+            2851 items scored, 2665 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Error:  The following path violates requirements by 11.937ns
+
+ Logical Details:  Cell type  Pin type       Cell name  (clock net +/-)
+
+   Source:         FD1S3IX    CK             temp1__i5  (from MEM_CLK_c +)
+   Destination:    FD1S3IX    D              memory_addr__i7  (to MEM_CLK_c +)
+
+   Delay:                  16.777ns  (33.6% logic, 66.4% route), 12 logic levels.
+
+ Constraint Details:
+
+     16.777ns data_path temp1__i5 to memory_addr__i7 violates
+      5.000ns delay constraint less
+      0.160ns L_S requirement (totaling 4.840ns) by 11.937ns
+
+ Path Details: temp1__i5 to memory_addr__i7
+
+   Name    Fanout   Delay (ns)          Pins               Resource(Cell.Net)
+L_CO        ---     0.444             CK to Q              temp1__i5 (from MEM_CLK_c)
+Route        14   e 1.865                                  temp1[5]
+LUT4        ---     0.493              C to Z              i2_3_lut_rep_60_4_lut
+Route        11   e 1.632                                  n3998
+LUT4        ---     0.493              A to Z              i4_4_lut
+Route         8   e 1.540                                  n2641
+LUT4        ---     0.493              C to Z              i2_3_lut_4_lut
+Route         2   e 1.141                                  n3166
+LUT4        ---     0.493              A to Z              i1_4_lut_adj_32
+Route         1   e 0.941                                  n4_adj_631
+LUT4        ---     0.493              B to Z              i2_4_lut
+Route         2   e 1.141                                  n3552
+LUT4        ---     0.493              A to Z              i1_2_lut
+Route         1   e 0.941                                  n5
+LUT4        ---     0.493              B to Z              i77_4_lut
+Route         1   e 0.941                                  n256
+A1_TO_FCO   ---     0.827           A[2] to COUT           add_77_3
+Route         1   e 0.020                                  n3499
+FCI_TO_FCO  ---     0.157            CIN to COUT           add_77_5
+Route         1   e 0.020                                  n3500
+FCI_TO_FCO  ---     0.157            CIN to COUT           add_77_7
+Route         1   e 0.020                                  n3501
+FCI_TO_F    ---     0.598            CIN to S[2]           add_77_9
+Route         1   e 0.941                                  MEM_ADDR_7__N_429[6]
+                  --------
+                   16.777  (33.6% logic, 66.4% route), 12 logic levels.
+
+
+Error:  The following path violates requirements by 11.937ns
+
+ Logical Details:  Cell type  Pin type       Cell name  (clock net +/-)
+
+   Source:         FD1S3IX    CK             temp1__i5  (from MEM_CLK_c +)
+   Destination:    FD1S3IX    D              memory_addr__i8  (to MEM_CLK_c +)
+
+   Delay:                  16.777ns  (33.6% logic, 66.4% route), 12 logic levels.
+
+ Constraint Details:
+
+     16.777ns data_path temp1__i5 to memory_addr__i8 violates
+      5.000ns delay constraint less
+      0.160ns L_S requirement (totaling 4.840ns) by 11.937ns
+
+ Path Details: temp1__i5 to memory_addr__i8
+
+   Name    Fanout   Delay (ns)          Pins               Resource(Cell.Net)
+L_CO        ---     0.444             CK to Q              temp1__i5 (from MEM_CLK_c)
+Route        14   e 1.865                                  temp1[5]
+LUT4        ---     0.493              C to Z              i2_3_lut_rep_60_4_lut
+Route        11   e 1.632                                  n3998
+LUT4        ---     0.493              A to Z              i4_4_lut
+Route         8   e 1.540                                  n2641
+LUT4        ---     0.493              C to Z              i2_3_lut_4_lut
+Route         2   e 1.141                                  n3166
+LUT4        ---     0.493              A to Z              i1_4_lut_adj_32
+Route         1   e 0.941                                  n4_adj_631
+LUT4        ---     0.493              B to Z              i2_4_lut
+Route         2   e 1.141                                  n3552
+LUT4        ---     0.493              A to Z              i1_2_lut
+Route         1   e 0.941                                  n5
+LUT4        ---     0.493              B to Z              i77_4_lut
+Route         1   e 0.941                                  n256
+A1_TO_FCO   ---     0.827           A[2] to COUT           add_77_3
+Route         1   e 0.020                                  n3499
+FCI_TO_FCO  ---     0.157            CIN to COUT           add_77_5
+Route         1   e 0.020                                  n3500
+FCI_TO_FCO  ---     0.157            CIN to COUT           add_77_7
+Route         1   e 0.020                                  n3501
+FCI_TO_F    ---     0.598            CIN to S[2]           add_77_9
+Route         1   e 0.941                                  MEM_ADDR_7__N_429[7]
+                  --------
+                   16.777  (33.6% logic, 66.4% route), 12 logic levels.
+
+
+Error:  The following path violates requirements by 11.860ns
+
+ Logical Details:  Cell type  Pin type       Cell name  (clock net +/-)
+
+   Source:         FD1S3IX    CK             temp1__i5  (from MEM_CLK_c +)
+   Destination:    FD1S3IX    D              memory_addr__i7  (to MEM_CLK_c +)
+
+   Delay:                  16.700ns  (35.1% logic, 64.9% route), 13 logic levels.
+
+ Constraint Details:
+
+     16.700ns data_path temp1__i5 to memory_addr__i7 violates
+      5.000ns delay constraint less
+      0.160ns L_S requirement (totaling 4.840ns) by 11.860ns
+
+ Path Details: temp1__i5 to memory_addr__i7
+
+   Name    Fanout   Delay (ns)          Pins               Resource(Cell.Net)
+L_CO        ---     0.444             CK to Q              temp1__i5 (from MEM_CLK_c)
+Route        14   e 1.865                                  temp1[5]
+LUT4        ---     0.493              C to Z              i2_3_lut_4_lut_adj_76
+Route         7   e 1.502                                  n14
+LUT4        ---     0.493              A to Z              i1_4_lut_else_4_lut
+Route         1   e 0.020                                  n4013
+MUXL5       ---     0.233           BLUT to Z              i2515
+Route         4   e 1.340                                  intr_read_command
+LUT4        ---     0.493              D to Z              i2_3_lut_4_lut
+Route         2   e 1.141                                  n3166
+LUT4        ---     0.493              A to Z              i1_4_lut_adj_32
+Route         1   e 0.941                                  n4_adj_631
+LUT4        ---     0.493              B to Z              i2_4_lut
+Route         2   e 1.141                                  n3552
+LUT4        ---     0.493              A to Z              i1_2_lut
+Route         1   e 0.941                                  n5
+LUT4        ---     0.493              B to Z              i77_4_lut
+Route         1   e 0.941                                  n256
+A1_TO_FCO   ---     0.827           A[2] to COUT           add_77_3
+Route         1   e 0.020                                  n3499
+FCI_TO_FCO  ---     0.157            CIN to COUT           add_77_5
+Route         1   e 0.020                                  n3500
+FCI_TO_FCO  ---     0.157            CIN to COUT           add_77_7
+Route         1   e 0.020                                  n3501
+FCI_TO_F    ---     0.598            CIN to S[2]           add_77_9
+Route         1   e 0.941                                  MEM_ADDR_7__N_429[6]
+                  --------
+                   16.700  (35.1% logic, 64.9% route), 13 logic levels.
+
+Warning: 16.937 ns is the maximum delay for this constraint.
+
+
+<A name="mtw1_rs"></A><B><U><big>Timing Report Summary</big></U></B>
+--------------
+--------------------------------------------------------------------------------
+Constraint                              |   Constraint|       Actual|Levels
+--------------------------------------------------------------------------------
+                                        |             |             |
+create_clock -period 5.000000 -name     |             |             |
+clk4 [get_nets IRQ_c_0]                 |            -|            -|     0  
+                                        |             |             |
+create_clock -period 5.000000 -name     |             |             |
+clk3 [get_nets IRQ_c_1]                 |            -|            -|     0  
+                                        |             |             |
+create_clock -period 5.000000 -name     |             |             |
+clk2 [get_nets IRQ_c_3]                 |            -|            -|     0  
+                                        |             |             |
+create_clock -period 5.000000 -name     |             |             |
+clk1 [get_nets IRQ_c_2]                 |            -|            -|     0  
+                                        |             |             |
+create_clock -period 5.000000 -name     |             |             |
+clk0 [get_nets MEM_CLK_c]               |     5.000 ns|    16.937 ns|    12 *
+                                        |             |             |
+--------------------------------------------------------------------------------
+
+
+1 constraints not met.
+
+--------------------------------------------------------------------------------
+Critical Nets                           |   Loads|  Errors| % of total
+--------------------------------------------------------------------------------
+n3998                                   |      11|     728|     27.32%
+                                        |        |        |
+n3499                                   |       1|     684|     25.67%
+                                        |        |        |
+n248                                    |       8|     680|     25.52%
+                                        |        |        |
+n2641                                   |       8|     656|     24.62%
+                                        |        |        |
+n3500                                   |       1|     592|     22.21%
+                                        |        |        |
+n256                                    |       1|     512|     19.21%
+                                        |        |        |
+n3993                                   |       7|     480|     18.01%
+                                        |        |        |
+n3552                                   |       2|     405|     15.20%
+                                        |        |        |
+n5                                      |       1|     368|     13.81%
+                                        |        |        |
+n3501                                   |       1|     364|     13.66%
+                                        |        |        |
+n3989                                   |       6|     320|     12.01%
+                                        |        |        |
+n4_adj_631                              |       1|     315|     11.82%
+                                        |        |        |
+n3166                                   |       2|     310|     11.63%
+                                        |        |        |
+temp1[0]                                |      24|     282|     10.58%
+                                        |        |        |
+temp1[3]                                |      13|     276|     10.36%
+                                        |        |        |
+temp1[2]                                |      11|     271|     10.17%
+                                        |        |        |
+temp1[5]                                |      14|     271|     10.17%
+                                        |        |        |
+temp1[6]                                |       6|     271|     10.17%
+                                        |        |        |
+--------------------------------------------------------------------------------
+
+
+<A name="mtw1_ts"></A><B><U><big>Timing summary:</big></U></B>
+---------------
+
+Timing errors: 2665  Score: 12572409
+
+Constraints cover  2992 paths, 282 nets, and 848 connections (76.0% coverage)
+
+
+Peak memory: 82104320 bytes, TRCE: 4116480 bytes, DLYMAN: 0 bytes
+CPU_TIME_REPORT: 0 secs 
+
+
+
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+</PRE></FONT>
+</BODY>
+</HTML>

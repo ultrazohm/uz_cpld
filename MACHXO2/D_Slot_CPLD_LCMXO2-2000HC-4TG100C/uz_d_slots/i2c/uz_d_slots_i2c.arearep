@@ -1,0 +1,32 @@
+----------------------------------------------------------------------
+Report for cell i2c_gpio.TECH
+Register bits:  117 of 2352 (4.974%)
+I/O cells:      37
+                                  Cell usage:
+                               cell     count   Res Usage(%)
+                                 BB         2          100.0
+                              CCU2D        10          100.0
+                                EFB         1          100.0
+                            FD1P3AX         1          100.0
+                            FD1P3DX         3          100.0
+                            FD1P3IX        52          100.0
+                            FD1S3AX         3          100.0
+                            FD1S3IX        58          100.0
+                                GSR         1          100.0
+                                 IB        13          100.0
+                               LUT4       174          100.0
+                                 OB        21          100.0
+                                OBZ         1          100.0
+                               OSCH         1          100.0
+                              PFUMX         6          100.0
+SUB MODULES
+                           efb_vhdl         1
+                              TOTAL       348
+----------------------------------------------------------------------
+Report for cell efb_vhdl.v1
+Instance Path : dut
+                                  Cell usage:
+                               cell     count   Res Usage(%)
+                                EFB         1          100.0
+                               LUT4         2            1.1
+                              TOTAL         3

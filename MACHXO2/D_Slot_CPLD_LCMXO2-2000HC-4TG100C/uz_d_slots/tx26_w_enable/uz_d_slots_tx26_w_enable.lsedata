@@ -18,10 +18,12 @@
 <unit name = "SignalRouter">
 
     <!--
-        Top Level Pins: 60
+        Top Level Pins: 62
     -->
 
     <pins>
+        <pitem  name = "i2c_scl"  direction = "in"  />
+        <pitem  name = "i2c_sda"  direction = "in"  />
         <pitem  name = "fpga_00"  direction = "in"  />
         <pitem  name = "fpga_01"  direction = "in"  />
         <pitem  name = "fpga_02"  direction = "in"  />
@@ -85,7 +87,7 @@
     </pins>
 
     <!--
-        Instances in netlist: 31
+        Instances in netlist: 35
     -->
 
     <instance  name = "fpga_26_I_0"  library = "work"  arch = "RTL"  type = "comb">
@@ -96,7 +98,7 @@
 
         <nets>
         <nitem  name = "fpga_26"  />
-        <nitem  name = "fpga_26_N_4"  />
+        <nitem  name = "fpga_26_N_6"  />
         </nets>
     </instance>
 
@@ -108,7 +110,59 @@
 
         <nets>
         <nitem  name = "fpga_27"  />
-        <nitem  name = "fpga_27_N_6"  />
+        <nitem  name = "fpga_27_N_8"  />
+        </nets>
+    </instance>
+
+    <instance  name = "i2c_scl_I_0"  library = "work"  arch = "RTL"  type = "comb">
+        <pins>
+        <pitem  name = "i"  direction = "in"  />
+        <pitem  name = "o"  direction = "out"  />
+        </pins>
+
+        <nets>
+        <nitem  name = "i2c_scl"  />
+        <nitem  name = "i2c_scl_N_10"  />
+        </nets>
+    </instance>
+
+    <instance  name = "i2c_sda_I_0"  library = "work"  arch = "RTL"  type = "comb">
+        <pins>
+        <pitem  name = "i"  direction = "in"  />
+        <pitem  name = "o"  direction = "out"  />
+        </pins>
+
+        <nets>
+        <nitem  name = "i2c_sda"  />
+        <nitem  name = "i2c_sda_N_12"  />
+        </nets>
+    </instance>
+
+    <instance  name = "enable_I_4"  library = "work"  arch = "RTL"  type = "comb">
+        <pins>
+        <pitem  name = "a0"  direction = "in"  />
+        <pitem  name = "a1"  direction = "in"  />
+        <pitem  name = "o"  direction = "out"  />
+        </pins>
+
+        <nets>
+        <nitem  name = "fpga_26_N_6"  />
+        <nitem  name = "fpga_27_N_8"  />
+        <nitem  name = "enable_N_4"  />
+        </nets>
+    </instance>
+
+    <instance  name = "enable_I_3"  library = "work"  arch = "RTL"  type = "comb">
+        <pins>
+        <pitem  name = "a0"  direction = "in"  />
+        <pitem  name = "a1"  direction = "in"  />
+        <pitem  name = "o"  direction = "out"  />
+        </pins>
+
+        <nets>
+        <nitem  name = "enable_N_4"  />
+        <nitem  name = "i2c_scl_N_10"  />
+        <nitem  name = "enable_N_3"  />
         </nets>
     </instance>
 
@@ -120,8 +174,8 @@
         </pins>
 
         <nets>
-        <nitem  name = "fpga_26_N_4"  />
-        <nitem  name = "fpga_27_N_6"  />
+        <nitem  name = "enable_N_3"  />
+        <nitem  name = "i2c_sda_N_12"  />
         <nitem  name = "enable_N_2"  />
         </nets>
     </instance>

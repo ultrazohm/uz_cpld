@@ -7,17 +7,15 @@ Design Information
 
 Command line:   map -a MachXO2 -p LCMXO2-2000HC -t TQFP100 -s 4 -oc Commercial
      uz_d_slots_tx26_w_enable.ngd -o uz_d_slots_tx26_w_enable_map.ncd -pr
-     uz_d_slots_tx26_w_enable.prf -mp uz_d_slots_tx26_w_enable.mrp -lpf C:/git/c
-     pld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx26_w_ena
-     ble/uz_d_slots_tx26_w_enable.lpf -lpf C:/git/cpld_lattice/MACHXO2/D_Slot_CP
-     LD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_slots.lpf -c 0 -gui -msgset C:/git
-     /cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/promote.
-     xml 
+     uz_d_slots_tx26_w_enable.prf -mp uz_d_slots_tx26_w_enable.mrp -lpf C:/cpld_
+     lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx26_w_enable/
+     uz_d_slots_tx26_w_enable.lpf -lpf C:/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO
+     2-2000HC-4TG100C/uz_d_slots/uz_d_slots.lpf -c 0 -gui 
 Target Vendor:  LATTICE
 Target Device:  LCMXO2-2000HCTQFP100
 Target Performance:   4
-Mapper:  xo2c00,  version:  Diamond (64-bit) 3.14.0.75.2
-Mapped on:  11/01/24  14:47:59
+Mapper:  xo2c00,  version:  Diamond (64-bit) 3.13.0.56.2
+Mapped on:  11/26/24  17:14:08
 
 Design Summary
 --------------
@@ -34,7 +32,7 @@ Design Summary
       Number used as distributed RAM:     0
       Number used as ripple logic:        0
       Number used as shift registers:     0
-   Number of PIO sites used: 60 + 4(JTAG) out of 80 (80%)
+   Number of PIO sites used: 62 + 4(JTAG) out of 80 (83%)
    Number of block RAMs:  0 out of 8 (0%)
    Number of GSRs:        0 out of 1 (0%)
    EFB used :        No
@@ -60,30 +58,30 @@ Design Summary
       2. Number of logic LUT4s does not include count of distributed RAM and
      ripple logic.
    Number of clocks:  0
+   Number of Clock Enables:  0
+   Number of LSRs:  0
 
                                     Page 1
 
 
 
 
-Design:  SignalRouter                                  Date:  11/01/24  14:47:59
+Design:  SignalRouter                                  Date:  11/26/24  17:14:08
 
 Design Summary (cont)
 ---------------------
-   Number of Clock Enables:  0
-   Number of LSRs:  0
    Number of nets driven by tri-state buffers:  0
    Top 10 highest fanout non-clock nets:
-     Net enable: 26 loads
-     Net d_00_c: 1 loads
-     Net d_23_c: 1 loads
-     Net d_24_c: 1 loads
-     Net d_25_c: 1 loads
-     Net fpga_00_c: 1 loads
-     Net fpga_22_c: 1 loads
-     Net fpga_23_c: 1 loads
-     Net fpga_24_c: 1 loads
-     Net fpga_25_c: 1 loads
+     Net fpga_27_c: 26 loads
+     Net i2c_sda_c: 26 loads
+     Net n10: 26 loads
+     Net d_03_c: 1 loads
+     Net d_06_c: 1 loads
+     Net d_07_c: 1 loads
+     Net fpga_03_c: 1 loads
+     Net fpga_06_c: 1 loads
+     Net fpga_07_c: 1 loads
+     Net fpga_08_c: 1 loads
 
 
 
@@ -126,18 +124,18 @@ IO (PIO) Attributes
 +---------------------+-----------+-----------+------------+
 | d_10                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
+| d_11                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
 
                                     Page 2
 
 
 
 
-Design:  SignalRouter                                  Date:  11/01/24  14:47:59
+Design:  SignalRouter                                  Date:  11/26/24  17:14:08
 
 IO (PIO) Attributes (cont)
 --------------------------
-| d_11                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
 | d_12                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | d_13                | OUTPUT    | LVCMOS33  |            |
@@ -174,6 +172,10 @@ IO (PIO) Attributes (cont)
 +---------------------+-----------+-----------+------------+
 | d_29                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
+| i2c_scl             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| i2c_sda             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
 | fpga_00             | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | fpga_01             | INPUT     | LVCMOS18  |            |
@@ -190,18 +192,18 @@ IO (PIO) Attributes (cont)
 +---------------------+-----------+-----------+------------+
 | fpga_07             | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| fpga_08             | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
 
                                     Page 3
 
 
 
 
-Design:  SignalRouter                                  Date:  11/01/24  14:47:59
+Design:  SignalRouter                                  Date:  11/26/24  17:14:08
 
 IO (PIO) Attributes (cont)
 --------------------------
+| fpga_08             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
 | fpga_09             | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | fpga_10             | INPUT     | LVCMOS18  |            |
@@ -248,31 +250,29 @@ IO (PIO) Attributes (cont)
 Removed logic
 -------------
 
-Block i44 undriven or does not drive anything - clipped.
+Block i48 undriven or does not drive anything - clipped.
 Block GSR_INST undriven or does not drive anything - clipped.
 Signal VCC_net undriven or does not drive anything - clipped.
 
      
 
-Run Time and Memory Usage
--------------------------
 
-   Total CPU Time: 0 secs  
+
 
                                     Page 4
 
 
 
 
-Design:  SignalRouter                                  Date:  11/01/24  14:47:59
+Design:  SignalRouter                                  Date:  11/26/24  17:14:08
 
-Run Time and Memory Usage (cont)
---------------------------------
-   Total REAL Time: 0 secs  
+Run Time and Memory Usage
+-------------------------
+
+   Total CPU Time: 0 secs  
+   Total REAL Time: 2 secs  
    Peak Memory Usage: 44 MB
         
-
-
 
 
 
@@ -332,5 +332,5 @@ Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
      Copyright (c) 1995 AT&T Corp.   All rights reserved.
      Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
      Copyright (c) 2001 Agere Systems   All rights reserved.
-     Copyright (c) 2002-2024 Lattice Semiconductor Corporation,  All rights
+     Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights
      reserved.

@@ -5,4 +5,4 @@ Report for cell SignalRouter
                                   cell	      count    Res Usage(%)
                                   SLIC	      14.00        100.0
                                   LUT4	      28.00        100.0
-                                 IOBUF	         60        100.0
+                                 IOBUF	         62        100.0

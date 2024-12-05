@@ -4,6 +4,9 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity SignalRouter is
     Port (
+	    -- Define 2 i2c ports
+        i2c_scl : in STD_LOGIC;
+        i2c_sda : in STD_LOGIC;
         -- Define 30 fpga ports
         fpga_00 : in STD_LOGIC;
         fpga_01 : in STD_LOGIC;
@@ -79,7 +82,7 @@ architecture Behavioral of SignalRouter is
 begin
 
     -- Define the enable signal logic
-    enable <= '1' when (fpga_26 = '0' and fpga_27 = '0' and fpga_28 = '1' and fpga_29 = '1') else '0';
+    enable <= '1' when (fpga_26 = '0' and fpga_27 = '0' and i2c_scl = '0' and i2c_sda = '0' and  fpga_28 = '1' and fpga_29 = '1') else '0';
 
 
     -- Map ports

@@ -1,6 +1,6 @@
 NOTE Copyright (C), 1992-2010, Lattice Semiconductor Corporation *
 NOTE All Rights Reserved *
-NOTE DATE CREATED: Fri Nov 01 14:48:18 2024 *
+NOTE DATE CREATED: Tue Nov 26 17:14:54 2024 *
 NOTE DESIGN NAME: SignalRouter *
 NOTE DEVICE NAME: LCMXO2-2000HC-4TQFP100 *
 NOTE PIN ASSIGNMENTS *
@@ -34,6 +34,8 @@ NOTE PINS d_26 : 1 : out *
 NOTE PINS d_27 : 66 : out *
 NOTE PINS d_28 : 74 : out *
 NOTE PINS d_29 : 67 : out *
+NOTE PINS i2c_scl : 85 : in *
+NOTE PINS i2c_sda : 86 : in *
 NOTE PINS fpga_00 : 78 : in *
 NOTE PINS fpga_01 : 83 : in *
 NOTE PINS fpga_02 : 84 : in *
@@ -64,5 +66,9 @@ NOTE PINS fpga_26 : 97 : in *
 NOTE PINS fpga_27 : 96 : in *
 NOTE PINS fpga_28 : 88 : in *
 NOTE PINS fpga_29 : 87 : in *
+NOTE PINS SYSCONFIG_PIN_MCLK : 31 : inout *
+NOTE PINS SYSCONFIG_PIN_SO : 32 : inout *
+NOTE PINS SYSCONFIG_PIN_SN : 48 : in *
+NOTE PINS SYSCONFIG_PIN_SI : 49 : inout *
 NOTE CONFIGURATION MODE: NONE *
 NOTE COMPRESSION: on *

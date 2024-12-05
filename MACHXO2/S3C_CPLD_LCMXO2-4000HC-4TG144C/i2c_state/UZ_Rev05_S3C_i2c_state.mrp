@@ -1,0 +1,468 @@
+
+Lattice Mapping Report File for Design Module
+     'Waiting_for_Powerbutton_pressed_V0'
+
+
+Design Information
+------------------
+
+Command line:   map -a MachXO2 -p LCMXO2-4000HC -t TQFP144 -s 4 -oc Commercial
+     UZ_Rev05_S3C_i2c_state.ngd -o UZ_Rev05_S3C_i2c_state_map.ncd -pr
+     UZ_Rev05_S3C_i2c_state.prf -mp UZ_Rev05_S3C_i2c_state.mrp -lpf C:/cpld/cpld
+     _lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/i2c_state/UZ_Rev05_S3C_i2c_
+     state.lpf -lpf C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/
+     UZ_Rev05_S3C.lpf -c 0 -gui -msgset
+     C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/promote.xml 
+Target Vendor:  LATTICE
+Target Device:  LCMXO2-4000HCTQFP144
+Target Performance:   4
+Mapper:  xo2c00,  version:  Diamond (64-bit) 3.13.0.56.2
+Mapped on:  12/05/24  11:34:39
+
+Design Summary
+--------------
+
+   Number of registers:    107 out of  4665 (2%)
+      PFU registers:           99 out of  4320 (2%)
+      PIO registers:            8 out of   345 (2%)
+   Number of SLICEs:       102 out of  2160 (5%)
+      SLICEs as Logic/ROM:    102 out of  2160 (5%)
+      SLICEs as RAM:            0 out of  1620 (0%)
+      SLICEs as Carry:         46 out of  2160 (2%)
+   Number of LUT4s:        203 out of  4320 (5%)
+      Number used as logic LUTs:        111
+      Number used as distributed RAM:     0
+      Number used as ripple logic:       92
+      Number used as shift registers:     0
+   Number of PIO sites used: 33 + 1(JTAGENB) out of 115 (30%)
+   Number of block RAMs:  0 out of 10 (0%)
+   Number of GSRs:        0 out of 1 (0%)
+   EFB used :        Yes
+   JTAG used :       No
+   Readback used :   No
+   Oscillator used : Yes
+   Startup used :    No
+   POR :             On
+   Bandgap :         On
+   Number of Power Controller:  0 out of 1 (0%)
+   Number of Dynamic Bank Controller (BCINRD):  0 out of 6 (0%)
+   Number of Dynamic Bank Controller (BCLVDSO):  0 out of 1 (0%)
+   Number of DCCA:  0 out of 8 (0%)
+   Number of DCMA:  0 out of 2 (0%)
+   Number of PLLs:  0 out of 2 (0%)
+   Number of DQSDLLs:  0 out of 2 (0%)
+   Number of CLKDIVC:  0 out of 4 (0%)
+   Number of ECLKSYNCA:  0 out of 4 (0%)
+   Number of ECLKBRIDGECS:  0 out of 2 (0%)
+   Notes:-
+      1. Total number of LUT4s = (Number of logic LUT4s) + 2*(Number of
+     distributed RAMs) + 2*(Number of ripple logic)
+      2. Number of logic LUT4s does not include count of distributed RAM and
+     ripple logic.
+   Number of clocks:  2
+
+                                    Page 1
+
+
+
+
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/05/24  11:34:39
+
+Design Summary (cont)
+---------------------
+     Net clk: 66 loads, 66 rising, 0 falling (Driver: OSCInst0 )
+     Net i2c1_scli: 1 loads, 1 rising, 0 falling (Driver: PIO SCL )
+   Number of Clock Enables:  16
+     Net clk_enable_39: 17 loads, 17 LSLICEs
+     Net clk_enable_4: 2 loads, 0 LSLICEs
+     Net clk_enable_5: 2 loads, 0 LSLICEs
+     Net clk_enable_70: 17 loads, 17 LSLICEs
+     Net clk_enable_7: 1 loads, 1 LSLICEs
+     Net clk_enable_98: 1 loads, 0 LSLICEs
+     Net pushed_1__N_98: 1 loads, 1 LSLICEs
+     Net Carrier_PG_1V8_N_309: 1 loads, 1 LSLICEs
+     Net clk_enable_91: 11 loads, 11 LSLICEs
+     Net pushed_1__N_93: 1 loads, 1 LSLICEs
+     Net clk_enable_92: 1 loads, 1 LSLICEs
+     Net clk_enable_95: 1 loads, 1 LSLICEs
+     Net clk_enable_96: 1 loads, 0 LSLICEs
+     Net clk_enable_93: 1 loads, 1 LSLICEs
+     Net clk_enable_97: 1 loads, 0 LSLICEs
+     Net clk_enable_94: 1 loads, 1 LSLICEs
+   Number of LSRs:  7
+     Net next_state_3: 2 loads, 2 LSLICEs
+     Net button_inputs_asyn2_0: 18 loads, 18 LSLICEs
+     Net button_inputs_asyn2_1: 18 loads, 18 LSLICEs
+     Net n1128: 12 loads, 12 LSLICEs
+     Net n2152: 3 loads, 3 LSLICEs
+     Net n2557: 1 loads, 0 LSLICEs
+     Net n2158: 1 loads, 0 LSLICEs
+   Number of nets driven by tri-state buffers:  0
+   Top 10 highest fanout non-clock nets:
+     Net next_state_1: 43 loads
+     Net next_state_3: 38 loads
+     Net next_state_2: 37 loads
+     Net next_state_0: 33 loads
+     Net n973: 22 loads
+     Net next_state_3_N_177_2: 22 loads
+     Net button_inputs_asyn2_0: 19 loads
+     Net button_inputs_asyn2_1: 19 loads
+     Net clk_enable_39: 17 loads
+     Net clk_enable_70: 17 loads
+
+
+
+
+   Number of warnings:  42
+   Number of errors:    0
+     
+
+Design Errors/Warnings
+----------------------
+
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/UZ_Re
+     v05_S3C.lpf(8): Semantic error in "IOBUF PORT "FP_UsrSW1" IO_TYPE=LVCMOS33
+     ;": Port "FP_UsrSW1" does not exist in the design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/UZ_Re
+     v05_S3C.lpf(9): Semantic error in "IOBUF PORT "FP_UsrSW2" IO_TYPE=LVCMOS33
+
+                                    Page 2
+
+
+
+
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/05/24  11:34:39
+
+Design Errors/Warnings (cont)
+-----------------------------
+     ;": Port "FP_UsrSW2" does not exist in the design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/UZ_Re
+     v05_S3C.lpf(10): Semantic error in "IOBUF PORT "FP_UsrSW3" IO_TYPE=LVCMOS33
+     ;": Port "FP_UsrSW3" does not exist in the design. This preference has been
+     disabled.
+WARNING - map: input pad net 'RST_N' has no legal load.
+WARNING - map: input pad net 'FP_UsrSW1' has no legal load.
+WARNING - map: input pad net 'FP_UsrSW2' has no legal load.
+WARNING - map: input pad net 'FP_UsrSW3' has no legal load.
+WARNING - map: input pad net 'SD0_CD' has no legal load.
+WARNING - map: input pad net 'SD1_CD' has no legal load.
+WARNING - map: input pad net 'DIGS3C_SlotD1_ReqOE' has no legal load.
+WARNING - map: input pad net 'DIGS3C_SlotD1_SlotOK' has no legal load.
+WARNING - map: input pad net 'DIGS3C_SlotD2_ReqOE' has no legal load.
+WARNING - map: input pad net 'DIGS3C_SlotD2_SlotOK' has no legal load.
+WARNING - map: input pad net 'DIGS3C_SlotD3_ReqOE' has no legal load.
+WARNING - map: input pad net 'DIGS3C_SlotD3_SlotOK' has no legal load.
+WARNING - map: input pad net 'DIGS3C_SlotD4_ReqOE' has no legal load.
+WARNING - map: input pad net 'DIGS3C_SlotD4_SlotOK' has no legal load.
+WARNING - map: input pad net 'DIGS3C_SlotD5_ReqOE' has no legal load.
+WARNING - map: input pad net 'DIGS3C_SlotD5_SlotOK' has no legal load.
+WARNING - map: input pad net 'ANL_S3C_SlotOK1' has no legal load.
+WARNING - map: input pad net 'ANL_S3C_SlotOK2' has no legal load.
+WARNING - map: input pad net 'ANL_S3C_SlotOK3' has no legal load.
+WARNING - map: The JTAG port has been disabled in this project and JTAG pins
+     will be configured as General Purpose IO.  You have to use JTAGENB pin in
+     hardware to change the personality of the port from JTAG pins to general
+     purpose IO.  Reference MachXO2 Handbook for details on dual function JTAG
+     port.
+WARNING - map: IO buffer missing for top level port RST_N...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port FP_UsrSW1...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port FP_UsrSW2...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port FP_UsrSW3...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port SD0_CD...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port SD1_CD...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port DIGS3C_SlotD1_ReqOE...logic
+     will be discarded.
+WARNING - map: IO buffer missing for top level port DIGS3C_SlotD1_SlotOK...logic
+     will be discarded.
+WARNING - map: IO buffer missing for top level port DIGS3C_SlotD2_ReqOE...logic
+     will be discarded.
+WARNING - map: IO buffer missing for top level port DIGS3C_SlotD2_SlotOK...logic
+     will be discarded.
+WARNING - map: IO buffer missing for top level port DIGS3C_SlotD3_ReqOE...logic
+     will be discarded.
+WARNING - map: IO buffer missing for top level port DIGS3C_SlotD3_SlotOK...logic
+     will be discarded.
+WARNING - map: IO buffer missing for top level port DIGS3C_SlotD4_ReqOE...logic
+     will be discarded.
+
+                                    Page 3
+
+
+
+
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/05/24  11:34:39
+
+Design Errors/Warnings (cont)
+-----------------------------
+WARNING - map: IO buffer missing for top level port DIGS3C_SlotD4_SlotOK...logic
+     will be discarded.
+WARNING - map: IO buffer missing for top level port DIGS3C_SlotD5_ReqOE...logic
+     will be discarded.
+WARNING - map: IO buffer missing for top level port DIGS3C_SlotD5_SlotOK...logic
+     will be discarded.
+WARNING - map: IO buffer missing for top level port ANL_S3C_SlotOK1...logic will
+     be discarded.
+WARNING - map: IO buffer missing for top level port ANL_S3C_SlotOK2...logic will
+     be discarded.
+WARNING - map: IO buffer missing for top level port ANL_S3C_SlotOK3...logic will
+     be discarded.
+
+IO (PIO) Attributes
+-------------------
+
++---------------------+-----------+-----------+------------+
+| IO Name             | Direction | Levelmode | IO         |
+|                     |           |  IO_TYPE  | Register   |
++---------------------+-----------+-----------+------------+
+| SDA                 | BIDIR     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FP_SysLEDg          | OUTPUT    | LVCMOS33  | OUT        |
++---------------------+-----------+-----------+------------+
+| SCL                 | BIDIR     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FP_SysLEDr          | OUTPUT    | LVCMOS33  | OUT        |
++---------------------+-----------+-----------+------------+
+| FP_SysLEDb          | OUTPUT    | LVCMOS33  | OUT        |
++---------------------+-----------+-----------+------------+
+| Carrier_PG_3V3      | OUTPUT    | LVCMOS33  | OUT        |
++---------------------+-----------+-----------+------------+
+| FPIO_FlexMIO52      | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FPIO_isoCtrlRSTn    | OUTPUT    | LVCMOS33  | OUT        |
++---------------------+-----------+-----------+------------+
+| FP_UsrLED1          | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FP_UsrLED2          | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FP_UsrLED3          | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FP_UsrLED4          | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FP_SysLEDs          | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| Carrier_PG_1V8      | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_Shared_CarrierReady| OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_Shared_ReqSafeState| OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| SD_SEL              | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FlexMio61ExternalStop| OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+
+                                    Page 4
+
+
+
+
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/05/24  11:34:39
+
+IO (PIO) Attributes (cont)
+--------------------------
+| FlexMIOs53_GPIO_PowerDown| OUTPUT    | LVCMOS18  | OUT        |
++---------------------+-----------+-----------+------------+
+| ANL_S3C_CarrierReady| OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| ANL_S3C_P54_Legacy  | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_SlotD1_SlotOE| OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_SlotD2_SlotOE| OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_SlotD3_SlotOE| OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_SlotD4_SlotOE| OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_SlotD5_SlotOE| OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| Carrier_PwrOn       | OUTPUT    | LVCMOS33  | OUT        |
++---------------------+-----------+-----------+------------+
+| FPIO_ExternalStop   | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| SysSW_Pwr_NC        | INPUT     | LVCMOS33  | IN         |
++---------------------+-----------+-----------+------------+
+| FlexMIOs52_PCIe     | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| PG_VIN              | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| PPn_VIN             | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| PG_Module           | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+
+Removed logic
+-------------
+
+Block GSR_INST undriven or does not drive anything - clipped.
+Signal n1136 was merged into signal Carrier_PG_1V8_N_300
+Signal VCC_net undriven or does not drive anything - clipped.
+Signal add_10_1/S0 undriven or does not drive anything - clipped.
+Signal add_10_1/CI undriven or does not drive anything - clipped.
+Signal add_159_23/S1 undriven or does not drive anything - clipped.
+Signal add_159_23/CO undriven or does not drive anything - clipped.
+Signal add_19_33/S1 undriven or does not drive anything - clipped.
+Signal add_19_33/CO undriven or does not drive anything - clipped.
+Signal add_159_1/S0 undriven or does not drive anything - clipped.
+Signal add_159_1/CI undriven or does not drive anything - clipped.
+Signal add_10_33/S1 undriven or does not drive anything - clipped.
+Signal add_10_33/CO undriven or does not drive anything - clipped.
+Signal add_19_1/S0 undriven or does not drive anything - clipped.
+Signal add_19_1/CI undriven or does not drive anything - clipped.
+Block i331_1_lut was optimized away.
+Block i2 was optimized away.
+
+     
+
+
+
+
+                                    Page 5
+
+
+
+
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/05/24  11:34:39
+
+OSC Summary
+-----------
+
+OSC 1:                                     Pin/Node Value
+  OSC Instance Name:                                OSCInst0
+  OSC Type:                                         OSCH
+  STDBY Input:                                      NONE
+  OSC Output:                              NODE     clk
+  OSC Nominal Frequency (MHz):                      2.08
+
+Embedded Functional Block Connection Summary
+--------------------------------------------
+
+   Desired WISHBONE clock frequency: 50.0 MHz
+   Clock source:                     clk
+   Reset source:                     NONE
+   Functions mode:
+      I2C #1 (Primary) Function:     ENABLED
+      I2C #2 (Secondary) Function:   DISABLED
+      SPI Function:                  DISABLED
+      Timer/Counter Function:        DISABLED
+      Timer/Counter Mode:            WB
+      UFM Connection:                DISABLED
+      PLL0 Connection:               DISABLED
+      PLL1 Connection:               DISABLED
+   I2C Function Summary:
+   --------------------
+      I2C Component:          PRIMARY
+      I2C Addressing:         7BIT
+      I2C Performance:        100kHz
+      Slave Address:          0b0010001
+      General Call:           DISABLED
+      I2C Wake Up:            DISABLED
+      I2C Component:          UFM/Configuration
+      I2C Addressing:         7BIT
+      I2C Performance:        100kHz
+      Slave Address:          0b0010000
+   SPI Function Summary:
+   --------------------
+      None
+   Timer/Counter Function Summary:
+   ------------------------------
+      None
+   UFM Function Summary:
+   --------------------
+      UFM Utilization:        General Purpose Flash Memory
+      Available General
+      Purpose Flash Memory:   767 Pages (767*128 Bits)
+
+           EBR Blocks with Unique
+      Initialization Data:    0
+
+           WID		EBR Instance
+      ---		------------
+
+
+
+
+
+                                    Page 6
+
+
+
+
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/05/24  11:34:39
+
+ASIC Components
+---------------
+
+Instance Name: dut/EFBInst_0
+         Type: EFB
+Instance Name: OSCInst0
+         Type: OSCH
+
+Run Time and Memory Usage
+-------------------------
+
+   Total CPU Time: 0 secs  
+   Total REAL Time: 2 secs  
+   Peak Memory Usage: 53 MB
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    Page 7
+
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+     Copyright (c) 1995 AT&T Corp.   All rights reserved.
+     Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+     Copyright (c) 2001 Agere Systems   All rights reserved.
+     Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights
+     reserved.

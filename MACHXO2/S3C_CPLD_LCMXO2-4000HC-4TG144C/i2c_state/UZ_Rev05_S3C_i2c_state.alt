@@ -1,0 +1,41 @@
+NOTE Copyright (C), 1992-2010, Lattice Semiconductor Corporation *
+NOTE All Rights Reserved *
+NOTE DATE CREATED: Thu Dec 05 11:35:10 2024 *
+NOTE DESIGN NAME: Waiting_for_Powerbutton_pressed_V0 *
+NOTE DEVICE NAME: LCMXO2-4000HC-4TQFP144 *
+NOTE PIN ASSIGNMENTS *
+NOTE PINS SDA : 125 : inout *
+NOTE PINS FP_SysLEDg : 141 : out *
+NOTE PINS SCL : 126 : inout *
+NOTE PINS FP_SysLEDr : 142 : out *
+NOTE PINS FP_SysLEDb : 143 : out *
+NOTE PINS Carrier_PG_3V3 : 115 : out *
+NOTE PINS FPIO_FlexMIO52 : 109 : out *
+NOTE PINS FPIO_isoCtrlRSTn : 119 : out *
+NOTE PINS FP_UsrLED1 : 95 : out *
+NOTE PINS FP_UsrLED2 : 96 : out *
+NOTE PINS FP_UsrLED3 : 97 : out *
+NOTE PINS FP_UsrLED4 : 98 : out *
+NOTE PINS FP_SysLEDs : 104 : out *
+NOTE PINS Carrier_PG_1V8 : 107 : out *
+NOTE PINS DIGS3C_Shared_CarrierReady : 94 : out *
+NOTE PINS DIGS3C_Shared_ReqSafeState : 93 : out *
+NOTE PINS SD_SEL : 41 : out *
+NOTE PINS FlexMio61ExternalStop : 50 : out *
+NOTE PINS FlexMIOs53_GPIO_PowerDown : 48 : out *
+NOTE PINS ANL_S3C_CarrierReady : 24 : out *
+NOTE PINS ANL_S3C_P54_Legacy : 13 : out *
+NOTE PINS DIGS3C_SlotD1_SlotOE : 92 : out *
+NOTE PINS DIGS3C_SlotD2_SlotOE : 89 : out *
+NOTE PINS DIGS3C_SlotD3_SlotOE : 86 : out *
+NOTE PINS DIGS3C_SlotD4_SlotOE : 84 : out *
+NOTE PINS DIGS3C_SlotD5_SlotOE : 82 : out *
+NOTE PINS Carrier_PwrOn : 1 : out *
+NOTE PINS FPIO_ExternalStop : 114 : in *
+NOTE PINS SysSW_Pwr_NC : 121 : in *
+NOTE PINS FlexMIOs52_PCIe : 47 : in *
+NOTE PINS PG_VIN : 2 : in *
+NOTE PINS PPn_VIN : 3 : in *
+NOTE PINS PG_Module : 9 : in *
+NOTE CONFIGURATION MODE: NONE *
+NOTE COMPRESSION: on *

@@ -7,15 +7,17 @@ Design Information
 
 Command line:   map -a MachXO2 -p LCMXO2-2000HC -t TQFP100 -s 4 -oc Commercial
      uz_d_slots_tx26_w_enable.ngd -o uz_d_slots_tx26_w_enable_map.ncd -pr
-     uz_d_slots_tx26_w_enable.prf -mp uz_d_slots_tx26_w_enable.mrp -lpf C:/cpld_
-     lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx26_w_enable/
-     uz_d_slots_tx26_w_enable.lpf -lpf C:/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO
-     2-2000HC-4TG100C/uz_d_slots/uz_d_slots.lpf -c 0 -gui 
+     uz_d_slots_tx26_w_enable.prf -mp uz_d_slots_tx26_w_enable.mrp -lpf C:/cpld/
+     cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx26_w_en
+     able/uz_d_slots_tx26_w_enable.lpf -lpf C:/cpld/cpld_lattice/MACHXO2/D_Slot_
+     CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_slots.lpf -c 0 -gui -msgset C:/c
+     pld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/promo
+     te.xml 
 Target Vendor:  LATTICE
 Target Device:  LCMXO2-2000HCTQFP100
 Target Performance:   4
 Mapper:  xo2c00,  version:  Diamond (64-bit) 3.13.0.56.2
-Mapped on:  11/26/24  17:14:08
+Mapped on:  12/10/24  17:12:17
 
 Design Summary
 --------------
@@ -23,16 +25,16 @@ Design Summary
    Number of registers:      0 out of  2352 (0%)
       PFU registers:            0 out of  2112 (0%)
       PIO registers:            0 out of   240 (0%)
-   Number of SLICEs:        14 out of  1056 (1%)
-      SLICEs as Logic/ROM:     14 out of  1056 (1%)
+   Number of SLICEs:        15 out of  1056 (1%)
+      SLICEs as Logic/ROM:     15 out of  1056 (1%)
       SLICEs as RAM:            0 out of   792 (0%)
       SLICEs as Carry:          0 out of  1056 (0%)
-   Number of LUT4s:         28 out of  2112 (1%)
-      Number used as logic LUTs:         28
+   Number of LUT4s:         29 out of  2112 (1%)
+      Number used as logic LUTs:         29
       Number used as distributed RAM:     0
       Number used as ripple logic:        0
       Number used as shift registers:     0
-   Number of PIO sites used: 62 + 4(JTAG) out of 80 (83%)
+   Number of PIO sites used: 63 + 4(JTAG) out of 80 (84%)
    Number of block RAMs:  0 out of 8 (0%)
    Number of GSRs:        0 out of 1 (0%)
    EFB used :        No
@@ -58,30 +60,30 @@ Design Summary
       2. Number of logic LUT4s does not include count of distributed RAM and
      ripple logic.
    Number of clocks:  0
-   Number of Clock Enables:  0
-   Number of LSRs:  0
 
                                     Page 1
 
 
 
 
-Design:  SignalRouter                                  Date:  11/26/24  17:14:08
+Design:  SignalRouter                                  Date:  12/10/24  17:12:17
 
 Design Summary (cont)
 ---------------------
+   Number of Clock Enables:  0
+   Number of LSRs:  0
    Number of nets driven by tri-state buffers:  0
    Top 10 highest fanout non-clock nets:
-     Net fpga_27_c: 26 loads
-     Net i2c_sda_c: 26 loads
-     Net n10: 26 loads
-     Net d_03_c: 1 loads
-     Net d_06_c: 1 loads
-     Net d_07_c: 1 loads
-     Net fpga_03_c: 1 loads
-     Net fpga_06_c: 1 loads
-     Net fpga_07_c: 1 loads
-     Net fpga_08_c: 1 loads
+     Net enable: 26 loads
+     Net CPLD_DIGOUT_01_c: 1 loads
+     Net d_00_c: 1 loads
+     Net fpga_00_c: 1 loads
+     Net fpga_26_c: 1 loads
+     Net fpga_27_c: 1 loads
+     Net fpga_28_c: 1 loads
+     Net fpga_29_c: 1 loads
+     Net i2c_scl_c: 1 loads
+     Net i2c_sda_c: 1 loads
 
 
 
@@ -101,6 +103,8 @@ IO (PIO) Attributes
 +---------------------+-----------+-----------+------------+
 | IO Name             | Direction | Levelmode | IO         |
 |                     |           |  IO_TYPE  | Register   |
++---------------------+-----------+-----------+------------+
+| CPLD_DIGOUT_01      | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | d_00                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
@@ -122,20 +126,20 @@ IO (PIO) Attributes
 +---------------------+-----------+-----------+------------+
 | d_09                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| d_10                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_11                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
 
                                     Page 2
 
 
 
 
-Design:  SignalRouter                                  Date:  11/26/24  17:14:08
+Design:  SignalRouter                                  Date:  12/10/24  17:12:17
 
 IO (PIO) Attributes (cont)
 --------------------------
+| d_10                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| d_11                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
 | d_12                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | d_13                | OUTPUT    | LVCMOS33  |            |
@@ -188,20 +192,20 @@ IO (PIO) Attributes (cont)
 +---------------------+-----------+-----------+------------+
 | fpga_05             | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| fpga_06             | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| fpga_07             | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
 
                                     Page 3
 
 
 
 
-Design:  SignalRouter                                  Date:  11/26/24  17:14:08
+Design:  SignalRouter                                  Date:  12/10/24  17:12:17
 
 IO (PIO) Attributes (cont)
 --------------------------
+| fpga_06             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_07             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
 | fpga_08             | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | fpga_09             | INPUT     | LVCMOS18  |            |
@@ -250,13 +254,9 @@ IO (PIO) Attributes (cont)
 Removed logic
 -------------
 
-Block i48 undriven or does not drive anything - clipped.
+Block i47 undriven or does not drive anything - clipped.
 Block GSR_INST undriven or does not drive anything - clipped.
 Signal VCC_net undriven or does not drive anything - clipped.
-
-     
-
-
 
 
                                     Page 4
@@ -264,19 +264,19 @@ Signal VCC_net undriven or does not drive anything - clipped.
 
 
 
-Design:  SignalRouter                                  Date:  11/26/24  17:14:08
+Design:  SignalRouter                                  Date:  12/10/24  17:12:17
+
+Removed logic (cont)
+--------------------
+     
 
 Run Time and Memory Usage
 -------------------------
 
    Total CPU Time: 0 secs  
-   Total REAL Time: 2 secs  
-   Peak Memory Usage: 44 MB
+   Total REAL Time: 0 secs  
+   Peak Memory Usage: 43 MB
         
-
-
-
-
 
 
 

@@ -3,6 +3,6 @@ Report for cell SignalRouter
    Instance path: SignalRouter
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      14.00        100.0
-                                  LUT4	      28.00        100.0
-                                 IOBUF	         62        100.0
+                                  SLIC	      15.00        100.0
+                                  LUT4	      29.00        100.0
+                                 IOBUF	         63        100.0

@@ -6,75 +6,76 @@ Performance Grade:      4
 PACKAGE:          TQFP100
 Package Status:                     Final          Version 1.44
 
-Tue Nov 26 17:14:21 2024
+Tue Dec 10 17:12:34 2024
 
 Pinout by Port Name:
-+-----------+----------+--------------+-------+-----------+-----------+--------------------------------------+
-| Port Name | Pin/Bank | Buffer Type  | Site  | PG Enable | BC Enable | Properties                           |
-+-----------+----------+--------------+-------+-----------+-----------+--------------------------------------+
-| d_00      | 17/4     | LVCMOS33_OUT | PL10B |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_01      | 51/1     | LVCMOS33_OUT | PR14B |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_02      | 16/4     | LVCMOS33_OUT | PL10A |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_03      | 52/1     | LVCMOS33_OUT | PR14A |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_04      | 15/4     | LVCMOS33_OUT | PL9B  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_05      | 53/1     | LVCMOS33_OUT | PR12B |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_06      | 14/4     | LVCMOS33_OUT | PL9A  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_07      | 54/1     | LVCMOS33_OUT | PR12A |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_08      | 9/5      | LVCMOS33_OUT | PL5A  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_09      | 57/1     | LVCMOS33_OUT | PR11B |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_10      | 10/5     | LVCMOS33_OUT | PL5B  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_11      | 58/1     | LVCMOS33_OUT | PR11A |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_12      | 12/4     | LVCMOS33_OUT | PL7C  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_13      | 59/1     | LVCMOS33_OUT | PR10B |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_14      | 13/4     | LVCMOS33_OUT | PL7D  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_15      | 60/1     | LVCMOS33_OUT | PR10A |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_16      | 3/5      | LVCMOS33_OUT | PL3A  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_17      | 61/1     | LVCMOS33_OUT | PR9A  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_18      | 4/5      | LVCMOS33_OUT | PL3B  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_19      | 62/1     | LVCMOS33_OUT | PR7B  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_20      | 8/5      | LVCMOS33_OUT | PL4B  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_21      | 63/1     | LVCMOS33_OUT | PR7A  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_22      | 7/5      | LVCMOS33_OUT | PL4A  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_23      | 64/1     | LVCMOS33_OUT | PR6B  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_24      | 2/5      | LVCMOS33_OUT | PL2B  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_25      | 65/1     | LVCMOS33_OUT | PR6A  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_26      | 1/5      | LVCMOS33_OUT | PL2A  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_27      | 66/1     | LVCMOS33_OUT | PR5B  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_28      | 74/1     | LVCMOS33_OUT | PR1B  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| d_29      | 67/1     | LVCMOS33_OUT | PR5A  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| fpga_00   | 78/0     | LVCMOS18_IN  | PT22A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_01   | 83/0     | LVCMOS18_IN  | PT19B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_02   | 84/0     | LVCMOS18_IN  | PT19A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_03   | 47/2     | LVCMOS18_IN  | PB22B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_04   | 45/2     | LVCMOS18_IN  | PB22A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_05   | 43/2     | LVCMOS18_IN  | PB21B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_06   | 42/2     | LVCMOS18_IN  | PB21A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_07   | 40/2     | LVCMOS18_IN  | PB18A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_08   | 41/2     | LVCMOS18_IN  | PB18B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_09   | 39/2     | LVCMOS18_IN  | PB16B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_10   | 38/2     | LVCMOS18_IN  | PB16A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_11   | 34/2     | LVCMOS18_IN  | PB11A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_12   | 35/2     | LVCMOS18_IN  | PB11B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_13   | 36/2     | LVCMOS18_IN  | PB12A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_14   | 37/2     | LVCMOS18_IN  | PB12B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_15   | 24/3     | LVCMOS18_IN  | PL14A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_16   | 18/3     | LVCMOS18_IN  | PL11A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_17   | 19/3     | LVCMOS18_IN  | PL11B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_18   | 20/3     | LVCMOS18_IN  | PL12A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_19   | 21/3     | LVCMOS18_IN  | PL12B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_20   | 29/2     | LVCMOS18_IN  | PB6A  |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_21   | 30/2     | LVCMOS18_IN  | PB6B  |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_22   | 27/2     | LVCMOS18_IN  | PB5A  |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_23   | 28/2     | LVCMOS18_IN  | PB5B  |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_24   | 99/0     | LVCMOS18_IN  | PT9A  |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_25   | 98/0     | LVCMOS18_IN  | PT9B  |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_26   | 97/0     | LVCMOS18_IN  | PT11A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_27   | 96/0     | LVCMOS18_IN  | PT11B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_28   | 88/0     | LVCMOS18_IN  | PT17A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| fpga_29   | 87/0     | LVCMOS18_IN  | PT17B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| i2c_scl   | 85/0     | LVCMOS18_IN  | PT18D |           |           | CLAMP:ON HYSTERESIS:SMALL            |
-| i2c_sda   | 86/0     | LVCMOS18_IN  | PT18C |           |           | CLAMP:ON HYSTERESIS:SMALL            |
-+-----------+----------+--------------+-------+-----------+-----------+--------------------------------------+
++----------------+----------+--------------+-------+-----------+-----------+--------------------------------------+
+| Port Name      | Pin/Bank | Buffer Type  | Site  | PG Enable | BC Enable | Properties                           |
++----------------+----------+--------------+-------+-----------+-----------+--------------------------------------+
+| CPLD_DIGOUT_01 | 68/1     | LVCMOS33_OUT | PR4B  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_00           | 17/4     | LVCMOS33_OUT | PL10B |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_01           | 51/1     | LVCMOS33_OUT | PR14B |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_02           | 16/4     | LVCMOS33_OUT | PL10A |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_03           | 52/1     | LVCMOS33_OUT | PR14A |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_04           | 15/4     | LVCMOS33_OUT | PL9B  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_05           | 53/1     | LVCMOS33_OUT | PR12B |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_06           | 14/4     | LVCMOS33_OUT | PL9A  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_07           | 54/1     | LVCMOS33_OUT | PR12A |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_08           | 9/5      | LVCMOS33_OUT | PL5A  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_09           | 57/1     | LVCMOS33_OUT | PR11B |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_10           | 10/5     | LVCMOS33_OUT | PL5B  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_11           | 58/1     | LVCMOS33_OUT | PR11A |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_12           | 12/4     | LVCMOS33_OUT | PL7C  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_13           | 59/1     | LVCMOS33_OUT | PR10B |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_14           | 13/4     | LVCMOS33_OUT | PL7D  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_15           | 60/1     | LVCMOS33_OUT | PR10A |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_16           | 3/5      | LVCMOS33_OUT | PL3A  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_17           | 61/1     | LVCMOS33_OUT | PR9A  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_18           | 4/5      | LVCMOS33_OUT | PL3B  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_19           | 62/1     | LVCMOS33_OUT | PR7B  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_20           | 8/5      | LVCMOS33_OUT | PL4B  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_21           | 63/1     | LVCMOS33_OUT | PR7A  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_22           | 7/5      | LVCMOS33_OUT | PL4A  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_23           | 64/1     | LVCMOS33_OUT | PR6B  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_24           | 2/5      | LVCMOS33_OUT | PL2B  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_25           | 65/1     | LVCMOS33_OUT | PR6A  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_26           | 1/5      | LVCMOS33_OUT | PL2A  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_27           | 66/1     | LVCMOS33_OUT | PR5B  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_28           | 74/1     | LVCMOS33_OUT | PR1B  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| d_29           | 67/1     | LVCMOS33_OUT | PR5A  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
+| fpga_00        | 78/0     | LVCMOS18_IN  | PT22A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_01        | 83/0     | LVCMOS18_IN  | PT19B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_02        | 84/0     | LVCMOS18_IN  | PT19A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_03        | 47/2     | LVCMOS18_IN  | PB22B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_04        | 45/2     | LVCMOS18_IN  | PB22A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_05        | 43/2     | LVCMOS18_IN  | PB21B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_06        | 42/2     | LVCMOS18_IN  | PB21A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_07        | 40/2     | LVCMOS18_IN  | PB18A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_08        | 41/2     | LVCMOS18_IN  | PB18B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_09        | 39/2     | LVCMOS18_IN  | PB16B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_10        | 38/2     | LVCMOS18_IN  | PB16A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_11        | 34/2     | LVCMOS18_IN  | PB11A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_12        | 35/2     | LVCMOS18_IN  | PB11B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_13        | 36/2     | LVCMOS18_IN  | PB12A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_14        | 37/2     | LVCMOS18_IN  | PB12B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_15        | 24/3     | LVCMOS18_IN  | PL14A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_16        | 18/3     | LVCMOS18_IN  | PL11A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_17        | 19/3     | LVCMOS18_IN  | PL11B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_18        | 20/3     | LVCMOS18_IN  | PL12A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_19        | 21/3     | LVCMOS18_IN  | PL12B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_20        | 29/2     | LVCMOS18_IN  | PB6A  |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_21        | 30/2     | LVCMOS18_IN  | PB6B  |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_22        | 27/2     | LVCMOS18_IN  | PB5A  |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_23        | 28/2     | LVCMOS18_IN  | PB5B  |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_24        | 99/0     | LVCMOS18_IN  | PT9A  |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_25        | 98/0     | LVCMOS18_IN  | PT9B  |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_26        | 97/0     | LVCMOS18_IN  | PT11A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_27        | 96/0     | LVCMOS18_IN  | PT11B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_28        | 88/0     | LVCMOS18_IN  | PT17A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| fpga_29        | 87/0     | LVCMOS18_IN  | PT17B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| i2c_scl        | 85/0     | LVCMOS18_IN  | PT18D |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| i2c_sda        | 86/0     | LVCMOS18_IN  | PT18C |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
++----------------+----------+--------------+-------+-----------+-----------+--------------------------------------+
 
 Vccio by Bank:
 +------+-------+
@@ -153,7 +154,7 @@ Pinout by Pin Number:
 | 65/1     | d_25                  | LOCATED    | LVCMOS33_OUT  | PR6A  | DQS0          |           |           |
 | 66/1     | d_27                  | LOCATED    | LVCMOS33_OUT  | PR5B  | DQ0           |           |           |
 | 67/1     | d_29                  | LOCATED    | LVCMOS33_OUT  | PR5A  | DQ0           |           |           |
-| 68/1     |     unused, PULL:DOWN |            |               | PR4B  | DQ0           |           |           |
+| 68/1     | CPLD_DIGOUT_01        | LOCATED    | LVCMOS33_OUT  | PR4B  | DQ0           |           |           |
 | 69/1     |     unused, PULL:DOWN |            |               | PR4A  | DQ0           |           |           |
 | 70/1     |     unused, PULL:DOWN |            |               | PR3B  | DQ0           |           |           |
 | 71/1     |     unused, PULL:DOWN |            |               | PR3A  | DQ0           |           |           |
@@ -166,8 +167,8 @@ Pinout by Pin Number:
 | 82/0     |     unused, PULL:DOWN |            |               | PT20C | JTAGENB       |           |           |
 | 83/0     | fpga_01               | LOCATED    | LVCMOS18_IN   | PT19B |               |           |           |
 | 84/0     | fpga_02               | LOCATED    | LVCMOS18_IN   | PT19A |               |           |           |
-| 85/0     | i2c_scl               | LOCATED    | LVCMOS18_IN   | PT18D | SDA/PCLKC0_0  |           |           |
-| 86/0     | i2c_sda               | LOCATED    | LVCMOS18_IN   | PT18C | SCL/PCLKT0_0  |           |           |
+| 85/0     | i2c_scl               |            | LVCMOS18_IN   | PT18D | SDA/PCLKC0_0  |           |           |
+| 86/0     | i2c_sda               |            | LVCMOS18_IN   | PT18C | SCL/PCLKT0_0  |           |           |
 | 87/0     | fpga_29               | LOCATED    | LVCMOS18_IN   | PT17B | PCLKC0_1      |           |           |
 | 88/0     | fpga_28               | LOCATED    | LVCMOS18_IN   | PT17A | PCLKT0_1      |           |           |
 | 90/0     | Reserved: sysCONFIG   |            |               | PT16D | TMS           |           |           |
@@ -336,6 +337,7 @@ Dedicated sysCONFIG Pins:
 List of All Pins' Locate Preferences Based on Final Placement After PAR 
 to Help Users Lock Down ALL the Pins Easily (by Simply Copy & Paste): 
 
+LOCATE  COMP  "CPLD_DIGOUT_01"  SITE  "68";
 LOCATE  COMP  "d_00"  SITE  "17";
 LOCATE  COMP  "d_01"  SITE  "51";
 LOCATE  COMP  "d_02"  SITE  "16";
@@ -409,5 +411,5 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
-Tue Nov 26 17:14:21 2024
+Tue Dec 10 17:12:34 2024
 

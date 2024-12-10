@@ -1,6 +1,6 @@
 --------------------------------------------------------------------------------
 Lattice Synthesis Timing Report, Version  
-Thu Dec 05 11:34:39 2024
+Tue Dec 10 16:22:50 2024
 
 Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
 Copyright (c) 1995 AT&T Corp.   All rights reserved.
@@ -49,9 +49,9 @@ LUT4        ---     0.493              B to Z              i18_4_lut
 Route         1   e 0.941                                  n40_adj_314
 LUT4        ---     0.493              D to Z              i21_4_lut
 Route        13   e 1.803                                  FPIO_isoCtrlRSTn_N_295
-LUT4        ---     0.493              A to Z              next_state[2]_bdd_4_lut_1585
-Route         1   e 0.020                                  n2451
-MUXL5       ---     0.233           ALUT to Z              i1549
+LUT4        ---     0.493              A to Z              next_state[2]_bdd_2_lut_1588
+Route         1   e 0.020                                  n2452
+MUXL5       ---     0.233           BLUT to Z              i1549
 Route        14   e 1.807                                  n2453
 LUT4        ---     0.493              B to Z              next_state[3]_bdd_2_lut_1560
 Route         9   e 1.574                                  n1001
@@ -87,9 +87,9 @@ LUT4        ---     0.493              B to Z              i18_4_lut
 Route         1   e 0.941                                  n40_adj_314
 LUT4        ---     0.493              D to Z              i21_4_lut
 Route        13   e 1.803                                  FPIO_isoCtrlRSTn_N_295
-LUT4        ---     0.493              A to Z              next_state[2]_bdd_2_lut_1588
-Route         1   e 0.020                                  n2452
-MUXL5       ---     0.233           BLUT to Z              i1549
+LUT4        ---     0.493              A to Z              next_state[2]_bdd_4_lut_1585
+Route         1   e 0.020                                  n2451
+MUXL5       ---     0.233           ALUT to Z              i1549
 Route        14   e 1.807                                  n2453
 LUT4        ---     0.493              B to Z              next_state[3]_bdd_2_lut_1560
 Route         9   e 1.574                                  n1001
@@ -125,9 +125,9 @@ LUT4        ---     0.493              B to Z              i18_4_lut
 Route         1   e 0.941                                  n40_adj_314
 LUT4        ---     0.493              D to Z              i21_4_lut
 Route        13   e 1.803                                  FPIO_isoCtrlRSTn_N_295
-LUT4        ---     0.493              A to Z              next_state[2]_bdd_2_lut_1588
-Route         1   e 0.020                                  n2452
-MUXL5       ---     0.233           BLUT to Z              i1549
+LUT4        ---     0.493              A to Z              next_state[2]_bdd_4_lut_1585
+Route         1   e 0.020                                  n2451
+MUXL5       ---     0.233           ALUT to Z              i1549
 Route        14   e 1.807                                  n2453
 LUT4        ---     0.493              B to Z              next_state[3]_bdd_2_lut_1560
 Route         9   e 1.574                                  n1001
@@ -163,5 +163,5 @@ Timing errors: 0  Score: 0
 Constraints cover  6168 paths, 339 nets, and 912 connections (95.2% coverage)
 
 
-Peak memory: 83820544 bytes, TRCE: 3215360 bytes, DLYMAN: 0 bytes
+Peak memory: 83562496 bytes, TRCE: 3567616 bytes, DLYMAN: 0 bytes
 CPU_TIME_REPORT: 0 secs 

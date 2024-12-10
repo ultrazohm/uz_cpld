@@ -14,7 +14,7 @@ Performance Grade:      4
 PACKAGE:          TQFP144
 Package Status:                     Final          Version 1.44
 
-Thu Dec 05 11:34:51 2024
+Tue Dec 10 16:23:08 2024
 
 Pinout by Port Name:
 +----------------------------+----------+---------------+-------+-----------+-----------+----------------------------------------------------------+
@@ -113,8 +113,8 @@ Vccio by Bank:
 | 41/2     | SD_SEL                     | LOCATED    | LVCMOS33_OUT  | PB4B  |                |           |           |
 | 42/2     |     unused, PULL:DOWN      |            |               | PB7A  |                |           |           |
 | 43/2     |     unused, PULL:DOWN      |            |               | PB7B  |                |           |           |
-| 44/2     |     unused, PULL:DOWN      |            |               | PB9A  | MCLK/CCLK      |           |           |
-| 45/2     |     unused, PULL:DOWN      |            |               | PB9B  | SO/SPISO       |           |           |
+| 44/2     | Reserved: sysCONFIG        |            | LVCMOS18_BIDI | PB9A  | MCLK/CCLK      |           |           |
+| 45/2     | Reserved: sysCONFIG        |            | LVCMOS18_BIDI | PB9B  | SO/SPISO       |           |           |
 | 47/2     | FlexMIOs52_PCIe            | LOCATED    | LVCMOS33_IN   | PB10A |                |           |           |
 | 48/2     | FlexMIOs53_GPIO_PowerDown  | LOCATED    | LVCMOS18_OUT  | PB10B |                |           |           |
 | 49/2     |     unused, PULL:DOWN      |            |               | PB13A | PCLKT2_0       |           |           |
@@ -134,8 +134,8 @@ Vccio by Bank:
 | 67/2     |     unused, PULL:DOWN      |            |               | PB27B |                |           |           |
 | 68/2     |     unused, PULL:DOWN      |            |               | PB29A |                |           |           |
 | 69/2     |     unused, PULL:DOWN      |            |               | PB29B |                |           |           |
-| 70/2     |     unused, PULL:DOWN      |            |               | PB30A | SN             |           |           |
-| 71/2     |     unused, PULL:DOWN      |            |               | PB30B | SI/SISPI       |           |           |
+| 70/2     | Reserved: sysCONFIG        |            | LVCMOS18_IN   | PB30A | SN             |           |           |
+| 71/2     | Reserved: sysCONFIG        |            | LVCMOS18_BIDI | PB30B | SI/SISPI       |           |           |
 | 73/1     |     unused, PULL:DOWN      |            |               | PR19B | DQ1            |           |           |
 | 74/1     |     unused, PULL:DOWN      |            |               | PR19A | DQ1            |           |           |
 | 75/1     |     unused, PULL:DOWN      |            |               | PR18B | DQ1            |           |           |
@@ -361,13 +361,17 @@ Vccio by Bank:
 +----------+----------------------------+------------+---------------+-------+----------------+-----------+-----------+
 
 sysCONFIG Pins:
-+----------+-------------------------------------+--------------------+----------+---------------+-------------------+
-| Pad Name | sysCONFIG Pin Name                  | sysCONFIG Settings | Pin/Bank | Buffer Type   | Config Pull Mode  |
-+----------+-------------------------------------+--------------------+----------+---------------+-------------------+
-| PT20D    | SDA/IO3/MD3/ATB_FORCE/PCLKC0_0/TDOT | I2C_PORT=ENABLE    | 125/0    | LVCMOS33_BIDI | PULLDOWN          |
-| PT20C    | SCL/IO2/MD2/ATB_SENSE/PCLKT0_0      | I2C_PORT=ENABLE    | 126/0    | LVCMOS33_BIDI | PULLDOWN          |
-| PT23C    | JTAGENB/MD6/TDIR                    | JTAG_PORT=DISABLE  | 120/0    |               | PULLDOWN          |
-+----------+-------------------------------------+--------------------+----------+---------------+-------------------+
++----------+-------------------------------------+-----------------------+----------+---------------+-------------------+
+| Pad Name | sysCONFIG Pin Name                  | sysCONFIG Settings    | Pin/Bank | Buffer Type   | Config Pull Mode  |
++----------+-------------------------------------+-----------------------+----------+---------------+-------------------+
+| PT20D    | SDA/IO3/MD3/ATB_FORCE/PCLKC0_0/TDOT | I2C_PORT=ENABLE       | 125/0    | LVCMOS33_BIDI | PULLDOWN          |
+| PT20C    | SCL/IO2/MD2/ATB_SENSE/PCLKT0_0      | I2C_PORT=ENABLE       | 126/0    | LVCMOS33_BIDI | PULLDOWN          |
+| PT23C    | JTAGENB/MD6/TDIR                    | JTAG_PORT=DISABLE     | 120/0    |               | PULLDOWN          |
+| PB9A     | MCLK/CCLK                           | SLAVE_SPI_PORT=ENABLE | 44/2     | LVCMOS18_BIDI | PULLUP            |
+| PB9B     | SO/SPISO/IO1/MD1/TDIL               | SLAVE_SPI_PORT=ENABLE | 45/2     | LVCMOS18_BIDI | NO pull up/down   |
+| PB30A    | SN/MD5/SCAN_SHFT_ENB/TDIB           | SLAVE_SPI_PORT=ENABLE | 70/2     | LVCMOS18_IN   | PULLUP            |
+| PB30B    | SI/SISPI/IO0/MD0/TDOR               | SLAVE_SPI_PORT=ENABLE | 71/2     | LVCMOS18_BIDI | NO pull up/down   |
++----------+-------------------------------------+-----------------------+----------+---------------+-------------------+
 
 Dedicated sysCONFIG Pins:
 
@@ -419,7 +423,7 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
-Thu Dec 05 11:34:52 2024
+Tue Dec 10 16:23:08 2024
 
 
 

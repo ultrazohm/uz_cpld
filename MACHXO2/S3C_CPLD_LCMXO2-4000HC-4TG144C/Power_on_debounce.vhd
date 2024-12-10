@@ -191,18 +191,18 @@ signal rst_p,n_count_en , count_en, enable_command,intr_command,intr_read_comman
     signal buttons_debounced_syn   : STD_LOGIC_VECTOR(1 downto 0) := (others => '1');
 	
 	component efb_VHDL
-    port (
-		wb_clk_i: in  std_logic;  
+	port (
+        wb_clk_i: in  std_logic; 
         i2c1_scl: inout  std_logic; 
         i2c1_sda: inout  std_logic; 
-        i2c1_irqo: out  std_logic
-		);
+        i2c1_irqo: out  std_logic);
+
 	end component;
 	
 	-- internen oszillator definieren
 	COMPONENT OSCH
 	-- synthesis translate_off
-	GENERIC (NOM_FREQ: string := "2.08");
+	GENERIC (NOM_FREQ: string := "7");
 	-- synthesis translate_on
 	PORT (
 		STDBY	:	IN	std_logic;
@@ -210,13 +210,13 @@ signal rst_p,n_count_en , count_en, enable_command,intr_command,intr_read_comman
 		SEDSTDBY:	OUT	std_logic);
 	END COMPONENT;
 	attribute NOM_FREQ 	: string;
-	attribute NOM_FREQ of OSCinst0 : label is "2.08";
+	attribute NOM_FREQ of OSCinst0 : label is "7";
 	attribute HGROUP 	: string;
 
 begin
 	OSCInst0: OSCH
 	-- synthesis translate_off
-	GENERIC MAP( NOM_FREQ => "2.08" )
+	GENERIC MAP( NOM_FREQ => "7" )
 	-- synthesis translate_on
 	PORT MAP (STDBY=> '0',
 	OSC => clk,

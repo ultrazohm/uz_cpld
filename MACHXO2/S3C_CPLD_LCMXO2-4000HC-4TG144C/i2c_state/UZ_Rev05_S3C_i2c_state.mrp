@@ -17,7 +17,7 @@ Target Vendor:  LATTICE
 Target Device:  LCMXO2-4000HCTQFP144
 Target Performance:   4
 Mapper:  xo2c00,  version:  Diamond (64-bit) 3.13.0.56.2
-Mapped on:  12/05/24  11:34:39
+Mapped on:  12/10/24  16:22:51
 
 Design Summary
 --------------
@@ -66,7 +66,7 @@ Design Summary
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/05/24  11:34:39
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/10/24  16:22:51
 
 Design Summary (cont)
 ---------------------
@@ -132,16 +132,14 @@ WARNING - map: C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/UZ_Re
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/05/24  11:34:39
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/10/24  16:22:51
 
 Design Errors/Warnings (cont)
 -----------------------------
      ;": Port "FP_UsrSW2" does not exist in the design. This preference has been
      disabled.
-WARNING - map: C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/UZ_Re
-     v05_S3C.lpf(10): Semantic error in "IOBUF PORT "FP_UsrSW3" IO_TYPE=LVCMOS33
-     ;": Port "FP_UsrSW3" does not exist in the design. This preference has been
-     disabled.
+WARNING - map: dut/EFBInst_0: I2C_PORT was set to ENABLE by ngdbuild generated
+     property. Setting in preference file was ignored.
 WARNING - map: input pad net 'RST_N' has no legal load.
 WARNING - map: input pad net 'FP_UsrSW1' has no legal load.
 WARNING - map: input pad net 'FP_UsrSW2' has no legal load.
@@ -192,18 +190,18 @@ WARNING - map: IO buffer missing for top level port DIGS3C_SlotD3_SlotOK...logic
      will be discarded.
 WARNING - map: IO buffer missing for top level port DIGS3C_SlotD4_ReqOE...logic
      will be discarded.
+WARNING - map: IO buffer missing for top level port DIGS3C_SlotD4_SlotOK...logic
+     will be discarded.
 
                                     Page 3
 
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/05/24  11:34:39
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/10/24  16:22:51
 
 Design Errors/Warnings (cont)
 -----------------------------
-WARNING - map: IO buffer missing for top level port DIGS3C_SlotD4_SlotOK...logic
-     will be discarded.
 WARNING - map: IO buffer missing for top level port DIGS3C_SlotD5_ReqOE...logic
      will be discarded.
 WARNING - map: IO buffer missing for top level port DIGS3C_SlotD5_SlotOK...logic
@@ -258,18 +256,18 @@ IO (PIO) Attributes
 +---------------------+-----------+-----------+------------+
 | FlexMio61ExternalStop| OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
+| FlexMIOs53_GPIO_PowerDown| OUTPUT    | LVCMOS18  | OUT        |
++---------------------+-----------+-----------+------------+
 
                                     Page 4
 
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/05/24  11:34:39
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/10/24  16:22:51
 
 IO (PIO) Attributes (cont)
 --------------------------
-| FlexMIOs53_GPIO_PowerDown| OUTPUT    | LVCMOS18  | OUT        |
-+---------------------+-----------+-----------+------------+
 | ANL_S3C_CarrierReady| OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | ANL_S3C_P54_Legacy  | OUTPUT    | LVCMOS33  |            |
@@ -322,25 +320,25 @@ Block i2 was optimized away.
 
      
 
+OSC Summary
+-----------
 
-
+OSC 1:                                     Pin/Node Value
 
                                     Page 5
 
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/05/24  11:34:39
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/10/24  16:22:51
 
-OSC Summary
------------
-
-OSC 1:                                     Pin/Node Value
+OSC Summary (cont)
+------------------
   OSC Instance Name:                                OSCInst0
   OSC Type:                                         OSCH
   STDBY Input:                                      NONE
   OSC Output:                              NODE     clk
-  OSC Nominal Frequency (MHz):                      2.08
+  OSC Nominal Frequency (MHz):                      7.00
 
 Embedded Functional Block Connection Summary
 --------------------------------------------
@@ -361,14 +359,14 @@ Embedded Functional Block Connection Summary
    --------------------
       I2C Component:          PRIMARY
       I2C Addressing:         7BIT
-      I2C Performance:        100kHz
-      Slave Address:          0b0010001
+      I2C Performance:        400kHz
+      Slave Address:          0b1010101
       General Call:           DISABLED
       I2C Wake Up:            DISABLED
       I2C Component:          UFM/Configuration
       I2C Addressing:         7BIT
-      I2C Performance:        100kHz
-      Slave Address:          0b0010000
+      I2C Performance:        400kHz
+      Slave Address:          0b1010100
    SPI Function Summary:
    --------------------
       None
@@ -388,20 +386,20 @@ Embedded Functional Block Connection Summary
       ---		------------
 
 
+ASIC Components
+---------------
 
-
+Instance Name: dut/EFBInst_0
 
                                     Page 6
 
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/05/24  11:34:39
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/10/24  16:22:51
 
-ASIC Components
----------------
-
-Instance Name: dut/EFBInst_0
+ASIC Components (cont)
+----------------------
          Type: EFB
 Instance Name: OSCInst0
          Type: OSCH
@@ -413,6 +411,8 @@ Run Time and Memory Usage
    Total REAL Time: 2 secs  
    Peak Memory Usage: 53 MB
         
+
+
 
 
 

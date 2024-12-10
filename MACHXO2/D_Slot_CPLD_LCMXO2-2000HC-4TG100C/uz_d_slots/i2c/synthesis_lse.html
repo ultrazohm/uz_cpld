@@ -14,7 +14,7 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
-Wed Nov 27 15:45:51 2024
+Tue Dec 10 17:28:57 2024
 
 
 Command Line:  synthesis -f uz_d_slots_i2c_lattice.synproj -gui -msgset C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/promote.xml 
@@ -43,9 +43,9 @@ Using performance grade 4.
                                                           
 
 INFO - synthesis: User-Selected Strategy Settings
-Optimization goal = Balanced
+Optimization goal = Area
 Top-level module name = i2c_gpio.
-Target frequency = 200.000000 MHz.
+Target frequency = 1.000000 MHz.
 Maximum fanout = 1000.
 Timing path count = 3
 BRAM utilization = 100.000000 %
@@ -74,7 +74,7 @@ The -syn option is FALSE.
 -p C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/i2c (searchpath added)
 -p C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots (searchpath added)
 VHDL library = work
-VHDL design file = C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/i2c/i2c_gpio.vhd
+VHDL design file = C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/i2c/source/i2c_gpio.vhd
 VHDL design file = C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/i2c/ipexpress/xo2/efb_vhdl.vhd
 NGD file = uz_d_slots_i2c.ngd
 -sdc option: SDC file input not used.
@@ -87,18 +87,18 @@ Analyzing Verilog file C:/lscc/diamond/3.13/ispfpga/userware/NT/SYNTHESIS_HEADER
 Compile design.
 Compile Design Begin
 INFO - synthesis: The default VHDL library search path is now "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/i2c". VHDL-1504
-Analyzing VHDL file c:/cpld/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/i2c/i2c_gpio.vhd. VHDL-1481
-INFO - synthesis: c:/cpld/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/i2c/i2c_gpio.vhd(60): analyzing entity i2c_gpio. VHDL-1012
-INFO - synthesis: c:/cpld/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/i2c/i2c_gpio.vhd(86): analyzing architecture i2c_vhdl. VHDL-1010
+Analyzing VHDL file c:/cpld/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/i2c/source/i2c_gpio.vhd. VHDL-1481
+INFO - synthesis: c:/cpld/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/i2c/source/i2c_gpio.vhd(60): analyzing entity i2c_gpio. VHDL-1012
+INFO - synthesis: c:/cpld/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/i2c/source/i2c_gpio.vhd(86): analyzing architecture i2c_vhdl. VHDL-1010
 unit i2c_gpio is not yet analyzed. VHDL-1485
 Analyzing VHDL file c:/cpld/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/i2c/ipexpress/xo2/efb_vhdl.vhd. VHDL-1481
 INFO - synthesis: c:/cpld/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/i2c/ipexpress/xo2/efb_vhdl.vhd(14): analyzing entity efb_vhdl. VHDL-1012
 INFO - synthesis: c:/cpld/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/i2c/ipexpress/xo2/efb_vhdl.vhd(30): analyzing architecture structure. VHDL-1010
 unit i2c_gpio is not yet analyzed. VHDL-1485
 unit i2c_gpio is not yet analyzed. VHDL-1485
-c:/cpld/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/i2c/i2c_gpio.vhd(60): executing i2c_gpio(i2c_vhdl)
+c:/cpld/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/i2c/source/i2c_gpio.vhd(60): executing i2c_gpio(i2c_vhdl)
 
-WARNING - synthesis: c:/cpld/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/i2c/i2c_gpio.vhd(84): replacing existing netlist i2c_gpio(i2c_vhdl). VHDL-1205
+WARNING - synthesis: c:/cpld/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/i2c/source/i2c_gpio.vhd(84): replacing existing netlist i2c_gpio(i2c_vhdl). VHDL-1205
 Top module name (VHDL): i2c_gpio
 Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/xo2c00a/data/xo2alib.ngl'...
 Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/xo2c00/data/xo2clib.ngl'...
@@ -160,11 +160,17 @@ WARNING - synthesis: Bit 4 of Register wb_adr_i_ is stuck at Zero
 WARNING - synthesis: Bit 3 of Register wb_adr_i_ is stuck at Zero
 WARNING - synthesis: Skipping pad insertion on SCL due to black_box_pad_pin attribute.
 WARNING - synthesis: Skipping pad insertion on SDA due to black_box_pad_pin attribute.
-GSR instance connected to net n2505.
-Duplicate register/latch removal. wb_stb_i_348 is a one-to-one match with wb_adr_i__i4.
-Applying 200.000000 MHz constraint to all clocks
+GSR instance connected to net n2569.
+INFO - synthesis: Register GPI_DAT__i0 of type IFS1P3IX will not be replicated.
+INFO - synthesis: Register GPI_DAT__i7 of type IFS1P3IX will not be replicated.
+INFO - synthesis: Register GPI_DAT__i6 of type IFS1P3IX will not be replicated.
+INFO - synthesis: Register GPI_DAT__i5 of type IFS1P3IX will not be replicated.
+INFO - synthesis: Register GPI_DAT__i4 of type IFS1P3IX will not be replicated.
+INFO - synthesis: Register GPI_DAT__i3 of type IFS1P3IX will not be replicated.
+INFO - synthesis: Register GPI_DAT__i2 of type IFS1P3IX will not be replicated.
+INFO - synthesis: Register GPI_DAT__i1 of type IFS1P3IX will not be replicated.
+Applying 1.000000 MHz constraint to all clocks
 
-WARNING - synthesis: No user .sdc file.
 Results of NGD DRC are available in i2c_gpio_drc.log.
 Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/xo2c00a/data/xo2alib.ngl'...
 Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/xo2c00/data/xo2clib.ngl'...
@@ -174,22 +180,23 @@ All blocks are expanded and NGD expansion is successful.
 Writing NGD file uz_d_slots_i2c.ngd.
 
 ################### Begin Area Report (i2c_gpio)######################
-Number of register bits => 100 of 2352 (4 % )
+Number of register bits => 101 of 2352 (4 % )
 BB => 2
 CCU2D => 5
 EFB => 1
 FD1P3AX => 1
 FD1P3DX => 3
-FD1P3IX => 45
+FD1P3IX => 37
 FD1S3AX => 2
-FD1S3IX => 49
+FD1S3IX => 50
 GSR => 1
 IB => 13
-LUT4 => 164
+IFS1P3IX => 8
+LUT4 => 151
 OB => 9
 OBZ => 1
 OSCH => 1
-PFUMX => 6
+PFUMX => 7
 ################### End Area Report ##################
 
 ################### Begin BlackBox Report ######################
@@ -199,37 +206,37 @@ TSALL => 1
 ################### Begin Clock Report ######################
 Clock Nets
 Number of Clocks: 6
-  Net : clk, loads : 97
+  Net : clk, loads : 98
   Net : IRQ_c_1, loads : 1
   Net : IRQ_c_0, loads : 1
   Net : IRQ_c_2, loads : 1
   Net : IRQ_c_3, loads : 1
   Net : i2c1_scli, loads : 1
 Clock Enable Nets
-Number of Clock Enables: 12
+Number of Clock Enables: 13
 Top 10 highest fanout Clock Enables:
-  Net : clk_enable_12, loads : 22
-  Net : dat_rdy_N_574, loads : 9
-  Net : clk_enable_26, loads : 8
-  Net : clk_enable_33, loads : 8
-  Net : clk_enable_13, loads : 8
-  Net : reg_rdy_N_570, loads : 5
+  Net : n_state_7_N_353_4, loads : 31
+  Net : dat_rdy_N_574, loads : 11
+  Net : clk_enable_22, loads : 9
+  Net : clk_enable_16, loads : 8
+  Net : clk_enable_31, loads : 8
+  Net : reg_rdy_N_570, loads : 6
+  Net : clk_enable_32, loads : 5
+  Net : clk_enable_11, loads : 4
   Net : clk_enable_19, loads : 4
-  Net : clk_enable_16, loads : 4
-  Net : irq_en_2, loads : 2
-  Net : irq_en_1, loads : 2
+  Net : irq_en_3, loads : 2
 Highest fanout non-clock nets
 Top 10 highest fanout non-clock nets:
-  Net : n3976, loads : 96
-  Net : wb_stb_i, loads : 27
-  Net : dut/wb_ack_o, loads : 23
-  Net : clk_enable_12, loads : 22
-  Net : n_temp1_7__N_71, loads : 22
-  Net : temp1_1, loads : 21
-  Net : temp1_0, loads : 20
-  Net : temp1_5, loads : 14
-  Net : temp1_3, loads : 14
-  Net : dat_rdy_N_576, loads : 14
+  Net : RST_N_N_584, loads : 95
+  Net : n_state_7_N_353_4, loads : 31
+  Net : wb_stb_i, loads : 19
+  Net : temp1_0, loads : 17
+  Net : dut/wb_ack_o, loads : 16
+  Net : temp1_1, loads : 14
+  Net : RST_N_c, loads : 13
+  Net : dut/wb_dat_o_2, loads : 13
+  Net : n_temp1_7__N_71, loads : 13
+  Net : temp1_3, loads : 12
 ################### End Clock Report ##################
 
 <A name="lse_trs"></A><B><U><big>Timing Report Summary</big></U></B>
@@ -238,31 +245,31 @@ Top 10 highest fanout non-clock nets:
 Constraint                              |   Constraint|       Actual|Levels
 --------------------------------------------------------------------------------
                                         |             |             |
-create_clock -period 5.000000 -name     |             |             |
+create_clock -period 1000.000000 -name  |             |             |
 clk4 [get_nets IRQ_c_0]                 |            -|            -|     0  
                                         |             |             |
-create_clock -period 5.000000 -name     |             |             |
+create_clock -period 1000.000000 -name  |             |             |
 clk3 [get_nets IRQ_c_1]                 |            -|            -|     0  
                                         |             |             |
-create_clock -period 5.000000 -name     |             |             |
+create_clock -period 1000.000000 -name  |             |             |
 clk2 [get_nets IRQ_c_3]                 |            -|            -|     0  
                                         |             |             |
-create_clock -period 5.000000 -name     |             |             |
+create_clock -period 1000.000000 -name  |             |             |
 clk1 [get_nets IRQ_c_2]                 |            -|            -|     0  
                                         |             |             |
-create_clock -period 5.000000 -name     |             |             |
-clk0 [get_nets clk]                     |  200.000 MHz|   70.766 MHz|     8 *
+create_clock -period 1000.000000 -name  |             |             |
+clk0 [get_nets clk]                     |    1.000 MHz|   78.046 MHz|     8  
                                         |             |             |
 --------------------------------------------------------------------------------
 
 
-1 constraints not met.
+All constraints were met.
 
 
-Peak Memory Usage: 77.840  MB
+Peak Memory Usage: 77.293  MB
 
 --------------------------------------------------------------
-Elapsed CPU time for LSE flow : 0.875  secs
+Elapsed CPU time for LSE flow : 0.656  secs
 --------------------------------------------------------------
 
 

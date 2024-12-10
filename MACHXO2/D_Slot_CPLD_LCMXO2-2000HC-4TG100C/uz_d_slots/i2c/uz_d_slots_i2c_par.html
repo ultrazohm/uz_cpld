@@ -12,7 +12,7 @@ Copyright (c) 1995 AT&amp;T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
-Wed Nov 27 15:45:59 2024
+Tue Dec 10 17:29:02 2024
 
 C:/lscc/diamond/3.13/ispfpga\bin\nt64\par -f uz_d_slots_i2c.p2t
 uz_d_slots_i2c_map.ncd uz_d_slots_i2c.dir uz_d_slots_i2c.prf -gui -msgset
@@ -25,17 +25,17 @@ Preference file: uz_d_slots_i2c.prf.
 Level/       Number       Worst        Timing       Worst        Timing       Run          NCD
 Cost [ncd]   Unrouted     Slack        Score        Slack(hold)  Score(hold)  Time         Status
 ----------   --------     -----        ------       -----------  -----------  ----         ------
-5_1   *      0            128.764      0            0.306        0            23           Completed
+5_1   *      0            129.570      0            0.304        0            26           Completed
 * : Design saved.
 
-Total (real) run time for 1-seed: 23 secs 
+Total (real) run time for 1-seed: 26 secs 
 
 par done!
 
 Note: user must run &apos;Trace&apos; for timing closure signoff.
 
 Lattice Place and Route Report for Design &quot;uz_d_slots_i2c_map.ncd&quot;
-Wed Nov 27 15:45:59 2024
+Tue Dec 10 17:29:02 2024
 
 
 <A name="par_best"></A><B><U><big>Best Par Run</big></U></B>
@@ -64,57 +64,58 @@ Ignore Preference Error(s):  True
 
    PIO (prelim)   25+4(JTAG)/216     13% used
                   25+4(JTAG)/80      36% bonded
+   IOLOGIC            8/216           3% used
 
-   SLICE             91/1056          8% used
+   SLICE             85/1056          8% used
 
    GSR                1/1           100% used
    OSC                1/1           100% used
    EFB                1/1           100% used
 
 
-Number of Signals: 303
-Number of Connections: 874
+Number of Signals: 292
+Number of Connections: 848
+WARNING - par: The SN pin is not available for use as a general purpose I/O pin when the SLAVE_SPI_PORT attribute is enabled.  The SN pin should be tied high with an external pull-up if you are not using the Slave SPI port for configuration.
 
 Pin Constraint Summary:
-   23 out of 25 pins locked (92% locked).
+   0 out of 25 pins locked (0% locked).
 
 The following 1 signal is selected to use the primary clock routing resources:
-    clk (driver: OSCInst0, clk load #: 55)
+    clk (driver: OSCInst0, clk load #: 60)
 
 
 The following 1 signal is selected to use the secondary clock routing resources:
-    RST_N_c (driver: RST_N, clk load #: 0, sr load #: 54, ce load #: 0)
+    RST_N_c (driver: RST_N, clk load #: 0, sr load #: 57, ce load #: 0)
 
-WARNING - par: Signal &quot;RST_N_c&quot; is selected to use Secondary clock resources. However, its driver comp &quot;RST_N&quot; is located at &quot;48&quot;, which is not a dedicated pin for connecting to Secondary clock resources. General routing has to be used to route this signal, and it might suffer from excessive delay or skew.
 Signal irq_status_clr_3 is selected as Global Set/Reset.
+.
 Starting Placer Phase 0.
-....
+.............
 Finished Placer Phase 0.  REAL time: 2 secs 
 
 Starting Placer Phase 1.
-...................
-Placer score = 52480.
-Finished Placer Phase 1.  REAL time: 16 secs 
+....................
+Placer score = 37126.
+Finished Placer Phase 1.  REAL time: 21 secs 
 
 Starting Placer Phase 2.
 .
-Placer score =  52331
-Finished Placer Phase 2.  REAL time: 16 secs 
+Placer score =  37048
+Finished Placer Phase 2.  REAL time: 21 secs 
 
 
 
 <A name="par_clk"></A><B><U><big>Clock Report</big></U></B>
 
 Global Clock Resources:
-  CLK_PIN    : 0 out of 8 (0%)
-  General PIO: 1 out of 216 (0%)
+  CLK_PIN    : 1 out of 8 (12%)
   PLL        : 0 out of 1 (0%)
   DCM        : 0 out of 2 (0%)
   DCC        : 0 out of 8 (0%)
 
 Global Clocks:
-  PRIMARY &quot;clk&quot; from OSC on comp &quot;OSCInst0&quot; on site &quot;OSC&quot;, clk load = 55
-  SECONDARY &quot;RST_N_c&quot; from comp &quot;RST_N&quot; on PIO site &quot;48 (PB25A)&quot;, clk load = 0, ce load = 0, sr load = 54
+  PRIMARY &quot;clk&quot; from OSC on comp &quot;OSCInst0&quot; on site &quot;OSC&quot;, clk load = 60
+  SECONDARY &quot;RST_N_c&quot; from comp &quot;RST_N&quot; on CLK_PIN site &quot;20 (PL12A)&quot;, clk load = 0, ce load = 0, sr load = 57
 
   PRIMARY  : 1 out of 8 (12%)
   SECONDARY: 1 out of 8 (12%)
@@ -132,22 +133,22 @@ I/O Usage Summary (final):
    Number of Vref pins used: 0.
 
 I/O Bank Usage Summary:
-+----------+----------------+------------+-----------+
-| I/O Bank | Usage          | Bank Vccio | Bank Vref |
-+----------+----------------+------------+-----------+
-| 0        | 10 / 19 ( 52%) | 1.8V       | -         |
-| 1        | 7 / 21 ( 33%)  | 3.3V       | -         |
-| 2        | 1 / 20 (  5%)  | 1.8V       | -         |
-| 3        | 0 / 6 (  0%)   | 1.8V       | -         |
-| 4        | 5 / 6 ( 83%)   | 3.3V       | -         |
-| 5        | 2 / 8 ( 25%)   | 3.3V       | -         |
-+----------+----------------+------------+-----------+
++----------+---------------+------------+-----------+
+| I/O Bank | Usage         | Bank Vccio | Bank Vref |
++----------+---------------+------------+-----------+
+| 0        | 6 / 19 ( 31%) | 2.5V       | -         |
+| 1        | 0 / 21 (  0%) | -          | -         |
+| 2        | 4 / 20 ( 20%) | 2.5V       | -         |
+| 3        | 1 / 6 ( 16%)  | 2.5V       | -         |
+| 4        | 6 / 6 (100%)  | 2.5V       | -         |
+| 5        | 8 / 8 (100%)  | 2.5V       | -         |
++----------+---------------+------------+-----------+
 
-Total placer CPU time: 4 secs 
+Total placer CPU time: 5 secs 
 
 Dumping design to file uz_d_slots_i2c.dir/5_1.ncd.
 
-0 connections routed; 874 unrouted.
+0 connections routed; 848 unrouted.
 Starting router resource preassignment
 
 WARNING - par: The following clock signals will be routed by using generic routing resource and may suffer from excessive delay and/or skew.
@@ -156,9 +157,9 @@ WARNING - par: The following clock signals will be routed by using generic routi
    Signal=IRQ_c_1 loads=1 clock_loads=1
    Signal=IRQ_c_0 loads=1 clock_loads=1
 
-Completed router resource preassignment. Real time: 19 secs 
+Completed router resource preassignment. Real time: 22 secs 
 
-Start NBR router at 15:46:18 11/27/24
+Start NBR router at 17:29:24 12/10/24
 
 *****************************************************************
 Info: NBR allows conflicts(one node used by more than one signal)
@@ -173,41 +174,38 @@ Note: NBR uses a different method to calculate timing slacks. The
       your design.                                               
 *****************************************************************
 
-Start NBR special constraint process at 15:46:18 11/27/24
+Start NBR special constraint process at 17:29:25 12/10/24
 
-Start NBR section for initial routing at 15:46:19 11/27/24
+Start NBR section for initial routing at 17:29:25 12/10/24
 Level 4, iteration 1
-36(0.03%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
-Estimated worst slack/total negative slack&lt;setup&gt;: 128.764ns/0.000ns; real time: 20 secs 
+29(0.02%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack&lt;setup&gt;: 130.012ns/0.000ns; real time: 23 secs 
 
 Info: Initial congestion level at 75% usage is 0
 Info: Initial congestion area  at 75% usage is 0 (0.00%)
 
-Start NBR section for normal routing at 15:46:19 11/27/24
+Start NBR section for normal routing at 17:29:25 12/10/24
 Level 4, iteration 1
-18(0.01%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
-Estimated worst slack/total negative slack&lt;setup&gt;: 128.764ns/0.000ns; real time: 21 secs 
+11(0.01%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack&lt;setup&gt;: 129.570ns/0.000ns; real time: 23 secs 
 Level 4, iteration 2
-6(0.00%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
-Estimated worst slack/total negative slack&lt;setup&gt;: 128.764ns/0.000ns; real time: 21 secs 
+3(0.00%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack&lt;setup&gt;: 129.570ns/0.000ns; real time: 24 secs 
 Level 4, iteration 3
-2(0.00%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
-Estimated worst slack/total negative slack&lt;setup&gt;: 128.764ns/0.000ns; real time: 21 secs 
-Level 4, iteration 4
 1(0.00%) conflict; 0(0.00%) untouched conn; 0 (nbr) score; 
-Estimated worst slack/total negative slack&lt;setup&gt;: 128.764ns/0.000ns; real time: 21 secs 
-Level 4, iteration 5
+Estimated worst slack/total negative slack&lt;setup&gt;: 129.570ns/0.000ns; real time: 24 secs 
+Level 4, iteration 4
 0(0.00%) conflict; 0(0.00%) untouched conn; 0 (nbr) score; 
-Estimated worst slack/total negative slack&lt;setup&gt;: 128.764ns/0.000ns; real time: 21 secs 
+Estimated worst slack/total negative slack&lt;setup&gt;: 129.570ns/0.000ns; real time: 24 secs 
 
-Start NBR section for setup/hold timing optimization with effort level 3 at 15:46:20 11/27/24
+Start NBR section for setup/hold timing optimization with effort level 3 at 17:29:26 12/10/24
 
-Start NBR section for re-routing at 15:46:20 11/27/24
+Start NBR section for re-routing at 17:29:26 12/10/24
 Level 4, iteration 1
 0(0.00%) conflict; 0(0.00%) untouched conn; 0 (nbr) score; 
-Estimated worst slack/total negative slack&lt;setup&gt;: 128.764ns/0.000ns; real time: 21 secs 
+Estimated worst slack/total negative slack&lt;setup&gt;: 129.570ns/0.000ns; real time: 24 secs 
 
-Start NBR section for post-routing at 15:46:20 11/27/24
+Start NBR section for post-routing at 17:29:26 12/10/24
 
 End NBR router with 0 unrouted connection
 
@@ -215,7 +213,7 @@ NBR Summary
 -----------
   Number of unrouted connections : 0 (0.00%)
   Number of connections with timing violations : 0 (0.00%)
-  Estimated worst slack&lt;setup&gt; : 128.764ns
+  Estimated worst slack&lt;setup&gt; : 129.570ns
   Timing score&lt;setup&gt; : 0
 -----------
 Notes: The timing info is calculated for SETUP only and all PAR_ADJs are ignored.
@@ -229,9 +227,9 @@ WARNING - par: The following clock signals will be routed by using generic routi
    Signal=IRQ_c_0 loads=1 clock_loads=1
 
 Total CPU time 6 secs 
-Total REAL time: 23 secs 
+Total REAL time: 25 secs 
 Completely routed.
-End of route.  874 routed (100.00%); 0 unrouted.
+End of route.  848 routed (100.00%); 0 unrouted.
 
 Hold time timing score: 0, hold timing errors: 0
 
@@ -245,14 +243,14 @@ All signals are completely routed.
 
 PAR_SUMMARY::Run status = Completed
 PAR_SUMMARY::Number of unrouted conns = 0
-PAR_SUMMARY::Worst  slack&lt;setup/&lt;ns&gt;&gt; = 128.764
+PAR_SUMMARY::Worst  slack&lt;setup/&lt;ns&gt;&gt; = 129.570
 PAR_SUMMARY::Timing score&lt;setup/&lt;ns&gt;&gt; = 0.000
-PAR_SUMMARY::Worst  slack&lt;hold /&lt;ns&gt;&gt; = 0.306
+PAR_SUMMARY::Worst  slack&lt;hold /&lt;ns&gt;&gt; = 0.304
 PAR_SUMMARY::Timing score&lt;hold /&lt;ns&gt;&gt; = 0.000
 PAR_SUMMARY::Number of errors = 0
 
 Total CPU  time to completion: 6 secs 
-Total REAL time to completion: 23 secs 
+Total REAL time to completion: 26 secs 
 
 par done!
 

@@ -1,5 +1,5 @@
 // Verilog netlist produced by program LSE :  version Diamond (64-bit) 3.13.0.56.2
-// Netlist written on Thu Dec 05 11:34:39 2024
+// Netlist written on Tue Dec 10 16:22:50 2024
 //
 // Verilog Description of module Waiting_for_Powerbutton_pressed_V0
 //
@@ -167,8 +167,8 @@ module Waiting_for_Powerbutton_pressed_V0 (SCL, SDA, RST_N, FP_SysLEDg,
          .C(\debounce_counters[1] [20]), .D(\debounce_counters[1] [16]), 
          .Z(n28_adj_321)) /* synthesis lut_function=(A+(B+(C+(D)))) */ ;
     defparam i12_4_lut.init = 16'hfffe;
-    OSCH OSCInst0 (.STDBY(GND_net), .OSC(clk)) /* synthesis NOM_FREQ="2.08", syn_instantiated=1 */ ;
-    defparam OSCInst0.NOM_FREQ = "2.08";
+    OSCH OSCInst0 (.STDBY(GND_net), .OSC(clk)) /* synthesis NOM_FREQ="7", syn_instantiated=1 */ ;
+    defparam OSCInst0.NOM_FREQ = "7";
     LUT4 next_state_1__bdd_4_lut (.A(next_state[1]), .B(buttons_debounced_syn[1]), 
          .C(next_state[2]), .D(next_state[0]), .Z(n2441)) /* synthesis lut_function=(A (C+!(D))+!A !(B (C+!(D))+!B !(D))) */ ;
     defparam next_state_1__bdd_4_lut.init = 16'hb5aa;
@@ -1222,11 +1222,11 @@ module efb_vhdl (clk, i2c1_sdaoen, i2c1_sdao, i2c1_scloen, i2c1_sclo,
     defparam EFBInst_0.UFM_INIT_FILE_FORMAT = "HEX";
     defparam EFBInst_0.I2C1_ADDRESSING = "7BIT";
     defparam EFBInst_0.I2C2_ADDRESSING = "7BIT";
-    defparam EFBInst_0.I2C1_SLAVE_ADDR = "0b0010001";
-    defparam EFBInst_0.I2C2_SLAVE_ADDR = "0b0010001";
-    defparam EFBInst_0.I2C1_BUS_PERF = "100kHz";
+    defparam EFBInst_0.I2C1_SLAVE_ADDR = "0b1010101";
+    defparam EFBInst_0.I2C2_SLAVE_ADDR = "0b1010101";
+    defparam EFBInst_0.I2C1_BUS_PERF = "400kHz";
     defparam EFBInst_0.I2C2_BUS_PERF = "100kHz";
-    defparam EFBInst_0.I2C1_CLK_DIVIDER = 125;
+    defparam EFBInst_0.I2C1_CLK_DIVIDER = 32;
     defparam EFBInst_0.I2C2_CLK_DIVIDER = 1;
     defparam EFBInst_0.I2C1_GEN_CALL = "DISABLED";
     defparam EFBInst_0.I2C2_GEN_CALL = "DISABLED";

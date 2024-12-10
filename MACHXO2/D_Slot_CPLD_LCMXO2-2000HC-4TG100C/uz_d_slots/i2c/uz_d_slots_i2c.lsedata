@@ -1,10 +1,10 @@
 <top name = "i2c_gpio"  library = "work"  arch = "RTL"  entry = "VHDL">
 
 <clocks>
-    <clockitem name = "IRQ[1]"  type = "port" />
+    <clockitem name = "IRQ[3]"  type = "port" />
     <clockitem name = "IRQ[2]"  type = "port" />
     <clockitem name = "IRQ[0]"  type = "port" />
-    <clockitem name = "IRQ[3]"  type = "port" />
+    <clockitem name = "IRQ[1]"  type = "port" />
     <clockitem name = "clk"  type = "net" />
     <clockitem name = "dut/i2c1_scli"  type = "net" />
 </clocks>

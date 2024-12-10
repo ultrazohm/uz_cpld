@@ -38,7 +38,10 @@ entity SignalRouter is
         fpga_27 : in STD_LOGIC;
         fpga_28 : in STD_LOGIC;
         fpga_29 : in STD_LOGIC;
-
+		
+		-- Define General Purpose auxiliary IOs
+		CPLD_DIGOUT_01 : out STD_LOGIC;
+		
         -- Define 30 d-slot ports
         d_00 : out STD_LOGIC;
         d_01 : out STD_LOGIC;
@@ -82,8 +85,9 @@ architecture Behavioral of SignalRouter is
 begin
 
     -- Define the enable signal logic
-    enable <= '1' when (fpga_26 = '0' and fpga_27 = '0' and i2c_scl = '0' and i2c_sda = '0' and  fpga_28 = '1' and fpga_29 = '1') else '0';
-
+    enable <= '1' when (fpga_26 = '0' and fpga_27 = '0' and  fpga_28 = '1' and fpga_29 = '1') else '0';
+	-- Make sure i2c ports are not optimized away
+	CPLD_DIGOUT_01 <= '1' when (i2c_scl = '0' and i2c_sda = '0') else '0';
 
     -- Map ports
     d_00 <= fpga_00 and enable;

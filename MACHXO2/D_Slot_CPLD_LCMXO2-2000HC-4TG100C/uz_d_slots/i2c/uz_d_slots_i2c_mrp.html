@@ -24,19 +24,19 @@ Target Vendor:  LATTICE
 Target Device:  LCMXO2-2000HCTQFP100
 Target Performance:   4
 Mapper:  xo2c00,  version:  Diamond (64-bit) 3.13.0.56.2
-Mapped on:  11/27/24  15:45:56
+Mapped on:  12/10/24  17:29:00
 
 
 <A name="mrp_ds"></A><B><U><big>Design Summary</big></U></B>
-   Number of registers:    100 out of  2352 (4%)
-      PFU registers:          100 out of  2112 (5%)
-      PIO registers:            0 out of   240 (0%)
-   Number of SLICEs:        91 out of  1056 (9%)
-      SLICEs as Logic/ROM:     91 out of  1056 (9%)
+   Number of registers:    101 out of  2352 (4%)
+      PFU registers:           93 out of  2112 (4%)
+      PIO registers:            8 out of   240 (3%)
+   Number of SLICEs:        85 out of  1056 (8%)
+      SLICEs as Logic/ROM:     85 out of  1056 (8%)
       SLICEs as RAM:            0 out of   792 (0%)
       SLICEs as Carry:          5 out of  1056 (0%)
-   Number of LUT4s:        178 out of  2112 (8%)
-      Number used as logic LUTs:        168
+   Number of LUT4s:        166 out of  2112 (8%)
+      Number used as logic LUTs:        156
       Number used as distributed RAM:     0
       Number used as ripple logic:       10
       Number used as shift registers:     0
@@ -66,48 +66,50 @@ Mapped on:  11/27/24  15:45:56
       2. Number of logic LUT4s does not include count of distributed RAM and
      ripple logic.
    Number of clocks:  6
-     Net clk: 55 loads, 55 rising, 0 falling (Driver: OSCInst0 )
+     Net clk: 60 loads, 60 rising, 0 falling (Driver: OSCInst0 )
 
      Net i2c1_scli: 1 loads, 1 rising, 0 falling (Driver: PIO SCL )
      Net IRQ_c_2: 1 loads, 1 rising, 0 falling (Driver: PIO IRQ[2] )
      Net IRQ_c_3: 1 loads, 1 rising, 0 falling (Driver: PIO IRQ[3] )
      Net IRQ_c_1: 1 loads, 1 rising, 0 falling (Driver: PIO IRQ[1] )
      Net IRQ_c_0: 1 loads, 1 rising, 0 falling (Driver: PIO IRQ[0] )
-   Number of Clock Enables:  12
-     Net clk_enable_33: 4 loads, 4 LSLICEs
+   Number of Clock Enables:  13
+     Net n_state_7_N_353_4: 1 loads, 1 LSLICEs
+     Net clk_enable_31: 8 loads, 0 LSLICEs
      Net dat_rdy_N_574: 4 loads, 4 LSLICEs
+     Net clk_enable_16: 4 loads, 4 LSLICEs
      Net reg_rdy_N_570: 2 loads, 2 LSLICEs
-     Net clk_enable_16: 2 loads, 2 LSLICEs
-     Net clk_enable_13: 4 loads, 4 LSLICEs
-     Net clk_enable_26: 6 loads, 6 LSLICEs
+     Net clk_enable_11: 2 loads, 2 LSLICEs
      Net clk_enable_19: 2 loads, 2 LSLICEs
      Net irq_en_0: 1 loads, 1 LSLICEs
-     Net clk_enable_12: 1 loads, 1 LSLICEs
-     Net irq_en_3: 1 loads, 1 LSLICEs
+     Net clk_enable_22: 2 loads, 2 LSLICEs
+     Net clk_enable_32: 5 loads, 5 LSLICEs
      Net irq_en_2: 1 loads, 1 LSLICEs
+     Net irq_en_3: 1 loads, 1 LSLICEs
      Net irq_en_1: 1 loads, 1 LSLICEs
-   Number of LSRs:  4
-     Net RST_N_c: 54 loads, 53 LSLICEs
-     Net irq_status_clr_2: 1 loads, 1 LSLICEs
+   Number of LSRs:  5
+     Net RST_N_c: 57 loads, 48 LSLICEs
      Net irq_status_clr_1: 1 loads, 1 LSLICEs
+     Net irq_status_clr_2: 1 loads, 1 LSLICEs
+     Net n2285: 2 loads, 2 LSLICEs
      Net irq_status_clr_0: 1 loads, 1 LSLICEs
    Number of nets driven by tri-state buffers:  0
    Top 10 highest fanout non-clock nets:
-     Net RST_N_c: 64 loads
-     Net wb_stb_i: 27 loads
-     Net wb_ack_o: 24 loads
-     Net clk_enable_12: 22 loads
-     Net n_temp1_7__N_71: 22 loads
-     Net temp1_1: 21 loads
-     Net temp1_0: 20 loads
-     Net dat_rdy_N_576: 14 loads
-     Net temp1_3: 14 loads
-     Net temp1_5: 14 loads
+     Net RST_N_c: 71 loads
+     Net wb_stb_i: 32 loads
+     Net wb_ack_o: 30 loads
+     Net n_state_7_N_353_4: 24 loads
+     Net n_temp1_7__N_71: 18 loads
+     Net temp1_0: 17 loads
+     Net temp1_1: 14 loads
+     Net wb_dat_o_2: 14 loads
+     Net temp1_3: 12 loads
+     Net temp1_2: 11 loads
 
 
 
 
-   Number of warnings:  26
+   Number of warnings:  124
    Number of errors:    0
      
 
@@ -117,110 +119,509 @@ Mapped on:  11/27/24  15:45:56
 <A name="mrp_dwe"></A><B><U><big>Design Errors/Warnings</big></U></B>
 
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(36): Semantic error in "IOBUF PORT "MEM_RD[0]"
-     IO_TYPE=LVCMOS18 ;": Port "MEM_RD[0]" does not exist in the design. This
+     _d_slots/uz_d_slots.lpf(3): Semantic error in "IOBUF PORT "fpga_10"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_10" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(37): Semantic error in "IOBUF PORT "MEM_RD[1]"
-     IO_TYPE=LVCMOS18 ;": Port "MEM_RD[1]" does not exist in the design. This
-     preference has been disabled.
-WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(38): Semantic error in "IOBUF PORT "MEM_RD[2]"
+     _d_slots/uz_d_slots.lpf(4): Semantic error in "IOBUF PORT "d_10"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_10" does not exist in the
+     design. This preference has been disabled.
 
-     IO_TYPE=LVCMOS18 ;": Port "MEM_RD[2]" does not exist in the design. This
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(5): Semantic error in "IOBUF PORT "fpga_09"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_09" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(39): Semantic error in "IOBUF PORT "MEM_RD[3]"
-     IO_TYPE=LVCMOS18 ;": Port "MEM_RD[3]" does not exist in the design. This
+     _d_slots/uz_d_slots.lpf(6): Semantic error in "IOBUF PORT "fpga_11"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_11" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(40): Semantic error in "IOBUF PORT "MEM_RD[4]"
-     IO_TYPE=LVCMOS18 ;": Port "MEM_RD[4]" does not exist in the design. This
+     _d_slots/uz_d_slots.lpf(7): Semantic error in "IOBUF PORT "fpga_12"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_12" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(41): Semantic error in "IOBUF PORT "MEM_RD[5]"
-     IO_TYPE=LVCMOS18 ;": Port "MEM_RD[5]" does not exist in the design. This
+     _d_slots/uz_d_slots.lpf(8): Semantic error in "IOBUF PORT "fpga_13"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_13" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(42): Semantic error in "IOBUF PORT "MEM_RD[6]"
-     IO_TYPE=LVCMOS18 ;": Port "MEM_RD[6]" does not exist in the design. This
+     _d_slots/uz_d_slots.lpf(9): Semantic error in "IOBUF PORT "fpga_14"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_14" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(43): Semantic error in "IOBUF PORT "MEM_RD[7]"
-     IO_TYPE=LVCMOS18 ;": Port "MEM_RD[7]" does not exist in the design. This
+     _d_slots/uz_d_slots.lpf(10): Semantic error in "IOBUF PORT "fpga_15"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_15" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(52): Semantic error in "IOBUF PORT "MEM_ADDR[0]"
-     IO_TYPE=LVCMOS33 ;": Port "MEM_ADDR[0]" does not exist in the design. This
+     _d_slots/uz_d_slots.lpf(11): Semantic error in "IOBUF PORT "fpga_16"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_16" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(53): Semantic error in "IOBUF PORT "MEM_ADDR[1]"
-     IO_TYPE=LVCMOS33 ;": Port "MEM_ADDR[1]" does not exist in the design. This
+     _d_slots/uz_d_slots.lpf(12): Semantic error in "IOBUF PORT "fpga_17"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_17" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(54): Semantic error in "IOBUF PORT "MEM_ADDR[2]"
-     IO_TYPE=LVCMOS33 ;": Port "MEM_ADDR[2]" does not exist in the design. This
+     _d_slots/uz_d_slots.lpf(13): Semantic error in "IOBUF PORT "fpga_18"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_18" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(55): Semantic error in "IOBUF PORT "MEM_ADDR[3]"
-     IO_TYPE=LVCMOS33 ;": Port "MEM_ADDR[3]" does not exist in the design. This
+     _d_slots/uz_d_slots.lpf(14): Semantic error in "IOBUF PORT "fpga_19"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_19" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(56): Semantic error in "IOBUF PORT "MEM_ADDR[4]"
-     IO_TYPE=LVCMOS33 ;": Port "MEM_ADDR[4]" does not exist in the design. This
+     _d_slots/uz_d_slots.lpf(15): Semantic error in "IOBUF PORT "fpga_20"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_20" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(57): Semantic error in "IOBUF PORT "MEM_ADDR[5]"
-     IO_TYPE=LVCMOS33 ;": Port "MEM_ADDR[5]" does not exist in the design. This
+     _d_slots/uz_d_slots.lpf(16): Semantic error in "IOBUF PORT "fpga_21"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_21" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(58): Semantic error in "IOBUF PORT "MEM_ADDR[6]"
-     IO_TYPE=LVCMOS33 ;": Port "MEM_ADDR[6]" does not exist in the design. This
+     _d_slots/uz_d_slots.lpf(17): Semantic error in "IOBUF PORT "fpga_22"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_22" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(59): Semantic error in "IOBUF PORT "MEM_ADDR[7]"
-     IO_TYPE=LVCMOS33 ;": Port "MEM_ADDR[7]" does not exist in the design. This
+     _d_slots/uz_d_slots.lpf(18): Semantic error in "IOBUF PORT "fpga_23"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_23" does not exist in the design. This
      preference has been disabled.
-WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(60): Semantic error in "IOBUF PORT "MEM_CLK"
 
-     IO_TYPE=LVCMOS33 ;": Port "MEM_CLK" does not exist in the design. This
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(19): Semantic error in "IOBUF PORT "fpga_24"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_24" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(61): Semantic error in "IOBUF PORT "MEM_WD[0]"
-     IO_TYPE=LVCMOS33 ;": Port "MEM_WD[0]" does not exist in the design. This
+     _d_slots/uz_d_slots.lpf(20): Semantic error in "IOBUF PORT "fpga_25"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_25" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(62): Semantic error in "IOBUF PORT "MEM_WD[1]"
-     IO_TYPE=LVCMOS33 ;": Port "MEM_WD[1]" does not exist in the design. This
+     _d_slots/uz_d_slots.lpf(21): Semantic error in "IOBUF PORT "fpga_26"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_26" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(63): Semantic error in "IOBUF PORT "MEM_WD[2]"
-     IO_TYPE=LVCMOS33 ;": Port "MEM_WD[2]" does not exist in the design. This
+     _d_slots/uz_d_slots.lpf(22): Semantic error in "IOBUF PORT "fpga_27"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_27" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(64): Semantic error in "IOBUF PORT "MEM_WD[3]"
-     IO_TYPE=LVCMOS33 ;": Port "MEM_WD[3]" does not exist in the design. This
+     _d_slots/uz_d_slots.lpf(23): Semantic error in "IOBUF PORT "fpga_28"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_28" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(65): Semantic error in "IOBUF PORT "MEM_WD[4]"
-     IO_TYPE=LVCMOS33 ;": Port "MEM_WD[4]" does not exist in the design. This
+     _d_slots/uz_d_slots.lpf(24): Semantic error in "IOBUF PORT "fpga_29"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_29" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(66): Semantic error in "IOBUF PORT "MEM_WD[5]"
-     IO_TYPE=LVCMOS33 ;": Port "MEM_WD[5]" does not exist in the design. This
+     _d_slots/uz_d_slots.lpf(25): Semantic error in "IOBUF PORT "fpga_00"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_00" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(67): Semantic error in "IOBUF PORT "MEM_WD[6]"
-     IO_TYPE=LVCMOS33 ;": Port "MEM_WD[6]" does not exist in the design. This
+     _d_slots/uz_d_slots.lpf(26): Semantic error in "IOBUF PORT "fpga_01"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_01" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(68): Semantic error in "IOBUF PORT "MEM_WD[7]"
-     IO_TYPE=LVCMOS33 ;": Port "MEM_WD[7]" does not exist in the design. This
+     _d_slots/uz_d_slots.lpf(27): Semantic error in "IOBUF PORT "fpga_02"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_02" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
-     _d_slots/uz_d_slots.lpf(69): Semantic error in "IOBUF PORT "MEM_WR"
-     IO_TYPE=LVCMOS33 ;": Port "MEM_WR" does not exist in the design. This
+     _d_slots/uz_d_slots.lpf(28): Semantic error in "IOBUF PORT "fpga_03"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_03" does not exist in the design. This
+     preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(29): Semantic error in "IOBUF PORT "fpga_04"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_04" does not exist in the design. This
+     preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(30): Semantic error in "IOBUF PORT "fpga_05"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_05" does not exist in the design. This
+     preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(31): Semantic error in "IOBUF PORT "fpga_06"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_06" does not exist in the design. This
+     preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(32): Semantic error in "IOBUF PORT "fpga_07"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_07" does not exist in the design. This
+     preference has been disabled.
+
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(33): Semantic error in "IOBUF PORT "fpga_08"
+     IO_TYPE=LVCMOS18 ;": Port "fpga_08" does not exist in the design. This
+     preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(34): Semantic error in "IOBUF PORT "d_11"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_11" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(35): Semantic error in "IOBUF PORT "d_12"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_12" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(36): Semantic error in "IOBUF PORT "d_13"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_13" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(37): Semantic error in "IOBUF PORT "d_14"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_14" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(38): Semantic error in "IOBUF PORT "d_15"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_15" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(39): Semantic error in "IOBUF PORT "d_16"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_16" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(40): Semantic error in "IOBUF PORT "d_17"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_17" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(41): Semantic error in "IOBUF PORT "d_18"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_18" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(42): Semantic error in "IOBUF PORT "d_19"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_19" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(43): Semantic error in "IOBUF PORT "d_20"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_20" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(44): Semantic error in "IOBUF PORT "d_21"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_21" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(45): Semantic error in "IOBUF PORT "d_22"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_22" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(46): Semantic error in "IOBUF PORT "d_23"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_23" does not exist in the
+     design. This preference has been disabled.
+
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(47): Semantic error in "IOBUF PORT "d_24"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_24" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(48): Semantic error in "IOBUF PORT "d_25"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_25" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(49): Semantic error in "IOBUF PORT "d_26"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_26" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(50): Semantic error in "IOBUF PORT "d_27"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_27" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(51): Semantic error in "IOBUF PORT "d_28"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_28" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(52): Semantic error in "IOBUF PORT "d_29"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_29" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(53): Semantic error in "IOBUF PORT "d_00"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_00" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(54): Semantic error in "IOBUF PORT "d_01"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_01" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(55): Semantic error in "IOBUF PORT "d_02"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_02" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(56): Semantic error in "IOBUF PORT "d_03"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_03" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(57): Semantic error in "IOBUF PORT "d_04"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_04" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(58): Semantic error in "IOBUF PORT "d_05"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_05" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(59): Semantic error in "IOBUF PORT "d_06"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_06" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(60): Semantic error in "IOBUF PORT "d_07"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_07" does not exist in the
+     design. This preference has been disabled.
+
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(61): Semantic error in "IOBUF PORT "d_08"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_08" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(62): Semantic error in "IOBUF PORT "d_09"
+     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_09" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(63): Semantic error in "LOCATE COMP "fpga_00" SITE
+     "PT22A" ;": COMP "fpga_00" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(64): Semantic error in "LOCATE COMP "fpga_01" SITE
+     "PT19B" ;": COMP "fpga_01" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(65): Semantic error in "LOCATE COMP "fpga_02" SITE
+     "PT19A" ;": COMP "fpga_02" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(66): Semantic error in "LOCATE COMP "fpga_27" SITE
+     "PT11B" ;": COMP "fpga_27" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(67): Semantic error in "LOCATE COMP "fpga_26" SITE
+     "PT11A" ;": COMP "fpga_26" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(68): Semantic error in "LOCATE COMP "fpga_25" SITE
+     "PT9B" ;": COMP "fpga_25" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(69): Semantic error in "LOCATE COMP "fpga_24" SITE
+     "PT9A" ;": COMP "fpga_24" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(70): Semantic error in "LOCATE COMP "fpga_28" SITE
+     "PT17A" ;": COMP "fpga_28" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(71): Semantic error in "LOCATE COMP "fpga_29" SITE
+     "PT17B" ;": COMP "fpga_29" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(72): Semantic error in "LOCATE COMP "fpga_22" SITE
+     "PB5A" ;": COMP "fpga_22" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(73): Semantic error in "LOCATE COMP "fpga_23" SITE
+     "PB5B" ;": COMP "fpga_23" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(74): Semantic error in "LOCATE COMP "fpga_20" SITE
+     "PB6A" ;": COMP "fpga_20" cannot be found in design. This preference has
+     been disabled.
+
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(75): Semantic error in "LOCATE COMP "fpga_21" SITE
+     "PB6B" ;": COMP "fpga_21" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(76): Semantic error in "LOCATE COMP "fpga_11" SITE
+     "PB11A" ;": COMP "fpga_11" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(77): Semantic error in "LOCATE COMP "fpga_12" SITE
+     "PB11B" ;": COMP "fpga_12" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(78): Semantic error in "LOCATE COMP "fpga_13" SITE
+     "PB12A" ;": COMP "fpga_13" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(79): Semantic error in "LOCATE COMP "fpga_14" SITE
+     "PB12B" ;": COMP "fpga_14" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(80): Semantic error in "LOCATE COMP "fpga_09" SITE
+     "PB16B" ;": COMP "fpga_09" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(81): Semantic error in "LOCATE COMP "fpga_10" SITE
+     "PB16A" ;": COMP "fpga_10" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(82): Semantic error in "LOCATE COMP "fpga_07" SITE
+     "PB18A" ;": COMP "fpga_07" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(83): Semantic error in "LOCATE COMP "fpga_08" SITE
+     "PB18B" ;": COMP "fpga_08" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(84): Semantic error in "LOCATE COMP "fpga_06" SITE
+     "PB21A" ;": COMP "fpga_06" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(85): Semantic error in "LOCATE COMP "fpga_05" SITE
+     "PB21B" ;": COMP "fpga_05" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(86): Semantic error in "LOCATE COMP "fpga_04" SITE
+     "PB22A" ;": COMP "fpga_04" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(87): Semantic error in "LOCATE COMP "fpga_03" SITE
+     "PB22B" ;": COMP "fpga_03" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(88): Semantic error in "LOCATE COMP "fpga_15" SITE
+     "PL14A" ;": COMP "fpga_15" cannot be found in design. This preference has
+     been disabled.
+
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(89): Semantic error in "LOCATE COMP "fpga_16" SITE
+     "PL11A" ;": COMP "fpga_16" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(90): Semantic error in "LOCATE COMP "fpga_17" SITE
+     "PL11B" ;": COMP "fpga_17" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(91): Semantic error in "LOCATE COMP "fpga_18" SITE
+     "PL12A" ;": COMP "fpga_18" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(92): Semantic error in "LOCATE COMP "fpga_19" SITE
+     "PL12B" ;": COMP "fpga_19" cannot be found in design. This preference has
+     been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(93): Semantic error in "LOCATE COMP "d_28" SITE
+     "PR1B" ;": COMP "d_28" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(94): Semantic error in "LOCATE COMP "d_29" SITE
+     "PR5A" ;": COMP "d_29" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(95): Semantic error in "LOCATE COMP "d_27" SITE
+     "PR5B" ;": COMP "d_27" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(96): Semantic error in "LOCATE COMP "d_25" SITE
+     "PR6A" ;": COMP "d_25" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(97): Semantic error in "LOCATE COMP "d_23" SITE
+     "PR6B" ;": COMP "d_23" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(98): Semantic error in "LOCATE COMP "d_21" SITE
+     "PR7A" ;": COMP "d_21" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(99): Semantic error in "LOCATE COMP "d_19" SITE
+     "PR7B" ;": COMP "d_19" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(100): Semantic error in "LOCATE COMP "d_17" SITE
+     "PR9A" ;": COMP "d_17" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(101): Semantic error in "LOCATE COMP "d_15" SITE
+     "PR10A" ;": COMP "d_15" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(102): Semantic error in "LOCATE COMP "d_13" SITE
+     "PR10B" ;": COMP "d_13" cannot be found in design. This preference has been
+     disabled.
+
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(103): Semantic error in "LOCATE COMP "d_11" SITE
+     "PR11A" ;": COMP "d_11" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(104): Semantic error in "LOCATE COMP "d_09" SITE
+     "PR11B" ;": COMP "d_09" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(105): Semantic error in "LOCATE COMP "d_07" SITE
+     "PR12A" ;": COMP "d_07" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(106): Semantic error in "LOCATE COMP "d_05" SITE
+     "PR12B" ;": COMP "d_05" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(107): Semantic error in "LOCATE COMP "d_03" SITE
+     "PR14A" ;": COMP "d_03" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(108): Semantic error in "LOCATE COMP "d_01" SITE
+     "PR14B" ;": COMP "d_01" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(109): Semantic error in "LOCATE COMP "d_26" SITE
+     "PL2A" ;": COMP "d_26" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(110): Semantic error in "LOCATE COMP "d_24" SITE
+     "PL2B" ;": COMP "d_24" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(111): Semantic error in "LOCATE COMP "d_16" SITE
+     "PL3A" ;": COMP "d_16" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(112): Semantic error in "LOCATE COMP "d_18" SITE
+     "PL3B" ;": COMP "d_18" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(113): Semantic error in "LOCATE COMP "d_22" SITE
+     "PL4A" ;": COMP "d_22" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(114): Semantic error in "LOCATE COMP "d_20" SITE
+     "PL4B" ;": COMP "d_20" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(115): Semantic error in "LOCATE COMP "d_08" SITE
+     "PL5A" ;": COMP "d_08" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(116): Semantic error in "LOCATE COMP "d_10" SITE
+     "PL5B" ;": COMP "d_10" cannot be found in design. This preference has been
+     disabled.
+
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(117): Semantic error in "LOCATE COMP "d_12" SITE
+     "PL7C" ;": COMP "d_12" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(118): Semantic error in "LOCATE COMP "d_14" SITE
+     "PL7D" ;": COMP "d_14" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(119): Semantic error in "LOCATE COMP "d_06" SITE
+     "PL9A" ;": COMP "d_06" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(120): Semantic error in "LOCATE COMP "d_04" SITE
+     "PL9B" ;": COMP "d_04" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(121): Semantic error in "LOCATE COMP "d_00" SITE
+     "PL10B" ;": COMP "d_00" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(122): Semantic error in "LOCATE COMP "d_02" SITE
+     "PL10A" ;": COMP "d_02" cannot be found in design. This preference has been
+     disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(125): Semantic error in "LOCATE COMP
+     "CPLD_DIGOUT_01" SITE "PR4B" ;": COMP "CPLD_DIGOUT_01" cannot be found in
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(126): Semantic error in "IOBUF PORT
+     "CPLD_DIGOUT_01" IO_TYPE=LVCMOS33 ;": Port "CPLD_DIGOUT_01" does not exist
+     in the design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(127): Semantic error in "IOBUF PORT "i2c_scl"
+     IO_TYPE=LVCMOS18 ;": Port "i2c_scl" does not exist in the design. This
+     preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(128): Semantic error in "IOBUF PORT "i2c_sda"
+     IO_TYPE=LVCMOS18 ;": Port "i2c_sda" does not exist in the design. This
      preference has been disabled.
 
 
@@ -231,56 +632,56 @@ WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
 | IO Name             | Direction | Levelmode | IO         |
 |                     |           |  IO_TYPE  | Register   |
 +---------------------+-----------+-----------+------------+
-| SCL                 | BIDIR     | LVCMOS18  |            |
+| SCL                 | BIDIR     | LVCMOS25  |            |
 +---------------------+-----------+-----------+------------+
-| SDA                 | BIDIR     | LVCMOS18  |            |
+| SDA                 | BIDIR     | LVCMOS25  |            |
 +---------------------+-----------+-----------+------------+
-| GPO_0[7]            | OUTPUT    | LVCMOS33  |            |
+| GPO_0[7]            | OUTPUT    | LVCMOS25  |            |
 +---------------------+-----------+-----------+------------+
-| GPO_0[6]            | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| GPO_0[5]            | OUTPUT    | LVCMOS33  |            |
+| GPO_0[6]            | OUTPUT    | LVCMOS25  |            |
 +---------------------+-----------+-----------+------------+
 
-| GPO_0[4]            | OUTPUT    | LVCMOS33  |            |
+| GPO_0[5]            | OUTPUT    | LVCMOS25  |            |
 +---------------------+-----------+-----------+------------+
-| GPO_0[3]            | OUTPUT    | LVCMOS33  |            |
+| GPO_0[4]            | OUTPUT    | LVCMOS25  |            |
 +---------------------+-----------+-----------+------------+
-| GPO_0[2]            | OUTPUT    | LVCMOS33  |            |
+| GPO_0[3]            | OUTPUT    | LVCMOS25  |            |
 +---------------------+-----------+-----------+------------+
-| GPO_0[1]            | OUTPUT    | LVCMOS33  |            |
+| GPO_0[2]            | OUTPUT    | LVCMOS25  |            |
 +---------------------+-----------+-----------+------------+
-| GPO_0[0]            | OUTPUT    | LVCMOS33  |            |
+| GPO_0[1]            | OUTPUT    | LVCMOS25  |            |
 +---------------------+-----------+-----------+------------+
-| Enable              | OUTPUT    | LVCMOS33  |            |
+| GPO_0[0]            | OUTPUT    | LVCMOS25  |            |
 +---------------------+-----------+-----------+------------+
-| INTQ                | OUTPUT    | LVCMOS33  |            |
+| Enable              | OUTPUT    | LVCMOS25  |            |
 +---------------------+-----------+-----------+------------+
-| IRQ[3]              | INPUT     | LVCMOS18  |            |
+| INTQ                | OUTPUT    | LVCMOS25  |            |
 +---------------------+-----------+-----------+------------+
-| IRQ[2]              | INPUT     | LVCMOS18  |            |
+| IRQ[3]              | INPUT     | LVCMOS25  |            |
 +---------------------+-----------+-----------+------------+
-| IRQ[1]              | INPUT     | LVCMOS18  |            |
+| IRQ[2]              | INPUT     | LVCMOS25  |            |
 +---------------------+-----------+-----------+------------+
-| IRQ[0]              | INPUT     | LVCMOS18  |            |
+| IRQ[1]              | INPUT     | LVCMOS25  |            |
 +---------------------+-----------+-----------+------------+
-| GPI_0[7]            | INPUT     | LVCMOS18  |            |
+| IRQ[0]              | INPUT     | LVCMOS25  |            |
 +---------------------+-----------+-----------+------------+
-| GPI_0[6]            | INPUT     | LVCMOS18  |            |
+| GPI_0[7]            | INPUT     | LVCMOS25  | IN         |
 +---------------------+-----------+-----------+------------+
-| GPI_0[5]            | INPUT     | LVCMOS18  |            |
+| GPI_0[6]            | INPUT     | LVCMOS25  | IN         |
 +---------------------+-----------+-----------+------------+
-| GPI_0[4]            | INPUT     | LVCMOS18  |            |
+| GPI_0[5]            | INPUT     | LVCMOS25  | IN         |
 +---------------------+-----------+-----------+------------+
-| GPI_0[3]            | INPUT     | LVCMOS33  |            |
+| GPI_0[4]            | INPUT     | LVCMOS25  | IN         |
 +---------------------+-----------+-----------+------------+
-| GPI_0[2]            | INPUT     | LVCMOS33  |            |
+| GPI_0[3]            | INPUT     | LVCMOS25  | IN         |
 +---------------------+-----------+-----------+------------+
-| GPI_0[1]            | INPUT     | LVCMOS33  |            |
+| GPI_0[2]            | INPUT     | LVCMOS25  | IN         |
 +---------------------+-----------+-----------+------------+
-| GPI_0[0]            | INPUT     | LVCMOS33  |            |
+| GPI_0[1]            | INPUT     | LVCMOS25  | IN         |
 +---------------------+-----------+-----------+------------+
-| RST_N               | INPUT     | LVCMOS18  |            |
+| GPI_0[0]            | INPUT     | LVCMOS25  | IN         |
++---------------------+-----------+-----------+------------+
+| RST_N               | INPUT     | LVCMOS25  |            |
 +---------------------+-----------+-----------+------------+
 
 
@@ -295,8 +696,6 @@ Signal add_416_1/CI undriven or does not drive anything - clipped.
 Block i2 was optimized away.
 
      
-
-
 
 
 
@@ -394,13 +793,13 @@ GSR Component:
      not respond to the reset signal 'irq_status_clr_3' via the GSR component.
 
      Type and number of components of the type: 
-   Register = 99 
+   Register = 100 
 
      Type and instance name of component: 
    Register : GPI_DAT__i0
    Register : dat_rdy_332
    Register : wb_stb_i_348
-   Register : wb_dat_i__i5
+   Register : GPO_DATA_0___i5
    Register : temp2__i0
    Register : wb_we_i_350
    Register : temp3__i0
@@ -408,57 +807,55 @@ GSR Component:
    Register : GPO_DATA_0___i1
    Register : reg_rdy_330
    Register : wb_dat_i__i0
-   Register : data0__i0
    Register : wb_adr_i__i1
    Register : dat_count__i0
-   Register : dat_rdy_del_333
    Register : irq_en__i0
-   Register : wb_dat_i__i4
-   Register : wb_dat_i__i3
-   Register : wb_dat_i__i2
-   Register : c_state_FSM_i1
-   Register : reg_rdy_del_331
-   Register : c_state_FSM_i19
-   Register : wb_dat_i__i1
-   Register : temp1__i0
-   Register : GPO_DATA_0___i8
-
-   Register : GPO_DATA_0___i7
-   Register : GPO_DATA_0___i6
-   Register : GPO_DATA_0___i5
+   Register : dat_rdy_del_333
+   Register : temp2__i1
    Register : GPO_DATA_0___i4
    Register : GPO_DATA_0___i3
-   Register : c_state_FSM_i18
-   Register : c_state_FSM_i17
-   Register : c_state_FSM_i16
-   Register : c_state_FSM_i15
-   Register : wb_dat_i__i7
-   Register : wb_dat_i__i6
-   Register : c_state_FSM_i14
    Register : GPO_DATA_0___i2
+   Register : c_state_FSM_i1
    Register : irq_clr__i3
    Register : irq_clr__i2
    Register : irq_clr__i1
    Register : temp3__i7
    Register : temp3__i6
+
+   Register : temp1__i0
+   Register : temp3__i5
+   Register : temp3__i4
+   Register : temp3__i3
+   Register : temp3__i2
+   Register : temp3__i1
+   Register : GPO_DATA_0___i8
+   Register : data0__i1
+   Register : data0__i2
+   Register : GPO_DATA_0___i7
+   Register : GPO_DATA_0___i6
+   Register : temp2__i3
+   Register : temp2__i2
+   Register : c_state_FSM_i19
+   Register : c_state_FSM_i18
+   Register : c_state_FSM_i17
+   Register : c_state_FSM_i16
+   Register : c_state_FSM_i15
+   Register : c_state_FSM_i14
    Register : c_state_FSM_i13
    Register : c_state_FSM_i12
    Register : c_state_FSM_i11
    Register : c_state_FSM_i10
    Register : c_state_FSM_i9
    Register : c_state_FSM_i8
-   Register : temp3__i5
    Register : c_state_FSM_i7
    Register : c_state_FSM_i6
    Register : c_state_FSM_i5
-   Register : c_state_FSM_i4
-   Register : c_state_FSM_i3
-   Register : c_state_FSM_i2
-   Register : temp3__i4
-   Register : temp3__i3
    Register : irq_status_2__343
    Register : irq_status_1__342
    Register : irq_status_0__341
+   Register : c_state_FSM_i4
+   Register : c_state_FSM_i3
+   Register : c_state_FSM_i2
    Register : irq_en__i3
    Register : irq_en__i2
    Register : irq_en__i1
@@ -469,21 +866,22 @@ GSR Component:
    Register : dat_count__i3
    Register : dat_count__i2
    Register : dat_count__i1
+   Register : wb_adr_i__i4
    Register : wb_adr_i__i3
    Register : wb_adr_i__i2
-   Register : data0__i7
    Register : data0__i6
    Register : data0__i5
    Register : data0__i4
    Register : data0__i3
-   Register : data0__i2
-   Register : data0__i1
-   Register : temp3__i2
+   Register : wb_dat_i__i7
+   Register : data0__i7
+   Register : wb_dat_i__i6
+   Register : wb_dat_i__i5
+   Register : wb_dat_i__i4
 
-   Register : temp3__i1
-   Register : temp2__i3
-   Register : temp2__i2
-   Register : temp2__i1
+   Register : wb_dat_i__i3
+   Register : wb_dat_i__i2
+   Register : wb_dat_i__i1
    Register : GPI_DAT__i7
    Register : GPI_DAT__i6
    Register : GPI_DAT__i5
@@ -492,6 +890,8 @@ GSR Component:
    Register : GPI_DAT__i2
    Register : GPI_DAT__i1
    Register : temp1__i1
+   Register : data0__i0
+   Register : reg_rdy_del_331
    Register : temp1__i2
    Register : temp1__i3
    Register : temp1__i4
@@ -505,10 +905,9 @@ GSR Component:
 -------------------------
 
    Total CPU Time: 0 secs  
-   Total REAL Time: 2 secs  
-   Peak Memory Usage: 45 MB
+   Total REAL Time: 0 secs  
+   Peak Memory Usage: 34 MB
         
-
 
 
 

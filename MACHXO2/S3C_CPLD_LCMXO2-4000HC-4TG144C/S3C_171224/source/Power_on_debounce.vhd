@@ -34,23 +34,28 @@ entity Waiting_for_Powerbutton_pressed_V0 is
 		Carrier_PG_1V8	: out STD_LOGIC := 'Z';  -- ResetN Port, Powergood 1.8V PIN 107
 		SD0_CD			: in STD_LOGIC;  -- PIN 100
 		SD1_CD			: in STD_LOGIC;  -- PIN 103
+		
+		
 		DIGS3C_Shared_CarrierReady : out STD_LOGIC;  -- PIN 94
 		DIGS3C_Shared_ReqSafeState : out STD_LOGIC;  -- PIN 93
 		
-		DIGS3C_SlotD1_ReqOE : in STD_LOGIC;  -- PIN 92
-		DIGS3C_SlotD1_SlotOK : in STD_LOGIC;  -- PIN 91
+		DIGS3C_SlotD_ReqOE : in STD_LOGIC_VECTOR (5 downto 1);
+		DIGS3C_SlotD_SlotOK : in STD_LOGIC_VECTOR (5 downto 1);
 		
-		DIGS3C_SlotD2_ReqOE : in STD_LOGIC;  -- PIN 89
-		DIGS3C_SlotD2_SlotOK : in STD_LOGIC;  -- PIN 87
+		--DIGS3C_SlotD1_ReqOE : in STD_LOGIC;  -- PIN 92
+		--DIGS3C_SlotD1_SlotOK : in STD_LOGIC;  -- PIN 91
 		
-		DIGS3C_SlotD3_ReqOE : in STD_LOGIC;  -- PIN 86
-		DIGS3C_SlotD3_SlotOK : in STD_LOGIC;  -- PIN 85
+		--DIGS3C_SlotD2_ReqOE : in STD_LOGIC;  -- PIN 89
+		--DIGS3C_SlotD2_SlotOK : in STD_LOGIC;  -- PIN 87
 		
-		DIGS3C_SlotD4_ReqOE : in STD_LOGIC;  -- PIN 84
-		DIGS3C_SlotD4_SlotOK : in STD_LOGIC;  -- PIN 83
+		--DIGS3C_SlotD3_ReqOE : in STD_LOGIC;  -- PIN 86
+		--DIGS3C_SlotD3_SlotOK : in STD_LOGIC;  -- PIN 85
 		
-		DIGS3C_SlotD5_ReqOE : in STD_LOGIC;  -- PIN 82
-		DIGS3C_SlotD5_SlotOK : in STD_LOGIC;  -- PIN 81
+		--DIGS3C_SlotD4_ReqOE : in STD_LOGIC;  -- PIN 84
+		--DIGS3C_SlotD4_SlotOK : in STD_LOGIC;  -- PIN 83
+		
+		--DIGS3C_SlotD5_ReqOE : in STD_LOGIC;  -- PIN 82
+		--DIGS3C_SlotD5_SlotOK : in STD_LOGIC;  -- PIN 81
 		
 		--- Bank 2, 1.8V
 		SD_SEL		: out STD_LOGIC := '0'; -- Signal, dass auf 0 getrieben werden soll, PIN 41
@@ -67,11 +72,12 @@ entity Waiting_for_Powerbutton_pressed_V0 is
 		ANL_S3C_CarrierReady: out STD_LOGIC;  -- PIN 24
 		ANL_S3C_P54_Legacy	: out STD_LOGIC;  -- PIN 13
 		
-		DIGS3C_SlotD1_SlotOE : out STD_LOGIC;  -- PIN 20
-		DIGS3C_SlotD2_SlotOE : out STD_LOGIC;  -- PIN 19
-		DIGS3C_SlotD3_SlotOE : out STD_LOGIC;  -- PIN 17
-		DIGS3C_SlotD4_SlotOE : out STD_LOGIC;  -- PIN 15
-		DIGS3C_SlotD5_SlotOE : out STD_LOGIC;  -- PIN 14
+		DIGS3C_SlotD_SlotOE : OUT STD_LOGIC_VECTOR (5 downto 1);
+		--DIGS3C_SlotD1_SlotOE : out STD_LOGIC;  -- PIN 20
+		--DIGS3C_SlotD2_SlotOE : out STD_LOGIC;  -- PIN 19
+		--DIGS3C_SlotD3_SlotOE : out STD_LOGIC;  -- PIN 17
+		--DIGS3C_SlotD4_SlotOE : out STD_LOGIC;  -- PIN 15
+		--DIGS3C_SlotD5_SlotOE : out STD_LOGIC;  -- PIN 14
 		
 		
 		--- Bank 5, 3.3V
@@ -90,7 +96,7 @@ architecture behavior of Waiting_for_Powerbutton_pressed_V0 is
 	signal reset_triggered : boolean := false; -- Flag, um zu tracken, dass resetn auf '0' gesetzt wurde
 
     -- Definition der Zustände der State Machine
-    type state_type is (Waiting_for_Powerbutton_pressed,Waiting_for_Powerbutton_released,Wait_State, EthernetPhy_Reset,SoftPowerOff, Ready_State, Warning, Error, PowerOff);
+    type state_type is (Waiting_for_Powerbutton_pressed,Waiting_for_Powerbutton_released,Wait_State, EthernetPhy_Reset,Waiting_for_Powerbutton_pressed_2sec , Ready_State, Warning, Error, sleep_for_dslot_down,Waiting_for_Powerbutton_released2 );
     signal next_state : state_type:= Waiting_for_Powerbutton_pressed;
 	
     -- Entprell-Zeitkonstante
@@ -106,7 +112,7 @@ architecture behavior of Waiting_for_Powerbutton_pressed_V0 is
     signal buttons_debounced_syn   : STD_LOGIC_VECTOR(3 downto 0) := (others => '1');
 	
 	-- Dslot
-	signal dig_slot_alive :	STD_LOGIC;
+	signal forceoutputdisable :STD_LOGIC;
 	-- internen oszillator definieren
 	COMPONENT OSCH
 	-- synthesis translate_off
@@ -136,13 +142,15 @@ SD_SEL <= '0';
 FPIO_FlexMIO52 <= FlexMIOs52_PCIe;
 FlexMio61ExternalStop <= FPIO_ExternalStop;
 
--- DSlotüberwachung
-dig_slot_alive <= DIGS3C_SlotD1_SlotOK AND DIGS3C_SlotD2_SlotOK AND DIGS3C_SlotD3_SlotOK AND DIGS3C_SlotD4_SlotOK AND DIGS3C_SlotD5_SlotOK; 
 -- Mapping der Taster zu einem Vektor für einfachere Handhabung
 button_inputs(0) <= SysSW_Pwr_NC;
 button_inputs(1) <= FPIO_ExternalStop;
 button_inputs(2) <= FP_UsrSW3;
 button_inputs(3) <= FP_UsrSW1;
+
+-- Conditional passthrough for OE
+DIGS3C_SlotD_SlotOE <= DIGS3C_SlotD_ReqOE AND (others => NOT forceoutputdisable);
+
 -- Achtung!!! Signal muss noch durch twoStageSynchronizer!!
 -- siehe https://www.digikey.com/en/articles/how-to-debounce-a-button-input-using-programmable-logic
 -- realisiert 18.11. und getestet
@@ -205,7 +213,7 @@ end process;
 --end process;
 
 FP_UsrLED1 <= buttons_debounced_syn(0);
-FP_UsrLED2 <= dig_slot_alive;
+FP_UsrLED2 <= forceoutputdisable;
 FP_UsrLED3 <= buttons_debounced_syn(2);
 FP_UsrLED4 <= buttons_debounced_syn(3);
 -- State machine
@@ -214,57 +222,67 @@ process(clk)
 	if rising_edge(clk) then
         case next_state is
             when Waiting_for_Powerbutton_pressed =>
-			FlexMIOs53_GPIO_PowerDown <= '0';
-			FP_SysLEDr <= '1';	
-			FP_SysLEDb <= '0';	
-			FP_SysLEDg <= '0';	
-			if buttons_debounced_syn(0) = '0' then
-				next_state <= Waiting_for_Powerbutton_released;
-			else
-				Carrier_PwrOn <= '0';  -- Alle Rails aus, nur Systemcpld lebt
-				Carrier_PG_3V3 <= '0';
-				FPIO_isoCtrlRSTn <= '0'; -- Reset IsoIO einschalten
-				Carrier_PG_1V8 <= 'Z';  -- Hochohmig, solange System aus
-			end if;
+				forceoutputdisable <= '1';
+				DIGS3C_Shared_ReqSafeState <= '1'; -- not working because bank 1 1.8vper not supplied
+				FlexMIOs53_GPIO_PowerDown <= '0';
+				FP_SysLEDr <= '1';	
+				FP_SysLEDb <= '0';	
+				FP_SysLEDg <= '0';	
+				if buttons_debounced_syn(0) = '0' then
+					next_state <= Waiting_for_Powerbutton_released;
+				else
+					Carrier_PwrOn <= '0';  -- Alle Rails aus, nur Systemcpld lebt
+					Carrier_PG_3V3 <= '0';
+					FPIO_isoCtrlRSTn <= '0'; -- Reset IsoIO einschalten
+					Carrier_PG_1V8 <= 'Z';  -- Hochohmig, solange System aus
+				end if;
 
 			when Waiting_for_Powerbutton_released =>
-			FP_SysLEDr <= '1';	
-			FP_SysLEDb <= '0';	
-			FP_SysLEDg <= '1';
-			if buttons_debounced_syn(0) = '1' then
-				Carrier_PwrOn <= '1';  -- Alle Rails enablen
-				Carrier_PG_3V3 <= '1'; -- Hack IsoIo ein wenn PwrOn
-				counter <= 2080000;
-				-- neuer Zustand wenn button ausgelassen
-				next_state <= Wait_State;	
-			end if;
+				forceoutputdisable <= '1';
+				DIGS3C_Shared_ReqSafeState <= '1'; -- not working because bank 1 1.8vper not supplied
+				FP_SysLEDr <= '1';	
+				FP_SysLEDb <= '0';	
+				FP_SysLEDg <= '1';
+				if buttons_debounced_syn(0) = '1' then
+					Carrier_PwrOn <= '1';  -- Alle Rails enablen
+					Carrier_PG_3V3 <= '1'; -- Hack IsoIo ein wenn PwrOn
+					counter <= 2080000;
+					-- neuer Zustand wenn button ausgelassen
+					next_state <= Wait_State;	
+				end if;
 			
 			when Wait_State =>
-			FP_SysLEDr <= '1';	
-			FP_SysLEDb <= '1';	
-			FP_SysLEDg <= '0';
-			if counter > 0 then
-				counter <= counter - 1;
-			else 
-				counter <= 104000;
-				Carrier_PG_1V8 <= '0';  -- resetn für 50ms auf '0' setzen
-				next_state <= EthernetPhy_Reset;
-			end if;
+				forceoutputdisable <= '1';
+				DIGS3C_Shared_ReqSafeState <= '1'; -- not working because bank 1 1.8vper not supplied
+				FP_SysLEDr <= '1';	
+				FP_SysLEDb <= '1';	
+				FP_SysLEDg <= '0';
+				if counter > 0 then
+					counter <= counter - 1;
+				else 
+					counter <= 104000;
+					Carrier_PG_1V8 <= '0';  -- resetn für 50ms auf '0' setzen
+					next_state <= EthernetPhy_Reset;
+				end if;
 			
 			when EthernetPhy_Reset =>
-            --Übergang in den Ready_State nach Ethernet Reset
-			FP_SysLEDr <= '0';	
-			FP_SysLEDb <= '1';	
-			FP_SysLEDg <= '0';
-			if counter > 0 then
-				counter <= counter - 1;
-			else
-				Carrier_PG_1V8 <= 'Z';  -- Nach 50ms wieder auf 'Z' setzen
-				FPIO_isoCtrlRSTn <= '1'; -- Reset IsoIO ausschalten
-				next_state <= Ready_State;
-			end if;
+				forceoutputdisable <= '1';
+				DIGS3C_Shared_ReqSafeState <= '1'; -- not working because bank 1 1.8vper not supplied
+				--Übergang in den Ready_State nach Ethernet Reset
+				FP_SysLEDr <= '0';	
+				FP_SysLEDb <= '1';	
+				FP_SysLEDg <= '0';
+				if counter > 0 then
+					counter <= counter - 1;
+				else
+					Carrier_PG_1V8 <= 'Z';  -- Nach 50ms wieder auf 'Z' setzen
+					FPIO_isoCtrlRSTn <= '1'; -- Reset IsoIO ausschalten
+					next_state <= Ready_State;
+				end if;
 			
             when Ready_State =>
+				forceoutputdisable <= NOT PPn_VIN; 
+				DIGS3C_Shared_ReqSafeState <= '0';
 				FP_SysLEDr <= '0';	
 				FP_SysLEDb <= '0';	
 				FP_SysLEDg <= '1';
@@ -275,16 +293,21 @@ process(clk)
 				-- TODO auf 1s auf den Powertaster drücken erweitern
                 elsif buttons_debounced_syn(0) = '0' then  -- Power Taster gedrückt
 					counter <= 4160000;
-					next_state <= SoftPowerOff;
+					next_state <= Waiting_for_Powerbutton_pressed_2sec ;
 				end if;
             when Warning =>
+				forceoutputdisable <= NOT PPn_VIN; 
+				DIGS3C_Shared_ReqSafeState <= '0';
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '0';	
 				FP_SysLEDg <= '0';
 				FP_SysLEDs <= '0';
-                -- Von Warning geht es direkt in PowerOff
- --               next_state <= PowerOff;
+                -- Von Warning geht es direkt in Waiting_for_Powerbutton_released2 
+ --               next_state <= Waiting_for_Powerbutton_released2 ;
             when Error =>
+				--Request safe state to dslots
+				forceoutputdisable <= NOT PPn_VIN; 
+				DIGS3C_Shared_ReqSafeState <= '1';
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '1';
@@ -292,23 +315,34 @@ process(clk)
 				Carrier_PwrOn <= '0';  -- Alle Rails aus, nur Systemcpld lebt
 				Carrier_PG_3V3 <= '0';
 				FPIO_isoCtrlRSTn <= '0'; -- Reset IsoIO einschalten
-                -- Von Error wechselt das System zu PowerOff
---                next_state <= PowerOff;
-			when SoftPowerOff =>
-				FlexMIOs53_GPIO_PowerDown <= '1';
+                -- Von Error wechselt das System zu Waiting_for_Powerbutton_released2 
+--                next_state <= Waiting_for_Powerbutton_released2 ;
+			when Waiting_for_Powerbutton_pressed_2sec  =>
+				forceoutputdisable <= NOT PPn_VIN; 
+				DIGS3C_Shared_ReqSafeState <= '0';
+				FlexMIOs53_GPIO_PowerDown <= '1';  -- info to som
 				if counter > 0 then
 					counter <= counter - 1;
 				else
-					if buttons_debounced_syn(0) = '0' then
-						FlexMIOs53_GPIO_PowerDown <= '0';
-						next_state <= PowerOff;
+					if buttons_debounced_syn(0) = '0' then -- override mode activated
+						FlexMIOs53_GPIO_PowerDown <= '0'; -- end info to som
+						DIGS3C_Shared_ReqSafeState <= '1'; -- info to dcplds
+						counter <= 2080000;
+						next_state <= sleep_for_dslot_down;
 					end if;
 				end if;
 				if buttons_debounced_syn(0) = '1' then 
 					FlexMIOs53_GPIO_PowerDown <= '0';
 					next_state <= Ready_State;
 				end if;
-            when PowerOff =>
+			when sleep_for_dslot_down =>
+				if counter > 0 then
+					counter <= counter - 1;
+				else
+					next_state <= Waiting_for_Powerbutton_released2 ;
+				end if;
+            when Waiting_for_Powerbutton_released2  => 
+				forceoutputdisable <= '1'; 
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '0';	
 				FP_SysLEDg <= '1';

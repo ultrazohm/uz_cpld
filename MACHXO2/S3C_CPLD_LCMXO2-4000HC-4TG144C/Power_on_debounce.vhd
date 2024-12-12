@@ -6,16 +6,6 @@ use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 entity Waiting_for_Powerbutton_pressed_V0 is
 
-  generic (
-             GPI_PORT_NUM       : integer    := 1;       -- GPI port number
-			 GPI_DATA_WIDTH     : integer    := 8;       -- GPI data width
-			 GPO_PORT_NUM       : integer    := 1;       -- GPO port number
-			 GPO_DATA_WIDTH     : integer    := 8;       -- GPO data width
-			 MEM_ADDR_WIDTH     : integer    := 8;       -- Memory addrss width
-			 IRQ_NUM            : integer    := 4;       -- Interrupt request number
-			 MAX_MEM_BURST_NUM  : std_logic_vector (7 downto 0)    := "00001000";       -- Maximum memory burst number
-		     INTQ_OPENDRAIN     : bit        := '1'      -- INTQ opendrain setting (S_ON/S_OFF)
-		   );
     Port (
 		-- Mapping nach Bänken
 		--i2c
@@ -94,81 +84,6 @@ entity Waiting_for_Powerbutton_pressed_V0 is
 end Waiting_for_Powerbutton_pressed_V0;
 
 architecture behavior of Waiting_for_Powerbutton_pressed_V0 is
- --/***********************************************************************
- --*                                                                     *
- --* SPI SIGNALS                                           *
- --*                                                                     *
- --***********************************************************************/
-    signal scuba_vhi: std_logic;
-    signal spi_mosi_oe: std_logic;
-    signal spi_mosi_o: std_logic;
-    signal spi_miso_oe: std_logic;
-    signal spi_miso_o: std_logic;
-    signal spi_clk_oe: std_logic;
-    signal spi_clk_o: std_logic;
-    signal spi_mosi_i: std_logic;
-    signal spi_miso_i: std_logic;
-    signal spi_clk_i: std_logic;
-    signal scuba_vlo: std_logic;
-	  
- --/***********************************************************************
- --*                                                                     *
- --* WISHBONE INTERFACE SIGNAL                                           *
- --*                                                                     *
- --***********************************************************************/
-
-signal wb_dat_i : std_logic_vector(7 downto 0) ;
-signal wb_stb_i : std_logic ;
-signal wb_cyc_i : std_logic  ;
-signal wb_adr_i : std_logic_vector(7 downto 0) ;
-signal wb_we_i  : std_logic ;
-signal wb_dat_o : std_logic_vector(7 downto 0) ;
-signal wb_ack_o : std_logic ;
-
-
-
---/***********************************************************************
- --*                                                                     *
- --* Data Read and Write Register                                        *
- --*                                                                     *
- --***********************************************************************/
- 
-signal mem_wr1 : std_logic;
-signal data0 : std_logic_vector(7 downto 0) ;
-signal temp0,temp1,temp2,temp3 : std_logic_vector(7 downto 0) ;                                
-signal n_temp0,n_temp1,n_temp2,n_temp3 : std_logic_vector(7 downto 0) ;                        
-signal irq_en , irq_status  ,irq_clr, irq_status_clr  : std_logic_vector(IRQ_NUM-1 downto 0) ; 
-
--- Some more signals
-
-signal reg_rdy  , reg_rdy_del : std_logic ;
-signal dat_rdy  , dat_rdy_del : std_logic ;
-signal efb_flag , n_efb_flag : std_logic ;
-signal n_dat_count , dat_count : std_logic_vector(7 downto 0) ; 
-signal GPI_DAT : std_logic_vector(7 downto 0) ;                                                 
-
-signal i2c_cmd  : std_logic_vector(7 downto 0) ;
-signal i2c1_irqo: std_logic := 'Z';
-signal reg_addr  : std_logic_vector(7 downto 0) ;
-
-signal memory_addr : std_logic_vector (MEM_ADDR_WIDTH-1 downto 0);        
-
-
-signal cmd_rdy: std_logic ;
-
-signal n_wb_dat_i : std_logic_vector(7 downto 0) ;
-signal n_wb_stb_i : std_logic ;
-signal n_wb_adr_i : std_logic_vector(7 downto 0) ;
-signal n_wb_we_i , check_irq_status,GPIO_Write, GPIO_Read, Memory_Write, Memory_Write_or_Read, IRQ_Enable_Write,IRQ_Clear: std_logic ;
-
-signal c_state ,n_state : std_logic_vector(7 downto 0) ;
-signal rst_p,n_count_en , count_en, enable_command,intr_command,intr_read_command,gpio_command ,mem_command , cmd_data: std_logic ;
-
-
-
-
-
-
 	signal clk	:	STD_LOGIC;
 	signal counter : integer range 0 to 4160000 := 0; 	-- Zähler 
 	signal count_done_100ms : boolean := false; 			-- Flag für 100ms Ende
@@ -182,23 +97,16 @@ signal rst_p,n_count_en , count_en, enable_command,intr_command,intr_read_comman
     constant debounce_limit : integer := 20800; -- 10ms, bei 2.08MhZ
 
     -- Entprell-Zähler und stabile Zustände der Taster
-    type debounce_array is array (0 to 1) of integer;
+    type debounce_array is array (0 to 3) of integer;
     signal debounce_counters : debounce_array := (others => 0);
-	signal button_inputs  : STD_LOGIC_VECTOR(1 downto 0);  -- Tastereingänge
-    signal button_inputs_asyn1  : STD_LOGIC_VECTOR(1 downto 0) := (others => '1');  -- Tastereingänge nach 1. flip flop
-	signal button_inputs_asyn2  : STD_LOGIC_VECTOR(1 downto 0) := (others => '1'); -- Tastereingänge nach 2. flip flop
-	signal pushed : STD_LOGIC_VECTOR(1 downto 0) := (others => '0');
-    signal buttons_debounced_syn   : STD_LOGIC_VECTOR(1 downto 0) := (others => '1');
+	signal button_inputs  : STD_LOGIC_VECTOR(3 downto 0);  -- Tastereingänge
+    signal button_inputs_asyn1  : STD_LOGIC_VECTOR(3 downto 0) := (others => '1');  -- Tastereingänge nach 1. flip flop
+	signal button_inputs_asyn2  : STD_LOGIC_VECTOR(3 downto 0) := (others => '1'); -- Tastereingänge nach 2. flip flop
+	signal pushed : STD_LOGIC_VECTOR(3 downto 0) := (others => '0');
+    signal buttons_debounced_syn   : STD_LOGIC_VECTOR(3 downto 0) := (others => '1');
 	
-	component efb_VHDL
-	port (
-        wb_clk_i: in  std_logic; 
-        i2c1_scl: inout  std_logic; 
-        i2c1_sda: inout  std_logic; 
-        i2c1_irqo: out  std_logic);
-
-	end component;
-	
+	-- Dslot
+	signal dig_slot_alive :	STD_LOGIC;
 	-- internen oszillator definieren
 	COMPONENT OSCH
 	-- synthesis translate_off
@@ -222,30 +130,19 @@ begin
 	OSC => clk,
 	SEDSTDBY => open
 	);
-	
-	dut : efb_VHDL 
-	port map (
-	wb_clk_i => CLK,   
-	i2c1_scl =>SCL,
-	i2c1_sda =>SDA,
-	i2c1_irqo =>i2c1_irqo
-	);
-
-	rst_p <= not (RST_N);
-	wb_cyc_i<=  wb_stb_i;
-
--- Apply the HGROUP attribute to both flip-flops
---attribute HGROUP of button_inputs_asyn1, button_inputs_asyn2 : signal is "sync_group";
 
 -- Ports default setzen + durchrouten
 SD_SEL <= '0';
 FPIO_FlexMIO52 <= FlexMIOs52_PCIe;
 FlexMio61ExternalStop <= FPIO_ExternalStop;
 
--- Mapping der Taster zu einem Vektor für einfachere Handhabung, Enable System und Control werden nicht debounced
+-- DSlotüberwachung
+dig_slot_alive <= DIGS3C_SlotD1_SlotOK AND DIGS3C_SlotD2_SlotOK AND DIGS3C_SlotD3_SlotOK AND DIGS3C_SlotD4_SlotOK AND DIGS3C_SlotD5_SlotOK; 
+-- Mapping der Taster zu einem Vektor für einfachere Handhabung
 button_inputs(0) <= SysSW_Pwr_NC;
 button_inputs(1) <= FPIO_ExternalStop;
-
+button_inputs(2) <= FP_UsrSW3;
+button_inputs(3) <= FP_UsrSW1;
 -- Achtung!!! Signal muss noch durch twoStageSynchronizer!!
 -- siehe https://www.digikey.com/en/articles/how-to-debounce-a-button-input-using-programmable-logic
 -- realisiert 18.11. und getestet
@@ -260,7 +157,7 @@ process(clk)
 			-- button_inputs_asyn2 ist safe, keine metastabilität probleme
 			
             -- Entprellung für jedes Signal im Vektor
-            for i in 0 to 1 loop
+            for i in 0 to 3 loop
                 if button_inputs_asyn2(i) = '0' then  -- Taster gedrückt (LOW)
                     if debounce_counters(i) < debounce_limit then
                         debounce_counters(i) <= debounce_counters(i) + 1;
@@ -307,9 +204,10 @@ end process;
         --end if;
 --end process;
 
-FP_UsrLED1 <= PG_VIN AND PG_Module AND PPn_VIN;
-FP_UsrLED2 <= buttons_debounced_syn(0);
-
+FP_UsrLED1 <=  buttons_debounced_syn(0);
+FP_UsrLED2 <= buttons_debounced_syn(1);
+FP_UsrLED3 <= buttons_debounced_syn(2);
+FP_UsrLED4 <= buttons_debounced_syn(3);
 -- State machine
 process(clk)
     begin

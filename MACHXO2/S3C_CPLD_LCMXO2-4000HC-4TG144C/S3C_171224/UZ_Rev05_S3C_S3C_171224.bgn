@@ -1,0 +1,222 @@
+BITGEN: Bitstream Generator Diamond (64-bit) 3.13.0.56.2
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
+Thu Dec 12 10:47:50 2024
+
+
+Command: bitgen -g RamCfg:Reset -path C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C -w -jedec -gui -msgset C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/promote.xml UZ_Rev05_S3C_S3C_171224.ncd UZ_Rev05_S3C_S3C_171224.prf 
+
+Loading design for application Bitgen from file UZ_Rev05_S3C_S3C_171224.ncd.
+Design name: Waiting_for_Powerbutton_pressed_V0
+NCD version: 3.3
+Vendor:      LATTICE
+Device:      LCMXO2-4000HC
+Package:     TQFP144
+Performance: 4
+Loading device for application Bitgen from file 'xo2c4000.nph' in environment: C:/lscc/diamond/3.13/ispfpga.
+Package Status:                     Final          Version 1.44.
+Performance Hardware Data Status:   Final          Version 34.4.
+
+Running DRC.
+WARNING - netcheck: no source pins found on signal add_1042_2/CI.
+WARNING - netcheck: no load pins found on signal add_1042_2/S0.
+WARNING - netcheck: no load pins found on signal add_1042_2/S1.
+WARNING - netcheck: no load pins found on signal add_1043_26/CO.
+WARNING - netcheck: no load pins found on signal add_1043_26/S0.
+WARNING - netcheck: no load pins found on signal add_1043_24/S0.
+WARNING - netcheck: no load pins found on signal add_1043_24/S1.
+WARNING - netcheck: no source pins found on signal add_13_1/CI.
+WARNING - netcheck: no load pins found on signal add_13_1/S0.
+WARNING - netcheck: no source pins found on signal add_184_1/CI.
+WARNING - netcheck: no load pins found on signal add_184_1/S0.
+WARNING - netcheck: no load pins found on signal add_40_33/CO.
+WARNING - netcheck: no load pins found on signal add_40_33/S1.
+WARNING - netcheck: no load pins found on signal add_1043_22/S0.
+WARNING - netcheck: no load pins found on signal add_1043_22/S1.
+WARNING - netcheck: no load pins found on signal add_1043_20/S0.
+WARNING - netcheck: no load pins found on signal add_1043_20/S1.
+WARNING - netcheck: no load pins found on signal add_1043_18/S0.
+WARNING - netcheck: no load pins found on signal add_1043_18/S1.
+WARNING - netcheck: no load pins found on signal add_1043_16/S0.
+WARNING - netcheck: no load pins found on signal add_1043_16/S1.
+WARNING - netcheck: no load pins found on signal add_1043_14/S0.
+WARNING - netcheck: no load pins found on signal add_1043_14/S1.
+WARNING - netcheck: no load pins found on signal add_1043_12/S0.
+WARNING - netcheck: no load pins found on signal add_1043_12/S1.
+WARNING - netcheck: no source pins found on signal add_22_1/CI.
+WARNING - netcheck: no load pins found on signal add_22_1/S0.
+WARNING - netcheck: no load pins found on signal add_13_33/CO.
+WARNING - netcheck: no load pins found on signal add_13_33/S1.
+WARNING - netcheck: no load pins found on signal add_1043_10/S0.
+WARNING - netcheck: no load pins found on signal add_1043_10/S1.
+WARNING - netcheck: no source pins found on signal add_31_1/CI.
+WARNING - netcheck: no load pins found on signal add_31_1/S0.
+WARNING - netcheck: no load pins found on signal add_22_33/CO.
+WARNING - netcheck: no load pins found on signal add_22_33/S1.
+WARNING - netcheck: no load pins found on signal add_1043_8/S0.
+WARNING - netcheck: no load pins found on signal add_1043_8/S1.
+WARNING - netcheck: no load pins found on signal add_1043_6/S0.
+WARNING - netcheck: no load pins found on signal add_1043_6/S1.
+WARNING - netcheck: no load pins found on signal add_1043_4/S0.
+WARNING - netcheck: no load pins found on signal add_1043_4/S1.
+WARNING - netcheck: no source pins found on signal add_1043_2/CI.
+WARNING - netcheck: no load pins found on signal add_1043_2/S0.
+WARNING - netcheck: no load pins found on signal add_1043_2/S1.
+WARNING - netcheck: no load pins found on signal add_1044_26/CO.
+WARNING - netcheck: no load pins found on signal add_1044_26/S0.
+WARNING - netcheck: no load pins found on signal add_1044_24/S0.
+WARNING - netcheck: no load pins found on signal add_1044_24/S1.
+WARNING - netcheck: no load pins found on signal add_1044_22/S0.
+WARNING - netcheck: no load pins found on signal add_1044_22/S1.
+WARNING - netcheck: no load pins found on signal add_1044_20/S0.
+WARNING - netcheck: no load pins found on signal add_1044_20/S1.
+WARNING - netcheck: no load pins found on signal add_1044_18/S0.
+WARNING - netcheck: no load pins found on signal add_1044_18/S1.
+WARNING - netcheck: no load pins found on signal add_1044_16/S0.
+WARNING - netcheck: no load pins found on signal add_1044_16/S1.
+WARNING - netcheck: no load pins found on signal add_1044_14/S0.
+WARNING - netcheck: no load pins found on signal add_1044_14/S1.
+WARNING - netcheck: no source pins found on signal add_40_1/CI.
+WARNING - netcheck: no load pins found on signal add_40_1/S0.
+WARNING - netcheck: no load pins found on signal add_31_33/CO.
+WARNING - netcheck: no load pins found on signal add_31_33/S1.
+WARNING - netcheck: no load pins found on signal add_1044_12/S0.
+WARNING - netcheck: no load pins found on signal add_1044_12/S1.
+WARNING - netcheck: no load pins found on signal add_1044_10/S0.
+WARNING - netcheck: no load pins found on signal add_1044_10/S1.
+WARNING - netcheck: no load pins found on signal add_1044_8/S0.
+WARNING - netcheck: no load pins found on signal add_1044_8/S1.
+WARNING - netcheck: no load pins found on signal add_1044_6/S0.
+WARNING - netcheck: no load pins found on signal add_1044_6/S1.
+WARNING - netcheck: no load pins found on signal add_1044_4/S0.
+WARNING - netcheck: no load pins found on signal add_1044_4/S1.
+WARNING - netcheck: no source pins found on signal add_1044_2/CI.
+WARNING - netcheck: no load pins found on signal add_1044_2/S0.
+WARNING - netcheck: no load pins found on signal add_1044_2/S1.
+WARNING - netcheck: no load pins found on signal add_1041_26/CO.
+WARNING - netcheck: no load pins found on signal add_1041_26/S0.
+WARNING - netcheck: no load pins found on signal add_1041_24/S0.
+WARNING - netcheck: no load pins found on signal add_1041_24/S1.
+WARNING - netcheck: no load pins found on signal add_1041_22/S0.
+WARNING - netcheck: no load pins found on signal add_1041_22/S1.
+WARNING - netcheck: no load pins found on signal add_1041_20/S0.
+WARNING - netcheck: no load pins found on signal add_1041_20/S1.
+WARNING - netcheck: no load pins found on signal add_1041_18/S0.
+WARNING - netcheck: no load pins found on signal add_1041_18/S1.
+WARNING - netcheck: no load pins found on signal add_1041_16/S0.
+WARNING - netcheck: no load pins found on signal add_1041_16/S1.
+WARNING - netcheck: no load pins found on signal add_1041_14/S0.
+WARNING - netcheck: no load pins found on signal add_1041_14/S1.
+WARNING - netcheck: no load pins found on signal add_1041_12/S0.
+WARNING - netcheck: no load pins found on signal add_1041_12/S1.
+WARNING - netcheck: no load pins found on signal add_1041_10/S0.
+WARNING - netcheck: no load pins found on signal add_1041_10/S1.
+WARNING - netcheck: no load pins found on signal add_1041_8/S0.
+WARNING - netcheck: no load pins found on signal add_1041_8/S1.
+WARNING - netcheck: no load pins found on signal add_1041_6/S0.
+WARNING - netcheck: no load pins found on signal add_1041_6/S1.
+WARNING - netcheck: no load pins found on signal add_1041_4/S0.
+WARNING - netcheck: no load pins found on signal add_1041_4/S1.
+WARNING - netcheck: no source pins found on signal add_1041_2/CI.
+WARNING - netcheck: no load pins found on signal add_1041_2/S0.
+WARNING - netcheck: no load pins found on signal add_1041_2/S1.
+WARNING - netcheck: no load pins found on signal add_1042_26/CO.
+WARNING - netcheck: no load pins found on signal add_1042_26/S0.
+WARNING - netcheck: no load pins found on signal add_1042_24/S0.
+WARNING - netcheck: no load pins found on signal add_1042_24/S1.
+WARNING - netcheck: no load pins found on signal add_1042_22/S0.
+WARNING - netcheck: no load pins found on signal add_1042_22/S1.
+WARNING - netcheck: no load pins found on signal add_1042_20/S0.
+WARNING - netcheck: no load pins found on signal add_1042_20/S1.
+WARNING - netcheck: no load pins found on signal add_1042_18/S0.
+WARNING - netcheck: no load pins found on signal add_1042_18/S1.
+WARNING - netcheck: no load pins found on signal add_1042_16/S0.
+WARNING - netcheck: no load pins found on signal add_1042_16/S1.
+WARNING - netcheck: no load pins found on signal add_1042_14/S0.
+WARNING - netcheck: no load pins found on signal add_1042_14/S1.
+WARNING - netcheck: no load pins found on signal add_1042_12/S0.
+WARNING - netcheck: no load pins found on signal add_1042_12/S1.
+WARNING - netcheck: no load pins found on signal add_184_23/CO.
+WARNING - netcheck: no load pins found on signal add_184_23/S1.
+WARNING - netcheck: no load pins found on signal add_1042_10/S0.
+WARNING - netcheck: no load pins found on signal add_1042_10/S1.
+WARNING - netcheck: no load pins found on signal add_1042_8/S0.
+WARNING - netcheck: no load pins found on signal add_1042_8/S1.
+WARNING - netcheck: no load pins found on signal add_1042_6/S0.
+WARNING - netcheck: no load pins found on signal add_1042_6/S1.
+WARNING - netcheck: no load pins found on signal add_1042_4/S0.
+WARNING - netcheck: no load pins found on signal add_1042_4/S1.
+DRC detected 0 errors and 128 warnings.
+Reading Preference File from UZ_Rev05_S3C_S3C_171224.prf.
+INFO -  SW_XO3D_SECURITY_ENCRYPTION *NOT* controlled by xo2c00.acd ###
+INFO -  SW_XO3D_SECURITY_ENCRYPTION license_securityIP OK
+
+Preference Summary:
++---------------------------------+---------------------------------+
+|  Preference                     |  Current Setting                |
++---------------------------------+---------------------------------+
+|                         RamCfg  |                        Reset**  |
++---------------------------------+---------------------------------+
+|                     MCCLK_FREQ  |                              7  |
++---------------------------------+---------------------------------+
+|                  CONFIG_SECURE  |                          OFF**  |
++---------------------------------+---------------------------------+
+|                          INBUF  |                           ON**  |
++---------------------------------+---------------------------------+
+|                      JTAG_PORT  |                        DISABLE  |
++---------------------------------+---------------------------------+
+|                       SDM_PORT  |                      DISABLE**  |
++---------------------------------+---------------------------------+
+|                 SLAVE_SPI_PORT  |                         ENABLE  |
++---------------------------------+---------------------------------+
+|                MASTER_SPI_PORT  |                      DISABLE**  |
++---------------------------------+---------------------------------+
+|                       I2C_PORT  |                      DISABLE**  |
++---------------------------------+---------------------------------+
+|        MUX_CONFIGURATION_PORTS  |                      DISABLE**  |
++---------------------------------+---------------------------------+
+|                  CONFIGURATION  |                          CFG**  |
++---------------------------------+---------------------------------+
+|                COMPRESS_CONFIG  |                           ON**  |
++---------------------------------+---------------------------------+
+|                        MY_ASSP  |                          OFF**  |
++---------------------------------+---------------------------------+
+|               ONE_TIME_PROGRAM  |                          OFF**  |
++---------------------------------+---------------------------------+
+|                 ENABLE_TRANSFR  |                      DISABLE**  |
++---------------------------------+---------------------------------+
+|                  SHAREDEBRINIT  |                      DISABLE**  |
++---------------------------------+---------------------------------+
+|            BACKGROUND_RECONFIG  |                          OFF**  |
++---------------------------------+---------------------------------+
+ *  Default setting.
+ ** The specified setting matches the default setting.
+
+
+Creating bit map...
+ 
+Bitstream Status: Final           Version 1.95.
+ 
+Saving bit stream in "UZ_Rev05_S3C_S3C_171224.jed".
+ 
+===========
+UFM Summary.
+===========
+UFM Size:        767 Pages (128*767 Bits).
+UFM Utilization: General Purpose Flash Memory.
+ 
+Available General Purpose Flash Memory:  767 Pages (Page 0 to Page 766).
+Initialized UFM Pages:                     0 Page.
+ 
+=========
+Padding summary
+=========
+Padded 685952 bits for this design
+
+
+Total CPU Time: 0 secs 
+Total REAL Time: 3 secs 
+Peak Memory Usage: 274 MB

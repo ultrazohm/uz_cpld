@@ -25,23 +25,23 @@ Target Vendor:  LATTICE
 Target Device:  LCMXO2-4000HCTQFP144
 Target Performance:   4
 Mapper:  xo2c00,  version:  Diamond (64-bit) 3.13.0.56.2
-Mapped on:  12/12/24  10:47:37
+Mapped on:  12/13/24  12:42:54
 
 
 <A name="mrp_ds"></A><B><U><big>Design Summary</big></U></B>
-   Number of registers:    179 out of  4665 (4%)
-      PFU registers:          179 out of  4320 (4%)
+   Number of registers:    181 out of  4665 (4%)
+      PFU registers:          181 out of  4320 (4%)
       PIO registers:            0 out of   345 (0%)
-   Number of SLICEs:       184 out of  2160 (9%)
-      SLICEs as Logic/ROM:    184 out of  2160 (9%)
+   Number of SLICEs:       192 out of  2160 (9%)
+      SLICEs as Logic/ROM:    192 out of  2160 (9%)
       SLICEs as RAM:            0 out of  1620 (0%)
       SLICEs as Carry:        132 out of  2160 (6%)
-   Number of LUT4s:        364 out of  4320 (8%)
-      Number used as logic LUTs:        100
+   Number of LUT4s:        381 out of  4320 (9%)
+      Number used as logic LUTs:        117
       Number used as distributed RAM:     0
       Number used as ripple logic:      264
       Number used as shift registers:     0
-   Number of PIO sites used: 35 + 1(JTAGENB) out of 115 (31%)
+   Number of PIO sites used: 36 + 1(JTAGENB) out of 115 (32%)
    Number of block RAMs:  0 out of 10 (0%)
    Number of GSRs:        0 out of 1 (0%)
    EFB used :        No
@@ -68,52 +68,53 @@ Mapped on:  12/12/24  10:47:37
      ripple logic.
    Number of clocks:  1
 
-     Net clk: 102 loads, 102 rising, 0 falling (Driver: OSCInst0 )
-   Number of Clock Enables:  20
-     Net clk_enable_44: 17 loads, 17 LSLICEs
+     Net clk: 104 loads, 104 rising, 0 falling (Driver: OSCInst0 )
+   Number of Clock Enables:  22
+     Net clk_enable_136: 17 loads, 17 LSLICEs
      Net clk_enable_65: 11 loads, 11 LSLICEs
      Net clk_enable_96: 17 loads, 17 LSLICEs
+     Net clk_enable_7: 1 loads, 1 LSLICEs
      Net clk_enable_8: 1 loads, 1 LSLICEs
-     Net clk_enable_9: 1 loads, 1 LSLICEs
-     Net clk_enable_98: 1 loads, 1 LSLICEs
-     Net clk_enable_130: 17 loads, 17 LSLICEs
-     Net clk_enable_20: 2 loads, 2 LSLICEs
-     Net clk_enable_21: 1 loads, 1 LSLICEs
-     Net clk_enable_23: 2 loads, 2 LSLICEs
-     Net clk_enable_25: 1 loads, 1 LSLICEs
-     Net Carrier_PG_1V8_N_453: 1 loads, 1 LSLICEs
+     Net clk_enable_12: 1 loads, 1 LSLICEs
+     Net clk_enable_13: 1 loads, 1 LSLICEs
+     Net clk_enable_14: 1 loads, 1 LSLICEs
+     Net clk_enable_132: 17 loads, 17 LSLICEs
+     Net clk_enable_17: 2 loads, 2 LSLICEs
+     Net clk_enable_18: 1 loads, 1 LSLICEs
+     Net Carrier_PG_1V8_N_483: 1 loads, 1 LSLICEs
+     Net clk_enable_100: 1 loads, 1 LSLICEs
+     Net clk_enable_167: 17 loads, 17 LSLICEs
+     Net clk_enable_44: 1 loads, 1 LSLICEs
      Net clk_enable_97: 1 loads, 1 LSLICEs
-     Net clk_enable_165: 17 loads, 17 LSLICEs
-     Net clk_enable_132: 1 loads, 1 LSLICEs
+     Net clk_enable_98: 1 loads, 1 LSLICEs
      Net clk_enable_99: 1 loads, 1 LSLICEs
-     Net clk_enable_133: 1 loads, 1 LSLICEs
+     Net clk_enable_101: 1 loads, 1 LSLICEs
      Net clk_enable_134: 1 loads, 1 LSLICEs
      Net clk_enable_135: 1 loads, 1 LSLICEs
-     Net clk_enable_166: 1 loads, 1 LSLICEs
-   Number of LSRs:  6
-     Net button_inputs_asyn2_3: 18 loads, 18 LSLICEs
-     Net n1753: 11 loads, 11 LSLICEs
-     Net button_inputs_asyn2_0: 18 loads, 18 LSLICEs
-     Net next_state_3: 1 loads, 1 LSLICEs
-     Net button_inputs_asyn2_1: 18 loads, 18 LSLICEs
+     Net clk_enable_137: 1 loads, 1 LSLICEs
+   Number of LSRs:  5
+     Net button_inputs_asyn2_4: 18 loads, 18 LSLICEs
+     Net n1864: 11 loads, 11 LSLICEs
      Net button_inputs_asyn2_2: 18 loads, 18 LSLICEs
+     Net button_inputs_asyn2_1: 18 loads, 18 LSLICEs
+     Net button_inputs_asyn2_3: 18 loads, 18 LSLICEs
    Number of nets driven by tri-state buffers:  0
    Top 10 highest fanout non-clock nets:
-     Net next_state_3: 45 loads
-     Net next_state_1: 44 loads
-     Net next_state_2: 38 loads
-     Net next_state_0: 33 loads
-     Net n1334: 22 loads
-     Net button_inputs_asyn2_0: 19 loads
+     Net next_state_1: 48 loads
+     Net next_state_2: 45 loads
+     Net next_state_0: 41 loads
+     Net next_state_3: 39 loads
+     Net next_state_3_N_328_0: 25 loads
+     Net n1441: 22 loads
+     Net n1470: 22 loads
+     Net n3493: 20 loads
      Net button_inputs_asyn2_1: 19 loads
      Net button_inputs_asyn2_2: 19 loads
-     Net button_inputs_asyn2_3: 19 loads
-     Net next_state_3_N_319_2: 19 loads
 
 
 
 
-   Number of warnings:  24
+   Number of warnings:  21
    Number of errors:    0
      
 
@@ -125,26 +126,18 @@ Mapped on:  12/12/24  10:47:37
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_1
      71224/source/UZ_Rev05_S3C.lpf(9): Semantic error in "IOBUF PORT "FP_UsrSW2"
      IO_TYPE=LVCMOS33 ;": Port "FP_UsrSW2" does not exist in the design. This
-     preference has been disabled.
 
+     preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_1
      71224/source/UZ_Rev05_S3C.lpf(10): Semantic error in "IOBUF PORT
      "PG_Module" IO_TYPE=LVCMOS33 PULLMODE=NONE ;": Port "PG_Module" does not
      exist in the design. This preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_1
-     71224/source/UZ_Rev05_S3C.lpf(69): Semantic error in "IOBUF PORT "PG_VIN"
-     IO_TYPE=LVCMOS33 PULLMODE=NONE ;": Port "PG_VIN" does not exist in the
-     design. This preference has been disabled.
-WARNING - map: C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_1
-     71224/source/UZ_Rev05_S3C.lpf(70): Semantic error in "IOBUF PORT "PPn_VIN"
-     IO_TYPE=LVCMOS33 PULLMODE=NONE ;": Port "PPn_VIN" does not exist in the
-     design. This preference has been disabled.
-WARNING - map: C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_1
-     71224/source/UZ_Rev05_S3C.lpf(74): Semantic error in "IOBUF PORT "SCL"
+     71224/source/UZ_Rev05_S3C.lpf(61): Semantic error in "IOBUF PORT "SCL"
      IO_TYPE=LVCMOS33 ;": Port "SCL" does not exist in the design. This
      preference has been disabled.
 WARNING - map: C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_1
-     71224/source/UZ_Rev05_S3C.lpf(75): Semantic error in "IOBUF PORT "SDA"
+     71224/source/UZ_Rev05_S3C.lpf(62): Semantic error in "IOBUF PORT "SDA"
      IO_TYPE=LVCMOS33 ;": Port "SDA" does not exist in the design. This
      preference has been disabled.
 WARNING - map: input pad net 'SCL' has no legal load.
@@ -153,16 +146,15 @@ WARNING - map: input pad net 'RST_N' has no legal load.
 WARNING - map: input pad net 'FP_UsrSW2' has no legal load.
 WARNING - map: input pad net 'SD0_CD' has no legal load.
 WARNING - map: input pad net 'SD1_CD' has no legal load.
-WARNING - map: input pad net 'DIGS3C_SlotD1_ReqOE' has no legal load.
-WARNING - map: input pad net 'DIGS3C_SlotD2_ReqOE' has no legal load.
-WARNING - map: input pad net 'DIGS3C_SlotD3_ReqOE' has no legal load.
-WARNING - map: input pad net 'DIGS3C_SlotD4_ReqOE' has no legal load.
-WARNING - map: input pad net 'DIGS3C_SlotD5_ReqOE' has no legal load.
-WARNING - map: input pad net 'ANL_S3C_SlotOK1' has no legal load.
-WARNING - map: input pad net 'ANL_S3C_SlotOK2' has no legal load.
-WARNING - map: input pad net 'ANL_S3C_SlotOK3' has no legal load.
+WARNING - map: input pad net 'DIGS3C_SlotD_SlotOK[5]' has no legal load.
+WARNING - map: input pad net 'DIGS3C_SlotD_SlotOK[4]' has no legal load.
+WARNING - map: input pad net 'DIGS3C_SlotD_SlotOK[3]' has no legal load.
+WARNING - map: input pad net 'DIGS3C_SlotD_SlotOK[2]' has no legal load.
+WARNING - map: input pad net 'DIGS3C_SlotD_SlotOK[1]' has no legal load.
+WARNING - map: input pad net 'ANL_S3C_SLOTOK[3]' has no legal load.
+WARNING - map: input pad net 'ANL_S3C_SLOTOK[2]' has no legal load.
+WARNING - map: input pad net 'ANL_S3C_SLOTOK[1]' has no legal load.
 WARNING - map: input pad net 'PG_VIN' has no legal load.
-WARNING - map: input pad net 'PPn_VIN' has no legal load.
 WARNING - map: input pad net 'PG_Module' has no legal load.
 WARNING - map: The JTAG port has been disabled in this project and JTAG pins
      will be configured as General Purpose IO.  You have to use JTAGENB pin in
@@ -180,18 +172,20 @@ WARNING - map: The JTAG port has been disabled in this project and JTAG pins
 +---------------------+-----------+-----------+------------+
 | FP_SysLEDg          | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
+| PPn_VIN             | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
 | FlexMIOs52_PCIe     | INPUT     | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| DIGS3C_SlotD5_SlotOK| INPUT     | LVCMOS18  |            |
+| DIGS3C_SlotD_ReqOE[1]| INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_SlotD_ReqOE[2]| INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_SlotD_ReqOE[3]| INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_SlotD_ReqOE[4]| INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 
-| DIGS3C_SlotD4_SlotOK| INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| DIGS3C_SlotD3_SlotOK| INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| DIGS3C_SlotD2_SlotOK| INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| DIGS3C_SlotD1_SlotOK| INPUT     | LVCMOS18  |            |
+| DIGS3C_SlotD_ReqOE[5]| INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | FP_UsrSW3           | INPUT     | LVCMOS25  |            |
 +---------------------+-----------+-----------+------------+
@@ -203,15 +197,15 @@ WARNING - map: The JTAG port has been disabled in this project and JTAG pins
 +---------------------+-----------+-----------+------------+
 | Carrier_PwrOn       | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| DIGS3C_SlotD5_SlotOE| OUTPUT    | LVCMOS18  |            |
+| DIGS3C_SlotD_SlotOE[1]| OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| DIGS3C_SlotD4_SlotOE| OUTPUT    | LVCMOS18  |            |
+| DIGS3C_SlotD_SlotOE[2]| OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| DIGS3C_SlotD3_SlotOE| OUTPUT    | LVCMOS18  |            |
+| DIGS3C_SlotD_SlotOE[3]| OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| DIGS3C_SlotD2_SlotOE| OUTPUT    | LVCMOS18  |            |
+| DIGS3C_SlotD_SlotOE[4]| OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| DIGS3C_SlotD1_SlotOE| OUTPUT    | LVCMOS18  |            |
+| DIGS3C_SlotD_SlotOE[5]| OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | ANL_S3C_P54_Legacy  | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
@@ -241,13 +235,13 @@ WARNING - map: The JTAG port has been disabled in this project and JTAG pins
 +---------------------+-----------+-----------+------------+
 | FPIO_isoCtrlRSTn    | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-
 | FPIO_FlexMIO52      | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | Carrier_PG_3V3      | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | FP_SysLEDb          | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
+
 | FP_SysLEDr          | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 
@@ -257,11 +251,11 @@ WARNING - map: The JTAG port has been disabled in this project and JTAG pins
 
 Block i2 undriven or does not drive anything - clipped.
 Block GSR_INST undriven or does not drive anything - clipped.
-Signal n1761 was merged into signal Carrier_PG_1V8_N_444
-Signal n2940 was merged into signal next_state_2
+Signal n3512 was merged into signal next_state_2
+Signal n1872 was merged into signal Carrier_PG_1V8_N_472
 Signal VCC_net undriven or does not drive anything - clipped.
-Block i388_1_lut was optimized away.
-Block i51_3_lut_4_lut_4_lut_then_1_lut was optimized away.
+Block i30_4_lut_4_lut_then_1_lut was optimized away.
+Block i425_1_lut was optimized away.
 
      
 
@@ -290,8 +284,14 @@ Instance Name: OSCInst0
 
    Total CPU Time: 0 secs  
    Total REAL Time: 0 secs  
-   Peak Memory Usage: 53 MB
+   Peak Memory Usage: 54 MB
         
+
+
+
+
+
+
 
 
 

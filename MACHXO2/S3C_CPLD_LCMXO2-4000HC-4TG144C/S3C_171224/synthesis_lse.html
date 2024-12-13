@@ -14,7 +14,7 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
-Thu Dec 12 10:47:35 2024
+Fri Dec 13 12:42:52 2024
 
 
 Command Line:  synthesis -f UZ_Rev05_S3C_S3C_171224_lattice.synproj -gui -msgset C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/promote.xml 
@@ -88,13 +88,13 @@ Compile Design Begin
 INFO - synthesis: The default VHDL library search path is now "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_171224". VHDL-1504
 Analyzing VHDL file c:/cpld/cpld_lattice/machxo2/s3c_cpld_lcmxo2-4000hc-4tg144c/s3c_171224/source/power_on_debounce.vhd. VHDL-1481
 INFO - synthesis: c:/cpld/cpld_lattice/machxo2/s3c_cpld_lcmxo2-4000hc-4tg144c/s3c_171224/source/power_on_debounce.vhd(7): analyzing entity waiting_for_powerbutton_pressed_v0. VHDL-1012
-INFO - synthesis: c:/cpld/cpld_lattice/machxo2/s3c_cpld_lcmxo2-4000hc-4tg144c/s3c_171224/source/power_on_debounce.vhd(86): analyzing architecture behavior. VHDL-1010
+INFO - synthesis: c:/cpld/cpld_lattice/machxo2/s3c_cpld_lcmxo2-4000hc-4tg144c/s3c_171224/source/power_on_debounce.vhd(67): analyzing architecture behavior. VHDL-1010
 unit Waiting_for_Powerbutton_pressed_V0 is not yet analyzed. VHDL-1485
 unit Waiting_for_Powerbutton_pressed_V0 is not yet analyzed. VHDL-1485
 c:/cpld/cpld_lattice/machxo2/s3c_cpld_lcmxo2-4000hc-4tg144c/s3c_171224/source/power_on_debounce.vhd(7): executing Waiting_for_Powerbutton_pressed_V0(behavior)
 
-INFO - synthesis: c:/cpld/cpld_lattice/machxo2/s3c_cpld_lcmxo2-4000hc-4tg144c/s3c_171224/source/power_on_debounce.vhd(324): others clause is never selected. VHDL-1172
-WARNING - synthesis: c:/cpld/cpld_lattice/machxo2/s3c_cpld_lcmxo2-4000hc-4tg144c/s3c_171224/source/power_on_debounce.vhd(84): replacing existing netlist Waiting_for_Powerbutton_pressed_V0(behavior). VHDL-1205
+INFO - synthesis: c:/cpld/cpld_lattice/machxo2/s3c_cpld_lcmxo2-4000hc-4tg144c/s3c_171224/source/power_on_debounce.vhd(308): others clause is never selected. VHDL-1172
+WARNING - synthesis: c:/cpld/cpld_lattice/machxo2/s3c_cpld_lcmxo2-4000hc-4tg144c/s3c_171224/source/power_on_debounce.vhd(65): replacing existing netlist Waiting_for_Powerbutton_pressed_V0(behavior). VHDL-1205
 Top module name (VHDL): Waiting_for_Powerbutton_pressed_V0
 Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/xo2c00a/data/xo2alib.ngl'...
 Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/xo2c00/data/xo2clib.ngl'...
@@ -103,7 +103,7 @@ Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/or5g00/data/orc5glib.ngl'...
 Loading device for application map from file 'xo2c4000.nph' in environment: C:/lscc/diamond/3.13/ispfpga.
 Package Status:                     Final          Version 1.44.
 Top-level module name = Waiting_for_Powerbutton_pressed_V0.
-WARNING - synthesis: Initial value found on net n949 will be ignored due to unrecognized driver type
+WARNING - synthesis: Initial value found on net n1039 will be ignored due to unrecognized driver type
 WARNING - synthesis: Initial value found on net Carrier_PG_1V8 will be ignored due to unrecognized driver type
 ######## Converting I/O port SCL to input.
 ######## Converting I/O port SDA to input.
@@ -113,35 +113,22 @@ WARNING - synthesis: I/O Port FP_UsrSW2 's net has no driver and is unused.
 WARNING - synthesis: I/O Port SD0_CD 's net has no driver and is unused.
 WARNING - synthesis: I/O Port SD1_CD 's net has no driver and is unused.
 WARNING - synthesis: I/O Port DIGS3C_Shared_CarrierReady 's net has no driver and is unused.
-WARNING - synthesis: I/O Port DIGS3C_Shared_ReqSafeState 's net has no driver and is unused.
-WARNING - synthesis: I/O Port DIGS3C_SlotD1_ReqOE 's net has no driver and is unused.
-WARNING - synthesis: I/O Port DIGS3C_SlotD2_ReqOE 's net has no driver and is unused.
-WARNING - synthesis: I/O Port DIGS3C_SlotD3_ReqOE 's net has no driver and is unused.
-WARNING - synthesis: I/O Port DIGS3C_SlotD4_ReqOE 's net has no driver and is unused.
-WARNING - synthesis: I/O Port DIGS3C_SlotD5_ReqOE 's net has no driver and is unused.
+WARNING - synthesis: I/O Port DIGS3C_SlotD_SlotOK[5] 's net has no driver and is unused.
+WARNING - synthesis: I/O Port DIGS3C_SlotD_SlotOK[4] 's net has no driver and is unused.
+WARNING - synthesis: I/O Port DIGS3C_SlotD_SlotOK[3] 's net has no driver and is unused.
+WARNING - synthesis: I/O Port DIGS3C_SlotD_SlotOK[2] 's net has no driver and is unused.
+WARNING - synthesis: I/O Port DIGS3C_SlotD_SlotOK[1] 's net has no driver and is unused.
 WARNING - synthesis: I/O Port FlexMIOs52_PCIe 's net has no driver and is unused.
-WARNING - synthesis: I/O Port ANL_S3C_SlotOK1 's net has no driver and is unused.
-WARNING - synthesis: I/O Port ANL_S3C_SlotOK2 's net has no driver and is unused.
-WARNING - synthesis: I/O Port ANL_S3C_SlotOK3 's net has no driver and is unused.
+WARNING - synthesis: I/O Port ANL_S3C_SLOTOK[3] 's net has no driver and is unused.
+WARNING - synthesis: I/O Port ANL_S3C_SLOTOK[2] 's net has no driver and is unused.
+WARNING - synthesis: I/O Port ANL_S3C_SLOTOK[1] 's net has no driver and is unused.
 WARNING - synthesis: I/O Port ANL_S3C_CarrierReady 's net has no driver and is unused.
 WARNING - synthesis: I/O Port ANL_S3C_P54_Legacy 's net has no driver and is unused.
-WARNING - synthesis: I/O Port DIGS3C_SlotD1_SlotOE 's net has no driver and is unused.
-WARNING - synthesis: I/O Port DIGS3C_SlotD2_SlotOE 's net has no driver and is unused.
-WARNING - synthesis: I/O Port DIGS3C_SlotD3_SlotOE 's net has no driver and is unused.
-WARNING - synthesis: I/O Port DIGS3C_SlotD4_SlotOE 's net has no driver and is unused.
-WARNING - synthesis: I/O Port DIGS3C_SlotD5_SlotOE 's net has no driver and is unused.
 WARNING - synthesis: I/O Port PG_VIN 's net has no driver and is unused.
-WARNING - synthesis: I/O Port PPn_VIN 's net has no driver and is unused.
 WARNING - synthesis: I/O Port PG_Module 's net has no driver and is unused.
 ######## Missing driver on net DIGS3C_Shared_CarrierReady. Patching with GND.
-######## Missing driver on net DIGS3C_Shared_ReqSafeState. Patching with GND.
 ######## Missing driver on net ANL_S3C_CarrierReady. Patching with GND.
 ######## Missing driver on net ANL_S3C_P54_Legacy. Patching with GND.
-######## Missing driver on net DIGS3C_SlotD1_SlotOE. Patching with GND.
-######## Missing driver on net DIGS3C_SlotD2_SlotOE. Patching with GND.
-######## Missing driver on net DIGS3C_SlotD3_SlotOE. Patching with GND.
-######## Missing driver on net DIGS3C_SlotD4_SlotOE. Patching with GND.
-######## Missing driver on net DIGS3C_SlotD5_SlotOE. Patching with GND.
 
 
 
@@ -152,17 +139,16 @@ WARNING - synthesis: I/O Port FPIO_FlexMIO52 's net has no driver and is unused.
 WARNING - synthesis: I/O Port FP_UsrSW2 's net has no driver and is unused.
 WARNING - synthesis: I/O Port SD0_CD 's net has no driver and is unused.
 WARNING - synthesis: I/O Port SD1_CD 's net has no driver and is unused.
-WARNING - synthesis: I/O Port DIGS3C_SlotD1_ReqOE 's net has no driver and is unused.
-WARNING - synthesis: I/O Port DIGS3C_SlotD2_ReqOE 's net has no driver and is unused.
-WARNING - synthesis: I/O Port DIGS3C_SlotD3_ReqOE 's net has no driver and is unused.
-WARNING - synthesis: I/O Port DIGS3C_SlotD4_ReqOE 's net has no driver and is unused.
-WARNING - synthesis: I/O Port DIGS3C_SlotD5_ReqOE 's net has no driver and is unused.
+WARNING - synthesis: I/O Port DIGS3C_SlotD_SlotOK[5] 's net has no driver and is unused.
+WARNING - synthesis: I/O Port DIGS3C_SlotD_SlotOK[4] 's net has no driver and is unused.
+WARNING - synthesis: I/O Port DIGS3C_SlotD_SlotOK[3] 's net has no driver and is unused.
+WARNING - synthesis: I/O Port DIGS3C_SlotD_SlotOK[2] 's net has no driver and is unused.
+WARNING - synthesis: I/O Port DIGS3C_SlotD_SlotOK[1] 's net has no driver and is unused.
 WARNING - synthesis: I/O Port FlexMIOs52_PCIe 's net has no driver and is unused.
-WARNING - synthesis: I/O Port ANL_S3C_SlotOK1 's net has no driver and is unused.
-WARNING - synthesis: I/O Port ANL_S3C_SlotOK2 's net has no driver and is unused.
-WARNING - synthesis: I/O Port ANL_S3C_SlotOK3 's net has no driver and is unused.
+WARNING - synthesis: I/O Port ANL_S3C_SLOTOK[3] 's net has no driver and is unused.
+WARNING - synthesis: I/O Port ANL_S3C_SLOTOK[2] 's net has no driver and is unused.
+WARNING - synthesis: I/O Port ANL_S3C_SLOTOK[1] 's net has no driver and is unused.
 WARNING - synthesis: I/O Port PG_VIN 's net has no driver and is unused.
-WARNING - synthesis: I/O Port PPn_VIN 's net has no driver and is unused.
 WARNING - synthesis: I/O Port PG_Module 's net has no driver and is unused.
 GSR will not be inferred because no asynchronous signal was found in the netlist.
 Applying 200.000000 MHz constraint to all clocks
@@ -185,45 +171,44 @@ WARNING - synthesis: logical net 'SD0_CD' has no load.
 WARNING - synthesis: input pad net 'SD0_CD' has no legal load.
 WARNING - synthesis: logical net 'SD1_CD' has no load.
 WARNING - synthesis: input pad net 'SD1_CD' has no legal load.
-WARNING - synthesis: logical net 'DIGS3C_SlotD1_ReqOE' has no load.
-WARNING - synthesis: input pad net 'DIGS3C_SlotD1_ReqOE' has no legal load.
-WARNING - synthesis: logical net 'DIGS3C_SlotD2_ReqOE' has no load.
-WARNING - synthesis: input pad net 'DIGS3C_SlotD2_ReqOE' has no legal load.
-WARNING - synthesis: logical net 'DIGS3C_SlotD3_ReqOE' has no load.
-WARNING - synthesis: input pad net 'DIGS3C_SlotD3_ReqOE' has no legal load.
-WARNING - synthesis: logical net 'DIGS3C_SlotD4_ReqOE' has no load.
-WARNING - synthesis: input pad net 'DIGS3C_SlotD4_ReqOE' has no legal load.
-WARNING - synthesis: logical net 'DIGS3C_SlotD5_ReqOE' has no load.
-WARNING - synthesis: input pad net 'DIGS3C_SlotD5_ReqOE' has no legal load.
-WARNING - synthesis: logical net 'ANL_S3C_SlotOK1' has no load.
-WARNING - synthesis: input pad net 'ANL_S3C_SlotOK1' has no legal load.
-WARNING - synthesis: logical net 'ANL_S3C_SlotOK2' has no load.
-WARNING - synthesis: input pad net 'ANL_S3C_SlotOK2' has no legal load.
-WARNING - synthesis: logical net 'ANL_S3C_SlotOK3' has no load.
-WARNING - synthesis: input pad net 'ANL_S3C_SlotOK3' has no legal load.
+WARNING - synthesis: logical net 'DIGS3C_SlotD_SlotOK[5]' has no load.
+WARNING - synthesis: input pad net 'DIGS3C_SlotD_SlotOK[5]' has no legal load.
+WARNING - synthesis: logical net 'DIGS3C_SlotD_SlotOK[4]' has no load.
+WARNING - synthesis: input pad net 'DIGS3C_SlotD_SlotOK[4]' has no legal load.
+WARNING - synthesis: logical net 'DIGS3C_SlotD_SlotOK[3]' has no load.
+WARNING - synthesis: input pad net 'DIGS3C_SlotD_SlotOK[3]' has no legal load.
+WARNING - synthesis: logical net 'DIGS3C_SlotD_SlotOK[2]' has no load.
+WARNING - synthesis: input pad net 'DIGS3C_SlotD_SlotOK[2]' has no legal load.
+WARNING - synthesis: logical net 'DIGS3C_SlotD_SlotOK[1]' has no load.
+WARNING - synthesis: input pad net 'DIGS3C_SlotD_SlotOK[1]' has no legal load.
+WARNING - synthesis: logical net 'ANL_S3C_SLOTOK[3]' has no load.
+WARNING - synthesis: input pad net 'ANL_S3C_SLOTOK[3]' has no legal load.
+WARNING - synthesis: logical net 'ANL_S3C_SLOTOK[2]' has no load.
+WARNING - synthesis: input pad net 'ANL_S3C_SLOTOK[2]' has no legal load.
+WARNING - synthesis: logical net 'ANL_S3C_SLOTOK[1]' has no load.
+WARNING - synthesis: input pad net 'ANL_S3C_SLOTOK[1]' has no legal load.
 WARNING - synthesis: logical net 'PG_VIN' has no load.
 WARNING - synthesis: input pad net 'PG_VIN' has no legal load.
-WARNING - synthesis: logical net 'PPn_VIN' has no load.
-WARNING - synthesis: input pad net 'PPn_VIN' has no legal load.
 WARNING - synthesis: logical net 'PG_Module' has no load.
 WARNING - synthesis: input pad net 'PG_Module' has no legal load.
-WARNING - synthesis: DRC complete with 34 warnings.
+WARNING - synthesis: DRC complete with 32 warnings.
 All blocks are expanded and NGD expansion is successful.
 Writing NGD file UZ_Rev05_S3C_S3C_171224.ngd.
 
 ################### Begin Area Report (Waiting_for_Powerbutton_pressed_V0)######################
-Number of register bits => 179 of 4665 (3 % )
+Number of register bits => 181 of 4665 (3 % )
 CCU2D => 132
-FD1P3AX => 12
-FD1P3IX => 155
+FD1P3AX => 14
+FD1P3IX => 154
+FD1S3AX => 1
 FD1S3AY => 12
 GSR => 1
-IB => 10
-LUT4 => 97
+IB => 11
+LUT4 => 114
 OB => 24
 OBZ => 1
 OSCH => 1
-PFUMX => 11
+PFUMX => 10
 ################### End Area Report ##################
 
 ################### Begin BlackBox Report ######################
@@ -233,32 +218,32 @@ TSALL => 1
 ################### Begin Clock Report ######################
 Clock Nets
 Number of Clocks: 1
-  Net : clk, loads : 179
+  Net : clk, loads : 181
 Clock Enable Nets
-Number of Clock Enables: 20
+Number of Clock Enables: 22
 Top 10 highest fanout Clock Enables:
+  Net : clk_enable_132, loads : 32
   Net : clk_enable_96, loads : 32
-  Net : clk_enable_165, loads : 32
-  Net : clk_enable_130, loads : 32
-  Net : clk_enable_44, loads : 32
+  Net : clk_enable_136, loads : 32
+  Net : clk_enable_167, loads : 32
   Net : clk_enable_65, loads : 22
-  Net : clk_enable_20, loads : 2
+  Net : clk_enable_17, loads : 2
+  Net : clk_enable_7, loads : 2
+  Net : clk_enable_98, loads : 2
+  Net : clk_enable_100, loads : 2
   Net : clk_enable_99, loads : 2
-  Net : clk_enable_23, loads : 2
-  Net : clk_enable_97, loads : 2
-  Net : clk_enable_8, loads : 2
 Highest fanout non-clock nets
 Top 10 highest fanout non-clock nets:
-  Net : next_state_3, loads : 45
-  Net : next_state_1, loads : 44
-  Net : next_state_2, loads : 38
+  Net : next_state_1, loads : 48
+  Net : next_state_2, loads : 45
+  Net : next_state_0, loads : 41
+  Net : next_state_3, loads : 39
+  Net : button_inputs_asyn2_4, loads : 34
   Net : button_inputs_asyn2_3, loads : 34
   Net : button_inputs_asyn2_2, loads : 34
   Net : button_inputs_asyn2_1, loads : 34
-  Net : button_inputs_asyn2_0, loads : 34
-  Net : next_state_0, loads : 33
-  Net : clk_enable_44, loads : 32
-  Net : clk_enable_165, loads : 32
+  Net : clk_enable_136, loads : 32
+  Net : clk_enable_167, loads : 32
 ################### End Clock Report ##################
 
 <A name="lse_trs"></A><B><U><big>Timing Report Summary</big></U></B>
@@ -268,7 +253,7 @@ Constraint                              |   Constraint|       Actual|Levels
 --------------------------------------------------------------------------------
                                         |             |             |
 create_clock -period 5.000000 -name     |             |             |
-clk0 [get_nets clk]                     |  200.000 MHz|   69.166 MHz|     9 *
+clk0 [get_nets clk]                     |  200.000 MHz|   71.715 MHz|     8 *
                                         |             |             |
 --------------------------------------------------------------------------------
 
@@ -276,10 +261,10 @@ clk0 [get_nets clk]                     |  200.000 MHz|   69.166 MHz|     9 *
 1 constraints not met.
 
 
-Peak Memory Usage: 81.738  MB
+Peak Memory Usage: 83.336  MB
 
 --------------------------------------------------------------
-Elapsed CPU time for LSE flow : 0.172  secs
+Elapsed CPU time for LSE flow : 0.438  secs
 --------------------------------------------------------------
 
 

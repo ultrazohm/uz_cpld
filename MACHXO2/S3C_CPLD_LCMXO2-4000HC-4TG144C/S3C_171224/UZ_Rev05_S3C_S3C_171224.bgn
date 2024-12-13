@@ -4,7 +4,7 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
-Thu Dec 12 10:47:50 2024
+Fri Dec 13 12:43:11 2024
 
 
 Command: bitgen -g RamCfg:Reset -path C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C -w -jedec -gui -msgset C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/promote.xml UZ_Rev05_S3C_S3C_171224.ncd UZ_Rev05_S3C_S3C_171224.prf 
@@ -21,134 +21,134 @@ Package Status:                     Final          Version 1.44.
 Performance Hardware Data Status:   Final          Version 34.4.
 
 Running DRC.
-WARNING - netcheck: no source pins found on signal add_1042_2/CI.
-WARNING - netcheck: no load pins found on signal add_1042_2/S0.
-WARNING - netcheck: no load pins found on signal add_1042_2/S1.
-WARNING - netcheck: no load pins found on signal add_1043_26/CO.
-WARNING - netcheck: no load pins found on signal add_1043_26/S0.
-WARNING - netcheck: no load pins found on signal add_1043_24/S0.
-WARNING - netcheck: no load pins found on signal add_1043_24/S1.
-WARNING - netcheck: no source pins found on signal add_13_1/CI.
-WARNING - netcheck: no load pins found on signal add_13_1/S0.
-WARNING - netcheck: no source pins found on signal add_184_1/CI.
-WARNING - netcheck: no load pins found on signal add_184_1/S0.
-WARNING - netcheck: no load pins found on signal add_40_33/CO.
-WARNING - netcheck: no load pins found on signal add_40_33/S1.
-WARNING - netcheck: no load pins found on signal add_1043_22/S0.
-WARNING - netcheck: no load pins found on signal add_1043_22/S1.
-WARNING - netcheck: no load pins found on signal add_1043_20/S0.
-WARNING - netcheck: no load pins found on signal add_1043_20/S1.
-WARNING - netcheck: no load pins found on signal add_1043_18/S0.
-WARNING - netcheck: no load pins found on signal add_1043_18/S1.
-WARNING - netcheck: no load pins found on signal add_1043_16/S0.
-WARNING - netcheck: no load pins found on signal add_1043_16/S1.
-WARNING - netcheck: no load pins found on signal add_1043_14/S0.
-WARNING - netcheck: no load pins found on signal add_1043_14/S1.
-WARNING - netcheck: no load pins found on signal add_1043_12/S0.
-WARNING - netcheck: no load pins found on signal add_1043_12/S1.
-WARNING - netcheck: no source pins found on signal add_22_1/CI.
-WARNING - netcheck: no load pins found on signal add_22_1/S0.
-WARNING - netcheck: no load pins found on signal add_13_33/CO.
-WARNING - netcheck: no load pins found on signal add_13_33/S1.
-WARNING - netcheck: no load pins found on signal add_1043_10/S0.
-WARNING - netcheck: no load pins found on signal add_1043_10/S1.
-WARNING - netcheck: no source pins found on signal add_31_1/CI.
-WARNING - netcheck: no load pins found on signal add_31_1/S0.
-WARNING - netcheck: no load pins found on signal add_22_33/CO.
-WARNING - netcheck: no load pins found on signal add_22_33/S1.
-WARNING - netcheck: no load pins found on signal add_1043_8/S0.
-WARNING - netcheck: no load pins found on signal add_1043_8/S1.
-WARNING - netcheck: no load pins found on signal add_1043_6/S0.
-WARNING - netcheck: no load pins found on signal add_1043_6/S1.
-WARNING - netcheck: no load pins found on signal add_1043_4/S0.
-WARNING - netcheck: no load pins found on signal add_1043_4/S1.
-WARNING - netcheck: no source pins found on signal add_1043_2/CI.
-WARNING - netcheck: no load pins found on signal add_1043_2/S0.
-WARNING - netcheck: no load pins found on signal add_1043_2/S1.
-WARNING - netcheck: no load pins found on signal add_1044_26/CO.
-WARNING - netcheck: no load pins found on signal add_1044_26/S0.
-WARNING - netcheck: no load pins found on signal add_1044_24/S0.
-WARNING - netcheck: no load pins found on signal add_1044_24/S1.
-WARNING - netcheck: no load pins found on signal add_1044_22/S0.
-WARNING - netcheck: no load pins found on signal add_1044_22/S1.
-WARNING - netcheck: no load pins found on signal add_1044_20/S0.
-WARNING - netcheck: no load pins found on signal add_1044_20/S1.
-WARNING - netcheck: no load pins found on signal add_1044_18/S0.
-WARNING - netcheck: no load pins found on signal add_1044_18/S1.
-WARNING - netcheck: no load pins found on signal add_1044_16/S0.
-WARNING - netcheck: no load pins found on signal add_1044_16/S1.
-WARNING - netcheck: no load pins found on signal add_1044_14/S0.
-WARNING - netcheck: no load pins found on signal add_1044_14/S1.
-WARNING - netcheck: no source pins found on signal add_40_1/CI.
-WARNING - netcheck: no load pins found on signal add_40_1/S0.
-WARNING - netcheck: no load pins found on signal add_31_33/CO.
-WARNING - netcheck: no load pins found on signal add_31_33/S1.
-WARNING - netcheck: no load pins found on signal add_1044_12/S0.
-WARNING - netcheck: no load pins found on signal add_1044_12/S1.
-WARNING - netcheck: no load pins found on signal add_1044_10/S0.
-WARNING - netcheck: no load pins found on signal add_1044_10/S1.
-WARNING - netcheck: no load pins found on signal add_1044_8/S0.
-WARNING - netcheck: no load pins found on signal add_1044_8/S1.
-WARNING - netcheck: no load pins found on signal add_1044_6/S0.
-WARNING - netcheck: no load pins found on signal add_1044_6/S1.
-WARNING - netcheck: no load pins found on signal add_1044_4/S0.
-WARNING - netcheck: no load pins found on signal add_1044_4/S1.
-WARNING - netcheck: no source pins found on signal add_1044_2/CI.
-WARNING - netcheck: no load pins found on signal add_1044_2/S0.
-WARNING - netcheck: no load pins found on signal add_1044_2/S1.
-WARNING - netcheck: no load pins found on signal add_1041_26/CO.
-WARNING - netcheck: no load pins found on signal add_1041_26/S0.
-WARNING - netcheck: no load pins found on signal add_1041_24/S0.
-WARNING - netcheck: no load pins found on signal add_1041_24/S1.
-WARNING - netcheck: no load pins found on signal add_1041_22/S0.
-WARNING - netcheck: no load pins found on signal add_1041_22/S1.
-WARNING - netcheck: no load pins found on signal add_1041_20/S0.
-WARNING - netcheck: no load pins found on signal add_1041_20/S1.
-WARNING - netcheck: no load pins found on signal add_1041_18/S0.
-WARNING - netcheck: no load pins found on signal add_1041_18/S1.
-WARNING - netcheck: no load pins found on signal add_1041_16/S0.
-WARNING - netcheck: no load pins found on signal add_1041_16/S1.
-WARNING - netcheck: no load pins found on signal add_1041_14/S0.
-WARNING - netcheck: no load pins found on signal add_1041_14/S1.
-WARNING - netcheck: no load pins found on signal add_1041_12/S0.
-WARNING - netcheck: no load pins found on signal add_1041_12/S1.
-WARNING - netcheck: no load pins found on signal add_1041_10/S0.
-WARNING - netcheck: no load pins found on signal add_1041_10/S1.
-WARNING - netcheck: no load pins found on signal add_1041_8/S0.
-WARNING - netcheck: no load pins found on signal add_1041_8/S1.
-WARNING - netcheck: no load pins found on signal add_1041_6/S0.
-WARNING - netcheck: no load pins found on signal add_1041_6/S1.
-WARNING - netcheck: no load pins found on signal add_1041_4/S0.
-WARNING - netcheck: no load pins found on signal add_1041_4/S1.
-WARNING - netcheck: no source pins found on signal add_1041_2/CI.
-WARNING - netcheck: no load pins found on signal add_1041_2/S0.
-WARNING - netcheck: no load pins found on signal add_1041_2/S1.
-WARNING - netcheck: no load pins found on signal add_1042_26/CO.
-WARNING - netcheck: no load pins found on signal add_1042_26/S0.
-WARNING - netcheck: no load pins found on signal add_1042_24/S0.
-WARNING - netcheck: no load pins found on signal add_1042_24/S1.
-WARNING - netcheck: no load pins found on signal add_1042_22/S0.
-WARNING - netcheck: no load pins found on signal add_1042_22/S1.
-WARNING - netcheck: no load pins found on signal add_1042_20/S0.
-WARNING - netcheck: no load pins found on signal add_1042_20/S1.
-WARNING - netcheck: no load pins found on signal add_1042_18/S0.
-WARNING - netcheck: no load pins found on signal add_1042_18/S1.
-WARNING - netcheck: no load pins found on signal add_1042_16/S0.
-WARNING - netcheck: no load pins found on signal add_1042_16/S1.
-WARNING - netcheck: no load pins found on signal add_1042_14/S0.
-WARNING - netcheck: no load pins found on signal add_1042_14/S1.
-WARNING - netcheck: no load pins found on signal add_1042_12/S0.
-WARNING - netcheck: no load pins found on signal add_1042_12/S1.
-WARNING - netcheck: no load pins found on signal add_184_23/CO.
-WARNING - netcheck: no load pins found on signal add_184_23/S1.
-WARNING - netcheck: no load pins found on signal add_1042_10/S0.
-WARNING - netcheck: no load pins found on signal add_1042_10/S1.
-WARNING - netcheck: no load pins found on signal add_1042_8/S0.
-WARNING - netcheck: no load pins found on signal add_1042_8/S1.
-WARNING - netcheck: no load pins found on signal add_1042_6/S0.
-WARNING - netcheck: no load pins found on signal add_1042_6/S1.
-WARNING - netcheck: no load pins found on signal add_1042_4/S0.
-WARNING - netcheck: no load pins found on signal add_1042_4/S1.
+WARNING - netcheck: no load pins found on signal add_1472_4/S0.
+WARNING - netcheck: no load pins found on signal add_1472_4/S1.
+WARNING - netcheck: no source pins found on signal add_1472_2/CI.
+WARNING - netcheck: no load pins found on signal add_1472_2/S0.
+WARNING - netcheck: no load pins found on signal add_1472_2/S1.
+WARNING - netcheck: no load pins found on signal add_1473_26/CO.
+WARNING - netcheck: no load pins found on signal add_1473_26/S0.
+WARNING - netcheck: no load pins found on signal add_1473_24/S0.
+WARNING - netcheck: no load pins found on signal add_1473_24/S1.
+WARNING - netcheck: no source pins found on signal add_11_1/CI.
+WARNING - netcheck: no load pins found on signal add_11_1/S0.
+WARNING - netcheck: no load pins found on signal add_1473_22/S0.
+WARNING - netcheck: no load pins found on signal add_1473_22/S1.
+WARNING - netcheck: no load pins found on signal add_1473_20/S0.
+WARNING - netcheck: no load pins found on signal add_1473_20/S1.
+WARNING - netcheck: no load pins found on signal add_1473_18/S0.
+WARNING - netcheck: no load pins found on signal add_1473_18/S1.
+WARNING - netcheck: no load pins found on signal add_1473_16/S0.
+WARNING - netcheck: no load pins found on signal add_1473_16/S1.
+WARNING - netcheck: no load pins found on signal add_1473_14/S0.
+WARNING - netcheck: no load pins found on signal add_1473_14/S1.
+WARNING - netcheck: no load pins found on signal add_1473_12/S0.
+WARNING - netcheck: no load pins found on signal add_1473_12/S1.
+WARNING - netcheck: no source pins found on signal add_202_1/CI.
+WARNING - netcheck: no load pins found on signal add_202_1/S0.
+WARNING - netcheck: no load pins found on signal add_1473_10/S0.
+WARNING - netcheck: no load pins found on signal add_1473_10/S1.
+WARNING - netcheck: no load pins found on signal add_1473_8/S0.
+WARNING - netcheck: no load pins found on signal add_1473_8/S1.
+WARNING - netcheck: no load pins found on signal add_1473_6/S0.
+WARNING - netcheck: no load pins found on signal add_1473_6/S1.
+WARNING - netcheck: no load pins found on signal add_38_33/CO.
+WARNING - netcheck: no load pins found on signal add_38_33/S1.
+WARNING - netcheck: no load pins found on signal add_1473_4/S0.
+WARNING - netcheck: no load pins found on signal add_1473_4/S1.
+WARNING - netcheck: no source pins found on signal add_1473_2/CI.
+WARNING - netcheck: no load pins found on signal add_1473_2/S0.
+WARNING - netcheck: no load pins found on signal add_1473_2/S1.
+WARNING - netcheck: no load pins found on signal add_1470_26/CO.
+WARNING - netcheck: no load pins found on signal add_1470_26/S0.
+WARNING - netcheck: no source pins found on signal add_20_1/CI.
+WARNING - netcheck: no load pins found on signal add_20_1/S0.
+WARNING - netcheck: no source pins found on signal add_29_1/CI.
+WARNING - netcheck: no load pins found on signal add_29_1/S0.
+WARNING - netcheck: no load pins found on signal add_1470_24/S0.
+WARNING - netcheck: no load pins found on signal add_1470_24/S1.
+WARNING - netcheck: no load pins found on signal add_11_33/CO.
+WARNING - netcheck: no load pins found on signal add_11_33/S1.
+WARNING - netcheck: no load pins found on signal add_1470_22/S0.
+WARNING - netcheck: no load pins found on signal add_1470_22/S1.
+WARNING - netcheck: no load pins found on signal add_20_33/CO.
+WARNING - netcheck: no load pins found on signal add_20_33/S1.
+WARNING - netcheck: no load pins found on signal add_1470_20/S0.
+WARNING - netcheck: no load pins found on signal add_1470_20/S1.
+WARNING - netcheck: no load pins found on signal add_1470_18/S0.
+WARNING - netcheck: no load pins found on signal add_1470_18/S1.
+WARNING - netcheck: no load pins found on signal add_1470_16/S0.
+WARNING - netcheck: no load pins found on signal add_1470_16/S1.
+WARNING - netcheck: no load pins found on signal add_1470_14/S0.
+WARNING - netcheck: no load pins found on signal add_1470_14/S1.
+WARNING - netcheck: no load pins found on signal add_1470_12/S0.
+WARNING - netcheck: no load pins found on signal add_1470_12/S1.
+WARNING - netcheck: no load pins found on signal add_1470_10/S0.
+WARNING - netcheck: no load pins found on signal add_1470_10/S1.
+WARNING - netcheck: no load pins found on signal add_1470_8/S0.
+WARNING - netcheck: no load pins found on signal add_1470_8/S1.
+WARNING - netcheck: no load pins found on signal add_1470_6/S0.
+WARNING - netcheck: no load pins found on signal add_1470_6/S1.
+WARNING - netcheck: no load pins found on signal add_1470_4/S0.
+WARNING - netcheck: no load pins found on signal add_1470_4/S1.
+WARNING - netcheck: no source pins found on signal add_1470_2/CI.
+WARNING - netcheck: no load pins found on signal add_1470_2/S0.
+WARNING - netcheck: no load pins found on signal add_1470_2/S1.
+WARNING - netcheck: no load pins found on signal add_1471_26/CO.
+WARNING - netcheck: no load pins found on signal add_1471_26/S0.
+WARNING - netcheck: no load pins found on signal add_1471_24/S0.
+WARNING - netcheck: no load pins found on signal add_1471_24/S1.
+WARNING - netcheck: no load pins found on signal add_1471_22/S0.
+WARNING - netcheck: no load pins found on signal add_1471_22/S1.
+WARNING - netcheck: no load pins found on signal add_1471_20/S0.
+WARNING - netcheck: no load pins found on signal add_1471_20/S1.
+WARNING - netcheck: no load pins found on signal add_1471_18/S0.
+WARNING - netcheck: no load pins found on signal add_1471_18/S1.
+WARNING - netcheck: no load pins found on signal add_1471_16/S0.
+WARNING - netcheck: no load pins found on signal add_1471_16/S1.
+WARNING - netcheck: no load pins found on signal add_1472_26/CO.
+WARNING - netcheck: no load pins found on signal add_1472_26/S0.
+WARNING - netcheck: no load pins found on signal add_1472_24/S0.
+WARNING - netcheck: no load pins found on signal add_1472_24/S1.
+WARNING - netcheck: no load pins found on signal add_1472_22/S0.
+WARNING - netcheck: no load pins found on signal add_1472_22/S1.
+WARNING - netcheck: no load pins found on signal add_1472_20/S0.
+WARNING - netcheck: no load pins found on signal add_1472_20/S1.
+WARNING - netcheck: no load pins found on signal add_1471_14/S0.
+WARNING - netcheck: no load pins found on signal add_1471_14/S1.
+WARNING - netcheck: no load pins found on signal add_1471_12/S0.
+WARNING - netcheck: no load pins found on signal add_1471_12/S1.
+WARNING - netcheck: no load pins found on signal add_1471_10/S0.
+WARNING - netcheck: no load pins found on signal add_1471_10/S1.
+WARNING - netcheck: no load pins found on signal add_1471_8/S0.
+WARNING - netcheck: no load pins found on signal add_1471_8/S1.
+WARNING - netcheck: no load pins found on signal add_1472_18/S0.
+WARNING - netcheck: no load pins found on signal add_1472_18/S1.
+WARNING - netcheck: no source pins found on signal add_38_1/CI.
+WARNING - netcheck: no load pins found on signal add_38_1/S0.
+WARNING - netcheck: no load pins found on signal add_1471_6/S0.
+WARNING - netcheck: no load pins found on signal add_1471_6/S1.
+WARNING - netcheck: no load pins found on signal add_1472_16/S0.
+WARNING - netcheck: no load pins found on signal add_1472_16/S1.
+WARNING - netcheck: no load pins found on signal add_1472_14/S0.
+WARNING - netcheck: no load pins found on signal add_1472_14/S1.
+WARNING - netcheck: no load pins found on signal add_29_33/CO.
+WARNING - netcheck: no load pins found on signal add_29_33/S1.
+WARNING - netcheck: no load pins found on signal add_1471_4/S0.
+WARNING - netcheck: no load pins found on signal add_1471_4/S1.
+WARNING - netcheck: no load pins found on signal add_1472_12/S0.
+WARNING - netcheck: no load pins found on signal add_1472_12/S1.
+WARNING - netcheck: no source pins found on signal add_1471_2/CI.
+WARNING - netcheck: no load pins found on signal add_1471_2/S0.
+WARNING - netcheck: no load pins found on signal add_1471_2/S1.
+WARNING - netcheck: no load pins found on signal add_1472_10/S0.
+WARNING - netcheck: no load pins found on signal add_1472_10/S1.
+WARNING - netcheck: no load pins found on signal add_1472_8/S0.
+WARNING - netcheck: no load pins found on signal add_1472_8/S1.
+WARNING - netcheck: no load pins found on signal add_202_23/CO.
+WARNING - netcheck: no load pins found on signal add_202_23/S1.
+WARNING - netcheck: no load pins found on signal add_1472_6/S0.
+WARNING - netcheck: no load pins found on signal add_1472_6/S1.
 DRC detected 0 errors and 128 warnings.
 Reading Preference File from UZ_Rev05_S3C_S3C_171224.prf.
 INFO -  SW_XO3D_SECURITY_ENCRYPTION *NOT* controlled by xo2c00.acd ###
@@ -214,9 +214,9 @@ Initialized UFM Pages:                     0 Page.
 =========
 Padding summary
 =========
-Padded 685952 bits for this design
+Padded 684672 bits for this design
 
 
 Total CPU Time: 0 secs 
-Total REAL Time: 3 secs 
+Total REAL Time: 5 secs 
 Peak Memory Usage: 274 MB

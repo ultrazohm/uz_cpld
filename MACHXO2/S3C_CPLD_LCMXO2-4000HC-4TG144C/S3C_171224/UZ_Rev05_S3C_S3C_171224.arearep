@@ -1,18 +1,19 @@
 ----------------------------------------------------------------------
 Report for cell Waiting_for_Powerbutton_pressed_V0.TECH
-Register bits:  179 of 4665 (3.837%)
-I/O cells:      35
+Register bits:  181 of 4665 (3.880%)
+I/O cells:      36
                                   Cell usage:
                                cell     count   Res Usage(%)
                               CCU2D       132          100.0
-                            FD1P3AX        12          100.0
-                            FD1P3IX       155          100.0
+                            FD1P3AX        14          100.0
+                            FD1P3IX       154          100.0
+                            FD1S3AX         1          100.0
                             FD1S3AY        12          100.0
                                 GSR         1          100.0
-                                 IB        10          100.0
-                               LUT4        97          100.0
+                                 IB        11          100.0
+                               LUT4       114          100.0
                                  OB        24          100.0
                                 OBZ         1          100.0
                                OSCH         1          100.0
-                              PFUMX        11          100.0
-                              TOTAL       456
+                              PFUMX        10          100.0
+                              TOTAL       475

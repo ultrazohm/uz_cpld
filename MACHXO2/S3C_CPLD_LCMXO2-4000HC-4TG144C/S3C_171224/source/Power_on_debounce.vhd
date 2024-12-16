@@ -12,11 +12,11 @@ entity Waiting_for_Powerbutton_pressed_V0 is
 		FP_SysLEDg		: out STD_LOGIC; -- led green Power, pin 141
 		FP_SysLEDr		: out STD_LOGIC; -- led red Power, pin 142
 		FP_SysLEDb		: out STD_LOGIC;  --led blue Power, pin 143		
-		FlexI05 : out STD_LOGIC; --drive 0
-		FlexI04 : in STD_LOGIC; -- pulldown
-		FlexI03 : in STD_LOGIC;-- pulldown
-		FlexI02 : out STD_LOGIC;--drive 0
-		FlexI01 : out STD_LOGIC;--drive 0
+		FlexIO05 : out STD_LOGIC; --drive 0
+		FlexIO04 : in STD_LOGIC; -- pulldown
+		FlexIO03 : in STD_LOGIC;-- pulldown
+		FlexIO02 : out STD_LOGIC;--drive 0
+		FlexIO01 : out STD_LOGIC;--drive 0
 		FP_UsrSW1		:		in  STD_LOGIC; 	-- button Enable System, pin 128
 		FP_UsrSW2		:		in  STD_LOGIC; 	-- button SW2 Enable Control, pin 127
 		--i2c
@@ -42,10 +42,11 @@ entity Waiting_for_Powerbutton_pressed_V0 is
 		SD0_CD			: in STD_LOGIC;  -- pin 100
 		SPI_S3C_nCS_USR : in STD_LOGIC;
 		--vector
-		FP_UsrLED4		: out STD_LOGIC; -- led 4 user, pin 98
-		FP_UsrLED3		: out STD_LOGIC; -- led 3 error, pin 97
-		FP_UsrLED2		: out STD_LOGIC; -- led 2 running, pin 96
-		FP_UsrLED1		: out STD_LOGIC; -- led 1 ready, pin 95
+		FP_UsrLED 		: out STD_LOGIC_VECTOR (4 downto 1);
+		--FP_UsrLED4		: out STD_LOGIC; -- led 4 user, pin 98
+		--FP_UsrLED3		: out STD_LOGIC; -- led 3 error, pin 97
+		--FP_UsrLED2		: out STD_LOGIC; -- led 2 running, pin 96
+		--FP_UsrLED1		: out STD_LOGIC; -- led 1 ready, pin 95
 		DIGS3C_Shared_CarrierReady : out STD_LOGIC;  -- pin 94
 		DIGS3C_Shared_ReqSafeState : out STD_LOGIC;  -- pin 93
 		DIGS3C_SlotD_ReqOE : in STD_LOGIC_VECTOR (5 downto 1); -- pin 92,89,86,84,82
@@ -56,8 +57,7 @@ entity Waiting_for_Powerbutton_pressed_V0 is
 		DIG5S3C25	: inout STD_LOGIC; --bidir,Z
 		DIG5S3C24	: inout STD_LOGIC; --bidir,Z
 		SD_SEL		: out STD_LOGIC := '0'; -- signal, that is driven to 0, pin 41
-		S3C_SPI_SCLK: in STD_LOGIC;
-		S3C_SPI_MISO: out STD_LOGIC;
+		-- S3C_SPI_MISO: out STD_LOGIC; --n.a yet
 		-- Flex MIos
 		FlexMIOs52_PCIe	: in  STD_LOGIC; -- routing through to FrontpanelIO.FlexMIO52_PCIe-R¯S¯T¯, inversion in PS pin 47
 		FlexMIOs53_GPIO_PowerDown:out  STD_LOGIC; -- gpio perform SoM Shutdown, pin 48
@@ -78,8 +78,6 @@ entity Waiting_for_Powerbutton_pressed_V0 is
 		FlexMIOs34	: inout STD_LOGIC; --bidir,Z
 		FlexMIOs33	: inout STD_LOGIC; --bidir,Z
 		FlexMIOs32	: inout STD_LOGIC; --bidir,Z		
-		S3C_SPI_MOSI: in STD_LOGIC;
-		S3C_SPI_nCS_SYS:in STD_LOGIC;
 		--- Bank 3, 1.8V
 		DIG5S3C03	: inout STD_LOGIC; --bidir,Z
 		DIG5S3C04	: inout STD_LOGIC; --bidir,Z
@@ -171,7 +169,19 @@ begin
 	SEDSTDBY => open
 	);
 --Dummy
-dummy_signal <= TDnALERT AND TDnFFnFS AND TDnSHDN AND PG_VIN;
+dummy_signal <= TDnALERT AND TDnFFnFS AND TDnSHDN AND PG_VIN and ANL_S3C_P54_Legacy AND ANL_S3C_SLOTOK(1) AND ANL_S3C_SLOTOK(2) AND ANL_S3C_SLOTOK(3)  
+AND DIGS3C_SlotD_SlotOK(1) AND DIGS3C_SlotD_SlotOK(2) AND DIGS3C_SlotD_SlotOK(3) AND DIGS3C_SlotD_SlotOK(4) AND DIGS3C_SlotD_SlotOK(5)
+AND DIG5S3C00 AND DIG5S3C01 AND DIG5S3C02 AND DIG5S3C03 AND DIG5S3C04 AND DIG5S3C05
+AND DIG5S3C24 AND DIG5S3C25 AND DIG5S3C26 AND DIG5S3C27 AND DIG5S3C28 AND DIG5S3C29
+AND FPIO_FlexMIO27 AND FPIO_FlexMIO28 AND FPIO_FlexMIO29 AND FPIO_FlexMIO30
+AND FPIO_iosCtrlINTn AND FP_UsrSW2 AND FlexIO03 and FlexIO04
+AND FLexLIO(0) AND FLexLIO(1) AND FLexLIO(2) AND FLexLIO(3) AND FLexLIO(4) AND FLexLIO(5)
+AND FlexMIOs26 AND FlexMIOs27 AND FlexMIOs28 AND FlexMIOs29 AND FlexMIOs30 AND FlexMIOs31
+AND FlexMIOs32 AND FlexMIOs33 AND FlexMIOs34 AND FlexMIOs35 AND FlexMIOs36 AND FlexMIOs37
+AND FlexMIOs45 AND FlexMIOs54 AND FlexMIOs62 AND FlexMIOs63 AND PG_Module 
+AND S3C_S1 AND S3CsI2C_SCL AND S3CsI2C_SDA
+AND SCL AND SD0_CD AND SD1_CD AND SDA AND SPI_S3C_nCS_USR;
+
 --Passive inputs
 
 -- Ports default+ routing through

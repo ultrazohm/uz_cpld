@@ -11,7 +11,6 @@ entity Waiting_for_Powerbutton_pressed_V0 is
 		--i2c
 		SCL      : inout std_logic; -- PIN 126, CLK
 		SDA      : inout std_logic; -- PIN 125, DATA
-		RST_N    : in std_logic; -- RST; stop Taster PIN 122
 		--- Bank 0, 3.3V
 		FP_SysLEDg		: out STD_LOGIC; -- LED grün Power, PIN 141
 		FP_SysLEDr		: out STD_LOGIC; -- LED rot Power, PIN 142
@@ -59,7 +58,10 @@ entity Waiting_for_Powerbutton_pressed_V0 is
         Carrier_PwrOn 	: out STD_LOGIC;   	-- PIN 1
 		PG_VIN			: in STD_LOGIC;		-- PIN 2
 		PPn_VIN			: in STD_LOGIC;		-- PIN 3
-		PG_Module 		: in STD_LOGIC		-- PIN 9
+		PG_Module 		: in STD_LOGIC;		-- PIN 9
+		TDnSHDN			: in STD_LOGIC;		-- PIN 4
+		TDnFFnFS		: inout STD_LOGIC;	-- PIN 5
+		TDnALERT 		: in STD_LOGIC		-- PIN 6
     );
 	
 end Waiting_for_Powerbutton_pressed_V0;
@@ -71,7 +73,7 @@ architecture behavior of Waiting_for_Powerbutton_pressed_V0 is
 	signal reset_triggered : boolean := false; -- Flag, um zu tracken, dass resetn auf '0' gesetzt wurde
 
     -- Definition der Zustände der State Machine
-    type state_type is (Waiting_for_Powerbutton_pressed,Waiting_for_Powerbutton_released,Wait_State, EthernetPhy_Reset,Waiting_for_Powerbutton_pressed_2sec , Ready_State, Warning, Error, sleep_for_dslot_down,Waiting_for_Powerbutton_released2 );
+    type state_type is (Waiting_for_Powerbutton_pressed,Waiting_for_Powerbutton_released,Wait_State, EthernetPhy_Reset,Waiting_for_Powerbutton_pressed_2sec , Ready_State, Warning, Harderror,Softerror, sleep_for_dslot_down,Waiting_for_Powerbutton_released2 );
     signal next_state : state_type:= Waiting_for_Powerbutton_pressed;
 	
     -- Entprell-Zeitkonstante
@@ -91,7 +93,7 @@ architecture behavior of Waiting_for_Powerbutton_pressed_V0 is
 	-- internen oszillator definieren
 	COMPONENT OSCH
 	-- synthesis translate_off
-	GENERIC (NOM_FREQ: string := "7");
+	GENERIC (NOM_FREQ: string := "2.08");
 	-- synthesis translate_on
 	PORT (
 		STDBY	:	IN	std_logic;
@@ -99,9 +101,14 @@ architecture behavior of Waiting_for_Powerbutton_pressed_V0 is
 		SEDSTDBY:	OUT	std_logic);
 	END COMPONENT;
 	attribute NOM_FREQ 	: string;
-	attribute NOM_FREQ of OSCinst0 : label is "7";
+	attribute NOM_FREQ of OSCinst0 : label is "2.08";
 	attribute HGROUP 	: string;
-
+	signal dummy_signal : std_logic;
+	attribute syn_keep : boolean;
+	attribute noclip   : string;
+	attribute noclip of dummy_signal  : signal is "on";
+	attribute syn_keep of dummy_signal : signal is true;
+	
 begin
 	OSCInst0: OSCH
 	-- synthesis translate_off
@@ -111,7 +118,8 @@ begin
 	OSC => clk,
 	SEDSTDBY => open
 	);
-
+--Dummy
+dummy_signal <= TDnALERT AND TDnFFnFS AND TDnSHDN AND PG_VIN;
 -- Ports default setzen + durchrouten
 SD_SEL <= '0';
 FPIO_FlexMIO52 <= FlexMIOs52_PCIe;
@@ -162,10 +170,7 @@ process(clk)
         end if;
 end process;
 
-FP_UsrLED1 <= buttons_debounced_syn(1);
-FP_UsrLED2 <= forceoutputdisable;
-FP_UsrLED3 <= buttons_debounced_syn(3);
-FP_UsrLED4 <= buttons_debounced_syn(4);
+
 -- State machine
 process(clk)
     begin
@@ -238,10 +243,10 @@ process(clk)
 				FP_SysLEDg <= '1';
 				FP_SysLEDs <= '1';
                 -- wenn externer Stop gedrückt dann in Shutdown springen
-                if buttons_debounced_syn(2) = '0' then  -- Externer STOP-Taster gedrückt
-                    next_state <= Error;
+                --if buttons_debounced_syn(2) = '0' then  -- Externer STOP-Taster gedrückt
+                --    next_state <= Harderror;
 				-- TODO auf 1s auf den Powertaster drücken erweitern
-                elsif buttons_debounced_syn(1) = '0' then  -- Power Taster gedrückt
+                if buttons_debounced_syn(1) = '0' then  -- Power Taster gedrückt
 					counter <= 4160000;
 					next_state <= Waiting_for_Powerbutton_pressed_2sec ;
 				end if;
@@ -254,7 +259,18 @@ process(clk)
 				FP_SysLEDs <= '0';
                 -- Von Warning geht es direkt in Waiting_for_Powerbutton_released2 
  --               next_state <= Waiting_for_Powerbutton_released2 ;
-            when Error =>
+            when Harderror =>
+				--Request safe state to dslots
+				forceoutputdisable <= NOT PPn_VIN; 
+				DIGS3C_Shared_ReqSafeState <= '1';
+				FP_SysLEDr <= '1';	
+				FP_SysLEDb <= '1';	
+				FP_SysLEDg <= '1';
+				FP_SysLEDs <= '0';	
+				Carrier_PwrOn <= '0';  -- Alle Rails aus, nur Systemcpld lebt
+				Carrier_PG_3V3 <= '0';
+				FPIO_isoCtrlRSTn <= '0'; -- Reset IsoIO einschalten
+			when Softerror =>
 				--Request safe state to dslots
 				forceoutputdisable <= NOT PPn_VIN; 
 				DIGS3C_Shared_ReqSafeState <= '1';

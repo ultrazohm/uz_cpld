@@ -3,8 +3,8 @@ Report for cell Waiting_for_Powerbutton_pressed_V0
    Instance path: Waiting_for_Powerbutton_pressed_V0
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	     192.00        100.0
-                                  LUT4	     117.00        100.0
-                                 IOBUF	         36        100.0
-                                PFUREG	        181        100.0
-                                RIPPLE	        132        100.0
+                                  SLIC	      93.00        100.0
+                                  LUT4	     102.00        100.0
+                                 IOBUF	         40        100.0
+                                PFUREG	         73        100.0
+                                RIPPLE	         42        100.0

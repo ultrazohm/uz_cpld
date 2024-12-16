@@ -4,7 +4,7 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
-Fri Dec 13 12:42:55 2024
+Mon Dec 16 07:28:23 2024
 
 C:/lscc/diamond/3.13/ispfpga\bin\nt64\par -f UZ_Rev05_S3C_S3C_171224.p2t
 UZ_Rev05_S3C_S3C_171224_map.ncd UZ_Rev05_S3C_S3C_171224.dir
@@ -17,18 +17,18 @@ Preference file: UZ_Rev05_S3C_S3C_171224.prf.
 Level/       Number       Worst        Timing       Worst        Timing       Run          NCD
 Cost [ncd]   Unrouted     Slack        Score        Slack(hold)  Score(hold)  Time         Status
 ----------   --------     -----        ------       -----------  -----------  ----         ------
-5_1   *      0            130.531      0            0.304        0            11           Completed
+5_1   *      0            465.692      0            0.304        0            06           Completed
 
 * : Design saved.
 
-Total (real) run time for 1-seed: 11 secs 
+Total (real) run time for 1-seed: 6 secs 
 
 par done!
 
 Note: user must run 'Trace' for timing closure signoff.
 
 Lattice Place and Route Report for Design "UZ_Rev05_S3C_S3C_171224_map.ncd"
-Fri Dec 13 12:42:55 2024
+Mon Dec 16 07:28:23 2024
 
 PAR: Place And Route Diamond (64-bit) 3.13.0.56.2.
 Command Line: par -w -l 5 -i 6 -t 1 -c 0 -e 0 -gui -msgset C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/promote.xml -exp parUseNBR=1:parCDP=0:parCDR=0:parPathBased=OFF:parASE=1 UZ_Rev05_S3C_S3C_171224_map.ncd UZ_Rev05_S3C_S3C_171224.dir/5_1.ncd UZ_Rev05_S3C_S3C_171224.prf
@@ -52,50 +52,46 @@ License checked out.
 Ignore Preference Error(s):  True
 Device utilization summary:
 
-   PIO (prelim)   36+1(JTAGENB)/280 13% used
-                  36+1(JTAGENB)/115 32% bonded
+   PIO (prelim)   40+1(JTAGENB)/280 15% used
+                  40+1(JTAGENB)/115 36% bonded
 
-   SLICE            192/2160          8% used
+   SLICE             93/2160          4% used
 
    OSC                1/1           100% used
 
 
-Number of Signals: 706
-Number of Connections: 1255
+Number of Signals: 307
+Number of Connections: 690
 WARNING - par: The JTAG Port has been disabled in this project, and JTAG pins will be configured as General Purpose IO. You must use JTAGENB pin in hardware to change the personality of the port from JTAG pins to general purpose IO. This mux control pin is dedicated to the selection of JTAG pins for GPIO use by the user design.  Refer to the MachXO2 Handbook for details on dual-function JTAG ports.
 WARNING - par: The SN pin is not available for use as a general purpose I/O pin when the SLAVE_SPI_PORT attribute is enabled.  The SN pin should be tied high with an external pull-up if you are not using the Slave SPI port for configuration.
 
 Pin Constraint Summary:
-   36 out of 36 pins locked (100% locked).
+   40 out of 40 pins locked (100% locked).
 
 The following 1 signal is selected to use the primary clock routing resources:
-    clk (driver: OSCInst0, clk load #: 104)
+    clk (driver: OSCInst0, clk load #: 46)
 
 
-The following 8 signals are selected to use the secondary clock routing resources:
-    button_inputs_asyn2_4 (driver: SLICE_148, clk load #: 0, sr load #: 18, ce load #: 0)
-    button_inputs_asyn2_2 (driver: SLICE_183, clk load #: 0, sr load #: 18, ce load #: 0)
-    button_inputs_asyn2_1 (driver: SLICE_183, clk load #: 0, sr load #: 18, ce load #: 0)
-    button_inputs_asyn2_3 (driver: SLICE_148, clk load #: 0, sr load #: 18, ce load #: 0)
-    clk_enable_136 (driver: SLICE_168, clk load #: 0, sr load #: 0, ce load #: 17)
-    clk_enable_96 (driver: SLICE_149, clk load #: 0, sr load #: 0, ce load #: 17)
-    clk_enable_132 (driver: SLICE_169, clk load #: 0, sr load #: 0, ce load #: 17)
-    clk_enable_167 (driver: SLICE_166, clk load #: 0, sr load #: 0, ce load #: 17)
+The following 4 signals are selected to use the secondary clock routing resources:
+    button_inputs_asyn2_1 (driver: SLICE_53, clk load #: 0, sr load #: 18, ce load #: 0)
+    clk_enable_63 (driver: SLICE_53, clk load #: 0, sr load #: 0, ce load #: 17)
+    clk_enable_65 (driver: SLICE_86, clk load #: 0, sr load #: 0, ce load #: 11)
+    n1843 (driver: SLICE_89, clk load #: 0, sr load #: 11, ce load #: 0)
 
 No signal is selected as Global Set/Reset.
 Starting Placer Phase 0.
-...........
-Finished Placer Phase 0.  REAL time: 0 secs 
+..........
+Finished Placer Phase 0.  REAL time: 2 secs 
 
 Starting Placer Phase 1.
-...................
-Placer score = 54925.
-Finished Placer Phase 1.  REAL time: 5 secs 
+....................
+Placer score = 42409.
+Finished Placer Phase 1.  REAL time: 4 secs 
 
 Starting Placer Phase 2.
 .
-Placer score =  54554
-Finished Placer Phase 2.  REAL time: 5 secs 
+Placer score =  42317
+Finished Placer Phase 2.  REAL time: 4 secs 
 
 
 ------------------ Clock Report ------------------
@@ -107,18 +103,14 @@ Global Clock Resources:
   DCC        : 0 out of 8 (0%)
 
 Global Clocks:
-  PRIMARY "clk" from OSC on comp "OSCInst0" on site "OSC", clk load = 104
-  SECONDARY "button_inputs_asyn2_4" from Q1 on comp "SLICE_148" on site "R12C17C", clk load = 0, ce load = 0, sr load = 18
-  SECONDARY "button_inputs_asyn2_2" from Q1 on comp "SLICE_183" on site "R12C17A", clk load = 0, ce load = 0, sr load = 18
-  SECONDARY "button_inputs_asyn2_1" from Q0 on comp "SLICE_183" on site "R12C17A", clk load = 0, ce load = 0, sr load = 18
-  SECONDARY "button_inputs_asyn2_3" from Q0 on comp "SLICE_148" on site "R12C17C", clk load = 0, ce load = 0, sr load = 18
-  SECONDARY "clk_enable_136" from F1 on comp "SLICE_168" on site "R12C15D", clk load = 0, ce load = 17, sr load = 0
-  SECONDARY "clk_enable_96" from F1 on comp "SLICE_149" on site "R12C17D", clk load = 0, ce load = 17, sr load = 0
-  SECONDARY "clk_enable_132" from F1 on comp "SLICE_169" on site "R12C15B", clk load = 0, ce load = 17, sr load = 0
-  SECONDARY "clk_enable_167" from F1 on comp "SLICE_166" on site "R12C15C", clk load = 0, ce load = 17, sr load = 0
+  PRIMARY "clk" from OSC on comp "OSCInst0" on site "OSC", clk load = 46
+  SECONDARY "button_inputs_asyn2_1" from Q0 on comp "SLICE_53" on site "R12C15A", clk load = 0, ce load = 0, sr load = 18
+  SECONDARY "clk_enable_63" from F1 on comp "SLICE_53" on site "R12C15A", clk load = 0, ce load = 17, sr load = 0
+  SECONDARY "clk_enable_65" from F0 on comp "SLICE_86" on site "R12C15B", clk load = 0, ce load = 11, sr load = 0
+  SECONDARY "n1843" from F0 on comp "SLICE_89" on site "R12C15C", clk load = 0, ce load = 0, sr load = 11
 
   PRIMARY  : 1 out of 8 (12%)
-  SECONDARY: 8 out of 8 (100%)
+  SECONDARY: 4 out of 8 (50%)
 
 Edge Clocks:
   No edge clock selected.
@@ -127,9 +119,9 @@ Edge Clocks:
 
 
 I/O Usage Summary (final):
-   36 + 1(JTAGENB) out of 280 (13.2%) PIO sites used.
-   36 + 1(JTAGENB) out of 115 (32.2%) bonded PIO sites used.
-   Number of PIO comps: 36; differential: 0.
+   40 + 1(JTAGENB) out of 280 (14.6%) PIO sites used.
+   40 + 1(JTAGENB) out of 115 (35.7%) bonded PIO sites used.
+   Number of PIO comps: 40; differential: 0.
    Number of Vref pins used: 0.
 
 I/O Bank Usage Summary:
@@ -141,19 +133,19 @@ I/O Bank Usage Summary:
 | 2        | 4 / 29 ( 13%)  | 1.8V       | -         |
 | 3        | 0 / 9 (  0%)   | 1.8V       | -         |
 | 4        | 7 / 10 ( 70%)  | 3.3V       | -         |
-| 5        | 2 / 10 ( 20%)  | 3.3V       | -         |
+| 5        | 6 / 10 ( 60%)  | 3.3V       | -         |
 +----------+----------------+------------+-----------+
 
-Total placer CPU time: 1 secs 
+Total placer CPU time: 0 secs 
 
 Dumping design to file UZ_Rev05_S3C_S3C_171224.dir/5_1.ncd.
 
-0 connections routed; 1246 unrouted.
+0 connections routed; 687 unrouted.
 Starting router resource preassignment
 
-Completed router resource preassignment. Real time: 7 secs 
+Completed router resource preassignment. Real time: 5 secs 
 
-Start NBR router at 12:43:03 12/13/24
+Start NBR router at 07:28:28 12/16/24
 
 *****************************************************************
 Info: NBR allows conflicts(one node used by more than one signal)
@@ -168,38 +160,35 @@ Note: NBR uses a different method to calculate timing slacks. The
       your design.                                               
 *****************************************************************
 
-Start NBR special constraint process at 12:43:03 12/13/24
+Start NBR special constraint process at 07:28:28 12/16/24
 
-Start NBR section for initial routing at 12:43:03 12/13/24
+Start NBR section for initial routing at 07:28:28 12/16/24
 Level 4, iteration 1
-13(0.01%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
-Estimated worst slack/total negative slack<setup>: 130.953ns/0.000ns; real time: 8 secs 
+6(0.00%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack<setup>: 465.692ns/0.000ns; real time: 5 secs 
 
 Info: Initial congestion level at 75% usage is 0
 Info: Initial congestion area  at 75% usage is 0 (0.00%)
 
-Start NBR section for normal routing at 12:43:03 12/13/24
+Start NBR section for normal routing at 07:28:28 12/16/24
 Level 4, iteration 1
-4(0.00%) conflicts; 0(0.00%) untouched conn; 0 (nbr) score; 
-Estimated worst slack/total negative slack<setup>: 130.531ns/0.000ns; real time: 9 secs 
+1(0.00%) conflict; 0(0.00%) untouched conn; 0 (nbr) score; 
+Estimated worst slack/total negative slack<setup>: 465.692ns/0.000ns; real time: 5 secs 
 Level 4, iteration 2
 1(0.00%) conflict; 0(0.00%) untouched conn; 0 (nbr) score; 
-Estimated worst slack/total negative slack<setup>: 130.531ns/0.000ns; real time: 9 secs 
+Estimated worst slack/total negative slack<setup>: 465.692ns/0.000ns; real time: 5 secs 
 Level 4, iteration 3
-1(0.00%) conflict; 0(0.00%) untouched conn; 0 (nbr) score; 
-Estimated worst slack/total negative slack<setup>: 130.531ns/0.000ns; real time: 9 secs 
-Level 4, iteration 4
 0(0.00%) conflict; 0(0.00%) untouched conn; 0 (nbr) score; 
-Estimated worst slack/total negative slack<setup>: 130.531ns/0.000ns; real time: 9 secs 
+Estimated worst slack/total negative slack<setup>: 465.692ns/0.000ns; real time: 5 secs 
 
-Start NBR section for setup/hold timing optimization with effort level 3 at 12:43:04 12/13/24
+Start NBR section for setup/hold timing optimization with effort level 3 at 07:28:28 12/16/24
 
-Start NBR section for re-routing at 12:43:04 12/13/24
+Start NBR section for re-routing at 07:28:29 12/16/24
 Level 4, iteration 1
 0(0.00%) conflict; 0(0.00%) untouched conn; 0 (nbr) score; 
-Estimated worst slack/total negative slack<setup>: 130.531ns/0.000ns; real time: 9 secs 
+Estimated worst slack/total negative slack<setup>: 465.692ns/0.000ns; real time: 6 secs 
 
-Start NBR section for post-routing at 12:43:04 12/13/24
+Start NBR section for post-routing at 07:28:29 12/16/24
 
 End NBR router with 0 unrouted connection
 
@@ -207,145 +196,55 @@ NBR Summary
 -----------
   Number of unrouted connections : 0 (0.00%)
   Number of connections with timing violations : 0 (0.00%)
-  Estimated worst slack<setup> : 130.531ns
+  Estimated worst slack<setup> : 465.692ns
   Timing score<setup> : 0
 -----------
 Notes: The timing info is calculated for SETUP only and all PAR_ADJs are ignored.
 
 
 
-Total CPU time 2 secs 
-Total REAL time: 11 secs 
+Total CPU time 0 secs 
+Total REAL time: 6 secs 
 Completely routed.
-End of route.  1246 routed (100.00%); 0 unrouted.
-Signal named: add_1472_4/S0 has no loads so was not routed.
-Signal named: add_1472_4/S1 has no loads so was not routed.
-Signal named: add_1472_2/CI has no driver so was not routed.
-Signal named: add_1472_2/S0 has no loads so was not routed.
-Signal named: add_1472_2/S1 has no loads so was not routed.
-Signal named: add_1473_26/CO has no loads so was not routed.
-Signal named: add_1473_26/S0 has no loads so was not routed.
-Signal named: add_1473_24/S0 has no loads so was not routed.
-Signal named: add_1473_24/S1 has no loads so was not routed.
-Signal named: add_11_1/CI has no driver so was not routed.
-Signal named: add_11_1/S0 has no loads so was not routed.
-Signal named: add_1473_22/S0 has no loads so was not routed.
-Signal named: add_1473_22/S1 has no loads so was not routed.
-Signal named: add_1473_20/S0 has no loads so was not routed.
-Signal named: add_1473_20/S1 has no loads so was not routed.
-Signal named: add_1473_18/S0 has no loads so was not routed.
-Signal named: add_1473_18/S1 has no loads so was not routed.
-Signal named: add_1473_16/S0 has no loads so was not routed.
-Signal named: add_1473_16/S1 has no loads so was not routed.
-Signal named: add_1473_14/S0 has no loads so was not routed.
-Signal named: add_1473_14/S1 has no loads so was not routed.
-Signal named: add_1473_12/S0 has no loads so was not routed.
-Signal named: add_1473_12/S1 has no loads so was not routed.
-Signal named: add_202_1/CI has no driver so was not routed.
-Signal named: add_202_1/S0 has no loads so was not routed.
-Signal named: add_1473_10/S0 has no loads so was not routed.
-Signal named: add_1473_10/S1 has no loads so was not routed.
-Signal named: add_1473_8/S0 has no loads so was not routed.
-Signal named: add_1473_8/S1 has no loads so was not routed.
-Signal named: add_1473_6/S0 has no loads so was not routed.
-Signal named: add_1473_6/S1 has no loads so was not routed.
-Signal named: add_38_33/CO has no loads so was not routed.
-Signal named: add_38_33/S1 has no loads so was not routed.
-Signal named: add_1473_4/S0 has no loads so was not routed.
-Signal named: add_1473_4/S1 has no loads so was not routed.
-Signal named: add_1473_2/CI has no driver so was not routed.
-Signal named: add_1473_2/S0 has no loads so was not routed.
-Signal named: add_1473_2/S1 has no loads so was not routed.
-Signal named: add_1470_26/CO has no loads so was not routed.
-Signal named: add_1470_26/S0 has no loads so was not routed.
-Signal named: add_20_1/CI has no driver so was not routed.
-Signal named: add_20_1/S0 has no loads so was not routed.
-Signal named: add_29_1/CI has no driver so was not routed.
-Signal named: add_29_1/S0 has no loads so was not routed.
-Signal named: add_1470_24/S0 has no loads so was not routed.
-Signal named: add_1470_24/S1 has no loads so was not routed.
-Signal named: add_11_33/CO has no loads so was not routed.
-Signal named: add_11_33/S1 has no loads so was not routed.
-Signal named: add_1470_22/S0 has no loads so was not routed.
-Signal named: add_1470_22/S1 has no loads so was not routed.
-Signal named: add_20_33/CO has no loads so was not routed.
-Signal named: add_20_33/S1 has no loads so was not routed.
-Signal named: add_1470_20/S0 has no loads so was not routed.
-Signal named: add_1470_20/S1 has no loads so was not routed.
-Signal named: add_1470_18/S0 has no loads so was not routed.
-Signal named: add_1470_18/S1 has no loads so was not routed.
-Signal named: add_1470_16/S0 has no loads so was not routed.
-Signal named: add_1470_16/S1 has no loads so was not routed.
-Signal named: add_1470_14/S0 has no loads so was not routed.
-Signal named: add_1470_14/S1 has no loads so was not routed.
-Signal named: add_1470_12/S0 has no loads so was not routed.
-Signal named: add_1470_12/S1 has no loads so was not routed.
-Signal named: add_1470_10/S0 has no loads so was not routed.
-Signal named: add_1470_10/S1 has no loads so was not routed.
-Signal named: add_1470_8/S0 has no loads so was not routed.
-Signal named: add_1470_8/S1 has no loads so was not routed.
-Signal named: add_1470_6/S0 has no loads so was not routed.
-Signal named: add_1470_6/S1 has no loads so was not routed.
-Signal named: add_1470_4/S0 has no loads so was not routed.
-Signal named: add_1470_4/S1 has no loads so was not routed.
-Signal named: add_1470_2/CI has no driver so was not routed.
-Signal named: add_1470_2/S0 has no loads so was not routed.
-Signal named: add_1470_2/S1 has no loads so was not routed.
-Signal named: add_1471_26/CO has no loads so was not routed.
-Signal named: add_1471_26/S0 has no loads so was not routed.
-Signal named: add_1471_24/S0 has no loads so was not routed.
-Signal named: add_1471_24/S1 has no loads so was not routed.
-Signal named: add_1471_22/S0 has no loads so was not routed.
-Signal named: add_1471_22/S1 has no loads so was not routed.
-Signal named: add_1471_20/S0 has no loads so was not routed.
-Signal named: add_1471_20/S1 has no loads so was not routed.
-Signal named: add_1471_18/S0 has no loads so was not routed.
-Signal named: add_1471_18/S1 has no loads so was not routed.
-Signal named: add_1471_16/S0 has no loads so was not routed.
-Signal named: add_1471_16/S1 has no loads so was not routed.
-Signal named: add_1472_26/CO has no loads so was not routed.
-Signal named: add_1472_26/S0 has no loads so was not routed.
-Signal named: add_1472_24/S0 has no loads so was not routed.
-Signal named: add_1472_24/S1 has no loads so was not routed.
-Signal named: add_1472_22/S0 has no loads so was not routed.
-Signal named: add_1472_22/S1 has no loads so was not routed.
-Signal named: add_1472_20/S0 has no loads so was not routed.
-Signal named: add_1472_20/S1 has no loads so was not routed.
-Signal named: add_1471_14/S0 has no loads so was not routed.
-Signal named: add_1471_14/S1 has no loads so was not routed.
-Signal named: add_1471_12/S0 has no loads so was not routed.
-Signal named: add_1471_12/S1 has no loads so was not routed.
-Signal named: add_1471_10/S0 has no loads so was not routed.
-Signal named: add_1471_10/S1 has no loads so was not routed.
-Signal named: add_1471_8/S0 has no loads so was not routed.
-Signal named: add_1471_8/S1 has no loads so was not routed.
-Signal named: add_1472_18/S0 has no loads so was not routed.
-Signal named: add_1472_18/S1 has no loads so was not routed.
-Signal named: add_38_1/CI has no driver so was not routed.
-Signal named: add_38_1/S0 has no loads so was not routed.
-Signal named: add_1471_6/S0 has no loads so was not routed.
-Signal named: add_1471_6/S1 has no loads so was not routed.
-Signal named: add_1472_16/S0 has no loads so was not routed.
-Signal named: add_1472_16/S1 has no loads so was not routed.
-Signal named: add_1472_14/S0 has no loads so was not routed.
-Signal named: add_1472_14/S1 has no loads so was not routed.
-Signal named: add_29_33/CO has no loads so was not routed.
-Signal named: add_29_33/S1 has no loads so was not routed.
-Signal named: add_1471_4/S0 has no loads so was not routed.
-Signal named: add_1471_4/S1 has no loads so was not routed.
-Signal named: add_1472_12/S0 has no loads so was not routed.
-Signal named: add_1472_12/S1 has no loads so was not routed.
-Signal named: add_1471_2/CI has no driver so was not routed.
-Signal named: add_1471_2/S0 has no loads so was not routed.
-Signal named: add_1471_2/S1 has no loads so was not routed.
-Signal named: add_1472_10/S0 has no loads so was not routed.
-Signal named: add_1472_10/S1 has no loads so was not routed.
-Signal named: add_1472_8/S0 has no loads so was not routed.
-Signal named: add_1472_8/S1 has no loads so was not routed.
-Signal named: add_202_23/CO has no loads so was not routed.
-Signal named: add_202_23/S1 has no loads so was not routed.
-Signal named: add_1472_6/S0 has no loads so was not routed.
-Signal named: add_1472_6/S1 has no loads so was not routed.
+End of route.  687 routed (100.00%); 0 unrouted.
+Signal named: add_14_1/CI has no driver so was not routed.
+Signal named: add_14_1/S0 has no loads so was not routed.
+Signal named: dummy_signal has no loads so was not routed.
+Signal named: FP_UsrSW3_c has no loads so was not routed.
+Signal named: FP_UsrSW1_c has no loads so was not routed.
+Signal named: add_200_1/CI has no driver so was not routed.
+Signal named: add_200_1/S0 has no loads so was not routed.
+Signal named: add_14_33/CO has no loads so was not routed.
+Signal named: add_14_33/S1 has no loads so was not routed.
+Signal named: add_1033_18/S0 has no loads so was not routed.
+Signal named: add_1033_18/S1 has no loads so was not routed.
+Signal named: add_1033_16/S0 has no loads so was not routed.
+Signal named: add_1033_16/S1 has no loads so was not routed.
+Signal named: add_1033_14/S0 has no loads so was not routed.
+Signal named: add_1033_14/S1 has no loads so was not routed.
+Signal named: add_1033_12/S0 has no loads so was not routed.
+Signal named: add_1033_12/S1 has no loads so was not routed.
+Signal named: add_1033_10/S0 has no loads so was not routed.
+Signal named: add_1033_10/S1 has no loads so was not routed.
+Signal named: add_1033_8/S0 has no loads so was not routed.
+Signal named: add_1033_8/S1 has no loads so was not routed.
+Signal named: add_1033_6/S0 has no loads so was not routed.
+Signal named: add_1033_6/S1 has no loads so was not routed.
+Signal named: add_1033_26/CO has no loads so was not routed.
+Signal named: add_1033_26/S0 has no loads so was not routed.
+Signal named: add_1033_24/S0 has no loads so was not routed.
+Signal named: add_1033_24/S1 has no loads so was not routed.
+Signal named: add_1033_4/S0 has no loads so was not routed.
+Signal named: add_1033_4/S1 has no loads so was not routed.
+Signal named: add_1033_2/CI has no driver so was not routed.
+Signal named: add_1033_2/S0 has no loads so was not routed.
+Signal named: add_1033_2/S1 has no loads so was not routed.
+Signal named: add_1033_22/S0 has no loads so was not routed.
+Signal named: add_1033_22/S1 has no loads so was not routed.
+Signal named: add_1033_20/S0 has no loads so was not routed.
+Signal named: add_1033_20/S1 has no loads so was not routed.
+Signal named: add_200_23/CO has no loads so was not routed.
+Signal named: add_200_23/S1 has no loads so was not routed.
 
 Hold time timing score: 0, hold timing errors: 0
 
@@ -359,14 +258,14 @@ All signals are completely routed.
 
 PAR_SUMMARY::Run status = Completed
 PAR_SUMMARY::Number of unrouted conns = 0
-PAR_SUMMARY::Worst  slack<setup/<ns>> = 130.531
+PAR_SUMMARY::Worst  slack<setup/<ns>> = 465.692
 PAR_SUMMARY::Timing score<setup/<ns>> = 0.000
 PAR_SUMMARY::Worst  slack<hold /<ns>> = 0.304
 PAR_SUMMARY::Timing score<hold /<ns>> = 0.000
 PAR_SUMMARY::Number of errors = 0
 
-Total CPU  time to completion: 2 secs 
-Total REAL time to completion: 11 secs 
+Total CPU  time to completion: 0 secs 
+Total REAL time to completion: 6 secs 
 
 par done!
 

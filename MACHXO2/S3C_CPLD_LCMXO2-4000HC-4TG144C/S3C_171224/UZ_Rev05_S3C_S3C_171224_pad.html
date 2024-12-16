@@ -14,7 +14,7 @@ Performance Grade:      4
 PACKAGE:          TQFP144
 Package Status:                     Final          Version 1.44
 
-Fri Dec 13 12:43:00 2024
+Mon Dec 16 07:28:27 2024
 
 Pinout by Port Name:
 +----------------------------+----------+--------------+-------+-----------+-----------+--------------------------------------+
@@ -49,13 +49,17 @@ Pinout by Port Name:
 | FP_UsrLED3                 | 97/1     | LVCMOS18_OUT | PR6B  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
 | FP_UsrLED4                 | 98/1     | LVCMOS18_OUT | PR6A  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
 | FP_UsrSW1                  | 128/0    | LVCMOS33_IN  | PT18A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| FP_UsrSW3                  | 122/0    | LVCMOS25_IN  | PT21A |           |           | PULL:DOWN CLAMP:ON                   |
+| FP_UsrSW3                  | 122/0    | LVCMOS33_IN  | PT21A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
 | FlexMIOs52_PCIe            | 47/2     | LVCMOS33_IN  | PB10A |           |           | PULL:DOWN                            |
 | FlexMIOs53_GPIO_PowerDown  | 48/2     | LVCMOS18_OUT | PB10B |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
 | FlexMio61ExternalStop      | 50/2     | LVCMOS33_OUT | PB13B |           |           | DRIVE:12mA OPENDRAIN:ON SLEW:SLOW    |
+| PG_VIN                     | 2/5      | LVCMOS33_IN  | PL3B  |           |           | CLAMP:ON HYSTERESIS:SMALL            |
 | PPn_VIN                    | 3/5      | LVCMOS33_IN  | PL4A  |           |           | CLAMP:ON HYSTERESIS:SMALL            |
 | SD_SEL                     | 41/2     | LVCMOS33_OUT | PB4B  |           |           | DRIVE:12mA OPENDRAIN:ON SLEW:SLOW    |
 | SysSW_Pwr_NC               | 121/0    | LVCMOS33_IN  | PT21B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| TDnALERT                   | 6/5      | LVCMOS33_IN  | PL6B  |           |           | CLAMP:ON HYSTERESIS:SMALL            |
+| TDnFFnFS                   | 5/5      | LVCMOS33_IN  | PL6A  |           |           | CLAMP:ON HYSTERESIS:SMALL            |
+| TDnSHDN                    | 4/5      | LVCMOS33_IN  | PL4B  |           |           | CLAMP:ON HYSTERESIS:SMALL            |
 +----------------------------+----------+--------------+-------+-----------+-----------+--------------------------------------+
 
 Vccio by Bank:
@@ -82,11 +86,11 @@ Vccio by Bank:
 | Pin/Bank | Pin Info                   | Preference | Buffer Type   | Site  | Dual Function  | PG Enable | BC Enable |
 +----------+----------------------------+------------+---------------+-------+----------------+-----------+-----------+
 | 1/5      | Carrier_PwrOn              | LOCATED    | LVCMOS33_OUT  | PL3A  | L_GPLLT_FB     |           |           |
-| 2/5      |     unused, PULL:DOWN      |            |               | PL3B  | L_GPLLC_FB     |           |           |
+| 2/5      | PG_VIN                     | LOCATED    | LVCMOS33_IN   | PL3B  | L_GPLLC_FB     |           |           |
 | 3/5      | PPn_VIN                    | LOCATED    | LVCMOS33_IN   | PL4A  | L_GPLLT_IN     |           |           |
-| 4/5      |     unused, PULL:DOWN      |            |               | PL4B  | L_GPLLC_IN     |           |           |
-| 5/5      |     unused, PULL:DOWN      |            |               | PL6A  | PCLKT5_0       |           |           |
-| 6/5      |     unused, PULL:DOWN      |            |               | PL6B  | PCLKC5_0       |           |           |
+| 4/5      | TDnSHDN                    | LOCATED    | LVCMOS33_IN   | PL4B  | L_GPLLC_IN     |           |           |
+| 5/5      | TDnFFnFS                   | LOCATED    | LVCMOS33_IN   | PL6A  | PCLKT5_0       |           |           |
+| 6/5      | TDnALERT                   | LOCATED    | LVCMOS33_IN   | PL6B  | PCLKC5_0       |           |           |
 | 9/5      |     unused, PULL:DOWN      |            |               | PL7A  |                |           |           |
 | 10/5     |     unused, PULL:DOWN      |            |               | PL7B  |                |           |           |
 | 11/5     |     unused, PULL:DOWN      |            |               | PL8A  |                |           |           |
@@ -179,7 +183,7 @@ Vccio by Bank:
 | 119/0    | FPIO_isoCtrlRSTn           | LOCATED    | LVCMOS33_OUT  | PT23D | PROGRAMN       |           |           |
 | 120/0    | Reserved: sysCONFIG        |            |               | PT23C | JTAGENB        |           |           |
 | 121/0    | SysSW_Pwr_NC               | LOCATED    | LVCMOS33_IN   | PT21B |                |           |           |
-| 122/0    | FP_UsrSW3                  | LOCATED    | LVCMOS25_IN   | PT21A |                |           |           |
+| 122/0    | FP_UsrSW3                  | LOCATED    | LVCMOS33_IN   | PT21A |                |           |           |
 | 125/0    |     unused, PULL:DOWN      |            |               | PT20D | SDA/PCLKC0_0   |           |           |
 | 126/0    |     unused, PULL:DOWN      |            |               | PT20C | SCL/PCLKT0_0   |           |           |
 | 127/0    |     unused, PULL:DOWN      |            |               | PT18B | PCLKC0_1       |           |           |
@@ -413,9 +417,13 @@ LOCATE  COMP  "FP_UsrSW3"  SITE  "122";
 LOCATE  COMP  "FlexMIOs52_PCIe"  SITE  "47";
 LOCATE  COMP  "FlexMIOs53_GPIO_PowerDown"  SITE  "48";
 LOCATE  COMP  "FlexMio61ExternalStop"  SITE  "50";
+LOCATE  COMP  "PG_VIN"  SITE  "2";
 LOCATE  COMP  "PPn_VIN"  SITE  "3";
 LOCATE  COMP  "SD_SEL"  SITE  "41";
 LOCATE  COMP  "SysSW_Pwr_NC"  SITE  "121";
+LOCATE  COMP  "TDnALERT"  SITE  "6";
+LOCATE  COMP  "TDnFFnFS"  SITE  "5";
+LOCATE  COMP  "TDnSHDN"  SITE  "4";
 
 
 
@@ -427,7 +435,7 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
-Fri Dec 13 12:43:00 2024
+Mon Dec 16 07:28:27 2024
 
 
 

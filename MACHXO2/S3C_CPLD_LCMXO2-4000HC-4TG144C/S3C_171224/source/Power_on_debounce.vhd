@@ -110,7 +110,7 @@ end Waiting_for_Powerbutton_pressed_V0;
 
 architecture behavior of Waiting_for_Powerbutton_pressed_V0 is
 	signal clk	:	STD_LOGIC;
-	signal counter : integer range 0 to 4160000 := 0; 	-- counter 
+	signal counter : integer range 0 to 31200000 := 0; 	-- counter 
 	signal count_done_100ms : boolean := false; 			-- flag for 100ms end
 	signal reset_triggered : boolean := false; -- flag, um zu tracken, dass resetn auf '0' gesetzt wurde
 
@@ -188,7 +188,7 @@ AND SCL AND SD0_CD AND SD1_CD AND SDA AND SPI_S3C_nCS_USR;
 SD_SEL <= '0';
 FPIO_FlexMIO52 <= FlexMIOs52_PCIe;
 FlexMio61ExternalStop <= FPIO_ExternalStop;
-warning <= '1'; -- hardcoded 1 = always in warning
+--warning <= '1'; -- hardcoded 1 = always in warning
 -- Mapping buttons
 button_inputs(1) <= SysSW_Pwr_NC;
 button_inputs(2) <= FPIO_ExternalStop;
@@ -288,9 +288,9 @@ process(clk)
 			when EthernetPhy_Reset =>
 				forceoutputdisable <= '1';
 				DIGS3C_Shared_ReqSafeState <= '1'; -- not working because bank 1 1.8vper not supplied
-				FP_SysLEDr <= '0';	
+				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '1';	
-				FP_SysLEDg <= '0';
+				FP_SysLEDg <= '1';
 				if counter > 0 then
 					counter <= counter - 1;
 				else
@@ -307,6 +307,7 @@ process(clk)
 				FP_SysLEDs <= '1';
                 -- skip external stop
                 if stopextern = '0' then  
+				counter <= 31200000;
                     next_state <= Harderror;
 				elsif stop = '0' then  
                     next_state <= Softerror;
@@ -325,6 +326,7 @@ process(clk)
 				FP_SysLEDs <= '1';
                 -- skip external stop
                 if stopextern = '0' then  
+					counter <= 31200000;
                     next_state <= Harderror;
 				elsif stop = '0' then  
                     next_state <= Softerror;
@@ -336,28 +338,33 @@ process(clk)
 				--Request safe state to dslots
 				forceoutputdisable <= NOT PPn_VIN; 
 				DIGS3C_Shared_ReqSafeState <= '1';
-				FP_SysLEDr <= '1';	
+				FP_SysLEDr <= '0';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '1';
-				FP_SysLEDs <= '0';	
+				FP_SysLEDs <= '1';	
 				Carrier_PwrOn <= '0';  -- all rails down, only s3c alive
 				Carrier_PG_3V3 <= '0';
 				FPIO_isoCtrlRSTn <= '0'; -- reset IsoIO on
+				if counter > 0 then
+					counter <= counter - 1;
+				else
+					next_state <= Acknowledge_error;
+				end if;
 			when Acknowledge_error => 
+				FP_SysLEDr <= '0';	
+				FP_SysLEDb <= '1';	
+				FP_SysLEDg <= '0';
 				if power = '0' then 
 					next_state <= Waiting_for_Powerbutton_pressed;
 				end if;
 			when Softerror =>
 				--Request safe state to dslots
 				forceoutputdisable <= NOT PPn_VIN; 
-				DIGS3C_Shared_ReqSafeState <= '1';
+				DIGS3C_Shared_ReqSafeState <= '0';
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '1';
 				FP_SysLEDs <= '0';	
-				Carrier_PwrOn <= '0';  -- all rails down, only s3c alive
-				Carrier_PG_3V3 <= '0';
-				FPIO_isoCtrlRSTn <= '0'; -- reset IsoIO on
 				if enable = '0' then 
 					next_state <= Ready_State;
 				end if;

@@ -19,10 +19,10 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_3ph_inverter/uz_d_slots_uz_d_3ph_inverter.jed</File>
-			<FileTime>11/01/24 16:22:09</FileTime>
-			<JedecChecksum>0xD7CB</JedecChecksum>
-			<Operation>FLASH Erase,Program,Verify</Operation>
+			<File>C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/template_dslots/testread.jed</File>
+			<FileTime>12/12/24 16:30:53</FileTime>
+			<JedecChecksum>0x7A61</JedecChecksum>
+			<Operation>FLASH Read and Save</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
 				<IOState>HighZ</IOState>
@@ -35,7 +35,7 @@
 			</Option>
 		</Device>
 		<Device>
-			<SelectedProg value="TRUE"/>
+			<SelectedProg value="FALSE"/>
 			<Pos>2</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>MachXO2</Family>
@@ -49,9 +49,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_3ph_inverter/uz_d_slots_uz_d_3ph_inverter.jed</File>
-			<FileTime>11/01/24 16:22:09</FileTime>
-			<JedecChecksum>0xD7CB</JedecChecksum>
+			<File>C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/template_dslots/uz_d_slots_template_dslots.jed</File>
+			<FileTime>12/12/24 16:30:53</FileTime>
+			<JedecChecksum>0x7A61</JedecChecksum>
 			<Operation>FLASH Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -65,7 +65,7 @@
 			</Option>
 		</Device>
 		<Device>
-			<SelectedProg value="TRUE"/>
+			<SelectedProg value="FALSE"/>
 			<Pos>3</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>MachXO2</Family>
@@ -79,9 +79,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30/uz_d_slots_tx30.jed</File>
-			<FileTime>11/01/24 14:16:10</FileTime>
-			<JedecChecksum>0xE884</JedecChecksum>
+			<File>C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/template_dslots/uz_d_slots_template_dslots.jed</File>
+			<FileTime>12/12/24 16:30:53</FileTime>
+			<JedecChecksum>0x7A61</JedecChecksum>
 			<Operation>FLASH Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -95,7 +95,7 @@
 			</Option>
 		</Device>
 		<Device>
-			<SelectedProg value="TRUE"/>
+			<SelectedProg value="FALSE"/>
 			<Pos>4</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>MachXO2</Family>
@@ -109,9 +109,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30/uz_d_slots_tx30.jed</File>
-			<FileTime>11/01/24 14:16:10</FileTime>
-			<JedecChecksum>0xE884</JedecChecksum>
+			<File>C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/template_dslots/uz_d_slots_template_dslots.jed</File>
+			<FileTime>12/12/24 16:30:53</FileTime>
+			<JedecChecksum>0x7A61</JedecChecksum>
 			<Operation>FLASH Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -125,7 +125,7 @@
 			</Option>
 		</Device>
 		<Device>
-			<SelectedProg value="TRUE"/>
+			<SelectedProg value="FALSE"/>
 			<Pos>5</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>MachXO2</Family>
@@ -139,9 +139,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_resolver_d5/uz_d_slots_uz_d_resolver_d5.jed</File>
-			<FileTime>11/01/24 16:16:28</FileTime>
-			<JedecChecksum>0xCEEA</JedecChecksum>
+			<File>C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/template_dslots/uz_d_slots_template_dslots.jed</File>
+			<FileTime>12/12/24 16:30:53</FileTime>
+			<JedecChecksum>0x7A61</JedecChecksum>
 			<Operation>FLASH Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -166,7 +166,6 @@
 	</ProjectOptions>
 	<CableOptions>
 		<CableName>USB2</CableName>
-		<PortAdd>FTUSB-2</PortAdd>
-		<USBID>UltraZohm A Location 0002 Serial 0100105000002A</USBID>
+		<PortAdd>FTUSB-1</PortAdd>
 	</CableOptions>
 </ispXCF>

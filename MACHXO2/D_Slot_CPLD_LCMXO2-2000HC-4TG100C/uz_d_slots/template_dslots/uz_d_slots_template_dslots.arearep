@@ -8,4 +8,5 @@ I/O cells:      68
                                  IB        35          100.0
                                LUT4        29          100.0
                                  OB        33          100.0
-                              TOTAL        98
+                        VERIFIC_PWR         1          100.0
+                              TOTAL        99

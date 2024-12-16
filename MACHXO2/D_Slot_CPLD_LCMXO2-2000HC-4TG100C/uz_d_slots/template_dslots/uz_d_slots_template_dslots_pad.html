@@ -14,14 +14,13 @@ Performance Grade:      4
 PACKAGE:          TQFP100
 Package Status:                     Final          Version 1.44
 
-Thu Dec 12 16:30:33 2024
+Mon Dec 16 07:56:00 2024
 
 Pinout by Port Name:
 +----------------+----------+--------------+-------+-----------+-----------+--------------------------------------+
 | Port Name      | Pin/Bank | Buffer Type  | Site  | PG Enable | BC Enable | Properties                           |
 +----------------+----------+--------------+-------+-----------+-----------+--------------------------------------+
 | CPLD_DIGOUT_01 | 68/1     | LVCMOS33_OUT | PR4B  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| carrierrdy     | 77/0     | LVCMOS18_IN  | PT24C |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
 | d_00           | 17/4     | LVCMOS33_OUT | PL10B |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
 | d_01           | 51/1     | LVCMOS33_OUT | PR14B |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
 | d_02           | 16/4     | LVCMOS33_OUT | PL10A |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
@@ -82,11 +81,8 @@ Pinout by Port Name:
 | fpga_27        | 96/0     | LVCMOS18_IN  | PT11B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
 | fpga_28        | 88/0     | LVCMOS18_IN  | PT17A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
 | fpga_29        | 87/0     | LVCMOS18_IN  | PT17B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| i2c_scl        | 86/0     | LVCMOS18_IN  | PT18C |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| i2c_sda        | 85/0     | LVCMOS18_IN  | PT18D |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
-| pilot_in       | 71/1     | LVCMOS33_IN  | PR3A  |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
 | reqoe          | 82/0     | LVCMOS18_OUT | PT20C |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
-| reqsafestate   | 76/0     | LVCMOS18_IN  | PT24D |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL  |
+| reqsafestate   | 76/0     | LVCMOS18_IN  | PT24D |           |           | CLAMP:ON HYSTERESIS:SMALL            |
 | slotok         | 81/0     | LVCMOS18_OUT | PT20D |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW        |
 +----------------+----------+--------------+-------+-----------+-----------+--------------------------------------+
 
@@ -171,18 +167,18 @@ Vccio by Bank:
 | 68/1     | CPLD_DIGOUT_01        | LOCATED    | LVCMOS33_OUT  | PR4B  | DQ0           |           |           |
 | 69/1     |     unused, PULL:DOWN |            |               | PR4A  | DQ0           |           |           |
 | 70/1     |     unused, PULL:DOWN |            |               | PR3B  | DQ0           |           |           |
-| 71/1     | pilot_in              | LOCATED    | LVCMOS33_IN   | PR3A  | DQ0           |           |           |
+| 71/1     |     unused, PULL:DOWN |            |               | PR3A  | DQ0           |           |           |
 | 74/1     | d_28                  | LOCATED    | LVCMOS33_OUT  | PR1B  | DQ0           |           |           |
 | 75/1     |     unused, PULL:DOWN |            |               | PR1A  | DQ0           |           |           |
 | 76/0     | reqsafestate          | LOCATED    | LVCMOS18_IN   | PT24D | DONE          |           |           |
-| 77/0     | carrierrdy            | LOCATED    | LVCMOS18_IN   | PT24C | INITN         |           |           |
+| 77/0     |     unused, PULL:DOWN |            |               | PT24C | INITN         |           |           |
 | 78/0     | fpga_00               | LOCATED    | LVCMOS18_IN   | PT22A |               |           |           |
 | 81/0     | slotok                | LOCATED    | LVCMOS18_OUT  | PT20D | PROGRAMN      |           |           |
 | 82/0     | reqoe                 | LOCATED    | LVCMOS18_OUT  | PT20C | JTAGENB       |           |           |
 | 83/0     | fpga_01               | LOCATED    | LVCMOS18_IN   | PT19B |               |           |           |
 | 84/0     | fpga_02               | LOCATED    | LVCMOS18_IN   | PT19A |               |           |           |
-| 85/0     | i2c_sda               |            | LVCMOS18_IN   | PT18D | SDA/PCLKC0_0  |           |           |
-| 86/0     | i2c_scl               |            | LVCMOS18_IN   | PT18C | SCL/PCLKT0_0  |           |           |
+| 85/0     |     unused, PULL:DOWN |            |               | PT18D | SDA/PCLKC0_0  |           |           |
+| 86/0     |     unused, PULL:DOWN |            |               | PT18C | SCL/PCLKT0_0  |           |           |
 | 87/0     | fpga_29               | LOCATED    | LVCMOS18_IN   | PT17B | PCLKC0_1      |           |           |
 | 88/0     | fpga_28               | LOCATED    | LVCMOS18_IN   | PT17A | PCLKT0_1      |           |           |
 | 90/0     | Reserved: sysCONFIG   |            |               | PT16D | TMS           |           |           |
@@ -352,7 +348,6 @@ List of All Pins' Locate Preferences Based on Final Placement After PAR
 to Help Users Lock Down ALL the Pins Easily (by Simply Copy & Paste): 
 
 LOCATE  COMP  "CPLD_DIGOUT_01"  SITE  "68";
-LOCATE  COMP  "carrierrdy"  SITE  "77";
 LOCATE  COMP  "d_00"  SITE  "17";
 LOCATE  COMP  "d_01"  SITE  "51";
 LOCATE  COMP  "d_02"  SITE  "16";
@@ -413,9 +408,6 @@ LOCATE  COMP  "fpga_26"  SITE  "97";
 LOCATE  COMP  "fpga_27"  SITE  "96";
 LOCATE  COMP  "fpga_28"  SITE  "88";
 LOCATE  COMP  "fpga_29"  SITE  "87";
-LOCATE  COMP  "i2c_scl"  SITE  "86";
-LOCATE  COMP  "i2c_sda"  SITE  "85";
-LOCATE  COMP  "pilot_in"  SITE  "71";
 LOCATE  COMP  "reqoe"  SITE  "82";
 LOCATE  COMP  "reqsafestate"  SITE  "76";
 LOCATE  COMP  "slotok"  SITE  "81";
@@ -430,7 +422,7 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
-Thu Dec 12 16:30:33 2024
+Mon Dec 16 07:56:00 2024
 
 
 

@@ -31,11 +31,11 @@
 
 
 -lpf 1
--lib "work" -vhd "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30.vhdl"
+-lib "work" -vhd "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30/source/tx30.vhdl"
 -top SignalRouter
 
 
--p "C:/lscc/diamond/3.14/ispfpga/xo2c00/data" "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30" "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots"
+-p "C:/lscc/diamond/3.13/ispfpga/xo2c00/data" "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30" "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots"
 
 -ngd "uz_d_slots_tx30.ngd"
 

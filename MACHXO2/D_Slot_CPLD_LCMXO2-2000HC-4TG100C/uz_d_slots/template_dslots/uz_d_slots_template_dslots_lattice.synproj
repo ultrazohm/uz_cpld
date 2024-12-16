@@ -31,7 +31,7 @@
 
 
 -lpf 1
--lib "work" -vhd "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/template_dslots/source/tx26_w_enable.vhdl"
+-lib "work" -vhd "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/template_dslots/source/template_w_enable.vhdl"
 -top SignalRouter
 
 

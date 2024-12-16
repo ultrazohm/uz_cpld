@@ -93,7 +93,7 @@
     </pins>
 
     <!--
-        Instances in netlist: 39
+        Instances in netlist: 37
     -->
 
     <instance  name = "reqsafestate_I_0"  library = "work"  arch = "RTL"  type = "comb">
@@ -130,7 +130,7 @@
 
         <nets>
         <nitem  name = "fpga_26"  />
-        <nitem  name = "fpga_26_N_14"  />
+        <nitem  name = "fpga_26_N_6"  />
         </nets>
     </instance>
 
@@ -142,35 +142,7 @@
 
         <nets>
         <nitem  name = "fpga_27"  />
-        <nitem  name = "fpga_27_N_16"  />
-        </nets>
-    </instance>
-
-    <instance  name = "user_enable_forwarding_I_5"  library = "work"  arch = "RTL"  type = "comb">
-        <pins>
-        <pitem  name = "a0"  direction = "in"  />
-        <pitem  name = "a1"  direction = "in"  />
-        <pitem  name = "o"  direction = "out"  />
-        </pins>
-
-        <nets>
-        <nitem  name = "fpga_26_N_14"  />
-        <nitem  name = "fpga_27_N_16"  />
-        <nitem  name = "user_enable_forwarding_N_12"  />
-        </nets>
-    </instance>
-
-    <instance  name = "user_enable_forwarding_I_4"  library = "work"  arch = "RTL"  type = "comb">
-        <pins>
-        <pitem  name = "a0"  direction = "in"  />
-        <pitem  name = "a1"  direction = "in"  />
-        <pitem  name = "o"  direction = "out"  />
-        </pins>
-
-        <nets>
-        <nitem  name = "user_enable_forwarding_N_12"  />
-        <nitem  name = "fpga_28"  />
-        <nitem  name = "user_enable_forwarding_N_11"  />
+        <nitem  name = "fpga_27_N_8"  />
         </nets>
     </instance>
 
@@ -182,7 +154,35 @@
         </pins>
 
         <nets>
-        <nitem  name = "user_enable_forwarding_N_11"  />
+        <nitem  name = "fpga_26_N_6"  />
+        <nitem  name = "fpga_27_N_8"  />
+        <nitem  name = "user_enable_forwarding_N_4"  />
+        </nets>
+    </instance>
+
+    <instance  name = "user_enable_forwarding_I_2"  library = "work"  arch = "RTL"  type = "comb">
+        <pins>
+        <pitem  name = "a0"  direction = "in"  />
+        <pitem  name = "a1"  direction = "in"  />
+        <pitem  name = "o"  direction = "out"  />
+        </pins>
+
+        <nets>
+        <nitem  name = "user_enable_forwarding_N_4"  />
+        <nitem  name = "fpga_28"  />
+        <nitem  name = "user_enable_forwarding_N_3"  />
+        </nets>
+    </instance>
+
+    <instance  name = "user_enable_forwarding_I_1"  library = "work"  arch = "RTL"  type = "comb">
+        <pins>
+        <pitem  name = "a0"  direction = "in"  />
+        <pitem  name = "a1"  direction = "in"  />
+        <pitem  name = "o"  direction = "out"  />
+        </pins>
+
+        <nets>
+        <nitem  name = "user_enable_forwarding_N_3"  />
         <nitem  name = "fpga_29"  />
         <nitem  name = "user_enable_forwarding"  />
         </nets>
@@ -554,41 +554,19 @@
 
     <instance  name = "i2c_scl_I_0"  library = "work"  arch = "RTL"  type = "comb">
         <pins>
-        <pitem  name = "i"  direction = "in"  />
+        <pitem  name = "a0"  direction = "in"  />
+        <pitem  name = "a1"  direction = "in"  />
         <pitem  name = "o"  direction = "out"  />
         </pins>
 
         <nets>
         <nitem  name = "i2c_scl"  />
-        <nitem  name = "i2c_scl_N_6"  />
-        </nets>
-    </instance>
-
-    <instance  name = "i2c_sda_I_0"  library = "work"  arch = "RTL"  type = "comb">
-        <pins>
-        <pitem  name = "i"  direction = "in"  />
-        <pitem  name = "o"  direction = "out"  />
-        </pins>
-
-        <nets>
         <nitem  name = "i2c_sda"  />
-        <nitem  name = "i2c_sda_N_8"  />
+        <nitem  name = "dummy_signal_N_10"  />
         </nets>
     </instance>
 
-    <instance  name = "pilot_in_I_0"  library = "work"  arch = "RTL"  type = "comb">
-        <pins>
-        <pitem  name = "i"  direction = "in"  />
-        <pitem  name = "o"  direction = "out"  />
-        </pins>
-
-        <nets>
-        <nitem  name = "pilot_in"  />
-        <nitem  name = "pilot_in_N_10"  />
-        </nets>
-    </instance>
-
-    <instance  name = "CPLD_DIGOUT_01_I_2"  library = "work"  arch = "RTL"  type = "comb">
+    <instance  name = "dummy_signal_I_4"  library = "work"  arch = "RTL"  type = "comb">
         <pins>
         <pitem  name = "a0"  direction = "in"  />
         <pitem  name = "a1"  direction = "in"  />
@@ -596,27 +574,13 @@
         </pins>
 
         <nets>
-        <nitem  name = "i2c_scl_N_6"  />
-        <nitem  name = "i2c_sda_N_8"  />
-        <nitem  name = "CPLD_DIGOUT_01_N_4"  />
-        </nets>
-    </instance>
-
-    <instance  name = "CPLD_DIGOUT_01_I_1"  library = "work"  arch = "RTL"  type = "comb">
-        <pins>
-        <pitem  name = "a0"  direction = "in"  />
-        <pitem  name = "a1"  direction = "in"  />
-        <pitem  name = "o"  direction = "out"  />
-        </pins>
-
-        <nets>
-        <nitem  name = "CPLD_DIGOUT_01_N_4"  />
+        <nitem  name = "dummy_signal_N_10"  />
         <nitem  name = "carrierrdy"  />
-        <nitem  name = "CPLD_DIGOUT_01_N_3"  />
+        <nitem  name = "dummy_signal_N_9"  />
         </nets>
     </instance>
 
-    <instance  name = "CPLD_DIGOUT_01_I_0"  library = "work"  arch = "RTL"  type = "comb">
+    <instance  name = "dummy_signal_I_0_42"  library = "work"  arch = "RTL"  type = "comb">
         <pins>
         <pitem  name = "a0"  direction = "in"  />
         <pitem  name = "a1"  direction = "in"  />
@@ -624,9 +588,21 @@
         </pins>
 
         <nets>
-        <nitem  name = "CPLD_DIGOUT_01_N_3"  />
-        <nitem  name = "pilot_in_N_10"  />
-        <nitem  name = "CPLD_DIGOUT_01"  />
+        <nitem  name = "dummy_signal_N_9"  />
+        <nitem  name = "pilot_in"  />
+        <nitem  name = "dummy_signal"  />
+        </nets>
+    </instance>
+
+    <instance  name = "dummy_signal_I_0"  library = "work"  arch = "RTL"  type = "comb">
+        <pins>
+        <pitem  name = "o"  direction = "out"  />
+        <pitem  name = "i"  direction = "in"  />
+        </pins>
+
+        <nets>
+        <nitem  name = "dummy_signal_keep"  />
+        <nitem  name = "dummy_signal"  />
         </nets>
     </instance>
 

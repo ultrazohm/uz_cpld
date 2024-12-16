@@ -14,7 +14,7 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
-Thu Dec 12 16:30:12 2024
+Mon Dec 16 07:55:57 2024
 
 
 Command Line:  synthesis -f uz_d_slots_template_dslots_lattice.synproj -gui -msgset C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/promote.xml 
@@ -74,7 +74,7 @@ The -syn option is FALSE.
 -p C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/template_dslots (searchpath added)
 -p C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots (searchpath added)
 VHDL library = work
-VHDL design file = C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/template_dslots/source/tx26_w_enable.vhdl
+VHDL design file = C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/template_dslots/source/template_w_enable.vhdl
 NGD file = uz_d_slots_template_dslots.ngd
 -sdc option: SDC file input not used.
 -lpf option: Output file option is ON.
@@ -86,14 +86,14 @@ Analyzing Verilog file C:/lscc/diamond/3.13/ispfpga/userware/NT/SYNTHESIS_HEADER
 Compile design.
 Compile Design Begin
 INFO - synthesis: The default VHDL library search path is now "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/template_dslots". VHDL-1504
-Analyzing VHDL file c:/cpld/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/template_dslots/source/tx26_w_enable.vhdl. VHDL-1481
-INFO - synthesis: c:/cpld/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/template_dslots/source/tx26_w_enable.vhdl(5): analyzing entity signalrouter. VHDL-1012
-INFO - synthesis: c:/cpld/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/template_dslots/source/tx26_w_enable.vhdl(91): analyzing architecture behavioral. VHDL-1010
+Analyzing VHDL file c:/cpld/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/template_dslots/source/template_w_enable.vhdl. VHDL-1481
+INFO - synthesis: c:/cpld/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/template_dslots/source/template_w_enable.vhdl(5): analyzing entity signalrouter. VHDL-1012
+INFO - synthesis: c:/cpld/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/template_dslots/source/template_w_enable.vhdl(96): analyzing architecture behavioral. VHDL-1010
 unit SignalRouter is not yet analyzed. VHDL-1485
 unit SignalRouter is not yet analyzed. VHDL-1485
-c:/cpld/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/template_dslots/source/tx26_w_enable.vhdl(5): executing SignalRouter(Behavioral)
+c:/cpld/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/template_dslots/source/template_w_enable.vhdl(5): executing SignalRouter(Behavioral)
 
-WARNING - synthesis: c:/cpld/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/template_dslots/source/tx26_w_enable.vhdl(89): replacing existing netlist SignalRouter(Behavioral). VHDL-1205
+WARNING - synthesis: c:/cpld/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/template_dslots/source/template_w_enable.vhdl(94): replacing existing netlist SignalRouter(Behavioral). VHDL-1205
 Top module name (VHDL): SignalRouter
 Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/xo2c00a/data/xo2alib.ngl'...
 Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/xo2c00/data/xo2clib.ngl'...
@@ -102,10 +102,12 @@ Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/or5g00/data/orc5glib.ngl'...
 Loading device for application map from file 'xo2c2000.nph' in environment: C:/lscc/diamond/3.13/ispfpga.
 Package Status:                     Final          Version 1.44.
 Top-level module name = SignalRouter.
+WARNING - synthesis: I/O Port CPLD_DIGOUT_01 's net has no driver and is unused.
 WARNING - synthesis: I/O Port d_26 's net has no driver and is unused.
 WARNING - synthesis: I/O Port d_27 's net has no driver and is unused.
 WARNING - synthesis: I/O Port d_28 's net has no driver and is unused.
 WARNING - synthesis: I/O Port d_29 's net has no driver and is unused.
+######## Missing driver on net CPLD_DIGOUT_01. Patching with GND.
 ######## Missing driver on net d_26. Patching with GND.
 ######## Missing driver on net d_27. Patching with GND.
 ######## Missing driver on net d_28. Patching with GND.
@@ -122,6 +124,8 @@ Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/xo2c00a/data/xo2alib.ngl'...
 Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/xo2c00/data/xo2clib.ngl'...
 Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/mg5g00/data/mg5glib.ngl'...
 Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/or5g00/data/orc5glib.ngl'...
+WARNING - synthesis: logical net 'dummy_signal' has no load.
+WARNING - synthesis: DRC complete with 1 warnings.
 All blocks are expanded and NGD expansion is successful.
 Writing NGD file uz_d_slots_template_dslots.ngd.
 
@@ -157,10 +161,10 @@ Top 10 highest fanout non-clock nets:
   Net : fpga_03_c, loads : 1
 ################### End Clock Report ##################
 
-Peak Memory Usage: 69.574  MB
+Peak Memory Usage: 69.707  MB
 
 --------------------------------------------------------------
-Elapsed CPU time for LSE flow : 0.203  secs
+Elapsed CPU time for LSE flow : 0.141  secs
 --------------------------------------------------------------
 
 

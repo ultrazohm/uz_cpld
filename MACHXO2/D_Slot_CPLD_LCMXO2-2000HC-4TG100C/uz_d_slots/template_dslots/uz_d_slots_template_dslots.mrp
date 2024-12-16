@@ -17,7 +17,7 @@ Target Vendor:  LATTICE
 Target Device:  LCMXO2-2000HCTQFP100
 Target Performance:   4
 Mapper:  xo2c00,  version:  Diamond (64-bit) 3.13.0.56.2
-Mapped on:  12/12/24  16:30:14
+Mapped on:  12/16/24  07:55:58
 
 Design Summary
 --------------
@@ -25,16 +25,16 @@ Design Summary
    Number of registers:      0 out of  2352 (0%)
       PFU registers:            0 out of  2112 (0%)
       PIO registers:            0 out of   240 (0%)
-   Number of SLICEs:        16 out of  1056 (2%)
-      SLICEs as Logic/ROM:     16 out of  1056 (2%)
+   Number of SLICEs:        15 out of  1056 (1%)
+      SLICEs as Logic/ROM:     15 out of  1056 (1%)
       SLICEs as RAM:            0 out of   792 (0%)
       SLICEs as Carry:          0 out of  1056 (0%)
-   Number of LUT4s:         31 out of  2112 (1%)
-      Number used as logic LUTs:         31
+   Number of LUT4s:         30 out of  2112 (1%)
+      Number used as logic LUTs:         30
       Number used as distributed RAM:     0
       Number used as ripple logic:        0
       Number used as shift registers:     0
-   Number of PIO sites used: 68 + 4(JTAG) out of 80 (90%)
+   Number of PIO sites used: 64 + 4(JTAG) out of 80 (85%)
    Number of block RAMs:  0 out of 8 (0%)
    Number of GSRs:        0 out of 1 (0%)
    EFB used :        No
@@ -66,7 +66,7 @@ Design Summary
 
 
 
-Design:  SignalRouter                                  Date:  12/12/24  16:30:14
+Design:  SignalRouter                                  Date:  12/16/24  07:55:58
 
 Design Summary (cont)
 ---------------------
@@ -75,13 +75,13 @@ Design Summary (cont)
    Number of nets driven by tri-state buffers:  0
    Top 10 highest fanout non-clock nets:
      Net slotok_c: 27 loads
-     Net d_00_c: 1 loads
-     Net d_19_c: 1 loads
-     Net d_20_c: 1 loads
+     Net d_07_c: 1 loads
+     Net d_08_c: 1 loads
+     Net d_24_c: 1 loads
      Net d_25_c: 1 loads
-     Net fpga_00_c: 1 loads
-     Net fpga_19_c: 1 loads
-     Net fpga_20_c: 1 loads
+     Net fpga_07_c: 1 loads
+     Net fpga_08_c: 1 loads
+     Net fpga_23_c: 1 loads
      Net fpga_24_c: 1 loads
      Net fpga_25_c: 1 loads
 
@@ -132,7 +132,7 @@ IO (PIO) Attributes
 
 
 
-Design:  SignalRouter                                  Date:  12/12/24  16:30:14
+Design:  SignalRouter                                  Date:  12/16/24  07:55:58
 
 IO (PIO) Attributes (cont)
 --------------------------
@@ -180,28 +180,10 @@ IO (PIO) Attributes (cont)
 +---------------------+-----------+-----------+------------+
 | d_29                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| pilot_in            | INPUT     | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
 | reqsafestate        | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| carrierrdy          | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| i2c_scl             | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| i2c_sda             | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | fpga_00             | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-
-                                    Page 3
-
-
-
-
-Design:  SignalRouter                                  Date:  12/12/24  16:30:14
-
-IO (PIO) Attributes (cont)
---------------------------
 | fpga_01             | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | fpga_02             | INPUT     | LVCMOS18  |            |
@@ -210,6 +192,16 @@ IO (PIO) Attributes (cont)
 +---------------------+-----------+-----------+------------+
 | fpga_04             | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
+
+                                    Page 3
+
+
+
+
+Design:  SignalRouter                                  Date:  12/16/24  07:55:58
+
+IO (PIO) Attributes (cont)
+--------------------------
 | fpga_05             | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | fpga_06             | INPUT     | LVCMOS18  |            |
@@ -258,16 +250,6 @@ IO (PIO) Attributes (cont)
 +---------------------+-----------+-----------+------------+
 | fpga_28             | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-
-                                    Page 4
-
-
-
-
-Design:  SignalRouter                                  Date:  12/12/24  16:30:14
-
-IO (PIO) Attributes (cont)
---------------------------
 | fpga_29             | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 
@@ -275,6 +257,30 @@ Removed logic
 -------------
 
 Block GSR_INST undriven or does not drive anything - clipped.
+Block i2c_sda_pad undriven or does not drive anything - clipped.
+
+                                    Page 4
+
+
+
+
+Design:  SignalRouter                                  Date:  12/16/24  07:55:58
+
+Removed logic (cont)
+--------------------
+Block i2c_scl_pad undriven or does not drive anything - clipped.
+Block carrierrdy_pad undriven or does not drive anything - clipped.
+Block pilot_in_pad undriven or does not drive anything - clipped.
+Block i3_4_lut undriven or does not drive anything - clipped.
+Signal i2c_sda undriven or does not drive anything - clipped.
+Signal i2c_scl undriven or does not drive anything - clipped.
+Signal carrierrdy undriven or does not drive anything - clipped.
+Signal pilot_in undriven or does not drive anything - clipped.
+Signal dummy_signal undriven or does not drive anything - clipped.
+Signal i2c_sda_c undriven or does not drive anything - clipped.
+Signal carrierrdy_c undriven or does not drive anything - clipped.
+Signal pilot_in_c undriven or does not drive anything - clipped.
+Signal i2c_scl_c undriven or does not drive anything - clipped.
 
      
 
@@ -282,15 +288,9 @@ Run Time and Memory Usage
 -------------------------
 
    Total CPU Time: 0 secs  
-   Total REAL Time: 2 secs  
+   Total REAL Time: 0 secs  
    Peak Memory Usage: 44 MB
         
-
-
-
-
-
-
 
 
 

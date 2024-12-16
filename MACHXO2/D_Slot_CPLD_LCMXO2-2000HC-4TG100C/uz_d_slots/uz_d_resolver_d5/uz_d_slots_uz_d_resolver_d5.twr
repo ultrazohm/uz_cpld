@@ -6,24 +6,24 @@ Vendor:      LATTICE
 Device:      LCMXO2-2000HC
 Package:     TQFP100
 Performance: 4
-Loading device for application trce from file 'xo2c2000.nph' in environment: C:/lscc/diamond/3.14/ispfpga.
+Loading device for application trce from file 'xo2c2000.nph' in environment: C:/lscc/diamond/3.13/ispfpga.
 Package Status:                     Final          Version 1.44.
-Performance Hardware Data Status:   Final          Version 36.4.
+Performance Hardware Data Status:   Final          Version 34.4.
 Setup and Hold Report
 
 --------------------------------------------------------------------------------
-Lattice TRACE Report - Setup, Version Diamond (64-bit) 3.14.0.75.2
-Fri Nov 01 16:16:22 2024
+Lattice TRACE Report - Setup, Version Diamond (64-bit) 3.13.0.56.2
+Mon Dec 16 09:48:07 2024
 
 Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
 Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
-Copyright (c) 2002-2024 Lattice Semiconductor Corporation,  All rights reserved.
+Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
 
 Report Information
 ------------------
-Command line:    trce -v 10 -gt -sethld -sp 4 -sphld m -o uz_d_slots_uz_d_resolver_d5.twr -gui -msgset C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/promote.xml uz_d_slots_uz_d_resolver_d5.ncd uz_d_slots_uz_d_resolver_d5.prf 
+Command line:    trce -v 10 -gt -sethld -sp 4 -sphld m -o uz_d_slots_uz_d_resolver_d5.twr -gui -msgset C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/promote.xml uz_d_slots_uz_d_resolver_d5.ncd uz_d_slots_uz_d_resolver_d5.prf 
 Design file:     uz_d_slots_uz_d_resolver_d5.ncd
 Preference file: uz_d_slots_uz_d_resolver_d5.prf
 Device,speed:    LCMXO2-2000HC,4
@@ -38,8 +38,19 @@ BLOCK RESETPATHS
 
 ================================================================================
 Preference: Default path enumeration
-            18 items scored, 0 timing errors detected.
+            19 items scored, 0 timing errors detected.
 --------------------------------------------------------------------------------
+
+Report:   10.516ns delay reqsafestate to slotok
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     1.767         76.PAD to       76.PADDI reqsafestate
+ROUTE         1     2.488       76.PADDI to      R2C20A.C0 reqsafestate_c
+CTOF_DEL    ---     0.495      R2C20A.C0 to      R2C20A.F0 SLICE_0
+ROUTE         1     1.718      R2C20A.F0 to       81.PADDO slotok_c
+DOPAD_DEL   ---     4.048       81.PADDO to         81.PAD slotok
+                  --------
+                   10.516   (60.0% logic, 40.0% route), 3 logic levels.
 
 Report:    9.057ns delay d_17 to fpga_23
 
@@ -122,49 +133,13 @@ DOPAD_DEL   ---     2.797       15.PADDO to         15.PAD d_04
                   --------
                     8.191   (55.7% logic, 44.3% route), 2 logic levels.
 
-Report:    8.000ns delay fpga_22 to d_16
-
-   Name    Fanout   Delay (ns)          Site               Resource
-PADI_DEL    ---     1.767         27.PAD to       27.PADDI fpga_22
-ROUTE         1     3.436       27.PADDI to        3.PADDO d_16_c_c
-DOPAD_DEL   ---     2.797        3.PADDO to          3.PAD d_16
-                  --------
-                    8.000   (57.0% logic, 43.0% route), 2 logic levels.
-
-Report:    9.057ns is the maximum delay for this preference.
+Report:   10.516ns is the maximum delay for this preference.
 
 
 ================================================================================
 Preference: Default net enumeration
-            19 items scored, 0 timing errors detected.
+            22 items scored, 0 timing errors detected.
 --------------------------------------------------------------------------------
-
-Report:    4.724ns maximum delay on GND_net
-
-           Delays             Connection(s)
-           4.724ns         R2C5C.F0 to 67.PADDO        
-           3.754ns         R2C5C.F0 to 74.PADDO        
-           4.724ns         R2C5C.F0 to 66.PADDO        
-           4.650ns         R2C5C.F0 to 65.PADDO        
-           3.233ns         R2C5C.F0 to 2.PADDO         
-           4.650ns         R2C5C.F0 to 64.PADDO        
-           3.240ns         R2C5C.F0 to 7.PADDO         
-           4.204ns         R2C5C.F0 to 63.PADDO        
-           3.240ns         R2C5C.F0 to 8.PADDO         
-           4.204ns         R2C5C.F0 to 62.PADDO        
-           2.806ns         R2C5C.F0 to 4.PADDO         
-           2.056ns         R2C5C.F0 to 87.PADDO        
-           2.056ns         R2C5C.F0 to 88.PADDO        
-           1.549ns         R2C5C.F0 to 96.PADDO        
-           1.549ns         R2C5C.F0 to 97.PADDO        
-           1.976ns         R2C5C.F0 to 98.PADDO        
-           1.976ns         R2C5C.F0 to 99.PADDO        
-           4.716ns         R2C5C.F0 to 43.PADDO        
-           4.289ns         R2C5C.F0 to 45.PADDO        
-           4.289ns         R2C5C.F0 to 47.PADDO        
-           3.416ns         R2C5C.F0 to 84.PADDO        
-           3.416ns         R2C5C.F0 to 83.PADDO        
-           2.995ns         R2C5C.F0 to 78.PADDO        
 
 Report:    4.301ns maximum delay on d_09_c_c
 
@@ -211,7 +186,12 @@ Report:    3.466ns maximum delay on fpga_14_c_c
            Delays             Connection(s)
            3.466ns          9.PADDI to 37.PADDO        
 
-Report:    4.724ns is the maximum delay for this preference.
+Report:    3.436ns maximum delay on d_16_c_c
+
+           Delays             Connection(s)
+           3.436ns         27.PADDI to 3.PADDO         
+
+Report:    4.301ns is the maximum delay for this preference.
 
 Report Summary
 --------------
@@ -219,9 +199,9 @@ Report Summary
 Preference                              |   Constraint|       Actual|Levels
 ----------------------------------------------------------------------------
                                         |             |             |
-Default path enumeration                |     0.000 ns|     9.057 ns|   0  
+Default path enumeration                |     0.000 ns|    10.516 ns|   0  
                                         |             |             |
-Default net enumeration                 |     0.000 ns|     4.724 ns|   0  
+Default net enumeration                 |     0.000 ns|     4.301 ns|   0  
                                         |             |             |
 ----------------------------------------------------------------------------
 
@@ -241,7 +221,7 @@ Timing summary (Setup):
 Timing errors: 0  Score: 0
 Cumulative negative slack: 0
 
-Constraints cover 18 paths, 19 nets, and 41 connections (100.00% coverage)
+Constraints cover 19 paths, 22 nets, and 44 connections (100.00% coverage)
 
 --------------------------------------------------------------------------------
 

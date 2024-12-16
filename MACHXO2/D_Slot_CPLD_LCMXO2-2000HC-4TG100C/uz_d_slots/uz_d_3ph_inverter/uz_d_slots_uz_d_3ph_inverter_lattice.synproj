@@ -31,11 +31,11 @@
 
 
 -lpf 1
--lib "work" -vhd "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_3ph_inverter.vhdl"
+-lib "work" -vhd "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_3ph_inverter/source/uz_d_3ph_inverter.vhdl"
 -top SignalRouter
 
 
--p "C:/lscc/diamond/3.14/ispfpga/xo2c00/data" "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_3ph_inverter" "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots"
+-p "C:/lscc/diamond/3.13/ispfpga/xo2c00/data" "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_3ph_inverter" "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots"
 
 -ngd "uz_d_slots_uz_d_3ph_inverter.ngd"
 

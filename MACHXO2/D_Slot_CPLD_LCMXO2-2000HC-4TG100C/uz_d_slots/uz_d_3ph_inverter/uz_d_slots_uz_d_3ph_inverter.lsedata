@@ -18,10 +18,17 @@
 <unit name = "SignalRouter">
 
     <!--
-        Top Level Pins: 60
+        Top Level Pins: 67
     -->
 
     <pins>
+        <pitem  name = "pilot_in"  direction = "in"  />
+        <pitem  name = "reqsafestate"  direction = "in"  />
+        <pitem  name = "carrierrdy"  direction = "in"  />
+        <pitem  name = "slotok"  direction = "out"  />
+        <pitem  name = "reqoe"  direction = "out"  />
+        <pitem  name = "i2c_scl"  direction = "in"  />
+        <pitem  name = "i2c_sda"  direction = "in"  />
         <pitem  name = "fpga_00"  direction = "in"  />
         <pitem  name = "fpga_01"  direction = "in"  />
         <pitem  name = "fpga_02"  direction = "in"  />
@@ -85,8 +92,74 @@
     </pins>
 
     <!--
-        Instances in netlist: 0
+        Instances in netlist: 5
     -->
+
+    <instance  name = "reqsafestate_I_0"  library = "work"  arch = "RTL"  type = "comb">
+        <pins>
+        <pitem  name = "i"  direction = "in"  />
+        <pitem  name = "o"  direction = "out"  />
+        </pins>
+
+        <nets>
+        <nitem  name = "reqsafestate"  />
+        <nitem  name = "reqsafestate_N_1"  />
+        </nets>
+    </instance>
+
+    <instance  name = "i2c_scl_I_0"  library = "work"  arch = "RTL"  type = "comb">
+        <pins>
+        <pitem  name = "a0"  direction = "in"  />
+        <pitem  name = "a1"  direction = "in"  />
+        <pitem  name = "o"  direction = "out"  />
+        </pins>
+
+        <nets>
+        <nitem  name = "i2c_scl"  />
+        <nitem  name = "i2c_sda"  />
+        <nitem  name = "dummy_signal_N_3"  />
+        </nets>
+    </instance>
+
+    <instance  name = "dummy_signal_I_1"  library = "work"  arch = "RTL"  type = "comb">
+        <pins>
+        <pitem  name = "a0"  direction = "in"  />
+        <pitem  name = "a1"  direction = "in"  />
+        <pitem  name = "o"  direction = "out"  />
+        </pins>
+
+        <nets>
+        <nitem  name = "dummy_signal_N_3"  />
+        <nitem  name = "carrierrdy"  />
+        <nitem  name = "dummy_signal_N_2"  />
+        </nets>
+    </instance>
+
+    <instance  name = "dummy_signal_I_0_11"  library = "work"  arch = "RTL"  type = "comb">
+        <pins>
+        <pitem  name = "a0"  direction = "in"  />
+        <pitem  name = "a1"  direction = "in"  />
+        <pitem  name = "o"  direction = "out"  />
+        </pins>
+
+        <nets>
+        <nitem  name = "dummy_signal_N_2"  />
+        <nitem  name = "pilot_in"  />
+        <nitem  name = "dummy_signal"  />
+        </nets>
+    </instance>
+
+    <instance  name = "dummy_signal_I_0"  library = "work"  arch = "RTL"  type = "comb">
+        <pins>
+        <pitem  name = "o"  direction = "out"  />
+        <pitem  name = "i"  direction = "in"  />
+        </pins>
+
+        <nets>
+        <nitem  name = "dummy_signal_keep"  />
+        <nitem  name = "dummy_signal"  />
+        </nets>
+    </instance>
 
     <!--
         Views in design "SignalRouter": 0

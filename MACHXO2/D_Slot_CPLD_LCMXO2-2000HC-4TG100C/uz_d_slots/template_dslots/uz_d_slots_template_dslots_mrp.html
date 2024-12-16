@@ -25,7 +25,7 @@ Target Vendor:  LATTICE
 Target Device:  LCMXO2-2000HCTQFP100
 Target Performance:   4
 Mapper:  xo2c00,  version:  Diamond (64-bit) 3.13.0.56.2
-Mapped on:  12/16/24  07:55:58
+Mapped on:  12/16/24  09:49:32
 
 
 <A name="mrp_ds"></A><B><U><big>Design Summary</big></U></B>
@@ -41,7 +41,7 @@ Mapped on:  12/16/24  07:55:58
       Number used as distributed RAM:     0
       Number used as ripple logic:        0
       Number used as shift registers:     0
-   Number of PIO sites used: 64 + 4(JTAG) out of 80 (85%)
+   Number of PIO sites used: 63 + 4(JTAG) out of 80 (84%)
    Number of block RAMs:  0 out of 8 (0%)
    Number of GSRs:        0 out of 1 (0%)
    EFB used :        No
@@ -109,8 +109,6 @@ Mapped on:  12/16/24  07:55:58
 +---------------------+-----------+-----------+------------+
 | reqoe               | OUTPUT    | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| CPLD_DIGOUT_01      | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
 | d_00                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | d_01                | OUTPUT    | LVCMOS33  |            |
@@ -127,9 +125,9 @@ Mapped on:  12/16/24  07:55:58
 +---------------------+-----------+-----------+------------+
 | d_07                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-
 | d_08                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
+
 | d_09                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | d_10                | OUTPUT    | LVCMOS33  |            |
@@ -184,9 +182,9 @@ Mapped on:  12/16/24  07:55:58
 +---------------------+-----------+-----------+------------+
 | fpga_04             | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-
 | fpga_05             | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
+
 | fpga_06             | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | fpga_07             | INPUT     | LVCMOS18  |            |
@@ -242,9 +240,9 @@ Mapped on:  12/16/24  07:55:58
 
 Block GSR_INST undriven or does not drive anything - clipped.
 Block i2c_sda_pad undriven or does not drive anything - clipped.
-
 Block i2c_scl_pad undriven or does not drive anything - clipped.
 Block carrierrdy_pad undriven or does not drive anything - clipped.
+
 Block pilot_in_pad undriven or does not drive anything - clipped.
 Block i3_4_lut undriven or does not drive anything - clipped.
 Signal i2c_sda undriven or does not drive anything - clipped.
@@ -268,6 +266,8 @@ Signal i2c_scl_c undriven or does not drive anything - clipped.
    Total REAL Time: 0 secs  
    Peak Memory Usage: 44 MB
         
+
+
 
 
 

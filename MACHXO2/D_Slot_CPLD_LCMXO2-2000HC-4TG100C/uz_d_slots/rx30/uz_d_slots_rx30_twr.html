@@ -15,24 +15,24 @@ Vendor:      LATTICE
 Device:      LCMXO2-2000HC
 Package:     TQFP100
 Performance: 4
-Loading device for application trce from file 'xo2c2000.nph' in environment: C:/lscc/diamond/3.14/ispfpga.
+Loading device for application trce from file 'xo2c2000.nph' in environment: C:/lscc/diamond/3.13/ispfpga.
 Package Status:                     Final          Version 1.44.
-Performance Hardware Data Status:   Final          Version 36.4.
+Performance Hardware Data Status:   Final          Version 34.4.
 Setup and Hold Report
 
 --------------------------------------------------------------------------------
-<A name="Par_Twr_setup"></A><B><U><big>Lattice TRACE Report - Setup, Version Diamond (64-bit) 3.14.0.75.2</big></U></B>
-Fri Nov 01 14:30:38 2024
+<A name="Par_Twr_setup"></A><B><U><big>Lattice TRACE Report - Setup, Version Diamond (64-bit) 3.13.0.56.2</big></U></B>
+Mon Dec 16 08:21:04 2024
 
 Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
 Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
-Copyright (c) 2002-2024 Lattice Semiconductor Corporation,  All rights reserved.
+Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
 
 <A name="ptwr_set_ri"></A><B><U><big>Report Information</big></U></B>
 ------------------
-Command line:    trce -v 10 -gt -sethld -sp 4 -sphld m -o uz_d_slots_rx30.twr -gui -msgset C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/promote.xml uz_d_slots_rx30.ncd uz_d_slots_rx30.prf 
+Command line:    trce -v 10 -gt -sethld -sp 4 -sphld m -o uz_d_slots_rx30.twr -gui -msgset C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/promote.xml uz_d_slots_rx30.ncd uz_d_slots_rx30.prf 
 Design file:     uz_d_slots_rx30.ncd
 Preference file: uz_d_slots_rx30.prf
 Device,speed:    LCMXO2-2000HC,4
@@ -41,9 +41,9 @@ Report level:    verbose report, limited to 10 items per preference
 
 <A name="ptwr_set_ps"></A><B><U><big>Preference Summary</big></U></B>
 
-<LI><A href='#par_twr_pref_0_0' Target='right'>Default path enumeration(0 errors)</A></LI>            30 items scored, 0 timing errors detected.
+<LI><A href='#par_twr_pref_0_0' Target='right'>Default path enumeration(0 errors)</A></LI>            31 items scored, 0 timing errors detected.
 
-<LI><A href='#par_twr_pref_0_1' Target='right'>Default net enumeration(0 errors)</A></LI>            30 items scored, 0 timing errors detected.
+<LI><A href='#par_twr_pref_0_1' Target='right'>Default net enumeration(0 errors)</A></LI>            33 items scored, 0 timing errors detected.
 
 BLOCK ASYNCPATHS
 BLOCK RESETPATHS
@@ -53,7 +53,7 @@ BLOCK RESETPATHS
 
 ================================================================================
 <A name="par_twr_pref_0_0"></A>Preference: Default path enumeration
-            30 items scored, 0 timing errors detected.
+            31 items scored, 0 timing errors detected.
 --------------------------------------------------------------------------------
 
 Report:   10.544ns delay d_00 to fpga_00
@@ -64,6 +64,17 @@ ROUTE         1     5.364       17.PADDI to       78.PADDO fpga_00_c_c
 DOPAD_DEL   ---     4.048       78.PADDO to         78.PAD fpga_00
                   --------
                    10.544   (49.1% logic, 50.9% route), 2 logic levels.
+
+Report:   10.119ns delay reqsafestate to slotok
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     1.767         76.PAD to       76.PADDI reqsafestate
+ROUTE         1     2.488       76.PADDI to      R2C20A.C0 reqsafestate_c
+CTOF_DEL    ---     0.495      R2C20A.C0 to      R2C20A.F0 SLICE_0
+ROUTE         1     1.321      R2C20A.F0 to       81.PADDO slotok_c
+DOPAD_DEL   ---     4.048       81.PADDO to         81.PAD slotok
+                  --------
+                   10.119   (62.4% logic, 37.6% route), 3 logic levels.
 
 Report:    9.988ns delay d_19 to fpga_19
 
@@ -137,21 +148,12 @@ DOPAD_DEL   ---     4.048       96.PADDO to         96.PAD fpga_27
                   --------
                     9.240   (56.1% logic, 43.9% route), 2 logic levels.
 
-Report:    9.238ns delay d_25 to fpga_25
-
-   Name    Fanout   Delay (ns)          Site               Resource
-PADI_DEL    ---     1.132         65.PAD to       65.PADDI d_25
-ROUTE         1     4.058       65.PADDI to       98.PADDO fpga_25_c_c
-DOPAD_DEL   ---     4.048       98.PADDO to         98.PAD fpga_25
-                  --------
-                    9.238   (56.1% logic, 43.9% route), 2 logic levels.
-
 Report:   10.544ns is the maximum delay for this preference.
 
 
 ================================================================================
 <A name="par_twr_pref_0_1"></A>Preference: Default net enumeration
-            30 items scored, 0 timing errors detected.
+            33 items scored, 0 timing errors detected.
 --------------------------------------------------------------------------------
 
 Report:    5.364ns maximum delay on fpga_00_c_c
@@ -234,7 +236,7 @@ Found 0 clocks:
 Timing errors: 0  Score: 0
 Cumulative negative slack: 0
 
-Constraints cover 30 paths, 30 nets, and 30 connections (100.00% coverage)
+Constraints cover 31 paths, 33 nets, and 33 connections (100.00% coverage)
 
 --------------------------------------------------------------------------------
 

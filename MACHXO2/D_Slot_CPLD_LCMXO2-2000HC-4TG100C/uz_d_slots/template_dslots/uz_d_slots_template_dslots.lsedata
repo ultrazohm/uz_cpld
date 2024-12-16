@@ -18,7 +18,7 @@
 <unit name = "SignalRouter">
 
     <!--
-        Top Level Pins: 68
+        Top Level Pins: 67
     -->
 
     <pins>
@@ -59,7 +59,6 @@
         <pitem  name = "fpga_27"  direction = "in"  />
         <pitem  name = "fpga_28"  direction = "in"  />
         <pitem  name = "fpga_29"  direction = "in"  />
-        <pitem  name = "CPLD_DIGOUT_01"  direction = "out"  />
         <pitem  name = "d_00"  direction = "out"  />
         <pitem  name = "d_01"  direction = "out"  />
         <pitem  name = "d_02"  direction = "out"  />

@@ -17,7 +17,7 @@ Target Vendor:  LATTICE
 Target Device:  LCMXO2-2000HCTQFP100
 Target Performance:   4
 Mapper:  xo2c00,  version:  Diamond (64-bit) 3.13.0.56.2
-Mapped on:  12/16/24  07:55:58
+Mapped on:  12/16/24  09:49:32
 
 Design Summary
 --------------
@@ -34,7 +34,7 @@ Design Summary
       Number used as distributed RAM:     0
       Number used as ripple logic:        0
       Number used as shift registers:     0
-   Number of PIO sites used: 64 + 4(JTAG) out of 80 (85%)
+   Number of PIO sites used: 63 + 4(JTAG) out of 80 (84%)
    Number of block RAMs:  0 out of 8 (0%)
    Number of GSRs:        0 out of 1 (0%)
    EFB used :        No
@@ -66,7 +66,7 @@ Design Summary
 
 
 
-Design:  SignalRouter                                  Date:  12/16/24  07:55:58
+Design:  SignalRouter                                  Date:  12/16/24  09:49:32
 
 Design Summary (cont)
 ---------------------
@@ -108,8 +108,6 @@ IO (PIO) Attributes
 +---------------------+-----------+-----------+------------+
 | reqoe               | OUTPUT    | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| CPLD_DIGOUT_01      | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
 | d_00                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | d_01                | OUTPUT    | LVCMOS33  |            |
@@ -126,18 +124,18 @@ IO (PIO) Attributes
 +---------------------+-----------+-----------+------------+
 | d_07                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
+| d_08                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
 
                                     Page 2
 
 
 
 
-Design:  SignalRouter                                  Date:  12/16/24  07:55:58
+Design:  SignalRouter                                  Date:  12/16/24  09:49:32
 
 IO (PIO) Attributes (cont)
 --------------------------
-| d_08                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
 | d_09                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | d_10                | OUTPUT    | LVCMOS33  |            |
@@ -192,18 +190,18 @@ IO (PIO) Attributes (cont)
 +---------------------+-----------+-----------+------------+
 | fpga_04             | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
+| fpga_05             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
 
                                     Page 3
 
 
 
 
-Design:  SignalRouter                                  Date:  12/16/24  07:55:58
+Design:  SignalRouter                                  Date:  12/16/24  09:49:32
 
 IO (PIO) Attributes (cont)
 --------------------------
-| fpga_05             | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
 | fpga_06             | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | fpga_07             | INPUT     | LVCMOS18  |            |
@@ -258,18 +256,18 @@ Removed logic
 
 Block GSR_INST undriven or does not drive anything - clipped.
 Block i2c_sda_pad undriven or does not drive anything - clipped.
+Block i2c_scl_pad undriven or does not drive anything - clipped.
+Block carrierrdy_pad undriven or does not drive anything - clipped.
 
                                     Page 4
 
 
 
 
-Design:  SignalRouter                                  Date:  12/16/24  07:55:58
+Design:  SignalRouter                                  Date:  12/16/24  09:49:32
 
 Removed logic (cont)
 --------------------
-Block i2c_scl_pad undriven or does not drive anything - clipped.
-Block carrierrdy_pad undriven or does not drive anything - clipped.
 Block pilot_in_pad undriven or does not drive anything - clipped.
 Block i3_4_lut undriven or does not drive anything - clipped.
 Signal i2c_sda undriven or does not drive anything - clipped.
@@ -291,6 +289,8 @@ Run Time and Memory Usage
    Total REAL Time: 0 secs  
    Peak Memory Usage: 44 MB
         
+
+
 
 
 

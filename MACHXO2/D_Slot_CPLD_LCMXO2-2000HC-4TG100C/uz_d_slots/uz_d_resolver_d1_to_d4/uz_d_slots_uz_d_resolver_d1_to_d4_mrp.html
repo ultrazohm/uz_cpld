@@ -17,32 +17,33 @@ Command line:   map -a MachXO2 -p LCMXO2-2000HC -t TQFP100 -s 4 -oc Commercial
      uz_d_slots_uz_d_resolver_d1_to_d4.ngd -o
      uz_d_slots_uz_d_resolver_d1_to_d4_map.ncd -pr
      uz_d_slots_uz_d_resolver_d1_to_d4.prf -mp
-     uz_d_slots_uz_d_resolver_d1_to_d4.mrp -lpf C:/git/cpld_lattice/MACHXO2/D_Sl
-     ot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_resolver_d1_to_d4/uz_d_slots_
-     uz_d_resolver_d1_to_d4.lpf -lpf C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCM
-     XO2-2000HC-4TG100C/uz_d_slots/uz_d_slots.lpf -c 0 -gui -msgset C:/git/cpld_
-     lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/promote.xml 
+     uz_d_slots_uz_d_resolver_d1_to_d4.mrp -lpf C:/cpld/cpld_lattice/MACHXO2/D_S
+     lot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_resolver_d1_to_d4/uz_d_slots
+     _uz_d_resolver_d1_to_d4.lpf -lpf C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_L
+     CMXO2-2000HC-4TG100C/uz_d_slots/uz_d_resolver_d1_to_d4/source/uz_d_slots.lp
+     f -c 0 -gui -msgset C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-
+     4TG100C/uz_d_slots/promote.xml 
 Target Vendor:  LATTICE
 Target Device:  LCMXO2-2000HCTQFP100
 Target Performance:   4
-Mapper:  xo2c00,  version:  Diamond (64-bit) 3.14.0.75.2
-Mapped on:  11/01/24  15:04:47
+Mapper:  xo2c00,  version:  Diamond (64-bit) 3.13.0.56.2
+Mapped on:  12/16/24  09:20:59
 
 
 <A name="mrp_ds"></A><B><U><big>Design Summary</big></U></B>
    Number of registers:      0 out of  2352 (0%)
       PFU registers:            0 out of  2112 (0%)
       PIO registers:            0 out of   240 (0%)
-   Number of SLICEs:         0 out of  1056 (0%)
-      SLICEs as Logic/ROM:      0 out of  1056 (0%)
+   Number of SLICEs:         2 out of  1056 (0%)
+      SLICEs as Logic/ROM:      2 out of  1056 (0%)
       SLICEs as RAM:            0 out of   792 (0%)
       SLICEs as Carry:          0 out of  1056 (0%)
-   Number of LUT4s:          0 out of  2112 (0%)
-      Number used as logic LUTs:          0
+   Number of LUT4s:          2 out of  2112 (0%)
+      Number used as logic LUTs:          2
       Number used as distributed RAM:     0
       Number used as ripple logic:        0
       Number used as shift registers:     0
-   Number of PIO sites used: 60 + 4(JTAG) out of 80 (80%)
+   Number of PIO sites used: 63 + 4(JTAG) out of 80 (84%)
    Number of block RAMs:  0 out of 8 (0%)
    Number of GSRs:        0 out of 1 (0%)
    EFB used :        No
@@ -66,8 +67,8 @@ Mapped on:  11/01/24  15:04:47
       1. Total number of LUT4s = (Number of logic LUT4s) + 2*(Number of
      distributed RAMs) + 2*(Number of ripple logic)
       2. Number of logic LUT4s does not include count of distributed RAM and
-     ripple logic.
 
+     ripple logic.
    Number of clocks:  0
    Number of Clock Enables:  0
    Number of LSRs:  0
@@ -78,16 +79,16 @@ Mapped on:  11/01/24  15:04:47
      Net d_02_c_c: 1 loads
      Net d_03_c_c: 1 loads
      Net d_04_c_c: 1 loads
-     Net d_05_c_c: 1 loads
-     Net d_06_c_c: 1 loads
      Net fpga_08_c_c: 1 loads
      Net fpga_17_c_c: 1 loads
      Net fpga_26_c_c: 1 loads
+     Net slotok_c: 1 loads
+     Net VCC_net: 1 loads
 
 
 
 
-   Number of warnings:  3
+   Number of warnings:  0
    Number of errors:    0
      
 
@@ -96,12 +97,7 @@ Mapped on:  11/01/24  15:04:47
 
 <A name="mrp_dwe"></A><B><U><big>Design Errors/Warnings</big></U></B>
 
-WARNING - map: SLEWRATE=SLOW for fpga_08_c_pad/IOBUF violates legal combination
-     and is ignored.
-WARNING - map: SLEWRATE=SLOW for fpga_17_c_pad/IOBUF violates legal combination
-     and is ignored.
-WARNING - map: SLEWRATE=SLOW for fpga_26_c_pad/IOBUF violates legal combination
-     and is ignored.
+   No errors or warnings present.
 
 
 
@@ -110,6 +106,10 @@ WARNING - map: SLEWRATE=SLOW for fpga_26_c_pad/IOBUF violates legal combination
 +---------------------+-----------+-----------+------------+
 | IO Name             | Direction | Levelmode | IO         |
 |                     |           |  IO_TYPE  | Register   |
++---------------------+-----------+-----------+------------+
+| slotok              | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| reqoe               | OUTPUT    | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | fpga_08             | OUTPUT    | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
@@ -172,6 +172,8 @@ WARNING - map: SLEWRATE=SLOW for fpga_26_c_pad/IOBUF violates legal combination
 +---------------------+-----------+-----------+------------+
 | d_29                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
+| reqsafestate        | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
 | fpga_00             | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | fpga_01             | INPUT     | LVCMOS18  |            |
@@ -182,9 +184,9 @@ WARNING - map: SLEWRATE=SLOW for fpga_26_c_pad/IOBUF violates legal combination
 +---------------------+-----------+-----------+------------+
 | fpga_04             | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
+
 | fpga_05             | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-
 | fpga_06             | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | fpga_07             | INPUT     | LVCMOS18  |            |
@@ -238,12 +240,24 @@ WARNING - map: SLEWRATE=SLOW for fpga_26_c_pad/IOBUF violates legal combination
 
 <A name="mrp_rm"></A><B><U><big>Removed logic</big></U></B>
 
-Block i24 undriven or does not drive anything - clipped.
 Block GSR_INST undriven or does not drive anything - clipped.
-Block i23 undriven or does not drive anything - clipped.
-Signal VCC_net undriven or does not drive anything - clipped.
+Block i26 undriven or does not drive anything - clipped.
 
+Block i2c_sda_pad undriven or does not drive anything - clipped.
+Block i2c_scl_pad undriven or does not drive anything - clipped.
+Block carrierrdy_pad undriven or does not drive anything - clipped.
+Block pilot_in_pad undriven or does not drive anything - clipped.
+Block i3_4_lut undriven or does not drive anything - clipped.
 Signal GND_net undriven or does not drive anything - clipped.
+Signal i2c_sda undriven or does not drive anything - clipped.
+Signal i2c_scl undriven or does not drive anything - clipped.
+Signal carrierrdy undriven or does not drive anything - clipped.
+Signal pilot_in undriven or does not drive anything - clipped.
+Signal dummy_signal undriven or does not drive anything - clipped.
+Signal i2c_sda_c undriven or does not drive anything - clipped.
+Signal carrierrdy_c undriven or does not drive anything - clipped.
+Signal pilot_in_c undriven or does not drive anything - clipped.
+Signal i2c_scl_c undriven or does not drive anything - clipped.
 
      
 
@@ -290,25 +304,11 @@ Signal GND_net undriven or does not drive anything - clipped.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
      Copyright (c) 1995 AT&T Corp.   All rights reserved.
      Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
      Copyright (c) 2001 Agere Systems   All rights reserved.
-     Copyright (c) 2002-2024 Lattice Semiconductor Corporation,  All rights
+     Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights
      reserved.
 
 

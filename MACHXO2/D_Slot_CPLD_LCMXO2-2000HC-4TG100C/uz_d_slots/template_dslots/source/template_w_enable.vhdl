@@ -46,9 +46,6 @@ entity SignalRouter is
         fpga_27 : in STD_LOGIC;
         fpga_28 : in STD_LOGIC;
         fpga_29 : in STD_LOGIC;
-		
-		-- Define General Purpose auxiliary IOs
-		CPLD_DIGOUT_01 : out STD_LOGIC;
 
         -- Define 30 d-slot ports
         d_00 : out STD_LOGIC;
@@ -138,5 +135,5 @@ begin
 
 	-- Make sure ports are not optimized away
 	dummy_signal <= i2c_scl AND i2c_sda AND carrierrdy AND pilot_in;
-	--CPLD_DIGOUT_01 <= '1' when (i2c_scl = '0' AND i2c_sda = '0' AND carrierrdy = '1' AND pilot_in = '0') else '0';
+
 end Behavioral;

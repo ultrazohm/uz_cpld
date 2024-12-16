@@ -16,32 +16,32 @@
 Command line:   map -a MachXO2 -p LCMXO2-2000HC -t TQFP100 -s 4 -oc Commercial
      uz_d_slots_uz_d_resolver_d5.ngd -o uz_d_slots_uz_d_resolver_d5_map.ncd -pr
      uz_d_slots_uz_d_resolver_d5.prf -mp uz_d_slots_uz_d_resolver_d5.mrp -lpf C:
-     /git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d
-     _resolver_d5/uz_d_slots_uz_d_resolver_d5.lpf -lpf C:/git/cpld_lattice/MACHX
-     O2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_slots.lpf -c 0 -gui
-     -msgset C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_
-     slots/promote.xml 
+     /cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_
+     d_resolver_d5/uz_d_slots_uz_d_resolver_d5.lpf -lpf C:/cpld/cpld_lattice/MAC
+     HXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_resolver_d5/source/u
+     z_d_slots.lpf -c 0 -gui -msgset C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LC
+     MXO2-2000HC-4TG100C/uz_d_slots/promote.xml 
 Target Vendor:  LATTICE
 Target Device:  LCMXO2-2000HCTQFP100
 Target Performance:   4
-Mapper:  xo2c00,  version:  Diamond (64-bit) 3.14.0.75.2
-Mapped on:  11/01/24  16:16:18
+Mapper:  xo2c00,  version:  Diamond (64-bit) 3.13.0.56.2
+Mapped on:  12/16/24  09:48:04
 
 
 <A name="mrp_ds"></A><B><U><big>Design Summary</big></U></B>
    Number of registers:      0 out of  2352 (0%)
       PFU registers:            0 out of  2112 (0%)
       PIO registers:            0 out of   240 (0%)
-   Number of SLICEs:         1 out of  1056 (0%)
-      SLICEs as Logic/ROM:      1 out of  1056 (0%)
+   Number of SLICEs:         3 out of  1056 (0%)
+      SLICEs as Logic/ROM:      3 out of  1056 (0%)
       SLICEs as RAM:            0 out of   792 (0%)
       SLICEs as Carry:          0 out of  1056 (0%)
-   Number of LUT4s:          1 out of  2112 (0%)
-      Number used as logic LUTs:          1
+   Number of LUT4s:          3 out of  2112 (0%)
+      Number used as logic LUTs:          3
       Number used as distributed RAM:     0
       Number used as ripple logic:        0
       Number used as shift registers:     0
-   Number of PIO sites used: 59 + 4(JTAG) out of 80 (79%)
+   Number of PIO sites used: 62 + 4(JTAG) out of 80 (83%)
    Number of block RAMs:  0 out of 8 (0%)
    Number of GSRs:        0 out of 1 (0%)
    EFB used :        No
@@ -78,15 +78,15 @@ Mapped on:  11/01/24  16:16:18
      Net d_03_c_c: 1 loads
      Net d_04_c_c: 1 loads
      Net d_05_c_c: 1 loads
-     Net d_06_c_c: 1 loads
-     Net d_07_c_c: 1 loads
      Net fpga_14_c_c: 1 loads
      Net fpga_23_c_c: 1 loads
+     Net slotok_c: 1 loads
+     Net VCC_net: 1 loads
 
 
 
 
-   Number of warnings:  5
+   Number of warnings:  0
    Number of errors:    0
      
 
@@ -95,17 +95,7 @@ Mapped on:  11/01/24  16:16:18
 
 <A name="mrp_dwe"></A><B><U><big>Design Errors/Warnings</big></U></B>
 
-WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
-     d_slots/uz_d_slots.lpf(49): Semantic error in "IOBUF PORT "d_26"
-     IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_26" does not exist in the
-     design. This preference has been disabled.
-WARNING - map: SLEWRATE=SLOW for fpga_14_c_pad/IOBUF violates legal combination
-     and is ignored.
-WARNING - map: SLEWRATE=SLOW for fpga_23_c_pad/IOBUF violates legal combination
-     and is ignored.
-WARNING - map: input pad net 'd_26' has no legal load.
-WARNING - map: IO buffer missing for top level port d_26...logic will be
-     discarded.
+   No errors or warnings present.
 
 
 
@@ -114,6 +104,10 @@ WARNING - map: IO buffer missing for top level port d_26...logic will be
 +---------------------+-----------+-----------+------------+
 | IO Name             | Direction | Levelmode | IO         |
 |                     |           |  IO_TYPE  | Register   |
++---------------------+-----------+-----------+------------+
+| slotok              | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| reqoe               | OUTPUT    | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | fpga_00             | OUTPUT    | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
@@ -127,13 +121,13 @@ WARNING - map: IO buffer missing for top level port d_26...logic will be
 +---------------------+-----------+-----------+------------+
 | fpga_05             | OUTPUT    | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-
 | fpga_14             | OUTPUT    | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | fpga_23             | OUTPUT    | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | fpga_24             | OUTPUT    | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
+
 | fpga_25             | OUTPUT    | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | fpga_26             | OUTPUT    | LVCMOS18  |            |
@@ -184,13 +178,13 @@ WARNING - map: IO buffer missing for top level port d_26...logic will be
 +---------------------+-----------+-----------+------------+
 | d_21                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-
 | d_22                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | d_23                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | d_24                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
+
 | d_25                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | d_27                | OUTPUT    | LVCMOS33  |            |
@@ -198,6 +192,8 @@ WARNING - map: IO buffer missing for top level port d_26...logic will be
 | d_28                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | d_29                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| reqsafestate        | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | fpga_06             | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
@@ -240,10 +236,27 @@ WARNING - map: IO buffer missing for top level port d_26...logic will be
 
 <A name="mrp_rm"></A><B><U><big>Removed logic</big></U></B>
 
-Block i12 undriven or does not drive anything - clipped.
 Block GSR_INST undriven or does not drive anything - clipped.
+Block d_26_pad undriven or does not drive anything - clipped.
+Block i2c_sda_pad undriven or does not drive anything - clipped.
+Block i2c_scl_pad undriven or does not drive anything - clipped.
+Block carrierrdy_pad undriven or does not drive anything - clipped.
+Block pilot_in_pad undriven or does not drive anything - clipped.
 
-Signal VCC_net undriven or does not drive anything - clipped.
+Block i4_4_lut undriven or does not drive anything - clipped.
+Block i1_2_lut undriven or does not drive anything - clipped.
+Signal d_26 undriven or does not drive anything - clipped.
+Signal i2c_sda undriven or does not drive anything - clipped.
+Signal i2c_scl undriven or does not drive anything - clipped.
+Signal carrierrdy undriven or does not drive anything - clipped.
+Signal pilot_in undriven or does not drive anything - clipped.
+Signal dummy_signal undriven or does not drive anything - clipped.
+Signal i2c_scl_c undriven or does not drive anything - clipped.
+Signal d_26_c undriven or does not drive anything - clipped.
+Signal carrierrdy_c undriven or does not drive anything - clipped.
+Signal n6 undriven or does not drive anything - clipped.
+Signal i2c_sda_c undriven or does not drive anything - clipped.
+Signal pilot_in_c undriven or does not drive anything - clipped.
 
      
 
@@ -254,21 +267,8 @@ Signal VCC_net undriven or does not drive anything - clipped.
 
    Total CPU Time: 0 secs  
    Total REAL Time: 0 secs  
-   Peak Memory Usage: 45 MB
+   Peak Memory Usage: 44 MB
         
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -308,7 +308,7 @@ Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
      Copyright (c) 1995 AT&T Corp.   All rights reserved.
      Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
      Copyright (c) 2001 Agere Systems   All rights reserved.
-     Copyright (c) 2002-2024 Lattice Semiconductor Corporation,  All rights
+     Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights
      reserved.
 
 

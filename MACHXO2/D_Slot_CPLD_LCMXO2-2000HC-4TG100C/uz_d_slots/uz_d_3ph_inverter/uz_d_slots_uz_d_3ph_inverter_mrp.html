@@ -16,32 +16,32 @@
 Command line:   map -a MachXO2 -p LCMXO2-2000HC -t TQFP100 -s 4 -oc Commercial
      uz_d_slots_uz_d_3ph_inverter.ngd -o uz_d_slots_uz_d_3ph_inverter_map.ncd
      -pr uz_d_slots_uz_d_3ph_inverter.prf -mp uz_d_slots_uz_d_3ph_inverter.mrp
-     -lpf C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slo
-     ts/uz_d_3ph_inverter/uz_d_slots_uz_d_3ph_inverter.lpf -lpf C:/git/cpld_latt
-     ice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_slots.lpf -c
-     0 -gui -msgset C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100
-     C/uz_d_slots/promote.xml 
+     -lpf C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_sl
+     ots/uz_d_3ph_inverter/uz_d_slots_uz_d_3ph_inverter.lpf -lpf C:/cpld/cpld_la
+     ttice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_3ph_inverte
+     r/source/uz_d_slots.lpf -c 0 -gui -msgset C:/cpld/cpld_lattice/MACHXO2/D_Sl
+     ot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/promote.xml 
 Target Vendor:  LATTICE
 Target Device:  LCMXO2-2000HCTQFP100
 Target Performance:   4
-Mapper:  xo2c00,  version:  Diamond (64-bit) 3.14.0.75.2
-Mapped on:  11/01/24  16:21:58
+Mapper:  xo2c00,  version:  Diamond (64-bit) 3.13.0.56.2
+Mapped on:  12/16/24  09:21:47
 
 
 <A name="mrp_ds"></A><B><U><big>Design Summary</big></U></B>
    Number of registers:      0 out of  2352 (0%)
       PFU registers:            0 out of  2112 (0%)
       PIO registers:            0 out of   240 (0%)
-   Number of SLICEs:         0 out of  1056 (0%)
-      SLICEs as Logic/ROM:      0 out of  1056 (0%)
+   Number of SLICEs:         2 out of  1056 (0%)
+      SLICEs as Logic/ROM:      2 out of  1056 (0%)
       SLICEs as RAM:            0 out of   792 (0%)
       SLICEs as Carry:          0 out of  1056 (0%)
-   Number of LUT4s:          0 out of  2112 (0%)
-      Number used as logic LUTs:          0
+   Number of LUT4s:          2 out of  2112 (0%)
+      Number used as logic LUTs:          2
       Number used as distributed RAM:     0
       Number used as ripple logic:        0
       Number used as shift registers:     0
-   Number of PIO sites used: 60 + 4(JTAG) out of 80 (80%)
+   Number of PIO sites used: 63 + 4(JTAG) out of 80 (84%)
    Number of block RAMs:  0 out of 8 (0%)
    Number of GSRs:        0 out of 1 (0%)
    EFB used :        No
@@ -80,13 +80,13 @@ Mapped on:  11/01/24  16:21:58
      Net fpga_11_c_c: 1 loads
      Net fpga_12_c_c: 1 loads
      Net fpga_13_c_c: 1 loads
-     Net fpga_15_c_c: 1 loads
-     Net fpga_16_c_c: 1 loads
+     Net slotok_c: 1 loads
+     Net VCC_net: 1 loads
 
 
 
 
-   Number of warnings:  23
+   Number of warnings:  0
    Number of errors:    0
      
 
@@ -95,53 +95,7 @@ Mapped on:  11/01/24  16:21:58
 
 <A name="mrp_dwe"></A><B><U><big>Design Errors/Warnings</big></U></B>
 
-WARNING - map: SLEWRATE=SLOW for fpga_06_c_pad/IOBUF violates legal combination
-     and is ignored.
-WARNING - map: SLEWRATE=SLOW for fpga_07_c_pad/IOBUF violates legal combination
-     and is ignored.
-WARNING - map: SLEWRATE=SLOW for fpga_08_c_pad/IOBUF violates legal combination
-     and is ignored.
-WARNING - map: SLEWRATE=SLOW for fpga_09_c_pad/IOBUF violates legal combination
-     and is ignored.
-WARNING - map: SLEWRATE=SLOW for fpga_10_c_pad/IOBUF violates legal combination
-     and is ignored.
-WARNING - map: SLEWRATE=SLOW for fpga_11_c_pad/IOBUF violates legal combination
-     and is ignored.
-WARNING - map: SLEWRATE=SLOW for fpga_12_c_pad/IOBUF violates legal combination
-     and is ignored.
-WARNING - map: SLEWRATE=SLOW for fpga_13_c_pad/IOBUF violates legal combination
-     and is ignored.
-WARNING - map: SLEWRATE=SLOW for fpga_15_c_pad/IOBUF violates legal combination
-     and is ignored.
-WARNING - map: SLEWRATE=SLOW for fpga_16_c_pad/IOBUF violates legal combination
-     and is ignored.
-WARNING - map: SLEWRATE=SLOW for fpga_17_c_pad/IOBUF violates legal combination
-     and is ignored.
-WARNING - map: SLEWRATE=SLOW for fpga_18_c_pad/IOBUF violates legal combination
-     and is ignored.
-WARNING - map: SLEWRATE=SLOW for fpga_19_c_pad/IOBUF violates legal combination
-     and is ignored.
-WARNING - map: SLEWRATE=SLOW for fpga_20_c_pad/IOBUF violates legal combination
-     and is ignored.
-WARNING - map: SLEWRATE=SLOW for fpga_21_c_pad/IOBUF violates legal combination
-     and is ignored.
-WARNING - map: SLEWRATE=SLOW for fpga_22_c_pad/IOBUF violates legal combination
-
-     and is ignored.
-WARNING - map: SLEWRATE=SLOW for fpga_23_c_pad/IOBUF violates legal combination
-     and is ignored.
-WARNING - map: SLEWRATE=SLOW for fpga_24_c_pad/IOBUF violates legal combination
-     and is ignored.
-WARNING - map: SLEWRATE=SLOW for fpga_25_c_pad/IOBUF violates legal combination
-     and is ignored.
-WARNING - map: SLEWRATE=SLOW for fpga_26_c_pad/IOBUF violates legal combination
-     and is ignored.
-WARNING - map: SLEWRATE=SLOW for fpga_27_c_pad/IOBUF violates legal combination
-     and is ignored.
-WARNING - map: SLEWRATE=SLOW for fpga_28_c_pad/IOBUF violates legal combination
-     and is ignored.
-WARNING - map: SLEWRATE=SLOW for fpga_29_c_pad/IOBUF violates legal combination
-     and is ignored.
+   No errors or warnings present.
 
 
 
@@ -150,6 +104,10 @@ WARNING - map: SLEWRATE=SLOW for fpga_29_c_pad/IOBUF violates legal combination
 +---------------------+-----------+-----------+------------+
 | IO Name             | Direction | Levelmode | IO         |
 |                     |           |  IO_TYPE  | Register   |
++---------------------+-----------+-----------+------------+
+| slotok              | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| reqoe               | OUTPUT    | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | fpga_06             | OUTPUT    | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
@@ -169,6 +127,7 @@ WARNING - map: SLEWRATE=SLOW for fpga_29_c_pad/IOBUF violates legal combination
 +---------------------+-----------+-----------+------------+
 | fpga_15             | OUTPUT    | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
+
 | fpga_16             | OUTPUT    | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | fpga_17             | OUTPUT    | LVCMOS18  |            |
@@ -184,7 +143,6 @@ WARNING - map: SLEWRATE=SLOW for fpga_29_c_pad/IOBUF violates legal combination
 | fpga_22             | OUTPUT    | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | fpga_23             | OUTPUT    | LVCMOS18  |            |
-
 +---------------------+-----------+-----------+------------+
 | fpga_24             | OUTPUT    | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
@@ -212,6 +170,8 @@ WARNING - map: SLEWRATE=SLOW for fpga_29_c_pad/IOBUF violates legal combination
 +---------------------+-----------+-----------+------------+
 | d_14                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
+| reqsafestate        | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
 | fpga_00             | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | fpga_01             | INPUT     | LVCMOS18  |            |
@@ -224,6 +184,7 @@ WARNING - map: SLEWRATE=SLOW for fpga_29_c_pad/IOBUF violates legal combination
 +---------------------+-----------+-----------+------------+
 | fpga_05             | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
+
 | fpga_14             | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | d_06                | INPUT     | LVCMOS33  |            |
@@ -241,7 +202,6 @@ WARNING - map: SLEWRATE=SLOW for fpga_29_c_pad/IOBUF violates legal combination
 | d_12                | INPUT     | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | d_13                | INPUT     | LVCMOS33  |            |
-
 +---------------------+-----------+-----------+------------+
 | d_15                | INPUT     | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
@@ -278,11 +238,24 @@ WARNING - map: SLEWRATE=SLOW for fpga_29_c_pad/IOBUF violates legal combination
 
 <A name="mrp_rm"></A><B><U><big>Removed logic</big></U></B>
 
-Block i24 undriven or does not drive anything - clipped.
 Block GSR_INST undriven or does not drive anything - clipped.
-Block i23 undriven or does not drive anything - clipped.
-Signal VCC_net undriven or does not drive anything - clipped.
+Block i26 undriven or does not drive anything - clipped.
+Block i2c_sda_pad undriven or does not drive anything - clipped.
+Block i2c_scl_pad undriven or does not drive anything - clipped.
+
+Block carrierrdy_pad undriven or does not drive anything - clipped.
+Block pilot_in_pad undriven or does not drive anything - clipped.
+Block i3_4_lut undriven or does not drive anything - clipped.
 Signal GND_net undriven or does not drive anything - clipped.
+Signal i2c_sda undriven or does not drive anything - clipped.
+Signal i2c_scl undriven or does not drive anything - clipped.
+Signal carrierrdy undriven or does not drive anything - clipped.
+Signal pilot_in undriven or does not drive anything - clipped.
+Signal dummy_signal undriven or does not drive anything - clipped.
+Signal i2c_sda_c undriven or does not drive anything - clipped.
+Signal carrierrdy_c undriven or does not drive anything - clipped.
+Signal pilot_in_c undriven or does not drive anything - clipped.
+Signal i2c_scl_c undriven or does not drive anything - clipped.
 
      
 
@@ -293,8 +266,35 @@ Signal GND_net undriven or does not drive anything - clipped.
 
    Total CPU Time: 0 secs  
    Total REAL Time: 0 secs  
-   Peak Memory Usage: 44 MB
+   Peak Memory Usage: 45 MB
         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -308,7 +308,7 @@ Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
      Copyright (c) 1995 AT&T Corp.   All rights reserved.
      Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
      Copyright (c) 2001 Agere Systems   All rights reserved.
-     Copyright (c) 2002-2024 Lattice Semiconductor Corporation,  All rights
+     Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights
      reserved.
 
 

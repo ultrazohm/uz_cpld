@@ -20,8 +20,8 @@
 				<BScanVal>0</BScanVal>
 			</Bypass>
 			<File>C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_171224/UZ_Rev05_S3C_S3C_171224.jed</File>
-			<FileTime>12/17/24 13:26:38</FileTime>
-			<JedecChecksum>0xE8DB</JedecChecksum>
+			<FileTime>12/17/24 20:31:18</FileTime>
+			<JedecChecksum>0x2E0C</JedecChecksum>
 			<Operation>FLASH Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -46,7 +46,7 @@
 	</ProjectOptions>
 	<CableOptions>
 		<CableName>USB2</CableName>
-		<PortAdd>FTUSB-1</PortAdd>
-		<USBID>UltraZohm B Location 0001 Serial 0100105000001B</USBID>
+		<PortAdd>FTUSB-0</PortAdd>
+		<USBID>UltraZohm B Location 0001 Serial 0100105010034B</USBID>
 	</CableOptions>
 </ispXCF>

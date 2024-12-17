@@ -41,8 +41,7 @@ entity Waiting_for_Powerbutton_pressed_V0 is
 		SD1_CD			: in STD_LOGIC;  -- pin 103
 		SD0_CD			: in STD_LOGIC;  -- pin 100
 		SPI_S3C_nCS_USR : in STD_LOGIC;
-		--vector
-		FP_UsrLED 		: out STD_LOGIC_VECTOR (4 downto 1);
+		FP_UsrLED 		: out STD_LOGIC_VECTOR (4 downto 1); 
 		DIGS3C_Shared_CarrierReady : out STD_LOGIC;  -- pin 94
 		DIGS3C_Shared_ReqSafeState : out STD_LOGIC;  -- pin 93
 		DIGS3C_SlotD_ReqOE : in STD_LOGIC_VECTOR (5 downto 1); -- pin 92,89,86,84,82
@@ -53,7 +52,6 @@ entity Waiting_for_Powerbutton_pressed_V0 is
 		DIG5S3C25	: inout STD_LOGIC; --bidir,Z
 		DIG5S3C24	: inout STD_LOGIC; --bidir,Z
 		SD_SEL		: out STD_LOGIC := '0'; -- signal, that is driven to 0, pin 41
-		-- S3C_SPI_MISO: out STD_LOGIC; --n.a yet
 		-- Flex MIos
 		FlexMIOs52_PCIe	: in  STD_LOGIC; -- routing through to FrontpanelIO.FlexMIO52_PCIe-R¯S¯T¯, inversion in PS pin 47
 		FlexMIOs53_GPIO_PowerDown:out  STD_LOGIC; -- gpio perform SoM Shutdown, pin 48
@@ -108,19 +106,19 @@ architecture behavior of Waiting_for_Powerbutton_pressed_V0 is
 	signal clk	:	STD_LOGIC;
 	signal counter : integer range 0 to 31200000 := 0; 	-- counter 
 	signal count_done_100ms : boolean := false; 			-- flag for 100ms end
-	signal reset_triggered : boolean := false; -- flag, um zu tracken, dass resetn auf '0' gesetzt wurde
+	signal reset_triggered : boolean := false; -- flag, to track resetn is zero
 
-    -- Definition der Zustände der State Machine
+    -- states in statemachine
     type state_type is (Waiting_for_Powerbutton_pressed,Waiting_for_Powerbutton_released,Wait_State, EthernetPhy_Reset,Waiting_for_Powerbutton_pressed_2sec , Ready_State, Warning_State, Harderror,Softerror, sleep_for_dslot_down,Acknowledge_error ,Waiting_for_Powerbutton_released_after_2sec2 );
     signal next_state : state_type:= Waiting_for_Powerbutton_pressed;
 	
-    -- Entprell-Zeitkonstante
+    -- debounceconstant
     constant debounce_limit : integer := 20800; -- 10ms, at 2.08MhZ
 
-    -- Entprell-Zähler und stabile Zustände der Taster
+    -- debounce counter and vectors for debouncing
     type debounce_array is array (1 to 6) of integer;
     signal debounce_counters : debounce_array := (others => 0);
-	signal debounce_inputs  : STD_LOGIC_VECTOR(6 downto 1) ;  -- Tastereingänge
+	signal debounce_inputs  : STD_LOGIC_VECTOR(6 downto 1) ;  -- inputs
     signal debounce_inputs_asyn1  : STD_LOGIC_VECTOR(6 downto 1)  := (others => '1');  -- inputs after 1.flip flop
 	signal debounce_inputs_asyn2  : STD_LOGIC_VECTOR(6 downto 1)  := (others => '1'); -- inputs after 2. flip flop
 	signal pushed : STD_LOGIC_VECTOR(6 downto 1)  := (others => '0');
@@ -191,7 +189,7 @@ tristate_signals <= DIG5S3C00 & DIG5S3C01 & DIG5S3C02 & DIG5S3C03 & DIG5S3C04  &
 & FlexMIOs54 & FlexMIOs62 & FlexMIOs63 & FPIO_FlexMIO27 & FPIO_FlexMIO28 & FPIO_FlexMIO29 & FPIO_FlexMIO30;
 -- Assign 'Z' to all unused signal
 tristate_signals <= (others => 'Z');
--- Ports default+ routing through
+-- Ports default + routing through
 SD_SEL <= '0';
 FPIO_FlexMIO52 <= FlexMIOs52_PCIe;
 FlexMio61ExternalStop <= FPIO_ExternalStop;
@@ -235,14 +233,13 @@ process(clk)
 			externstop_last  <= signals_debounced_syn(2);
 		end if;
 end process;
--- Decode buttons for better readability,
+-- Decode buttons for better readability, 1 => user press the buttons
 power<=NOT signals_debounced_syn(1);
 stopextern<=NOT signals_debounced_syn(2);
 stop<=NOT signals_debounced_syn(3);
 enable<=NOT signals_debounced_syn(4);
 pg10v<=signals_debounced_syn(5);
 ppn6v<=signals_debounced_syn(6);
-FP_UsrLED(4) <= extern_connected;
 -- State machine
 process(clk)
     begin
@@ -252,8 +249,8 @@ process(clk)
 				forceoutputdisable <= '1';
 				DIGS3C_Shared_ReqSafeState <= '1'; -- not working because bank 1 1.8vper not supplied
 				FlexMIOs53_GPIO_PowerDown <= '0';
-				FP_SysLEDr <= '1';	
-				FP_SysLEDb <= '0';	
+				FP_SysLEDr <= '0';	
+				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '0';	
 				if power = '1' then
 					next_state <= Waiting_for_Powerbutton_released;
@@ -266,11 +263,11 @@ process(clk)
 			when Waiting_for_Powerbutton_released =>
 				forceoutputdisable <= '1';
 				DIGS3C_Shared_ReqSafeState <= '1'; -- not working because bank 1 1.8vper not supplied
-				FP_SysLEDr <= '1';	
-				FP_SysLEDb <= '0';	
+				FP_SysLEDr <= '0';	
+				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '1';
 				if power = '1' then
-					Carrier_PwrOn <= '1';  -- enables all rails Rails
+					Carrier_PwrOn <= '1';  -- enables all rails
 					Carrier_PG_3V3 <= '1'; -- Hack IsoIo on, if power on
 					counter <= 2080000;
 					next_state <= Wait_State;
@@ -346,10 +343,10 @@ process(clk)
 				--Request safe state to dslots
 				forceoutputdisable <= NOT PPn_VIN; 
 				DIGS3C_Shared_ReqSafeState <= '1';
-				FlexMIOs53_GPIO_PowerDown <= '1';  -- info to som, power/linux down;
-				FP_SysLEDr <= '0';	
-				FP_SysLEDb <= '1';	
-				FP_SysLEDg <= '1';
+				FlexMIOs53_GPIO_PowerDown <= '1';  -- info to som, power linux down;
+				FP_SysLEDr <= '1';	
+				FP_SysLEDb <= '0';	
+				FP_SysLEDg <= '0';
 				FP_SysLEDs <= '1';	
 				Carrier_PwrOn <= '0';  -- all rails down, only s3c alive
 				Carrier_PG_3V3 <= '0';
@@ -362,7 +359,7 @@ process(clk)
 					next_state <= Acknowledge_error;
 				end if;
 			when Acknowledge_error => 
-				FP_SysLEDr <= '0';	
+				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '0';
 				if power = '1' then 
@@ -371,11 +368,11 @@ process(clk)
 			when Softerror =>
 				--Request safe state to dslots
 				forceoutputdisable <= NOT PPn_VIN; 
-				DIGS3C_Shared_ReqSafeState <= '0';
+				DIGS3C_Shared_ReqSafeState <= '1';
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '1';
-				FP_SysLEDs <= '0';	
+				FP_SysLEDs <= '1';	
 				if power = '1' then 
 					counter <= 4160000;
 					next_state <= Waiting_for_Powerbutton_pressed_2sec ;
@@ -388,7 +385,7 @@ process(clk)
 			when Waiting_for_Powerbutton_pressed_2sec  =>
 				forceoutputdisable <= NOT PPn_VIN; 
 				DIGS3C_Shared_ReqSafeState <= '0';
-				FlexMIOs53_GPIO_PowerDown <= '1';  -- info to som, power/linux down;
+				FlexMIOs53_GPIO_PowerDown <= '1';  -- info to som, power linux down;
 				if counter > 0 then
 					counter <= counter - 1;
 				else

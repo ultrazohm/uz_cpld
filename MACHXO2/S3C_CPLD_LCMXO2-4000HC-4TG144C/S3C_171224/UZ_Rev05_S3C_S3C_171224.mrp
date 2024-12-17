@@ -17,7 +17,7 @@ Target Vendor:  LATTICE
 Target Device:  LCMXO2-4000HCTQFP144
 Target Performance:   4
 Mapper:  xo2c00,  version:  Diamond (64-bit) 3.13.0.56.2
-Mapped on:  12/17/24  17:55:01
+Mapped on:  12/17/24  20:30:41
 
 Design Summary
 --------------
@@ -25,12 +25,12 @@ Design Summary
    Number of registers:    187 out of  4665 (4%)
       PFU registers:          187 out of  4320 (4%)
       PIO registers:            0 out of   345 (0%)
-   Number of SLICEs:       226 out of  2160 (10%)
-      SLICEs as Logic/ROM:    226 out of  2160 (10%)
+   Number of SLICEs:       228 out of  2160 (11%)
+      SLICEs as Logic/ROM:    228 out of  2160 (11%)
       SLICEs as RAM:            0 out of  1620 (0%)
       SLICEs as Carry:        133 out of  2160 (6%)
-   Number of LUT4s:        449 out of  4320 (10%)
-      Number used as logic LUTs:        183
+   Number of LUT4s:        454 out of  4320 (11%)
+      Number used as logic LUTs:        188
       Number used as distributed RAM:     0
       Number used as ripple logic:      266
       Number used as shift registers:     0
@@ -66,51 +66,51 @@ Design Summary
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/17/24  17:55:01
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/17/24  20:30:41
 
 Design Summary (cont)
 ---------------------
      Net clk: 114 loads, 114 rising, 0 falling (Driver: OSCInst0 )
-   Number of Clock Enables:  22
+   Number of Clock Enables:  23
+     Net clk_enable_112: 1 loads, 1 LSLICEs
+     Net clk_enable_19: 1 loads, 1 LSLICEs
+     Net clk_enable_120: 1 loads, 1 LSLICEs
      Net clk_enable_141: 18 loads, 18 LSLICEs
-     Net clk_enable_108: 1 loads, 1 LSLICEs
-     Net clk_enable_43: 17 loads, 17 LSLICEs
-     Net clk_enable_107: 17 loads, 17 LSLICEs
-     Net clk_enable_5: 1 loads, 1 LSLICEs
-     Net clk_enable_20: 3 loads, 3 LSLICEs
-     Net clk_enable_22: 2 loads, 2 LSLICEs
+     Net clk_enable_46: 17 loads, 17 LSLICEs
+     Net clk_enable_109: 17 loads, 17 LSLICEs
+     Net clk_enable_6: 1 loads, 1 LSLICEs
+     Net clk_enable_7: 1 loads, 1 LSLICEs
+     Net clk_enable_21: 2 loads, 2 LSLICEs
+     Net clk_enable_23: 2 loads, 2 LSLICEs
+     Net clk_enable_25: 1 loads, 1 LSLICEs
      Net Carrier_PG_1V8_N_774: 1 loads, 1 LSLICEs
      Net clk_enable_130: 17 loads, 17 LSLICEs
      Net clk_enable_172: 17 loads, 17 LSLICEs
-     Net clk_enable_112: 1 loads, 1 LSLICEs
-     Net clk_enable_77: 1 loads, 1 LSLICEs
-     Net clk_enable_109: 1 loads, 1 LSLICEs
+     Net clk_enable_132: 1 loads, 1 LSLICEs
      Net clk_enable_110: 1 loads, 1 LSLICEs
      Net clk_enable_111: 1 loads, 1 LSLICEs
-     Net clk_enable_113: 1 loads, 1 LSLICEs
-     Net clk_enable_115: 1 loads, 1 LSLICEs
      Net clk_enable_116: 1 loads, 1 LSLICEs
-     Net clk_enable_117: 1 loads, 1 LSLICEs
      Net clk_enable_118: 1 loads, 1 LSLICEs
-     Net clk_enable_120: 1 loads, 1 LSLICEs
-     Net clk_enable_122: 1 loads, 1 LSLICEs
-   Number of LSRs:  8
-     Net n3531: 5 loads, 5 LSLICEs
+     Net clk_enable_119: 1 loads, 1 LSLICEs
+     Net clk_enable_121: 1 loads, 1 LSLICEs
+     Net clk_enable_129: 1 loads, 1 LSLICEs
+     Net clk_enable_131: 1 loads, 1 LSLICEs
+   Number of LSRs:  7
+     Net n3534: 5 loads, 5 LSLICEs
+     Net n3525: 5 loads, 5 LSLICEs
      Net debounce_inputs_asyn2_4: 18 loads, 18 LSLICEs
      Net debounce_inputs_asyn2_1: 18 loads, 18 LSLICEs
      Net debounce_inputs_asyn2_3: 18 loads, 18 LSLICEs
      Net debounce_inputs_asyn2_2: 18 loads, 18 LSLICEs
-     Net n3947: 2 loads, 2 LSLICEs
-     Net n3526: 1 loads, 1 LSLICEs
-     Net n3540: 5 loads, 5 LSLICEs
+     Net n4115: 2 loads, 2 LSLICEs
    Number of nets driven by tri-state buffers:  0
    Top 10 highest fanout non-clock nets:
-     Net next_state_1: 59 loads
-     Net next_state_2: 57 loads
-     Net next_state_0: 55 loads
-     Net next_state_3: 46 loads
-     Net next_state_3_N_488_2: 33 loads
-     Net FP_UsrLED_4__N_3: 23 loads
+     Net next_state_3: 58 loads
+     Net next_state_1: 56 loads
+     Net next_state_0: 54 loads
+     Net next_state_2: 52 loads
+     Net next_state_3_N_485_2: 36 loads
+     Net FPIO_isoCtrlRSTn_N_687: 21 loads
      Net clk_enable_141: 19 loads
      Net debounce_inputs_asyn2_1: 19 loads
      Net debounce_inputs_asyn2_3: 19 loads
@@ -132,7 +132,7 @@ Design Summary (cont)
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/17/24  17:55:01
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/17/24  20:30:41
 
 Design Errors/Warnings
 ----------------------
@@ -198,7 +198,7 @@ IO (PIO) Attributes
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/17/24  17:55:01
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/17/24  20:30:41
 
 IO (PIO) Attributes (cont)
 --------------------------
@@ -264,7 +264,7 @@ IO (PIO) Attributes (cont)
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/17/24  17:55:01
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/17/24  20:30:41
 
 IO (PIO) Attributes (cont)
 --------------------------
@@ -330,7 +330,7 @@ IO (PIO) Attributes (cont)
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/17/24  17:55:01
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/17/24  20:30:41
 
 IO (PIO) Attributes (cont)
 --------------------------
@@ -396,11 +396,11 @@ Block GSR_INST undriven or does not drive anything - clipped.
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/17/24  17:55:01
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/17/24  20:30:41
 
 Removed logic (cont)
 --------------------
-Signal n3108 was merged into signal Carrier_PG_1V8_N_695
+Signal n3108 was merged into signal Carrier_PG_1V8_N_693
 Signal VCC_net undriven or does not drive anything - clipped.
 Block i813_1_lut was optimized away.
 

@@ -4,7 +4,7 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
-Mon Dec 16 07:51:03 2024
+Tue Dec 17 20:43:12 2024
 
 
 Command: bitgen -g RamCfg:Reset -path C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots -w -jedec -gui -msgset C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/promote.xml uz_d_slots_tx30.ncd uz_d_slots_tx30.prf 
@@ -86,7 +86,7 @@ Initialized UFM Pages:                     0 Page.
 =========
 Padding summary
 =========
-Padded 419840 bits for this design
+Padded 417792 bits for this design
 
 
 Total CPU Time: 1 secs 

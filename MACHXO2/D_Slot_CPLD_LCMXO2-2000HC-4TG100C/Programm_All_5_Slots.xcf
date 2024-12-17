@@ -19,10 +19,10 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/template_dslots/testread.jed</File>
-			<FileTime>12/12/24 16:30:53</FileTime>
-			<JedecChecksum>0x7A61</JedecChecksum>
-			<Operation>FLASH Read and Save</Operation>
+			<File>C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30/uz_d_slots_tx30.jed</File>
+			<FileTime>12/16/24 07:51:07</FileTime>
+			<JedecChecksum>0xF6DF</JedecChecksum>
+			<Operation>FLASH Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
 				<IOState>HighZ</IOState>
@@ -35,7 +35,7 @@
 			</Option>
 		</Device>
 		<Device>
-			<SelectedProg value="FALSE"/>
+			<SelectedProg value="TRUE"/>
 			<Pos>2</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>MachXO2</Family>
@@ -49,9 +49,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/template_dslots/uz_d_slots_template_dslots.jed</File>
-			<FileTime>12/12/24 16:30:53</FileTime>
-			<JedecChecksum>0x7A61</JedecChecksum>
+			<File>C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30/uz_d_slots_tx30.jed</File>
+			<FileTime>12/16/24 07:51:07</FileTime>
+			<JedecChecksum>0xF6DF</JedecChecksum>
 			<Operation>FLASH Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -65,7 +65,7 @@
 			</Option>
 		</Device>
 		<Device>
-			<SelectedProg value="FALSE"/>
+			<SelectedProg value="TRUE"/>
 			<Pos>3</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>MachXO2</Family>
@@ -79,9 +79,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/template_dslots/uz_d_slots_template_dslots.jed</File>
-			<FileTime>12/12/24 16:30:53</FileTime>
-			<JedecChecksum>0x7A61</JedecChecksum>
+			<File>C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_voltage_013_tx30/uz_d_slots_uz_d_voltage_013_tx30.jed</File>
+			<FileTime>12/17/24 19:48:46</FileTime>
+			<JedecChecksum>0xF7E6</JedecChecksum>
 			<Operation>FLASH Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -91,11 +91,11 @@
 				<OverideUES value="TRUE"/>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
 				<SVFProcessor>ispVM</SVFProcessor>
-				<Usercode>0x00000000</Usercode>
+				<Usercode>0x03408000</Usercode>
 			</Option>
 		</Device>
 		<Device>
-			<SelectedProg value="FALSE"/>
+			<SelectedProg value="TRUE"/>
 			<Pos>4</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>MachXO2</Family>
@@ -109,9 +109,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/template_dslots/uz_d_slots_template_dslots.jed</File>
-			<FileTime>12/12/24 16:30:53</FileTime>
-			<JedecChecksum>0x7A61</JedecChecksum>
+			<File>C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30/uz_d_slots_tx30.jed</File>
+			<FileTime>12/16/24 07:51:07</FileTime>
+			<JedecChecksum>0xF6DF</JedecChecksum>
 			<Operation>FLASH Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -125,7 +125,7 @@
 			</Option>
 		</Device>
 		<Device>
-			<SelectedProg value="FALSE"/>
+			<SelectedProg value="TRUE"/>
 			<Pos>5</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>MachXO2</Family>
@@ -139,9 +139,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/template_dslots/uz_d_slots_template_dslots.jed</File>
-			<FileTime>12/12/24 16:30:53</FileTime>
-			<JedecChecksum>0x7A61</JedecChecksum>
+			<File>C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30/uz_d_slots_tx30.jed</File>
+			<FileTime>12/16/24 07:51:07</FileTime>
+			<JedecChecksum>0xF6DF</JedecChecksum>
 			<Operation>FLASH Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -167,5 +167,6 @@
 	<CableOptions>
 		<CableName>USB2</CableName>
 		<PortAdd>FTUSB-1</PortAdd>
+		<USBID>UltraZohm C Location 0002 Serial 0100105010032C</USBID>
 	</CableOptions>
 </ispXCF>

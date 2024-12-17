@@ -14,7 +14,7 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
-Mon Dec 16 19:31:50 2024
+Tue Dec 17 17:54:58 2024
 
 
 Command Line:  synthesis -f UZ_Rev05_S3C_S3C_171224_lattice.synproj -gui -msgset C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/promote.xml 
@@ -88,14 +88,13 @@ Compile Design Begin
 INFO - synthesis: The default VHDL library search path is now "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_171224". VHDL-1504
 Analyzing VHDL file c:/cpld/cpld_lattice/machxo2/s3c_cpld_lcmxo2-4000hc-4tg144c/s3c_171224/source/power_on_debounce.vhd. VHDL-1481
 INFO - synthesis: c:/cpld/cpld_lattice/machxo2/s3c_cpld_lcmxo2-4000hc-4tg144c/s3c_171224/source/power_on_debounce.vhd(7): analyzing entity waiting_for_powerbutton_pressed_v0. VHDL-1012
-INFO - synthesis: c:/cpld/cpld_lattice/machxo2/s3c_cpld_lcmxo2-4000hc-4tg144c/s3c_171224/source/power_on_debounce.vhd(111): analyzing architecture behavior. VHDL-1010
+INFO - synthesis: c:/cpld/cpld_lattice/machxo2/s3c_cpld_lcmxo2-4000hc-4tg144c/s3c_171224/source/power_on_debounce.vhd(107): analyzing architecture behavior. VHDL-1010
 unit Waiting_for_Powerbutton_pressed_V0 is not yet analyzed. VHDL-1485
 unit Waiting_for_Powerbutton_pressed_V0 is not yet analyzed. VHDL-1485
 c:/cpld/cpld_lattice/machxo2/s3c_cpld_lcmxo2-4000hc-4tg144c/s3c_171224/source/power_on_debounce.vhd(7): executing Waiting_for_Powerbutton_pressed_V0(behavior)
 
-WARNING - synthesis: c:/cpld/cpld_lattice/machxo2/s3c_cpld_lcmxo2-4000hc-4tg144c/s3c_171224/source/power_on_debounce.vhd(139): using initial value 'U' for warning since it is never assigned. VHDL-1303
-INFO - synthesis: c:/cpld/cpld_lattice/machxo2/s3c_cpld_lcmxo2-4000hc-4tg144c/s3c_171224/source/power_on_debounce.vhd(408): others clause is never selected. VHDL-1172
-WARNING - synthesis: c:/cpld/cpld_lattice/machxo2/s3c_cpld_lcmxo2-4000hc-4tg144c/s3c_171224/source/power_on_debounce.vhd(109): replacing existing netlist Waiting_for_Powerbutton_pressed_V0(behavior). VHDL-1205
+INFO - synthesis: c:/cpld/cpld_lattice/machxo2/s3c_cpld_lcmxo2-4000hc-4tg144c/s3c_171224/source/power_on_debounce.vhd(425): others clause is never selected. VHDL-1172
+WARNING - synthesis: c:/cpld/cpld_lattice/machxo2/s3c_cpld_lcmxo2-4000hc-4tg144c/s3c_171224/source/power_on_debounce.vhd(105): replacing existing netlist Waiting_for_Powerbutton_pressed_V0(behavior). VHDL-1205
 Top module name (VHDL): Waiting_for_Powerbutton_pressed_V0
 Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/xo2c00a/data/xo2alib.ngl'...
 Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/xo2c00/data/xo2clib.ngl'...
@@ -104,21 +103,20 @@ Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/or5g00/data/orc5glib.ngl'...
 Loading device for application map from file 'xo2c4000.nph' in environment: C:/lscc/diamond/3.13/ispfpga.
 Package Status:                     Final          Version 1.44.
 Top-level module name = Waiting_for_Powerbutton_pressed_V0.
-WARNING - synthesis: Initial value found on net n1348 will be ignored due to unrecognized driver type
+WARNING - synthesis: Initial value found on net n67 will be ignored due to unrecognized driver type
+WARNING - synthesis: Initial value found on net FPIO_FlexMIO28 will be ignored due to unrecognized driver type
+WARNING - synthesis: Initial value found on net FPIO_FlexMIO27 will be ignored due to unrecognized driver type
+WARNING - synthesis: Initial value found on net FPIO_FlexMIO30 will be ignored due to unrecognized driver type
+WARNING - synthesis: Initial value found on net FPIO_FlexMIO29 will be ignored due to unrecognized driver type
 WARNING - synthesis: Initial value found on net Carrier_PG_1V8 will be ignored due to unrecognized driver type
 WARNING - synthesis: I/O Port FlexIO05 's net has no driver and is unused.
 WARNING - synthesis: I/O Port FlexIO02 's net has no driver and is unused.
 WARNING - synthesis: I/O Port FlexIO01 's net has no driver and is unused.
 ######## Converting I/O port SCL to input.
 ######## Converting I/O port SDA to input.
-######## Converting I/O port FPIO_FlexMIO28 to input.
-######## Converting I/O port FPIO_FlexMIO27 to input.
-######## Converting I/O port FPIO_FlexMIO30 to input.
-######## Converting I/O port FPIO_FlexMIO29 to input.
 WARNING - synthesis: I/O Port FPIO_FlexMIO52 's net has no driver and is unused.
 ######## Converting I/O port S3CsI2C_SDA to input.
 ######## Converting I/O port S3CsI2C_SCL to input.
-WARNING - synthesis: I/O Port FP_UsrLED[4] 's net has no driver and is unused.
 WARNING - synthesis: I/O Port FP_UsrLED[3] 's net has no driver and is unused.
 WARNING - synthesis: I/O Port FP_UsrLED[2] 's net has no driver and is unused.
 WARNING - synthesis: I/O Port FP_UsrLED[1] 's net has no driver and is unused.
@@ -129,42 +127,14 @@ WARNING - synthesis: I/O Port DIGS3C_Shared_CarrierReady 's net has no driver an
 ######## Converting I/O port FlexLIO[2] to input.
 ######## Converting I/O port FlexLIO[1] to input.
 ######## Converting I/O port FlexLIO[0] to input.
-######## Converting I/O port DIG5S3C26 to input.
-######## Converting I/O port DIG5S3C25 to input.
-######## Converting I/O port DIG5S3C24 to input.
 WARNING - synthesis: I/O Port FlexMIOs52_PCIe 's net has no driver and is unused.
-######## Converting I/O port FlexMIOs54 to input.
-######## Converting I/O port FlexMIOs62 to input.
-######## Converting I/O port FlexMIOs63 to input.
-######## Converting I/O port FlexMIOs31 to input.
-######## Converting I/O port FlexMIOs30 to input.
-######## Converting I/O port FlexMIOs29 to input.
-######## Converting I/O port FlexMIOs28 to input.
-######## Converting I/O port FlexMIOs27 to input.
-######## Converting I/O port FlexMIOs26 to input.
 ######## Converting I/O port FlexMIOs45 to input.
-######## Converting I/O port FlexMIOs37 to input.
-######## Converting I/O port FlexMIOs36 to input.
-######## Converting I/O port FlexMIOs35 to input.
-######## Converting I/O port FlexMIOs34 to input.
-######## Converting I/O port FlexMIOs33 to input.
-######## Converting I/O port FlexMIOs32 to input.
-######## Converting I/O port DIG5S3C03 to input.
-######## Converting I/O port DIG5S3C04 to input.
-######## Converting I/O port DIG5S3C05 to input.
-######## Converting I/O port DIG5S3C00 to input.
-######## Converting I/O port DIG5S3C02 to input.
-######## Converting I/O port DIG5S3C01 to input.
-######## Converting I/O port DIG5S3C29 to input.
-######## Converting I/O port DIG5S3C28 to input.
-######## Converting I/O port DIG5S3C27 to input.
 WARNING - synthesis: I/O Port ANL_S3C_CarrierReady 's net has no driver and is unused.
 ######## Converting I/O port ANL_S3C_P54_Legacy to input.
 ######## Converting I/O port TDnFFnFS to input.
 ######## Missing driver on net FlexIO05. Patching with GND.
 ######## Missing driver on net FlexIO02. Patching with GND.
 ######## Missing driver on net FlexIO01. Patching with GND.
-######## Missing driver on net FP_UsrLED[4]. Patching with GND.
 ######## Missing driver on net FP_UsrLED[3]. Patching with GND.
 ######## Missing driver on net FP_UsrLED[2]. Patching with GND.
 ######## Missing driver on net FP_UsrLED[1]. Patching with GND.
@@ -190,19 +160,21 @@ All blocks are expanded and NGD expansion is successful.
 Writing NGD file UZ_Rev05_S3C_S3C_171224.ngd.
 
 ################### Begin Area Report (Waiting_for_Powerbutton_pressed_V0)######################
-Number of register bits => 184 of 4665 (3 % )
+Number of register bits => 187 of 4665 (4 % )
+BB => 31
 CCU2D => 133
 FD1P3AX => 24
-FD1P3IX => 148
+FD1P3IX => 149
+FD1S3AX => 2
 FD1S3AY => 12
 GSR => 1
-IB => 75
+IB => 44
 L6MUX21 => 1
-LUT4 => 159
+LUT4 => 179
 OB => 26
 OBZ => 1
 OSCH => 1
-PFUMX => 14
+PFUMX => 16
 ################### End Area Report ##################
 
 ################### Begin BlackBox Report ######################
@@ -212,32 +184,32 @@ TSALL => 1
 ################### Begin Clock Report ######################
 Clock Nets
 Number of Clocks: 1
-  Net : clk, loads : 184
+  Net : clk, loads : 187
 Clock Enable Nets
-Number of Clock Enables: 21
+Number of Clock Enables: 22
 Top 10 highest fanout Clock Enables:
-  Net : clk_enable_81, loads : 32
-  Net : clk_enable_162, loads : 32
-  Net : clk_enable_115, loads : 32
-  Net : clk_enable_166, loads : 32
-  Net : clk_enable_171, loads : 27
-  Net : clk_enable_19, loads : 3
-  Net : clk_enable_34, loads : 2
-  Net : clk_enable_44, loads : 2
+  Net : clk_enable_107, loads : 32
+  Net : clk_enable_172, loads : 32
+  Net : clk_enable_130, loads : 32
+  Net : clk_enable_43, loads : 32
+  Net : clk_enable_141, loads : 26
+  Net : clk_enable_20, loads : 3
+  Net : clk_enable_108, loads : 2
   Net : clk_enable_22, loads : 2
-  Net : clk_enable_36, loads : 2
+  Net : clk_enable_109, loads : 2
+  Net : clk_enable_5, loads : 2
 Highest fanout non-clock nets
 Top 10 highest fanout non-clock nets:
-  Net : next_state_3, loads : 55
-  Net : next_state_1, loads : 55
-  Net : next_state_2, loads : 47
-  Net : next_state_0, loads : 43
-  Net : button_inputs_asyn2_4, loads : 34
-  Net : button_inputs_asyn2_3, loads : 34
-  Net : button_inputs_asyn2_2, loads : 34
-  Net : button_inputs_asyn2_1, loads : 34
-  Net : clk_enable_166, loads : 32
-  Net : clk_enable_162, loads : 32
+  Net : next_state_1, loads : 59
+  Net : next_state_2, loads : 57
+  Net : next_state_0, loads : 54
+  Net : next_state_3, loads : 46
+  Net : debounce_inputs_asyn2_4, loads : 34
+  Net : debounce_inputs_asyn2_3, loads : 34
+  Net : debounce_inputs_asyn2_2, loads : 34
+  Net : debounce_inputs_asyn2_1, loads : 34
+  Net : next_state_3_N_488_2, loads : 32
+  Net : clk_enable_43, loads : 32
 ################### End Clock Report ##################
 
 <A name="lse_trs"></A><B><U><big>Timing Report Summary</big></U></B>
@@ -247,7 +219,7 @@ Constraint                              |   Constraint|       Actual|Levels
 --------------------------------------------------------------------------------
                                         |             |             |
 create_clock -period 5.000000 -name     |             |             |
-clk0 [get_nets clk]                     |  200.000 MHz|   61.508 MHz|    10 *
+clk0 [get_nets clk]                     |  200.000 MHz|   55.331 MHz|    12 *
                                         |             |             |
 --------------------------------------------------------------------------------
 
@@ -255,10 +227,10 @@ clk0 [get_nets clk]                     |  200.000 MHz|   61.508 MHz|    10 *
 1 constraints not met.
 
 
-Peak Memory Usage: 84.938  MB
+Peak Memory Usage: 86.262  MB
 
 --------------------------------------------------------------
-Elapsed CPU time for LSE flow : 0.016  secs
+Elapsed CPU time for LSE flow : 0.547  secs
 --------------------------------------------------------------
 
 

@@ -17,20 +17,20 @@ Target Vendor:  LATTICE
 Target Device:  LCMXO2-4000HCTQFP144
 Target Performance:   4
 Mapper:  xo2c00,  version:  Diamond (64-bit) 3.13.0.56.2
-Mapped on:  12/16/24  19:31:52
+Mapped on:  12/17/24  17:55:01
 
 Design Summary
 --------------
 
-   Number of registers:    184 out of  4665 (4%)
-      PFU registers:          184 out of  4320 (4%)
+   Number of registers:    187 out of  4665 (4%)
+      PFU registers:          187 out of  4320 (4%)
       PIO registers:            0 out of   345 (0%)
-   Number of SLICEs:       215 out of  2160 (10%)
-      SLICEs as Logic/ROM:    215 out of  2160 (10%)
+   Number of SLICEs:       226 out of  2160 (10%)
+      SLICEs as Logic/ROM:    226 out of  2160 (10%)
       SLICEs as RAM:            0 out of  1620 (0%)
       SLICEs as Carry:        133 out of  2160 (6%)
-   Number of LUT4s:        429 out of  4320 (10%)
-      Number used as logic LUTs:        163
+   Number of LUT4s:        449 out of  4320 (10%)
+      Number used as logic LUTs:        183
       Number used as distributed RAM:     0
       Number used as ripple logic:      266
       Number used as shift registers:     0
@@ -66,54 +66,55 @@ Design Summary
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/16/24  19:31:52
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/17/24  17:55:01
 
 Design Summary (cont)
 ---------------------
-     Net clk: 111 loads, 111 rising, 0 falling (Driver: OSCInst0 )
-   Number of Clock Enables:  21
-     Net clk_enable_166: 17 loads, 17 LSLICEs
-     Net clk_enable_36: 1 loads, 1 LSLICEs
-     Net clk_enable_171: 18 loads, 18 LSLICEs
-     Net clk_enable_81: 17 loads, 17 LSLICEs
-     Net clk_enable_16: 1 loads, 1 LSLICEs
-     Net clk_enable_19: 3 loads, 3 LSLICEs
-     Net clk_enable_115: 17 loads, 17 LSLICEs
+     Net clk: 114 loads, 114 rising, 0 falling (Driver: OSCInst0 )
+   Number of Clock Enables:  22
+     Net clk_enable_141: 18 loads, 18 LSLICEs
+     Net clk_enable_108: 1 loads, 1 LSLICEs
+     Net clk_enable_43: 17 loads, 17 LSLICEs
+     Net clk_enable_107: 17 loads, 17 LSLICEs
+     Net clk_enable_5: 1 loads, 1 LSLICEs
+     Net clk_enable_20: 3 loads, 3 LSLICEs
      Net clk_enable_22: 2 loads, 2 LSLICEs
-     Net clk_enable_24: 1 loads, 1 LSLICEs
-     Net Carrier_PG_1V8_N_575: 1 loads, 1 LSLICEs
-     Net clk_enable_33: 1 loads, 1 LSLICEs
-     Net clk_enable_34: 1 loads, 1 LSLICEs
-     Net clk_enable_121: 1 loads, 1 LSLICEs
-     Net clk_enable_35: 1 loads, 1 LSLICEs
-     Net clk_enable_44: 1 loads, 1 LSLICEs
-     Net clk_enable_162: 17 loads, 17 LSLICEs
-     Net clk_enable_82: 1 loads, 1 LSLICEs
-     Net clk_enable_83: 1 loads, 1 LSLICEs
-     Net clk_enable_169: 1 loads, 1 LSLICEs
-     Net clk_enable_167: 1 loads, 1 LSLICEs
-     Net clk_enable_163: 1 loads, 1 LSLICEs
+     Net Carrier_PG_1V8_N_774: 1 loads, 1 LSLICEs
+     Net clk_enable_130: 17 loads, 17 LSLICEs
+     Net clk_enable_172: 17 loads, 17 LSLICEs
+     Net clk_enable_112: 1 loads, 1 LSLICEs
+     Net clk_enable_77: 1 loads, 1 LSLICEs
+     Net clk_enable_109: 1 loads, 1 LSLICEs
+     Net clk_enable_110: 1 loads, 1 LSLICEs
+     Net clk_enable_111: 1 loads, 1 LSLICEs
+     Net clk_enable_113: 1 loads, 1 LSLICEs
+     Net clk_enable_115: 1 loads, 1 LSLICEs
+     Net clk_enable_116: 1 loads, 1 LSLICEs
+     Net clk_enable_117: 1 loads, 1 LSLICEs
+     Net clk_enable_118: 1 loads, 1 LSLICEs
+     Net clk_enable_120: 1 loads, 1 LSLICEs
+     Net clk_enable_122: 1 loads, 1 LSLICEs
    Number of LSRs:  8
-     Net button_inputs_asyn2_4: 18 loads, 18 LSLICEs
-     Net button_inputs_asyn2_1: 18 loads, 18 LSLICEs
-     Net n2691: 4 loads, 4 LSLICEs
-     Net n2686: 5 loads, 5 LSLICEs
-     Net n2994: 2 loads, 2 LSLICEs
-     Net button_inputs_asyn2_2: 18 loads, 18 LSLICEs
-     Net button_inputs_asyn2_3: 18 loads, 18 LSLICEs
-     Net n2680: 1 loads, 1 LSLICEs
+     Net n3531: 5 loads, 5 LSLICEs
+     Net debounce_inputs_asyn2_4: 18 loads, 18 LSLICEs
+     Net debounce_inputs_asyn2_1: 18 loads, 18 LSLICEs
+     Net debounce_inputs_asyn2_3: 18 loads, 18 LSLICEs
+     Net debounce_inputs_asyn2_2: 18 loads, 18 LSLICEs
+     Net n3947: 2 loads, 2 LSLICEs
+     Net n3526: 1 loads, 1 LSLICEs
+     Net n3540: 5 loads, 5 LSLICEs
    Number of nets driven by tri-state buffers:  0
    Top 10 highest fanout non-clock nets:
-     Net next_state_1: 55 loads
-     Net next_state_3: 55 loads
-     Net next_state_2: 46 loads
-     Net next_state_0: 43 loads
-     Net next_state_3_N_343_2: 23 loads
-     Net clk_enable_171: 20 loads
-     Net button_inputs_asyn2_1: 19 loads
-     Net button_inputs_asyn2_2: 19 loads
-     Net button_inputs_asyn2_3: 19 loads
-     Net button_inputs_asyn2_4: 19 loads
+     Net next_state_1: 59 loads
+     Net next_state_2: 57 loads
+     Net next_state_0: 55 loads
+     Net next_state_3: 46 loads
+     Net next_state_3_N_488_2: 33 loads
+     Net FP_UsrLED_4__N_3: 23 loads
+     Net clk_enable_141: 19 loads
+     Net debounce_inputs_asyn2_1: 19 loads
+     Net debounce_inputs_asyn2_3: 19 loads
+     Net debounce_inputs_asyn2_4: 19 loads
 
 
 
@@ -122,20 +123,21 @@ Design Summary (cont)
    Number of errors:    0
      
 
-Design Errors/Warnings
-----------------------
 
-WARNING - map: The JTAG port has been disabled in this project and JTAG pins
+
+
 
                                     Page 2
 
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/16/24  19:31:52
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/17/24  17:55:01
 
-Design Errors/Warnings (cont)
------------------------------
+Design Errors/Warnings
+----------------------
+
+WARNING - map: The JTAG port has been disabled in this project and JTAG pins
      will be configured as General Purpose IO.  You have to use JTAGENB pin in
      hardware to change the personality of the port from JTAG pins to general
      purpose IO.  Reference MachXO2 Handbook for details on dual function JTAG
@@ -148,60 +150,10 @@ IO (PIO) Attributes
 | IO Name             | Direction | Levelmode | IO         |
 |                     |           |  IO_TYPE  | Register   |
 +---------------------+-----------+-----------+------------+
-| DIG5S3C25           | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| FP_SysLEDg          | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| DIG5S3C24           | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| DIGS3C_SlotD_ReqOE[4]| INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| DIGS3C_SlotD_ReqOE[5]| INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| SPI_S3C_nCS_USR     | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| SD0_CD              | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| SD1_CD              | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| S3CsI2C_SCL         | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| S3CsI2C_SDA         | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| FPIO_FlexMIO29      | INPUT     | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| FPIO_FlexMIO30      | INPUT     | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| FPIO_FlexMIO27      | INPUT     | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| FPIO_FlexMIO28      | INPUT     | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| FPIO_ExternalStop   | INPUT     | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| FPIO_iosCtrlINTn    | INPUT     | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| SysSW_Pwr_NC        | INPUT     | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| FP_UsrSW3           | INPUT     | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| SDA                 | INPUT     | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| SCL                 | INPUT     | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
 | FP_UsrSW2           | INPUT     | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | FP_UsrSW1           | INPUT     | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-
-                                    Page 3
-
-
-
-
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/16/24  19:31:52
-
-IO (PIO) Attributes (cont)
---------------------------
 | FlexIO03            | INPUT     | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | FlexIO04            | INPUT     | LVCMOS33  |            |
@@ -240,6 +192,16 @@ IO (PIO) Attributes (cont)
 +---------------------+-----------+-----------+------------+
 | FP_SysLEDs          | OUTPUT    | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
+
+                                    Page 3
+
+
+
+
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/17/24  17:55:01
+
+IO (PIO) Attributes (cont)
+--------------------------
 | Carrier_PG_1V8      | OUTPUT    | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | FPIO_FlexMIO52      | OUTPUT    | LVCMOS33  |            |
@@ -258,71 +220,109 @@ IO (PIO) Attributes (cont)
 +---------------------+-----------+-----------+------------+
 | FP_SysLEDr          | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
+| FP_SysLEDg          | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| DIG5S3C27           | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG5S3C28           | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG5S3C29           | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG5S3C01           | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG5S3C02           | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG5S3C00           | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG5S3C05           | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG5S3C04           | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG5S3C03           | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FPIO_FlexMIO28      | BIDIR     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs32          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs33          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs34          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs35          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs36          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs37          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs26          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs27          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
 
                                     Page 4
 
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/16/24  19:31:52
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/17/24  17:55:01
 
 IO (PIO) Attributes (cont)
 --------------------------
-| DIG5S3C26           | INPUT     | LVCMOS18  |            |
+| FlexMIOs28          | BIDIR     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| FlexLIO[0]          | INPUT     | LVCMOS18  |            |
+| FlexMIOs29          | BIDIR     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| FlexLIO[1]          | INPUT     | LVCMOS18  |            |
+| FlexMIOs30          | BIDIR     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| FlexLIO[2]          | INPUT     | LVCMOS18  |            |
+| FlexMIOs31          | BIDIR     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| FlexLIO[3]          | INPUT     | LVCMOS18  |            |
+| FlexMIOs63          | BIDIR     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| FlexLIO[4]          | INPUT     | LVCMOS18  |            |
+| FlexMIOs62          | BIDIR     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| FlexLIO[5]          | INPUT     | LVCMOS18  |            |
+| FlexMIOs54          | BIDIR     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| DIGS3C_SlotD_SlotOK[1]| INPUT     | LVCMOS18  |            |
+| DIG5S3C24           | BIDIR     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| DIGS3C_SlotD_SlotOK[2]| INPUT     | LVCMOS18  |            |
+| DIG5S3C25           | BIDIR     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| DIGS3C_SlotD_SlotOK[3]| INPUT     | LVCMOS18  |            |
+| DIG5S3C26           | BIDIR     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| DIGS3C_SlotD_SlotOK[4]| INPUT     | LVCMOS18  |            |
+| FPIO_FlexMIO29      | BIDIR     | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| DIGS3C_SlotD_SlotOK[5]| INPUT     | LVCMOS18  |            |
+| FPIO_FlexMIO30      | BIDIR     | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| DIGS3C_SlotD_ReqOE[1]| INPUT     | LVCMOS18  |            |
+| FPIO_FlexMIO27      | BIDIR     | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| DIGS3C_SlotD_ReqOE[2]| INPUT     | LVCMOS18  |            |
+| SCL                 | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| SDA                 | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FP_UsrSW3           | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| SysSW_Pwr_NC        | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FPIO_iosCtrlINTn    | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FPIO_ExternalStop   | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| S3CsI2C_SDA         | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| S3CsI2C_SCL         | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| SD1_CD              | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| SD0_CD              | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| SPI_S3C_nCS_USR     | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_SlotD_ReqOE[5]| INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_SlotD_ReqOE[4]| INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | DIGS3C_SlotD_ReqOE[3]| INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| FlexMIOs52_PCIe     | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| FlexMIOs54          | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| FlexMIOs62          | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| FlexMIOs63          | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| FlexMIOs31          | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| FlexMIOs30          | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| FlexMIOs29          | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| FlexMIOs28          | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| FlexMIOs27          | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| FlexMIOs26          | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| FlexMIOs45          | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| FlexMIOs37          | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| FlexMIOs36          | INPUT     | LVCMOS18  |            |
+| DIGS3C_SlotD_ReqOE[2]| INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 
                                     Page 5
@@ -330,35 +330,37 @@ IO (PIO) Attributes (cont)
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/16/24  19:31:52
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/17/24  17:55:01
 
 IO (PIO) Attributes (cont)
 --------------------------
-| FlexMIOs35          | INPUT     | LVCMOS18  |            |
+| DIGS3C_SlotD_ReqOE[1]| INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| FlexMIOs34          | INPUT     | LVCMOS18  |            |
+| DIGS3C_SlotD_SlotOK[5]| INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| FlexMIOs33          | INPUT     | LVCMOS18  |            |
+| DIGS3C_SlotD_SlotOK[4]| INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| FlexMIOs32          | INPUT     | LVCMOS18  |            |
+| DIGS3C_SlotD_SlotOK[3]| INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| DIG5S3C03           | INPUT     | LVCMOS18  |            |
+| DIGS3C_SlotD_SlotOK[2]| INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| DIG5S3C04           | INPUT     | LVCMOS18  |            |
+| DIGS3C_SlotD_SlotOK[1]| INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| DIG5S3C05           | INPUT     | LVCMOS18  |            |
+| FlexLIO[5]          | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| DIG5S3C00           | INPUT     | LVCMOS18  |            |
+| FlexLIO[4]          | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| DIG5S3C02           | INPUT     | LVCMOS18  |            |
+| FlexLIO[3]          | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| DIG5S3C01           | INPUT     | LVCMOS18  |            |
+| FlexLIO[2]          | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| DIG5S3C29           | INPUT     | LVCMOS18  |            |
+| FlexLIO[1]          | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| DIG5S3C28           | INPUT     | LVCMOS18  |            |
+| FlexLIO[0]          | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| DIG5S3C27           | INPUT     | LVCMOS18  |            |
+| FlexMIOs52_PCIe     | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs45          | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | ANL_S3C_SLOTOK[3]   | INPUT     | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
@@ -388,19 +390,19 @@ Removed logic
 
 Block i2 undriven or does not drive anything - clipped.
 Block GSR_INST undriven or does not drive anything - clipped.
-Signal n2301 was merged into signal Carrier_PG_1V8_N_501
-Signal VCC_net undriven or does not drive anything - clipped.
 
                                     Page 6
 
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/16/24  19:31:52
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  12/17/24  17:55:01
 
 Removed logic (cont)
 --------------------
-Block i594_1_lut was optimized away.
+Signal n3108 was merged into signal Carrier_PG_1V8_N_695
+Signal VCC_net undriven or does not drive anything - clipped.
+Block i813_1_lut was optimized away.
 
      
 
@@ -427,8 +429,6 @@ Run Time and Memory Usage
    Total REAL Time: 2 secs  
    Peak Memory Usage: 55 MB
         
-
-
 
 
 

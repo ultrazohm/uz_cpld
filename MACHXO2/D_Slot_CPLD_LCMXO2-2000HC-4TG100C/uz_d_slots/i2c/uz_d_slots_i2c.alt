@@ -1,0 +1,37 @@
+NOTE Copyright (C), 1992-2010, Lattice Semiconductor Corporation *
+NOTE All Rights Reserved *
+NOTE DATE CREATED: Tue Dec 10 17:29:44 2024 *
+NOTE DESIGN NAME: i2c_gpio *
+NOTE DEVICE NAME: LCMXO2-2000HC-4TQFP100 *
+NOTE PIN ASSIGNMENTS *
+NOTE PINS SCL : 86 : inout *
+NOTE PINS SDA : 85 : inout *
+NOTE PINS GPO_0[7] : 30 : out *
+NOTE PINS GPO_0[6] : 29 : out *
+NOTE PINS GPO_0[5] : 99 : out *
+NOTE PINS GPO_0[4] : 96 : out *
+NOTE PINS GPO_0[3] : 97 : out *
+NOTE PINS GPO_0[2] : 98 : out *
+NOTE PINS GPO_0[1] : 27 : out *
+NOTE PINS GPO_0[0] : 28 : out *
+NOTE PINS Enable : 17 : out *
+NOTE PINS INTQ : 15 : out *
+NOTE PINS IRQ[3] : 16 : in *
+NOTE PINS IRQ[2] : 2 : in *
+NOTE PINS IRQ[1] : 14 : in *
+NOTE PINS IRQ[0] : 1 : in *
+NOTE PINS GPI_0[7] : 10 : in *
+NOTE PINS GPI_0[6] : 8 : in *
+NOTE PINS GPI_0[5] : 9 : in *
+NOTE PINS GPI_0[4] : 13 : in *
+NOTE PINS GPI_0[3] : 7 : in *
+NOTE PINS GPI_0[2] : 3 : in *
+NOTE PINS GPI_0[1] : 12 : in *
+NOTE PINS GPI_0[0] : 4 : in *
+NOTE PINS RST_N : 20 : in *
+NOTE PINS SYSCONFIG_PIN_MCLK : 31 : inout *
+NOTE PINS SYSCONFIG_PIN_SO : 32 : inout *
+NOTE PINS SYSCONFIG_PIN_SN : 48 : in *
+NOTE PINS SYSCONFIG_PIN_SI : 49 : inout *
+NOTE CONFIGURATION MODE: NONE *
+NOTE COMPRESSION: on *

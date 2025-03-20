@@ -1,0 +1,5 @@
+-rem
+-distrce
+-log "uz_d_slots_uz_d_3ph_inverter.log"
+-o "uz_d_slots_uz_d_3ph_inverter.csv"
+-pr "uz_d_slots_uz_d_3ph_inverter.prf"

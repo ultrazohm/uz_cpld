@@ -163,24 +163,24 @@ EQUATIONS
 
 " Tx signals: ssi clk, RW_clk, RW_data  
 " RW_data pins channels 1,2,3
-d_05 = fpga_05;
-d_04 = fpga_04;   
-d_14 = fpga_14;
+d_05 = fpga_11;
+d_04 = fpga_10;   
+d_14 = fpga_20;
 
 " RW_clk pins channels 1,2,3   
-d_11 = fpga_11;  
-d_10 = fpga_10;
-d_17 = fpga_17;
+d_11 = fpga_17;  
+d_10 = fpga_16;
+d_17 = fpga_23;
 
 " ssi_clk pins channels 1,2,3
-d_09 = fpga_09;
-d_08 = fpga_08;
-d_16 = fpga_16;
+d_09 = fpga_15;
+d_08 = fpga_14;
+d_16 = fpga_22;
 
 " Rx signals: ssi_data channels 1,2,3
-fpga_01 = d_01;
-fpga_00 = d_00;
-fpga_12 = d_12;
+fpga_07 = d_01;
+fpga_06 = d_00;
+fpga_18 = d_12;
 
 " ----------------------------
 " All done!

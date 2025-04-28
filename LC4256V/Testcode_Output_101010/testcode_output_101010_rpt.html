@@ -21,14 +21,14 @@ Tools->Fitter Report File Format...
 <BR>
 Project Name         :  testcode_output_101010
 Project Path         :  D:\Work_Xilinx\UltraZohm\cpld_lattice\LC4256V\Testcode_Output_101010
-Project Fitted on    :  Wed Apr 09 22:35:40 2025
+Project Fitted on    :  Sat Apr 26 14:52:39 2025
 
-Device               :  M4128_64
+Device               :  M4256_64
 Package              :  100
-GLB Input Mux Size   :  19
-Available Blocks     :  8
+GLB Input Mux Size   :  33
+Available Blocks     :  16
 Speed                :  -7.5
-Part Number          :  LA4128V-75TN100E
+Part Number          :  LC4256V-75T100C
 Source Format        :  ABEL_Schematic
 
 
@@ -38,7 +38,7 @@ Source Format        :  ABEL_Schematic
 <A name="Compilation_Times"></A><FONT COLOR=maroon><U><B><big>Compilation_Times</big></B></U></FONT>
 <BR>
 Prefit Time                     0 secs
-Load Design Time                0.01 secs
+Load Design Time                0.06 secs
 Partition Time                  0.00 secs
 Place Time                      0.00 secs
 Route Time                      0.00 secs
@@ -81,24 +81,24 @@ Fmax Logic Levels               -
   Input-Only Pins                   6        0      6    -->     0
   I/O / Enable Pins                 2        2      0    -->   100
 I/O Pins                           62       58      4    -->    93
-Logic Functions                   128       30     98    -->    23
+Logic Functions                   256       30    226    -->    11
   Input Registers                  64        0     64    -->     0
 
-GLB Inputs                        288        0    288    -->     0
-Logical Product Terms             640        3    637    -->     0
-Occupied GLBs                       8        8      0    -->   100
-Macrocells                        128       30     98    -->    23
+GLB Inputs                        576        0    576    -->     0
+Logical Product Terms            1280        3   1277    -->     0
+Occupied GLBs                      16       16      0    -->   100
+Macrocells                        256       30    226    -->    11
 
 Control Product Terms:
-  GLB Clock/Clock Enables           8        0      8    -->     0
-  GLB Reset/Presets                 8        0      8    -->     0
-  Macrocell Clocks                128        0    128    -->     0
-  Macrocell Clock Enables         128        0    128    -->     0
-  Macrocell Enables               128        0    128    -->     0
-  Macrocell Resets                128        0    128    -->     0
-  Macrocell Presets               128        0    128    -->     0
+  GLB Clock/Clock Enables          16        0     16    -->     0
+  GLB Reset/Presets                16        0     16    -->     0
+  Macrocell Clocks                256        0    256    -->     0
+  Macrocell Clock Enables         256        0    256    -->     0
+  Macrocell Enables               256        0    256    -->     0
+  Macrocell Resets                256        0    256    -->     0
+  Macrocell Presets               256        0    256    -->     0
 
-Global Routing Pool               220        0    220    -->     0
+Global Routing Pool               324        0    324    -->     0
   GRP from IFB                     ..        0     ..    -->    ..
     (from input signals)           ..        0     ..    -->    ..
     (from output signals)          ..        0     ..    -->    ..
@@ -120,17 +120,27 @@ Global Routing Pool               220        0    220    -->     0
 Maximum
   GLB                      36      *(1)     8   --     --             16       80       16
 </B>-------------------------------------------------------------------------------------------
-  GLB    A      0     0     0      5/8      0    0      0             16        0        0
-  GLB    B      0     0     0      8/8      0    0      0             16        0        0
-  GLB    C      0     0     0      8/8      0    0      0             16        0        0
-  GLB    D      0     0     0      8/8      0    0      0             16        0        0
+  GLB    A      0     0     0      3/4      0    0      0             16        0        0
+  GLB    B      0     0     0      2/4      0    0      0             16        0        0
+  GLB    C      0     0     0      4/4      0    0      0             16        0        0
+  GLB    D      0     0     0      4/4      0    0      0             16        0        0
 -------------------------------------------------------------------------------------------
-  GLB    E      0     0     0      8/8      0    8      0              8        3        8
-  GLB    F      0     0     0      8/8      0    8      0              8        0        8
-  GLB    G      0     0     0      7/8      0    7      0              9        0        7
-  GLB    H      0     0     0      6/8      0    7      0              9        0        7
+  GLB    E      0     0     0      4/4      0    0      0             16        0        0
+  GLB    F      0     0     0      4/4      0    0      0             16        0        0
+  GLB    G      0     0     0      4/4      0    0      0             16        0        0
+  GLB    H      0     0     0      4/4      0    0      0             16        0        0
 -------------------------------------------------------------------------------------------
-TOTALS:         0     0     0     58/64     0   30      0             98        3       30
+  GLB    I      0     0     0      4/4      0    4      0             12        0        4
+  GLB    J      0     0     0      4/4      0    4      0             12        3        4
+  GLB    K      0     0     0      4/4      0    4      0             12        0        4
+  GLB    L      0     0     0      4/4      0    4      0             12        0        4
+-------------------------------------------------------------------------------------------
+  GLB    M      0     0     0      4/4      0    4      0             12        0        4
+  GLB    N      0     0     0      3/4      0    3      0             13        0        3
+  GLB    O      0     0     0      3/4      0    3      0             13        0        3
+  GLB    P      0     0     0      3/4      0    4      0             12        0        4
+-------------------------------------------------------------------------------------------
+TOTALS:         0     0     0     58/64     0   30      0            226        3       30
 
 &lt;Note&gt; 1 : For ispMACH 4000 devices, the number of IOs depends on the GLB.
 &lt;Note&gt; 2 : Four rightmost columns above reflect last status of the placement process.
@@ -153,6 +163,16 @@ Maximum
   GLB    F   0      0         0      0      0      0      0
   GLB    G   0      0         0      0      0      0      0
   GLB    H   0      0         0      0      0      0      0
+------------------------------------------------------------------------------
+  GLB    I   0      0         0      0      0      0      0
+  GLB    J   0      0         0      0      0      0      0
+  GLB    K   0      0         0      0      0      0      0
+  GLB    L   0      0         0      0      0      0      0
+------------------------------------------------------------------------------
+  GLB    M   0      0         0      0      0      0      0
+  GLB    N   0      0         0      0      0      0      0
+  GLB    O   0      0         0      0      0      0      0
+  GLB    P   0      0         0      0      0      0      0
 ------------------------------------------------------------------------------
 
 &lt;Note&gt; 1 : For ispMACH 4000 devices, the number of output enables depends on the GLB.
@@ -229,104 +249,104 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name
 </B>--------------------------------------------------------------------------
 1     | GND   |   -  |    |        |                 |       |
 2     | TDI   |   -  |    |        |                 |       |
-3     |  I_O  |   0  |B0  |    *   |LVCMOS18         | Input |<A href=#6>fpga_00</A>
-4     |  I_O  |   0  |B2  |    *   |LVCMOS18         | Input |<A href=#7>fpga_01</A>
-5     |  I_O  |   0  |B4  |    *   |LVCMOS18         | Input |<A href=#8>fpga_02</A>
-6     |  I_O  |   0  |B6  |    *   |LVCMOS18         | Input |<A href=#9>fpga_03</A>
+3     |  I_O  |   0  |C12 |    *   |LVCMOS18         | Input |<A href=#6>fpga_00</A>
+4     |  I_O  |   0  |C10 |    *   |LVCMOS18         | Input |<A href=#7>fpga_01</A>
+5     |  I_O  |   0  |C6  |    *   |LVCMOS18         | Input |<A href=#8>fpga_02</A>
+6     |  I_O  |   0  |C2  |    *   |LVCMOS18         | Input |<A href=#9>fpga_03</A>
 7     |GNDIO0 |   -  |    |        |                 |       |
-8     |  I_O  |   0  |B8  |    *   |LVCMOS18         | Input |<A href=#10>fpga_04</A>
-9     |  I_O  |   0  |B10 |    *   |LVCMOS18         | Input |<A href=#11>fpga_05</A>
-10    |  I_O  |   0  |B12 |    *   |LVCMOS18         | Input |<A href=#12>fpga_06</A>
-11    |  I_O  |   0  |B13 |    *   |LVCMOS18         | Input |<A href=#13>fpga_07</A>
+8     |  I_O  |   0  |D12 |    *   |LVCMOS18         | Input |<A href=#10>fpga_04</A>
+9     |  I_O  |   0  |D10 |    *   |LVCMOS18         | Input |<A href=#11>fpga_05</A>
+10    |  I_O  |   0  |D6  |    *   |LVCMOS18         | Input |<A href=#12>fpga_06</A>
+11    |  I_O  |   0  |D4  |    *   |LVCMOS18         | Input |<A href=#13>fpga_07</A>
 12    | IN0   |   0  |    |        |                 |       |
 13    |VCCIO0 |   -  |    |        |                 |       |
-14    |  I_O  |   0  |C14 |    *   |LVCMOS18         | Input |<A href=#14>fpga_08</A>
-15    |  I_O  |   0  |C12 |    *   |LVCMOS18         | Input |<A href=#15>fpga_09</A>
-16    |  I_O  |   0  |C10 |    *   |LVCMOS18         | Input |<A href=#16>fpga_10</A>
-17    |  I_O  |   0  |C8  |    *   |LVCMOS18         | Input |<A href=#17>fpga_11</A>
+14    |  I_O  |   0  |E4  |    *   |LVCMOS18         | Input |<A href=#14>fpga_08</A>
+15    |  I_O  |   0  |E6  |    *   |LVCMOS18         | Input |<A href=#15>fpga_09</A>
+16    |  I_O  |   0  |E10 |    *   |LVCMOS18         | Input |<A href=#16>fpga_10</A>
+17    |  I_O  |   0  |E12 |    *   |LVCMOS18         | Input |<A href=#17>fpga_11</A>
 18    |GNDIO0 |   -  |    |        |                 |       |
-19    |  I_O  |   0  |C6  |    *   |LVCMOS18         | Input |<A href=#18>fpga_12</A>
-20    |  I_O  |   0  |C5  |    *   |LVCMOS18         | Input |<A href=#19>fpga_13</A>
-21    |  I_O  |   0  |C4  |    *   |LVCMOS18         | Input |<A href=#20>fpga_14</A>
-22    |  I_O  |   0  |C2  |    *   |LVCMOS18         | Input |<A href=#21>fpga_15</A>
+19    |  I_O  |   0  |F2  |    *   |LVCMOS18         | Input |<A href=#18>fpga_12</A>
+20    |  I_O  |   0  |F6  |    *   |LVCMOS18         | Input |<A href=#19>fpga_13</A>
+21    |  I_O  |   0  |F10 |    *   |LVCMOS18         | Input |<A href=#20>fpga_14</A>
+22    |  I_O  |   0  |F12 |    *   |LVCMOS18         | Input |<A href=#21>fpga_15</A>
 23    | IN1   |   0  |    |        |                 |       |
 24    | TCK   |   -  |    |        |                 |       |
 25    | VCC   |   -  |    |        |                 |       |
 26    | GND   |   -  |    |        |                 |       |
 27    | IN2   |   0  |    |        |                 |       |
-28    |  I_O  |   0  |D13 |    *   |LVCMOS18         | Input |<A href=#22>fpga_16</A>
-29    |  I_O  |   0  |D12 |    *   |LVCMOS18         | Input |<A href=#23>fpga_17</A>
-30    |  I_O  |   0  |D10 |    *   |LVCMOS18         | Input |<A href=#24>fpga_18</A>
-31    |  I_O  |   0  |D8  |    *   |LVCMOS18         | Input |<A href=#25>fpga_19</A>
+28    |  I_O  |   0  |G12 |    *   |LVCMOS18         | Input |<A href=#22>fpga_16</A>
+29    |  I_O  |   0  |G10 |    *   |LVCMOS18         | Input |<A href=#23>fpga_17</A>
+30    |  I_O  |   0  |G6  |    *   |LVCMOS18         | Input |<A href=#24>fpga_18</A>
+31    |  I_O  |   0  |G2  |    *   |LVCMOS18         | Input |<A href=#25>fpga_19</A>
 32    |GNDIO0 |   -  |    |        |                 |       |
 33    |VCCIO0 |   -  |    |        |                 |       |
-34    |  I_O  |   0  |D6  |    *   |LVCMOS18         | Input |<A href=#26>fpga_20</A>
-35    |  I_O  |   0  |D4  |    *   |LVCMOS18         | Input |<A href=#27>fpga_21</A>
-36    |  I_O  |   0  |D2  |    *   |LVCMOS18         | Input |<A href=#28>fpga_22</A>
-37    |  I_O  |   0  |D0  |    *   |LVCMOS18         | Input |<A href=#29>fpga_23</A>
+34    |  I_O  |   0  |H12 |    *   |LVCMOS18         | Input |<A href=#26>fpga_20</A>
+35    |  I_O  |   0  |H10 |    *   |LVCMOS18         | Input |<A href=#27>fpga_21</A>
+36    |  I_O  |   0  |H6  |    *   |LVCMOS18         | Input |<A href=#28>fpga_22</A>
+37    |  I_O  |   0  |H2  |    *   |LVCMOS18         | Input |<A href=#29>fpga_23</A>
 38    |INCLK1 |   0  |    |        |                 |       |
 39    |INCLK2 |   1  |    |        |                 |       |
 40    | VCC   |   -  |    |        |                 |       |
-41    |  I_O  |   1  |E0  |    *   |LVCMOS33         | Output|<A href=#44>d_08</A>
-42    |  I_O  |   1  |E2  |    *   |LVCMOS33         | Output|<A href=#46>d_10</A>
-43    |  I_O  |   1  |E4  |    *   |LVCMOS33         | Output|<A href=#48>d_12</A>
-44    |  I_O  |   1  |E6  |    *   |LVCMOS33         | Output|<A href=#50>d_14</A>
+41    |  I_O  |   1  |I2  |    *   |LVCMOS33         | Output|<A href=#44>d_08</A>
+42    |  I_O  |   1  |I6  |    *   |LVCMOS33         | Output|<A href=#46>d_10</A>
+43    |  I_O  |   1  |I10 |    *   |LVCMOS33         | Output|<A href=#48>d_12</A>
+44    |  I_O  |   1  |I12 |    *   |LVCMOS33         | Output|<A href=#50>d_14</A>
 45    |VCCIO1 |   -  |    |        |                 |       |
 46    |GNDIO1 |   -  |    |        |                 |       |
-47    |  I_O  |   1  |E8  |    *   |LVCMOS33         | Output|<A href=#42>d_06</A>
-48    |  I_O  |   1  |E10 |    *   |LVCMOS33         | Output|<A href=#40>d_04</A>
-49    |  I_O  |   1  |E12 |    *   |LVCMOS33         | Output|<A href=#38>d_02</A>
-50    |  I_O  |   1  |E14 |    *   |LVCMOS33         | Output|<A href=#36>d_00</A>
+47    |  I_O  |   1  |J2  |    *   |LVCMOS33         | Output|<A href=#42>d_06</A>
+48    |  I_O  |   1  |J6  |    *   |LVCMOS33         | Output|<A href=#40>d_04</A>
+49    |  I_O  |   1  |J10 |    *   |LVCMOS33         | Output|<A href=#38>d_02</A>
+50    |  I_O  |   1  |J12 |    *   |LVCMOS33         | Output|<A href=#36>d_00</A>
 51    | GND   |   -  |    |        |                 |       |
 52    | TMS   |   -  |    |        |                 |       |
-53    |  I_O  |   1  |F0  |    *   |LVCMOS33         | Output|<A href=#37>d_01</A>
-54    |  I_O  |   1  |F2  |    *   |LVCMOS33         | Output|<A href=#39>d_03</A>
-55    |  I_O  |   1  |F4  |    *   |LVCMOS33         | Output|<A href=#41>d_05</A>
-56    |  I_O  |   1  |F6  |    *   |LVCMOS33         | Output|<A href=#43>d_07</A>
+53    |  I_O  |   1  |K12 |    *   |LVCMOS33         | Output|<A href=#37>d_01</A>
+54    |  I_O  |   1  |K10 |    *   |LVCMOS33         | Output|<A href=#39>d_03</A>
+55    |  I_O  |   1  |K6  |    *   |LVCMOS33         | Output|<A href=#41>d_05</A>
+56    |  I_O  |   1  |K2  |    *   |LVCMOS33         | Output|<A href=#43>d_07</A>
 57    |GNDIO1 |   -  |    |        |                 |       |
-58    |  I_O  |   1  |F8  |    *   |LVCMOS33         | Output|<A href=#45>d_09</A>
-59    |  I_O  |   1  |F10 |    *   |LVCMOS33         | Output|<A href=#47>d_11</A>
-60    |  I_O  |   1  |F12 |    *   |LVCMOS33         | Output|<A href=#49>d_13</A>
-61    |  I_O  |   1  |F13 |    *   |LVCMOS33         | Output|<A href=#51>d_15</A>
+58    |  I_O  |   1  |L12 |    *   |LVCMOS33         | Output|<A href=#45>d_09</A>
+59    |  I_O  |   1  |L10 |    *   |LVCMOS33         | Output|<A href=#47>d_11</A>
+60    |  I_O  |   1  |L6  |    *   |LVCMOS33         | Output|<A href=#49>d_13</A>
+61    |  I_O  |   1  |L4  |    *   |LVCMOS33         | Output|<A href=#51>d_15</A>
 62    | IN3   |   1  |    |        |                 |       |
 63    |VCCIO1 |   -  |    |        |                 |       |
-64    |  I_O  |   1  |G14 |    *   |LVCMOS33         | Output|<A href=#53>d_17</A>
-65    |  I_O  |   1  |G12 |    *   |LVCMOS33         | Output|<A href=#55>d_19</A>
-66    |  I_O  |   1  |G10 |    *   |LVCMOS33         | Output|<A href=#57>d_21</A>
-67    |  I_O  |   1  |G8  |    *   |LVCMOS33         | Output|<A href=#59>d_23</A>
+64    |  I_O  |   1  |M4  |    *   |LVCMOS33         | Output|<A href=#53>d_17</A>
+65    |  I_O  |   1  |M6  |    *   |LVCMOS33         | Output|<A href=#55>d_19</A>
+66    |  I_O  |   1  |M10 |    *   |LVCMOS33         | Output|<A href=#57>d_21</A>
+67    |  I_O  |   1  |M12 |    *   |LVCMOS33         | Output|<A href=#59>d_23</A>
 68    |GNDIO1 |   -  |    |        |                 |       |
-69    |  I_O  |   1  |G6  |        |                 |       |
-70    |  I_O  |   1  |G5  |    *   |LVCMOS33         | Output|<A href=#65>d_29</A>
-71    |  I_O  |   1  |G4  |    *   |LVCMOS33         | Output|<A href=#63>d_27</A>
-72    |  I_O  |   1  |G2  |    *   |LVCMOS33         | Output|<A href=#61>d_25</A>
+69    |  I_O  |   1  |N2  |        |                 |       |
+70    |  I_O  |   1  |N6  |    *   |LVCMOS33         | Output|<A href=#65>d_29</A>
+71    |  I_O  |   1  |N10 |    *   |LVCMOS33         | Output|<A href=#63>d_27</A>
+72    |  I_O  |   1  |N12 |    *   |LVCMOS33         | Output|<A href=#61>d_25</A>
 73    | IN4   |   1  |    |        |                 |       |
 74    | TDO   |   -  |    |        |                 |       |
 75    | VCC   |   -  |    |        |                 |       |
 76    | GND   |   -  |    |        |                 |       |
 77    | IN5   |   1  |    |        |                 |       |
-78    |  I_O  |   1  |H13 |        |                 |       |
-79    |  I_O  |   1  |H12 |    *   |LVCMOS33         | Output|<A href=#64>d_28</A>
-80    |  I_O  |   1  |H10 |    *   |LVCMOS33         | Output|<A href=#62>d_26</A>
-81    |  I_O  |   1  |H8  |    *   |LVCMOS33         | Output|<A href=#60>d_24</A>
+78    |  I_O  |   1  |O12 |        |                 |       |
+79    |  I_O  |   1  |O10 |    *   |LVCMOS33         | Output|<A href=#64>d_28</A>
+80    |  I_O  |   1  |O6  |    *   |LVCMOS33         | Output|<A href=#62>d_26</A>
+81    |  I_O  |   1  |O2  |    *   |LVCMOS33         | Output|<A href=#60>d_24</A>
 82    |GNDIO1 |   -  |    |        |                 |       |
 83    |VCCIO1 |   -  |    |        |                 |       |
-84    |  I_O  |   1  |H6  |    *   |LVCMOS33         | Output|<A href=#52>d_16</A>
-85    |  I_O  |   1  |H4  |    *   |LVCMOS33         | Output|<A href=#54>d_18</A>
-86    |  I_O  |   1  |H2  |    *   |LVCMOS33         | Output|<A href=#56>d_20</A>
-87    | I_O/OE|   1  |H0  |    *   |LVCMOS33         | Output|<A href=#58>d_22</A>
+84    |  I_O  |   1  |P12 |    *   |LVCMOS33         | Output|<A href=#52>d_16</A>
+85    |  I_O  |   1  |P10 |    *   |LVCMOS33         | Output|<A href=#54>d_18</A>
+86    |  I_O  |   1  |P6  |    *   |LVCMOS33         | Output|<A href=#56>d_20</A>
+87    | I_O/OE|   1  |P2  |    *   |LVCMOS33         | Output|<A href=#58>d_22</A>
 88    |INCLK3 |   1  |    |        |                 |       |
 89    |INCLK0 |   0  |    |        |                 |       |
 90    | VCC   |   -  |    |        |                 |       |
-91    | I_O/OE|   0  |A0  |    *   |LVCMOS18         | Input |<A href=#30>fpga_24</A>
-92    |  I_O  |   0  |A2  |    *   |LVCMOS18         | Input |<A href=#31>fpga_25</A>
-93    |  I_O  |   0  |A4  |    *   |LVCMOS18         | Input |<A href=#32>fpga_26</A>
-94    |  I_O  |   0  |A6  |    *   |LVCMOS18         | Input |<A href=#33>fpga_27</A>
+91    | I_O/OE|   0  |A2  |    *   |LVCMOS18         | Input |<A href=#30>fpga_24</A>
+92    |  I_O  |   0  |A6  |    *   |LVCMOS18         | Input |<A href=#31>fpga_25</A>
+93    |  I_O  |   0  |A10 |    *   |LVCMOS18         | Input |<A href=#32>fpga_26</A>
+94    |  I_O  |   0  |A12 |    *   |LVCMOS18         | Input |<A href=#33>fpga_27</A>
 95    |VCCIO0 |   -  |    |        |                 |       |
 96    |GNDIO0 |   -  |    |        |                 |       |
-97    |  I_O  |   0  |A8  |    *   |LVCMOS18         | Input |<A href=#34>fpga_28</A>
-98    |  I_O  |   0  |A10 |    *   |LVCMOS18         | Input |<A href=#35>fpga_29</A>
-99    |  I_O  |   0  |A12 |        |                 |       |
-100   |  I_O  |   0  |A14 |        |                 |       |
+97    |  I_O  |   0  |B2  |    *   |LVCMOS18         | Input |<A href=#34>fpga_28</A>
+98    |  I_O  |   0  |B6  |    *   |LVCMOS18         | Input |<A href=#35>fpga_29</A>
+99    |  I_O  |   0  |B10 |        |                 |       |
+100   |  I_O  |   0  |B12 |        |                 |       |
 --------------------------------------------------------------------------
 
 &lt;Note&gt; GLB Pad : This notation refers to the GLB I/O pad number in the device.
@@ -344,78 +364,78 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name
 <BR>
 <B>                Input
          Pin    Fanout
- Pin GLB Type               Pullup Signal
-</B>------------------------------------------
-   3   B  I/O     --------    Down <A name=6>fpga_00</A>
-   4   B  I/O     --------    Down <A name=7>fpga_01</A>
-   5   B  I/O     --------    Down <A name=8>fpga_02</A>
-   6   B  I/O     --------    Down <A name=9>fpga_03</A>
-   8   B  I/O     --------    Down <A name=10>fpga_04</A>
-   9   B  I/O     --------    Down <A name=11>fpga_05</A>
-  10   B  I/O     --------    Down <A name=12>fpga_06</A>
-  11   B  I/O     --------    Down <A name=13>fpga_07</A>
-  14   C  I/O     --------    Down <A name=14>fpga_08</A>
-  15   C  I/O     --------    Down <A name=15>fpga_09</A>
-  16   C  I/O     --------    Down <A name=16>fpga_10</A>
-  17   C  I/O     --------    Down <A name=17>fpga_11</A>
-  19   C  I/O     --------    Down <A name=18>fpga_12</A>
-  20   C  I/O     --------    Down <A name=19>fpga_13</A>
-  21   C  I/O     --------    Down <A name=20>fpga_14</A>
-  22   C  I/O     --------    Down <A name=21>fpga_15</A>
-  28   D  I/O     --------    Down <A name=22>fpga_16</A>
-  29   D  I/O     --------    Down <A name=23>fpga_17</A>
-  30   D  I/O     --------    Down <A name=24>fpga_18</A>
-  31   D  I/O     --------    Down <A name=25>fpga_19</A>
-  34   D  I/O     --------    Down <A name=26>fpga_20</A>
-  35   D  I/O     --------    Down <A name=27>fpga_21</A>
-  36   D  I/O     --------    Down <A name=28>fpga_22</A>
-  37   D  I/O     --------    Down <A name=29>fpga_23</A>
-  91   A  I/O     --------    Down <A name=30>fpga_24</A>
-  92   A  I/O     --------    Down <A name=31>fpga_25</A>
-  93   A  I/O     --------    Down <A name=32>fpga_26</A>
-  94   A  I/O     --------    Down <A name=33>fpga_27</A>
-  97   A  I/O     --------    Down <A name=34>fpga_28</A>
-  98   A  I/O     --------    Down <A name=35>fpga_29</A>
-------------------------------------------
+ Pin GLB Type                       Pullup Signal
+</B>--------------------------------------------------
+   3   C  I/O      ----------------    Down <A name=6>fpga_00</A>
+   4   C  I/O      ----------------    Down <A name=7>fpga_01</A>
+   5   C  I/O      ----------------    Down <A name=8>fpga_02</A>
+   6   C  I/O      ----------------    Down <A name=9>fpga_03</A>
+   8   D  I/O      ----------------    Down <A name=10>fpga_04</A>
+   9   D  I/O      ----------------    Down <A name=11>fpga_05</A>
+  10   D  I/O      ----------------    Down <A name=12>fpga_06</A>
+  11   D  I/O      ----------------    Down <A name=13>fpga_07</A>
+  14   E  I/O      ----------------    Down <A name=14>fpga_08</A>
+  15   E  I/O      ----------------    Down <A name=15>fpga_09</A>
+  16   E  I/O      ----------------    Down <A name=16>fpga_10</A>
+  17   E  I/O      ----------------    Down <A name=17>fpga_11</A>
+  19   F  I/O      ----------------    Down <A name=18>fpga_12</A>
+  20   F  I/O      ----------------    Down <A name=19>fpga_13</A>
+  21   F  I/O      ----------------    Down <A name=20>fpga_14</A>
+  22   F  I/O      ----------------    Down <A name=21>fpga_15</A>
+  28   G  I/O      ----------------    Down <A name=22>fpga_16</A>
+  29   G  I/O      ----------------    Down <A name=23>fpga_17</A>
+  30   G  I/O      ----------------    Down <A name=24>fpga_18</A>
+  31   G  I/O      ----------------    Down <A name=25>fpga_19</A>
+  34   H  I/O      ----------------    Down <A name=26>fpga_20</A>
+  35   H  I/O      ----------------    Down <A name=27>fpga_21</A>
+  36   H  I/O      ----------------    Down <A name=28>fpga_22</A>
+  37   H  I/O      ----------------    Down <A name=29>fpga_23</A>
+  91   A  I/O      ----------------    Down <A name=30>fpga_24</A>
+  92   A  I/O      ----------------    Down <A name=31>fpga_25</A>
+  93   A  I/O      ----------------    Down <A name=32>fpga_26</A>
+  94   A  I/O      ----------------    Down <A name=33>fpga_27</A>
+  97   B  I/O      ----------------    Down <A name=34>fpga_28</A>
+  98   B  I/O      ----------------    Down <A name=35>fpga_29</A>
+--------------------------------------------------
 
 
 <A name="Output_Signal_List"></A><FONT COLOR=maroon><U><B><big>Output_Signal_List</big></B></U></FONT>
 <BR>
 <B>          I         C      P R P       O Output
           N         L Mc   R E U C O F B Fanout
- Pin GLB  P LL PTs  S Type E S P E E P P             Slew Pullup Signal
-</B>-----------------------------------------------------------------------
-  50   E  0  -   1  1 COM                  --------  Fast   Down <A href=#36>d_00</A>
-  53   F  0  -   0  1 COM                  --------  Fast   Down <A href=#37>d_01</A>
-  49   E  0  -   1  1 COM                  --------  Fast   Down <A href=#38>d_02</A>
-  54   F  0  -   0  1 COM                  --------  Fast   Down <A href=#39>d_03</A>
-  48   E  0  -   1  1 COM                  --------  Fast   Down <A href=#40>d_04</A>
-  55   F  0  -   0  1 COM                  --------  Fast   Down <A href=#41>d_05</A>
-  47   E  0  -   0  1 COM                  --------  Fast   Down <A href=#42>d_06</A>
-  56   F  0  -   0  1 COM                  --------  Fast   Down <A href=#43>d_07</A>
-  41   E  0  -   0  1 COM                  --------  Fast   Down <A href=#44>d_08</A>
-  58   F  0  -   0  1 COM                  --------  Fast   Down <A href=#45>d_09</A>
-  42   E  0  -   0  1 COM                  --------  Fast   Down <A href=#46>d_10</A>
-  59   F  0  -   0  1 COM                  --------  Fast   Down <A href=#47>d_11</A>
-  43   E  0  -   0  1 COM                  --------  Fast   Down <A href=#48>d_12</A>
-  60   F  0  -   0  1 COM                  --------  Fast   Down <A href=#49>d_13</A>
-  44   E  0  -   0  1 COM                  --------  Fast   Down <A href=#50>d_14</A>
-  61   F  0  -   0  1 COM                  --------  Fast   Down <A href=#51>d_15</A>
-  84   H  0  -   0  1 COM                  --------  Fast   Down <A href=#52>d_16</A>
-  64   G  0  -   0  1 COM                  --------  Fast   Down <A href=#53>d_17</A>
-  85   H  0  -   0  1 COM                  --------  Fast   Down <A href=#54>d_18</A>
-  65   G  0  -   0  1 COM                  --------  Fast   Down <A href=#55>d_19</A>
-  86   H  0  -   0  1 COM                  --------  Fast   Down <A href=#56>d_20</A>
-  66   G  0  -   0  1 COM                  --------  Fast   Down <A href=#57>d_21</A>
-  87   H  0  -   0  1 COM                  --------  Fast   Down <A href=#58>d_22</A>
-  67   G  0  -   0  1 COM                  --------  Fast   Down <A href=#59>d_23</A>
-  81   H  0  -   0  1 COM                  --------  Fast   Down <A href=#60>d_24</A>
-  72   G  0  -   0  1 COM                  --------  Fast   Down <A href=#61>d_25</A>
-  80   H  0  -   0  1 COM                  --------  Fast   Down <A href=#62>d_26</A>
-  71   G  0  -   0  1 COM                  --------  Fast   Down <A href=#63>d_27</A>
-  79   H  0  -   0  1 COM                  --------  Fast   Down <A href=#64>d_28</A>
-  70   G  0  -   0  1 COM                  --------  Fast   Down <A href=#65>d_29</A>
------------------------------------------------------------------------
+ Pin GLB  P LL PTs  S Type E S P E E P P                     Slew Pullup Signal
+</B>-------------------------------------------------------------------------------
+  50   J  0  -   1  1 COM                   ----------------  Fast   Down <A href=#36>d_00</A>
+  53   K  0  -   0  1 COM                   ----------------  Fast   Down <A href=#37>d_01</A>
+  49   J  0  -   1  1 COM                   ----------------  Fast   Down <A href=#38>d_02</A>
+  54   K  0  -   0  1 COM                   ----------------  Fast   Down <A href=#39>d_03</A>
+  48   J  0  -   1  1 COM                   ----------------  Fast   Down <A href=#40>d_04</A>
+  55   K  0  -   0  1 COM                   ----------------  Fast   Down <A href=#41>d_05</A>
+  47   J  0  -   0  1 COM                   ----------------  Fast   Down <A href=#42>d_06</A>
+  56   K  0  -   0  1 COM                   ----------------  Fast   Down <A href=#43>d_07</A>
+  41   I  0  -   0  1 COM                   ----------------  Fast   Down <A href=#44>d_08</A>
+  58   L  0  -   0  1 COM                   ----------------  Fast   Down <A href=#45>d_09</A>
+  42   I  0  -   0  1 COM                   ----------------  Fast   Down <A href=#46>d_10</A>
+  59   L  0  -   0  1 COM                   ----------------  Fast   Down <A href=#47>d_11</A>
+  43   I  0  -   0  1 COM                   ----------------  Fast   Down <A href=#48>d_12</A>
+  60   L  0  -   0  1 COM                   ----------------  Fast   Down <A href=#49>d_13</A>
+  44   I  0  -   0  1 COM                   ----------------  Fast   Down <A href=#50>d_14</A>
+  61   L  0  -   0  1 COM                   ----------------  Fast   Down <A href=#51>d_15</A>
+  84   P  0  -   0  1 COM                   ----------------  Fast   Down <A href=#52>d_16</A>
+  64   M  0  -   0  1 COM                   ----------------  Fast   Down <A href=#53>d_17</A>
+  85   P  0  -   0  1 COM                   ----------------  Fast   Down <A href=#54>d_18</A>
+  65   M  0  -   0  1 COM                   ----------------  Fast   Down <A href=#55>d_19</A>
+  86   P  0  -   0  1 COM                   ----------------  Fast   Down <A href=#56>d_20</A>
+  66   M  0  -   0  1 COM                   ----------------  Fast   Down <A href=#57>d_21</A>
+  87   P  0  -   0  1 COM                   ----------------  Fast   Down <A href=#58>d_22</A>
+  67   M  0  -   0  1 COM                   ----------------  Fast   Down <A href=#59>d_23</A>
+  81   O  0  -   0  1 COM                   ----------------  Fast   Down <A href=#60>d_24</A>
+  72   N  0  -   0  1 COM                   ----------------  Fast   Down <A href=#61>d_25</A>
+  80   O  0  -   0  1 COM                   ----------------  Fast   Down <A href=#62>d_26</A>
+  71   N  0  -   0  1 COM                   ----------------  Fast   Down <A href=#63>d_27</A>
+  79   O  0  -   0  1 COM                   ----------------  Fast   Down <A href=#64>d_28</A>
+  70   N  0  -   0  1 COM                   ----------------  Fast   Down <A href=#65>d_29</A>
+-------------------------------------------------------------------------------
 
 &lt;Note&gt; CLS = Number of clusters used
        INP = Number of input signals
@@ -434,9 +454,9 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name
 <BR>
 <B>          I         C      P R P       O Bidir
           N         L Mc   R E U C O F B Fanout
- Pin GLB  P LL PTs  S Type E S P E E P P             Slew Pullup Signal
-</B>-----------------------------------------------------------------------
------------------------------------------------------------------------
+ Pin GLB  P LL PTs  S Type E S P E E P P                     Slew Pullup Signal
+</B>-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 &lt;Note&gt; CLS = Number of clusters used
        INP = Number of input signals

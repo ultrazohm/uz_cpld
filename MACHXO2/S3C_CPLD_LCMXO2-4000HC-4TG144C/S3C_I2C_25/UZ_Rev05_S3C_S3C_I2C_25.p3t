@@ -1,0 +1,5 @@
+-rem
+-distrce
+-log "UZ_Rev05_S3C_S3C_I2C_25.log"
+-o "UZ_Rev05_S3C_S3C_I2C_25.csv"
+-pr "UZ_Rev05_S3C_S3C_I2C_25.prf"

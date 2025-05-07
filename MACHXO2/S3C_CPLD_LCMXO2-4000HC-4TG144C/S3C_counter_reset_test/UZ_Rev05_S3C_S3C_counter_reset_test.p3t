@@ -1,0 +1,5 @@
+-rem
+-distrce
+-log "UZ_Rev05_S3C_S3C_counter_reset_test.log"
+-o "UZ_Rev05_S3C_S3C_counter_reset_test.csv"
+-pr "UZ_Rev05_S3C_S3C_counter_reset_test.prf"

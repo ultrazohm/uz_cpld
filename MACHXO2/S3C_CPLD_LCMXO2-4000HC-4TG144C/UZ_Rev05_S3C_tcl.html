@@ -6,172 +6,59 @@
 -->
 </STYLE>
 </HEAD>
-<PRE><A name="pn241210173813"></A><B><U><big>pn241210173813</big></U></B>
-#Start recording tcl command: 12/10/2024 15:39:23
+<PRE><A name="pn250430075812"></A><B><U><big>pn250430075812</big></U></B>
+#Start recording tcl command: 4/21/2025 20:31:17
 #Project Location: C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C; Project name: UZ_Rev05_S3C
 prj_project open "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/UZ_Rev05_S3C.ldf"
-prj_run PAR -impl i2c_state
-prj_run Synthesis -impl i2c_state
-prj_run Synthesis -impl i2c_state
-prj_run Map -impl i2c_state
-prj_run PAR -impl i2c_state
-prj_run Synthesis -impl i2c_state
-prj_run Map -impl i2c_state
-prj_run PAR -impl i2c_state
-prj_run Map -impl i2c_state
-prj_run PAR -impl i2c_state
-prj_run Export -impl i2c_state
-prj_run Export -impl i2c_state
-prj_run Export -impl i2c_state -forceAll
-prj_run Export -impl i2c_state -forceAll
-prj_run Export -impl i2c_state -forceAll
-#Stop recording: 12/10/2024 17:38:13
+prj_impl clone "S3C_I2C_25" -dir "S3C_I2C_25" -impl "S3C_171224" -copyRef
+prj_impl active "S3C_I2C_25"
+prj_src add "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_I2C_25/source/i2c_gpio.vhd"
+prj_src exclude "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_I2C_25/source/i2c_gpio.vhd"
+prj_src add "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_I2C_25/source/ipexpress/xo2/efb_vhdl.vhd"
+prj_run Synthesis -impl S3C_I2C_25
+prj_run Map -impl S3C_I2C_25 -forceAll
+prj_run PAR -impl S3C_I2C_25 -forceOne
+prj_src exclude "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_I2C_25/source/ipexpress/xo2/efb_vhdl.vhd"
+prj_run Export -impl S3C_I2C_25 -forceAll
+prj_src enable "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_I2C_25/source/i2c_gpio.vhd"
+prj_src enable "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_I2C_25/source/ipexpress/xo2/efb_vhdl.vhd"
+prj_src exclude "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_I2C_25/source/Power_on_debounce.vhd"
+prj_run Export -impl S3C_I2C_25 -forceAll
+prj_src exclude "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_I2C_25/source/i2c_gpio.vhd"
+prj_src enable "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_I2C_25/source/Power_on_debounce.vhd"
+prj_run Export -impl S3C_I2C_25 -forceAll
+prj_src exclude "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_I2C_25/source/ipexpress/xo2/efb_vhdl.vhd"
+prj_run Export -impl S3C_I2C_25 -forceAll
+#Stop recording: 4/30/2025 07:58:12
 
 
 
-<A name="pn241211035317"></A><B><U><big>pn241211035317</big></U></B>
-#Start recording tcl command: 12/10/2024 21:11:34
+<A name="pn250502112005"></A><B><U><big>pn250502112005</big></U></B>
+#Start recording tcl command: 4/30/2025 10:13:10
 #Project Location: C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C; Project name: UZ_Rev05_S3C
 prj_project open "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/UZ_Rev05_S3C.ldf"
-#Stop recording: 12/11/2024 03:53:17
+prj_run Export -impl S3C_I2C_25 -forceAll
+#Stop recording: 5/2/2025 11:20:05
 
 
 
-<A name="pn241212092919"></A><B><U><big>pn241212092919</big></U></B>
-#Start recording tcl command: 12/11/2024 15:15:51
+<A name="pn250502112647"></A><B><U><big>pn250502112647</big></U></B>
+#Start recording tcl command: 5/2/2025 11:23:32
 #Project Location: C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C; Project name: UZ_Rev05_S3C
 prj_project open "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/UZ_Rev05_S3C.ldf"
-prj_project close
-#Stop recording: 12/12/2024 09:29:19
+#Stop recording: 5/2/2025 11:26:47
 
 
 
-<A name="pn241216072912"></A><B><U><big>pn241216072912</big></U></B>
-#Start recording tcl command: 12/12/2024 09:52:16
+<A name="pn250505104644"></A><B><U><big>pn250505104644</big></U></B>
+#Start recording tcl command: 5/2/2025 11:28:06
 #Project Location: C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C; Project name: UZ_Rev05_S3C
 prj_project open "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/UZ_Rev05_S3C.ldf"
-prj_src remove "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/main_ctrl.vhd" "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/spi_slave_top.vhd" "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/wb_ctrl.vhd" "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/ext_if.vhd"
-prj_src remove "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/_math_real.vhd"
-prj_run Synthesis -impl impl_0
-prj_run Map -impl impl_0
-prj_run PAR -impl impl_0
-prj_run Export -impl impl_0 -forceAll
-prj_impl clone "S3C_171224" -dir "S3C_171224" -impl "impl_0" -copyRef
+prj_impl active "impl_0"
 prj_impl active "S3C_171224"
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Synthesis -impl S3C_171224
-prj_run Synthesis -impl S3C_171224
-prj_run Map -impl S3C_171224
-prj_run Map -impl S3C_171224
-prj_run PAR -impl S3C_171224
-prj_run Export -impl S3C_171224
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Synthesis -impl S3C_171224
-prj_run Map -impl S3C_171224
-prj_run Map -impl S3C_171224
-prj_run PAR -impl S3C_171224
-prj_run Export -impl S3C_171224
-prj_run Synthesis -impl S3C_171224
-prj_run Map -impl S3C_171224
-prj_run PAR -impl S3C_171224
-prj_run Export -impl S3C_171224
-prj_run Synthesis -impl S3C_171224
-prj_run Map -impl S3C_171224
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Synthesis -impl S3C_171224
-prj_run Map -impl S3C_171224
-prj_run Export -impl S3C_171224
-prj_run Synthesis -impl S3C_171224
-prj_run Synthesis -impl S3C_171224
-prj_run Map -impl S3C_171224
-prj_run Synthesis -impl S3C_171224
-prj_run Map -impl S3C_171224
-prj_run Synthesis -impl S3C_171224
-prj_run Synthesis -impl S3C_171224
-prj_run Synthesis -impl S3C_171224
-prj_run Map -impl S3C_171224
-prj_run Synthesis -impl S3C_171224
-prj_run Synthesis -impl S3C_171224
-prj_run Synthesis -impl S3C_171224
-prj_run Synthesis -impl S3C_171224
-prj_run Synthesis -impl S3C_171224 -forceOne
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Export -impl S3C_171224 -forceAll
-#Stop recording: 12/16/2024 07:29:12
-
-
-
-<A name="pn241216074530"></A><B><U><big>pn241216074530</big></U></B>
-#Start recording tcl command: 12/16/2024 07:31:51
-#Project Location: C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C; Project name: UZ_Rev05_S3C
-prj_project open "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/UZ_Rev05_S3C.ldf"
-#Stop recording: 12/16/2024 07:45:30
-
-
-
-<A name="pn241217112122"></A><B><U><big>pn241217112122</big></U></B>
-#Start recording tcl command: 12/16/2024 09:52:50
-#Project Location: C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C; Project name: UZ_Rev05_S3C
-prj_project open "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/UZ_Rev05_S3C.ldf"
-prj_run Synthesis -impl S3C_171224
-prj_run Map -impl S3C_171224
-prj_project save
-prj_run Synthesis -impl S3C_171224
-prj_run Synthesis -impl S3C_171224
-prj_run Map -impl S3C_171224
-prj_run Map -impl S3C_171224
-prj_run PAR -impl S3C_171224
-prj_run PAR -impl S3C_171224 -forceAll
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Synthesis -impl S3C_171224
-prj_run Map -impl S3C_171224
-prj_run Synthesis -impl S3C_171224
-prj_run Synthesis -impl S3C_171224
-prj_run Map -impl S3C_171224
-prj_run PAR -impl S3C_171224
-prj_run Synthesis -impl S3C_171224
-prj_run Synthesis -impl S3C_171224
-prj_run Map -impl S3C_171224
-prj_run Synthesis -impl S3C_171224
-prj_run Map -impl S3C_171224
-prj_run Synthesis -impl S3C_171224
-prj_run Map -impl S3C_171224
-prj_run PAR -impl S3C_171224
-prj_run Map -impl S3C_171224
-prj_run PAR -impl S3C_171224
-prj_run Synthesis -impl S3C_171224
-prj_run Synthesis -impl S3C_171224 -forceOne
-prj_run Synthesis -impl S3C_171224
-prj_run Synthesis -impl S3C_171224
-prj_run Map -impl S3C_171224
-prj_run PAR -impl S3C_171224
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Export -impl S3C_171224 -forceAll
-prj_run Export -impl S3C_171224 -forceAll
-prj_project save
-prj_project close
-#Stop recording: 12/17/2024 11:21:22
+prj_impl clone "S3C_I2C_25" -dir "S3C_I2C_25" -impl "S3C_171224" -copyRef
+prj_impl active "S3C_I2C_25"
+#Stop recording: 5/5/2025 10:46:44
 
 
 

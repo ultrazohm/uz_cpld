@@ -1,0 +1,600 @@
+<HTML>
+<HEAD><TITLE>Project Summary</TITLE>
+<STYLE TYPE="text/css">
+<!--
+ body,pre{    font-family:'Courier New', monospace;    color: #000000;    font-size:88%;    background-color: #ffffff;}h1 {    font-weight: bold;    margin-top: 24px;    margin-bottom: 10px;    border-bottom: 3px solid #000;    font-size: 1em;}h2 {    font-weight: bold;    margin-top: 18px;    margin-bottom: 5px;    font-size: 0.90em;}h3 {    font-weight: bold;    margin-top: 12px;    margin-bottom: 5px;    font-size: 0.80em;}p {    font-size:78%;}P.Table {    margin-top: 4px;    margin-bottom: 4px;    margin-right: 4px;    margin-left: 4px;}table{    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    border-collapse: collapse;}th {    font-weight:bold;    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    text-align:left;    font-size:78%;}td {    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    font-size:78%;}a {    color:#013C9A;    text-decoration:none;}a:visited {    color:#013C9A;}a:hover, a:active {    text-decoration:underline;    color:#5BAFD4;}.pass{background-color: #00ff00;}.fail{background-color: #ff0000;}.comment{    font-size: 90%;    font-style: italic;}
+-->
+</STYLE>
+</HEAD>
+<PRE><A name="Mrp"></A>
+Lattice Mapping Report File for Design Module
+     'Waiting_for_Powerbutton_pressed_V0'
+
+
+
+<A name="mrp_di"></A><B><U><big>Design Information</big></U></B>
+
+Command line:   map -a MachXO2 -p LCMXO2-4000HC -t TQFP144 -s 4 -oc Commercial
+     UZ_Rev05_S3C_S3C_counter_reset_test.ngd -o
+     UZ_Rev05_S3C_S3C_counter_reset_test_map.ncd -pr
+     UZ_Rev05_S3C_S3C_counter_reset_test.prf -mp
+     UZ_Rev05_S3C_S3C_counter_reset_test.mrp -lpf C:/cpld/cpld_lattice/MACHXO2/S
+     3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_counter_reset_test/UZ_Rev05_S3C_S3C_count
+     er_reset_test.lpf -lpf C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-
+     4TG144C/S3C_counter_reset_test/source/UZ_Rev05_S3C.lpf -c 0 -gui -msgset
+     C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/promote.xml 
+Target Vendor:  LATTICE
+Target Device:  LCMXO2-4000HCTQFP144
+Target Performance:   4
+Mapper:  xo2c00,  version:  Diamond (64-bit) 3.13.0.56.2
+Mapped on:  05/07/25  11:01:35
+
+
+<A name="mrp_ds"></A><B><U><big>Design Summary</big></U></B>
+   Number of registers:    212 out of  4665 (5%)
+      PFU registers:          212 out of  4320 (5%)
+      PIO registers:            0 out of   345 (0%)
+   Number of SLICEs:       246 out of  2160 (11%)
+      SLICEs as Logic/ROM:    246 out of  2160 (11%)
+      SLICEs as RAM:            0 out of  1620 (0%)
+      SLICEs as Carry:        146 out of  2160 (7%)
+   Number of LUT4s:        490 out of  4320 (11%)
+      Number used as logic LUTs:        198
+      Number used as distributed RAM:     0
+      Number used as ripple logic:      292
+      Number used as shift registers:     0
+   Number of PIO sites used: 102 + 1(JTAGENB) out of 115 (90%)
+   Number of block RAMs:  0 out of 10 (0%)
+   Number of GSRs:        0 out of 1 (0%)
+   EFB used :        No
+   JTAG used :       No
+   Readback used :   No
+   Oscillator used : Yes
+   Startup used :    No
+   POR :             On
+   Bandgap :         On
+   Number of Power Controller:  0 out of 1 (0%)
+   Number of Dynamic Bank Controller (BCINRD):  0 out of 6 (0%)
+   Number of Dynamic Bank Controller (BCLVDSO):  0 out of 1 (0%)
+   Number of DCCA:  0 out of 8 (0%)
+   Number of DCMA:  0 out of 2 (0%)
+   Number of PLLs:  0 out of 2 (0%)
+   Number of DQSDLLs:  0 out of 2 (0%)
+   Number of CLKDIVC:  0 out of 4 (0%)
+   Number of ECLKSYNCA:  0 out of 4 (0%)
+   Number of ECLKBRIDGECS:  0 out of 2 (0%)
+   Notes:-
+      1. Total number of LUT4s = (Number of logic LUT4s) + 2*(Number of
+     distributed RAMs) + 2*(Number of ripple logic)
+      2. Number of logic LUT4s does not include count of distributed RAM and
+
+     ripple logic.
+   Number of clocks:  1
+     Net clk: 128 loads, 128 rising, 0 falling (Driver: OSCInst0 )
+   Number of Clock Enables:  23
+     Net clk_enable_142: 18 loads, 18 LSLICEs
+     Net clk_enable_86: 1 loads, 1 LSLICEs
+     Net clk_enable_83: 17 loads, 17 LSLICEs
+     Net clk_enable_52: 17 loads, 17 LSLICEs
+     Net clk_enable_6: 1 loads, 1 LSLICEs
+     Net clk_enable_7: 1 loads, 1 LSLICEs
+     Net clk_enable_133: 1 loads, 1 LSLICEs
+     Net clk_enable_129: 1 loads, 1 LSLICEs
+     Net clk_enable_11: 1 loads, 1 LSLICEs
+     Net clk_enable_13: 2 loads, 2 LSLICEs
+     Net clk_enable_15: 2 loads, 2 LSLICEs
+     Net clk_enable_16: 1 loads, 1 LSLICEs
+     Net Carrier_PG_1V8_N_831: 1 loads, 1 LSLICEs
+     Net clk_enable_20: 1 loads, 1 LSLICEs
+     Net clk_enable_18: 1 loads, 1 LSLICEs
+     Net clk_enable_19: 1 loads, 1 LSLICEs
+     Net clk_enable_172: 17 loads, 17 LSLICEs
+     Net clk_enable_132: 17 loads, 17 LSLICEs
+     Net clk_enable_85: 1 loads, 1 LSLICEs
+     Net clk_enable_87: 1 loads, 1 LSLICEs
+     Net clk_enable_89: 1 loads, 1 LSLICEs
+     Net clk_enable_130: 1 loads, 1 LSLICEs
+     Net clk_enable_139: 1 loads, 1 LSLICEs
+   Number of LSRs:  7
+     Net n3695: 5 loads, 5 LSLICEs
+     Net n3688: 5 loads, 5 LSLICEs
+     Net debounce_inputs_asyn2_1: 18 loads, 18 LSLICEs
+     Net debounce_inputs_asyn2_2: 18 loads, 18 LSLICEs
+     Net debounce_inputs_asyn2_4: 18 loads, 18 LSLICEs
+     Net debounce_inputs_asyn2_3: 18 loads, 18 LSLICEs
+     Net n3894: 2 loads, 2 LSLICEs
+   Number of nets driven by tri-state buffers:  0
+   Top 10 highest fanout non-clock nets:
+     Net next_state_1: 60 loads
+     Net next_state_2: 57 loads
+     Net next_state_3: 53 loads
+     Net next_state_0: 49 loads
+     Net next_state_3_N_542_2: 32 loads
+     Net n5669: 22 loads
+     Net clk_enable_142: 20 loads
+     Net debounce_inputs_asyn2_1: 19 loads
+     Net debounce_inputs_asyn2_2: 19 loads
+     Net debounce_inputs_asyn2_4: 19 loads
+
+
+
+
+   Number of warnings:  1
+   Number of errors:    0
+     
+
+
+
+
+
+
+<A name="mrp_dwe"></A><B><U><big>Design Errors/Warnings</big></U></B>
+
+WARNING - map: The JTAG port has been disabled in this project and JTAG pins
+     will be configured as General Purpose IO.  You have to use JTAGENB pin in
+     hardware to change the personality of the port from JTAG pins to general
+     purpose IO.  Reference MachXO2 Handbook for details on dual function JTAG
+     port.
+
+
+
+<A name="mrp_ioa"></A><B><U><big>IO (PIO) Attributes</big></U></B>
+
++---------------------+-----------+-----------+------------+
+| IO Name             | Direction | Levelmode | IO         |
+|                     |           |  IO_TYPE  | Register   |
++---------------------+-----------+-----------+------------+
+| FPIO_FlexMIO28      | BIDIR     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FPIO_FlexMIO27      | BIDIR     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FPIO_FlexMIO30      | BIDIR     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FPIO_FlexMIO29      | BIDIR     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| DIG5S3C26           | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG5S3C25           | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG5S3C24           | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs54          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs62          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs63          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs31          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs30          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs29          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs28          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs27          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs26          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs37          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs36          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs35          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs34          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs33          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+
+| FlexMIOs32          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG5S3C03           | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG5S3C04           | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG5S3C05           | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG5S3C00           | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG5S3C02           | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG5S3C01           | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG5S3C29           | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG5S3C28           | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG5S3C27           | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FP_SysLEDg          | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FP_SysLEDr          | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FP_SysLEDb          | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FlexIO05            | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FlexIO02            | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FlexIO01            | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FPIO_isoCtrlRSTn    | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| Carrier_PG_3V3      | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FPIO_FlexMIO52      | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| Carrier_PG_1V8      | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FP_SysLEDs          | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FP_UsrLED[4]        | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FP_UsrLED[3]        | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FP_UsrLED[2]        | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FP_UsrLED[1]        | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_Shared_CarrierReady| OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_Shared_ReqSafeState| OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| SD_SEL              | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+
+| FlexMIOs53_GPIO_PowerDown| OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMio61ExternalStop| OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| ANL_S3C_CarrierReady| OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_SlotD_SlotOE[5]| OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_SlotD_SlotOE[4]| OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_SlotD_SlotOE[3]| OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_SlotD_SlotOE[2]| OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_SlotD_SlotOE[1]| OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| Carrier_PwrOn       | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FlexIO04            | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FlexIO03            | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FP_UsrSW1           | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FP_UsrSW2           | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| SCL                 | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| SDA                 | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FP_UsrSW3           | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| SysSW_Pwr_NC        | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FPIO_iosCtrlINTn    | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FPIO_ExternalStop   | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| S3CsI2C_SDA         | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| S3CsI2C_SCL         | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| SD1_CD              | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| SD0_CD              | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| SPI_S3C_nCS_USR     | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_SlotD_ReqOE[5]| INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_SlotD_ReqOE[4]| INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_SlotD_ReqOE[3]| INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_SlotD_ReqOE[2]| INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+
+| DIGS3C_SlotD_ReqOE[1]| INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_SlotD_SlotOK[5]| INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_SlotD_SlotOK[4]| INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_SlotD_SlotOK[3]| INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_SlotD_SlotOK[2]| INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIGS3C_SlotD_SlotOK[1]| INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexLIO[5]          | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexLIO[4]          | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexLIO[3]          | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexLIO[2]          | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexLIO[1]          | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexLIO[0]          | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs52_PCIe     | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs45          | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| ANL_S3C_SLOTOK[3]   | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| ANL_S3C_SLOTOK[2]   | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| ANL_S3C_SLOTOK[1]   | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| ANL_S3C_P54_Legacy  | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| PG_VIN              | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| PPn_VIN             | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| PG_Module           | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| TDnSHDN             | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| TDnFFnFS            | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| TDnALERT            | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| S3C_S1              | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+
+
+
+<A name="mrp_rm"></A><B><U><big>Removed logic</big></U></B>
+
+Block GSR_INST undriven or does not drive anything - clipped.
+Signal n3245 was merged into signal Carrier_PG_1V8_N_750
+
+Signal VCC_net undriven or does not drive anything - clipped.
+Signal add_176_33/S1 undriven or does not drive anything - clipped.
+Signal add_176_33/CO undriven or does not drive anything - clipped.
+Signal add_2355_20/S1 undriven or does not drive anything - clipped.
+Signal add_2355_20/S0 undriven or does not drive anything - clipped.
+Signal add_438_25/CO undriven or does not drive anything - clipped.
+Signal add_2354_2/S1 undriven or does not drive anything - clipped.
+Signal add_2354_2/S0 undriven or does not drive anything - clipped.
+Signal add_2354_2/CI undriven or does not drive anything - clipped.
+Signal add_2354_4/S1 undriven or does not drive anything - clipped.
+Signal add_2354_4/S0 undriven or does not drive anything - clipped.
+Signal add_185_1/S0 undriven or does not drive anything - clipped.
+Signal add_185_1/CI undriven or does not drive anything - clipped.
+Signal add_2355_22/S1 undriven or does not drive anything - clipped.
+Signal add_2355_22/S0 undriven or does not drive anything - clipped.
+Signal add_2354_6/S1 undriven or does not drive anything - clipped.
+Signal add_2354_6/S0 undriven or does not drive anything - clipped.
+Signal add_2354_8/S1 undriven or does not drive anything - clipped.
+Signal add_2354_8/S0 undriven or does not drive anything - clipped.
+Signal add_2355_24/S1 undriven or does not drive anything - clipped.
+Signal add_2355_24/S0 undriven or does not drive anything - clipped.
+Signal add_2355_26/S0 undriven or does not drive anything - clipped.
+Signal add_2355_26/CO undriven or does not drive anything - clipped.
+Signal add_2357_2/S1 undriven or does not drive anything - clipped.
+Signal add_2357_2/S0 undriven or does not drive anything - clipped.
+Signal add_2357_2/CI undriven or does not drive anything - clipped.
+Signal add_2357_4/S1 undriven or does not drive anything - clipped.
+Signal add_2357_4/S0 undriven or does not drive anything - clipped.
+Signal add_2354_10/S1 undriven or does not drive anything - clipped.
+Signal add_2354_10/S0 undriven or does not drive anything - clipped.
+Signal add_2357_6/S1 undriven or does not drive anything - clipped.
+Signal add_2357_6/S0 undriven or does not drive anything - clipped.
+Signal add_2357_8/S1 undriven or does not drive anything - clipped.
+Signal add_2357_8/S0 undriven or does not drive anything - clipped.
+Signal add_2354_12/S1 undriven or does not drive anything - clipped.
+Signal add_2354_12/S0 undriven or does not drive anything - clipped.
+Signal add_2357_10/S1 undriven or does not drive anything - clipped.
+Signal add_2357_10/S0 undriven or does not drive anything - clipped.
+Signal add_2357_12/S1 undriven or does not drive anything - clipped.
+Signal add_2357_12/S0 undriven or does not drive anything - clipped.
+Signal add_2354_14/S1 undriven or does not drive anything - clipped.
+Signal add_2354_14/S0 undriven or does not drive anything - clipped.
+Signal add_2354_16/S1 undriven or does not drive anything - clipped.
+Signal add_2354_16/S0 undriven or does not drive anything - clipped.
+Signal add_2354_18/S1 undriven or does not drive anything - clipped.
+Signal add_2354_18/S0 undriven or does not drive anything - clipped.
+Signal add_2357_14/S1 undriven or does not drive anything - clipped.
+Signal add_2357_14/S0 undriven or does not drive anything - clipped.
+Signal add_2357_16/S1 undriven or does not drive anything - clipped.
+Signal add_2357_16/S0 undriven or does not drive anything - clipped.
+Signal add_2354_20/S1 undriven or does not drive anything - clipped.
+Signal add_2354_20/S0 undriven or does not drive anything - clipped.
+Signal add_2357_18/S1 undriven or does not drive anything - clipped.
+Signal add_2357_18/S0 undriven or does not drive anything - clipped.
+Signal add_2357_20/S1 undriven or does not drive anything - clipped.
+Signal add_2357_20/S0 undriven or does not drive anything - clipped.
+
+Signal add_2357_22/S1 undriven or does not drive anything - clipped.
+Signal add_2357_22/S0 undriven or does not drive anything - clipped.
+Signal add_2354_22/S1 undriven or does not drive anything - clipped.
+Signal add_2354_22/S0 undriven or does not drive anything - clipped.
+Signal add_2354_24/S1 undriven or does not drive anything - clipped.
+Signal add_2354_24/S0 undriven or does not drive anything - clipped.
+Signal add_2354_26/S0 undriven or does not drive anything - clipped.
+Signal add_2354_26/CO undriven or does not drive anything - clipped.
+Signal resetcounter_i24_787_add_4_1/S0 undriven or does not drive anything -
+     clipped.
+Signal resetcounter_i24_787_add_4_1/CI undriven or does not drive anything -
+     clipped.
+Signal add_2357_24/S1 undriven or does not drive anything - clipped.
+Signal add_2357_24/S0 undriven or does not drive anything - clipped.
+Signal add_2357_26/S0 undriven or does not drive anything - clipped.
+Signal add_2357_26/CO undriven or does not drive anything - clipped.
+Signal add_2356_2/S1 undriven or does not drive anything - clipped.
+Signal add_2356_2/S0 undriven or does not drive anything - clipped.
+Signal add_2356_2/CI undriven or does not drive anything - clipped.
+Signal add_2356_4/S1 undriven or does not drive anything - clipped.
+Signal add_2356_4/S0 undriven or does not drive anything - clipped.
+Signal resetcounter_i24_787_add_4_25/CO undriven or does not drive anything -
+     clipped.
+Signal add_2356_6/S1 undriven or does not drive anything - clipped.
+Signal add_2356_6/S0 undriven or does not drive anything - clipped.
+Signal add_2356_8/S1 undriven or does not drive anything - clipped.
+Signal add_2356_8/S0 undriven or does not drive anything - clipped.
+Signal add_2356_10/S1 undriven or does not drive anything - clipped.
+Signal add_2356_10/S0 undriven or does not drive anything - clipped.
+Signal add_2356_12/S1 undriven or does not drive anything - clipped.
+Signal add_2356_12/S0 undriven or does not drive anything - clipped.
+Signal add_2356_14/S1 undriven or does not drive anything - clipped.
+Signal add_2356_14/S0 undriven or does not drive anything - clipped.
+Signal add_2356_16/S1 undriven or does not drive anything - clipped.
+Signal add_2356_16/S0 undriven or does not drive anything - clipped.
+Signal add_2356_18/S1 undriven or does not drive anything - clipped.
+Signal add_2356_18/S0 undriven or does not drive anything - clipped.
+Signal add_2356_20/S1 undriven or does not drive anything - clipped.
+Signal add_2356_20/S0 undriven or does not drive anything - clipped.
+Signal add_2356_22/S1 undriven or does not drive anything - clipped.
+Signal add_2356_22/S0 undriven or does not drive anything - clipped.
+Signal add_194_33/S1 undriven or does not drive anything - clipped.
+Signal add_194_33/CO undriven or does not drive anything - clipped.
+Signal add_2356_24/S1 undriven or does not drive anything - clipped.
+Signal add_2356_24/S0 undriven or does not drive anything - clipped.
+Signal add_2356_26/S0 undriven or does not drive anything - clipped.
+Signal add_2356_26/CO undriven or does not drive anything - clipped.
+Signal add_438_1/S0 undriven or does not drive anything - clipped.
+Signal add_438_1/CI undriven or does not drive anything - clipped.
+Signal add_2355_2/S1 undriven or does not drive anything - clipped.
+Signal add_2355_2/S0 undriven or does not drive anything - clipped.
+Signal add_2355_2/CI undriven or does not drive anything - clipped.
+Signal add_2355_4/S1 undriven or does not drive anything - clipped.
+Signal add_2355_4/S0 undriven or does not drive anything - clipped.
+Signal add_2355_6/S1 undriven or does not drive anything - clipped.
+Signal add_2355_6/S0 undriven or does not drive anything - clipped.
+
+Signal add_167_1/S0 undriven or does not drive anything - clipped.
+Signal add_167_1/CI undriven or does not drive anything - clipped.
+Signal add_2355_8/S1 undriven or does not drive anything - clipped.
+Signal add_2355_8/S0 undriven or does not drive anything - clipped.
+Signal add_2355_10/S1 undriven or does not drive anything - clipped.
+Signal add_2355_10/S0 undriven or does not drive anything - clipped.
+Signal add_167_33/S1 undriven or does not drive anything - clipped.
+Signal add_167_33/CO undriven or does not drive anything - clipped.
+Signal add_2355_12/S1 undriven or does not drive anything - clipped.
+Signal add_2355_12/S0 undriven or does not drive anything - clipped.
+Signal add_2355_14/S1 undriven or does not drive anything - clipped.
+Signal add_2355_14/S0 undriven or does not drive anything - clipped.
+Signal add_2355_16/S1 undriven or does not drive anything - clipped.
+Signal add_2355_16/S0 undriven or does not drive anything - clipped.
+Signal add_185_33/S1 undriven or does not drive anything - clipped.
+Signal add_185_33/CO undriven or does not drive anything - clipped.
+Signal add_2355_18/S1 undriven or does not drive anything - clipped.
+Signal add_2355_18/S0 undriven or does not drive anything - clipped.
+Signal add_194_1/S0 undriven or does not drive anything - clipped.
+Signal add_194_1/CI undriven or does not drive anything - clipped.
+Signal add_176_1/S0 undriven or does not drive anything - clipped.
+Signal add_176_1/CI undriven or does not drive anything - clipped.
+Block i845_1_lut was optimized away.
+Block i2 was optimized away.
+
+     
+
+OSC Summary
+-----------
+
+OSC 1:                                     Pin/Node Value
+  OSC Instance Name:                                OSCInst0
+  OSC Type:                                         OSCH
+  STDBY Input:                                      NONE
+  OSC Output:                              NODE     clk
+  OSC Nominal Frequency (MHz):                      2.08
+
+
+
+<A name="mrp_asic"></A><B><U><big>ASIC Components</big></U></B>
+---------------
+
+Instance Name: OSCInst0
+         Type: OSCH
+
+
+
+<A name="mrp_runtime"></A><B><U><big>Run Time and Memory Usage</big></U></B>
+-------------------------
+
+   Total CPU Time: 1 secs  
+   Total REAL Time: 2 secs  
+   Peak Memory Usage: 57 MB
+        
+
+
+
+
+
+
+
+
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+     Copyright (c) 1995 AT&T Corp.   All rights reserved.
+     Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+     Copyright (c) 2001 Agere Systems   All rights reserved.
+     Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights
+     reserved.
+
+
+
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+</PRE></FONT>
+</BODY>
+</HTML>

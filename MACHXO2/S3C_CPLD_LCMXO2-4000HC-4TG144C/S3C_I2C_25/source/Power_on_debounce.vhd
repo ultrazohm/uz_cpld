@@ -25,11 +25,11 @@ entity Waiting_for_Powerbutton_pressed_V0 is
 		FP_SysLEDg		: out STD_LOGIC; -- led green Power, pin 141
 		FP_SysLEDr		: out STD_LOGIC; -- led red Power, pin 142
 		FP_SysLEDb		: out STD_LOGIC;  --led blue Power, pin 143		
-		FlexIO05 : out STD_LOGIC; --drive 0
-		FlexIO04 : in STD_LOGIC; -- pulldown
-		FlexIO03 : in STD_LOGIC;-- pulldown
-		FlexIO02 : out STD_LOGIC;--drive 0
-		FlexIO01 : out STD_LOGIC;--drive 0
+		--FlexIO05 : out STD_LOGIC; --drive 0
+		--FlexIO04 : in STD_LOGIC; -- pulldown
+		--FlexIO03 : in STD_LOGIC;-- pulldown
+		--FlexIO02 : out STD_LOGIC;--drive 0
+		--FlexIO01 : out STD_LOGIC;--drive 0
 		FP_UsrSW1		:		in  STD_LOGIC; 	-- button Enable System, pin 128
 		FP_UsrSW2		:		in  STD_LOGIC; 	-- button SW2 Enable Control, pin 127
 		--i2c
@@ -59,7 +59,7 @@ entity Waiting_for_Powerbutton_pressed_V0 is
 		DIGS3C_Shared_ReqSafeState : out STD_LOGIC;  -- pin 93
 		DIGS3C_SlotD_ReqOE : in STD_LOGIC_VECTOR (5 downto 1); -- pin 92,89,86,84,82
 		DIGS3C_SlotD_SlotOK : in STD_LOGIC_VECTOR (5 downto 1); -- pin 91,87,85,83,81
-		FlexLIO 		: inout STD_LOGIC_VECTOR (5 downto 0)  := (others => 'Z');
+		--FlexLIO 		: inout STD_LOGIC_VECTOR (5 downto 0)  := (others => 'Z');
 		--- Bank 2, 1.8V
 		DIG5S3C26	: inout STD_LOGIC; --bidir,Z
 		DIG5S3C25	: inout STD_LOGIC; --bidir,Z
@@ -73,11 +73,11 @@ entity Waiting_for_Powerbutton_pressed_V0 is
 		FlexMIOs62	: inout STD_LOGIC; --bidir,Z
 		FlexMIOs63	: inout STD_LOGIC; --bidir,Z
 		FlexMIOs31	: inout STD_LOGIC; --bidir,Z
-		FlexMIOs30	: inout STD_LOGIC; --bidir,Z
-		FlexMIOs29	: inout STD_LOGIC; --bidir,Z
-		FlexMIOs28	: inout STD_LOGIC; --bidir,Z
-		FlexMIOs27	: inout STD_LOGIC; --bidir,Z
-		FlexMIOs26	: inout STD_LOGIC; --bidir,Z
+		--FlexMIOs30	: inout STD_LOGIC; --bidir,Z
+		--FlexMIOs29	: inout STD_LOGIC; --bidir,Z
+		--FlexMIOs28	: inout STD_LOGIC; --bidir,Z
+		--FlexMIOs27	: inout STD_LOGIC; --bidir,Z
+		--FlexMIOs26	: inout STD_LOGIC; --bidir,Z
 		FlexMIOs45	: inout STD_LOGIC; --bidir,Z
 		FlexMIOs37	: inout STD_LOGIC; --bidir,Z
 		FlexMIOs36	: inout STD_LOGIC; --bidir,Z
@@ -113,13 +113,14 @@ entity Waiting_for_Powerbutton_pressed_V0 is
 		S3C_S1 			: in STD_LOGIC;		-- pin 10, pulldown
 		
 		--i2c ports - need to be assigned to existing ports
+		--gpo ports
 		GPO		 : out std_logic_vector(GPO_DATA_WIDTH-1 downto 0);
 		IRQ      : in std_logic_vector (IRQ_NUM-1 downto 0);      
-		GPI    	 : in std_logic_vector (GPI_DATA_WIDTH-1 downto 0);
-		RST_N	 : in std_logic; 
-		INTQ     : out std_logic:='1'
+		--gpi ports
+		GPI    	 : in std_logic_vector (GPI_DATA_WIDTH-1 downto 0)
 		
-		
+		-- RST_N	 : in std_logic => PG_Module dient als RESETN
+		--INTQ     : out std_logic:='1' no interrupts
     );
 	
 end Waiting_for_Powerbutton_pressed_V0;
@@ -160,7 +161,7 @@ architecture behavior of Waiting_for_Powerbutton_pressed_V0 is
 	signal externstop_last: 	STD_LOGIC;
 	signal extern_connected: 	STD_LOGIC := '0';
 	-- Tristate
-	signal tristate_signals : std_logic_vector(30 downto 0);
+	signal tristate_signals : std_logic_vector(25 downto 0);
 	-- Dslot
 	signal forceoutputdisable :		STD_LOGIC;
 	-- define internal clock
@@ -344,15 +345,6 @@ component efb_VHDL
         i2c1_sda: inout  std_logic; i2c1_irqo: out  std_logic);
 end component;
 
-
-
-
-
-
-
-
-
-
 begin
 	OSCInst0: OSCH
 	-- synthesis translate_off
@@ -362,23 +354,69 @@ begin
 	OSC => clk,
 	SEDSTDBY => open
 	);
+
+dut : efb_VHDL
+port map (
+
+wb_clk_i => CLK,
+wb_rst_i =>rst_p,
+wb_dat_i =>wb_dat_i,
+wb_stb_i =>wb_stb_i,
+wb_cyc_i =>wb_cyc_i,
+wb_adr_i =>wb_adr_i,
+wb_we_i  =>wb_we_i ,
+wb_dat_o =>wb_dat_o, 
+wb_ack_o =>wb_ack_o,      
+i2c1_scl =>SCL,
+i2c1_sda =>SDA,
+i2c1_irqo =>i2c1_irqo 
+);
+
+rst_p <= not (PG_MODULE);
+wb_cyc_i<=  wb_stb_i;
+
+
+-- Zuweisung der GPOs
+--GPI(0) <= FlexIO03;
+--GPI(1) <= FlexIO04;
+--GPI(2) <= FlexMIOs26; --!!!!!!!!!!!!!!!!!!! nochmal checken
+--GPI(3) <= FlexMIOs27; --!!!!!!!!!!!!!!!!!!! nochmal checken
+--GPI(4) <= FlexMIOs28; --!!!!!!!!!!!!!!!!!!! nochmal checken
+--GPI(5) <= FlexMIOs29; --!!!!!!!!!!!!!!!!!!! nochmal checken
+--GPI(6) <= FlexMIOs30; --!!!!!!!!!!!!!!!!!!! nochmal checken
+--GPI(7) <= FLexLIO(0); --!!!!!!!!!!!!!!!!!!! nochmal checken
+--Zuweisung der GPIs
+--GPO(0) <= FlexIO01;
+--GPO(1) <= FlexIO02;
+--GPO(2) <= FlexIO05;
+--GPO(3) <= FLexLIO(1);
+--GPO(4) <= FLexLIO(2);
+--GPO(5) <= FLexLIO(3);
+--GPO(6) <= FLexLIO(4);
+--GPO(7) <= FLexLIO(5);
 --Dummy
 dummy_signal <= TDnALERT AND TDnFFnFS AND TDnSHDN AND PG_VIN and ANL_S3C_P54_Legacy AND ANL_S3C_SLOTOK(1) AND ANL_S3C_SLOTOK(2) AND ANL_S3C_SLOTOK(3)  
 AND DIGS3C_SlotD_SlotOK(1) AND DIGS3C_SlotD_SlotOK(2) AND DIGS3C_SlotD_SlotOK(3) AND DIGS3C_SlotD_SlotOK(4) AND DIGS3C_SlotD_SlotOK(5)
 AND DIG5S3C00 AND DIG5S3C01 AND DIG5S3C02 AND DIG5S3C03 AND DIG5S3C04 AND DIG5S3C05
 AND DIG5S3C24 AND DIG5S3C25 AND DIG5S3C26 AND DIG5S3C27 AND DIG5S3C28 AND DIG5S3C29
 AND FPIO_FlexMIO27 AND FPIO_FlexMIO28 AND FPIO_FlexMIO29 AND FPIO_FlexMIO30
-AND FPIO_iosCtrlINTn AND FP_UsrSW2 AND FlexIO03 and FlexIO04
-AND FLexLIO(0) AND FLexLIO(1) AND FLexLIO(2) AND FLexLIO(3) AND FLexLIO(4) AND FLexLIO(5)
-AND FlexMIOs26 AND FlexMIOs27 AND FlexMIOs28 AND FlexMIOs29 AND FlexMIOs30 AND FlexMIOs31
+AND FPIO_iosCtrlINTn AND FP_UsrSW2 
+--AND FlexIO03 and FlexIO04
+--AND FLexLIO(0) AND FLexLIO(1) AND FLexLIO(2) AND FLexLIO(3) AND FLexLIO(4) AND FLexLIO(5)
+--AND FlexMIOs26 AND FlexMIOs27 AND FlexMIOs28 AND FlexMIOs29 AND FlexMIOs30 
+AND FlexMIOs31
 AND FlexMIOs32 AND FlexMIOs33 AND FlexMIOs34 AND FlexMIOs35 AND FlexMIOs36 AND FlexMIOs37
 AND FlexMIOs45 AND FlexMIOs54 AND FlexMIOs62 AND FlexMIOs63 AND PG_Module 
-AND S3C_S1 AND S3CsI2C_SCL AND S3CsI2C_SDA
-AND SCL AND SD0_CD AND SD1_CD AND SDA AND SPI_S3C_nCS_USR;
+AND S3C_S1 AND 
+S3CsI2C_SCL AND S3CsI2C_SDA AND 
+--SCL AND SDA AND
+SD0_CD AND SD1_CD  AND SPI_S3C_nCS_USR;
 
 tristate_signals <= DIG5S3C00 & DIG5S3C01 & DIG5S3C02 & DIG5S3C03 & DIG5S3C04  & DIG5S3C05
 & DIG5S3C24 & DIG5S3C25 & DIG5S3C26 & DIG5S3C27 & DIG5S3C28 & DIG5S3C29 
-& FlexMIOs26 & FlexMIOs27 & FlexMIOs28 & FlexMIOs29 & FlexMIOs30 & FlexMIOs31
+& 
+--FlexMIOs26 & FlexMIOs27 & FlexMIOs28 & FlexMIOs29 & FlexMIOs30 & 
+FlexMIOs31
 & FlexMIOs32 & FlexMIOs33 & FlexMIOs34 & FlexMIOs35 & FlexMIOs36 & FlexMIOs37
 & FlexMIOs54 & FlexMIOs62 & FlexMIOs63 & FPIO_FlexMIO27 & FPIO_FlexMIO28 & FPIO_FlexMIO29 & FPIO_FlexMIO30;
 -- Assign 'Z' to all unused signal
@@ -468,35 +506,14 @@ ppn6v<=signals_debounced_syn(6);
 	end if;
 	end process;
 
-dut : efb_VHDL
-port map (
-
-wb_clk_i => CLK,
-wb_rst_i =>rst_p,
-wb_dat_i =>wb_dat_i,
-wb_stb_i =>wb_stb_i,
-wb_cyc_i =>wb_cyc_i,
-wb_adr_i =>wb_adr_i,
-wb_we_i  =>wb_we_i ,
-wb_dat_o =>wb_dat_o, 
-wb_ack_o =>wb_ack_o,      
-i2c1_scl =>S3CsI2C_SCL,
-i2c1_sda =>S3CsI2C_SDA,
-i2c1_irqo =>i2c1_irqo 
-);
-
-rst_p <= not (RST_N);
-wb_cyc_i<=  wb_stb_i;
-
-
 
 --i2c data and command storing
 
-process (CLK,RST_N) is
+process (CLK, PG_MODULE) is
 begin
 if (CLK'event and CLK='1') then
    
-   if( RST_N='0') then
+   if(  PG_MODULE='0') then
        reg_rdy     <= '0' ;
 	   reg_rdy_del <= '0' ;
 	
@@ -510,11 +527,11 @@ if (CLK'event and CLK='1') then
 	end if;
 	end process;
 
-  process(CLK,RST_N) is
+  process(CLK, PG_MODULE) is
     begin
       if (CLK'event and CLK='1') then
    
-         if( RST_N='0') then
+         if(  PG_MODULE='0') then
             dat_rdy     <= '0' ;
 	        dat_rdy_del <= '0' ;
  
@@ -532,10 +549,10 @@ if (CLK'event and CLK='1') then
  i2c_cmd  <= temp1 ;
  reg_addr <= temp2 ;	
    
-   process(CLK,RST_N) is
+   process(CLK, PG_MODULE) is
     begin
       if (CLK'event and CLK='1') then
-        if( RST_N='0') then
+        if(  PG_MODULE='0') then
         data0 <= (others=>'0');
    -- Add your logic here for data[0-7] registers
         else  
@@ -550,11 +567,11 @@ if (CLK'event and CLK='1') then
       end if;  
     end process;
 
-process(CLK,RST_N) is
+process(CLK, PG_MODULE) is
 begin
 if (CLK'event and CLK='1') then
    
-   if( RST_N='0') then
+   if(  PG_MODULE='0') then
        
         temp0 <= (others=>'0') ;
         temp1 <= (others=>'0') ;
@@ -578,11 +595,11 @@ if (CLK'event and CLK='1') then
   
 GPIO_Write <= '1' when (i2c_cmd = "00000001") else '0';
    
---process(CLK,RST_N) is
+--process(CLK, PG_MODULE) is
 --begin
 --if (CLK'event and CLK='1') then
    
-   --if( RST_N='0') then
+   --if(  PG_MODULE='0') then
          --GPO <= (others=>'0');	 
       --elsif ((dat_rdy_del and c)='1') then 
        --case reg_addr is
@@ -598,10 +615,10 @@ GPIO_Write <= '1' when (i2c_cmd = "00000001") else '0';
 
 
 
-    process(CLK,RST_N) is
+    process(CLK, PG_MODULE) is
      begin
        if (CLK'event and CLK='1') then
-          if( RST_N = '0') then
+          if(  PG_MODULE = '0') then
 		    for J in 0 to GPO_PORT_NUM-1 loop
 			  GPO_DATA (J) <= (others=>'0');
 			end loop;
@@ -617,10 +634,10 @@ GPIO_Write <= '1' when (i2c_cmd = "00000001") else '0';
 
   GPIO_Read <= '1' when (i2c_cmd = "00000101") else '0';
 
-    process(CLK,RST_N) is
+    process(CLK, PG_MODULE) is
      begin
        if (CLK'event and CLK='1') then
-          if( RST_N = '0') then
+          if(  PG_MODULE = '0') then
 			  GPI_DAT <= (others=>'0');
           elsif ((reg_rdy and GPIO_Read)='1') then
 			  GPI_DAT <= GPI_DATA(to_integer(unsigned(reg_addr)));              		  
@@ -638,54 +655,54 @@ GPIO_Write <= '1' when (i2c_cmd = "00000001") else '0';
 --/////////////////////////////////////////////   
 --// intq is asserted low when any IRQ Status Register bit is set. 
 --// And the INTQ_OPENDRAIN parameter defines INTQ's opendrain setting. 
-  check_irq_status <= (irq_status(0)) or (irq_status(1)) or (irq_status(2)) or (irq_status(3)) ; 
+  --check_irq_status <= (irq_status(0)) or (irq_status(1)) or (irq_status(2)) or (irq_status(3)) ; 
   
    --a <= (irq(0)) or (irq(1)) or (irq(2)) or (irq(3));
-   process(check_irq_status) is
-   begin
-      if(check_irq_status = '1')then
-         INTQ<='0';
-      else
-        if (INTQ_OPENDRAIN='1')then
-            INTQ <= 'Z';
-        else
-            INTQ <='1';
-        end if;
-	  end if;
-   end process;
+   --process(check_irq_status) is
+   --begin
+      --if(check_irq_status = '1')then
+         --INTQ<='0';
+      --else
+        --if (INTQ_OPENDRAIN='1')then
+            --INTQ <= 'Z';
+        --else
+            --INTQ <='1';
+        --end if;
+	  --end if;
+   --end process;
 
      
    -- When IRQ is enabled, a rising edge of an IRQ input will set the corresponding bit in the IRQ Status register.
    
  
  
-   IRQ_STATUS_GENERATE:  for N in 0 to IRQ_NUM-1 generate
-   begin
+   --IRQ_STATUS_GENERATE:  for N in 0 to IRQ_NUM-1 generate
+   --begin
    
-             process( IRQ(N), irq_status_clr(N), irq_clr(N), rst_p)
-			 begin
-			   irq_status_clr(N) <= ( irq_clr(N) or (rst_p) );
-			   if   ( irq_status_clr(N) = '1' ) then
-				      irq_status(N) <= '0';
-			   elsif(IRQ(N)'event and IRQ(N) = '1') then
-			      if ( irq_en(N) = '1') then
-				       irq_status(N) <= '1';
-				  end if;
-               end if;
-			 end process;
+             --process( IRQ(N), irq_status_clr(N), irq_clr(N), rst_p)
+			 --begin
+			   --irq_status_clr(N) <= ( irq_clr(N) or (rst_p) );
+			   --if   ( irq_status_clr(N) = '1' ) then
+				      --irq_status(N) <= '0';
+			   --elsif(IRQ(N)'event and IRQ(N) = '1') then
+			      --if ( irq_en(N) = '1') then
+				       --irq_status(N) <= '1';
+				  --end if;
+               --end if;
+			 --end process;
 			 
-   end generate IRQ_STATUS_GENERATE;
+   --end generate IRQ_STATUS_GENERATE;
  
- --*********************************************************************************
+-- *********************************************************************************
 
-  IRQ_Enable_Write <= '1' when (i2c_cmd = "01100110") else '0';
-  IRQ_Clear <= '1' when (i2c_cmd = "01100001") else '0';
+  --IRQ_Enable_Write <= '1' when (i2c_cmd = "01100110") else '0';
+  --IRQ_Clear <= '1' when (i2c_cmd = "01100001") else '0';
 
-process(CLK, RST_N) is
+process(CLK,  PG_MODULE) is
 begin
 if (CLK'event and CLK='1') then
    
-   if( RST_N='0') then 
+   if(  PG_MODULE='0') then 
         irq_en  <= "0000";
 		irq_clr <= "0000";
       
@@ -699,11 +716,11 @@ if (CLK'event and CLK='1') then
  	
 
  
---process(CLK , RST_N) is
+--process(CLK ,  PG_MODULE) is
 --begin
 --if (CLK'event and CLK='1') then
   -- 
-   --if( RST_N='0') then 
+   --if(  PG_MODULE='0') then 
      --    irq_status  <= "0000";
     
 	--elsif  (i2c_cmd = "01100101") then  -- Read IRQ 
@@ -741,11 +758,11 @@ if (CLK'event and CLK='1') then
 --//////////////////////////////////////////////   
 
 
-process(CLK , RST_N) is
+process(CLK ,  PG_MODULE) is
 begin
 if (CLK'event and CLK='1') then
    
-   if( RST_N='0') then 
+   if(  PG_MODULE='0') then 
          wb_dat_i <= (others=>'0');
          wb_stb_i <= '0' ;
          wb_adr_i <= (others=>'0');
@@ -762,11 +779,11 @@ if (CLK'event and CLK='1') then
   end if;
   end process;
 
-process(CLK , RST_N) is
+process(CLK ,  PG_MODULE) is
 begin
 if (CLK'event and CLK='1') then
    
-   if( RST_N='0') then 
+   if(  PG_MODULE='0') then 
       c_state  <= (others=>'0');
       efb_flag <= '0' ;
       count_en <= '0'; 

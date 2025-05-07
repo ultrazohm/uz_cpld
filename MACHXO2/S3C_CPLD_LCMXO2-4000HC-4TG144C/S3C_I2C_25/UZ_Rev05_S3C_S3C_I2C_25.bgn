@@ -4,7 +4,7 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
-Wed May 07 13:33:39 2025
+Wed May 07 14:58:33 2025
 
 
 Command: bitgen -g RamCfg:Reset -path C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C -w -jedec -gui -msgset C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/promote.xml UZ_Rev05_S3C_S3C_I2C_25.ncd UZ_Rev05_S3C_S3C_I2C_25.prf 
@@ -47,7 +47,7 @@ Preference Summary:
 +---------------------------------+---------------------------------+
 |                MASTER_SPI_PORT  |                      DISABLE**  |
 +---------------------------------+---------------------------------+
-|                       I2C_PORT  |                      DISABLE**  |
+|                       I2C_PORT  |                         ENABLE  |
 +---------------------------------+---------------------------------+
 |        MUX_CONFIGURATION_PORTS  |                      DISABLE**  |
 +---------------------------------+---------------------------------+
@@ -87,9 +87,9 @@ Initialized UFM Pages:                     0 Page.
 =========
 Padding summary
 =========
-Padded 672896 bits for this design
+Padded 656384 bits for this design
 
 
-Total CPU Time: 4 secs 
-Total REAL Time: 4 secs 
-Peak Memory Usage: 275 MB
+Total CPU Time: 3 secs 
+Total REAL Time: 3 secs 
+Peak Memory Usage: 276 MB

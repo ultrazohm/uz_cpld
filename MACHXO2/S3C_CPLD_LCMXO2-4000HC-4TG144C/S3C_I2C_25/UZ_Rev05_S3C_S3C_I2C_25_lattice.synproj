@@ -32,6 +32,7 @@
 
 -lpf 1
 -lib "work" -vhd "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_I2C_25/source/Power_on_debounce.vhd"
+"C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_I2C_25/source/ipexpress/xo2/efb_vhdl.vhd"
 -top Waiting_for_Powerbutton_pressed_V0
 
 

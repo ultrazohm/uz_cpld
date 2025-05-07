@@ -1,20 +1,32 @@
 ----------------------------------------------------------------------
 Report for cell Waiting_for_Powerbutton_pressed_V0.TECH
-Register bits:  212 of 4665 (4.544%)
-I/O cells:      102
+Register bits:  313 of 4665 (6.710%)
+I/O cells:      124
                                   Cell usage:
                                cell     count   Res Usage(%)
-                                 BB        31          100.0
-                              CCU2D       146          100.0
-                            FD1P3AX        25          100.0
-                            FD1P3IX       148          100.0
-                            FD1S3AX        27          100.0
+                                 BB        33          100.0
+                              CCU2D       151          100.0
+                                EFB         1          100.0
+                            FD1P3AX        26          100.0
+                            FD1P3DX         3          100.0
+                            FD1P3IX       193          100.0
+                            FD1S3AX        29          100.0
                             FD1S3AY        12          100.0
+                            FD1S3IX        50          100.0
                                 GSR         1          100.0
-                                 IB        44          100.0
-                               LUT4       193          100.0
-                                 OB        26          100.0
-                                OBZ         1          100.0
+                                 IB        55          100.0
+                               LUT4       355          100.0
+                                 OB        34          100.0
+                                OBZ         2          100.0
                                OSCH         1          100.0
-                              PFUMX        13          100.0
-                              TOTAL       668
+                              PFUMX        25          100.0
+SUB MODULES
+                           efb_vhdl         1
+                              TOTAL       972
+----------------------------------------------------------------------
+Report for cell efb_vhdl.v1
+Instance Path : dut
+                                  Cell usage:
+                               cell     count   Res Usage(%)
+                                EFB         1          100.0
+                              TOTAL         1

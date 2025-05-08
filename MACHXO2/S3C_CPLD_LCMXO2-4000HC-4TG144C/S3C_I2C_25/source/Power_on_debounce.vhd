@@ -25,11 +25,11 @@ entity Waiting_for_Powerbutton_pressed_V0 is
 		FP_SysLEDg		: out STD_LOGIC; -- led green Power, pin 141
 		FP_SysLEDr		: out STD_LOGIC; -- led red Power, pin 142
 		FP_SysLEDb		: out STD_LOGIC;  --led blue Power, pin 143		
-		--FlexIO05 : out STD_LOGIC; --drive 0
-		--FlexIO04 : in STD_LOGIC; -- pulldown
-		--FlexIO03 : in STD_LOGIC;-- pulldown
-		--FlexIO02 : out STD_LOGIC;--drive 0
-		--FlexIO01 : out STD_LOGIC;--drive 0
+		FlexIO05 : out STD_LOGIC; --drive 0
+		FlexIO04 : in STD_LOGIC; -- pulldown
+		FlexIO03 : in STD_LOGIC;-- pulldown
+		FlexIO02 : out STD_LOGIC;--drive 0
+		FlexIO01 : out STD_LOGIC;--drive 0
 		FP_UsrSW1		:		in  STD_LOGIC; 	-- button Enable System, pin 128
 		FP_UsrSW2		:		in  STD_LOGIC; 	-- button SW2 Enable Control, pin 127
 		--i2c
@@ -38,7 +38,7 @@ entity Waiting_for_Powerbutton_pressed_V0 is
 		FP_UsrSW3		:		in  STD_LOGIC; 	-- button SW3 STOP, pin 122
 		SysSW_Pwr_NC 	: 		in  STD_LOGIC;	-- button Power, pin 121
 		FPIO_isoCtrlRSTn	: 	out STD_LOGIC;	-- Z  off, 1 on, none
-		FPIO_iosCtrlINTn	: 	in  STD_LOGIC;
+		FPIO_isoCtrlINTn	: 	in  STD_LOGIC;
 		Carrier_PG_3V3	: out STD_LOGIC := 'Z';  -- Powergood 3.3V, pin 115
 		FPIO_ExternalStop: in  STD_LOGIC; -- button external stop, pin 114
 		FPIO_FlexMIO28 	: inout STD_LOGIC:= 'Z'; --Z
@@ -59,12 +59,13 @@ entity Waiting_for_Powerbutton_pressed_V0 is
 		DIGS3C_Shared_ReqSafeState : out STD_LOGIC;  -- pin 93
 		DIGS3C_SlotD_ReqOE : in STD_LOGIC_VECTOR (5 downto 1); -- pin 92,89,86,84,82
 		DIGS3C_SlotD_SlotOK : in STD_LOGIC_VECTOR (5 downto 1); -- pin 91,87,85,83,81
-		--FlexLIO 		: inout STD_LOGIC_VECTOR (5 downto 0)  := (others => 'Z');
+		FlexLIO 		: inout STD_LOGIC_VECTOR (5 downto 0)  := (others => 'Z');
 		--- Bank 2, 1.8V
 		DIG5S3C26	: inout STD_LOGIC; --bidir,Z
 		DIG5S3C25	: inout STD_LOGIC; --bidir,Z
 		DIG5S3C24	: inout STD_LOGIC; --bidir,Z
 		SD_SEL		: out STD_LOGIC := '0'; -- signal, that is driven to 0, pin 41
+		ANL_VIN_FLT : in STD_LOGIC; -- Faul signal overcurrent A Slots
 		-- Flex MIos
 		FlexMIOs52_PCIe	: in  STD_LOGIC; -- routing through to FrontpanelIO.FlexMIO52_PCIe-R¯S¯T¯, inversion in PS pin 47
 		FlexMIOs53_GPIO_PowerDown:out  STD_LOGIC; -- gpio perform SoM Shutdown, pin 48
@@ -73,11 +74,11 @@ entity Waiting_for_Powerbutton_pressed_V0 is
 		FlexMIOs62	: inout STD_LOGIC; --bidir,Z
 		FlexMIOs63	: inout STD_LOGIC; --bidir,Z
 		FlexMIOs31	: inout STD_LOGIC; --bidir,Z
-		--FlexMIOs30	: inout STD_LOGIC; --bidir,Z
-		--FlexMIOs29	: inout STD_LOGIC; --bidir,Z
-		--FlexMIOs28	: inout STD_LOGIC; --bidir,Z
-		--FlexMIOs27	: inout STD_LOGIC; --bidir,Z
-		--FlexMIOs26	: inout STD_LOGIC; --bidir,Z
+		FlexMIOs30	: inout STD_LOGIC; --bidir,Z
+		FlexMIOs29	: inout STD_LOGIC; --bidir,Z
+		FlexMIOs28	: inout STD_LOGIC; --bidir,Z
+		FlexMIOs27	: inout STD_LOGIC; --bidir,Z
+		FlexMIOs26	: inout STD_LOGIC; --bidir,Z
 		FlexMIOs45	: inout STD_LOGIC; --bidir,Z
 		FlexMIOs37	: inout STD_LOGIC; --bidir,Z
 		FlexMIOs36	: inout STD_LOGIC; --bidir,Z
@@ -113,12 +114,7 @@ entity Waiting_for_Powerbutton_pressed_V0 is
 		S3C_S1 			: in STD_LOGIC;		-- pin 10, pulldown
 		
 		--i2c ports - need to be assigned to existing ports
-		--gpo ports
-		GPO		 : out std_logic_vector(GPO_DATA_WIDTH-1 downto 0);
-		IRQ      : in std_logic_vector (IRQ_NUM-1 downto 0);      
-		--gpi ports
-		GPI    	 : in std_logic_vector (GPI_DATA_WIDTH-1 downto 0)
-		
+		IRQ      : in std_logic_vector (IRQ_NUM-1 downto 0)      
 		-- RST_N	 : in std_logic => PG_Module dient als RESETN
 		--INTQ     : out std_logic:='1' no interrupts
     );
@@ -129,6 +125,7 @@ architecture behavior of Waiting_for_Powerbutton_pressed_V0 is
 	signal clk	:	STD_LOGIC;
 	signal counter : integer range 0 to 31200000 := 0; 	-- counter 
 	signal resetcounter : integer range 0 to 31200000 := 31200000; 	-- reset counter for soft reset
+	signal resetnefb		: STD_LOGIC;
 	signal count_done_100ms : boolean := false; 			-- flag for 100ms end
 	signal reset_triggered : boolean := false; -- flag, to track resetn is zero
 
@@ -137,7 +134,7 @@ architecture behavior of Waiting_for_Powerbutton_pressed_V0 is
     signal next_state : state_type:= Waiting_for_Powerbutton_pressed;
 	
     -- debounceconstant
-    constant debounce_limit : integer := 20800; -- 10ms, at 2.08MhZ
+    constant debounce_limit : integer := 70000; -- 10ms, needs to be adjusted to clock 2.08MhZ
 
     -- debounce counter and vectors for debouncing
     type debounce_array is array (1 to 6) of integer;
@@ -161,13 +158,13 @@ architecture behavior of Waiting_for_Powerbutton_pressed_V0 is
 	signal externstop_last: 	STD_LOGIC;
 	signal extern_connected: 	STD_LOGIC := '0';
 	-- Tristate
-	signal tristate_signals : std_logic_vector(25 downto 0);
+	signal tristate_signals : std_logic_vector(30 downto 0);
 	-- Dslot
 	signal forceoutputdisable :		STD_LOGIC;
 	-- define internal clock
 	COMPONENT OSCH
 	-- synthesis translate_off
-	GENERIC (NOM_FREQ: string := "2.08");
+	GENERIC (NOM_FREQ: string := "7");
 	-- synthesis translate_on
 	PORT (
 		STDBY	:	IN	std_logic;
@@ -175,7 +172,7 @@ architecture behavior of Waiting_for_Powerbutton_pressed_V0 is
 		SEDSTDBY:	OUT	std_logic);
 	END COMPONENT;
 	attribute NOM_FREQ 	: string;
-	attribute NOM_FREQ of OSCinst0 : label is "2.08";
+	attribute NOM_FREQ of OSCinst0 : label is "7";
 	attribute HGROUP 	: string;
 	signal dummy_signal : std_logic;
 	attribute syn_keep : boolean;
@@ -184,6 +181,12 @@ architecture behavior of Waiting_for_Powerbutton_pressed_V0 is
 	attribute syn_keep of dummy_signal : signal is true;
 
 -- EFB and Wishbone Interface
+
+--gpi ports
+signal GPI    	 : std_logic_vector (GPI_DATA_WIDTH-1 downto 0);
+--gpo ports
+signal GPO		 : std_logic_vector(GPO_DATA_WIDTH-1 downto 0);
+
 
 
 -- EFB REGISTER SET
@@ -348,7 +351,7 @@ end component;
 begin
 	OSCInst0: OSCH
 	-- synthesis translate_off
-	GENERIC MAP( NOM_FREQ => "2.08" )
+	GENERIC MAP( NOM_FREQ => "7" )-- Always change in the spreadsheet view too
 	-- synthesis translate_on
 	PORT MAP (STDBY=> '0',
 	OSC => clk,
@@ -372,38 +375,38 @@ i2c1_sda =>SDA,
 i2c1_irqo =>i2c1_irqo 
 );
 
-rst_p <= not (PG_MODULE);
+rst_p <= not (resetnefb);
 wb_cyc_i<=  wb_stb_i;
 
 
--- Zuweisung der GPOs
---GPI(0) <= FlexIO03;
---GPI(1) <= FlexIO04;
---GPI(2) <= FlexMIOs26; --!!!!!!!!!!!!!!!!!!! nochmal checken
---GPI(3) <= FlexMIOs27; --!!!!!!!!!!!!!!!!!!! nochmal checken
---GPI(4) <= FlexMIOs28; --!!!!!!!!!!!!!!!!!!! nochmal checken
---GPI(5) <= FlexMIOs29; --!!!!!!!!!!!!!!!!!!! nochmal checken
---GPI(6) <= FlexMIOs30; --!!!!!!!!!!!!!!!!!!! nochmal checken
---GPI(7) <= FLexLIO(0); --!!!!!!!!!!!!!!!!!!! nochmal checken
---Zuweisung der GPIs
---GPO(0) <= FlexIO01;
---GPO(1) <= FlexIO02;
---GPO(2) <= FlexIO05;
---GPO(3) <= FLexLIO(1);
---GPO(4) <= FLexLIO(2);
---GPO(5) <= FLexLIO(3);
---GPO(6) <= FLexLIO(4);
---GPO(7) <= FLexLIO(5);
+-- Zuweisung der GPIs
+GPI(0) <= FP_UsrSW1;
+GPI(1) <= FP_UsrSW2;
+GPI(2) <= FP_UsrSW3;
+GPI(3) <= FlexIO03;
+GPI(4) <= FlexIO04;
+GPI(5) <= SD0_CD;
+GPI(6) <= FPIO_isoCtrlINTn;
+GPI(7) <= ANL_VIN_FLT; 
+--Zuweisung der GPOs
+FlexIO01 <= GPO(0);
+FlexIO02 <= GPO(1);
+FlexIO05 <= GPO(2);
+FP_SysLEDs <= GPO(3);
+fp_usrled(1) <= GPO(4);
+fp_usrled(2) <= GPO(5);
+fp_usrled(3)<= GPO(6);
+fp_usrled(4)<= GPO(7);
+
 --Dummy
 dummy_signal <= TDnALERT AND TDnFFnFS AND TDnSHDN AND PG_VIN and ANL_S3C_P54_Legacy AND ANL_S3C_SLOTOK(1) AND ANL_S3C_SLOTOK(2) AND ANL_S3C_SLOTOK(3)  
 AND DIGS3C_SlotD_SlotOK(1) AND DIGS3C_SlotD_SlotOK(2) AND DIGS3C_SlotD_SlotOK(3) AND DIGS3C_SlotD_SlotOK(4) AND DIGS3C_SlotD_SlotOK(5)
 AND DIG5S3C00 AND DIG5S3C01 AND DIG5S3C02 AND DIG5S3C03 AND DIG5S3C04 AND DIG5S3C05
 AND DIG5S3C24 AND DIG5S3C25 AND DIG5S3C26 AND DIG5S3C27 AND DIG5S3C28 AND DIG5S3C29
 AND FPIO_FlexMIO27 AND FPIO_FlexMIO28 AND FPIO_FlexMIO29 AND FPIO_FlexMIO30
-AND FPIO_iosCtrlINTn AND FP_UsrSW2 
---AND FlexIO03 and FlexIO04
---AND FLexLIO(0) AND FLexLIO(1) AND FLexLIO(2) AND FLexLIO(3) AND FLexLIO(4) AND FLexLIO(5)
---AND FlexMIOs26 AND FlexMIOs27 AND FlexMIOs28 AND FlexMIOs29 AND FlexMIOs30 
+AND FPIO_isoCtrlINTn AND FP_UsrSW2 
+AND FLexLIO(0) AND FLexLIO(1) AND FLexLIO(2) AND FLexLIO(3) AND FLexLIO(4) AND FLexLIO(5)
+AND FlexMIOs26 AND FlexMIOs27 AND FlexMIOs28 AND FlexMIOs29 AND FlexMIOs30 
 AND FlexMIOs31
 AND FlexMIOs32 AND FlexMIOs33 AND FlexMIOs34 AND FlexMIOs35 AND FlexMIOs36 AND FlexMIOs37
 AND FlexMIOs45 AND FlexMIOs54 AND FlexMIOs62 AND FlexMIOs63 AND PG_Module 
@@ -414,8 +417,7 @@ SD0_CD AND SD1_CD  AND SPI_S3C_nCS_USR;
 
 tristate_signals <= DIG5S3C00 & DIG5S3C01 & DIG5S3C02 & DIG5S3C03 & DIG5S3C04  & DIG5S3C05
 & DIG5S3C24 & DIG5S3C25 & DIG5S3C26 & DIG5S3C27 & DIG5S3C28 & DIG5S3C29 
-& 
---FlexMIOs26 & FlexMIOs27 & FlexMIOs28 & FlexMIOs29 & FlexMIOs30 & 
+& FlexMIOs26 & FlexMIOs27 & FlexMIOs28 & FlexMIOs29 & FlexMIOs30 & 
 FlexMIOs31
 & FlexMIOs32 & FlexMIOs33 & FlexMIOs34 & FlexMIOs35 & FlexMIOs36 & FlexMIOs37
 & FlexMIOs54 & FlexMIOs62 & FlexMIOs63 & FPIO_FlexMIO27 & FPIO_FlexMIO28 & FPIO_FlexMIO29 & FPIO_FlexMIO30;
@@ -476,32 +478,35 @@ enable<=NOT signals_debounced_syn(4);
 pg10v<=signals_debounced_syn(5);
 ppn6v<=signals_debounced_syn(6);
 
-    -- LED control logic
-    led_control: process(resetcounter)
-    begin
-        if resetcounter = 0 then
-			FP_UsrLED(1) <= '0';
-			FP_UsrLED(2) <= '0';
-			FP_UsrLED(3) <= '1';
-			FP_UsrLED(4) <= '0';
-        elsif resetcounter = 31200000 then
-			FP_UsrLED(1) <= '1';
-			FP_UsrLED(2) <= '0';
-			FP_UsrLED(3) <= '0';
-			FP_UsrLED(4) <= '1';
-		else
-			FP_UsrLED(4) <= '1';
-			FP_UsrLED(3) <= '1';
-			FP_UsrLED(2) <= '1';
-			FP_UsrLED(1) <= '1';
-        end if;
-    end process;
--- soft reset for i2c and efb
+     --LED control logic
+    --led_control: process(resetcounter)
+    --begin
+        --if resetcounter = 0 then
+			--fp_usrled(1) <= '0';
+			--fp_usrled(2) <= '0';
+			--fp_usrled(3) <= '1';
+			--fp_usrled(4) <= '0';
+        --elsif resetcounter = 31200000 then
+			--fp_usrled(1) <= '1';
+			--fp_usrled(1) <= '0';
+			--fp_usrled(3) <= '0';
+			--fp_usrled(4) <= '1';
+		--else
+			--fp_usrled(4) <= '1';
+			--fp_usrled(3) <= '1';
+			--fp_usrled(2) <= '1';
+			--fp_usrled(1) <= '1';
+        --end if;
+    --end process;
+ -- soft reset for i2c and efb
 	reset_control: process(clk,resetcounter)
 	begin
 	if rising_edge(clk) then
 		if resetcounter < 31200000 then
+			resetnefb <= '0';
 			resetcounter <= resetcounter + 1;
+		else
+			resetnefb <= '1';
 		end if;
 	end if;
 	end process;
@@ -509,11 +514,11 @@ ppn6v<=signals_debounced_syn(6);
 
 --i2c data and command storing
 
-process (CLK, PG_MODULE) is
+process (CLK, resetnefb) is
 begin
 if (CLK'event and CLK='1') then
    
-   if(  PG_MODULE='0') then
+   if(  resetnefb='0') then
        reg_rdy     <= '0' ;
 	   reg_rdy_del <= '0' ;
 	
@@ -527,11 +532,11 @@ if (CLK'event and CLK='1') then
 	end if;
 	end process;
 
-  process(CLK, PG_MODULE) is
+  process(CLK, resetnefb) is
     begin
       if (CLK'event and CLK='1') then
    
-         if(  PG_MODULE='0') then
+         if(  resetnefb='0') then
             dat_rdy     <= '0' ;
 	        dat_rdy_del <= '0' ;
  
@@ -549,10 +554,10 @@ if (CLK'event and CLK='1') then
  i2c_cmd  <= temp1 ;
  reg_addr <= temp2 ;	
    
-   process(CLK, PG_MODULE) is
+   process(CLK, resetnefb) is
     begin
       if (CLK'event and CLK='1') then
-        if(  PG_MODULE='0') then
+        if(  resetnefb='0') then
         data0 <= (others=>'0');
    -- Add your logic here for data[0-7] registers
         else  
@@ -567,11 +572,11 @@ if (CLK'event and CLK='1') then
       end if;  
     end process;
 
-process(CLK, PG_MODULE) is
+process(CLK, resetnefb) is
 begin
 if (CLK'event and CLK='1') then
    
-   if(  PG_MODULE='0') then
+   if(  resetnefb='0') then
        
         temp0 <= (others=>'0') ;
         temp1 <= (others=>'0') ;
@@ -595,11 +600,11 @@ if (CLK'event and CLK='1') then
   
 GPIO_Write <= '1' when (i2c_cmd = "00000001") else '0';
    
---process(CLK, PG_MODULE) is
+--process(CLK, resetnefb) is
 --begin
 --if (CLK'event and CLK='1') then
    
-   --if(  PG_MODULE='0') then
+   --if(  resetnefb='0') then
          --GPO <= (others=>'0');	 
       --elsif ((dat_rdy_del and c)='1') then 
        --case reg_addr is
@@ -615,10 +620,10 @@ GPIO_Write <= '1' when (i2c_cmd = "00000001") else '0';
 
 
 
-    process(CLK, PG_MODULE) is
+    process(CLK, resetnefb) is
      begin
        if (CLK'event and CLK='1') then
-          if(  PG_MODULE = '0') then
+          if(  resetnefb = '0') then
 		    for J in 0 to GPO_PORT_NUM-1 loop
 			  GPO_DATA (J) <= (others=>'0');
 			end loop;
@@ -634,10 +639,10 @@ GPIO_Write <= '1' when (i2c_cmd = "00000001") else '0';
 
   GPIO_Read <= '1' when (i2c_cmd = "00000101") else '0';
 
-    process(CLK, PG_MODULE) is
+    process(CLK, resetnefb) is
      begin
        if (CLK'event and CLK='1') then
-          if(  PG_MODULE = '0') then
+          if(  resetnefb = '0') then
 			  GPI_DAT <= (others=>'0');
           elsif ((reg_rdy and GPIO_Read)='1') then
 			  GPI_DAT <= GPI_DATA(to_integer(unsigned(reg_addr)));              		  
@@ -698,11 +703,11 @@ GPIO_Write <= '1' when (i2c_cmd = "00000001") else '0';
   --IRQ_Enable_Write <= '1' when (i2c_cmd = "01100110") else '0';
   --IRQ_Clear <= '1' when (i2c_cmd = "01100001") else '0';
 
-process(CLK,  PG_MODULE) is
+process(CLK,  resetnefb) is
 begin
 if (CLK'event and CLK='1') then
    
-   if(  PG_MODULE='0') then 
+   if(  resetnefb='0') then 
         irq_en  <= "0000";
 		irq_clr <= "0000";
       
@@ -716,11 +721,11 @@ if (CLK'event and CLK='1') then
  	
 
  
---process(CLK ,  PG_MODULE) is
+--process(CLK ,  resetnefb) is
 --begin
 --if (CLK'event and CLK='1') then
   -- 
-   --if(  PG_MODULE='0') then 
+   --if(  resetnefb='0') then 
      --    irq_status  <= "0000";
     
 	--elsif  (i2c_cmd = "01100101") then  -- Read IRQ 
@@ -758,11 +763,11 @@ if (CLK'event and CLK='1') then
 --//////////////////////////////////////////////   
 
 
-process(CLK ,  PG_MODULE) is
+process(CLK ,  resetnefb) is
 begin
 if (CLK'event and CLK='1') then
    
-   if(  PG_MODULE='0') then 
+   if(  resetnefb='0') then 
          wb_dat_i <= (others=>'0');
          wb_stb_i <= '0' ;
          wb_adr_i <= (others=>'0');
@@ -779,11 +784,11 @@ if (CLK'event and CLK='1') then
   end if;
   end process;
 
-process(CLK ,  PG_MODULE) is
+process(CLK ,  resetnefb) is
 begin
 if (CLK'event and CLK='1') then
    
-   if(  PG_MODULE='0') then 
+   if(  resetnefb='0') then 
       c_state  <= (others=>'0');
       efb_flag <= '0' ;
       count_en <= '0'; 
@@ -1346,7 +1351,7 @@ process(clk)
 				if power = '1' then
 					Carrier_PwrOn <= '1';  -- enables all rails
 					Carrier_PG_3V3 <= '1'; -- Hack IsoIo on, if power on
-					counter <= 2080000;
+					counter <= 7000000;
 					next_state <= Wait_State;
 				end if;
 			
@@ -1359,7 +1364,7 @@ process(clk)
 				if counter > 0 then
 					counter <= counter - 1;
 				else 
-					counter <= 104000;
+					counter <= 350000;
 					Carrier_PG_1V8 <= '0';  -- resetn for 50ms to zero
 					next_state <= EthernetPhy_Reset;
 				end if;
@@ -1387,7 +1392,7 @@ process(clk)
 				FP_SysLEDr <= '0';	
 				FP_SysLEDb <= '0';	
 				FP_SysLEDg <= '1';
-				FP_SysLEDs <= '1';
+				--FP_SysLEDs <= '1';
                 if externstop_falling = '1' then  
 					counter <= 31200000;
                     next_state <= Harderror;
@@ -1396,7 +1401,7 @@ process(clk)
 				elsif warning = '1' then
 					next_state <= Warning_State;
                 elsif power = '1' then 
-					counter <= 4160000;
+					counter <= 14000000;
 					next_state <= Waiting_for_Powerbutton_pressed_2sec ;
 				end if;
             when warning_state =>
@@ -1405,7 +1410,7 @@ process(clk)
 				FP_SysLEDr <= '0';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '0';
-				FP_SysLEDs <= '0';
+				--FP_SysLEDs <= '0';
                 -- skip external stop
                 if externstop_falling = '1' then  
 					counter <= 31200000;
@@ -1413,7 +1418,7 @@ process(clk)
 				elsif stop = '1' then  
                     next_state <= Softerror;
                 elsif power = '1' then 
-					counter <= 4160000;
+					counter <= 14000000;
 					next_state <= Waiting_for_Powerbutton_pressed_2sec;
 				end if;
             when Harderror =>
@@ -1424,7 +1429,7 @@ process(clk)
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '0';	
 				FP_SysLEDg <= '0';
-				FP_SysLEDs <= '1';	
+				--FP_SysLEDs <= '1';	
 				Carrier_PwrOn <= '0';  -- all rails down, only s3c alive
 				Carrier_PG_3V3 <= '0';
 				FPIO_isoCtrlRSTn <= '0'; -- reset IsoIO on
@@ -1449,9 +1454,9 @@ process(clk)
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '1';
-				FP_SysLEDs <= '1';	
+				--FP_SysLEDs <= '1';	
 				if power = '1' then 
-					counter <= 4160000;
+					counter <= 14000000;
 					next_state <= Waiting_for_Powerbutton_pressed_2sec ;
 				elsif externstop_falling = '1' then  
 					counter <= 31200000;
@@ -1469,7 +1474,7 @@ process(clk)
 					if power = '1' then -- override mode activated
 						FlexMIOs53_GPIO_PowerDown <= '0'; -- end info to som
 						DIGS3C_Shared_ReqSafeState <= '1'; -- info to dcplds
-						counter <= 2080000;
+						counter <= 7000000;
 						next_state <= sleep_for_dslot_down;
 					end if;
 				end if;
@@ -1488,7 +1493,7 @@ process(clk)
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '0';	
 				FP_SysLEDg <= '1';
-				FP_SysLEDs <= '0';	
+				--FP_SysLEDs <= '0';	
 				Carrier_PwrOn <= '0'; -- all rails down, only s3c alive
 				Carrier_PG_3V3 <= '0';
 				FPIO_isoCtrlRSTn <= '0'; -- reset IsoIO on
@@ -1500,9 +1505,5 @@ process(clk)
         end case;
 	end if;
 end process;
-
--- EFB and Wishbone Interface
-
-
 
 end behavior;

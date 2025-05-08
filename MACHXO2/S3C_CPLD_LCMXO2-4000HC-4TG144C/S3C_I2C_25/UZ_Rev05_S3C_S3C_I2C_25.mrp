@@ -17,24 +17,24 @@ Target Vendor:  LATTICE
 Target Device:  LCMXO2-4000HCTQFP144
 Target Performance:   4
 Mapper:  xo2c00,  version:  Diamond (64-bit) 3.13.0.56.2
-Mapped on:  05/07/25  14:58:12
+Mapped on:  05/08/25  10:07:15
 
 Design Summary
 --------------
 
-   Number of registers:    296 out of  4665 (6%)
-      PFU registers:          296 out of  4320 (7%)
+   Number of registers:    297 out of  4665 (6%)
+      PFU registers:          297 out of  4320 (7%)
       PIO registers:            0 out of   345 (0%)
-   Number of SLICEs:       329 out of  2160 (15%)
-      SLICEs as Logic/ROM:    329 out of  2160 (15%)
+   Number of SLICEs:       331 out of  2160 (15%)
+      SLICEs as Logic/ROM:    331 out of  2160 (15%)
       SLICEs as RAM:            0 out of  1620 (0%)
-      SLICEs as Carry:        151 out of  2160 (7%)
-   Number of LUT4s:        654 out of  4320 (15%)
-      Number used as logic LUTs:        352
+      SLICEs as Carry:        155 out of  2160 (7%)
+   Number of LUT4s:        659 out of  4320 (15%)
+      Number used as logic LUTs:        349
       Number used as distributed RAM:     0
-      Number used as ripple logic:      302
+      Number used as ripple logic:      310
       Number used as shift registers:     0
-   Number of PIO sites used: 102 + 1(JTAGENB) out of 115 (90%)
+   Number of PIO sites used: 103 + 1(JTAGENB) out of 115 (90%)
    Number of block RAMs:  0 out of 10 (0%)
    Number of GSRs:        0 out of 1 (0%)
    EFB used :        Yes
@@ -66,79 +66,76 @@ Design Summary
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/07/25  14:58:12
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  10:07:15
 
 Design Summary (cont)
 ---------------------
-     Net clk: 176 loads, 176 rising, 0 falling (Driver: OSCInst0 )
+     Net clk: 174 loads, 174 rising, 0 falling (Driver: OSCInst0 )
      Net i2c1_scli: 1 loads, 1 rising, 0 falling (Driver: PIO SCL )
-   Number of Clock Enables:  28
-     Net reg_rdy_N_1320: 1 loads, 1 LSLICEs
-     Net clk_enable_188: 18 loads, 18 LSLICEs
-     Net clk_enable_134: 4 loads, 4 LSLICEs
-     Net clk_enable_5: 1 loads, 1 LSLICEs
+   Number of Clock Enables:  27
+     Net clk_enable_2: 1 loads, 1 LSLICEs
+     Net clk_enable_157: 16 loads, 16 LSLICEs
+     Net clk_enable_13: 1 loads, 1 LSLICEs
+     Net clk_enable_135: 4 loads, 4 LSLICEs
      Net clk_enable_4: 1 loads, 1 LSLICEs
-     Net clk_enable_124: 4 loads, 4 LSLICEs
-     Net dat_rdy_N_1324: 4 loads, 4 LSLICEs
-     Net clk_enable_117: 17 loads, 17 LSLICEs
-     Net clk_enable_86: 17 loads, 17 LSLICEs
-     Net clk_enable_9: 1 loads, 1 LSLICEs
-     Net clk_enable_12: 1 loads, 1 LSLICEs
-     Net clk_enable_14: 2 loads, 2 LSLICEs
-     Net clk_enable_16: 2 loads, 2 LSLICEs
-     Net clk_enable_17: 1 loads, 1 LSLICEs
+     Net clk_enable_125: 4 loads, 4 LSLICEs
+     Net reg_rdy_N_1315: 1 loads, 1 LSLICEs
+     Net dat_rdy_N_1319: 4 loads, 4 LSLICEs
+     Net clk_enable_118: 17 loads, 17 LSLICEs
+     Net clk_enable_87: 17 loads, 17 LSLICEs
+     Net clk_enable_15: 2 loads, 2 LSLICEs
+     Net clk_enable_17: 2 loads, 2 LSLICEs
+     Net clk_enable_56: 17 loads, 17 LSLICEs
      Net clk_enable_126: 1 loads, 1 LSLICEs
-     Net clk_enable_185: 1 loads, 1 LSLICEs
-     Net clk_enable_127: 1 loads, 1 LSLICEs
-     Net clk_enable_178: 17 loads, 17 LSLICEs
-     Net Carrier_PG_1V8_N_1390: 1 loads, 1 LSLICEs
-     Net clk_enable_55: 17 loads, 17 LSLICEs
-     Net clk_enable_26: 1 loads, 1 LSLICEs
-     Net clk_enable_125: 1 loads, 1 LSLICEs
-     Net clk_enable_135: 1 loads, 1 LSLICEs
-     Net clk_enable_136: 1 loads, 1 LSLICEs
-     Net clk_enable_187: 1 loads, 1 LSLICEs
      Net clk_enable_137: 1 loads, 1 LSLICEs
-     Net clk_enable_183: 1 loads, 1 LSLICEs
-     Net clk_enable_189: 1 loads, 1 LSLICEs
-   Number of LSRs:  8
-     Net n6030: 5 loads, 5 LSLICEs
-     Net n6024: 5 loads, 5 LSLICEs
+     Net clk_enable_127: 1 loads, 1 LSLICEs
+     Net clk_enable_188: 17 loads, 17 LSLICEs
+     Net clk_enable_148: 1 loads, 1 LSLICEs
+     Net Carrier_PG_1V8_N_1396: 1 loads, 1 LSLICEs
+     Net clk_enable_41: 1 loads, 1 LSLICEs
+     Net clk_enable_128: 1 loads, 1 LSLICEs
+     Net clk_enable_146: 1 loads, 1 LSLICEs
+     Net clk_enable_136: 1 loads, 1 LSLICEs
+     Net clk_enable_138: 1 loads, 1 LSLICEs
+     Net clk_enable_143: 1 loads, 1 LSLICEs
+     Net clk_enable_144: 1 loads, 1 LSLICEs
+     Net clk_enable_145: 1 loads, 1 LSLICEs
+   Number of LSRs:  7
+     Net n6020: 4 loads, 4 LSLICEs
      Net debounce_inputs_asyn2_1: 18 loads, 18 LSLICEs
+     Net resetnefb: 48 loads, 47 LSLICEs
      Net debounce_inputs_asyn2_2: 18 loads, 18 LSLICEs
-     Net PG_Module_c: 48 loads, 47 LSLICEs
-     Net debounce_inputs_asyn2_3: 18 loads, 18 LSLICEs
+     Net n6023: 6 loads, 6 LSLICEs
      Net debounce_inputs_asyn2_4: 18 loads, 18 LSLICEs
-     Net n7091: 2 loads, 2 LSLICEs
+     Net debounce_inputs_asyn2_3: 18 loads, 18 LSLICEs
    Number of nets driven by tri-state buffers:  0
    Top 10 highest fanout non-clock nets:
-     Net next_state_1: 60 loads
-     Net next_state_2: 57 loads
+     Net next_state_1: 62 loads
+     Net next_state_2: 53 loads
      Net next_state_0: 52 loads
-     Net PG_Module_c: 52 loads
+     Net resetnefb: 51 loads
      Net next_state_3: 47 loads
-     Net next_state_3_N_1092_2: 31 loads
-     Net clk_enable_5: 25 loads
-     Net wb_stb_i: 25 loads
-     Net n9538: 22 loads
-     Net n_temp1_7__N_365: 22 loads
-
-
-
-
-
-                                    Page 2
-
-
-
-
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/07/25  14:58:12
+     Net next_state_3_N_1086_2: 32 loads
+     Net wb_stb_i: 24 loads
+     Net clk_enable_2: 23 loads
+     Net n_temp1_7__N_360: 23 loads
+     Net wb_ack_o: 22 loads
 
 
 
 
    Number of warnings:  12
    Number of errors:    0
+
+                                    Page 2
+
+
+
+
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  10:07:15
+
+ (cont)
+-------
      
 
 Design Errors/Warnings
@@ -192,19 +189,19 @@ IO (PIO) Attributes
 | DIG5S3C26           | BIDIR     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | DIG5S3C25           | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG5S3C24           | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
 
                                     Page 3
 
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/07/25  14:58:12
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  10:07:15
 
 IO (PIO) Attributes (cont)
 --------------------------
-+---------------------+-----------+-----------+------------+
-| DIG5S3C24           | BIDIR     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
 | FlexMIOs54          | BIDIR     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | FlexMIOs62          | BIDIR     | LVCMOS18  |            |
@@ -212,6 +209,16 @@ IO (PIO) Attributes (cont)
 | FlexMIOs63          | BIDIR     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | FlexMIOs31          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs30          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs29          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs28          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs27          | BIDIR     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexMIOs26          | BIDIR     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | FlexMIOs37          | BIDIR     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
@@ -249,6 +256,22 @@ IO (PIO) Attributes (cont)
 +---------------------+-----------+-----------+------------+
 | FP_SysLEDb          | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
+| FlexIO05            | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+
+                                    Page 4
+
+
+
+
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  10:07:15
+
+IO (PIO) Attributes (cont)
+--------------------------
+| FlexIO02            | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FlexIO01            | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
 | FPIO_isoCtrlRSTn    | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | Carrier_PG_3V3      | OUTPUT    | LVCMOS33  |            |
@@ -258,16 +281,6 @@ IO (PIO) Attributes (cont)
 | Carrier_PG_1V8      | OUTPUT    | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | FP_SysLEDs          | OUTPUT    | LVCMOS18  |            |
-
-                                    Page 4
-
-
-
-
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/07/25  14:58:12
-
-IO (PIO) Attributes (cont)
---------------------------
 +---------------------+-----------+-----------+------------+
 | FP_UsrLED[4]        | OUTPUT    | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
@@ -301,21 +314,9 @@ IO (PIO) Attributes (cont)
 +---------------------+-----------+-----------+------------+
 | Carrier_PwrOn       | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| GPO[7]              | OUTPUT    | LVCMOS25  |            |
+| FlexIO04            | INPUT     | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| GPO[6]              | OUTPUT    | LVCMOS25  |            |
-+---------------------+-----------+-----------+------------+
-| GPO[5]              | OUTPUT    | LVCMOS25  |            |
-+---------------------+-----------+-----------+------------+
-| GPO[4]              | OUTPUT    | LVCMOS25  |            |
-+---------------------+-----------+-----------+------------+
-| GPO[3]              | OUTPUT    | LVCMOS25  |            |
-+---------------------+-----------+-----------+------------+
-| GPO[2]              | OUTPUT    | LVCMOS25  |            |
-+---------------------+-----------+-----------+------------+
-| GPO[1]              | OUTPUT    | LVCMOS25  |            |
-+---------------------+-----------+-----------+------------+
-| GPO[0]              | OUTPUT    | LVCMOS25  |            |
+| FlexIO03            | INPUT     | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | FP_UsrSW1           | INPUT     | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
@@ -323,19 +324,19 @@ IO (PIO) Attributes (cont)
 +---------------------+-----------+-----------+------------+
 | FP_UsrSW3           | INPUT     | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| SysSW_Pwr_NC        | INPUT     | LVCMOS33  |            |
 
                                     Page 5
 
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/07/25  14:58:12
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  10:07:15
 
 IO (PIO) Attributes (cont)
 --------------------------
+| SysSW_Pwr_NC        | INPUT     | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| FPIO_iosCtrlINTn    | INPUT     | LVCMOS33  |            |
+| FPIO_isoCtrlINTn    | INPUT     | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | FPIO_ExternalStop   | INPUT     | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
@@ -369,12 +370,36 @@ IO (PIO) Attributes (cont)
 +---------------------+-----------+-----------+------------+
 | DIGS3C_SlotD_SlotOK[1]| INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
+| FlexLIO[5]          | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexLIO[4]          | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexLIO[3]          | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexLIO[2]          | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexLIO[1]          | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| FlexLIO[0]          | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| ANL_VIN_FLT         | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
 | FlexMIOs52_PCIe     | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | FlexMIOs45          | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | ANL_S3C_SLOTOK[3]   | INPUT     | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
+
+                                    Page 6
+
+
+
+
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  10:07:15
+
+IO (PIO) Attributes (cont)
+--------------------------
 | ANL_S3C_SLOTOK[2]   | INPUT     | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | ANL_S3C_SLOTOK[1]   | INPUT     | LVCMOS33  |            |
@@ -390,214 +415,194 @@ IO (PIO) Attributes (cont)
 | TDnSHDN             | INPUT     | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | TDnFFnFS            | INPUT     | LVCMOS33  |            |
-
-                                    Page 6
-
-
-
-
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/07/25  14:58:12
-
-IO (PIO) Attributes (cont)
---------------------------
 +---------------------+-----------+-----------+------------+
 | TDnALERT            | INPUT     | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | S3C_S1              | INPUT     | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| GPI[7]              | INPUT     | LVCMOS25  |            |
-+---------------------+-----------+-----------+------------+
-| GPI[6]              | INPUT     | LVCMOS25  |            |
-+---------------------+-----------+-----------+------------+
-| GPI[5]              | INPUT     | LVCMOS25  |            |
-+---------------------+-----------+-----------+------------+
-| GPI[4]              | INPUT     | LVCMOS25  |            |
-+---------------------+-----------+-----------+------------+
-| GPI[3]              | INPUT     | LVCMOS25  |            |
-+---------------------+-----------+-----------+------------+
-| GPI[2]              | INPUT     | LVCMOS25  |            |
-+---------------------+-----------+-----------+------------+
-| GPI[1]              | INPUT     | LVCMOS25  |            |
-+---------------------+-----------+-----------+------------+
-| GPI[0]              | INPUT     | LVCMOS25  |            |
 +---------------------+-----------+-----------+------------+
 
 Removed logic
 -------------
 
 Block GSR_INST undriven or does not drive anything - clipped.
-Signal n9514 was merged into signal next_state_2
-Signal n5222 was merged into signal Carrier_PG_1V8_N_1300
+Signal n5257 was merged into signal Carrier_PG_1V8_N_1294
 Signal VCC_net undriven or does not drive anything - clipped.
-Signal add_4455_26/S0 undriven or does not drive anything - clipped.
-Signal add_4455_26/CO undriven or does not drive anything - clipped.
-Signal resetcounter_i24_1473_add_4_1/S0 undriven or does not drive anything -
+Signal add_805_9/S1 undriven or does not drive anything - clipped.
+Signal add_805_9/CO undriven or does not drive anything - clipped.
+Signal resetcounter_i24_1491_add_4_1/S0 undriven or does not drive anything -
      clipped.
-Signal resetcounter_i24_1473_add_4_1/CI undriven or does not drive anything -
+Signal resetcounter_i24_1491_add_4_1/CI undriven or does not drive anything -
      clipped.
-Signal add_787_25/CO undriven or does not drive anything - clipped.
-Signal add_786_1/S0 undriven or does not drive anything - clipped.
-Signal add_786_1/CI undriven or does not drive anything - clipped.
-Signal add_786_9/S1 undriven or does not drive anything - clipped.
-Signal add_786_9/CO undriven or does not drive anything - clipped.
-Signal add_4457_2/S1 undriven or does not drive anything - clipped.
-Signal add_4457_2/S0 undriven or does not drive anything - clipped.
-Signal add_4457_2/CI undriven or does not drive anything - clipped.
-Signal add_4457_4/S1 undriven or does not drive anything - clipped.
-Signal add_4457_4/S0 undriven or does not drive anything - clipped.
-Signal add_4457_6/S1 undriven or does not drive anything - clipped.
-Signal add_4457_6/S0 undriven or does not drive anything - clipped.
-Signal add_156_33/S1 undriven or does not drive anything - clipped.
-Signal add_156_33/CO undriven or does not drive anything - clipped.
-Signal add_165_1/S0 undriven or does not drive anything - clipped.
-Signal add_165_1/CI undriven or does not drive anything - clipped.
-Signal add_4457_8/S1 undriven or does not drive anything - clipped.
-Signal add_4457_8/S0 undriven or does not drive anything - clipped.
-Signal resetcounter_i24_1473_add_4_25/CO undriven or does not drive anything -
+Signal resetcounter_i24_1491_add_4_25/CO undriven or does not drive anything -
      clipped.
-Signal add_4457_10/S1 undriven or does not drive anything - clipped.
+Signal add_4441_2/S1 undriven or does not drive anything - clipped.
+Signal add_4441_2/S0 undriven or does not drive anything - clipped.
+Signal add_4441_2/CI undriven or does not drive anything - clipped.
+Signal add_4441_4/S1 undriven or does not drive anything - clipped.
+Signal add_4441_4/S0 undriven or does not drive anything - clipped.
+Signal add_4441_6/S1 undriven or does not drive anything - clipped.
+Signal add_4441_6/S0 undriven or does not drive anything - clipped.
+Signal add_4441_8/S1 undriven or does not drive anything - clipped.
+Signal add_4441_8/S0 undriven or does not drive anything - clipped.
+Signal add_4441_10/S1 undriven or does not drive anything - clipped.
+Signal add_4441_10/S0 undriven or does not drive anything - clipped.
+Signal add_4441_12/S1 undriven or does not drive anything - clipped.
+Signal add_4441_12/S0 undriven or does not drive anything - clipped.
+Signal add_4441_14/S1 undriven or does not drive anything - clipped.
+Signal add_4441_14/S0 undriven or does not drive anything - clipped.
+Signal add_4441_16/S1 undriven or does not drive anything - clipped.
+Signal add_4441_16/S0 undriven or does not drive anything - clipped.
+Signal add_4441_18/S1 undriven or does not drive anything - clipped.
+Signal add_4441_18/S0 undriven or does not drive anything - clipped.
+Signal add_4441_20/S1 undriven or does not drive anything - clipped.
+Signal add_4441_20/S0 undriven or does not drive anything - clipped.
 
                                     Page 7
 
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/07/25  14:58:12
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  10:07:15
 
 Removed logic (cont)
 --------------------
-Signal add_4457_10/S0 undriven or does not drive anything - clipped.
-Signal add_4457_12/S1 undriven or does not drive anything - clipped.
-Signal add_4457_12/S0 undriven or does not drive anything - clipped.
-Signal add_4454_2/S1 undriven or does not drive anything - clipped.
-Signal add_4454_2/S0 undriven or does not drive anything - clipped.
-Signal add_4454_2/CI undriven or does not drive anything - clipped.
-Signal add_4457_14/S1 undriven or does not drive anything - clipped.
-Signal add_4457_14/S0 undriven or does not drive anything - clipped.
-Signal add_4454_4/S1 undriven or does not drive anything - clipped.
-Signal add_4454_4/S0 undriven or does not drive anything - clipped.
-Signal add_4454_6/S1 undriven or does not drive anything - clipped.
-Signal add_4454_6/S0 undriven or does not drive anything - clipped.
-Signal add_4454_8/S1 undriven or does not drive anything - clipped.
-Signal add_4454_8/S0 undriven or does not drive anything - clipped.
-Signal add_4457_16/S1 undriven or does not drive anything - clipped.
-Signal add_4457_16/S0 undriven or does not drive anything - clipped.
-Signal add_4454_10/S1 undriven or does not drive anything - clipped.
-Signal add_4454_10/S0 undriven or does not drive anything - clipped.
-Signal add_4454_12/S1 undriven or does not drive anything - clipped.
-Signal add_4454_12/S0 undriven or does not drive anything - clipped.
-Signal add_4457_18/S1 undriven or does not drive anything - clipped.
-Signal add_4457_18/S0 undriven or does not drive anything - clipped.
-Signal add_4454_14/S1 undriven or does not drive anything - clipped.
-Signal add_4454_14/S0 undriven or does not drive anything - clipped.
-Signal add_4457_20/S1 undriven or does not drive anything - clipped.
-Signal add_4457_20/S0 undriven or does not drive anything - clipped.
-Signal add_4454_16/S1 undriven or does not drive anything - clipped.
-Signal add_4454_16/S0 undriven or does not drive anything - clipped.
-Signal add_4454_18/S1 undriven or does not drive anything - clipped.
-Signal add_4454_18/S0 undriven or does not drive anything - clipped.
-Signal add_4457_22/S1 undriven or does not drive anything - clipped.
-Signal add_4457_22/S0 undriven or does not drive anything - clipped.
-Signal add_4457_24/S1 undriven or does not drive anything - clipped.
-Signal add_4457_24/S0 undriven or does not drive anything - clipped.
-Signal add_4454_20/S1 undriven or does not drive anything - clipped.
-Signal add_4454_20/S0 undriven or does not drive anything - clipped.
-Signal add_4454_22/S1 undriven or does not drive anything - clipped.
-Signal add_4454_22/S0 undriven or does not drive anything - clipped.
-Signal add_4454_24/S1 undriven or does not drive anything - clipped.
-Signal add_4454_24/S0 undriven or does not drive anything - clipped.
-Signal add_4454_26/S0 undriven or does not drive anything - clipped.
-Signal add_4454_26/CO undriven or does not drive anything - clipped.
-Signal add_4457_26/S0 undriven or does not drive anything - clipped.
-Signal add_4457_26/CO undriven or does not drive anything - clipped.
-Signal add_4456_2/S1 undriven or does not drive anything - clipped.
-Signal add_4456_2/S0 undriven or does not drive anything - clipped.
-Signal add_4456_2/CI undriven or does not drive anything - clipped.
-Signal add_4456_4/S1 undriven or does not drive anything - clipped.
-Signal add_4456_4/S0 undriven or does not drive anything - clipped.
-Signal add_4456_6/S1 undriven or does not drive anything - clipped.
-Signal add_4456_6/S0 undriven or does not drive anything - clipped.
-Signal add_4456_8/S1 undriven or does not drive anything - clipped.
-Signal add_4456_8/S0 undriven or does not drive anything - clipped.
-Signal add_4456_10/S1 undriven or does not drive anything - clipped.
-Signal add_4456_10/S0 undriven or does not drive anything - clipped.
-Signal add_4456_12/S1 undriven or does not drive anything - clipped.
+Signal add_4441_22/S1 undriven or does not drive anything - clipped.
+Signal add_4441_22/S0 undriven or does not drive anything - clipped.
+Signal add_164_33/S1 undriven or does not drive anything - clipped.
+Signal add_164_33/CO undriven or does not drive anything - clipped.
+Signal add_4441_24/S1 undriven or does not drive anything - clipped.
+Signal add_4441_24/S0 undriven or does not drive anything - clipped.
+Signal add_173_1/S0 undriven or does not drive anything - clipped.
+Signal add_173_1/CI undriven or does not drive anything - clipped.
+Signal add_4441_26/S1 undriven or does not drive anything - clipped.
+Signal add_4441_26/S0 undriven or does not drive anything - clipped.
+Signal add_4441_28/S0 undriven or does not drive anything - clipped.
+Signal add_4441_28/CO undriven or does not drive anything - clipped.
+Signal add_4444_2/S1 undriven or does not drive anything - clipped.
+Signal add_4444_2/S0 undriven or does not drive anything - clipped.
+Signal add_4444_2/CI undriven or does not drive anything - clipped.
+Signal add_4444_4/S1 undriven or does not drive anything - clipped.
+Signal add_4444_4/S0 undriven or does not drive anything - clipped.
+Signal add_4444_6/S1 undriven or does not drive anything - clipped.
+Signal add_4444_6/S0 undriven or does not drive anything - clipped.
+Signal add_4444_8/S1 undriven or does not drive anything - clipped.
+Signal add_4444_8/S0 undriven or does not drive anything - clipped.
+Signal add_4444_10/S1 undriven or does not drive anything - clipped.
+Signal add_4444_10/S0 undriven or does not drive anything - clipped.
+Signal add_4444_12/S1 undriven or does not drive anything - clipped.
+Signal add_4444_12/S0 undriven or does not drive anything - clipped.
+Signal add_182_33/S1 undriven or does not drive anything - clipped.
+Signal add_182_33/CO undriven or does not drive anything - clipped.
+Signal add_4444_14/S1 undriven or does not drive anything - clipped.
+Signal add_4444_14/S0 undriven or does not drive anything - clipped.
+Signal add_4444_16/S1 undriven or does not drive anything - clipped.
+Signal add_4444_16/S0 undriven or does not drive anything - clipped.
+Signal add_4444_18/S1 undriven or does not drive anything - clipped.
+Signal add_4444_18/S0 undriven or does not drive anything - clipped.
+Signal add_191_1/S0 undriven or does not drive anything - clipped.
+Signal add_191_1/CI undriven or does not drive anything - clipped.
+Signal add_4444_20/S1 undriven or does not drive anything - clipped.
+Signal add_4444_20/S0 undriven or does not drive anything - clipped.
+Signal add_4444_22/S1 undriven or does not drive anything - clipped.
+Signal add_4444_22/S0 undriven or does not drive anything - clipped.
+Signal add_4444_24/S1 undriven or does not drive anything - clipped.
+Signal add_4444_24/S0 undriven or does not drive anything - clipped.
+Signal add_4444_26/S1 undriven or does not drive anything - clipped.
+Signal add_4444_26/S0 undriven or does not drive anything - clipped.
+Signal add_4444_28/S0 undriven or does not drive anything - clipped.
+Signal add_4444_28/CO undriven or does not drive anything - clipped.
+Signal add_4443_2/S1 undriven or does not drive anything - clipped.
+Signal add_4443_2/S0 undriven or does not drive anything - clipped.
+Signal add_4443_2/CI undriven or does not drive anything - clipped.
+Signal add_4443_4/S1 undriven or does not drive anything - clipped.
+Signal add_4443_4/S0 undriven or does not drive anything - clipped.
+Signal add_4443_6/S1 undriven or does not drive anything - clipped.
+Signal add_4443_6/S0 undriven or does not drive anything - clipped.
+Signal add_4443_8/S1 undriven or does not drive anything - clipped.
+Signal add_4443_8/S0 undriven or does not drive anything - clipped.
+Signal add_4443_10/S1 undriven or does not drive anything - clipped.
+Signal add_4443_10/S0 undriven or does not drive anything - clipped.
 
                                     Page 8
 
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/07/25  14:58:12
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  10:07:15
 
 Removed logic (cont)
 --------------------
-Signal add_4456_12/S0 undriven or does not drive anything - clipped.
-Signal add_147_33/S1 undriven or does not drive anything - clipped.
-Signal add_147_33/CO undriven or does not drive anything - clipped.
-Signal add_4456_14/S1 undriven or does not drive anything - clipped.
-Signal add_4456_14/S0 undriven or does not drive anything - clipped.
-Signal add_4456_16/S1 undriven or does not drive anything - clipped.
-Signal add_4456_16/S0 undriven or does not drive anything - clipped.
-Signal add_138_33/S1 undriven or does not drive anything - clipped.
-Signal add_138_33/CO undriven or does not drive anything - clipped.
-Signal add_156_1/S0 undriven or does not drive anything - clipped.
-Signal add_156_1/CI undriven or does not drive anything - clipped.
-Signal add_4456_18/S1 undriven or does not drive anything - clipped.
-Signal add_4456_18/S0 undriven or does not drive anything - clipped.
-Signal add_4456_20/S1 undriven or does not drive anything - clipped.
-Signal add_4456_20/S0 undriven or does not drive anything - clipped.
-Signal add_165_33/S1 undriven or does not drive anything - clipped.
-Signal add_165_33/CO undriven or does not drive anything - clipped.
-Signal add_4456_22/S1 undriven or does not drive anything - clipped.
-Signal add_4456_22/S0 undriven or does not drive anything - clipped.
-Signal add_787_1/S0 undriven or does not drive anything - clipped.
-Signal add_787_1/CI undriven or does not drive anything - clipped.
-Signal add_4456_24/S1 undriven or does not drive anything - clipped.
-Signal add_4456_24/S0 undriven or does not drive anything - clipped.
-Signal add_4456_26/S0 undriven or does not drive anything - clipped.
-Signal add_4456_26/CO undriven or does not drive anything - clipped.
-Signal add_4455_2/S1 undriven or does not drive anything - clipped.
-Signal add_4455_2/S0 undriven or does not drive anything - clipped.
-Signal add_4455_2/CI undriven or does not drive anything - clipped.
-Signal add_147_1/S0 undriven or does not drive anything - clipped.
-Signal add_147_1/CI undriven or does not drive anything - clipped.
-Signal add_4455_4/S1 undriven or does not drive anything - clipped.
-Signal add_4455_4/S0 undriven or does not drive anything - clipped.
-Signal add_138_1/S0 undriven or does not drive anything - clipped.
-Signal add_138_1/CI undriven or does not drive anything - clipped.
-Signal add_4455_6/S1 undriven or does not drive anything - clipped.
-Signal add_4455_6/S0 undriven or does not drive anything - clipped.
-Signal add_4455_8/S1 undriven or does not drive anything - clipped.
-Signal add_4455_8/S0 undriven or does not drive anything - clipped.
-Signal add_4455_10/S1 undriven or does not drive anything - clipped.
-Signal add_4455_10/S0 undriven or does not drive anything - clipped.
-Signal add_4455_12/S1 undriven or does not drive anything - clipped.
-Signal add_4455_12/S0 undriven or does not drive anything - clipped.
-Signal add_4455_14/S1 undriven or does not drive anything - clipped.
-Signal add_4455_14/S0 undriven or does not drive anything - clipped.
-Signal add_4455_16/S1 undriven or does not drive anything - clipped.
-Signal add_4455_16/S0 undriven or does not drive anything - clipped.
-Signal add_4455_18/S1 undriven or does not drive anything - clipped.
-Signal add_4455_18/S0 undriven or does not drive anything - clipped.
-Signal add_4455_20/S1 undriven or does not drive anything - clipped.
-Signal add_4455_20/S0 undriven or does not drive anything - clipped.
-Signal add_4455_22/S1 undriven or does not drive anything - clipped.
-Signal add_4455_22/S0 undriven or does not drive anything - clipped.
-Signal add_4455_24/S1 undriven or does not drive anything - clipped.
-Signal add_4455_24/S0 undriven or does not drive anything - clipped.
-Block FPIO_isoCtrlRSTn_N_1294_bdd_1_lut_1_lut was optimized away.
-Block i1594_1_lut was optimized away.
+Signal add_4443_12/S1 undriven or does not drive anything - clipped.
+Signal add_4443_12/S0 undriven or does not drive anything - clipped.
+Signal add_4443_14/S1 undriven or does not drive anything - clipped.
+Signal add_4443_14/S0 undriven or does not drive anything - clipped.
+Signal add_4443_16/S1 undriven or does not drive anything - clipped.
+Signal add_4443_16/S0 undriven or does not drive anything - clipped.
+Signal add_4443_18/S1 undriven or does not drive anything - clipped.
+Signal add_4443_18/S0 undriven or does not drive anything - clipped.
+Signal add_4443_20/S1 undriven or does not drive anything - clipped.
+Signal add_4443_20/S0 undriven or does not drive anything - clipped.
+Signal add_4443_22/S1 undriven or does not drive anything - clipped.
+Signal add_4443_22/S0 undriven or does not drive anything - clipped.
+Signal add_4443_24/S1 undriven or does not drive anything - clipped.
+Signal add_4443_24/S0 undriven or does not drive anything - clipped.
+Signal add_4443_26/S1 undriven or does not drive anything - clipped.
+Signal add_4443_26/S0 undriven or does not drive anything - clipped.
+Signal add_4443_28/S0 undriven or does not drive anything - clipped.
+Signal add_4443_28/CO undriven or does not drive anything - clipped.
+Signal add_4442_2/S1 undriven or does not drive anything - clipped.
+Signal add_4442_2/S0 undriven or does not drive anything - clipped.
+Signal add_4442_2/CI undriven or does not drive anything - clipped.
+Signal add_4442_4/S1 undriven or does not drive anything - clipped.
+Signal add_4442_4/S0 undriven or does not drive anything - clipped.
+Signal add_4442_6/S1 undriven or does not drive anything - clipped.
+Signal add_4442_6/S0 undriven or does not drive anything - clipped.
+Signal add_4442_8/S1 undriven or does not drive anything - clipped.
+Signal add_4442_8/S0 undriven or does not drive anything - clipped.
+Signal add_4442_10/S1 undriven or does not drive anything - clipped.
+Signal add_4442_10/S0 undriven or does not drive anything - clipped.
+Signal add_4442_12/S1 undriven or does not drive anything - clipped.
+Signal add_4442_12/S0 undriven or does not drive anything - clipped.
+Signal add_191_33/S1 undriven or does not drive anything - clipped.
+Signal add_191_33/CO undriven or does not drive anything - clipped.
+Signal add_806_1/S0 undriven or does not drive anything - clipped.
+Signal add_806_1/CI undriven or does not drive anything - clipped.
+Signal add_4442_14/S1 undriven or does not drive anything - clipped.
+Signal add_4442_14/S0 undriven or does not drive anything - clipped.
+Signal add_4442_16/S1 undriven or does not drive anything - clipped.
+Signal add_4442_16/S0 undriven or does not drive anything - clipped.
+Signal add_4442_18/S1 undriven or does not drive anything - clipped.
+Signal add_4442_18/S0 undriven or does not drive anything - clipped.
+Signal add_4442_20/S1 undriven or does not drive anything - clipped.
+Signal add_4442_20/S0 undriven or does not drive anything - clipped.
+Signal add_4442_22/S1 undriven or does not drive anything - clipped.
+Signal add_4442_22/S0 undriven or does not drive anything - clipped.
+Signal add_4442_24/S1 undriven or does not drive anything - clipped.
+Signal add_4442_24/S0 undriven or does not drive anything - clipped.
+Signal add_4442_26/S1 undriven or does not drive anything - clipped.
+Signal add_4442_26/S0 undriven or does not drive anything - clipped.
+Signal add_173_33/S1 undriven or does not drive anything - clipped.
+Signal add_173_33/CO undriven or does not drive anything - clipped.
+Signal add_4442_28/S0 undriven or does not drive anything - clipped.
+Signal add_4442_28/CO undriven or does not drive anything - clipped.
+Signal add_182_1/S0 undriven or does not drive anything - clipped.
+Signal add_182_1/CI undriven or does not drive anything - clipped.
+Signal add_806_25/CO undriven or does not drive anything - clipped.
 
                                     Page 9
 
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/07/25  14:58:12
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  10:07:15
 
 Removed logic (cont)
 --------------------
+Signal add_164_1/S0 undriven or does not drive anything - clipped.
+Signal add_164_1/CI undriven or does not drive anything - clipped.
+Signal add_805_1/S0 undriven or does not drive anything - clipped.
+Signal add_805_1/CI undriven or does not drive anything - clipped.
+Block i1617_1_lut was optimized away.
 Block i2 was optimized away.
 
      
@@ -610,14 +615,14 @@ OSC 1:                                     Pin/Node Value
   OSC Type:                                         OSCH
   STDBY Input:                                      NONE
   OSC Output:                              NODE     clk
-  OSC Nominal Frequency (MHz):                      2.08
+  OSC Nominal Frequency (MHz):                      7.00
 
 Embedded Functional Block Connection Summary
 --------------------------------------------
 
    Desired WISHBONE clock frequency: 10.0 MHz
    Clock source:                     clk
-   Reset source:                     PG_Module_c
+   Reset source:                     resetnefb
    Functions mode:
       I2C #1 (Primary) Function:     ENABLED
       I2C #2 (Secondary) Function:   DISABLED
@@ -649,21 +654,21 @@ Embedded Functional Block Connection Summary
    --------------------
       UFM Utilization:        General Purpose Flash Memory
       Available General
-      Purpose Flash Memory:   767 Pages (767*128 Bits)
-
-           EBR Blocks with Unique
-      Initialization Data:    0
-
 
                                    Page 10
 
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/07/25  14:58:12
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  10:07:15
 
 Embedded Functional Block Connection Summary (cont)
 ---------------------------------------------------
+      Purpose Flash Memory:   767 Pages (767*128 Bits)
+
+           EBR Blocks with Unique
+      Initialization Data:    0
+
            WID		EBR Instance
       ---		------------
 
@@ -683,11 +688,6 @@ Run Time and Memory Usage
    Total REAL Time: 2 secs  
    Peak Memory Usage: 58 MB
         
-
-
-
-
-
 
 
 

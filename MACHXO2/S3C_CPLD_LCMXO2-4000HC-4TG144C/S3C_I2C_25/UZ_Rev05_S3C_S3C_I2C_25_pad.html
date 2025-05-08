@@ -14,7 +14,7 @@ Performance Grade:      4
 PACKAGE:          TQFP144
 Package Status:                     Final          Version 1.44
 
-Wed May 07 14:58:20 2025
+Thu May 08 10:07:24 2025
 
 Pinout by Port Name:
 +----------------------------+----------+---------------+-------+-----------+-----------+----------------------------------------------------------+
@@ -25,6 +25,7 @@ Pinout by Port Name:
 | ANL_S3C_SLOTOK[1]          | 23/4     | LVCMOS33_IN   | PL14A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL                      |
 | ANL_S3C_SLOTOK[2]          | 22/4     | LVCMOS33_IN   | PL13B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL                      |
 | ANL_S3C_SLOTOK[3]          | 21/4     | LVCMOS33_IN   | PL13A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL                      |
+| ANL_VIN_FLT                | 42/2     | LVCMOS18_IN   | PB7A  |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL                      |
 | Carrier_PG_1V8             | 107/1    | LVCMOS18_OUT  | PR2A  |           |           | DRIVE:8mA SLEW:SLOW                                      |
 | Carrier_PG_3V3             | 115/0    | LVCMOS33_OUT  | PT24B |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW                            |
 | Carrier_PwrOn              | 1/5      | LVCMOS33_OUT  | PL3A  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW                            |
@@ -63,7 +64,7 @@ Pinout by Port Name:
 | FPIO_FlexMIO29             | 110/0    | LVCMOS33_BIDI | PT28C |           |           | DRIVE:8mA PULL:DOWN CLAMP:ON HYSTERESIS:SMALL SLEW:SLOW  |
 | FPIO_FlexMIO30             | 111/0    | LVCMOS33_BIDI | PT27B |           |           | DRIVE:8mA PULL:DOWN CLAMP:ON HYSTERESIS:SMALL SLEW:SLOW  |
 | FPIO_FlexMIO52             | 109/0    | LVCMOS33_OUT  | PT28D |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW                            |
-| FPIO_iosCtrlINTn           | 117/0    | LVCMOS33_IN   | PT24A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL                      |
+| FPIO_isoCtrlINTn           | 117/0    | LVCMOS33_IN   | PT24A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL                      |
 | FPIO_isoCtrlRSTn           | 119/0    | LVCMOS33_OUT  | PT23D |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW                            |
 | FP_SysLEDb                 | 143/0    | LVCMOS33_OUT  | PT9A  |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW                            |
 | FP_SysLEDg                 | 141/0    | LVCMOS33_OUT  | PT10A |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW                            |
@@ -76,6 +77,22 @@ Pinout by Port Name:
 | FP_UsrSW1                  | 128/0    | LVCMOS33_IN   | PT18A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL                      |
 | FP_UsrSW2                  | 127/0    | LVCMOS33_IN   | PT18B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL                      |
 | FP_UsrSW3                  | 122/0    | LVCMOS33_IN   | PT21A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL                      |
+| FlexIO01                   | 132/0    | LVCMOS33_OUT  | PT14B |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW                            |
+| FlexIO02                   | 133/0    | LVCMOS33_OUT  | PT14A |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW                            |
+| FlexIO03                   | 138/0    | LVCMOS33_IN   | PT11B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL                      |
+| FlexIO04                   | 139/0    | LVCMOS33_IN   | PT11A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL                      |
+| FlexIO05                   | 140/0    | LVCMOS33_OUT  | PT10B |           |           | DRIVE:8mA PULL:DOWN SLEW:SLOW                            |
+| FlexLIO[0]                 | 73/1     | LVCMOS18_IN   | PR19B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL                      |
+| FlexLIO[1]                 | 74/1     | LVCMOS18_IN   | PR19A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL                      |
+| FlexLIO[2]                 | 75/1     | LVCMOS18_IN   | PR18B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL                      |
+| FlexLIO[3]                 | 76/1     | LVCMOS18_IN   | PR18A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL                      |
+| FlexLIO[4]                 | 77/1     | LVCMOS18_IN   | PR16B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL                      |
+| FlexLIO[5]                 | 78/1     | LVCMOS18_IN   | PR16A |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL                      |
+| FlexMIOs26                 | 60/2     | LVCMOS18_BIDI | PB23B |           |           | DRIVE:8mA PULL:DOWN CLAMP:ON HYSTERESIS:SMALL SLEW:SLOW  |
+| FlexMIOs27                 | 59/2     | LVCMOS18_BIDI | PB23A |           |           | DRIVE:8mA PULL:DOWN CLAMP:ON HYSTERESIS:SMALL SLEW:SLOW  |
+| FlexMIOs28                 | 58/2     | LVCMOS18_BIDI | PB21B |           |           | DRIVE:8mA PULL:DOWN CLAMP:ON HYSTERESIS:SMALL SLEW:SLOW  |
+| FlexMIOs29                 | 57/2     | LVCMOS18_BIDI | PB21A |           |           | DRIVE:8mA PULL:DOWN CLAMP:ON HYSTERESIS:SMALL SLEW:SLOW  |
+| FlexMIOs30                 | 56/2     | LVCMOS18_BIDI | PB20B |           |           | DRIVE:8mA PULL:DOWN CLAMP:ON HYSTERESIS:SMALL SLEW:SLOW  |
 | FlexMIOs31                 | 55/2     | LVCMOS18_BIDI | PB20A |           |           | DRIVE:8mA PULL:DOWN CLAMP:ON HYSTERESIS:SMALL SLEW:SLOW  |
 | FlexMIOs32                 | 69/2     | LVCMOS18_BIDI | PB29B |           |           | DRIVE:8mA PULL:DOWN CLAMP:ON HYSTERESIS:SMALL SLEW:SLOW  |
 | FlexMIOs33                 | 68/2     | LVCMOS18_BIDI | PB29A |           |           | DRIVE:8mA PULL:DOWN CLAMP:ON HYSTERESIS:SMALL SLEW:SLOW  |
@@ -90,22 +107,6 @@ Pinout by Port Name:
 | FlexMIOs62                 | 52/2     | LVCMOS18_BIDI | PB15A |           |           | DRIVE:8mA PULL:DOWN CLAMP:ON HYSTERESIS:SMALL SLEW:SLOW  |
 | FlexMIOs63                 | 54/2     | LVCMOS18_BIDI | PB15B |           |           | DRIVE:8mA PULL:DOWN CLAMP:ON HYSTERESIS:SMALL SLEW:SLOW  |
 | FlexMio61ExternalStop      | 50/2     | LVCMOS33_OUT  | PB13B |           |           | DRIVE:12mA OPENDRAIN:ON SLEW:SLOW                        |
-| GPI[0]                     | 138/0    | LVCMOS25_IN   | PT11B |           |           | PULL:DOWN CLAMP:ON                                       |
-| GPI[1]                     | 139/0    | LVCMOS25_IN   | PT11A |           |           | PULL:DOWN CLAMP:ON                                       |
-| GPI[2]                     | 60/2     | LVCMOS25_IN   | PB23B |           |           | PULL:DOWN                                                |
-| GPI[3]                     | 59/2     | LVCMOS25_IN   | PB23A |           |           | PULL:DOWN                                                |
-| GPI[4]                     | 58/2     | LVCMOS25_IN   | PB21B |           |           | PULL:DOWN                                                |
-| GPI[5]                     | 57/2     | LVCMOS25_IN   | PB21A |           |           | PULL:DOWN                                                |
-| GPI[6]                     | 56/2     | LVCMOS25_IN   | PB20B |           |           | PULL:DOWN                                                |
-| GPI[7]                     | 73/1     | LVCMOS25_IN   | PR19B |           |           | PULL:DOWN                                                |
-| GPO[0]                     | 132/0    | LVCMOS25_OUT  | PT14B |           |           | DRIVE:24mA OPENDRAIN:ON SLEW:SLOW                        |
-| GPO[1]                     | 133/0    | LVCMOS25_OUT  | PT14A |           |           | DRIVE:24mA OPENDRAIN:ON SLEW:SLOW                        |
-| GPO[2]                     | 140/0    | LVCMOS25_OUT  | PT10B |           |           | DRIVE:24mA OPENDRAIN:ON SLEW:SLOW                        |
-| GPO[3]                     | 74/1     | LVCMOS25_OUT  | PR19A |           |           | DRIVE:12mA OPENDRAIN:ON SLEW:SLOW                        |
-| GPO[4]                     | 75/1     | LVCMOS25_OUT  | PR18B |           |           | DRIVE:12mA OPENDRAIN:ON SLEW:SLOW                        |
-| GPO[5]                     | 76/1     | LVCMOS25_OUT  | PR18A |           |           | DRIVE:12mA OPENDRAIN:ON SLEW:SLOW                        |
-| GPO[6]                     | 77/1     | LVCMOS25_OUT  | PR16B |           |           | DRIVE:12mA OPENDRAIN:ON SLEW:SLOW                        |
-| GPO[7]                     | 78/1     | LVCMOS25_OUT  | PR16A |           |           | DRIVE:12mA OPENDRAIN:ON SLEW:SLOW                        |
 | PG_Module                  | 9/5      | LVCMOS33_IN   | PL7A  |           |           | CLAMP:ON HYSTERESIS:SMALL                                |
 | PG_VIN                     | 2/5      | LVCMOS33_IN   | PL3B  |           |           | CLAMP:ON HYSTERESIS:SMALL                                |
 | PPn_VIN                    | 3/5      | LVCMOS33_IN   | PL4A  |           |           | CLAMP:ON HYSTERESIS:SMALL                                |
@@ -180,7 +181,7 @@ Vccio by Bank:
 | 39/2     | DIG5S3C25                  | LOCATED    | LVCMOS18_BIDI | PB3B  |                |           |           |
 | 40/2     | DIG5S3C24                  | LOCATED    | LVCMOS18_BIDI | PB4A  | CSSPIN         |           |           |
 | 41/2     | SD_SEL                     | LOCATED    | LVCMOS33_OUT  | PB4B  |                |           |           |
-| 42/2     |     unused, PULL:DOWN      |            |               | PB7A  |                |           |           |
+| 42/2     | ANL_VIN_FLT                | LOCATED    | LVCMOS18_IN   | PB7A  |                |           |           |
 | 43/2     |     unused, PULL:DOWN      |            |               | PB7B  |                |           |           |
 | 44/2     | Reserved: sysCONFIG        |            | LVCMOS18_BIDI | PB9A  | MCLK/CCLK      |           |           |
 | 45/2     | Reserved: sysCONFIG        |            | LVCMOS18_BIDI | PB9B  | SO/SPISO       |           |           |
@@ -191,11 +192,11 @@ Vccio by Bank:
 | 52/2     | FlexMIOs62                 | LOCATED    | LVCMOS18_BIDI | PB15A |                |           |           |
 | 54/2     | FlexMIOs63                 | LOCATED    | LVCMOS18_BIDI | PB15B |                |           |           |
 | 55/2     | FlexMIOs31                 | LOCATED    | LVCMOS18_BIDI | PB20A | PCLKT2_1       |           |           |
-| 56/2     | GPI[6]                     | LOCATED    | LVCMOS25_IN   | PB20B | PCLKC2_1       |           |           |
-| 57/2     | GPI[5]                     | LOCATED    | LVCMOS25_IN   | PB21A |                |           |           |
-| 58/2     | GPI[4]                     | LOCATED    | LVCMOS25_IN   | PB21B |                |           |           |
-| 59/2     | GPI[3]                     | LOCATED    | LVCMOS25_IN   | PB23A |                |           |           |
-| 60/2     | GPI[2]                     | LOCATED    | LVCMOS25_IN   | PB23B |                |           |           |
+| 56/2     | FlexMIOs30                 | LOCATED    | LVCMOS18_BIDI | PB20B | PCLKC2_1       |           |           |
+| 57/2     | FlexMIOs29                 | LOCATED    | LVCMOS18_BIDI | PB21A |                |           |           |
+| 58/2     | FlexMIOs28                 | LOCATED    | LVCMOS18_BIDI | PB21B |                |           |           |
+| 59/2     | FlexMIOs27                 | LOCATED    | LVCMOS18_BIDI | PB23A |                |           |           |
+| 60/2     | FlexMIOs26                 | LOCATED    | LVCMOS18_BIDI | PB23B |                |           |           |
 | 61/2     | FlexMIOs45                 | LOCATED    | LVCMOS18_IN   | PB24A |                |           |           |
 | 62/2     | FlexMIOs37                 | LOCATED    | LVCMOS18_BIDI | PB24B |                |           |           |
 | 63/2     | FlexMIOs36                 | LOCATED    | LVCMOS18_BIDI | PB24D |                |           |           |
@@ -205,12 +206,12 @@ Vccio by Bank:
 | 69/2     | FlexMIOs32                 | LOCATED    | LVCMOS18_BIDI | PB29B |                |           |           |
 | 70/2     | Reserved: sysCONFIG        |            | LVCMOS18_IN   | PB30A | SN             |           |           |
 | 71/2     | Reserved: sysCONFIG        |            | LVCMOS18_BIDI | PB30B | SI/SISPI       |           |           |
-| 73/1     | GPI[7]                     | LOCATED    | LVCMOS25_IN   | PR19B | DQ1            |           |           |
-| 74/1     | GPO[3]                     | LOCATED    | LVCMOS25_OUT  | PR19A | DQ1            |           |           |
-| 75/1     | GPO[4]                     | LOCATED    | LVCMOS25_OUT  | PR18B | DQ1            |           |           |
-| 76/1     | GPO[5]                     | LOCATED    | LVCMOS25_OUT  | PR18A | DQ1            |           |           |
-| 77/1     | GPO[6]                     | LOCATED    | LVCMOS25_OUT  | PR16B | DQ1            |           |           |
-| 78/1     | GPO[7]                     | LOCATED    | LVCMOS25_OUT  | PR16A | DQ1            |           |           |
+| 73/1     | FlexLIO[0]                 | LOCATED    | LVCMOS18_IN   | PR19B | DQ1            |           |           |
+| 74/1     | FlexLIO[1]                 | LOCATED    | LVCMOS18_IN   | PR19A | DQ1            |           |           |
+| 75/1     | FlexLIO[2]                 | LOCATED    | LVCMOS18_IN   | PR18B | DQ1            |           |           |
+| 76/1     | FlexLIO[3]                 | LOCATED    | LVCMOS18_IN   | PR18A | DQ1            |           |           |
+| 77/1     | FlexLIO[4]                 | LOCATED    | LVCMOS18_IN   | PR16B | DQ1            |           |           |
+| 78/1     | FlexLIO[5]                 | LOCATED    | LVCMOS18_IN   | PR16A | DQ1            |           |           |
 | 81/1     | DIGS3C_SlotD_SlotOK[5]     | LOCATED    | LVCMOS18_IN   | PR15B | DQ1            |           |           |
 | 82/1     | DIGS3C_SlotD_ReqOE[5]      | LOCATED    | LVCMOS18_IN   | PR15A | DQ1            |           |           |
 | 83/1     | DIGS3C_SlotD_SlotOK[4]     | LOCATED    | LVCMOS18_IN   | PR14B | DQ1            |           |           |
@@ -241,7 +242,7 @@ Vccio by Bank:
 | 113/0    | FPIO_FlexMIO28             | LOCATED    | LVCMOS33_BIDI | PT25B |                |           |           |
 | 114/0    | FPIO_ExternalStop          | LOCATED    | LVCMOS33_IN   | PT25A |                |           |           |
 | 115/0    | Carrier_PG_3V3             | LOCATED    | LVCMOS33_OUT  | PT24B |                |           |           |
-| 117/0    | FPIO_iosCtrlINTn           | LOCATED    | LVCMOS33_IN   | PT24A |                |           |           |
+| 117/0    | FPIO_isoCtrlINTn           | LOCATED    | LVCMOS33_IN   | PT24A |                |           |           |
 | 119/0    | FPIO_isoCtrlRSTn           | LOCATED    | LVCMOS33_OUT  | PT23D | PROGRAMN       |           |           |
 | 120/0    | Reserved: sysCONFIG        |            |               | PT23C | JTAGENB        |           |           |
 | 121/0    | SysSW_Pwr_NC               | LOCATED    | LVCMOS33_IN   | PT21B |                |           |           |
@@ -252,13 +253,13 @@ Vccio by Bank:
 | 128/0    | FP_UsrSW1                  | LOCATED    | LVCMOS33_IN   | PT18A | PCLKT0_1       |           |           |
 | 130/0    |     unused, PULL:DOWN      |            |               | PT15D | TMS            |           |           |
 | 131/0    |     unused, PULL:DOWN      |            |               | PT15C | TCK            |           |           |
-| 132/0    | GPO[0]                     | LOCATED    | LVCMOS25_OUT  | PT14B |                |           |           |
-| 133/0    | GPO[1]                     | LOCATED    | LVCMOS25_OUT  | PT14A |                |           |           |
+| 132/0    | FlexIO01                   | LOCATED    | LVCMOS33_OUT  | PT14B |                |           |           |
+| 133/0    | FlexIO02                   | LOCATED    | LVCMOS33_OUT  | PT14A |                |           |           |
 | 136/0    |     unused, PULL:DOWN      |            |               | PT13D | TDI            |           |           |
 | 137/0    |     unused, PULL:DOWN      |            |               | PT13C | TDO            |           |           |
-| 138/0    | GPI[0]                     | LOCATED    | LVCMOS25_IN   | PT11B |                |           |           |
-| 139/0    | GPI[1]                     | LOCATED    | LVCMOS25_IN   | PT11A |                |           |           |
-| 140/0    | GPO[2]                     | LOCATED    | LVCMOS25_OUT  | PT10B |                |           |           |
+| 138/0    | FlexIO03                   | LOCATED    | LVCMOS33_IN   | PT11B |                |           |           |
+| 139/0    | FlexIO04                   | LOCATED    | LVCMOS33_IN   | PT11A |                |           |           |
+| 140/0    | FlexIO05                   | LOCATED    | LVCMOS33_OUT  | PT10B |                |           |           |
 | 141/0    | FP_SysLEDg                 | LOCATED    | LVCMOS33_OUT  | PT10A |                |           |           |
 | 142/0    | FP_SysLEDr                 | LOCATED    | LVCMOS33_OUT  | PT9B  |                |           |           |
 | 143/0    | FP_SysLEDb                 | LOCATED    | LVCMOS33_OUT  | PT9A  |                |           |           |
@@ -453,6 +454,7 @@ LOCATE  COMP  "ANL_S3C_P54_Legacy"  SITE  "13";
 LOCATE  COMP  "ANL_S3C_SLOTOK[1]"  SITE  "23";
 LOCATE  COMP  "ANL_S3C_SLOTOK[2]"  SITE  "22";
 LOCATE  COMP  "ANL_S3C_SLOTOK[3]"  SITE  "21";
+LOCATE  COMP  "ANL_VIN_FLT"  SITE  "42";
 LOCATE  COMP  "Carrier_PG_1V8"  SITE  "107";
 LOCATE  COMP  "Carrier_PG_3V3"  SITE  "115";
 LOCATE  COMP  "Carrier_PwrOn"  SITE  "1";
@@ -491,7 +493,7 @@ LOCATE  COMP  "FPIO_FlexMIO28"  SITE  "113";
 LOCATE  COMP  "FPIO_FlexMIO29"  SITE  "110";
 LOCATE  COMP  "FPIO_FlexMIO30"  SITE  "111";
 LOCATE  COMP  "FPIO_FlexMIO52"  SITE  "109";
-LOCATE  COMP  "FPIO_iosCtrlINTn"  SITE  "117";
+LOCATE  COMP  "FPIO_isoCtrlINTn"  SITE  "117";
 LOCATE  COMP  "FPIO_isoCtrlRSTn"  SITE  "119";
 LOCATE  COMP  "FP_SysLEDb"  SITE  "143";
 LOCATE  COMP  "FP_SysLEDg"  SITE  "141";
@@ -504,6 +506,22 @@ LOCATE  COMP  "FP_UsrLED[4]"  SITE  "98";
 LOCATE  COMP  "FP_UsrSW1"  SITE  "128";
 LOCATE  COMP  "FP_UsrSW2"  SITE  "127";
 LOCATE  COMP  "FP_UsrSW3"  SITE  "122";
+LOCATE  COMP  "FlexIO01"  SITE  "132";
+LOCATE  COMP  "FlexIO02"  SITE  "133";
+LOCATE  COMP  "FlexIO03"  SITE  "138";
+LOCATE  COMP  "FlexIO04"  SITE  "139";
+LOCATE  COMP  "FlexIO05"  SITE  "140";
+LOCATE  COMP  "FlexLIO[0]"  SITE  "73";
+LOCATE  COMP  "FlexLIO[1]"  SITE  "74";
+LOCATE  COMP  "FlexLIO[2]"  SITE  "75";
+LOCATE  COMP  "FlexLIO[3]"  SITE  "76";
+LOCATE  COMP  "FlexLIO[4]"  SITE  "77";
+LOCATE  COMP  "FlexLIO[5]"  SITE  "78";
+LOCATE  COMP  "FlexMIOs26"  SITE  "60";
+LOCATE  COMP  "FlexMIOs27"  SITE  "59";
+LOCATE  COMP  "FlexMIOs28"  SITE  "58";
+LOCATE  COMP  "FlexMIOs29"  SITE  "57";
+LOCATE  COMP  "FlexMIOs30"  SITE  "56";
 LOCATE  COMP  "FlexMIOs31"  SITE  "55";
 LOCATE  COMP  "FlexMIOs32"  SITE  "69";
 LOCATE  COMP  "FlexMIOs33"  SITE  "68";
@@ -518,22 +536,6 @@ LOCATE  COMP  "FlexMIOs54"  SITE  "49";
 LOCATE  COMP  "FlexMIOs62"  SITE  "52";
 LOCATE  COMP  "FlexMIOs63"  SITE  "54";
 LOCATE  COMP  "FlexMio61ExternalStop"  SITE  "50";
-LOCATE  COMP  "GPI[0]"  SITE  "138";
-LOCATE  COMP  "GPI[1]"  SITE  "139";
-LOCATE  COMP  "GPI[2]"  SITE  "60";
-LOCATE  COMP  "GPI[3]"  SITE  "59";
-LOCATE  COMP  "GPI[4]"  SITE  "58";
-LOCATE  COMP  "GPI[5]"  SITE  "57";
-LOCATE  COMP  "GPI[6]"  SITE  "56";
-LOCATE  COMP  "GPI[7]"  SITE  "73";
-LOCATE  COMP  "GPO[0]"  SITE  "132";
-LOCATE  COMP  "GPO[1]"  SITE  "133";
-LOCATE  COMP  "GPO[2]"  SITE  "140";
-LOCATE  COMP  "GPO[3]"  SITE  "74";
-LOCATE  COMP  "GPO[4]"  SITE  "75";
-LOCATE  COMP  "GPO[5]"  SITE  "76";
-LOCATE  COMP  "GPO[6]"  SITE  "77";
-LOCATE  COMP  "GPO[7]"  SITE  "78";
 LOCATE  COMP  "PG_Module"  SITE  "9";
 LOCATE  COMP  "PG_VIN"  SITE  "2";
 LOCATE  COMP  "PPn_VIN"  SITE  "3";
@@ -561,7 +563,7 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
-Wed May 07 14:58:20 2025
+Thu May 08 10:07:24 2025
 
 
 

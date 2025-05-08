@@ -1,6 +1,6 @@
 NOTE Copyright (C), 1992-2010, Lattice Semiconductor Corporation *
 NOTE All Rights Reserved *
-NOTE DATE CREATED: Wed May 07 14:58:36 2025 *
+NOTE DATE CREATED: Thu May 08 10:07:39 2025 *
 NOTE DESIGN NAME: Waiting_for_Powerbutton_pressed_V0 *
 NOTE DEVICE NAME: LCMXO2-4000HC-4TQFP144 *
 NOTE PIN ASSIGNMENTS *
@@ -17,6 +17,11 @@ NOTE PINS FlexMIOs54 : 49 : inout *
 NOTE PINS FlexMIOs62 : 52 : inout *
 NOTE PINS FlexMIOs63 : 54 : inout *
 NOTE PINS FlexMIOs31 : 55 : inout *
+NOTE PINS FlexMIOs30 : 56 : inout *
+NOTE PINS FlexMIOs29 : 57 : inout *
+NOTE PINS FlexMIOs28 : 58 : inout *
+NOTE PINS FlexMIOs27 : 59 : inout *
+NOTE PINS FlexMIOs26 : 60 : inout *
 NOTE PINS FlexMIOs37 : 62 : inout *
 NOTE PINS FlexMIOs36 : 63 : inout *
 NOTE PINS FlexMIOs35 : 65 : inout *
@@ -35,6 +40,9 @@ NOTE PINS DIG5S3C27 : 35 : inout *
 NOTE PINS FP_SysLEDg : 141 : out *
 NOTE PINS FP_SysLEDr : 142 : out *
 NOTE PINS FP_SysLEDb : 143 : out *
+NOTE PINS FlexIO05 : 140 : out *
+NOTE PINS FlexIO02 : 133 : out *
+NOTE PINS FlexIO01 : 132 : out *
 NOTE PINS FPIO_isoCtrlRSTn : 119 : out *
 NOTE PINS Carrier_PG_3V3 : 115 : out *
 NOTE PINS FPIO_FlexMIO52 : 109 : out *
@@ -56,19 +64,13 @@ NOTE PINS DIGS3C_SlotD_SlotOE[3] : 17 : out *
 NOTE PINS DIGS3C_SlotD_SlotOE[2] : 19 : out *
 NOTE PINS DIGS3C_SlotD_SlotOE[1] : 20 : out *
 NOTE PINS Carrier_PwrOn : 1 : out *
-NOTE PINS GPO[7] : 78 : out *
-NOTE PINS GPO[6] : 77 : out *
-NOTE PINS GPO[5] : 76 : out *
-NOTE PINS GPO[4] : 75 : out *
-NOTE PINS GPO[3] : 74 : out *
-NOTE PINS GPO[2] : 140 : out *
-NOTE PINS GPO[1] : 133 : out *
-NOTE PINS GPO[0] : 132 : out *
+NOTE PINS FlexIO04 : 139 : in *
+NOTE PINS FlexIO03 : 138 : in *
 NOTE PINS FP_UsrSW1 : 128 : in *
 NOTE PINS FP_UsrSW2 : 127 : in *
 NOTE PINS FP_UsrSW3 : 122 : in *
 NOTE PINS SysSW_Pwr_NC : 121 : in *
-NOTE PINS FPIO_iosCtrlINTn : 117 : in *
+NOTE PINS FPIO_isoCtrlINTn : 117 : in *
 NOTE PINS FPIO_ExternalStop : 114 : in *
 NOTE PINS S3CsI2C_SDA : 106 : in *
 NOTE PINS S3CsI2C_SCL : 105 : in *
@@ -85,6 +87,13 @@ NOTE PINS DIGS3C_SlotD_SlotOK[4] : 83 : in *
 NOTE PINS DIGS3C_SlotD_SlotOK[3] : 85 : in *
 NOTE PINS DIGS3C_SlotD_SlotOK[2] : 87 : in *
 NOTE PINS DIGS3C_SlotD_SlotOK[1] : 91 : in *
+NOTE PINS FlexLIO[5] : 78 : in *
+NOTE PINS FlexLIO[4] : 77 : in *
+NOTE PINS FlexLIO[3] : 76 : in *
+NOTE PINS FlexLIO[2] : 75 : in *
+NOTE PINS FlexLIO[1] : 74 : in *
+NOTE PINS FlexLIO[0] : 73 : in *
+NOTE PINS ANL_VIN_FLT : 42 : in *
 NOTE PINS FlexMIOs52_PCIe : 47 : in *
 NOTE PINS FlexMIOs45 : 61 : in *
 NOTE PINS ANL_S3C_SLOTOK[3] : 21 : in *
@@ -98,14 +107,6 @@ NOTE PINS TDnSHDN : 4 : in *
 NOTE PINS TDnFFnFS : 5 : in *
 NOTE PINS TDnALERT : 6 : in *
 NOTE PINS S3C_S1 : 10 : in *
-NOTE PINS GPI[7] : 73 : in *
-NOTE PINS GPI[6] : 56 : in *
-NOTE PINS GPI[5] : 57 : in *
-NOTE PINS GPI[4] : 58 : in *
-NOTE PINS GPI[3] : 59 : in *
-NOTE PINS GPI[2] : 60 : in *
-NOTE PINS GPI[1] : 139 : in *
-NOTE PINS GPI[0] : 138 : in *
 NOTE PINS SYSCONFIG_PIN_MCLK : 44 : inout *
 NOTE PINS SYSCONFIG_PIN_SO : 45 : inout *
 NOTE PINS SYSCONFIG_PIN_SN : 70 : in *

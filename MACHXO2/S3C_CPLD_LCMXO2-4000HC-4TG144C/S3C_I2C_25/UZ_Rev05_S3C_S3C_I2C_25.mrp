@@ -17,7 +17,7 @@ Target Vendor:  LATTICE
 Target Device:  LCMXO2-4000HCTQFP144
 Target Performance:   4
 Mapper:  xo2c00,  version:  Diamond (64-bit) 3.13.0.56.2
-Mapped on:  05/08/25  10:07:15
+Mapped on:  05/08/25  17:32:53
 
 Design Summary
 --------------
@@ -66,7 +66,7 @@ Design Summary
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  10:07:15
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  17:32:54
 
 Design Summary (cont)
 ---------------------
@@ -132,7 +132,7 @@ Design Summary (cont)
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  10:07:15
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  17:32:54
 
  (cont)
 -------
@@ -198,7 +198,7 @@ IO (PIO) Attributes
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  10:07:15
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  17:32:54
 
 IO (PIO) Attributes (cont)
 --------------------------
@@ -264,7 +264,7 @@ IO (PIO) Attributes (cont)
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  10:07:15
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  17:32:54
 
 IO (PIO) Attributes (cont)
 --------------------------
@@ -330,7 +330,7 @@ IO (PIO) Attributes (cont)
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  10:07:15
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  17:32:54
 
 IO (PIO) Attributes (cont)
 --------------------------
@@ -396,7 +396,7 @@ IO (PIO) Attributes (cont)
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  10:07:15
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  17:32:54
 
 IO (PIO) Attributes (cont)
 --------------------------
@@ -462,7 +462,7 @@ Signal add_4441_20/S0 undriven or does not drive anything - clipped.
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  10:07:15
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  17:32:54
 
 Removed logic (cont)
 --------------------
@@ -528,7 +528,7 @@ Signal add_4443_10/S0 undriven or does not drive anything - clipped.
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  10:07:15
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  17:32:54
 
 Removed logic (cont)
 --------------------
@@ -594,7 +594,7 @@ Signal add_806_25/CO undriven or does not drive anything - clipped.
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  10:07:15
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  17:32:54
 
 Removed logic (cont)
 --------------------
@@ -660,7 +660,7 @@ Embedded Functional Block Connection Summary
 
 
 
-Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  10:07:15
+Design:  Waiting_for_Powerbutton_pressed_V0            Date:  05/08/25  17:32:54
 
 Embedded Functional Block Connection Summary (cont)
 ---------------------------------------------------
@@ -684,9 +684,9 @@ Instance Name: OSCInst0
 Run Time and Memory Usage
 -------------------------
 
-   Total CPU Time: 1 secs  
-   Total REAL Time: 2 secs  
-   Peak Memory Usage: 58 MB
+   Total CPU Time: 2 secs  
+   Total REAL Time: 3 secs  
+   Peak Memory Usage: 59 MB
         
 
 

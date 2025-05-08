@@ -1,6 +1,6 @@
 --------------------------------------------------------------------------------
 Lattice Synthesis Timing Report, Version  
-Thu May 08 10:07:14 2025
+Thu May 08 17:32:52 2025
 
 Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
 Copyright (c) 1995 AT&T Corp.   All rights reserved.
@@ -215,5 +215,5 @@ Timing errors: 3947  Score: 32701507
 Constraints cover  16215 paths, 931 nets, and 2547 connections (91.9% coverage)
 
 
-Peak memory: 96743424 bytes, TRCE: 6594560 bytes, DLYMAN: 163840 bytes
+Peak memory: 96526336 bytes, TRCE: 6393856 bytes, DLYMAN: 163840 bytes
 CPU_TIME_REPORT: 0 secs 

@@ -1,0 +1,539 @@
+<HTML>
+<HEAD><TITLE>Project Summary</TITLE>
+<STYLE TYPE="text/css">
+<!--
+ body,pre{    font-family:'Courier New', monospace;    color: #000000;    font-size:88%;    background-color: #ffffff;}h1 {    font-weight: bold;    margin-top: 24px;    margin-bottom: 10px;    border-bottom: 3px solid #000;    font-size: 1em;}h2 {    font-weight: bold;    margin-top: 18px;    margin-bottom: 5px;    font-size: 0.90em;}h3 {    font-weight: bold;    margin-top: 12px;    margin-bottom: 5px;    font-size: 0.80em;}p {    font-size:78%;}P.Table {    margin-top: 4px;    margin-bottom: 4px;    margin-right: 4px;    margin-left: 4px;}table{    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    border-collapse: collapse;}th {    font-weight:bold;    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    text-align:left;    font-size:78%;}td {    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    font-size:78%;}a {    color:#013C9A;    text-decoration:none;}a:visited {    color:#013C9A;}a:hover, a:active {    text-decoration:underline;    color:#5BAFD4;}.pass{background-color: #00ff00;}.fail{background-color: #ff0000;}.comment{    font-size: 90%;    font-style: italic;}
+-->
+</STYLE>
+</HEAD>
+<PRE><A name="Mrp"></A>
+         Lattice Mapping Report File for Design Module 'SignalRouter'
+
+
+
+<A name="mrp_di"></A><B><U><big>Design Information</big></U></B>
+
+Command line:   map -a MachXO2 -p LCMXO2-2000HC -t TQFP100 -s 4 -oc Commercial
+     uz_d_slots_uz_d_abs_encoder_ssi_rev01.ngd -o
+     uz_d_slots_uz_d_abs_encoder_ssi_rev01_map.ncd -pr
+     uz_d_slots_uz_d_abs_encoder_ssi_rev01.prf -mp
+     uz_d_slots_uz_d_abs_encoder_ssi_rev01.mrp -lpf C:/git/cpld_lattice/MACHXO2/
+     D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_abs_encoder_ssi_rev01/uz_
+     d_slots_uz_d_abs_encoder_ssi_rev01.lpf -lpf C:/git/cpld_lattice/MACHXO2/D_S
+     lot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_abs_encoder_ssi_rev01/source
+     /uz_d_slots.lpf -c 0 -gui -msgset C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_L
+     CMXO2-2000HC-4TG100C/uz_d_slots/promote.xml 
+Target Vendor:  LATTICE
+Target Device:  LCMXO2-2000HCTQFP100
+Target Performance:   4
+Mapper:  xo2c00,  version:  Diamond (64-bit) 3.14.0.75.2
+Mapped on:  05/19/25  11:01:03
+
+
+<A name="mrp_ds"></A><B><U><big>Design Summary</big></U></B>
+   Number of registers:      0 out of  2352 (0%)
+      PFU registers:            0 out of  2112 (0%)
+      PIO registers:            0 out of   240 (0%)
+   Number of SLICEs:         2 out of  1056 (0%)
+      SLICEs as Logic/ROM:      2 out of  1056 (0%)
+      SLICEs as RAM:            0 out of   792 (0%)
+      SLICEs as Carry:          0 out of  1056 (0%)
+   Number of LUT4s:          3 out of  2112 (0%)
+      Number used as logic LUTs:          3
+      Number used as distributed RAM:     0
+      Number used as ripple logic:        0
+      Number used as shift registers:     0
+   Number of PIO sites used: 31 + 4(JTAG) out of 80 (44%)
+   Number of block RAMs:  0 out of 8 (0%)
+   Number of GSRs:        0 out of 1 (0%)
+   EFB used :        No
+   JTAG used :       No
+   Readback used :   No
+   Oscillator used : No
+   Startup used :    No
+   POR :             On
+   Bandgap :         On
+   Number of Power Controller:  0 out of 1 (0%)
+   Number of Dynamic Bank Controller (BCINRD):  0 out of 6 (0%)
+   Number of Dynamic Bank Controller (BCLVDSO):  0 out of 1 (0%)
+   Number of DCCA:  0 out of 8 (0%)
+   Number of DCMA:  0 out of 2 (0%)
+   Number of PLLs:  0 out of 1 (0%)
+   Number of DQSDLLs:  0 out of 2 (0%)
+   Number of CLKDIVC:  0 out of 4 (0%)
+   Number of ECLKSYNCA:  0 out of 4 (0%)
+   Number of ECLKBRIDGECS:  0 out of 2 (0%)
+   Notes:-
+      1. Total number of LUT4s = (Number of logic LUT4s) + 2*(Number of
+     distributed RAMs) + 2*(Number of ripple logic)
+      2. Number of logic LUT4s does not include count of distributed RAM and
+
+     ripple logic.
+   Number of clocks:  0
+   Number of Clock Enables:  0
+   Number of LSRs:  0
+   Number of nets driven by tri-state buffers:  0
+   Top 10 highest fanout non-clock nets:
+     Net fpga_06_c_c: 1 loads
+     Net fpga_07_c_c: 1 loads
+     Net fpga_26_c: 1 loads
+     Net fpga_27_c: 1 loads
+     Net fpga_28_c: 1 loads
+     Net fpga_29_c: 1 loads
+     Net n6: 1 loads
+     Net reqsafestate_c: 1 loads
+     Net slotok_c: 1 loads
+     Net VCC_net: 1 loads
+
+
+
+
+   Number of warnings:  99
+   Number of errors:    0
+     
+
+
+
+
+<A name="mrp_dwe"></A><B><U><big>Design Errors/Warnings</big></U></B>
+
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(5): Semantic error
+     in "IOBUF PORT "fpga_09" IO_TYPE=LVCMOS18 ;": Port "fpga_09" does not exist
+     in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(7): Semantic error
+     in "IOBUF PORT "fpga_12" IO_TYPE=LVCMOS18 ;": Port "fpga_12" does not exist
+     in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(8): Semantic error
+     in "IOBUF PORT "fpga_13" IO_TYPE=LVCMOS18 ;": Port "fpga_13" does not exist
+     in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(14): Semantic
+     error in "IOBUF PORT "fpga_19" IO_TYPE=LVCMOS18 ;": Port "fpga_19" does not
+     exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(16): Semantic
+     error in "IOBUF PORT "fpga_21" IO_TYPE=LVCMOS18 ;": Port "fpga_21" does not
+     exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(19): Semantic
+     error in "IOBUF PORT "fpga_24" IO_TYPE=LVCMOS18 ;": Port "fpga_24" does not
+     exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(20): Semantic
+     error in "IOBUF PORT "fpga_25" IO_TYPE=LVCMOS18 ;": Port "fpga_25" does not
+     exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(25): Semantic
+     error in "IOBUF PORT "fpga_00" IO_TYPE=LVCMOS18 ;": Port "fpga_00" does not
+     exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(26): Semantic
+     error in "IOBUF PORT "fpga_01" IO_TYPE=LVCMOS18 ;": Port "fpga_01" does not
+     exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(27): Semantic
+     error in "IOBUF PORT "fpga_02" IO_TYPE=LVCMOS18 ;": Port "fpga_02" does not
+     exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(28): Semantic
+     error in "IOBUF PORT "fpga_03" IO_TYPE=LVCMOS18 ;": Port "fpga_03" does not
+     exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(29): Semantic
+     error in "IOBUF PORT "fpga_04" IO_TYPE=LVCMOS18 ;": Port "fpga_04" does not
+     exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(30): Semantic
+     error in "IOBUF PORT "fpga_05" IO_TYPE=LVCMOS18 ;": Port "fpga_05" does not
+     exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(33): Semantic
+     error in "IOBUF PORT "fpga_08" IO_TYPE=LVCMOS18 ;": Port "fpga_08" does not
+     exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(36): Semantic
+     error in "IOBUF PORT "d_13" IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_13"
+     does not exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(38): Semantic
+     error in "IOBUF PORT "d_15" IO_TYPE=LVCMOS33 ;": Port "d_15" does not exist
+     in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(41): Semantic
+     error in "IOBUF PORT "d_18" IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_18"
+     does not exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(42): Semantic
+     error in "IOBUF PORT "d_19" IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_19"
+     does not exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(43): Semantic
+     error in "IOBUF PORT "d_20" IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_20"
+     does not exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(44): Semantic
+     error in "IOBUF PORT "d_21" IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_21"
+     does not exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(45): Semantic
+     error in "IOBUF PORT "d_22" IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_22"
+     does not exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(46): Semantic
+     error in "IOBUF PORT "d_23" IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_23"
+     does not exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(47): Semantic
+     error in "IOBUF PORT "d_24" IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_24"
+     does not exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(48): Semantic
+     error in "IOBUF PORT "d_25" IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_25"
+     does not exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(49): Semantic
+     error in "IOBUF PORT "d_26" IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_26"
+     does not exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(50): Semantic
+     error in "IOBUF PORT "d_27" IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_27"
+     does not exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(51): Semantic
+     error in "IOBUF PORT "d_28" IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_28"
+     does not exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(52): Semantic
+     error in "IOBUF PORT "d_29" IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_29"
+     does not exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(55): Semantic
+     error in "IOBUF PORT "d_02" IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_02"
+     does not exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(56): Semantic
+     error in "IOBUF PORT "d_03" IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_03"
+     does not exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(59): Semantic
+     error in "IOBUF PORT "d_06" IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_06"
+     does not exist in the design. This preference has been disabled.
+WARNING - map: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_
+     d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf(60): Semantic
+     error in "IOBUF PORT "d_07" IO_TYPE=LVCMOS33 SLEWRATE=SLOW ;": Port "d_07"
+     does not exist in the design. This preference has been disabled.
+WARNING - map: SLEWRATE=SLOW for fpga_06_c_pad/IOBUF violates legal combination
+     and is ignored.
+WARNING - map: SLEWRATE=SLOW for fpga_07_c_pad/IOBUF violates legal combination
+     and is ignored.
+WARNING - map: SLEWRATE=SLOW for fpga_18_c_pad/IOBUF violates legal combination
+     and is ignored.
+WARNING - map: input pad net 'fpga_00' has no legal load.
+WARNING - map: input pad net 'fpga_01' has no legal load.
+WARNING - map: input pad net 'fpga_02' has no legal load.
+WARNING - map: input pad net 'fpga_03' has no legal load.
+WARNING - map: input pad net 'fpga_04' has no legal load.
+WARNING - map: input pad net 'fpga_05' has no legal load.
+WARNING - map: input pad net 'fpga_08' has no legal load.
+
+WARNING - map: input pad net 'fpga_09' has no legal load.
+WARNING - map: input pad net 'fpga_12' has no legal load.
+WARNING - map: input pad net 'fpga_13' has no legal load.
+WARNING - map: input pad net 'fpga_19' has no legal load.
+WARNING - map: input pad net 'fpga_21' has no legal load.
+WARNING - map: input pad net 'fpga_24' has no legal load.
+WARNING - map: input pad net 'fpga_25' has no legal load.
+WARNING - map: input pad net 'd_02' has no legal load.
+WARNING - map: input pad net 'd_03' has no legal load.
+WARNING - map: input pad net 'd_06' has no legal load.
+WARNING - map: input pad net 'd_07' has no legal load.
+WARNING - map: input pad net 'd_13' has no legal load.
+WARNING - map: input pad net 'd_15' has no legal load.
+WARNING - map: input pad net 'd_18' has no legal load.
+WARNING - map: input pad net 'd_19' has no legal load.
+WARNING - map: input pad net 'd_20' has no legal load.
+WARNING - map: input pad net 'd_21' has no legal load.
+WARNING - map: input pad net 'd_22' has no legal load.
+WARNING - map: input pad net 'd_23' has no legal load.
+WARNING - map: input pad net 'd_24' has no legal load.
+WARNING - map: input pad net 'd_25' has no legal load.
+WARNING - map: input pad net 'd_26' has no legal load.
+WARNING - map: input pad net 'd_27' has no legal load.
+WARNING - map: input pad net 'd_28' has no legal load.
+WARNING - map: input pad net 'd_29' has no legal load.
+WARNING - map: IO buffer missing for top level port fpga_00...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port fpga_01...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port fpga_02...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port fpga_03...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port fpga_04...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port fpga_05...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port fpga_08...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port fpga_09...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port fpga_12...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port fpga_13...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port fpga_19...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port fpga_21...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port fpga_24...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port fpga_25...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port d_02...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port d_03...logic will be
+
+     discarded.
+WARNING - map: IO buffer missing for top level port d_06...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port d_07...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port d_13...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port d_15...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port d_18...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port d_19...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port d_20...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port d_21...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port d_22...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port d_23...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port d_24...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port d_25...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port d_26...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port d_27...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port d_28...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port d_29...logic will be
+     discarded.
+
+
+
+<A name="mrp_ioa"></A><B><U><big>IO (PIO) Attributes</big></U></B>
+
++---------------------+-----------+-----------+------------+
+| IO Name             | Direction | Levelmode | IO         |
+|                     |           |  IO_TYPE  | Register   |
++---------------------+-----------+-----------+------------+
+| slotok              | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| reqoe               | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_06             | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_07             | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_18             | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| d_04                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| d_05                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| d_08                | OUTPUT    | LVCMOS33  |            |
+
++---------------------+-----------+-----------+------------+
+| d_09                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| d_10                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| d_11                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| d_14                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| d_16                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| d_17                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| reqsafestate        | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_10             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_11             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_14             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_15             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_16             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_17             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_20             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_22             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_23             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_26             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_27             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_28             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_29             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| d_00                | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| d_01                | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| d_12                | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+
+
+
+<A name="mrp_rm"></A><B><U><big>Removed logic</big></U></B>
+
+Block GSR_INST undriven or does not drive anything - clipped.
+Block i57 undriven or does not drive anything - clipped.
+Block i2c_sda_pad undriven or does not drive anything - clipped.
+Block i2c_scl_pad undriven or does not drive anything - clipped.
+Block carrierrdy_pad undriven or does not drive anything - clipped.
+
+Block pilot_in_pad undriven or does not drive anything - clipped.
+Block i3_4_lut undriven or does not drive anything - clipped.
+Signal GND_net undriven or does not drive anything - clipped.
+Signal i2c_sda undriven or does not drive anything - clipped.
+Signal i2c_scl undriven or does not drive anything - clipped.
+Signal carrierrdy undriven or does not drive anything - clipped.
+Signal pilot_in undriven or does not drive anything - clipped.
+Signal dummy_signal undriven or does not drive anything - clipped.
+Signal i2c_sda_c undriven or does not drive anything - clipped.
+Signal carrierrdy_c undriven or does not drive anything - clipped.
+Signal pilot_in_c undriven or does not drive anything - clipped.
+Signal i2c_scl_c undriven or does not drive anything - clipped.
+
+     
+
+
+
+<A name="mrp_runtime"></A><B><U><big>Run Time and Memory Usage</big></U></B>
+-------------------------
+
+   Total CPU Time: 0 secs  
+   Total REAL Time: 0 secs  
+   Peak Memory Usage: 44 MB
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+     Copyright (c) 1995 AT&T Corp.   All rights reserved.
+     Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+     Copyright (c) 2001 Agere Systems   All rights reserved.
+     Copyright (c) 2002-2024 Lattice Semiconductor Corporation,  All rights
+     reserved.
+
+
+
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+</PRE></FONT>
+</BODY>
+</HTML>

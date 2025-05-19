@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<BaliProject version="3.2" title="uz_d_slots" device="LCMXO2-2000HC-4TG100C" default_implementation="template_dslots">
+<BaliProject version="3.2" title="uz_d_slots" device="LCMXO2-2000HC-4TG100C" default_implementation="uz_d_abs_encoder_ssi_rev01">
     <Options/>
     <Implementation title="optical_14tx_4rx" dir="optical_14tx_4rx" description="optical_14tx_4rx" synthesis="lse" default_strategy="Strategy1">
         <Options def_top="SignalRouter"/>
@@ -52,6 +52,15 @@
             <Options top_module="SignalRouter"/>
         </Source>
         <Source name="uz_d_3ph_inverter/source/uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="uz_d_abs_encoder_ssi_rev01" dir="uz_d_abs_encoder_ssi_rev01" description="uz_d_abs_encoder_ssi_rev01" synthesis="lse" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="uz_d_abs_encoder_ssi_rev01/source/uz_d_abs_encoder_ssi_rev01.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
             <Options/>
         </Source>
     </Implementation>

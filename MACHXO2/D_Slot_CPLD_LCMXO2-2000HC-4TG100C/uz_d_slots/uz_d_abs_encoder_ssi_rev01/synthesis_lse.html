@@ -14,10 +14,10 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2024 Lattice Semiconductor Corporation,  All rights reserved.
-Fri Nov 01 16:21:56 2024
+Mon May 19 11:00:59 2025
 
 
-Command Line:  synthesis -f uz_d_slots_uz_d_3ph_inverter_lattice.synproj -gui -msgset C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/promote.xml 
+Command Line:  synthesis -f uz_d_slots_uz_d_abs_encoder_ssi_rev01_lattice.synproj -gui -msgset C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/promote.xml 
 
 Synthesis options:
 The -a option is MachXO2.
@@ -71,11 +71,11 @@ RAM style = auto
 The -comp option is FALSE.
 The -syn option is FALSE.
 -p C:/lscc/diamond/3.14/ispfpga/xo2c00/data (searchpath added)
--p C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_3ph_inverter (searchpath added)
+-p C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_abs_encoder_ssi_rev01 (searchpath added)
 -p C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots (searchpath added)
 VHDL library = work
-VHDL design file = C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_3ph_inverter.vhdl
-NGD file = uz_d_slots_uz_d_3ph_inverter.ngd
+VHDL design file = C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_abs_encoder_ssi_rev01.vhdl
+NGD file = uz_d_slots_uz_d_abs_encoder_ssi_rev01.ngd
 -sdc option: SDC file input not used.
 -lpf option: Output file option is ON.
 Hardtimer checking is enabled (default). The -dt option is not used.
@@ -85,15 +85,15 @@ Technology check ok...
 Analyzing Verilog file C:/lscc/diamond/3.14/ispfpga/userware/NT/SYNTHESIS_HEADERS/machxo2.v. VERI-1482
 Compile design.
 Compile Design Begin
-INFO - synthesis: The default VHDL library search path is now "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_3ph_inverter". VHDL-1504
-Analyzing VHDL file c:/git/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/uz_d_3ph_inverter.vhdl. VHDL-1481
-INFO - synthesis: c:/git/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/uz_d_3ph_inverter.vhdl(5): analyzing entity signalrouter. VHDL-1012
-INFO - synthesis: c:/git/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/uz_d_3ph_inverter.vhdl(73): analyzing architecture behavioral. VHDL-1010
+INFO - synthesis: The default VHDL library search path is now "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_abs_encoder_ssi_rev01". VHDL-1504
+Analyzing VHDL file c:/git/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_abs_encoder_ssi_rev01.vhdl. VHDL-1481
+INFO - synthesis: c:/git/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_abs_encoder_ssi_rev01.vhdl(5): analyzing entity signalrouter. VHDL-1012
+INFO - synthesis: c:/git/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_abs_encoder_ssi_rev01.vhdl(93): analyzing architecture behavioral. VHDL-1010
 unit SignalRouter is not yet analyzed. VHDL-1485
 unit SignalRouter is not yet analyzed. VHDL-1485
-c:/git/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/uz_d_3ph_inverter.vhdl(5): executing SignalRouter(Behavioral)
+c:/git/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_abs_encoder_ssi_rev01.vhdl(5): executing SignalRouter(Behavioral)
 
-WARNING - synthesis: c:/git/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/uz_d_3ph_inverter.vhdl(71): replacing existing netlist SignalRouter(Behavioral). VHDL-1205
+WARNING - synthesis: c:/git/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_abs_encoder_ssi_rev01.vhdl(91): replacing existing netlist SignalRouter(Behavioral). VHDL-1205
 Top module name (VHDL): SignalRouter
 Loading NGL library 'C:/lscc/diamond/3.14/ispfpga/xo2c00a/data/xo2alib.ngl'...
 Loading NGL library 'C:/lscc/diamond/3.14/ispfpga/xo2c00/data/xo2clib.ngl'...
@@ -128,10 +128,6 @@ WARNING - synthesis: I/O Port fpga_22 's net has no driver and is unused.
 WARNING - synthesis: I/O Port fpga_23 's net has no driver and is unused.
 WARNING - synthesis: I/O Port fpga_24 's net has no driver and is unused.
 WARNING - synthesis: I/O Port fpga_25 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_26 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_27 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_28 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_29 's net has no driver and is unused.
 WARNING - synthesis: I/O Port d_00 's net has no driver and is unused.
 WARNING - synthesis: I/O Port d_01 's net has no driver and is unused.
 WARNING - synthesis: I/O Port d_02 's net has no driver and is unused.
@@ -191,10 +187,6 @@ WARNING - synthesis: I/O Port fpga_22 's net has no driver and is unused.
 WARNING - synthesis: I/O Port fpga_23 's net has no driver and is unused.
 WARNING - synthesis: I/O Port fpga_24 's net has no driver and is unused.
 WARNING - synthesis: I/O Port fpga_25 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_26 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_27 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_28 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_29 's net has no driver and is unused.
 WARNING - synthesis: I/O Port d_00 's net has no driver and is unused.
 WARNING - synthesis: I/O Port d_01 's net has no driver and is unused.
 WARNING - synthesis: I/O Port d_02 's net has no driver and is unused.
@@ -234,16 +226,82 @@ Loading NGL library 'C:/lscc/diamond/3.14/ispfpga/xo2c00a/data/xo2alib.ngl'...
 Loading NGL library 'C:/lscc/diamond/3.14/ispfpga/xo2c00/data/xo2clib.ngl'...
 Loading NGL library 'C:/lscc/diamond/3.14/ispfpga/mg5g00/data/mg5glib.ngl'...
 Loading NGL library 'C:/lscc/diamond/3.14/ispfpga/or5g00/data/orc5glib.ngl'...
+WARNING - synthesis: logical net 'fpga_00' has no load.
+WARNING - synthesis: input pad net 'fpga_00' has no legal load.
+WARNING - synthesis: logical net 'fpga_01' has no load.
+WARNING - synthesis: input pad net 'fpga_01' has no legal load.
+WARNING - synthesis: logical net 'fpga_02' has no load.
+WARNING - synthesis: input pad net 'fpga_02' has no legal load.
+WARNING - synthesis: logical net 'fpga_03' has no load.
+WARNING - synthesis: input pad net 'fpga_03' has no legal load.
+WARNING - synthesis: logical net 'fpga_04' has no load.
+WARNING - synthesis: input pad net 'fpga_04' has no legal load.
+WARNING - synthesis: logical net 'fpga_05' has no load.
+WARNING - synthesis: input pad net 'fpga_05' has no legal load.
+WARNING - synthesis: logical net 'fpga_08' has no load.
+WARNING - synthesis: input pad net 'fpga_08' has no legal load.
+WARNING - synthesis: logical net 'fpga_09' has no load.
+WARNING - synthesis: input pad net 'fpga_09' has no legal load.
+WARNING - synthesis: logical net 'fpga_12' has no load.
+WARNING - synthesis: input pad net 'fpga_12' has no legal load.
+WARNING - synthesis: logical net 'fpga_13' has no load.
+WARNING - synthesis: input pad net 'fpga_13' has no legal load.
+WARNING - synthesis: logical net 'fpga_19' has no load.
+WARNING - synthesis: input pad net 'fpga_19' has no legal load.
+WARNING - synthesis: logical net 'fpga_21' has no load.
+WARNING - synthesis: input pad net 'fpga_21' has no legal load.
+WARNING - synthesis: logical net 'fpga_24' has no load.
+WARNING - synthesis: input pad net 'fpga_24' has no legal load.
+WARNING - synthesis: logical net 'fpga_25' has no load.
+WARNING - synthesis: input pad net 'fpga_25' has no legal load.
+WARNING - synthesis: logical net 'd_02' has no load.
+WARNING - synthesis: input pad net 'd_02' has no legal load.
+WARNING - synthesis: logical net 'd_03' has no load.
+WARNING - synthesis: input pad net 'd_03' has no legal load.
+WARNING - synthesis: logical net 'd_06' has no load.
+WARNING - synthesis: input pad net 'd_06' has no legal load.
+WARNING - synthesis: logical net 'd_07' has no load.
+WARNING - synthesis: input pad net 'd_07' has no legal load.
+WARNING - synthesis: logical net 'd_13' has no load.
+WARNING - synthesis: input pad net 'd_13' has no legal load.
+WARNING - synthesis: logical net 'd_15' has no load.
+WARNING - synthesis: input pad net 'd_15' has no legal load.
+WARNING - synthesis: logical net 'd_18' has no load.
+WARNING - synthesis: input pad net 'd_18' has no legal load.
+WARNING - synthesis: logical net 'd_19' has no load.
+WARNING - synthesis: input pad net 'd_19' has no legal load.
+WARNING - synthesis: logical net 'd_20' has no load.
+WARNING - synthesis: input pad net 'd_20' has no legal load.
+WARNING - synthesis: logical net 'd_21' has no load.
+WARNING - synthesis: input pad net 'd_21' has no legal load.
+WARNING - synthesis: logical net 'd_22' has no load.
+WARNING - synthesis: input pad net 'd_22' has no legal load.
+WARNING - synthesis: logical net 'd_23' has no load.
+WARNING - synthesis: input pad net 'd_23' has no legal load.
+WARNING - synthesis: logical net 'd_24' has no load.
+WARNING - synthesis: input pad net 'd_24' has no legal load.
+WARNING - synthesis: logical net 'd_25' has no load.
+WARNING - synthesis: input pad net 'd_25' has no legal load.
+WARNING - synthesis: logical net 'd_26' has no load.
+WARNING - synthesis: input pad net 'd_26' has no legal load.
+WARNING - synthesis: logical net 'd_27' has no load.
+WARNING - synthesis: input pad net 'd_27' has no legal load.
+WARNING - synthesis: logical net 'd_28' has no load.
+WARNING - synthesis: input pad net 'd_28' has no legal load.
+WARNING - synthesis: logical net 'd_29' has no load.
+WARNING - synthesis: input pad net 'd_29' has no legal load.
 WARNING - synthesis: logical net 'GND_net' has no load.
-WARNING - synthesis: DRC complete with 1 warnings.
+WARNING - synthesis: logical net 'dummy_signal' has no load.
+WARNING - synthesis: DRC complete with 66 warnings.
 All blocks are expanded and NGD expansion is successful.
-Writing NGD file uz_d_slots_uz_d_3ph_inverter.ngd.
+Writing NGD file uz_d_slots_uz_d_abs_encoder_ssi_rev01.ngd.
 
 ################### Begin Area Report (SignalRouter)######################
 Number of register bits => 0 of 2352 (0 % )
 GSR => 1
-IB => 30
-OB => 30
+IB => 21
+LUT4 => 3
+OB => 14
 ################### End Area Report ##################
 
 ################### Begin BlackBox Report ######################
@@ -258,22 +316,22 @@ Number of Clock Enables: 0
 Top 0 highest fanout Clock Enables:
 Highest fanout non-clock nets
 Top 10 highest fanout non-clock nets:
-  Net : d_00_c_c, loads : 1
-  Net : d_01_c_c, loads : 1
-  Net : d_02_c_c, loads : 1
-  Net : d_03_c_c, loads : 1
-  Net : d_04_c_c, loads : 1
-  Net : d_05_c_c, loads : 1
+  Net : pilot_in_c, loads : 1
+  Net : reqsafestate_c, loads : 1
+  Net : carrierrdy_c, loads : 1
+  Net : slotok_c, loads : 1
+  Net : i2c_scl_c, loads : 1
+  Net : i2c_sda_c, loads : 1
   Net : fpga_06_c_c, loads : 1
   Net : fpga_07_c_c, loads : 1
-  Net : fpga_08_c_c, loads : 1
-  Net : fpga_09_c_c, loads : 1
+  Net : d_04_c_c, loads : 1
+  Net : d_05_c_c, loads : 1
 ################### End Clock Report ##################
 
-Peak Memory Usage: 69.824  MB
+Peak Memory Usage: 70.738  MB
 
 --------------------------------------------------------------
-Elapsed CPU time for LSE flow : 0.313  secs
+Elapsed CPU time for LSE flow : 0.266  secs
 --------------------------------------------------------------
 
 

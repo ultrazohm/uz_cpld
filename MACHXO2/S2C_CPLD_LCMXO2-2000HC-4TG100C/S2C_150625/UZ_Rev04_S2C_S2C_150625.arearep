@@ -1,0 +1,32 @@
+----------------------------------------------------------------------
+Report for cell I2CRev03.TECH
+Register bits:  76 of 2352 (3.231%)
+I/O cells:      59
+                                  Cell usage:
+                               cell     count   Res Usage(%)
+                                 BB         2          100.0
+                              CCU2D         5          100.0
+                                EFB         1          100.0
+                            FD1P3AX        23          100.0
+                            FD1P3IX        14          100.0
+                            FD1S3AX        26          100.0
+                            FD1S3IX        13          100.0
+                                GSR         1          100.0
+                                 IB        25          100.0
+                               LUT4       137          100.0
+                                 OB         6          100.0
+                                OBZ        26          100.0
+                               OSCH         1          100.0
+                              PFUMX         2          100.0
+                        VERIFIC_PWR         2          100.0
+SUB MODULES
+                           efb_vhdl         1
+                              TOTAL       285
+----------------------------------------------------------------------
+Report for cell efb_vhdl.v1
+Instance Path : dut
+                                  Cell usage:
+                               cell     count   Res Usage(%)
+                                EFB         1          100.0
+                        VERIFIC_PWR         1           50.0
+                              TOTAL         2

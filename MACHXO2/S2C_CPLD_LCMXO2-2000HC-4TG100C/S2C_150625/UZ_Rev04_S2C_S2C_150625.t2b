@@ -1,0 +1,5 @@
+
+
+-g RamCfg:Reset
+
+-path "C:/cpld/cpld_lattice/MACHXO2/S2C_CPLD_LCMXO2-2000HC-4TG100C"  

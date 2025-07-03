@@ -4,7 +4,7 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
-Wed Jul 02 16:13:05 2025
+Thu Jul 03 15:35:11 2025
 
 
 Command: bitgen -g RamCfg:Reset -path C:/cpld/cpld_lattice/MACHXO2/S2C_CPLD_LCMXO2-2000HC-4TG100C -w -jedec -gui -msgset C:/cpld/cpld_lattice/MACHXO2/S2C_CPLD_LCMXO2-2000HC-4TG100C/promote.xml UZ_Rev04_S2C_S2C_150625.ncd UZ_Rev04_S2C_S2C_150625.prf 
@@ -87,9 +87,9 @@ Initialized UFM Pages:                     0 Page.
 =========
 Padding summary
 =========
-Padded 407296 bits for this design
+Padded 402176 bits for this design
 
 
-Total CPU Time: 2 secs 
+Total CPU Time: 3 secs 
 Total REAL Time: 4 secs 
 Peak Memory Usage: 261 MB

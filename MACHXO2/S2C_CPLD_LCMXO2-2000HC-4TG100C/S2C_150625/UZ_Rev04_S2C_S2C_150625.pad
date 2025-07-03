@@ -6,7 +6,7 @@ Performance Grade:      4
 PACKAGE:          TQFP100
 Package Status:                     Final          Version 1.44
 
-Wed Jul 02 16:12:57 2025
+Thu Jul 03 15:35:01 2025
 
 Pinout by Port Name:
 +--------------------+----------+---------------+-------+-----------+-----------+----------------------------------------------------------+
@@ -48,7 +48,11 @@ Pinout by Port Name:
 | S2C_S3             | 61/1     | LVCMOS33_IN   | PR9A  |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL                      |
 | SCL                | 86/0     | LVCMOS33_BIDI | PT18C |           |           | DRIVE:8mA PULL:DOWN CLAMP:ON HYSTERESIS:SMALL SLEW:SLOW  |
 | SDA                | 85/0     | LVCMOS33_BIDI | PT18D |           |           | DRIVE:8mA PULL:DOWN CLAMP:ON HYSTERESIS:SMALL SLEW:SLOW  |
+| SPI0_MISO          | 32/2     | LVCMOS33_BIDI | PB8B  |           |           | DRIVE:8mA PULL:DOWN CLAMP:ON HYSTERESIS:SMALL SLEW:SLOW  |
+| SPI0_MOSI          | 49/2     | LVCMOS33_BIDI | PB25B |           |           | DRIVE:8mA PULL:DOWN CLAMP:ON HYSTERESIS:SMALL SLEW:SLOW  |
+| SPI0_SCLK          | 31/2     | LVCMOS33_BIDI | PB8A  |           |           | DRIVE:8mA PULL:DOWN CLAMP:ON HYSTERESIS:SMALL SLEW:SLOW  |
 | SPI0_SelnSYSUSRnCS | 45/2     | LVCMOS33_OUT  | PB22A |           |           | DRIVE:8mA SLEW:SLOW                                      |
+| SPI0_nCS_USR       | 47/2     | LVCMOS33_IN   | PB22B |           |           | PULL:DOWN CLAMP:ON HYSTERESIS:SMALL                      |
 | TDnALERT           | 43/2     | LVCMOS33_IN   | PB21B |           |           | CLAMP:ON HYSTERESIS:SMALL                                |
 | TDnFFnFS           | 42/2     | LVCMOS33_IN   | PB21A |           |           | CLAMP:ON HYSTERESIS:SMALL                                |
 | TDnSHDN            | 41/2     | LVCMOS33_IN   | PB18B |           |           | CLAMP:ON HYSTERESIS:SMALL                                |
@@ -119,8 +123,8 @@ Pinout by Pin Number:
 | 28/2     | PPn_VIN               | LOCATED    | LVCMOS33_IN   | PB5B  |               |           |           |
 | 29/2     | FP_UsrLED[4]          | LOCATED    | LVCMOS33_OUT  | PB6A  |               |           |           |
 | 30/2     | FP_UsrLED[3]          | LOCATED    | LVCMOS33_OUT  | PB6B  |               |           |           |
-| 31/2     | Reserved: sysCONFIG   |            | LVCMOS33_BIDI | PB8A  | MCLK/CCLK     |           |           |
-| 32/2     | Reserved: sysCONFIG   |            | LVCMOS33_BIDI | PB8B  | SO/SPISO      |           |           |
+| 31/2     | SPI0_SCLK             |            | LVCMOS33_BIDI | PB8A  | MCLK/CCLK     |           |           |
+| 32/2     | SPI0_MISO             |            | LVCMOS33_BIDI | PB8B  | SO/SPISO      |           |           |
 | 34/2     | FP_UsrLED[2]          | LOCATED    | LVCMOS33_OUT  | PB11A | PCLKT2_0      |           |           |
 | 35/2     | FP_UsrLED[1]          | LOCATED    | LVCMOS33_OUT  | PB11B | PCLKC2_0      |           |           |
 | 36/2     | FP_UsrSW4             | LOCATED    | LVCMOS33_IN   | PB12A |               |           |           |
@@ -132,9 +136,9 @@ Pinout by Pin Number:
 | 42/2     | TDnFFnFS              | LOCATED    | LVCMOS33_IN   | PB21A |               |           |           |
 | 43/2     | TDnALERT              | LOCATED    | LVCMOS33_IN   | PB21B |               |           |           |
 | 45/2     | SPI0_SelnSYSUSRnCS    | LOCATED    | LVCMOS33_OUT  | PB22A |               |           |           |
-| 47/2     |     unused, PULL:DOWN |            |               | PB22B |               |           |           |
+| 47/2     | SPI0_nCS_USR          | LOCATED    | LVCMOS33_IN   | PB22B |               |           |           |
 | 48/2     | Reserved: sysCONFIG   |            | LVCMOS33_IN   | PB25A | SN            |           |           |
-| 49/2     | Reserved: sysCONFIG   |            | LVCMOS33_BIDI | PB25B | SI/SISPI      |           |           |
+| 49/2     | SPI0_MOSI             |            | LVCMOS33_BIDI | PB25B | SI/SISPI      |           |           |
 | 51/1     |     unused, PULL:DOWN |            |               | PR14B | DQ1           |           |           |
 | 52/1     |     unused, PULL:DOWN |            |               | PR14A | DQ1           |           |           |
 | 53/1     |     unused, PULL:DOWN |            |               | PR12B | DQ1           |           |           |
@@ -321,10 +325,10 @@ sysCONFIG Pins:
 | PT18C    | SCL/IO2/MD2/ATB_SENSE/PCLKT0_0      | I2C_PORT=ENABLE       | 86/0     | LVCMOS33_BIDI | PULLDOWN          |
 | PT20C    | JTAGENB/MD6/TDIR                    | JTAG_PORT=DISABLE     | 82/0     |               | PULLDOWN          |
 | PT24D    | DONE                                | SDM_PORT=DONE         | 76/0     |               | PULLUP            |
-| PB8A     | MCLK/CCLK                           | SLAVE_SPI_PORT=ENABLE | 31/2     | LVCMOS33_BIDI | PULLUP            |
-| PB8B     | SO/SPISO/IO1/MD1/TDIL               | SLAVE_SPI_PORT=ENABLE | 32/2     | LVCMOS33_BIDI | NO pull up/down   |
+| PB8A     | MCLK/CCLK                           | SLAVE_SPI_PORT=ENABLE | 31/2     | LVCMOS33_BIDI | PULLDOWN          |
+| PB8B     | SO/SPISO/IO1/MD1/TDIL               | SLAVE_SPI_PORT=ENABLE | 32/2     | LVCMOS33_BIDI | PULLDOWN          |
 | PB25A    | SN/MD5/SCAN_SHFT_ENB/TDIB           | SLAVE_SPI_PORT=ENABLE | 48/2     | LVCMOS33_IN   | PULLUP            |
-| PB25B    | SI/SISPI/IO0/MD0/TDOR               | SLAVE_SPI_PORT=ENABLE | 49/2     | LVCMOS33_BIDI | NO pull up/down   |
+| PB25B    | SI/SISPI/IO0/MD0/TDOR               | SLAVE_SPI_PORT=ENABLE | 49/2     | LVCMOS33_BIDI | PULLDOWN          |
 +----------+-------------------------------------+-----------------------+----------+---------------+-------------------+
 
 Dedicated sysCONFIG Pins:
@@ -369,7 +373,11 @@ LOCATE  COMP  "S2C_S2"  SITE  "62";
 LOCATE  COMP  "S2C_S3"  SITE  "61";
 LOCATE  COMP  "SCL"  SITE  "86";
 LOCATE  COMP  "SDA"  SITE  "85";
+LOCATE  COMP  "SPI0_MISO"  SITE  "32";
+LOCATE  COMP  "SPI0_MOSI"  SITE  "49";
+LOCATE  COMP  "SPI0_SCLK"  SITE  "31";
 LOCATE  COMP  "SPI0_SelnSYSUSRnCS"  SITE  "45";
+LOCATE  COMP  "SPI0_nCS_USR"  SITE  "47";
 LOCATE  COMP  "TDnALERT"  SITE  "43";
 LOCATE  COMP  "TDnFFnFS"  SITE  "42";
 LOCATE  COMP  "TDnSHDN"  SITE  "41";
@@ -403,5 +411,5 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
-Wed Jul 02 16:12:57 2025
+Thu Jul 03 15:35:01 2025
 

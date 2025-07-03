@@ -3,11 +3,11 @@ Report for cell I2CRev03
    Instance path: I2CRev03
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      74.00        100.0
-                                  LUT4	     136.00        100.0
-                                 IOBUF	         59        100.0
-                                PFUREG	         76        100.0
-                                RIPPLE	          5        100.0
+                                  SLIC	     109.00        100.0
+                                  LUT4	     180.00        100.0
+                                 IOBUF	         63        100.0
+                                PFUREG	        110        100.0
+                                RIPPLE	         18        100.0
 SUB MODULES
                                   cell	      count    SLC Usage(%)
                               efb_vhdl	          1         0.0

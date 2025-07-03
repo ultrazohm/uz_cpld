@@ -69,10 +69,10 @@ entity I2CRev03 is
 		TDnALERT 		: in STD_LOGIC;		-- pin 43
 		SPI0_SelnSYSUSRnCS :out STD_LOGIC; 	--pin 45
 		SPI0_nCS_USR	: in STD_LOGIC;		--pin 47
-		--SPI0_nCS_SYS	: in STD_LOGIC;		--pin 48
-		--SPI0_SCLK	: in STD_LOGIC;		--pin 31
-		--SPI0_MISO	: out STD_LOGIC;	--pin 32
-		--SPI0_MOSI	: in STD_LOGIC;		--pin 49
+		SPI0_nCS_SYS	: in STD_LOGIC;		--pin 48
+		SPI0_SCLK	: inout STD_LOGIC;		--pin 31
+		SPI0_MISO	: inout STD_LOGIC;	--pin 32
+		SPI0_MOSI	: inout STD_LOGIC;		--pin 49
 
 		--- Bank 3, 1.8V
 		DIG_00_Ch5	: inout STD_LOGIC; --pin 18
@@ -313,14 +313,24 @@ signal rst_p,n_count_en , count_en, enable_command,intr_command,intr_read_comman
 --********************************************************************************
 
 component efb_VHDL
-    port (wb_clk_i: in  std_logic; wb_rst_i: in  std_logic; 
-        wb_cyc_i: in  std_logic; wb_stb_i: in  std_logic; 
+    port (
+		wb_clk_i: in  std_logic; 
+        wb_rst_i: in  std_logic; 
+        wb_cyc_i: in  std_logic; 
+        wb_stb_i: in  std_logic; 
         wb_we_i: in  std_logic; 
         wb_adr_i: in  std_logic_vector(7 downto 0); 
         wb_dat_i: in  std_logic_vector(7 downto 0); 
         wb_dat_o: out  std_logic_vector(7 downto 0); 
-        wb_ack_o: out  std_logic; i2c1_scl: inout  std_logic; 
-        i2c1_sda: inout  std_logic; i2c1_irqo: out  std_logic);
+        wb_ack_o: out  std_logic; 
+        i2c1_scl: inout  std_logic; 
+        i2c1_sda: inout  std_logic; 
+        i2c1_irqo: out  std_logic; 
+        spi_clk: inout  std_logic; 
+        spi_miso: inout  std_logic; 
+        spi_mosi: inout  std_logic; 
+        spi_scsn: in  std_logic
+		);
 end component;
 
 begin
@@ -347,7 +357,11 @@ wb_dat_o =>wb_dat_o,
 wb_ack_o =>wb_ack_o,      
 i2c1_scl =>SCL,
 i2c1_sda =>SDA,
-i2c1_irqo =>i2c1_irqo 
+i2c1_irqo =>i2c1_irqo, 
+spi_clk =>SPI0_SCLK,
+spi_miso =>SPI0_MISO,
+spi_mosi =>SPI0_MOSI,
+spi_scsn => SPI0_nCS_USR
 );
 
 rst_p <= not (resetnefb);
@@ -383,9 +397,9 @@ tristate_signals <= DIG_00_Ch5 & DIG_01_Ch5 & DIG_02_Ch5 & DIG_03_Ch5 & DIG_04_C
 S2C_FlexIO_IO6 & S2C_FlexIO_IO7 ;
 X13_E2C_M54 <= 'Z';
 X13_E2C_M55 <= 'Z';
-X13_E2C_M58 <= 'Z';
-X13_E2C_M59 <= 'Z';
-X13_E2C_M62 <= 'Z';
+--X13_E2C_M58 <= 'Z';
+--X13_E2C_M59 <= 'Z';
+--X13_E2C_M62 <= 'Z';
 Xc1_CollFlt <= 'Z';
 -- Assign 'Z' to all unused signal
 tristate_signals <= (others => 'Z');
@@ -421,6 +435,19 @@ process(clk)
 			externstop_last  <= signals_debounced_syn(2);
 		end if;
 end process;
+
+ -- soft reset for i2c and efb
+	reset_control: process(clk,resetcounter)
+	begin
+	if rising_edge(clk) then
+		if resetcounter < 31200000 then
+			resetnefb <= '0';
+			resetcounter <= resetcounter + 1;
+		else
+			resetnefb <= '1';
+		end if;
+	end if;
+	end process;
 
 --i2c data and command storing
 

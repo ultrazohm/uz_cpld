@@ -14,7 +14,7 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
-Wed Jul 02 16:12:47 2025
+Thu Jul 03 15:34:47 2025
 
 
 Command Line:  synthesis -f UZ_Rev04_S2C_S2C_150625_lattice.synproj -gui -msgset C:/cpld/cpld_lattice/MACHXO2/S2C_CPLD_LCMXO2-2000HC-4TG100C/promote.xml 
@@ -93,16 +93,14 @@ INFO - synthesis: c:/cpld/cpld_lattice/machxo2/s2c_cpld_lcmxo2-2000hc-4tg100c/s2
 unit I2CRev03 is not yet analyzed. VHDL-1485
 Analyzing VHDL file c:/cpld/cpld_lattice/machxo2/s2c_cpld_lcmxo2-2000hc-4tg100c/s2c_150625/source/ipexpress/xo2/efb_vhdl.vhd. VHDL-1481
 INFO - synthesis: c:/cpld/cpld_lattice/machxo2/s2c_cpld_lcmxo2-2000hc-4tg100c/s2c_150625/source/ipexpress/xo2/efb_vhdl.vhd(14): analyzing entity efb_vhdl. VHDL-1012
-INFO - synthesis: c:/cpld/cpld_lattice/machxo2/s2c_cpld_lcmxo2-2000hc-4tg100c/s2c_150625/source/ipexpress/xo2/efb_vhdl.vhd(30): analyzing architecture structure. VHDL-1010
+INFO - synthesis: c:/cpld/cpld_lattice/machxo2/s2c_cpld_lcmxo2-2000hc-4tg100c/s2c_150625/source/ipexpress/xo2/efb_vhdl.vhd(34): analyzing architecture structure. VHDL-1010
 unit I2CRev03 is not yet analyzed. VHDL-1485
 unit I2CRev03 is not yet analyzed. VHDL-1485
 c:/cpld/cpld_lattice/machxo2/s2c_cpld_lcmxo2-2000hc-4tg100c/s2c_150625/source/v01_0725.vhd(8): executing I2CRev03(behavior)
 
-WARNING - synthesis: c:/cpld/cpld_lattice/machxo2/s2c_cpld_lcmxo2-2000hc-4tg100c/s2c_150625/source/v01_0725.vhd(116): using initial value 'U' for resetnefb since it is never assigned. VHDL-1303
 WARNING - synthesis: c:/cpld/cpld_lattice/machxo2/s2c_cpld_lcmxo2-2000hc-4tg100c/s2c_150625/source/v01_0725.vhd(125): using initial value "UUUUUU" for debounce_inputs since it is never assigned. VHDL-1303
 WARNING - synthesis: c:/cpld/cpld_lattice/machxo2/s2c_cpld_lcmxo2-2000hc-4tg100c/s2c_150625/source/v01_0725.vhd(270): using initial value "UUUU" for irq_status since it is never assigned. VHDL-1303
 WARNING - synthesis: c:/cpld/cpld_lattice/machxo2/s2c_cpld_lcmxo2-2000hc-4tg100c/s2c_150625/source/v01_0725.vhd(292): using initial value 'U' for irq_enable_write since it is never assigned. VHDL-1303
-WARNING - synthesis: c:/cpld/cpld_lattice/machxo2/s2c_cpld_lcmxo2-2000hc-4tg100c/s2c_150625/source/v01_0725.vhd(270): net irq_en[3] does not have a driver. VDB-1002
 WARNING - synthesis: c:/cpld/cpld_lattice/machxo2/s2c_cpld_lcmxo2-2000hc-4tg100c/s2c_150625/source/v01_0725.vhd(110): replacing existing netlist I2CRev03(behavior). VHDL-1205
 Top module name (VHDL): I2CRev03
 Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/xo2c00a/data/xo2alib.ngl'...
@@ -112,11 +110,15 @@ Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/or5g00/data/orc5glib.ngl'...
 Loading device for application map from file 'xo2c2000.nph' in environment: C:/lscc/diamond/3.13/ispfpga.
 Package Status:                     Final          Version 1.44.
 Top-level module name = I2CRev03.
+WARNING - synthesis: Bit 3 of Register irq_en is stuck at Zero
+WARNING - synthesis: Bit 2 of Register irq_en is stuck at Zero
+WARNING - synthesis: Bit 1 of Register irq_en is stuck at Zero
+WARNING - synthesis: Bit 0 of Register irq_en is stuck at Zero
 ######## Converting I/O port S3CsI2C_SDA to input.
 ######## Converting I/O port S3CsI2C_SCL to input.
 ######## Converting I/O port TDnFFnFS to input.
 WARNING - synthesis: I/O Port SPI0_SelnSYSUSRnCS 's net has no driver and is unused.
-WARNING - synthesis: I/O Port SPI0_nCS_USR 's net has no driver and is unused.
+WARNING - synthesis: I/O Port SPI0_nCS_SYS 's net has no driver and is unused.
 ######## Converting I/O port DIG_00_Ch5 to output.
 ######## Converting I/O port DIG_01_Ch5 to output.
 ######## Converting I/O port DIG_02_Ch5 to output.
@@ -142,68 +144,68 @@ WARNING - synthesis: I/O Port IRQ[2] 's net has no driver and is unused.
 WARNING - synthesis: I/O Port IRQ[1] 's net has no driver and is unused.
 WARNING - synthesis: I/O Port IRQ[0] 's net has no driver and is unused.
 ######## Missing driver on net SPI0_SelnSYSUSRnCS. Patching with GND.
-######## Missing driver on net irq_en[3]. Patching with GND.
-######## Missing driver on net irq_en[2]. Patching with GND.
-######## Missing driver on net irq_en[1]. Patching with GND.
-######## Missing driver on net irq_en[0]. Patching with GND.
 INFO - synthesis: Extracted state machine for register 'c_state' with one-hot encoding
 original encoding -> new encoding (one-hot encoding)
 
- 00000001 -> 000000000000000001
+ 00000000 -> 0000000000000000001
 
- 00000010 -> 000000000000000010
+ 00000001 -> 0000000000000000010
 
- 00000011 -> 000000000000000100
+ 00000010 -> 0000000000000000100
 
- 00000100 -> 000000000000001000
+ 00000011 -> 0000000000000001000
 
- 00000101 -> 000000000000010000
+ 00000100 -> 0000000000000010000
 
- 00000111 -> 000000000000100000
+ 00000101 -> 0000000000000100000
 
- 00001000 -> 000000000001000000
+ 00000111 -> 0000000000001000000
 
- 00001001 -> 000000000010000000
+ 00001000 -> 0000000000010000000
 
- 00001010 -> 000000000100000000
+ 00001001 -> 0000000000100000000
 
- 00001011 -> 000000001000000000
+ 00001010 -> 0000000001000000000
 
- 00001100 -> 000000010000000000
+ 00001011 -> 0000000010000000000
 
- 00001101 -> 000000100000000000
+ 00001100 -> 0000000100000000000
 
- 00001110 -> 000001000000000000
+ 00001101 -> 0000001000000000000
 
- 00001111 -> 000010000000000000
+ 00001110 -> 0000010000000000000
 
- 00010000 -> 000100000000000000
+ 00001111 -> 0000100000000000000
 
- 00010001 -> 001000000000000000
+ 00010000 -> 0001000000000000000
 
- 00010010 -> 010000000000000000
+ 00010001 -> 0010000000000000000
 
- 00010011 -> 100000000000000000
+ 00010010 -> 0100000000000000000
+
+ 00010011 -> 1000000000000000000
 
 
 
 
-WARNING - synthesis: Bit 7 of Register wb_adr_i is stuck at Zero
-WARNING - synthesis: Bit 5 of Register wb_adr_i is stuck at Zero
-WARNING - synthesis: Bit 4 of Register wb_adr_i is stuck at Zero
-WARNING - synthesis: Bit 3 of Register wb_adr_i is stuck at Zero
+WARNING - synthesis: Bit 7 of Register wb_adr_i_ is stuck at Zero
+WARNING - synthesis: Bit 5 of Register wb_adr_i_ is stuck at Zero
+WARNING - synthesis: Bit 4 of Register wb_adr_i_ is stuck at Zero
+WARNING - synthesis: Bit 3 of Register wb_adr_i_ is stuck at Zero
 WARNING - synthesis: I/O Port S3CsI2C_SDA 's net has no driver and is unused.
 WARNING - synthesis: I/O Port S3CsI2C_SCL 's net has no driver and is unused.
-WARNING - synthesis: I/O Port SPI0_nCS_USR 's net has no driver and is unused.
+WARNING - synthesis: I/O Port SPI0_nCS_SYS 's net has no driver and is unused.
 WARNING - synthesis: I/O Port IRQ[3] 's net has no driver and is unused.
 WARNING - synthesis: I/O Port IRQ[2] 's net has no driver and is unused.
 WARNING - synthesis: I/O Port IRQ[1] 's net has no driver and is unused.
 WARNING - synthesis: I/O Port IRQ[0] 's net has no driver and is unused.
 WARNING - synthesis: Skipping pad insertion on SCL due to black_box_pad_pin attribute.
 WARNING - synthesis: Skipping pad insertion on SDA due to black_box_pad_pin attribute.
-WARNING - synthesis: c:/cpld/cpld_lattice/machxo2/s2c_cpld_lcmxo2-2000hc-4tg100c/s2c_150625/source/v01_0725.vhd(1231): Register c_state_FSM_i17 is stuck at Zero. VDB-5013
-Duplicate register/latch removal. wb_stb_i_468 is a one-to-one match with wb_adr_i_i4.
+WARNING - synthesis: Skipping pad insertion on SPI0_SCLK due to black_box_pad_pin attribute.
+WARNING - synthesis: Skipping pad insertion on SPI0_MISO due to black_box_pad_pin attribute.
+WARNING - synthesis: Skipping pad insertion on SPI0_MOSI due to black_box_pad_pin attribute.
 GSR will not be inferred because no asynchronous signal was found in the netlist.
+Duplicate register/latch removal. wb_adr_i__i4 is a one-to-one match with wb_stb_i_504.
 Applying 200.000000 MHz constraint to all clocks
 
 WARNING - synthesis: No user .sdc file.
@@ -216,8 +218,8 @@ WARNING - synthesis: logical net 'S3CsI2C_SDA' has no load.
 WARNING - synthesis: input pad net 'S3CsI2C_SDA' has no legal load.
 WARNING - synthesis: logical net 'S3CsI2C_SCL' has no load.
 WARNING - synthesis: input pad net 'S3CsI2C_SCL' has no legal load.
-WARNING - synthesis: logical net 'SPI0_nCS_USR' has no load.
-WARNING - synthesis: input pad net 'SPI0_nCS_USR' has no legal load.
+WARNING - synthesis: logical net 'SPI0_nCS_SYS' has no load.
+WARNING - synthesis: input pad net 'SPI0_nCS_SYS' has no legal load.
 WARNING - synthesis: logical net 'IRQ[3]' has no load.
 WARNING - synthesis: input pad net 'IRQ[3]' has no legal load.
 WARNING - synthesis: logical net 'IRQ[2]' has no load.
@@ -232,19 +234,18 @@ All blocks are expanded and NGD expansion is successful.
 Writing NGD file UZ_Rev04_S2C_S2C_150625.ngd.
 
 ################### Begin Area Report (I2CRev03)######################
-Number of register bits => 76 of 2352 (3 % )
-BB => 2
-CCU2D => 5
+Number of register bits => 110 of 2352 (4 % )
+BB => 5
+CCU2D => 18
 EFB => 1
-FD1P3AX => 23
-FD1P3IX => 14
-FD1S3AX => 26
-FD1S3IX => 13
+FD1P3IX => 26
+FD1S3AX => 27
+FD1S3IX => 57
 GSR => 1
-IB => 25
-LUT4 => 137
-OB => 6
-OBZ => 26
+IB => 26
+LUT4 => 179
+OB => 9
+OBZ => 23
 OSCH => 1
 PFUMX => 2
 ################### End Area Report ##################
@@ -255,31 +256,30 @@ TSALL => 1
 
 ################### Begin Clock Report ######################
 Clock Nets
-Number of Clocks: 2
-  Net : clk, loads : 77
+Number of Clocks: 3
+  Net : clk, loads : 111
+  Net : spi_clk_i, loads : 1
   Net : i2c1_scli, loads : 1
 Clock Enable Nets
-Number of Clock Enables: 7
-Top 7 highest fanout Clock Enables:
-  Net : clk_enable_27, loads : 25
-  Net : clk_enable_28, loads : 8
-  Net : GPI_DAT_7__N_339, loads : 8
-  Net : clk_enable_29, loads : 8
-  Net : clk_enable_25, loads : 7
-  Net : clk_enable_17, loads : 5
-  Net : clk_enable_18, loads : 1
+Number of Clock Enables: 5
+Top 5 highest fanout Clock Enables:
+  Net : clk_enable_17, loads : 20
+  Net : dat_rdy_N_611, loads : 9
+  Net : clk_enable_8, loads : 8
+  Net : clk_enable_16, loads : 8
+  Net : reg_rdy_N_607, loads : 2
 Highest fanout non-clock nets
 Top 10 highest fanout non-clock nets:
-  Net : clk_enable_27, loads : 25
-  Net : wb_stb_i, loads : 23
-  Net : dut/wb_ack_o, loads : 20
-  Net : temp1_6, loads : 16
-  Net : temp1_5, loads : 16
+  Net : n5476, loads : 85
+  Net : wb_adr_i_6, loads : 29
+  Net : dut/wb_ack_o, loads : 25
+  Net : n_temp1_7__N_96, loads : 22
+  Net : clk_enable_17, loads : 20
+  Net : temp1_6, loads : 18
+  Net : temp1_5, loads : 17
+  Net : temp1_0, loads : 16
   Net : temp1_3, loads : 14
-  Net : temp1_0, loads : 13
-  Net : temp1_2, loads : 11
-  Net : n_temp1_7__N_31, loads : 11
-  Net : dut/wb_dat_o_2, loads : 10
+  Net : dat_rdy_N_613, loads : 14
 ################### End Clock Report ##################
 
 <A name="lse_trs"></A><B><U><big>Timing Report Summary</big></U></B>
@@ -289,7 +289,7 @@ Constraint                              |   Constraint|       Actual|Levels
 --------------------------------------------------------------------------------
                                         |             |             |
 create_clock -period 5.000000 -name     |             |             |
-clk0 [get_nets clk]                     |  200.000 MHz|   71.736 MHz|     8 *
+clk0 [get_nets clk]                     |  200.000 MHz|   72.098 MHz|     8 *
                                         |             |             |
 --------------------------------------------------------------------------------
 
@@ -297,10 +297,10 @@ clk0 [get_nets clk]                     |  200.000 MHz|   71.736 MHz|     8 *
 1 constraints not met.
 
 
-Peak Memory Usage: 77.508  MB
+Peak Memory Usage: 79.363  MB
 
 --------------------------------------------------------------
-Elapsed CPU time for LSE flow : 1.391  secs
+Elapsed CPU time for LSE flow : 2.844  secs
 --------------------------------------------------------------
 
 

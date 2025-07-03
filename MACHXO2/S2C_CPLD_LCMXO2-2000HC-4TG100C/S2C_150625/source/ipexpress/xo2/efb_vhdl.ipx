@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<DiamondModule name="efb_vhdl" module="efb_vhdl" VendorName="Lattice Semiconductor Corporation" generator="IPexpress" date="2014 10 10 17:24:32.851" version="1.2" type="Module" synthesis="synplify" source_format="VHDL">
+<DiamondModule name="efb_vhdl" module="efb_vhdl" VendorName="Lattice Semiconductor Corporation" generator="IPexpress" date="2025 07 03 15:33:28.554" version="1.2" type="Module" synthesis="lse" source_format="VHDL">
   <Package>
-		<File name="efb_vhdl.lpc" type="lpc" modified="2014 10 10 17:24:30.728"/>
-		<File name="efb_vhdl.vhd" type="top_level_vhdl" modified="2014 10 10 17:24:30.885"/>
-		<File name="efb_vhdl_tmpl.vhd" type="template_vhdl" modified="2014 10 10 17:24:30.887"/>
+		<File name="efb_vhdl.lpc" type="lpc" modified="2025 07 03 15:33:22.912"/>
+		<File name="efb_vhdl.vhd" type="top_level_vhdl" modified="2025 07 03 15:33:23.057"/>
+		<File name="efb_vhdl_tmpl.vhd" type="template_vhdl" modified="2025 07 03 15:33:23.058"/>
   </Package>
 </DiamondModule>

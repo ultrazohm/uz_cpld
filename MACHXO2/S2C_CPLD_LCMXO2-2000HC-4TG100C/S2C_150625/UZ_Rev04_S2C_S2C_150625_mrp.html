@@ -24,23 +24,23 @@ Target Vendor:  LATTICE
 Target Device:  LCMXO2-2000HCTQFP100
 Target Performance:   4
 Mapper:  xo2c00,  version:  Diamond (64-bit) 3.13.0.56.2
-Mapped on:  07/02/25  16:12:49
+Mapped on:  07/03/25  15:34:50
 
 
 <A name="mrp_ds"></A><B><U><big>Design Summary</big></U></B>
-   Number of registers:     76 out of  2352 (3%)
-      PFU registers:           76 out of  2112 (4%)
+   Number of registers:    110 out of  2352 (5%)
+      PFU registers:          110 out of  2112 (5%)
       PIO registers:            0 out of   240 (0%)
-   Number of SLICEs:        74 out of  1056 (7%)
-      SLICEs as Logic/ROM:     74 out of  1056 (7%)
+   Number of SLICEs:       109 out of  1056 (10%)
+      SLICEs as Logic/ROM:    109 out of  1056 (10%)
       SLICEs as RAM:            0 out of   792 (0%)
-      SLICEs as Carry:          5 out of  1056 (0%)
-   Number of LUT4s:        146 out of  2112 (7%)
-      Number used as logic LUTs:        136
+      SLICEs as Carry:         18 out of  1056 (2%)
+   Number of LUT4s:        216 out of  2112 (10%)
+      Number used as logic LUTs:        180
       Number used as distributed RAM:     0
-      Number used as ripple logic:       10
+      Number used as ripple logic:       36
       Number used as shift registers:     0
-   Number of PIO sites used: 59 + 1(JTAGENB) out of 80 (75%)
+   Number of PIO sites used: 63 + 1(JTAGENB) out of 80 (80%)
    Number of block RAMs:  0 out of 8 (0%)
    Number of GSRs:        0 out of 1 (0%)
    EFB used :        Yes
@@ -65,36 +65,31 @@ Mapped on:  07/02/25  16:12:49
      distributed RAMs) + 2*(Number of ripple logic)
       2. Number of logic LUT4s does not include count of distributed RAM and
      ripple logic.
-   Number of clocks:  2
-     Net clk: 48 loads, 48 rising, 0 falling (Driver: OSCInst0 )
+   Number of clocks:  3
+     Net clk: 62 loads, 62 rising, 0 falling (Driver: OSCInst0 )
 
      Net i2c1_scli: 1 loads, 1 rising, 0 falling (Driver: PIO SCL )
-   Number of Clock Enables:  7
-     Net clk_enable_27: 1 loads, 1 LSLICEs
-     Net GPI_DAT_7__N_339: 4 loads, 4 LSLICEs
-     Net clk_enable_29: 6 loads, 6 LSLICEs
-     Net clk_enable_25: 3 loads, 3 LSLICEs
-     Net clk_enable_28: 5 loads, 5 LSLICEs
-     Net clk_enable_17: 3 loads, 3 LSLICEs
-     Net clk_enable_18: 1 loads, 1 LSLICEs
-   Number of LSRs:  5
-     Net n_temp1_7__N_31: 3 loads, 3 LSLICEs
-     Net clk_enable_27: 4 loads, 4 LSLICEs
-     Net n3648: 5 loads, 5 LSLICEs
-     Net wb_stb_i: 2 loads, 2 LSLICEs
-     Net n3531: 4 loads, 4 LSLICEs
+     Net spi_clk_i: 1 loads, 1 rising, 0 falling (Driver: PIO SPI0_SCLK )
+   Number of Clock Enables:  5
+     Net reg_rdy_N_607: 1 loads, 1 LSLICEs
+     Net dat_rdy_N_611: 4 loads, 4 LSLICEs
+     Net clk_enable_8: 4 loads, 4 LSLICEs
+     Net clk_enable_17: 1 loads, 1 LSLICEs
+     Net clk_enable_16: 4 loads, 4 LSLICEs
+   Number of LSRs:  1
+     Net resetnefb: 47 loads, 46 LSLICEs
    Number of nets driven by tri-state buffers:  0
    Top 10 highest fanout non-clock nets:
-     Net wb_stb_i: 24 loads
-     Net clk_enable_27: 23 loads
-     Net wb_ack_o: 21 loads
-     Net temp1_5: 16 loads
-     Net temp1_6: 16 loads
+     Net resetnefb: 50 loads
+     Net wb_adr_i_6: 29 loads
+     Net wb_ack_o: 26 loads
+     Net n_temp1_7__N_96: 22 loads
+     Net clk_enable_17: 20 loads
+     Net temp1_6: 18 loads
+     Net temp1_5: 17 loads
+     Net temp1_0: 16 loads
+     Net dat_rdy_N_613: 14 loads
      Net temp1_3: 14 loads
-     Net n_temp1_7__N_31: 13 loads
-     Net temp1_0: 13 loads
-     Net temp1_2: 11 loads
-     Net wb_dat_o_2: 11 loads
 
 
 
@@ -110,7 +105,7 @@ Mapped on:  07/02/25  16:12:49
 
 WARNING - map: input pad net 'S3CsI2C_SDA' has no legal load.
 WARNING - map: input pad net 'S3CsI2C_SCL' has no legal load.
-WARNING - map: input pad net 'SPI0_nCS_USR' has no legal load.
+WARNING - map: input pad net 'SPI0_nCS_SYS' has no legal load.
 WARNING - map: input pad net 'IRQ[3]' has no legal load.
 WARNING - map: input pad net 'IRQ[2]' has no legal load.
 WARNING - map: input pad net 'IRQ[1]' has no legal load.
@@ -124,14 +119,14 @@ WARNING - map: IO buffer missing for top level port S3CsI2C_SDA...logic will be
      discarded.
 WARNING - map: IO buffer missing for top level port S3CsI2C_SCL...logic will be
      discarded.
-WARNING - map: IO buffer missing for top level port SPI0_nCS_USR...logic will be
+WARNING - map: IO buffer missing for top level port SPI0_nCS_SYS...logic will be
      discarded.
-
 WARNING - map: IO buffer missing for top level port IRQ[3:0](3)...logic will be
      discarded.
 WARNING - map: IO buffer missing for top level port IRQ[3:0](2)...logic will be
      discarded.
 WARNING - map: IO buffer missing for top level port IRQ[3:0](1)...logic will be
+
      discarded.
 WARNING - map: IO buffer missing for top level port IRQ[3:0](0)...logic will be
      discarded.
@@ -144,9 +139,15 @@ WARNING - map: IO buffer missing for top level port IRQ[3:0](0)...logic will be
 | IO Name             | Direction | Levelmode | IO         |
 |                     |           |  IO_TYPE  | Register   |
 +---------------------+-----------+-----------+------------+
+| SPI0_MOSI           | BIDIR     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
 | SCL                 | BIDIR     | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | SDA                 | BIDIR     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| SPI0_SCLK           | BIDIR     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| SPI0_MISO           | BIDIR     | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | X13_E2C_M62         | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
@@ -183,8 +184,8 @@ WARNING - map: IO buffer missing for top level port IRQ[3:0](0)...logic will be
 | DIG_04_Ch5          | OUTPUT    | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | DIG_05_Ch5          | OUTPUT    | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
 
++---------------------+-----------+-----------+------------+
 | DIG_24_Ch5          | OUTPUT    | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
 | DIG_25_Ch5          | OUTPUT    | LVCMOS18  |            |
@@ -240,8 +241,8 @@ WARNING - map: IO buffer missing for top level port IRQ[3:0](0)...logic will be
 | Xc1_PSANL           | INPUT     | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | RTC_FOUT            | INPUT     | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
 
++---------------------+-----------+-----------+------------+
 | S2C_S2              | INPUT     | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | S2C_S3              | INPUT     | LVCMOS33  |            |
@@ -264,24 +265,26 @@ WARNING - map: IO buffer missing for top level port IRQ[3:0](0)...logic will be
 +---------------------+-----------+-----------+------------+
 | TDnALERT            | INPUT     | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
+| SPI0_nCS_USR        | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
 
 
 
 <A name="mrp_rm"></A><B><U><big>Removed logic</big></U></B>
 
 Block GSR_INST undriven or does not drive anything - clipped.
-Signal n3529 was merged into signal n_temp1_7__N_31
-Signal n3068 was merged into signal wb_stb_i
 Signal VCC_net undriven or does not drive anything - clipped.
-Signal dut/VCC_net undriven or does not drive anything - clipped.
-Signal add_536_9/S1 undriven or does not drive anything - clipped.
-Signal add_536_9/CO undriven or does not drive anything - clipped.
-Signal add_536_1/S0 undriven or does not drive anything - clipped.
-Signal add_536_1/CI undriven or does not drive anything - clipped.
-Block i8_1_lut was optimized away.
-Block i926_1_lut was optimized away.
-Block i2986 was optimized away.
-Block dut/i1 was optimized away.
+Signal resetcounter_i24_917_add_4_25/CO undriven or does not drive anything -
+     clipped.
+Signal add_571_9/S1 undriven or does not drive anything - clipped.
+Signal add_571_9/CO undriven or does not drive anything - clipped.
+Signal resetcounter_i24_917_add_4_1/S0 undriven or does not drive anything -
+     clipped.
+Signal resetcounter_i24_917_add_4_1/CI undriven or does not drive anything -
+     clipped.
+Signal add_571_1/S0 undriven or does not drive anything - clipped.
+Signal add_571_1/CI undriven or does not drive anything - clipped.
+Block i2 was optimized away.
 
      
 
@@ -297,16 +300,17 @@ OSC 1:                                     Pin/Node Value
 
 
 
+
+
 <A name="mrp_efb"></A><B><U><big>Embedded Functional Block Connection Summary</big></U></B>
 
    Desired WISHBONE clock frequency: 10.0 MHz
-
    Clock source:                     clk
-   Reset source:                     NONE
+   Reset source:                     resetnefb
    Functions mode:
       I2C #1 (Primary) Function:     ENABLED
       I2C #2 (Secondary) Function:   DISABLED
-      SPI Function:                  DISABLED
+      SPI Function:                  ENABLED
       Timer/Counter Function:        DISABLED
       Timer/Counter Mode:            WB
       UFM Connection:                DISABLED
@@ -317,16 +321,20 @@ OSC 1:                                     Pin/Node Value
       I2C Component:          PRIMARY
       I2C Addressing:         7BIT
       I2C Performance:        100kHz
-      Slave Address:          0b0011001
+      Slave Address:          0b1000001
       General Call:           DISABLED
       I2C Wake Up:            DISABLED
       I2C Component:          UFM/Configuration
       I2C Addressing:         7BIT
       I2C Performance:        100kHz
-      Slave Address:          0b0011000
+      Slave Address:          0b1000000
    SPI Function Summary:
    --------------------
-      None
+      SPI Mode:               SLAVE
+      SPI Data Order:         MSB to LSB
+      SPI Clock Inversion:    DISABLED
+      SPI Phase Adjust:       DISABLED
+      SPI Wakeup:             DISABLED
    Timer/Counter Function Summary:
    ------------------------------
       None
@@ -348,10 +356,11 @@ OSC 1:                                     Pin/Node Value
 <A name="mrp_asic"></A><B><U><big>ASIC Components</big></U></B>
 ---------------
 
-Instance Name: OSCInst0
-         Type: OSCH
 Instance Name: dut/EFBInst_0
          Type: EFB
+Instance Name: OSCInst0
+         Type: OSCH
+
 
 
 
@@ -360,13 +369,8 @@ Instance Name: dut/EFBInst_0
 
    Total CPU Time: 1 secs  
    Total REAL Time: 2 secs  
-   Peak Memory Usage: 47 MB
-
+   Peak Memory Usage: 48 MB
         
-
-
-
-
 
 
 

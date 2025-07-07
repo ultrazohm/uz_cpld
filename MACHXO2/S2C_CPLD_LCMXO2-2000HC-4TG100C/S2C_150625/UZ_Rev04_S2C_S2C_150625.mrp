@@ -1,0 +1,468 @@
+
+           Lattice Mapping Report File for Design Module 'I2CRev03'
+
+
+Design Information
+------------------
+
+Command line:   map -a MachXO2 -p LCMXO2-2000HC -t TQFP100 -s 4 -oc Commercial
+     UZ_Rev04_S2C_S2C_150625.ngd -o UZ_Rev04_S2C_S2C_150625_map.ncd -pr
+     UZ_Rev04_S2C_S2C_150625.prf -mp UZ_Rev04_S2C_S2C_150625.mrp -lpf C:/cpld/cp
+     ld_lattice/MACHXO2/S2C_CPLD_LCMXO2-2000HC-4TG100C/S2C_150625/UZ_Rev04_S2C_S
+     2C_150625.lpf -lpf C:/cpld/cpld_lattice/MACHXO2/S2C_CPLD_LCMXO2-2000HC-4TG1
+     00C/UZ_Rev04_S2C.lpf -c 0 -gui -msgset
+     C:/cpld/cpld_lattice/MACHXO2/S2C_CPLD_LCMXO2-2000HC-4TG100C/promote.xml 
+Target Vendor:  LATTICE
+Target Device:  LCMXO2-2000HCTQFP100
+Target Performance:   4
+Mapper:  xo2c00,  version:  Diamond (64-bit) 3.13.0.56.2
+Mapped on:  07/03/25  15:34:50
+
+Design Summary
+--------------
+
+   Number of registers:    110 out of  2352 (5%)
+      PFU registers:          110 out of  2112 (5%)
+      PIO registers:            0 out of   240 (0%)
+   Number of SLICEs:       109 out of  1056 (10%)
+      SLICEs as Logic/ROM:    109 out of  1056 (10%)
+      SLICEs as RAM:            0 out of   792 (0%)
+      SLICEs as Carry:         18 out of  1056 (2%)
+   Number of LUT4s:        216 out of  2112 (10%)
+      Number used as logic LUTs:        180
+      Number used as distributed RAM:     0
+      Number used as ripple logic:       36
+      Number used as shift registers:     0
+   Number of PIO sites used: 63 + 1(JTAGENB) out of 80 (80%)
+   Number of block RAMs:  0 out of 8 (0%)
+   Number of GSRs:        0 out of 1 (0%)
+   EFB used :        Yes
+   JTAG used :       No
+   Readback used :   No
+   Oscillator used : Yes
+   Startup used :    No
+   POR :             On
+   Bandgap :         On
+   Number of Power Controller:  0 out of 1 (0%)
+   Number of Dynamic Bank Controller (BCINRD):  0 out of 6 (0%)
+   Number of Dynamic Bank Controller (BCLVDSO):  0 out of 1 (0%)
+   Number of DCCA:  0 out of 8 (0%)
+   Number of DCMA:  0 out of 2 (0%)
+   Number of PLLs:  0 out of 1 (0%)
+   Number of DQSDLLs:  0 out of 2 (0%)
+   Number of CLKDIVC:  0 out of 4 (0%)
+   Number of ECLKSYNCA:  0 out of 4 (0%)
+   Number of ECLKBRIDGECS:  0 out of 2 (0%)
+   Notes:-
+      1. Total number of LUT4s = (Number of logic LUT4s) + 2*(Number of
+     distributed RAMs) + 2*(Number of ripple logic)
+      2. Number of logic LUT4s does not include count of distributed RAM and
+     ripple logic.
+   Number of clocks:  3
+     Net clk: 62 loads, 62 rising, 0 falling (Driver: OSCInst0 )
+
+                                    Page 1
+
+
+
+
+Design:  I2CRev03                                      Date:  07/03/25  15:34:50
+
+Design Summary (cont)
+---------------------
+     Net i2c1_scli: 1 loads, 1 rising, 0 falling (Driver: PIO SCL )
+     Net spi_clk_i: 1 loads, 1 rising, 0 falling (Driver: PIO SPI0_SCLK )
+   Number of Clock Enables:  5
+     Net reg_rdy_N_607: 1 loads, 1 LSLICEs
+     Net dat_rdy_N_611: 4 loads, 4 LSLICEs
+     Net clk_enable_8: 4 loads, 4 LSLICEs
+     Net clk_enable_17: 1 loads, 1 LSLICEs
+     Net clk_enable_16: 4 loads, 4 LSLICEs
+   Number of LSRs:  1
+     Net resetnefb: 47 loads, 46 LSLICEs
+   Number of nets driven by tri-state buffers:  0
+   Top 10 highest fanout non-clock nets:
+     Net resetnefb: 50 loads
+     Net wb_adr_i_6: 29 loads
+     Net wb_ack_o: 26 loads
+     Net n_temp1_7__N_96: 22 loads
+     Net clk_enable_17: 20 loads
+     Net temp1_6: 18 loads
+     Net temp1_5: 17 loads
+     Net temp1_0: 16 loads
+     Net dat_rdy_N_613: 14 loads
+     Net temp1_3: 14 loads
+
+
+
+
+   Number of warnings:  15
+   Number of errors:    0
+     
+
+Design Errors/Warnings
+----------------------
+
+WARNING - map: input pad net 'S3CsI2C_SDA' has no legal load.
+WARNING - map: input pad net 'S3CsI2C_SCL' has no legal load.
+WARNING - map: input pad net 'SPI0_nCS_SYS' has no legal load.
+WARNING - map: input pad net 'IRQ[3]' has no legal load.
+WARNING - map: input pad net 'IRQ[2]' has no legal load.
+WARNING - map: input pad net 'IRQ[1]' has no legal load.
+WARNING - map: input pad net 'IRQ[0]' has no legal load.
+WARNING - map: The JTAG port has been disabled in this project and JTAG pins
+     will be configured as General Purpose IO.  You have to use JTAGENB pin in
+     hardware to change the personality of the port from JTAG pins to general
+     purpose IO.  Reference MachXO2 Handbook for details on dual function JTAG
+     port.
+WARNING - map: IO buffer missing for top level port S3CsI2C_SDA...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port S3CsI2C_SCL...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port SPI0_nCS_SYS...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port IRQ[3:0](3)...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port IRQ[3:0](2)...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port IRQ[3:0](1)...logic will be
+
+                                    Page 2
+
+
+
+
+Design:  I2CRev03                                      Date:  07/03/25  15:34:50
+
+Design Errors/Warnings (cont)
+-----------------------------
+     discarded.
+WARNING - map: IO buffer missing for top level port IRQ[3:0](0)...logic will be
+     discarded.
+
+IO (PIO) Attributes
+-------------------
+
++---------------------+-----------+-----------+------------+
+| IO Name             | Direction | Levelmode | IO         |
+|                     |           |  IO_TYPE  | Register   |
++---------------------+-----------+-----------+------------+
+| SPI0_MOSI           | BIDIR     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| SCL                 | BIDIR     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| SDA                 | BIDIR     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| SPI0_SCLK           | BIDIR     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| SPI0_MISO           | BIDIR     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| X13_E2C_M62         | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| X13_E2C_M59         | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| X13_E2C_M58         | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| X13_E2C_M55         | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| X13_E2C_M54         | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| Xc1_CollFlt         | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FP_UsrLED[4]        | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FP_UsrLED[3]        | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FP_UsrLED[2]        | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FP_UsrLED[1]        | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FP_SysLEDs          | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| SPI0_SelnSYSUSRnCS  | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| DIG_00_Ch5          | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG_01_Ch5          | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG_02_Ch5          | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG_03_Ch5          | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG_04_Ch5          | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG_05_Ch5          | OUTPUT    | LVCMOS18  |            |
+
+                                    Page 3
+
+
+
+
+Design:  I2CRev03                                      Date:  07/03/25  15:34:50
+
+IO (PIO) Attributes (cont)
+--------------------------
++---------------------+-----------+-----------+------------+
+| DIG_24_Ch5          | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG_25_Ch5          | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG_26_Ch5          | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG_27_Ch5          | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG_28_Ch5          | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| DIG_29_Ch5          | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| S2C_FlexIO_IO0      | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| S2C_FlexIO_IO1      | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| S2C_FlexIO_IO2      | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| S2C_FlexIO_IO3      | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| S2C_FlexIO_IO4      | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| S2C_FlexIO_IO5      | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| S2C_FlexIO_IO6      | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| S2C_FlexIO_IO7      | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| X13_FP2x_ESt        | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| X13_C2E_M61         | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| X13_C2E_M60         | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| X13_C2E_M57         | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| X13_C2E_M56         | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| X13_C2E_M53         | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| X13_C2E_M52         | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| Xc1_SPICLK          | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| Xc1_MOSI            | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| Xc1_CS_A1           | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| Xc1_CS_A2           | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| Xc1_CS_A3           | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| Xc1_PSANL           | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| RTC_FOUT            | INPUT     | LVCMOS33  |            |
+
+                                    Page 4
+
+
+
+
+Design:  I2CRev03                                      Date:  07/03/25  15:34:50
+
+IO (PIO) Attributes (cont)
+--------------------------
++---------------------+-----------+-----------+------------+
+| S2C_S2              | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| S2C_S3              | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FP_UsrSW1           | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FP_UsrSW2           | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FP_UsrSW3           | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| FP_UsrSW4           | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| PG_VIN              | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| PPn_VIN             | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| TDnSHDN             | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| TDnFFnFS            | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| TDnALERT            | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| SPI0_nCS_USR        | INPUT     | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+
+Removed logic
+-------------
+
+Block GSR_INST undriven or does not drive anything - clipped.
+Signal VCC_net undriven or does not drive anything - clipped.
+Signal resetcounter_i24_917_add_4_25/CO undriven or does not drive anything -
+     clipped.
+Signal add_571_9/S1 undriven or does not drive anything - clipped.
+Signal add_571_9/CO undriven or does not drive anything - clipped.
+Signal resetcounter_i24_917_add_4_1/S0 undriven or does not drive anything -
+     clipped.
+Signal resetcounter_i24_917_add_4_1/CI undriven or does not drive anything -
+     clipped.
+Signal add_571_1/S0 undriven or does not drive anything - clipped.
+Signal add_571_1/CI undriven or does not drive anything - clipped.
+Block i2 was optimized away.
+
+     
+
+OSC Summary
+-----------
+
+OSC 1:                                     Pin/Node Value
+  OSC Instance Name:                                OSCInst0
+  OSC Type:                                         OSCH
+  STDBY Input:                                      NONE
+  OSC Output:                              NODE     clk
+  OSC Nominal Frequency (MHz):                      7.00
+
+
+
+                                    Page 5
+
+
+
+
+Design:  I2CRev03                                      Date:  07/03/25  15:34:50
+
+Embedded Functional Block Connection Summary
+--------------------------------------------
+
+   Desired WISHBONE clock frequency: 10.0 MHz
+   Clock source:                     clk
+   Reset source:                     resetnefb
+   Functions mode:
+      I2C #1 (Primary) Function:     ENABLED
+      I2C #2 (Secondary) Function:   DISABLED
+      SPI Function:                  ENABLED
+      Timer/Counter Function:        DISABLED
+      Timer/Counter Mode:            WB
+      UFM Connection:                DISABLED
+      PLL0 Connection:               DISABLED
+      PLL1 Connection:               DISABLED
+   I2C Function Summary:
+   --------------------
+      I2C Component:          PRIMARY
+      I2C Addressing:         7BIT
+      I2C Performance:        100kHz
+      Slave Address:          0b1000001
+      General Call:           DISABLED
+      I2C Wake Up:            DISABLED
+      I2C Component:          UFM/Configuration
+      I2C Addressing:         7BIT
+      I2C Performance:        100kHz
+      Slave Address:          0b1000000
+   SPI Function Summary:
+   --------------------
+      SPI Mode:               SLAVE
+      SPI Data Order:         MSB to LSB
+      SPI Clock Inversion:    DISABLED
+      SPI Phase Adjust:       DISABLED
+      SPI Wakeup:             DISABLED
+   Timer/Counter Function Summary:
+   ------------------------------
+      None
+   UFM Function Summary:
+   --------------------
+      UFM Utilization:        General Purpose Flash Memory
+      Available General
+      Purpose Flash Memory:   639 Pages (639*128 Bits)
+
+           EBR Blocks with Unique
+      Initialization Data:    0
+
+           WID		EBR Instance
+      ---		------------
+
+
+ASIC Components
+---------------
+
+Instance Name: dut/EFBInst_0
+         Type: EFB
+Instance Name: OSCInst0
+         Type: OSCH
+
+
+                                    Page 6
+
+
+
+
+Design:  I2CRev03                                      Date:  07/03/25  15:34:50
+
+Run Time and Memory Usage
+-------------------------
+
+   Total CPU Time: 1 secs  
+   Total REAL Time: 2 secs  
+   Peak Memory Usage: 48 MB
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    Page 7
+
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+     Copyright (c) 1995 AT&T Corp.   All rights reserved.
+     Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+     Copyright (c) 2001 Agere Systems   All rights reserved.
+     Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights
+     reserved.

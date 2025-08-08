@@ -1,0 +1,5 @@
+-rem
+-distrce
+-log "uz_d_slots_tx20_10rx.log"
+-o "uz_d_slots_tx20_10rx.csv"
+-pr "uz_d_slots_tx20_10rx.prf"

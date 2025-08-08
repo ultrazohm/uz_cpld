@@ -6,227 +6,140 @@
 -->
 </STYLE>
 </HEAD>
-<PRE><A name="pn241210211448"></A><B><U><big>pn241210211448</big></U></B>
-#Start recording tcl command: 12/10/2024 16:06:24
-#Project Location: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots; Project name: uz_d_slots
-prj_project open "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_slots.ldf"
-prj_impl active "optical_14tx_4rx"
+<PRE><A name="pn241101135930"></A><B><U><big>pn241101135930</big></U></B>
+#Start recording tcl command: 11/1/2024 13:54:26
+#Project Location: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots; Project name: uz_d_slots
+prj_project new -name "uz_d_slots" -impl "tx30" -dev LCMXO2-2000HC-4TG100C -synthesis "lse"
+prj_project save
+prj_impl new "rx30" -dir "rx30" -strategy "Strategy1" -synthesis "lse"
+prj_impl active "rx30"
+prj_impl active "tx30"
+prj_src add "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/top_level.vhdl"
+prj_run Synthesis -impl tx30
+prj_run PAR -impl tx30
+prj_run Export -impl tx30
+prj_project save
+prj_project close
+#Stop recording: 11/1/2024 13:59:30
+
+
+
+<A name="pn241101163828"></A><B><U><big>pn241101163828</big></U></B>
+#Start recording tcl command: 11/1/2024 13:59:31
+#Project Location: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots; Project name: uz_d_slots
+prj_project open "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_slots.ldf"
+prj_impl active "rx30"
+prj_impl active "tx30"
+prj_src remove "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/top_level.vhdl"
+prj_src add "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30.vhdl"
+prj_run Synthesis -impl tx30
+prj_run PAR -impl tx30
+prj_run Export -impl tx30
+prj_impl active "rx30"
+prj_src add "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/rx30.vhdl"
+prj_run Synthesis -impl rx30
+prj_run Synthesis -impl rx30
+prj_impl active "tx30"
+prj_run Synthesis -impl tx30
+prj_run PAR -impl tx30
+prj_run Export -impl tx30
+prj_impl active "rx30"
+prj_impl active "tx30"
+prj_impl active "rx30"
+prj_run Synthesis -impl rx30
+prj_impl active "tx30"
+prj_impl active "rx30"
+prj_run Synthesis -impl rx30
+prj_src exclude "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/rx30.vhdl"
+prj_src enable "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/rx30.vhdl"
+prj_impl active "tx30"
+prj_src exclude "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30.vhdl"
+prj_impl active "rx30"
+prj_run Synthesis -impl rx30
+prj_impl active "tx30"
+prj_src enable "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30.vhdl"
+prj_impl active "rx30"
+prj_run Synthesis -impl rx30
+prj_run PAR -impl rx30
+prj_run Export -impl rx30
+prj_impl new "tx26_w_enable" -dir "tx26_w_enable" -strategy "Strategy1" -synthesis "lse"
 prj_impl active "tx26_w_enable"
-prj_impl active "i2c"
-prj_run Export -impl i2c -forceAll
-prj_run Export -impl i2c -forceAll
-prj_run Export -impl i2c -forceAll
-prj_impl active "tx26_w_enable"
+prj_src add "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx26_w_enable.vhdl"
 prj_run Synthesis -impl tx26_w_enable
-prj_run Map -impl tx26_w_enable
-prj_run Map -impl tx26_w_enable
-prj_run Export -impl tx26_w_enable -forceAll
-prj_impl active "i2c"
-prj_run Map -impl i2c
-prj_run Export -impl i2c -forceAll
-prj_run Export -impl i2c -forceAll
-prj_src add "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/i2c/i2c_gpio.vhd"
-prj_src remove "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/i2c/source/i2c_gpio.vhd"
-prj_run Export -impl i2c -forceAll
-#Stop recording: 12/10/2024 21:14:48
-
-
-
-<A name="pn241212093258"></A><B><U><big>pn241212093258</big></U></B>
-#Start recording tcl command: 12/12/2024 09:29:21
-#Project Location: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots; Project name: uz_d_slots
-prj_project open "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_slots.ldf"
-#Stop recording: 12/12/2024 09:32:58
-
-
-
-<A name="pn241212095214"></A><B><U><big>pn241212095214</big></U></B>
-#Start recording tcl command: 12/12/2024 09:51:48
-#Project Location: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots; Project name: uz_d_slots
-prj_project open "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_slots.ldf"
-#Stop recording: 12/12/2024 09:52:14
-
-
-
-<A name="pn241213143147"></A><B><U><big>pn241213143147</big></U></B>
-#Start recording tcl command: 12/12/2024 11:04:51
-#Project Location: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots; Project name: uz_d_slots
-prj_project open "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_slots.ldf"
-prj_impl active "tx26_w_enable"
-prj_impl clone "template_dslots" -dir "template_dslots" -impl "tx26_w_enable" -copyRef
-prj_impl active "template_dslots"
-prj_run Synthesis -impl template_dslots
-prj_run Map -impl template_dslots
-prj_run Export -impl template_dslots -forceAll
-prj_run Export -impl template_dslots -forceAll
+prj_run Synthesis -impl tx26_w_enable
+prj_run Synthesis -impl tx26_w_enable
+prj_run Synthesis -impl tx26_w_enable
+prj_run PAR -impl tx26_w_enable
+prj_run Export -impl tx26_w_enable
+prj_impl new "uz_d_resolver_d1_to_d4" -dir "uz_d_resolver_d1_to_d4" -strategy "Strategy1" -synthesis "lse"
 prj_impl active "uz_d_resolver_d1_to_d4"
-prj_impl active "uz_d_3ph_inverter"
-prj_impl active "optical_14tx_4rx"
-prj_impl active "template_dslots"
-prj_run Synthesis -impl template_dslots
-prj_run Map -impl template_dslots
-prj_run Map -impl template_dslots
-prj_run Synthesis -impl template_dslots
-prj_run Map -impl template_dslots
-prj_run Export -impl template_dslots -forceAll
-prj_run Export -impl template_dslots -forceAll
-prj_run Export -impl template_dslots -forceAll
-prj_run Export -impl template_dslots -forceAll
-#Stop recording: 12/13/2024 14:31:47
-
-
-
-<A name="pn241213174544"></A><B><U><big>pn241213174544</big></U></B>
-#Start recording tcl command: 12/13/2024 15:03:04
-#Project Location: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots; Project name: uz_d_slots
-prj_project open "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_slots.ldf"
-#Stop recording: 12/13/2024 17:45:44
-
-
-
-<A name="pn241216075135"></A><B><U><big>pn241216075135</big></U></B>
-#Start recording tcl command: 12/16/2024 07:45:53
-#Project Location: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots; Project name: uz_d_slots
-prj_project open "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_slots.ldf"
-prj_impl active "tx26_w_enable"
-prj_impl active "tx30"
-prj_impl active "template_dslots"
-#Stop recording: 12/16/2024 07:51:35
-
-
-
-<A name="pn241216094022"></A><B><U><big>pn241216094022</big></U></B>
-#Start recording tcl command: 12/16/2024 07:31:03
-#Project Location: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots; Project name: uz_d_slots
-prj_project open "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_slots.ldf"
-prj_run Export -impl template_dslots -forceAll
-prj_run Export -impl template_dslots -forceAll
-prj_run Export -impl template_dslots -forceAll
-prj_run Export -impl template_dslots -forceAll
-prj_impl delete "tx26_w_enable"
-prj_impl clone "tx26_w_enable" -dir "tx26_w_enable" -impl "template_dslots" -copyRef
-prj_impl active "tx26_w_enable"
-prj_impl delete "tx30"
-prj_impl clone "tx30" -dir "tx30" -impl "tx26_w_enable" -copyRef
-prj_impl active "tx30"
-prj_src add "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30/source/tx30.vhdl"
-prj_src remove "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30/source/tx26_w_enable.vhdl"
-prj_impl active "tx26_w_enable"
-prj_impl active "tx30"
-prj_impl active "tx26_w_enable"
-prj_impl active "tx30"
-prj_impl active "tx26_w_enable"
-prj_impl active "tx30"
-prj_impl active "tx26_w_enable"
-prj_impl active "tx30"
-prj_run Export -impl tx30 -forceAll
-prj_run Export -impl tx30 -forceAll
-prj_impl active "tx26_w_enable"
-prj_impl active "template_dslots"
-prj_src add "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/template_dslots/source/template_w_enable.vhdl"
-prj_src remove "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/template_dslots/source/tx26_w_enable.vhdl"
-prj_run Export -impl template_dslots -forceAll
-prj_impl active "tx26_w_enable"
-prj_impl active "tx30"
-prj_impl active "tx26_w_enable"
-prj_impl active "tx30"
-prj_impl active "template_dslots"
-prj_impl delete "rx30"
-prj_impl clone "rx30" -dir "rx30" -impl "template_dslots" -copyRef
-prj_impl active "rx30"
-prj_src add "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/rx30/source/rx30.vhdl"
-prj_src remove "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/rx30/source/template_w_enable.vhdl"
-prj_impl active "template_dslots"
-prj_run Export -impl template_dslots -forceAll
-prj_impl active "rx30"
-prj_impl active "tx26_w_enable"
-prj_impl active "tx30"
-prj_impl active "rx30"
-prj_run Export -impl rx30 -forceAll
-prj_impl delete "optical_14tx_4rx"
-prj_impl clone "optical_14tx_4rx" -dir "optical_14tx_4rx" -impl "template_dslots" -copyRef
-prj_impl active "optical_14tx_4rx"
-prj_src add "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/optical_14tx_4rx/source/optical_14tx_4rx.vhdl"
-prj_src remove "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/optical_14tx_4rx/source/template_w_enable.vhdl"
-prj_run Export -impl optical_14tx_4rx -forceAll
-prj_run Export -impl optical_14tx_4rx -forceAll
-prj_run Export -impl optical_14tx_4rx -forceAll
-prj_impl delete "uz_d_3ph_inverter"
-prj_impl clone "uz_d_3ph_inverter" -dir "uz_d_3ph_inverter" -impl "optical_14tx_4rx" -copyRef
-prj_impl delete "uz_d_3ph_inverter"
-prj_impl clone "uz_d_3ph_inverter" -dir "uz_d_3ph_inverter" -impl "optical_14tx_4rx" -copyRef
-prj_impl active "uz_d_3ph_inverter"
-prj_src add "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_3ph_inverter/source/uz_d_3ph_inverter.vhdl"
-prj_src remove "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_3ph_inverter/source/optical_14tx_4rx.vhdl"
-prj_run Export -impl uz_d_3ph_inverter -forceAll
-prj_run Export -impl uz_d_3ph_inverter -forceAll
-prj_run Export -impl uz_d_3ph_inverter -forceAll
-prj_impl delete "uz_d_resolver_d1_to_d4"
-prj_impl clone "uz_d_resolver_d1_to_d4" -dir "uz_d_resolver_d1_to_d4" -impl "template_dslots" -copyRef
-prj_impl active "uz_d_resolver_d1_to_d4"
-prj_src remove "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_resolver_d1_to_d4/source/template_w_enable.vhdl"
-prj_src add "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_resolver_d1_to_d4/source/uz_d_resolver_d1_to_d4.vhdl"
-prj_run Export -impl uz_d_resolver_d1_to_d4 -forceAll
-prj_run Export -impl uz_d_resolver_d1_to_d4 -forceAll
-prj_run Export -impl uz_d_resolver_d1_to_d4 -forceAll
-prj_impl active "uz_d_3ph_inverter"
-prj_run Synthesis -impl uz_d_3ph_inverter -forceAll
-prj_run Export -impl uz_d_3ph_inverter -forceAll
-prj_impl active "optical_14tx_4rx"
-prj_run Export -impl optical_14tx_4rx -forceAll
-prj_impl delete "uz_d_resolver_d5"
-prj_impl active "uz_d_resolver_d1_to_d4"
-prj_impl clone "uz_d_resolver_d5" -dir "uz_d_resolver_d5" -impl "uz_d_resolver_d1_to_d4" -copyRef
+prj_src add "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_resolver_d1_to_d4.vhdl"
+prj_run Synthesis -impl uz_d_resolver_d1_to_d4
+prj_run PAR -impl uz_d_resolver_d1_to_d4
+prj_run Export -impl uz_d_resolver_d1_to_d4
+prj_impl new "uz_d_resolver_d5" -dir "uz_d_resolver_d5" -strategy "Strategy1" -synthesis "lse"
 prj_impl active "uz_d_resolver_d5"
-prj_src remove "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_resolver_d5/source/uz_d_resolver_d1_to_d4.vhdl"
-prj_src add "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_resolver_d5/source/uz_d_resolver_d5.vhdl"
-prj_run Export -impl uz_d_resolver_d5 -forceAll
-prj_run Export -impl uz_d_resolver_d5 -forceAll
-prj_run Export -impl uz_d_resolver_d5 -forceAll
-prj_run Export -impl uz_d_resolver_d5 -forceAll
-prj_run Export -impl uz_d_resolver_d5 -forceAll
-prj_run Export -impl uz_d_resolver_d5 -forceAll
-prj_run Export -impl uz_d_resolver_d5 -forceAll
-prj_run Export -impl uz_d_resolver_d5 -forceAll
-#Stop recording: 12/16/2024 09:40:22
-
-
-
-<A name="pn241216094836"></A><B><U><big>pn241216094836</big></U></B>
-#Start recording tcl command: 12/16/2024 09:41:26
-#Project Location: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots; Project name: uz_d_slots
-prj_project open "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_slots.ldf"
-prj_impl active "uz_d_resolver_d1_to_d4"
-prj_impl active "uz_d_resolver_d5"
-prj_run Export -impl uz_d_resolver_d5 -forceAll
-prj_run Map -impl uz_d_resolver_d5
+prj_src add "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_resolve_d5.vhdl"
+prj_run Synthesis -impl uz_d_resolver_d5
+prj_run Synthesis -impl uz_d_resolver_d5
 prj_run PAR -impl uz_d_resolver_d5
 prj_run Export -impl uz_d_resolver_d5
-prj_run Export -impl uz_d_resolver_d5 -forceAll
-prj_run Export -impl uz_d_resolver_d5 -forceAll
-prj_run Export -impl uz_d_resolver_d5 -forceAll
-#Stop recording: 12/16/2024 09:48:36
+prj_impl new "uz_d_3ph_inverter" -dir "uz_d_3ph_inverter" -strategy "Strategy1" -synthesis "lse"
+prj_impl active "uz_d_3ph_inverter"
+prj_src add "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_3ph_inverter.vhdl"
+prj_run Synthesis -impl uz_d_3ph_inverter
+prj_run PAR -impl uz_d_3ph_inverter
+prj_run Export -impl uz_d_3ph_inverter
+#Stop recording: 11/1/2024 16:38:28
 
 
 
-<A name="pn241216095026"></A><B><U><big>pn241216095026</big></U></B>
-#Start recording tcl command: 12/16/2024 09:48:49
-#Project Location: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots; Project name: uz_d_slots
-prj_project open "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_slots.ldf"
-prj_impl active "template_dslots"
-prj_run Export -impl template_dslots -forceAll
-prj_project save
-#Stop recording: 12/16/2024 09:50:26
+<A name="pn241101180712"></A><B><U><big>pn241101180712</big></U></B>
+#Start recording tcl command: 11/1/2024 18:03:26
+#Project Location: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots; Project name: uz_d_slots
+prj_project open "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_slots.ldf"
+prj_impl active "uz_d_resolver_d5"
+#Stop recording: 11/1/2024 18:07:12
 
 
 
-<A name="pn241217121654"></A><B><U><big>pn241217121654</big></U></B>
-#Start recording tcl command: 12/17/2024 11:21:24
-#Project Location: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots; Project name: uz_d_slots
-prj_project open "C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_slots.ldf"
+<A name="pn241101190431"></A><B><U><big>pn241101190431</big></U></B>
+#Start recording tcl command: 11/1/2024 18:31:13
+#Project Location: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots; Project name: uz_d_slots
+prj_project open "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_slots.ldf"
+prj_impl active "tx30"
+prj_impl new "optical_14tx_4rx" -dir "optical_14tx_4rx" -strategy "Strategy1" -synthesis "lse"
 prj_impl active "optical_14tx_4rx"
+prj_src add "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/optical_14tx_4rx.vhdl"
+prj_run Synthesis -impl optical_14tx_4rx
+prj_run Map -impl optical_14tx_4rx
+prj_run Synthesis -impl optical_14tx_4rx
+prj_run PAR -impl optical_14tx_4rx
+prj_run Export -impl optical_14tx_4rx
+prj_impl active "tx26_w_enable"
+prj_impl active "uz_d_resolver_d5"
+prj_impl active "tx30"
+prj_impl active "rx30"
+prj_impl active "uz_d_resolver_d5"
+#Stop recording: 11/1/2024 19:04:31
+
+
+
+<A name="pn250203090030"></A><B><U><big>pn250203090030</big></U></B>
+#Start recording tcl command: 2/3/2025 09:00:19
+#Project Location: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots; Project name: uz_d_slots
+prj_project open "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_slots.ldf"
 prj_project close
-#Stop recording: 12/17/2024 12:16:54
+#Stop recording: 2/3/2025 09:00:30
+
+
+
+<A name="pn250203094451"></A><B><U><big>pn250203094451</big></U></B>
+#Start recording tcl command: 2/3/2025 09:02:27
+#Project Location: C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots; Project name: uz_d_slots
+prj_project open "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_slots.ldf"
+prj_project close
+#Stop recording: 2/3/2025 09:44:51
 
 
 

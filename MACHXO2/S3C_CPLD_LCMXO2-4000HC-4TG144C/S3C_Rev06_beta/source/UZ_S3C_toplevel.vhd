@@ -112,6 +112,9 @@ architecture behavior of Waiting_for_Powerbutton_pressed_V0 is
     type state_type is (Waiting_for_Powerbutton_pressed,Waiting_for_Powerbutton_released,Wait_State, EthernetPhy_Reset,Waiting_for_Powerbutton_pressed_2sec , Ready_State, Warning_State, Harderror_1RSS, Harderror_2OFF,Softerror, sleep_for_dslot_down ,Waiting_for_Powerbutton_released_after_2sec2 );
     signal next_state : state_type:= Waiting_for_Powerbutton_pressed;
 	
+	-- error type definitions (currently hard errors only)
+	type error_type is (TemperatureShutdown, ExternalStop, SlotOC, SupplyFailure);
+
     -- debounceconstant
     constant debounce_limit : integer := 20800; -- 10ms, at 2.08MhZ
 
@@ -158,15 +161,7 @@ architecture behavior of Waiting_for_Powerbutton_pressed_V0 is
 	attribute noclip   : string;
 	attribute noclip of dummy_signal  : signal is "on";
 	attribute syn_keep of dummy_signal : signal is true;
--- Prozedur wird innerhalb der Architektur definiert
-  procedure enter_errorstate(
-    signal counter : out integer;
-    signal next_state : out state_type
-  ) is
-  begin
-		counter <= 31200000;
-        next_state <= Harderror_1RSS;
-  end procedure;
+
 begin
 	OSCInst0: OSCH
 	-- synthesis translate_off
@@ -248,9 +243,25 @@ stop<=NOT signals_debounced_syn(3);
 enable<=NOT signals_debounced_syn(4);
 pg10v<=signals_debounced_syn(5);
 ppn6v<=signals_debounced_syn(6);
+
 -- State machine
 process(clk)
-    begin
+	-- Prozedur wird innerhalb der Architektur definiert
+	procedure enter_errorstate(
+		constant error_reason : in error_type
+	) is
+	begin
+	-- später hier logik für LED Fehlerfarben zuweisen/speichern
+		counter <= 31200000;
+		next_state <= Harderror_1RSS;
+		
+		case error_reason is
+            when ExternalStop =>
+				extern_connected <= '1';
+		end case;
+	end procedure;
+ 
+	begin
 	if rising_edge(clk) then
         case next_state is
             when Waiting_for_Powerbutton_pressed =>
@@ -322,7 +333,7 @@ process(clk)
 				FP_SysLEDs <= '1';
                 if externstop_falling = '1' then  
 					extern_connected <= '1';-- bit to check if external stop was connected
-					enter_errorstate(counter, next_state);
+					enter_errorstate(ExternalStop);
 				elsif stop = '1' then  
                     next_state <= Softerror;
 				elsif warning = '1' then
@@ -341,7 +352,7 @@ process(clk)
                 -- skip external stop
                 if externstop_falling = '1' then  
 					extern_connected <= '1';-- bit to check if external stop was connected
-					enter_errorstate(counter, next_state);
+					enter_errorstate(ExternalStop);
 				elsif stop = '1' then  
                     next_state <= Softerror;
                 elsif power = '1' then 
@@ -386,7 +397,7 @@ process(clk)
 					next_state <= Waiting_for_Powerbutton_pressed_2sec ;
 				elsif externstop_falling = '1' then  
 					extern_connected <= '1';-- bit to check if external stop was connected
-					enter_errorstate(counter, next_state);
+					enter_errorstate(ExternalStop);
 				elsif enable = '1' then 
 					next_state <= Ready_State;
 				end if;

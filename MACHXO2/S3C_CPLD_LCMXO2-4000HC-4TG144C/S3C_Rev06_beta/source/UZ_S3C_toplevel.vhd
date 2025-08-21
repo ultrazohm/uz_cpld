@@ -4,7 +4,7 @@ use machxo2.all;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
-entity Waiting_for_Powerbutton_pressed_V0 is
+entity Soft_Off_V0 is
 
     Port (
 		-- Mapping according to banks
@@ -100,17 +100,17 @@ entity Waiting_for_Powerbutton_pressed_V0 is
 		S3C_S1 			: in STD_LOGIC		-- pin 10, pulldown
     );
 	
-end Waiting_for_Powerbutton_pressed_V0;
+end Soft_Off_V0;
 
-architecture behavior of Waiting_for_Powerbutton_pressed_V0 is
+architecture behavior of Soft_Off_V0 is
 	signal clk	:	STD_LOGIC;
 	signal counter : integer range 0 to 31200000 := 0; 	-- counter 
 	signal count_done_100ms : boolean := false; 			-- flag for 100ms end
 	signal reset_triggered : boolean := false; -- flag, to track resetn is zero
 
     -- states in statemachine
-    type state_type is (Waiting_for_Powerbutton_pressed,Waiting_for_Powerbutton_released,Wait_State, EthernetPhy_Reset,Waiting_for_Powerbutton_pressed_2sec , Ready_State, Warning_State, Harderror_1RSS, Harderror_2OFF,Softerror, sleep_for_dslot_down ,Waiting_for_Powerbutton_released_after_2sec2 );
-    signal next_state : state_type:= Waiting_for_Powerbutton_pressed;
+    type state_type is (Soft_Off,Waiting_for_Powerbutton_released,Wait_State, EthernetPhy_Reset,Waiting_for_Powerbutton_pressed_2sec  , Ready_State, Warning_State, Harderror_1RSS, Harderror_2OFF,Softerror, sleep_for_dslot_down ,Waiting_for_Powerbutton_released_after_2sec2 );
+    signal next_state : state_type:= Soft_Off;
 	
 	-- error type definitions (currently hard errors only)
 	type error_type is (TemperatureShutdown, ExternalStop, SlotOC, SupplyFailure);
@@ -172,7 +172,7 @@ begin
 	SEDSTDBY => open
 	);
 --Dummy
-dummy_signal <= TDnALERT AND TDnFFnFS AND TDnSHDN AND PG_VIN and ANL_S3C_P54_Legacy AND ANL_S3C_SLOTOK(1) AND ANL_S3C_SLOTOK(2) AND ANL_S3C_SLOTOK(3)  
+dummy_signal <= TDnALERT AND TDnFFnFS AND TDnSHDN and ANL_S3C_P54_Legacy AND ANL_S3C_SLOTOK(1) AND ANL_S3C_SLOTOK(2) AND ANL_S3C_SLOTOK(3)  
 AND DIGS3C_SlotD_SlotOK(1) AND DIGS3C_SlotD_SlotOK(2) AND DIGS3C_SlotD_SlotOK(3) AND DIGS3C_SlotD_SlotOK(4) AND DIGS3C_SlotD_SlotOK(5)
 AND DIG5S3C00 AND DIG5S3C01 AND DIG5S3C02 AND DIG5S3C03 AND DIG5S3C04 AND DIG5S3C05
 AND DIG5S3C24 AND DIG5S3C25 AND DIG5S3C26 AND DIG5S3C27 AND DIG5S3C28 AND DIG5S3C29
@@ -257,18 +257,26 @@ process(clk)
 		case error_reason is
             when ExternalStop =>
 				extern_connected <= '1';-- bit to check if external stop was connected
+			when SupplyFailure =>
+		
 		end case;
 	end procedure;
+	
  	procedure check_for_harderror is
 	begin
-		if externstop_falling = '1' then  
+		if pg10v = '0' then  
+			enter_errorstate(SupplyFailure);
+		elsif externstop_falling = '1' then  
 			enter_errorstate(ExternalStop);
 		end if;
 	end procedure;
+	
+	
+	
 	begin
 	if rising_edge(clk) then
         case next_state is
-            when Waiting_for_Powerbutton_pressed =>
+            when Soft_Off =>
 				forceoutputdisable <= '1';
 				DIGS3C_Shared_ReqSafeState <= '1'; -- not working because bank 1 1.8vper not supplied
 				FlexMIOs53_GPIO_PowerDown <= '0';
@@ -309,7 +317,7 @@ process(clk)
 					Carrier_PG_1V8 <= '0';  -- resetn for 50ms to zero
 					next_state <= EthernetPhy_Reset;
 				end if;
-			
+				
 			when EthernetPhy_Reset =>
 				forceoutputdisable <= '1';
 				DIGS3C_Shared_ReqSafeState <= '1'; -- not working because bank 1 1.8vper not supplied
@@ -328,8 +336,10 @@ process(clk)
 						next_state <= Ready_State;
 					end if;
 				end if;
+				check_for_harderror;
+				
             when ready_state =>
-				forceoutputdisable <= NOT PPn_VIN; 
+				forceoutputdisable <= NOT PPn_VIN; -- noch zu messen, evtl durch debounce version ersetzen
 				DIGS3C_Shared_ReqSafeState <= '0';
 				FP_SysLEDr <= '0';	
 				FP_SysLEDb <= '0';	
@@ -342,12 +352,12 @@ process(clk)
 					next_state <= Warning_State;
                 elsif power = '1' then 
 					counter <= 4160000;
-					next_state <= Waiting_for_Powerbutton_pressed_2sec ;
+					next_state <= Waiting_for_Powerbutton_pressed_2sec  ;
 				end if;
 				check_for_harderror;
 				
             when warning_state =>
-				forceoutputdisable <= NOT PPn_VIN; 
+				forceoutputdisable <= NOT PPn_VIN; -- noch zu messen, evtl durch debounce version ersetzen
 				DIGS3C_Shared_ReqSafeState <= '0';
 				FP_SysLEDr <= '0';	
 				FP_SysLEDb <= '1';	
@@ -358,13 +368,13 @@ process(clk)
                     next_state <= Softerror;
                 elsif power = '1' then 
 					counter <= 4160000;
-					next_state <= Waiting_for_Powerbutton_pressed_2sec;
+					next_state <= Waiting_for_Powerbutton_pressed_2sec ;
 				end if;
 				check_for_harderror;
 				
             when Harderror_1RSS =>
 				--Request safe state to dslots
-				forceoutputdisable <= NOT PPn_VIN; 
+				forceoutputdisable <= NOT PPn_VIN; -- noch zu messen, evtl durch debounce version ersetzen
 				DIGS3C_Shared_ReqSafeState <= '1';
 				FlexMIOs53_GPIO_PowerDown <= '1';  -- info to som, power linux down;
 				FP_SysLEDr <= '1';	
@@ -388,7 +398,7 @@ process(clk)
 				end if;
 			when Softerror =>
 				--Request safe state to dslots
-				forceoutputdisable <= NOT PPn_VIN; 
+				forceoutputdisable <= NOT PPn_VIN; -- noch zu messen, evtl durch debounce version ersetzen
 				DIGS3C_Shared_ReqSafeState <= '1';
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '1';	
@@ -397,14 +407,14 @@ process(clk)
 				
 				if power = '1' then 
 					counter <= 4160000;
-					next_state <= Waiting_for_Powerbutton_pressed_2sec ;
+					next_state <= Waiting_for_Powerbutton_pressed_2sec  ;
 				elsif enable = '1' then 
 					next_state <= Ready_State;
 				end if;
 				check_for_harderror;
 				
-			when Waiting_for_Powerbutton_pressed_2sec  =>
-				forceoutputdisable <= NOT PPn_VIN; 
+			when Waiting_for_Powerbutton_pressed_2sec   =>
+				forceoutputdisable <= NOT PPn_VIN; -- noch zu messen, evtl durch debounce version ersetzen
 				DIGS3C_Shared_ReqSafeState <= '0';
 				FlexMIOs53_GPIO_PowerDown <= '1';  -- info to som, power linux down;
 				if counter > 0 then
@@ -421,12 +431,16 @@ process(clk)
 					FlexMIOs53_GPIO_PowerDown <= '0';
 					next_state <= Ready_State;
 				end if;
+				check_for_harderror;
+				
 			when sleep_for_dslot_down =>
 				if counter > 0 then
 					counter <= counter - 1;
 				else
 					next_state <= Waiting_for_Powerbutton_released_after_2sec2 ;
 				end if;
+				check_for_harderror;
+				
             when Waiting_for_Powerbutton_released_after_2sec2  => 
 				forceoutputdisable <= '1'; 
 				FP_SysLEDr <= '1';	
@@ -437,10 +451,10 @@ process(clk)
 				Carrier_PG_3V3 <= '0';
 				FPIO_isoCtrlRSTn <= '0'; -- reset IsoIO on
 				if power = '0' then
-					next_state <= Waiting_for_Powerbutton_pressed;
+					next_state <= Soft_Off;
 				end if;
             when others =>
-                next_state <= Waiting_for_Powerbutton_pressed;
+                next_state <= Soft_Off;
         end case;
 	end if;
 end process;

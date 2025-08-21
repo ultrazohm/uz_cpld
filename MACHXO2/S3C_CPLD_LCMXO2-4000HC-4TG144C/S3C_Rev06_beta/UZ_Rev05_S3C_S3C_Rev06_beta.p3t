@@ -1,0 +1,5 @@
+-rem
+-distrce
+-log "UZ_Rev05_S3C_S3C_Rev06_beta.log"
+-o "UZ_Rev05_S3C_S3C_Rev06_beta.csv"
+-pr "UZ_Rev05_S3C_S3C_Rev06_beta.prf"

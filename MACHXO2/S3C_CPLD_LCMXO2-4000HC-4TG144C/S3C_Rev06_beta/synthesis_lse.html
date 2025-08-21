@@ -1,0 +1,292 @@
+<HTML>
+<HEAD><TITLE>Synthesis and Ngdbuild Report</TITLE>
+<STYLE TYPE="text/css">
+<!--
+ body,pre{    font-family:'Courier New', monospace;    color: #000000;    font-size:88%;    background-color: #ffffff;}h1 {    font-weight: bold;    margin-top: 24px;    margin-bottom: 10px;    border-bottom: 3px solid #000;    font-size: 1em;}h2 {    font-weight: bold;    margin-top: 18px;    margin-bottom: 5px;    font-size: 0.90em;}h3 {    font-weight: bold;    margin-top: 12px;    margin-bottom: 5px;    font-size: 0.80em;}p {    font-size:78%;}P.Table {    margin-top: 4px;    margin-bottom: 4px;    margin-right: 4px;    margin-left: 4px;}table{    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    border-collapse: collapse;}th {    font-weight:bold;    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    text-align:left;    font-size:78%;}td {    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    font-size:78%;}a {    color:#013C9A;    text-decoration:none;}a:visited {    color:#013C9A;}a:hover, a:active {    text-decoration:underline;    color:#5BAFD4;}.pass{background-color: #00ff00;}.fail{background-color: #ff0000;}.comment{    font-size: 90%;    font-style: italic;}
+-->
+</STYLE>
+</HEAD>
+<PRE><A name="Syn"></A><B><U><big>Synthesis and Ngdbuild  Report</big></U></B>
+synthesis:  version Diamond (64-bit) 3.13.0.56.2
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
+Thu Aug 21 13:11:09 2025
+
+
+Command Line:  synthesis -f UZ_Rev05_S3C_S3C_Rev06_beta_lattice.synproj -gui 
+
+Synthesis options:
+The -a option is MachXO2.
+The -s option is 4.
+The -t option is TQFP144.
+The -d option is LCMXO2-4000HC.
+Using package TQFP144.
+Using performance grade 4.
+                                                          
+
+##########################################################
+
+### Lattice Family : MachXO2
+
+### Device  : LCMXO2-4000HC
+
+### Package : TQFP144
+
+### Speed   : 4
+
+##########################################################
+
+                                                          
+
+INFO - synthesis: User-Selected Strategy Settings
+Optimization goal = Balanced
+Top-level module name = Waiting_for_Powerbutton_pressed_V0.
+Target frequency = 200.000000 MHz.
+Maximum fanout = 1000.
+Timing path count = 3
+BRAM utilization = 100.000000 %
+DSP usage = true
+DSP utilization = 100.000000 %
+fsm_encoding_style = auto
+resolve_mixed_drivers = 0
+fix_gated_clocks = 1
+
+Mux style = Auto
+Use Carry Chain = true
+carry_chain_length = 0
+Loop Limit = 1950.
+Use IO Insertion = TRUE
+Use IO Reg = AUTO
+
+Resource Sharing = TRUE
+Propagate Constants = TRUE
+Remove Duplicate Registers = TRUE
+force_gsr = auto
+ROM style = auto
+RAM style = auto
+The -comp option is FALSE.
+The -syn option is FALSE.
+-p C:/lscc/diamond/3.13/ispfpga/xo2c00/data (searchpath added)
+-p C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_Rev06_beta (searchpath added)
+-p C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C (searchpath added)
+VHDL library = work
+VHDL design file = C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_Rev06_beta/source/UZ_S3C_toplevel.vhd
+NGD file = UZ_Rev05_S3C_S3C_Rev06_beta.ngd
+-sdc option: SDC file input not used.
+-lpf option: Output file option is ON.
+Hardtimer checking is enabled (default). The -dt option is not used.
+The -r option is OFF. [ Remove LOC Properties is OFF. ]
+Technology check ok...
+
+Analyzing Verilog file C:/lscc/diamond/3.13/ispfpga/userware/NT/SYNTHESIS_HEADERS/machxo2.v. VERI-1482
+Compile design.
+Compile Design Begin
+INFO - synthesis: The default VHDL library search path is now "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_Rev06_beta". VHDL-1504
+Analyzing VHDL file c:/cpld/cpld_lattice/machxo2/s3c_cpld_lcmxo2-4000hc-4tg144c/s3c_rev06_beta/source/uz_s3c_toplevel.vhd. VHDL-1481
+INFO - synthesis: c:/cpld/cpld_lattice/machxo2/s3c_cpld_lcmxo2-4000hc-4tg144c/s3c_rev06_beta/source/uz_s3c_toplevel.vhd(7): analyzing entity waiting_for_powerbutton_pressed_v0. VHDL-1012
+INFO - synthesis: c:/cpld/cpld_lattice/machxo2/s3c_cpld_lcmxo2-4000hc-4tg144c/s3c_rev06_beta/source/uz_s3c_toplevel.vhd(105): analyzing architecture behavior. VHDL-1010
+unit Waiting_for_Powerbutton_pressed_V0 is not yet analyzed. VHDL-1485
+unit Waiting_for_Powerbutton_pressed_V0 is not yet analyzed. VHDL-1485
+c:/cpld/cpld_lattice/machxo2/s3c_cpld_lcmxo2-4000hc-4tg144c/s3c_rev06_beta/source/uz_s3c_toplevel.vhd(7): executing Waiting_for_Powerbutton_pressed_V0(behavior)
+
+INFO - synthesis: c:/cpld/cpld_lattice/machxo2/s3c_cpld_lcmxo2-4000hc-4tg144c/s3c_rev06_beta/source/uz_s3c_toplevel.vhd(422): others clause is never selected. VHDL-1172
+WARNING - synthesis: c:/cpld/cpld_lattice/machxo2/s3c_cpld_lcmxo2-4000hc-4tg144c/s3c_rev06_beta/source/uz_s3c_toplevel.vhd(103): replacing existing netlist Waiting_for_Powerbutton_pressed_V0(behavior). VHDL-1205
+Top module name (VHDL): Waiting_for_Powerbutton_pressed_V0
+Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/xo2c00a/data/xo2alib.ngl'...
+Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/xo2c00/data/xo2clib.ngl'...
+Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/mg5g00/data/mg5glib.ngl'...
+Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/or5g00/data/orc5glib.ngl'...
+Loading device for application map from file 'xo2c4000.nph' in environment: C:/lscc/diamond/3.13/ispfpga.
+Package Status:                     Final          Version 1.44.
+Top-level module name = Waiting_for_Powerbutton_pressed_V0.
+WARNING - synthesis: Initial value found on net n67 will be ignored due to unrecognized driver type
+WARNING - synthesis: Initial value found on net FPIO_FlexMIO28 will be ignored due to unrecognized driver type
+WARNING - synthesis: Initial value found on net FPIO_FlexMIO27 will be ignored due to unrecognized driver type
+WARNING - synthesis: Initial value found on net FPIO_FlexMIO30 will be ignored due to unrecognized driver type
+WARNING - synthesis: Initial value found on net FPIO_FlexMIO29 will be ignored due to unrecognized driver type
+WARNING - synthesis: Initial value found on net Carrier_PG_1V8 will be ignored due to unrecognized driver type
+WARNING - synthesis: I/O Port FlexIO05 's net has no driver and is unused.
+WARNING - synthesis: I/O Port FlexIO02 's net has no driver and is unused.
+WARNING - synthesis: I/O Port FlexIO01 's net has no driver and is unused.
+######## Converting I/O port SCL to input.
+######## Converting I/O port SDA to input.
+WARNING - synthesis: I/O Port FPIO_FlexMIO52 's net has no driver and is unused.
+######## Converting I/O port S3CsI2C_SDA to input.
+######## Converting I/O port S3CsI2C_SCL to input.
+WARNING - synthesis: I/O Port FP_UsrLED[4] 's net has no driver and is unused.
+WARNING - synthesis: I/O Port FP_UsrLED[3] 's net has no driver and is unused.
+WARNING - synthesis: I/O Port FP_UsrLED[2] 's net has no driver and is unused.
+WARNING - synthesis: I/O Port FP_UsrLED[1] 's net has no driver and is unused.
+WARNING - synthesis: I/O Port DIGS3C_Shared_CarrierReady 's net has no driver and is unused.
+######## Converting I/O port FlexLIO[5] to input.
+######## Converting I/O port FlexLIO[4] to input.
+######## Converting I/O port FlexLIO[3] to input.
+######## Converting I/O port FlexLIO[2] to input.
+######## Converting I/O port FlexLIO[1] to input.
+######## Converting I/O port FlexLIO[0] to input.
+WARNING - synthesis: I/O Port FlexMIOs52_PCIe 's net has no driver and is unused.
+######## Converting I/O port FlexMIOs45 to input.
+WARNING - synthesis: I/O Port ANL_S3C_CarrierReady 's net has no driver and is unused.
+######## Converting I/O port ANL_S3C_P54_Legacy to input.
+######## Converting I/O port TDnFFnFS to input.
+######## Missing driver on net FlexIO05. Patching with GND.
+######## Missing driver on net FlexIO02. Patching with GND.
+######## Missing driver on net FlexIO01. Patching with GND.
+######## Missing driver on net FP_UsrLED[4]. Patching with GND.
+######## Missing driver on net FP_UsrLED[3]. Patching with GND.
+######## Missing driver on net FP_UsrLED[2]. Patching with GND.
+######## Missing driver on net FP_UsrLED[1]. Patching with GND.
+######## Missing driver on net DIGS3C_Shared_CarrierReady. Patching with GND.
+######## Missing driver on net ANL_S3C_CarrierReady. Patching with GND.
+
+
+
+WARNING - synthesis: I/O Port FPIO_FlexMIO52 's net has no driver and is unused.
+WARNING - synthesis: I/O Port FlexMIOs52_PCIe 's net has no driver and is unused.
+GSR will not be inferred because no asynchronous signal was found in the netlist.
+Applying 200.000000 MHz constraint to all clocks
+
+WARNING - synthesis: No user .sdc file.
+Results of NGD DRC are available in Waiting_for_Powerbutton_pressed_V0_drc.log.
+Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/xo2c00a/data/xo2alib.ngl'...
+Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/xo2c00/data/xo2clib.ngl'...
+Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/mg5g00/data/mg5glib.ngl'...
+Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/or5g00/data/orc5glib.ngl'...
+WARNING - synthesis: logical net 'dummy_signal' has no load.
+WARNING - synthesis: DRC complete with 1 warnings.
+All blocks are expanded and NGD expansion is successful.
+Writing NGD file UZ_Rev05_S3C_S3C_Rev06_beta.ngd.
+
+################### Begin Area Report (Waiting_for_Powerbutton_pressed_V0)######################
+Number of register bits => 187 of 4665 (4 % )
+BB => 31
+CCU2D => 133
+FD1P3AX => 25
+FD1P3IX => 148
+FD1S3AX => 2
+FD1S3AY => 12
+GSR => 1
+IB => 44
+L6MUX21 => 1
+LUT4 => 184
+OB => 26
+OBZ => 1
+OSCH => 1
+PFUMX => 16
+################### End Area Report ##################
+
+################### Begin BlackBox Report ######################
+TSALL => 1
+################### End BlackBox Report ##################
+
+################### Begin Clock Report ######################
+Clock Nets
+Number of Clocks: 1
+  Net : clk, loads : 187
+Clock Enable Nets
+Number of Clock Enables: 23
+Top 10 highest fanout Clock Enables:
+  Net : clk_enable_172, loads : 32
+  Net : clk_enable_109, loads : 32
+  Net : clk_enable_46, loads : 32
+  Net : clk_enable_130, loads : 32
+  Net : clk_enable_141, loads : 26
+  Net : clk_enable_111, loads : 2
+  Net : clk_enable_112, loads : 2
+  Net : clk_enable_21, loads : 2
+  Net : clk_enable_6, loads : 2
+  Net : clk_enable_23, loads : 2
+Highest fanout non-clock nets
+Top 10 highest fanout non-clock nets:
+  Net : next_state_3, loads : 58
+  Net : next_state_1, loads : 57
+  Net : next_state_0, loads : 54
+  Net : next_state_2, loads : 53
+  Net : next_state_3_N_485_2, loads : 35
+  Net : debounce_inputs_asyn2_4, loads : 34
+  Net : debounce_inputs_asyn2_3, loads : 34
+  Net : debounce_inputs_asyn2_2, loads : 34
+  Net : debounce_inputs_asyn2_1, loads : 34
+  Net : clk_enable_46, loads : 32
+################### End Clock Report ##################
+
+<A name="lse_trs"></A><B><U><big>Timing Report Summary</big></U></B>
+--------------
+--------------------------------------------------------------------------------
+Constraint                              |   Constraint|       Actual|Levels
+--------------------------------------------------------------------------------
+                                        |             |             |
+create_clock -period 5.000000 -name     |             |             |
+clk0 [get_nets clk]                     |  200.000 MHz|   59.287 MHz|    10 *
+                                        |             |             |
+--------------------------------------------------------------------------------
+
+
+1 constraints not met.
+
+
+Peak Memory Usage: 87.637  MB
+
+--------------------------------------------------------------
+Elapsed CPU time for LSE flow : 2.203  secs
+--------------------------------------------------------------
+
+
+
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+<BR>
+</PRE></FONT>
+</BODY>
+</HTML>

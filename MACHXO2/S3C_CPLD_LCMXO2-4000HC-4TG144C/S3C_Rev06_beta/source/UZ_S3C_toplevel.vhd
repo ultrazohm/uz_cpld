@@ -158,7 +158,15 @@ architecture behavior of Waiting_for_Powerbutton_pressed_V0 is
 	attribute noclip   : string;
 	attribute noclip of dummy_signal  : signal is "on";
 	attribute syn_keep of dummy_signal : signal is true;
-	
+-- Prozedur wird innerhalb der Architektur definiert
+  procedure enter_errorstate(
+    signal counter : out integer;
+    signal next_state : out state_type
+  ) is
+  begin
+		counter <= 31200000;
+        next_state <= Harderror_1RSS;
+  end procedure;
 begin
 	OSCInst0: OSCH
 	-- synthesis translate_off
@@ -314,8 +322,7 @@ process(clk)
 				FP_SysLEDs <= '1';
                 if externstop_falling = '1' then  
 					extern_connected <= '1';-- bit to check if external stop was connected
-					counter <= 31200000;
-                    next_state <= Harderror_1RSS;
+					enter_errorstate(counter, next_state);
 				elsif stop = '1' then  
                     next_state <= Softerror;
 				elsif warning = '1' then
@@ -334,8 +341,7 @@ process(clk)
                 -- skip external stop
                 if externstop_falling = '1' then  
 					extern_connected <= '1';-- bit to check if external stop was connected
-					counter <= 31200000;
-                    next_state <= Harderror_1RSS;
+					enter_errorstate(counter, next_state);
 				elsif stop = '1' then  
                     next_state <= Softerror;
                 elsif power = '1' then 
@@ -380,8 +386,7 @@ process(clk)
 					next_state <= Waiting_for_Powerbutton_pressed_2sec ;
 				elsif externstop_falling = '1' then  
 					extern_connected <= '1';-- bit to check if external stop was connected
-					counter <= 31200000;
-                    next_state <= Harderror_1RSS;
+					enter_errorstate(counter, next_state);
 				elsif enable = '1' then 
 					next_state <= Ready_State;
 				end if;

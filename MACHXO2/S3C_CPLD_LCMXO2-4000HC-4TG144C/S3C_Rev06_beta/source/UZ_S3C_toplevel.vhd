@@ -109,7 +109,7 @@ architecture behavior of Waiting_for_Powerbutton_pressed_V0 is
 	signal reset_triggered : boolean := false; -- flag, to track resetn is zero
 
     -- states in statemachine
-    type state_type is (Waiting_for_Powerbutton_pressed,Waiting_for_Powerbutton_released,Wait_State, EthernetPhy_Reset,Waiting_for_Powerbutton_pressed_2sec , Ready_State, Warning_State, Harderror,Softerror, sleep_for_dslot_down,Acknowledge_error ,Waiting_for_Powerbutton_released_after_2sec2 );
+    type state_type is (Waiting_for_Powerbutton_pressed,Waiting_for_Powerbutton_released,Wait_State, EthernetPhy_Reset,Waiting_for_Powerbutton_pressed_2sec , Ready_State, Warning_State, Harderror_1RSS, Harderror_2OFF,Softerror, sleep_for_dslot_down ,Waiting_for_Powerbutton_released_after_2sec2 );
     signal next_state : state_type:= Waiting_for_Powerbutton_pressed;
 	
     -- debounceconstant
@@ -297,7 +297,8 @@ process(clk)
 					counter <= counter - 1;
 				else
 					if  extern_connected='1' AND stopextern = '1' then
-						next_state <= Harderror;
+						counter <= 31200000;
+						next_state <= Harderror_1RSS;
 					else
 						Carrier_PG_1V8 <= 'Z';  -- after 50 ms tristate
 						FPIO_isoCtrlRSTn <= '1'; -- reset IsoIO off
@@ -312,8 +313,9 @@ process(clk)
 				FP_SysLEDg <= '1';
 				FP_SysLEDs <= '1';
                 if externstop_falling = '1' then  
+					extern_connected <= '1';-- bit to check if external stop was connected
 					counter <= 31200000;
-                    next_state <= Harderror;
+                    next_state <= Harderror_1RSS;
 				elsif stop = '1' then  
                     next_state <= Softerror;
 				elsif warning = '1' then
@@ -331,15 +333,16 @@ process(clk)
 				FP_SysLEDs <= '0';
                 -- skip external stop
                 if externstop_falling = '1' then  
+					extern_connected <= '1';-- bit to check if external stop was connected
 					counter <= 31200000;
-                    next_state <= Harderror;
+                    next_state <= Harderror_1RSS;
 				elsif stop = '1' then  
                     next_state <= Softerror;
                 elsif power = '1' then 
 					counter <= 4160000;
 					next_state <= Waiting_for_Powerbutton_pressed_2sec;
 				end if;
-            when Harderror =>
+            when Harderror_1RSS =>
 				--Request safe state to dslots
 				forceoutputdisable <= NOT PPn_VIN; 
 				DIGS3C_Shared_ReqSafeState <= '1';
@@ -347,18 +350,17 @@ process(clk)
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '0';	
 				FP_SysLEDg <= '0';
-				FP_SysLEDs <= '1';	
-				Carrier_PwrOn <= '0';  -- all rails down, only s3c alive
-				Carrier_PG_3V3 <= '0';
-				FPIO_isoCtrlRSTn <= '0'; -- reset IsoIO on
+				FP_SysLEDs <= '1';
 				if counter > 0 then
 					counter <= counter - 1;
 				else
-					-- bit to check if external stop was connected
-					extern_connected <= '1';
-					next_state <= Acknowledge_error;
+
+					Carrier_PwrOn <= '0';  -- all rails down, only s3c alive
+					Carrier_PG_3V3 <= '0';
+					FPIO_isoCtrlRSTn <= '0'; -- reset IsoIO on
+					next_state <= Harderror_2OFF;
 				end if;
-			when Acknowledge_error => 
+			when Harderror_2OFF => 
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '0';
@@ -377,8 +379,9 @@ process(clk)
 					counter <= 4160000;
 					next_state <= Waiting_for_Powerbutton_pressed_2sec ;
 				elsif externstop_falling = '1' then  
+					extern_connected <= '1';-- bit to check if external stop was connected
 					counter <= 31200000;
-                    next_state <= Harderror;
+                    next_state <= Harderror_1RSS;
 				elsif enable = '1' then 
 					next_state <= Ready_State;
 				end if;

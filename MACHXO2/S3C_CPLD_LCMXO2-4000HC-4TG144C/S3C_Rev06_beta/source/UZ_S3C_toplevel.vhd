@@ -246,7 +246,6 @@ ppn6v<=signals_debounced_syn(6);
 
 -- State machine
 process(clk)
-	-- Prozedur wird innerhalb der Architektur definiert
 	procedure enter_errorstate(
 		constant error_reason : in error_type
 	) is
@@ -257,10 +256,15 @@ process(clk)
 		
 		case error_reason is
             when ExternalStop =>
-				extern_connected <= '1';
+				extern_connected <= '1';-- bit to check if external stop was connected
 		end case;
 	end procedure;
- 
+ 	procedure check_for_harderror is
+	begin
+		if externstop_falling = '1' then  
+			enter_errorstate(ExternalStop);
+		end if;
+	end procedure;
 	begin
 	if rising_edge(clk) then
         case next_state is
@@ -331,10 +335,8 @@ process(clk)
 				FP_SysLEDb <= '0';	
 				FP_SysLEDg <= '1';
 				FP_SysLEDs <= '1';
-                if externstop_falling = '1' then  
-					extern_connected <= '1';-- bit to check if external stop was connected
-					enter_errorstate(ExternalStop);
-				elsif stop = '1' then  
+                
+				if stop = '1' then  
                     next_state <= Softerror;
 				elsif warning = '1' then
 					next_state <= Warning_State;
@@ -342,6 +344,8 @@ process(clk)
 					counter <= 4160000;
 					next_state <= Waiting_for_Powerbutton_pressed_2sec ;
 				end if;
+				check_for_harderror;
+				
             when warning_state =>
 				forceoutputdisable <= NOT PPn_VIN; 
 				DIGS3C_Shared_ReqSafeState <= '0';
@@ -349,16 +353,15 @@ process(clk)
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '0';
 				FP_SysLEDs <= '0';
-                -- skip external stop
-                if externstop_falling = '1' then  
-					extern_connected <= '1';-- bit to check if external stop was connected
-					enter_errorstate(ExternalStop);
-				elsif stop = '1' then  
+                
+				if stop = '1' then  
                     next_state <= Softerror;
                 elsif power = '1' then 
 					counter <= 4160000;
 					next_state <= Waiting_for_Powerbutton_pressed_2sec;
 				end if;
+				check_for_harderror;
+				
             when Harderror_1RSS =>
 				--Request safe state to dslots
 				forceoutputdisable <= NOT PPn_VIN; 
@@ -371,7 +374,6 @@ process(clk)
 				if counter > 0 then
 					counter <= counter - 1;
 				else
-
 					Carrier_PwrOn <= '0';  -- all rails down, only s3c alive
 					Carrier_PG_3V3 <= '0';
 					FPIO_isoCtrlRSTn <= '0'; -- reset IsoIO on
@@ -391,16 +393,16 @@ process(clk)
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '1';
-				FP_SysLEDs <= '1';	
+				FP_SysLEDs <= '1';
+				
 				if power = '1' then 
 					counter <= 4160000;
 					next_state <= Waiting_for_Powerbutton_pressed_2sec ;
-				elsif externstop_falling = '1' then  
-					extern_connected <= '1';-- bit to check if external stop was connected
-					enter_errorstate(ExternalStop);
 				elsif enable = '1' then 
 					next_state <= Ready_State;
 				end if;
+				check_for_harderror;
+				
 			when Waiting_for_Powerbutton_pressed_2sec  =>
 				forceoutputdisable <= NOT PPn_VIN; 
 				DIGS3C_Shared_ReqSafeState <= '0';

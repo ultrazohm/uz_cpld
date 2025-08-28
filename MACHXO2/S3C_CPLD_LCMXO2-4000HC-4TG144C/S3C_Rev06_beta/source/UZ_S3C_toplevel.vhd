@@ -424,7 +424,7 @@ process(clk)
 				show_harderror(get_harderror);
 
 				if get_harderror = NoError AND power = '1' then
-					next_state <= ready_state;
+					next_state <= Wait_for_PowerbuttonReleased_Powerdown;
 				end if;
 
             when ready_state =>

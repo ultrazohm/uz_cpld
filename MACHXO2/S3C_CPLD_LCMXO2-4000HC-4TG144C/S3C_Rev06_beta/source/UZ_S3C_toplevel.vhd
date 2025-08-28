@@ -505,9 +505,12 @@ process(clk)
 				FP_SysLEDg <= '1';
 				FP_SysLEDs <= '1';
 
-				if power = '1' then 
-					counter <= 4160000;
-					next_state <= Wait_for_PowerbuttonPressed2sec;
+				if power = '1' then
+				 -- Powerbutton im Softerror startet immer nur die Shutdown-Sequenz
+					FlexMIOs53_GPIO_PowerDown <= '0'; -- end info to som
+					DIGS3C_Shared_ReqSafeState <= '1'; -- info to dcplds
+					counter <= 2080000;
+					next_state <= sleep_for_dslot_down;
 				elsif enable = '1' then 
 					next_state <= Ready_State;
 				end if;

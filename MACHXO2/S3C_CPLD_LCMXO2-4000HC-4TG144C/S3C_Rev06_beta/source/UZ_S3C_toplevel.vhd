@@ -423,7 +423,7 @@ process(clk)
 
 				show_harderror(get_harderror);
 
-				if get_harderror = NoError AND power = '1' then
+				if power = '1' then
 					next_state <= Wait_for_PowerbuttonReleased_Powerdown;
 				end if;
 
@@ -500,15 +500,14 @@ process(clk)
 				--Request safe state to dslots
 				forceoutputdisable <= NOT PPn_VIN; -- noch zu messen, evtl durch debounce version ersetzen
 				DIGS3C_Shared_ReqSafeState <= '1';
-				FP_SysLEDr <= '1';	
+				FP_SysLEDr <= '0';	
 				FP_SysLEDb <= '1';	
-				FP_SysLEDg <= '1';
+				FP_SysLEDg <= '0';
 				FP_SysLEDs <= '1';
 
 				if power = '1' then
 				 -- Powerbutton im Softerror startet immer nur die Shutdown-Sequenz
 					FlexMIOs53_GPIO_PowerDown <= '0'; -- end info to som
-					DIGS3C_Shared_ReqSafeState <= '1'; -- info to dcplds
 					counter <= 2080000;
 					next_state <= sleep_for_dslot_down;
 				elsif enable = '1' then 

@@ -120,7 +120,7 @@ architecture behavior of Soft_Off_V0 is
     signal next_state : state_type:= Soft_Off;
 	
 	-- error type definitions (currently hard errors only)
-	type error_type is (NoError, TemperatureShutdown, ExternalStop, SlotOC, SupplyFailure);
+	type error_type is (NoError, TemperatureShutdown, ExternalStop, SlotError, SupplyFailure);
 	signal lasterror : error_type;
 
     -- debounceconstant
@@ -266,7 +266,7 @@ process(clk)
 			when ExternalStop => FP_UsrLED <= "1100";
 			when SupplyFailure => FP_UsrLED <= "0110";
 			when TemperatureShutdown => FP_UsrLED <= "1111";
-			when SlotOC => FP_UsrLED <= "0101";
+			when SlotError => FP_UsrLED <= "0101";
 			when others => FP_UsrLED <= "0000";
 		end case;
 	end procedure;
@@ -299,7 +299,7 @@ process(clk)
 					extern_connected <= '1';	-- bit to store if external stop was connected
 				when SupplyFailure =>
 				--when TemperatureShutdown =>
-				--when SlotOC =>
+				--when SlotError =>
 			end case;
 		end if;
 
@@ -404,16 +404,30 @@ process(clk)
 				FP_SysLEDg <= '0';
 
 				show_harderror(lasterror);
+				if lasterror /= NoError then
+						if power = '1' then
+						lasterror <= NoError;
 
-				if power = '1' then
-					lasterror <= NoError;
+						if get_harderror = NoError then
+							show_harderror(NoError);
+							next_state <= Wait_for_PowerbuttonReleased_Powerdown;
+						else
+							next_state <= Ack_bootup_Harderror;
+				
+						end if;
+						end if;
+				else	
+						if power = '1' then
+						lasterror <= NoError;
 
-					if get_harderror = NoError then
-						show_harderror(NoError);
-						next_state <= ready_state;
-					else
-						next_state <= Ack_bootup_Harderror;
-					end if;
+						if get_harderror = NoError then
+							show_harderror(NoError);
+							next_state <= ready_state;
+						else
+							next_state <= Ack_bootup_Harderror;
+				
+						end if;
+						end if;
 				end if;
 
 			when Ack_bootup_Harderror =>
@@ -422,10 +436,10 @@ process(clk)
 				FP_SysLEDg <= '1';
 
 				show_harderror(get_harderror);
-
-				if power = '1' then
+				if get_harderror = NoError AND power = '1' then
 					next_state <= Wait_for_PowerbuttonReleased_Powerdown;
 				end if;
+
 
             when ready_state =>
 				forceoutputdisable <= NOT PPn_VIN; -- noch zu messen, evtl durch debounce version ersetzen

@@ -128,7 +128,7 @@ architecture behavior of Soft_Off_V0 is
 	-- error type definitions (currently hard errors only)
 	type error_type is (NoError, TemperatureShutdown, ExternalStop, SlotError, SupplyFailure);
 	signal lasterror : error_type;
-
+	signal harderror_duringbootup :	STD_LOGIC := '0';
     -- debounceconstant
     constant debounce_limit : integer := 20800; -- 10ms, at 2.08MhZ
 
@@ -252,7 +252,7 @@ stop<=NOT signals_debounced_syn(3);
 enable<=NOT signals_debounced_syn(4);
 pg10v<=signals_debounced_syn(5);
 ppn6v<=signals_debounced_syn(6);
-
+FP_SysLEDs<=externstop_connected;
 -- Conditional passthrough for OE
 DIGS3C_SlotD_SlotOE <= DIGS3C_SlotD_ReqOE and (DIGS3C_SlotD_SlotOE'Range => NOT forceoutputdisable);
 -- debounce process
@@ -282,8 +282,8 @@ process(clk)
                 end if;
             end loop;
 			-- detect falling edge in external stop
-			externstop_falling <= externstop_last and NOT signals_debounced_syn(2);
-			externstop_last  <= signals_debounced_syn(2);
+			externstop_falling <= NOT externstop_last and stopextern;
+			externstop_last  <= stopextern;
 			--powerbutton press duration check 
 			if power = '1' then
 				if counter2sec > 0 then
@@ -339,8 +339,8 @@ process(clk)
 			return(SupplyFailure);
 		elsif externstop_falling = '1' then  					-- edge-based (? check is always active)
 			return(ExternalStop);
-		elsif externstop_connected='1' AND stopextern = '1' then	-- level-based (iff previously detected)
-			return(ExternalStop);
+		elsif externstop_connected='1' and stopextern = '1' then	-- level-based (iff previously detected)
+			return(externalstop);
 		else
 			return(NoError);
 		end if;
@@ -389,6 +389,7 @@ process(clk)
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '0';	
 				if power = '1' then
+					harderror_duringbootup <= '0';	
 					next_state <= WaitFor_PowerbuttonRelease_Bootup;
 				else
 					Carrier_PwrOn <= '0';  -- all rails down, only s3c alive
@@ -403,6 +404,7 @@ process(clk)
 				FP_SysLEDr <= '0';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '1';
+				
 				if power = '0' then
 					Carrier_PwrOn <= '1';  -- enables all rails
 					Carrier_PG_3V3 <= '1'; -- Hack IsoIo on, if power on
@@ -416,6 +418,7 @@ process(clk)
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '0';
+				
 				if counter > 0 then
 					if tick1ms = '1' then
 						counter <= counter - 1;
@@ -431,7 +434,12 @@ process(clk)
 				DIGS3C_Shared_ReqSafeState <= '1'; -- not working because bank 1 1.8vper not supplied
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '1';	
-				FP_SysLEDg <= '1';
+				FP_SysLEDg <= '1'; 
+				
+				if get_harderror /= NoError then
+					harderror_duringbootup <= '1';
+				end if;
+				
 				if counter > 0 then
 					if tick1ms = '1' then
 						counter <= counter - 1;
@@ -443,7 +451,7 @@ process(clk)
 					
 					if lasterror /= NoError then
 						next_state <= Ack_previous_Harderror;
-					elsif get_harderror /= NoError then
+					elsif harderror_duringbootup = '1' then
 						next_state <= Ack_bootup_Harderror;
 					else
 						next_state <= ready_state;
@@ -468,29 +476,19 @@ process(clk)
 				FP_SysLEDg <= '0';
 
 				show_harderror(lasterror);
-				if lasterror /= NoError then
-					if power = '1' then
-						lasterror <= NoError;
-
-						if get_harderror = NoError then
-							show_harderror(NoError);
-							next_state <= Wait_for_PowerbuttonReleased_Powerdown;
-						else
-							next_state <= Ack_bootup_Harderror;
 				
-						end if;
-					end if;
-				else	
-					if power = '1' then
-						lasterror <= NoError;
+				if get_harderror /= NoError then
+					harderror_duringbootup <= '1';
+				end if;
 
-						if get_harderror = NoError then
-							show_harderror(NoError);
-							next_state <= ready_state;
-						else
-							next_state <= Ack_bootup_Harderror;
-				
-						end if;
+				if power = '1' then
+					lasterror <= NoError;
+					if harderror_duringbootup = '0' then
+						show_harderror(NoError);
+						next_state <= ready_state;
+					else
+						next_state <= Ack_bootup_Harderror;
+			
 					end if;
 				end if;
 
@@ -500,11 +498,18 @@ process(clk)
 				FP_SysLEDb <= '1';
 				FP_SysLEDg <= '0';
 
+				FlexMIOs53_GPIO_PowerDown <= '1';  -- info to som, power linux down;
+
 				show_harderror(get_harderror);
 				if get_harderror = NoError AND power = '1' then
 					next_state <= Wait_for_PowerbuttonReleased_Powerdown;
 				end if;
-
+				if power_pressed2sec = '1' then 
+					FlexMIOs53_GPIO_PowerDown <= '0'; -- end info to som
+					DIGS3C_Shared_ReqSafeState <= '1'; -- info to dcplds
+					counter <= 1000;
+					next_state <= sleep_for_dslot_down;-- Version 1:Blau = Nutzer fährt system herunter, Lila = system fährt sich selbst herunter
+				end if;
 
             when ready_state =>
 				forceoutputdisable <= NOT PPn_VIN; -- noch zu messen, evtl durch debounce version ersetzen
@@ -512,7 +517,7 @@ process(clk)
 				FP_SysLEDr <= '0';
 				FP_SysLEDb <= '0';
 				FP_SysLEDg <= '1';
-				FP_SysLEDs <= '1';
+				--FP_SysLEDs <= '1';
 				FlexMIOs53_GPIO_PowerDown <= power;
 
 				if stop = '1' then  
@@ -523,9 +528,9 @@ process(clk)
 					FlexMIOs53_GPIO_PowerDown <= '0'; -- end info to som
 					DIGS3C_Shared_ReqSafeState <= '1'; -- info to dcplds
 					counter <= 1000;
-					next_state <= sleep_for_dslot_down;
+					next_state <= sleep_for_dslot_down; 
 				end if;
-				checkandhandle_harderror;
+				--checkandhandle_harderror;
 
             when warning_state =>
 				forceoutputdisable <= NOT PPn_VIN; -- noch zu messen, evtl durch debounce version ersetzen
@@ -533,7 +538,7 @@ process(clk)
 				FP_SysLEDr <= '0';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '0';
-				FP_SysLEDs <= '0';
+				--FP_SysLEDs <= '0';
 				FlexMIOs53_GPIO_PowerDown <= power;
 				if stop = '1' then  
                     next_state <= Softerror;
@@ -543,7 +548,7 @@ process(clk)
 					counter <= 1000;
 					next_state <= sleep_for_dslot_down;
 				end if;
-				checkandhandle_harderror;
+				--checkandhandle_harderror;
 
             when Harderror_1ReqSafe =>
 				--Request safe state to dslots
@@ -554,7 +559,7 @@ process(clk)
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '0';	
 				FP_SysLEDg <= '0';
-				FP_SysLEDs <= '1';
+				--FP_SysLEDs <= '1';
 				if counter > 0 then
 					if tick1ms = '1' then
 						counter <= counter - 1;
@@ -574,6 +579,7 @@ process(clk)
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '0';
 				if power = '1' then
+					harderror_duringbootup <= '0';	
 					next_state <= WaitFor_PowerbuttonRelease_Bootup;
 				else
 					Carrier_PwrOn <= '0';  -- all rails down, only s3c alive
@@ -589,7 +595,7 @@ process(clk)
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '1';
-				FP_SysLEDs <= '1';
+				--FP_SysLEDs <= '1';
 				FlexMIOs53_GPIO_PowerDown <= power;
                 if power_pressed2sec = '1' then 
 					FlexMIOs53_GPIO_PowerDown <= '0'; -- end info to som
@@ -609,14 +615,13 @@ process(clk)
 				else
 					next_state <= Wait_for_PowerbuttonReleased_Powerdown;
 				end if;
-				checkandhandle_harderror;
 
             when Wait_for_PowerbuttonReleased_Powerdown =>
 				forceoutputdisable <= '1'; 
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '0';	
 				FP_SysLEDg <= '1';
-				FP_SysLEDs <= '0';	
+				--FP_SysLEDs <= '0';	
 				Carrier_PwrOn <= '0'; -- all rails down, only s3c alive
 				Carrier_PG_3V3 <= '0';
 				FPIO_isoCtrlRSTn <= '0'; -- reset IsoIO on

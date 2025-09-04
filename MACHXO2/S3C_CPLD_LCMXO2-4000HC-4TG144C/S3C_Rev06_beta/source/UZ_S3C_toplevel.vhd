@@ -5,7 +5,10 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 entity Soft_Off_V0 is
-
+    generic (
+        CLK_FREQ_HZ : integer := 2080000;  	-- CLK - 2.08 MHz
+        TICK_US     : integer := 1000      	-- Tickdauer in µs (1000 = 1 ms)	
+    );
     Port (
 		-- Mapping according to banks
 		--- Bank 0, 3.3V
@@ -170,6 +173,15 @@ architecture behavior of Soft_Off_V0 is
 	attribute noclip   : string;
 	attribute noclip of dummy_signal  : signal is "on";
 	attribute syn_keep of dummy_signal : signal is true;
+	-- signals for tick creation
+	constant TICKS_PER_PERIOD : integer := CLK_FREQ_HZ / (1_000_000 / TICK_US);
+	signal tickcounter : integer range 0 to TICKS_PER_PERIOD-1 := 0;
+	signal tick1ms		: STD_LOGIC;
+	-- interne Signale für Counter
+	signal start_50ms     : std_logic := '0';
+	signal ready_50ms     : std_logic;
+	signal start_1000ms   : std_logic := '0';
+	signal ready_1000ms   : std_logic;
 
 begin
 	OSCInst0: OSCH
@@ -180,6 +192,40 @@ begin
 	OSC => clk,
 	SEDSTDBY => open
 	);
+
+-- Instanzen
+--u_cnt50 : entity work.tick_counter
+    --generic map (COUNTER_LIMIT => 50)
+    --port map (
+        --clk     => clk,
+        --tick_in => tick1ms,
+        --done    => done_50ms
+    --);
+
+--u_cnt1000 : entity work.tick_counter
+    --generic map (COUNTER_LIMIT => 1000)
+    --port map (
+        --clk     => clk,
+        --tick_in => tick1ms,
+        --done    => done_1000ms
+    --);	
+u_cnt50 : entity work.tick_counter_v2
+    generic map (COUNTER_LIMIT => 50)
+    port map (
+        clk     => clk,
+        tick_in => tick1ms,
+        start   => start_50ms,
+        ready   => ready_50ms
+    );
+
+u_cnt1000 : entity work.tick_counter_v2
+    generic map (COUNTER_LIMIT => 1000)
+    port map (
+        clk     => clk,
+        tick_in => tick1ms,
+        start   => start_1000ms,
+        ready   => ready_1000ms
+    );
 --Dummy
 dummy_signal <= TDnALERT AND TDnFFnFS AND TDnSHDN and ANL_S3C_P54_Legacy AND ANL_S3C_SLOTOK(1) AND ANL_S3C_SLOTOK(2) AND ANL_S3C_SLOTOK(3)  
 AND DIGS3C_SlotD_SlotOK(1) AND DIGS3C_SlotD_SlotOK(2) AND DIGS3C_SlotD_SlotOK(3) AND DIGS3C_SlotD_SlotOK(4) AND DIGS3C_SlotD_SlotOK(5)
@@ -215,6 +261,7 @@ debounce_inputs(5) <= PG_VIN;
 debounce_inputs(6) <= PPn_VIN;
 -- Conditional passthrough for OE
 DIGS3C_SlotD_SlotOE <= DIGS3C_SlotD_ReqOE and (DIGS3C_SlotD_SlotOE'Range => NOT forceoutputdisable);
+-- debounce process
 process(clk)
     begin
         if rising_edge(clk) then
@@ -252,11 +299,24 @@ stop<=NOT signals_debounced_syn(3);
 enable<=NOT signals_debounced_syn(4);
 pg10v<=signals_debounced_syn(5);
 ppn6v<=signals_debounced_syn(6);
+-- process tick 1ms
+process(clk)
+begin
+	if rising_edge(clk) then
+		if tickcounter = TICKS_PER_PERIOD-1 then
+			tickcounter <= 0;
+			tick1ms <= '1';
+		else
+			tickcounter <= tickcounter  + 1;
+			tick1ms <= '0';
+		end if;
+	end if;
+end process;
 
 -- State machine
 process(clk)
 
-	--led patterns for errors
+-- error handling
 	procedure show_harderror (
 		constant error : in error_type
 	) is
@@ -315,11 +375,13 @@ process(clk)
 		enter_errorstate(current_error);
 	end procedure;
 
-
-	begin	-- process(clk)
+-- state machine start
+	begin
 
 
 	if rising_edge(clk) then
+	start_50ms   <= '0';
+    start_1000ms <= '0';
         case next_state is
             when Soft_Off =>
 				forceoutputdisable <= '1';
@@ -343,11 +405,11 @@ process(clk)
 				FP_SysLEDr <= '0';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '1';
-				if power = '1' then
+				if power = '0' AND tick1ms = '1' then
 					Carrier_PwrOn <= '1';  -- enables all rails
 					Carrier_PG_3V3 <= '1'; -- Hack IsoIo on, if power on
-					counter <= 2080000;
 					next_state <= Wait_State;
+					start_1000ms <= '1';   -- Counter gleich starten
 				end if;
 
 			when Wait_State =>
@@ -356,12 +418,10 @@ process(clk)
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '0';
-				if counter > 0 then
-					counter <= counter - 1;
-				else 
-					counter <= 104000;
+				if ready_1000ms = '1' then
 					Carrier_PG_1V8 <= '0';  -- resetn for 50ms to zero
 					next_state <= EthernetPhy_Reset;
+					start_50ms <= '1';     -- Counter für Reset starten
 				end if;
 
 			when EthernetPhy_Reset =>
@@ -370,23 +430,19 @@ process(clk)
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '1';
-				if counter > 0 then
-					counter <= counter - 1;
-				else
+				if ready_50ms = '1' then
 					-- Init complete
-
+					Carrier_PG_1V8 <= 'Z';  -- after 50 ms tristate
+					FPIO_isoCtrlRSTn <= '1'; -- reset IsoIO off
+					
 					if lasterror /= NoError then
 						next_state <= Ack_previous_Harderror;
 					elsif get_harderror /= NoError then
 						next_state <= Ack_bootup_Harderror;
 					else
-						Carrier_PG_1V8 <= 'Z';  -- after 50 ms tristate
-						FPIO_isoCtrlRSTn <= '1'; -- reset IsoIO off
 						next_state <= ready_state;
 					end if;
-
 				end if;
-
 			when Ack_previous_Harderror =>
 				-- Blinky
 				if counter > 0 then
@@ -431,9 +487,10 @@ process(clk)
 				end if;
 
 			when Ack_bootup_Harderror =>
-				FP_SysLEDr <= '1';	
-				FP_SysLEDb <= '1';	
-				FP_SysLEDg <= '1';
+				-- Blinky
+				FP_SysLEDr <= '1';
+				FP_SysLEDb <= '1';
+				FP_SysLEDg <= '0';
 
 				show_harderror(get_harderror);
 				if get_harderror = NoError AND power = '1' then
@@ -514,9 +571,9 @@ process(clk)
 				--Request safe state to dslots
 				forceoutputdisable <= NOT PPn_VIN; -- noch zu messen, evtl durch debounce version ersetzen
 				DIGS3C_Shared_ReqSafeState <= '1';
-				FP_SysLEDr <= '0';	
+				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '1';	
-				FP_SysLEDg <= '0';
+				FP_SysLEDg <= '1';
 				FP_SysLEDs <= '1';
 
 				if power = '1' then

@@ -107,10 +107,13 @@ end Soft_Off_V0;
 
 architecture behavior of Soft_Off_V0 is
 	signal clk	:	STD_LOGIC;
-	signal counter : integer range 0 to 31200000 := 0; 	-- counter 
-	signal count_done_100ms : boolean := false; 			-- flag for 100ms end
-	signal reset_triggered : boolean := false; -- flag, to track resetn is zero
+	signal counter : integer range 0 to 5000 := 0; 	-- counter for fsm
 
+	-- signals for tick creation
+	constant TICKS_PER_PERIOD : integer := CLK_FREQ_HZ / (1_000_000 / TICK_US);
+	signal tickcounter : integer range 0 to TICKS_PER_PERIOD-1 := 0;
+	signal tick1ms		: STD_LOGIC;
+	
     -- states in statemachine
     type state_type is (
 		Soft_Off,
@@ -118,7 +121,7 @@ architecture behavior of Soft_Off_V0 is
 		Ack_previous_Harderror, Ack_bootup_Harderror,
 		Ready_State, Warning_State, Softerror,
 		Harderror_1ReqSafe, Harderror_2SoftOff,
-		Wait_for_PowerbuttonPressed2sec, sleep_for_dslot_down, Wait_for_PowerbuttonReleased_Powerdown
+		sleep_for_dslot_down, Wait_for_PowerbuttonReleased_Powerdown
 	);
     signal next_state : state_type:= Soft_Off;
 	
@@ -137,6 +140,8 @@ architecture behavior of Soft_Off_V0 is
 	signal debounce_inputs_asyn2  : STD_LOGIC_VECTOR(6 downto 1)  := (others => '1'); -- inputs after 2. flip flop
 	signal pushed : STD_LOGIC_VECTOR(6 downto 1)  := (others => '0');
     signal signals_debounced_syn   : STD_LOGIC_VECTOR(6 downto 1)  := (others => '1');
+	-- counter outside fsm 2sec
+	signal counter2sec : integer range 0 to 2000 := 0; 	-- counter for button
 	-- debounced signal
 	signal power	:	STD_LOGIC;
 	signal stopextern	:	STD_LOGIC;
@@ -149,7 +154,11 @@ architecture behavior of Soft_Off_V0 is
 	-- detect external stop edge
 	signal externstop_falling: 	STD_LOGIC;
 	signal externstop_last: 	STD_LOGIC;
-	signal extern_connected: 	STD_LOGIC := '0';
+	signal externstop_connected: 	STD_LOGIC := '0';
+	-- detect powerbutton edge and long press
+	--signal power_falling: 	STD_LOGIC;
+	--signal power_last: 	STD_LOGIC;
+	signal power_pressed2sec: 	STD_LOGIC := '0';
 
 	-- Tristate
 	signal tristate_signals : std_logic_vector(30 downto 0);
@@ -173,15 +182,7 @@ architecture behavior of Soft_Off_V0 is
 	attribute noclip   : string;
 	attribute noclip of dummy_signal  : signal is "on";
 	attribute syn_keep of dummy_signal : signal is true;
-	-- signals for tick creation
-	constant TICKS_PER_PERIOD : integer := CLK_FREQ_HZ / (1_000_000 / TICK_US);
-	signal tickcounter : integer range 0 to TICKS_PER_PERIOD-1 := 0;
-	signal tick1ms		: STD_LOGIC;
-	-- interne Signale für Counter
-	signal start_50ms     : std_logic := '0';
-	signal ready_50ms     : std_logic;
-	signal start_1000ms   : std_logic := '0';
-	signal ready_1000ms   : std_logic;
+
 
 begin
 	OSCInst0: OSCH
@@ -192,6 +193,7 @@ begin
 	OSC => clk,
 	SEDSTDBY => open
 	);
+
 
 -- Instanzen
 --u_cnt50 : entity work.tick_counter
@@ -209,24 +211,7 @@ begin
         --tick_in => tick1ms,
         --done    => done_1000ms
     --);	
-u_cnt50 : entity work.tick_counter_v2
-    generic map (COUNTER_LIMIT => 50)
-    port map (
-        clk     => clk,
-        tick_in => tick1ms,
-        start   => start_50ms,
-        ready   => ready_50ms
-    );
 
-u_cnt1000 : entity work.tick_counter_v2
-    generic map (COUNTER_LIMIT => 1000)
-    port map (
-        clk     => clk,
-        tick_in => tick1ms,
-        start   => start_1000ms,
-        ready   => ready_1000ms
-    );
---Dummy
 dummy_signal <= TDnALERT AND TDnFFnFS AND TDnSHDN and ANL_S3C_P54_Legacy AND ANL_S3C_SLOTOK(1) AND ANL_S3C_SLOTOK(2) AND ANL_S3C_SLOTOK(3)  
 AND DIGS3C_SlotD_SlotOK(1) AND DIGS3C_SlotD_SlotOK(2) AND DIGS3C_SlotD_SlotOK(3) AND DIGS3C_SlotD_SlotOK(4) AND DIGS3C_SlotD_SlotOK(5)
 AND DIG5S3C00 AND DIG5S3C01 AND DIG5S3C02 AND DIG5S3C03 AND DIG5S3C04 AND DIG5S3C05
@@ -259,6 +244,15 @@ debounce_inputs(3) <= FP_UsrSW3;
 debounce_inputs(4) <= FP_UsrSW1;
 debounce_inputs(5) <= PG_VIN;
 debounce_inputs(6) <= PPn_VIN;
+
+-- Decode buttons for better readability, 1 => user press the buttons
+power<=NOT signals_debounced_syn(1);
+stopextern<=NOT signals_debounced_syn(2);
+stop<=NOT signals_debounced_syn(3);
+enable<=NOT signals_debounced_syn(4);
+pg10v<=signals_debounced_syn(5);
+ppn6v<=signals_debounced_syn(6);
+
 -- Conditional passthrough for OE
 DIGS3C_SlotD_SlotOE <= DIGS3C_SlotD_ReqOE and (DIGS3C_SlotD_SlotOE'Range => NOT forceoutputdisable);
 -- debounce process
@@ -290,25 +284,33 @@ process(clk)
 			-- detect falling edge in external stop
 			externstop_falling <= externstop_last and NOT signals_debounced_syn(2);
 			externstop_last  <= signals_debounced_syn(2);
+			--powerbutton press duration check 
+			if power = '1' then
+				if counter2sec > 0 then
+					if tick1ms = '1' then
+						counter2sec <= counter2sec - 1;
+					end if;
+				else
+					power_pressed2sec <= '1';
+				end if;
+			else
+				counter2sec <= 2000;
+				power_pressed2sec <= '0';
+			end if;
 		end if;
 end process;
--- Decode buttons for better readability, 1 => user press the buttons
-power<=NOT signals_debounced_syn(1);
-stopextern<=NOT signals_debounced_syn(2);
-stop<=NOT signals_debounced_syn(3);
-enable<=NOT signals_debounced_syn(4);
-pg10v<=signals_debounced_syn(5);
-ppn6v<=signals_debounced_syn(6);
+
 -- process tick 1ms
+
 process(clk)
 begin
 	if rising_edge(clk) then
-		if tickcounter = TICKS_PER_PERIOD-1 then
-			tickcounter <= 0;
-			tick1ms <= '1';
-		else
-			tickcounter <= tickcounter  + 1;
+		if tickcounter > 0 then
+			tickcounter <= tickcounter - 1;
 			tick1ms <= '0';
+		else
+			tickcounter <= TICKS_PER_PERIOD-1;
+			tick1ms <= '1';
 		end if;
 	end if;
 end process;
@@ -337,7 +339,7 @@ process(clk)
 			return(SupplyFailure);
 		elsif externstop_falling = '1' then  					-- edge-based (? check is always active)
 			return(ExternalStop);
-		elsif extern_connected='1' AND stopextern = '1' then	-- level-based (iff previously detected)
+		elsif externstop_connected='1' AND stopextern = '1' then	-- level-based (iff previously detected)
 			return(ExternalStop);
 		else
 			return(NoError);
@@ -350,13 +352,13 @@ process(clk)
 	begin
 		if error_reason /= NoError then
 
-			counter <= 31200000/3;
+			counter <= 5000;
 			next_state <= Harderror_1ReqSafe;
 
 			case error_reason is
 				when NoError =>
 				when ExternalStop =>
-					extern_connected <= '1';	-- bit to store if external stop was connected
+					externstop_connected <= '1';	-- bit to store if external stop was connected
 				when SupplyFailure =>
 				--when TemperatureShutdown =>
 				--when SlotError =>
@@ -377,11 +379,7 @@ process(clk)
 
 -- state machine start
 	begin
-
-
 	if rising_edge(clk) then
-	start_50ms   <= '0';
-    start_1000ms <= '0';
         case next_state is
             when Soft_Off =>
 				forceoutputdisable <= '1';
@@ -405,11 +403,11 @@ process(clk)
 				FP_SysLEDr <= '0';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '1';
-				if power = '0' AND tick1ms = '1' then
+				if power = '0' then
 					Carrier_PwrOn <= '1';  -- enables all rails
 					Carrier_PG_3V3 <= '1'; -- Hack IsoIo on, if power on
 					next_state <= Wait_State;
-					start_1000ms <= '1';   -- Counter gleich starten
+					counter <= 1000;   -- Counter gleich starten
 				end if;
 
 			when Wait_State =>
@@ -418,10 +416,14 @@ process(clk)
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '0';
-				if ready_1000ms = '1' then
+				if counter > 0 then
+					if tick1ms = '1' then
+						counter <= counter - 1;
+					end if;
+				else
 					Carrier_PG_1V8 <= '0';  -- resetn for 50ms to zero
 					next_state <= EthernetPhy_Reset;
-					start_50ms <= '1';     -- Counter für Reset starten
+					counter <= 50;   -- Counter gleich starten
 				end if;
 
 			when EthernetPhy_Reset =>
@@ -430,7 +432,11 @@ process(clk)
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '1';
-				if ready_50ms = '1' then
+				if counter > 0 then
+					if tick1ms = '1' then
+						counter <= counter - 1;
+					end if;
+				else
 					-- Init complete
 					Carrier_PG_1V8 <= 'Z';  -- after 50 ms tristate
 					FPIO_isoCtrlRSTn <= '1'; -- reset IsoIO off
@@ -446,22 +452,24 @@ process(clk)
 			when Ack_previous_Harderror =>
 				-- Blinky
 				if counter > 0 then
-					counter <= counter - 1;
-				else
-					counter <= 8*104000;
-				end if;
-				if counter > 2*104000 then
-						FP_SysLEDr <= '1';
-						FP_SysLEDb <= '1';
-					else
-						FP_SysLEDr <= '0';
-						FP_SysLEDb <= '0';
+					if tick1ms = '1' then
+						counter <= counter - 1;
 					end if;
+				else
+					counter <= 400;
+				end if;
+				if counter > 100 then
+					FP_SysLEDr <= '1';
+					FP_SysLEDb <= '1';
+				else
+					FP_SysLEDr <= '0';
+					FP_SysLEDb <= '0';
+				end if;
 				FP_SysLEDg <= '0';
 
 				show_harderror(lasterror);
 				if lasterror /= NoError then
-						if power = '1' then
+					if power = '1' then
 						lasterror <= NoError;
 
 						if get_harderror = NoError then
@@ -471,9 +479,9 @@ process(clk)
 							next_state <= Ack_bootup_Harderror;
 				
 						end if;
-						end if;
+					end if;
 				else	
-						if power = '1' then
+					if power = '1' then
 						lasterror <= NoError;
 
 						if get_harderror = NoError then
@@ -483,11 +491,11 @@ process(clk)
 							next_state <= Ack_bootup_Harderror;
 				
 						end if;
-						end if;
+					end if;
 				end if;
 
 			when Ack_bootup_Harderror =>
-				-- Blinky
+
 				FP_SysLEDr <= '1';
 				FP_SysLEDb <= '1';
 				FP_SysLEDg <= '0';
@@ -505,14 +513,17 @@ process(clk)
 				FP_SysLEDb <= '0';
 				FP_SysLEDg <= '1';
 				FP_SysLEDs <= '1';
+				FlexMIOs53_GPIO_PowerDown <= power;
 
 				if stop = '1' then  
                     next_state <= Softerror;
 				elsif warning = '1' then
 					next_state <= Warning_State;
-                elsif power = '1' then 
-					counter <= 4160000;
-					next_state <= Wait_for_PowerbuttonPressed2sec;
+                elsif power_pressed2sec = '1' then 
+					FlexMIOs53_GPIO_PowerDown <= '0'; -- end info to som
+					DIGS3C_Shared_ReqSafeState <= '1'; -- info to dcplds
+					counter <= 1000;
+					next_state <= sleep_for_dslot_down;
 				end if;
 				checkandhandle_harderror;
 
@@ -523,12 +534,14 @@ process(clk)
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '0';
 				FP_SysLEDs <= '0';
-
+				FlexMIOs53_GPIO_PowerDown <= power;
 				if stop = '1' then  
                     next_state <= Softerror;
-                elsif power = '1' then 
-					counter <= 4160000;
-					next_state <= Wait_for_PowerbuttonPressed2sec;
+                elsif power_pressed2sec = '1' then 
+					FlexMIOs53_GPIO_PowerDown <= '0'; -- end info to som
+					DIGS3C_Shared_ReqSafeState <= '1'; -- info to dcplds
+					counter <= 1000;
+					next_state <= sleep_for_dslot_down;
 				end if;
 				checkandhandle_harderror;
 
@@ -543,7 +556,9 @@ process(clk)
 				FP_SysLEDg <= '0';
 				FP_SysLEDs <= '1';
 				if counter > 0 then
-					counter <= counter - 1;
+					if tick1ms = '1' then
+						counter <= counter - 1;
+					end if;
 				else
 					Carrier_PwrOn <= '0';  -- all rails down, only s3c alive
 					Carrier_PG_3V3 <= '0';
@@ -575,40 +590,22 @@ process(clk)
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '1';
 				FP_SysLEDs <= '1';
-
-				if power = '1' then
-				 -- Powerbutton im Softerror startet immer nur die Shutdown-Sequenz
+				FlexMIOs53_GPIO_PowerDown <= power;
+                if power_pressed2sec = '1' then 
 					FlexMIOs53_GPIO_PowerDown <= '0'; -- end info to som
-					counter <= 2080000;
+					DIGS3C_Shared_ReqSafeState <= '1'; -- info to dcplds
+					counter <= 1000;
 					next_state <= sleep_for_dslot_down;
 				elsif enable = '1' then 
 					next_state <= Ready_State;
 				end if;
 				checkandhandle_harderror;
 
-			when Wait_for_PowerbuttonPressed2sec =>
-				forceoutputdisable <= NOT PPn_VIN; -- noch zu messen, evtl durch debounce version ersetzen
-				DIGS3C_Shared_ReqSafeState <= '0';
-				FlexMIOs53_GPIO_PowerDown <= '1';  -- info to som, power linux down;
-				if counter > 0 then
-					counter <= counter - 1;
-				else
-					if power = '1' then -- override mode activated
-						FlexMIOs53_GPIO_PowerDown <= '0'; -- end info to som
-						DIGS3C_Shared_ReqSafeState <= '1'; -- info to dcplds
-						counter <= 2080000;
-						next_state <= sleep_for_dslot_down;
-					end if;
-				end if;
-				if power = '0' then 
-					FlexMIOs53_GPIO_PowerDown <= '0';
-					next_state <= Ready_State;
-				end if;
-				checkandhandle_harderror;
-
 			when sleep_for_dslot_down =>
 				if counter > 0 then
-					counter <= counter - 1;
+					if tick1ms = '1' then
+						counter <= counter - 1;
+					end if;
 				else
 					next_state <= Wait_for_PowerbuttonReleased_Powerdown;
 				end if;

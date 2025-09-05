@@ -123,17 +123,21 @@ architecture behavior of Soft_Off_V0 is
 		Harderror_1ReqSafe, Harderror_2SoftOff,
 		sleep_for_dslot_down, Wait_for_PowerbuttonReleased_Powerdown
 	);
-    signal next_state : state_type:= Soft_Off;
+    constant init_state : state_type := Soft_Off;
 	
+    signal next_state : state_type := init_state;
+    attribute syn_encoding : string;
+    attribute syn_encoding of next_state : signal is "gray";	-- NB: Do not use one-hot encoding (due to initial reg state) - "sequential" should be an alternative choice with slightly different resource demand...
+    -- TODO: It might be a better option to explicitly define all states on bit level (via syn_enum_encoding in Synplify Pro) - Otherwise, the initial state has to remain the first one in the above (type) definition
 	-- error type definitions (currently hard errors only)
 	type error_type is (NoError, TemperatureShutdown, ExternalStop, SlotError, SupplyFailure);
-	signal lasterror : error_type;
+	signal lasterror : error_type := NoError;
 	signal harderror_duringbootup :	STD_LOGIC := '0';
     -- debounceconstant
     constant debounce_limit : integer := 20800; -- 10ms, at 2.08MhZ
 
     -- debounce counter and vectors for debouncing
-    type debounce_array is array (1 to 6) of integer;
+    type debounce_array is array (1 to 6) of integer range 0 to debounce_limit;
     signal debounce_counters : debounce_array := (others => 0);
 	signal debounce_inputs  : STD_LOGIC_VECTOR(6 downto 1);  -- inputs
     signal debounce_inputs_asyn1  : STD_LOGIC_VECTOR(6 downto 1)  := (others => '1');  -- inputs after 1.flip flop
@@ -152,13 +156,13 @@ architecture behavior of Soft_Off_V0 is
 	signal warning 	: 	STD_LOGIC;
 	
 	-- detect external stop edge
-	signal externstop_falling: 	STD_LOGIC;
-	signal externstop_last: 	STD_LOGIC;
-	signal externstop_connected: 	STD_LOGIC := '0';
+	signal externstop_pushededge: 	STD_LOGIC;
+	signal externstop_lastvalue: 	STD_LOGIC;
+	signal externstop_wasfound: 	STD_LOGIC := '0';
 	-- detect powerbutton edge and long press
 	--signal power_falling: 	STD_LOGIC;
-	--signal power_last: 	STD_LOGIC;
-	signal power_pressed2sec: 	STD_LOGIC := '0';
+	--signal power_lastvalue: 	STD_LOGIC;
+	signal power_pushed2sec: 	STD_LOGIC := '0';
 
 	-- Tristate
 	signal tristate_signals : std_logic_vector(30 downto 0);
@@ -212,7 +216,7 @@ begin
         --done    => done_1000ms
     --);	
 
-dummy_signal <= TDnALERT AND TDnFFnFS AND TDnSHDN and ANL_S3C_P54_Legacy AND ANL_S3C_SLOTOK(1) AND ANL_S3C_SLOTOK(2) AND ANL_S3C_SLOTOK(3)  
+dummy_signal <= TDnALERT AND TDnSHDN and ANL_S3C_P54_Legacy AND ANL_S3C_SLOTOK(1) AND ANL_S3C_SLOTOK(2) AND ANL_S3C_SLOTOK(3)  
 AND DIGS3C_SlotD_SlotOK(1) AND DIGS3C_SlotD_SlotOK(2) AND DIGS3C_SlotD_SlotOK(3) AND DIGS3C_SlotD_SlotOK(4) AND DIGS3C_SlotD_SlotOK(5)
 AND DIG5S3C00 AND DIG5S3C01 AND DIG5S3C02 AND DIG5S3C03 AND DIG5S3C04 AND DIG5S3C05
 AND DIG5S3C24 AND DIG5S3C25 AND DIG5S3C26 AND DIG5S3C27 AND DIG5S3C28 AND DIG5S3C29
@@ -222,7 +226,7 @@ AND FLexLIO(0) AND FLexLIO(1) AND FLexLIO(2) AND FLexLIO(3) AND FLexLIO(4) AND F
 AND FlexMIOs26 AND FlexMIOs27 AND FlexMIOs28 AND FlexMIOs29 AND FlexMIOs30 AND FlexMIOs31
 AND FlexMIOs32 AND FlexMIOs33 AND FlexMIOs34 AND FlexMIOs35 AND FlexMIOs36 AND FlexMIOs37
 AND FlexMIOs45 AND FlexMIOs54 AND FlexMIOs62 AND FlexMIOs63 AND PG_Module 
-AND S3C_S1 AND S3CsI2C_SCL AND S3CsI2C_SDA
+AND S3CsI2C_SCL AND S3CsI2C_SDA
 AND SCL AND SD0_CD AND SD1_CD AND SDA AND SPI_S3C_nCS_USR;
 
 tristate_signals <= DIG5S3C00 & DIG5S3C01 & DIG5S3C02 & DIG5S3C03 & DIG5S3C04  & DIG5S3C05
@@ -236,7 +240,8 @@ tristate_signals <= (others => 'Z');
 SD_SEL <= '0';
 FPIO_FlexMIO52 <= FlexMIOs52_PCIe;
 FlexMio61ExternalStop <= FPIO_ExternalStop;
-warning <= '0'; -- hardcoded 0 = never warning
+TDnFFnFS <= 'Z';
+
 -- Mapping buttons
 debounce_inputs(1) <= SysSW_Pwr_NC;
 debounce_inputs(2) <= FPIO_ExternalStop;
@@ -252,7 +257,15 @@ stop<=NOT signals_debounced_syn(3);
 enable<=NOT signals_debounced_syn(4);
 pg10v<=signals_debounced_syn(5);
 ppn6v<=signals_debounced_syn(6);
-FP_SysLEDs<=externstop_connected;
+
+warning <= '0';					-- hardcoded 0 = never warning
+
+-- FIXME: Debug
+FP_SysLEDs<=externstop_wasfound;
+FlexIO01 <= ppn6v;					-- move (possibly AND-ed) to TP
+FlexIO02 <= S3C_S1;
+FlexIO05 <= NOT clk;
+
 -- Conditional passthrough for OE
 DIGS3C_SlotD_SlotOE <= DIGS3C_SlotD_ReqOE and (DIGS3C_SlotD_SlotOE'Range => NOT forceoutputdisable);
 -- debounce process
@@ -282,8 +295,8 @@ process(clk)
                 end if;
             end loop;
 			-- detect falling edge in external stop
-			externstop_falling <= NOT externstop_last and stopextern;
-			externstop_last  <= stopextern;
+			externstop_pushededge <= NOT externstop_lastvalue AND stopextern;
+			externstop_lastvalue <= stopextern;
 			--powerbutton press duration check 
 			if power = '1' then
 				if counter2sec > 0 then
@@ -291,11 +304,11 @@ process(clk)
 						counter2sec <= counter2sec - 1;
 					end if;
 				else
-					power_pressed2sec <= '1';
+					power_pushed2sec <= '1';
 				end if;
 			else
 				counter2sec <= 2000;
-				power_pressed2sec <= '0';
+				power_pushed2sec <= '0';
 			end if;
 		end if;
 end process;
@@ -337,9 +350,9 @@ process(clk)
 	begin
 		if pg10v = '0' then  
 			return(SupplyFailure);
-		elsif externstop_falling = '1' then  					-- edge-based (? check is always active)
+		elsif externstop_pushededge = '1' then  					-- edge-based (? check is always active)
 			return(ExternalStop);
-		elsif externstop_connected='1' and stopextern = '1' then	-- level-based (iff previously detected)
+		elsif externstop_wasfound='1' and stopextern = '1' then	-- level-based (iff previously detected)
 			return(externalstop);
 		else
 			return(NoError);
@@ -358,7 +371,7 @@ process(clk)
 			case error_reason is
 				when NoError =>
 				when ExternalStop =>
-					externstop_connected <= '1';	-- bit to store if external stop was connected
+					externstop_wasfound <= '1';	-- bit to store if external stop was connected
 				when SupplyFailure =>
 				--when TemperatureShutdown =>
 				--when SlotError =>
@@ -504,7 +517,7 @@ process(clk)
 				if get_harderror = NoError AND power = '1' then
 					next_state <= Wait_for_PowerbuttonReleased_Powerdown;
 				end if;
-				if power_pressed2sec = '1' then 
+				if power_pushed2sec = '1' then 
 					FlexMIOs53_GPIO_PowerDown <= '0'; -- end info to som
 					DIGS3C_Shared_ReqSafeState <= '1'; -- info to dcplds
 					counter <= 1000;
@@ -524,13 +537,13 @@ process(clk)
                     next_state <= Softerror;
 				elsif warning = '1' then
 					next_state <= Warning_State;
-                elsif power_pressed2sec = '1' then 
+                elsif power_pushed2sec = '1' then 
 					FlexMIOs53_GPIO_PowerDown <= '0'; -- end info to som
 					DIGS3C_Shared_ReqSafeState <= '1'; -- info to dcplds
 					counter <= 1000;
 					next_state <= sleep_for_dslot_down; 
 				end if;
-				--checkandhandle_harderror;
+				checkandhandle_harderror;
 
             when warning_state =>
 				forceoutputdisable <= NOT PPn_VIN; -- noch zu messen, evtl durch debounce version ersetzen
@@ -542,13 +555,13 @@ process(clk)
 				FlexMIOs53_GPIO_PowerDown <= power;
 				if stop = '1' then  
                     next_state <= Softerror;
-                elsif power_pressed2sec = '1' then 
+                elsif power_pushed2sec = '1' then 
 					FlexMIOs53_GPIO_PowerDown <= '0'; -- end info to som
 					DIGS3C_Shared_ReqSafeState <= '1'; -- info to dcplds
 					counter <= 1000;
 					next_state <= sleep_for_dslot_down;
 				end if;
-				--checkandhandle_harderror;
+				checkandhandle_harderror;
 
             when Harderror_1ReqSafe =>
 				--Request safe state to dslots
@@ -597,7 +610,7 @@ process(clk)
 				FP_SysLEDg <= '1';
 				--FP_SysLEDs <= '1';
 				FlexMIOs53_GPIO_PowerDown <= power;
-                if power_pressed2sec = '1' then 
+                if power_pushed2sec = '1' then 
 					FlexMIOs53_GPIO_PowerDown <= '0'; -- end info to som
 					DIGS3C_Shared_ReqSafeState <= '1'; -- info to dcplds
 					counter <= 1000;
@@ -630,7 +643,7 @@ process(clk)
 				end if;
 
             when others =>
-                next_state <= Soft_Off;
+                next_state <= init_state;
         end case;
 	end if;
 end process;

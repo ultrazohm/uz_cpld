@@ -12,9 +12,9 @@ entity Soft_Off_V0 is
     Port (
 		-- Mapping according to banks
 		--- Bank 0, 3.3V
-		FP_SysLEDg		: out STD_LOGIC; -- led green Power, pin 141
-		FP_SysLEDr		: out STD_LOGIC; -- led red Power, pin 142
-		FP_SysLEDb		: out STD_LOGIC;  --led blue Power, pin 143		
+		FP_SysLEDg		: out STD_LOGIC;							-- LED green Power, pin 141
+		FP_SysLEDr		: out STD_LOGIC;							-- LED red Power, pin 142
+		FP_SysLEDb		: out STD_LOGIC;							-- LED blue Power, pin 143
 		FlexIO05 : out STD_LOGIC; --drive 0
 		FlexIO04 : in STD_LOGIC; -- pulldown
 		FlexIO03 : in STD_LOGIC;-- pulldown
@@ -22,9 +22,8 @@ entity Soft_Off_V0 is
 		FlexIO01 : out STD_LOGIC;--drive 0
 		FP_UsrSW1		:		in  STD_LOGIC; 	-- button Enable System, pin 128
 		FP_UsrSW2		:		in  STD_LOGIC; 	-- button SW2 Enable Control, pin 127
-		--i2c
-		SCL      : inout std_logic; -- pin 126, i2c CLK
-		SDA      : inout std_logic; -- pin 125, i2c DATA
+		SCL      : inout STD_LOGIC;								-- pin 126, I²C CLK
+		SDA      : inout STD_LOGIC;								-- pin 125, I²C DATA
 		FP_UsrSW3		:		in  STD_LOGIC; 	-- button SW3 STOP, pin 122
 		SysSW_Pwr_NC 	: 		in  STD_LOGIC;	-- button Power, pin 121
 		FPIO_isoCtrlRSTn	: 	out STD_LOGIC;	-- Z  off, 1 on, none
@@ -35,12 +34,12 @@ entity Soft_Off_V0 is
 		FPIO_FlexMIO27 	: inout STD_LOGIC:= 'Z';
 		FPIO_FlexMIO30 	: inout STD_LOGIC:= 'Z';
 		FPIO_FlexMIO29 	: inout STD_LOGIC:= 'Z';
-		FPIO_FlexMIO52 	: out STD_LOGIC; -- is converted in ps, pin 109, Z
+		FPIO_FlexMIO52 	: out STD_LOGIC;							-- is converted in PS, pin 109, Z
 		--- Bank 1, 1.8V
 		Carrier_PG_1V8	: out STD_LOGIC := 'Z';  -- ResetN Port, Powergood 1.8V pin 107
 		S3CsI2C_SDA		: inout STD_LOGIC;
 		S3CsI2C_SCL		: inout STD_LOGIC;
-		FP_SysLEDs		: out STD_LOGIC; -- led red SW3, pin 104
+		FP_SysLEDs		: out STD_LOGIC;							-- LED red SW3, pin 104
 		SD1_CD			: in STD_LOGIC;  -- pin 103
 		SD0_CD			: in STD_LOGIC;  -- pin 100
 		SPI_S3C_nCS_USR : in STD_LOGIC;
@@ -54,7 +53,7 @@ entity Soft_Off_V0 is
 		DIG5S3C26	: inout STD_LOGIC; --bidir,Z
 		DIG5S3C25	: inout STD_LOGIC; --bidir,Z
 		DIG5S3C24	: inout STD_LOGIC; --bidir,Z
-		SD_SEL		: out STD_LOGIC := '0'; -- signal, that is driven to 0, pin 41
+		SD_SEL		: out STD_LOGIC := '0';						-- signal that is driven to 0, pin 41
 		-- Flex MIos
 		FlexMIOs52_PCIe	: in  STD_LOGIC; -- routing through to FrontpanelIO.FlexMIO52_PCIe-R¯S¯T¯, inversion in PS pin 47
 		FlexMIOs53_GPIO_PowerDown:out  STD_LOGIC; -- gpio perform SoM Shutdown, pin 48
@@ -133,10 +132,9 @@ architecture behavior of Soft_Off_V0 is
 	type error_type is (NoError, TemperatureShutdown, ExternalStop, SlotError, SupplyFailure);
 	signal lasterror : error_type := NoError;
 	signal harderror_duringbootup :	STD_LOGIC := '0';
-    -- debounceconstant
-    constant debounce_limit : integer := 20800; -- 10ms, at 2.08MhZ
 
-    -- debounce counter and vectors for debouncing
+    -- debounce constant, counters and vectors for input debouncing
+    constant debounce_limit : integer := 20800;											-- debounce constant: 10ms, at 2.08MhZ
     type debounce_array is array (1 to 6) of integer range 0 to debounce_limit;
     signal debounce_counters : debounce_array := (others => 0);
 	signal debounce_inputs  : STD_LOGIC_VECTOR(6 downto 1);  -- inputs
@@ -155,17 +153,17 @@ architecture behavior of Soft_Off_V0 is
 	signal ppn6v	:	STD_LOGIC;
 	signal warning 	: 	STD_LOGIC;
 	
-	-- detect external stop edge
+	-- External Stop: Edge detection
 	signal externstop_pushededge: 	STD_LOGIC;
 	signal externstop_lastvalue: 	STD_LOGIC;
 	signal externstop_wasfound: 	STD_LOGIC := '0';
-	-- detect powerbutton edge and long press
+	-- Power button: Edge and long press detection
 	--signal power_falling: 	STD_LOGIC;
 	--signal power_lastvalue: 	STD_LOGIC;
 	signal power_pushed2sec: 	STD_LOGIC := '0';
 
 	-- Tristate
-	signal tristate_signals : std_logic_vector(30 downto 0);
+	signal tristate_signals : STD_LOGIC_vector(30 downto 0);
 	-- Dslot
 	signal forceoutputdisable :		STD_LOGIC;
 	-- define internal clock
@@ -174,14 +172,14 @@ architecture behavior of Soft_Off_V0 is
 	GENERIC (NOM_FREQ: string := "2.08");
 	-- synthesis translate_on
 	PORT (
-		STDBY	:	IN	std_logic;
-		OSC		:	OUT	std_logic;
-		SEDSTDBY:	OUT	std_logic);
+		STDBY	:	IN	STD_LOGIC;
+		OSC		:	OUT	STD_LOGIC;
+		SEDSTDBY:	OUT	STD_LOGIC);
 	END COMPONENT;
 	attribute NOM_FREQ 	: string;
 	attribute NOM_FREQ of OSCinst0 : label is "2.08";
 	attribute HGROUP 	: string;
-	signal dummy_signal : std_logic;
+	signal dummy_signal : STD_LOGIC;
 	attribute syn_keep : boolean;
 	attribute noclip   : string;
 	attribute noclip of dummy_signal  : signal is "on";
@@ -236,26 +234,25 @@ tristate_signals <= DIG5S3C00 & DIG5S3C01 & DIG5S3C02 & DIG5S3C03 & DIG5S3C04  &
 & FlexMIOs54 & FlexMIOs62 & FlexMIOs63 & FPIO_FlexMIO27 & FPIO_FlexMIO28 & FPIO_FlexMIO29 & FPIO_FlexMIO30;
 -- Assign 'Z' to all unused signal
 tristate_signals <= (others => 'Z');
+
 -- Ports default + routing through
 SD_SEL <= '0';
 FPIO_FlexMIO52 <= FlexMIOs52_PCIe;
 FlexMio61ExternalStop <= FPIO_ExternalStop;
 TDnFFnFS <= 'Z';
 
--- Mapping buttons
-debounce_inputs(1) <= SysSW_Pwr_NC;
-debounce_inputs(2) <= FPIO_ExternalStop;
-debounce_inputs(3) <= FP_UsrSW3;
-debounce_inputs(4) <= FP_UsrSW1;
-debounce_inputs(5) <= PG_VIN;
-debounce_inputs(6) <= PPn_VIN;
-
--- Decode buttons for better readability, 1 => user press the buttons
+-- Mapping of buttons (1 <=> button pressed) and other inputs for debounce and detection logic
+debounce_inputs(1) <= SysSW_Pwr_NC;		-- Power button
 power<=NOT signals_debounced_syn(1);
+debounce_inputs(2) <= FPIO_ExternalStop;	-- External STOP
 stopextern<=NOT signals_debounced_syn(2);
+debounce_inputs(3) <= FP_UsrSW3;			-- STOP button
 stop<=NOT signals_debounced_syn(3);
+debounce_inputs(4) <= FP_UsrSW1;			-- EnableSystem button
 enable<=NOT signals_debounced_syn(4);
+debounce_inputs(5) <= PG_VIN;				-- Power Good (10V)
 pg10v<=signals_debounced_syn(5);
+debounce_inputs(6) <= PPn_VIN;				-- Power Panic (6V)
 ppn6v<=signals_debounced_syn(6);
 
 warning <= '0';					-- hardcoded 0 = never warning
@@ -266,8 +263,9 @@ FlexIO01 <= ppn6v;					-- move (possibly AND-ed) to TP
 FlexIO02 <= S3C_S1;
 FlexIO05 <= NOT clk;
 
--- Conditional passthrough for OE
+-- Conditional passthrough for OE of D slots
 DIGS3C_SlotD_SlotOE <= DIGS3C_SlotD_ReqOE and (DIGS3C_SlotD_SlotOE'Range => NOT forceoutputdisable);
+
 -- debounce process
 process(clk)
     begin
@@ -294,9 +292,11 @@ process(clk)
                     signals_debounced_syn(i) <= '1';
                 end if;
             end loop;
+
 			-- detect falling edge in external stop
 			externstop_pushededge <= NOT externstop_lastvalue AND stopextern;
 			externstop_lastvalue <= stopextern;
+
 			--powerbutton press duration check 
 			if power = '1' then
 				if counter2sec > 0 then
@@ -314,7 +314,6 @@ process(clk)
 end process;
 
 -- process tick 1ms
-
 process(clk)
 begin
 	if rising_edge(clk) then
@@ -332,17 +331,25 @@ end process;
 process(clk)
 
 -- error handling
+
+	-- LED mapping (4 downto 1): FP_UsrLED[4] is "User", FP_UsrLED[3] is "Error", FP_UsrLED[2] is "Running", and FP_UsrLED[1] is "Ready"
 	procedure show_harderror (
 		constant error : in error_type
 	) is
 	begin
 		case error is
-			when NoError => FP_UsrLED <= "0000";
-			when ExternalStop => FP_UsrLED <= "1100";
-			when SupplyFailure => FP_UsrLED <= "0110";
-			when TemperatureShutdown => FP_UsrLED <= "1111";
-			when SlotError => FP_UsrLED <= "0101";
-			when others => FP_UsrLED <= "0000";
+			when NoError =>
+				FP_UsrLED <= "0000";
+			when ExternalStop =>
+				FP_UsrLED <= "1100";	-- Err + Usr
+			when SupplyFailure =>
+				FP_UsrLED <= "0110";	-- Err + Run
+			when TemperatureShutdown =>
+				FP_UsrLED <= "1111";	-- Err +  *
+			when SlotError =>
+				FP_UsrLED <= "0101";	-- Err + Rdy
+			when others =>
+				FP_UsrLED <= "0000";
 		end case;
 	end procedure;
 
@@ -397,10 +404,13 @@ process(clk)
             when Soft_Off =>
 				forceoutputdisable <= '1';
 				DIGS3C_Shared_ReqSafeState <= '1'; -- not working because bank 1 1.8vper not supplied
-				FlexMIOs53_GPIO_PowerDown <= '0';
+
 				FP_SysLEDr <= '0';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '0';	
+
+				FlexMIOs53_GPIO_PowerDown <= '0';
+
 				if power = '1' then
 					harderror_duringbootup <= '0';	
 					next_state <= WaitFor_PowerbuttonRelease_Bootup;
@@ -414,6 +424,7 @@ process(clk)
 			when WaitFor_PowerbuttonRelease_Bootup =>
 				forceoutputdisable <= '1';
 				DIGS3C_Shared_ReqSafeState <= '1'; -- not working because bank 1 1.8vper not supplied
+
 				FP_SysLEDr <= '0';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '1';
@@ -428,6 +439,7 @@ process(clk)
 			when Wait_State =>
 				forceoutputdisable <= '1';
 				DIGS3C_Shared_ReqSafeState <= '1'; -- not working because bank 1 1.8vper not supplied
+
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '0';
@@ -445,6 +457,7 @@ process(clk)
 			when EthernetPhy_Reset =>
 				forceoutputdisable <= '1';
 				DIGS3C_Shared_ReqSafeState <= '1'; -- not working because bank 1 1.8vper not supplied
+
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '1'; 
@@ -501,7 +514,6 @@ process(clk)
 						next_state <= ready_state;
 					else
 						next_state <= Ack_bootup_Harderror;
-			
 					end if;
 				end if;
 
@@ -527,10 +539,12 @@ process(clk)
             when ready_state =>
 				forceoutputdisable <= NOT PPn_VIN; -- noch zu messen, evtl durch debounce version ersetzen
 				DIGS3C_Shared_ReqSafeState <= '0';
+
 				FP_SysLEDr <= '0';
 				FP_SysLEDb <= '0';
 				FP_SysLEDg <= '1';
 				--FP_SysLEDs <= '1';
+
 				FlexMIOs53_GPIO_PowerDown <= power;
 
 				if stop = '1' then  
@@ -548,11 +562,14 @@ process(clk)
             when warning_state =>
 				forceoutputdisable <= NOT PPn_VIN; -- noch zu messen, evtl durch debounce version ersetzen
 				DIGS3C_Shared_ReqSafeState <= '0';
+
 				FP_SysLEDr <= '0';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '0';
 				--FP_SysLEDs <= '0';
+
 				FlexMIOs53_GPIO_PowerDown <= power;
+
 				if stop = '1' then  
                     next_state <= Softerror;
                 elsif power_pushed2sec = '1' then 
@@ -567,12 +584,14 @@ process(clk)
 				--Request safe state to dslots
 				forceoutputdisable <= NOT PPn_VIN; -- noch zu messen, evtl durch debounce version ersetzen
 				DIGS3C_Shared_ReqSafeState <= '1';
-				FlexMIOs53_GPIO_PowerDown <= '1';  -- info to som, power linux down;
 
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '0';	
 				FP_SysLEDg <= '0';
 				--FP_SysLEDs <= '1';
+
+				FlexMIOs53_GPIO_PowerDown <= '1';  -- info to som, power linux down;
+
 				if counter > 0 then
 					if tick1ms = '1' then
 						counter <= counter - 1;
@@ -587,10 +606,13 @@ process(clk)
 			when Harderror_2SoftOff =>
 				forceoutputdisable <= '1';
 				DIGS3C_Shared_ReqSafeState <= '1'; -- not working because bank 1 1.8vper not supplied
-				FlexMIOs53_GPIO_PowerDown <= '0';
+
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '0';
+
+				FlexMIOs53_GPIO_PowerDown <= '0';
+
 				if power = '1' then
 					harderror_duringbootup <= '0';	
 					next_state <= WaitFor_PowerbuttonRelease_Bootup;
@@ -605,11 +627,14 @@ process(clk)
 				--Request safe state to dslots
 				forceoutputdisable <= NOT PPn_VIN; -- noch zu messen, evtl durch debounce version ersetzen
 				DIGS3C_Shared_ReqSafeState <= '1';
+
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '1';	
 				FP_SysLEDg <= '1';
 				--FP_SysLEDs <= '1';
+
 				FlexMIOs53_GPIO_PowerDown <= power;
+
                 if power_pushed2sec = '1' then 
 					FlexMIOs53_GPIO_PowerDown <= '0'; -- end info to som
 					DIGS3C_Shared_ReqSafeState <= '1'; -- info to dcplds
@@ -631,13 +656,16 @@ process(clk)
 
             when Wait_for_PowerbuttonReleased_Powerdown =>
 				forceoutputdisable <= '1'; 
+
 				FP_SysLEDr <= '1';	
 				FP_SysLEDb <= '0';	
 				FP_SysLEDg <= '1';
 				--FP_SysLEDs <= '0';	
+
 				Carrier_PwrOn <= '0'; -- all rails down, only s3c alive
 				Carrier_PG_3V3 <= '0';
 				FPIO_isoCtrlRSTn <= '0'; -- reset IsoIO on
+
 				if power = '0' then
 					next_state <= Soft_Off;
 				end if;

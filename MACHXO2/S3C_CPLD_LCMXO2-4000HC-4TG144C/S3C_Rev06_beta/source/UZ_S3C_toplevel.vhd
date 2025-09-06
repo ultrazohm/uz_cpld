@@ -153,9 +153,7 @@ architecture behavior of Soft_Off_V0 is
 	signal ppn6v	:	STD_LOGIC;
 	signal warning 	: 	STD_LOGIC;
 
-	-- External Stop: Edge detection
-	signal externstop_pushededge: 	STD_LOGIC;
-	signal externstop_lastvalue: 	STD_LOGIC;
+	-- External Stop: "Is one connected" detection
 	signal externstop_wasfound: 	STD_LOGIC := '0';
 	-- Power button: Edge and long press detection
 	--signal power_falling: 	STD_LOGIC;
@@ -258,7 +256,6 @@ ppn6v<=signals_debounced_syn(6);
 warning <= '0';					-- hardcoded 0 = never warning
 
 -- FIXME: Debug
-FP_SysLEDs<=externstop_wasfound;
 FlexIO01 <= ppn6v;					-- move (possibly AND-ed) to TP
 FlexIO02 <= S3C_S1;
 FlexIO05 <= NOT clk;
@@ -292,10 +289,6 @@ process(clk)
 					signals_debounced_syn(i) <= '1';
 				end if;
 			end loop;
-
-			-- detect falling edge in external stop
-			externstop_pushededge <= NOT externstop_lastvalue AND stopextern;
-			externstop_lastvalue <= stopextern;
 
 			-- powerbutton press duration check
 			if power = '1' then
@@ -357,8 +350,6 @@ process(clk)
 	begin
 		if pg10v = '0' then
 			return(SupplyFailure);
-		elsif externstop_pushededge = '1' then  					-- edge-based (? check is always active)
-			return(ExternalStop);
 		elsif externstop_wasfound='1' and stopextern = '1' then	-- level-based (iff previously detected)
 			return(externalstop);
 		else
@@ -371,18 +362,16 @@ process(clk)
 	) is
 	begin
 		if error_reason /= NoError then
-
 			counter <= 5000;
 			next_state <= Harderror_1ReqSafe;
 
-			case error_reason is
-				when NoError =>
-				when ExternalStop =>
-					externstop_wasfound <= '1';	-- bit to store if external stop was connected
-				when SupplyFailure =>
-				--when TemperatureShutdown =>
-				--when SlotError =>
-			end case;
+	--		case error_reason is
+	--			when NoError =>
+	--			when ExternalStop =>
+	--			when SupplyFailure =>
+	--			--when TemperatureShutdown =>
+	--			--when SlotError =>
+	--		end case;
 		end if;
 
 		lasterror <= error_reason;
@@ -391,6 +380,12 @@ process(clk)
 	procedure checkandhandle_harderror is
 		variable current_error : error_type;
 	begin
+		-- Once an External STOP is seen (i.e., a "not pressed" is received) even for a single clock cycle,
+		-- store that - This should be turned into a persistent (I²C-set?) configuration flag in the future
+		if stopextern = '0' then
+			externstop_wasfound <= '1';	-- bit to store if external stop was connected
+		end if;
+
 		current_error := get_harderror;
 
 		show_harderror(current_error);
@@ -492,16 +487,16 @@ process(clk)
 				else
 					counter <= 400;
 				end if;
-				if counter > 100 then
+				if counter > 300 then
 					FP_SysLEDr <= '1';
 					FP_SysLEDb <= '1';
+					show_harderror(NoError);
 				else
 					FP_SysLEDr <= '0';
 					FP_SysLEDb <= '0';
+					show_harderror(lasterror);
 				end if;
 				FP_SysLEDg <= '0';
-
-				show_harderror(lasterror);
 
 				if get_harderror /= NoError then
 					harderror_duringbootup <= '1';
@@ -543,7 +538,7 @@ process(clk)
 				FP_SysLEDr <= '0';
 				FP_SysLEDb <= '0';
 				FP_SysLEDg <= '1';
-				--FP_SysLEDs <= '1';
+				FP_SysLEDs <= '1';
 
 				FlexMIOs53_GPIO_PowerDown <= power;
 
@@ -566,7 +561,7 @@ process(clk)
 				FP_SysLEDr <= '0';
 				FP_SysLEDb <= '1';
 				FP_SysLEDg <= '0';
-				--FP_SysLEDs <= '0';
+				FP_SysLEDs <= '0';
 
 				FlexMIOs53_GPIO_PowerDown <= power;
 
@@ -588,7 +583,7 @@ process(clk)
 				FP_SysLEDr <= '1';
 				FP_SysLEDb <= '0';
 				FP_SysLEDg <= '0';
-				--FP_SysLEDs <= '1';
+				FP_SysLEDs <= '1';
 
 				FlexMIOs53_GPIO_PowerDown <= '1';		-- info to som, power linux down;
 
@@ -631,7 +626,7 @@ process(clk)
 				FP_SysLEDr <= '1';
 				FP_SysLEDb <= '1';
 				FP_SysLEDg <= '1';
-				--FP_SysLEDs <= '1';
+				FP_SysLEDs <= '1';
 
 				FlexMIOs53_GPIO_PowerDown <= power;
 
@@ -660,7 +655,7 @@ process(clk)
 				FP_SysLEDr <= '1';
 				FP_SysLEDb <= '0';
 				FP_SysLEDg <= '1';
-				--FP_SysLEDs <= '0';
+				FP_SysLEDs <= '0';
 
 				Carrier_PwrOn <= '0';		-- all rails down, only s3c alive
 				Carrier_PG_3V3 <= '0';

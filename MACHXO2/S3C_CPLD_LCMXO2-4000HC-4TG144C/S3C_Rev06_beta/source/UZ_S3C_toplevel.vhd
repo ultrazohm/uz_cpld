@@ -256,9 +256,9 @@ ppn6v<=signals_debounced_syn(6);
 warning <= '0';					-- hardcoded 0 = never warning
 
 -- FIXME: Debug
-FlexIO01 <= ppn6v;					-- move (possibly AND-ed) to TP
-FlexIO02 <= S3C_S1;
-FlexIO05 <= NOT clk;
+FlexIO01 <= PG_Module AND ppn6v;					-- move (possibly AND-ed) to TP
+FlexIO02 <= PG_Module AND S3C_S1;
+FlexIO05 <= PG_Module AND NOT clk;
 
 -- Conditional passthrough for OE of D slots
 DIGS3C_SlotD_SlotOE <= DIGS3C_SlotD_ReqOE and (DIGS3C_SlotD_SlotOE'Range => NOT forceoutputdisable);

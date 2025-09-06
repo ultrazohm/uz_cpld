@@ -146,7 +146,7 @@ architecture behavior of Soft_Off_V0 is
 	signal counter2sec : integer range 0 to 2000 := 0;		-- counter for button
 	-- debounced signal
 	signal power	:	STD_LOGIC;
-	signal stopextern	:	STD_LOGIC;
+	signal externstop	:	STD_LOGIC;
 	signal stop	:	STD_LOGIC;
 	signal enable	:	STD_LOGIC;
 	signal pg10v	:	STD_LOGIC;
@@ -243,7 +243,7 @@ TDnFFnFS <= 'Z';
 debounce_inputs(1) <= SysSW_Pwr_NC;		-- Power button
 power<=NOT signals_debounced_syn(1);
 debounce_inputs(2) <= FPIO_ExternalStop;	-- External STOP
-stopextern<=NOT signals_debounced_syn(2);
+externstop<=NOT signals_debounced_syn(2);
 debounce_inputs(3) <= FP_UsrSW3;			-- STOP button
 stop<=NOT signals_debounced_syn(3);
 debounce_inputs(4) <= FP_UsrSW1;			-- EnableSystem button
@@ -350,7 +350,7 @@ process(clk)
 	begin
 		if pg10v = '0' then
 			return(SupplyFailure);
-		elsif externstop_wasfound='1' and stopextern = '1' then	-- level-based (iff previously detected)
+		elsif externstop_wasfound='1' and externstop = '1' then	-- level-based (iff previously detected)
 			return(externalstop);
 		else
 			return(NoError);
@@ -382,7 +382,7 @@ process(clk)
 	begin
 		-- Once an External STOP is seen (i.e., a "not pressed" is received) even for a single clock cycle,
 		-- store that - This should be turned into a persistent (I²C-set?) configuration flag in the future
-		if stopextern = '0' then
+		if externstop = '0' then
 			externstop_wasfound <= '1';	-- bit to store if external stop was connected
 		end if;
 

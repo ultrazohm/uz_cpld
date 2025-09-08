@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<BaliProject version="3.2" title="UZ_Rev05_S3C" device="LCMXO2-4000HC-4TG144C" default_implementation="S3C_171224">
+<BaliProject version="3.2" title="UZ_Rev05_S3C" device="LCMXO2-4000HC-4TG144C" default_implementation="S3C_Rev06_beta">
     <Options/>
     <Implementation title="S3C_171224" dir="S3C_171224" description="S3C_171224" synthesis="lse" default_strategy="Strategy1">
         <Options def_top="Waiting_for_Powerbutton_pressed_V0"/>
@@ -16,18 +16,18 @@
             <Options/>
         </Source>
     </Implementation>
-    <Implementation title="impl_0" dir="impl_0" description="impl_0" synthesis="lse" default_strategy="Strategy1">
-        <Options def_top="Waiting_for_Powerbutton_pressed_V0"/>
-        <Source name="POWER_ON.vhd" type="VHDL" type_short="VHDL" excluded="TRUE">
+    <Implementation title="S3C_Rev06_beta" dir="S3C_Rev06_beta" description="S3C_Rev06_beta" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="Soft_Off_V0"/>
+        <Source name="S3C_Rev06_beta/source/UZ_S3C_toplevel.vhd" type="VHDL" type_short="VHDL">
+            <Options top_module="Soft_Off_V0"/>
+        </Source>
+        <Source name="S3C_Rev06_beta/source/tick_counter.vhd" type="VHDL" type_short="VHDL" excluded="TRUE">
             <Options/>
         </Source>
-        <Source name="Power_on_debounce.vhd" type="VHDL" type_short="VHDL">
-            <Options top_module="Waiting_for_Powerbutton_pressed_V0"/>
-        </Source>
-        <Source name="impl_0/impl_0.xcf" type="Programming Project File" type_short="Programming">
+        <Source name="S3C_Rev06_beta/impl_0.xcf" type="Programming Project File" type_short="Programming">
             <Options/>
         </Source>
-        <Source name="UZ_Rev05_S3C.lpf" type="Logic Preference" type_short="LPF">
+        <Source name="S3C_Rev06_beta/source/UZ_S3C.lpf" type="Logic Preference" type_short="LPF">
             <Options/>
         </Source>
     </Implementation>

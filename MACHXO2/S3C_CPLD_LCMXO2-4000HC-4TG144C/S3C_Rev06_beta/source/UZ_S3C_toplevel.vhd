@@ -179,9 +179,11 @@ architecture behavior of Soft_Off_V0 is
 	attribute HGROUP 	: string;
 	signal dummy_signal : STD_LOGIC;
 	attribute syn_keep : boolean;
+	attribute syn_noprune : boolean;
 	attribute noclip   : string;
 	attribute noclip of dummy_signal  : signal is "on";
 	attribute syn_keep of dummy_signal : signal is true;
+	attribute syn_noprune of dummy_signal : signal is true;
 
 
 begin
@@ -223,7 +225,7 @@ dummy_signal <= TDnALERT AND TDnSHDN and ANL_S3C_P54_Legacy AND ANL_S3C_SLOTOK(1
 	AND FlexMIOs32 AND FlexMIOs33 AND FlexMIOs34 AND FlexMIOs35 AND FlexMIOs36 AND FlexMIOs37
 	AND FlexMIOs45 AND FlexMIOs54 AND FlexMIOs62 AND FlexMIOs63 AND PG_Module
 	AND S3CsI2C_SCL AND S3CsI2C_SDA
-	AND SCL AND SD0_CD AND SD1_CD AND SDA AND SPI_S3C_nCS_USR;
+	AND SCL AND SD0_CD AND SD1_CD AND SDA AND SPI_S3C_nCS_USR AND TDnFFnFS;
 
 tristate_signals <= DIG5S3C00 & DIG5S3C01 & DIG5S3C02 & DIG5S3C03 & DIG5S3C04  & DIG5S3C05
 	& DIG5S3C24 & DIG5S3C25 & DIG5S3C26 & DIG5S3C27 & DIG5S3C28 & DIG5S3C29

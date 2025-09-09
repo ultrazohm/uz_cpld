@@ -161,7 +161,7 @@ architecture behavior of Soft_Off_V0 is
 	signal power_pushed2sec: 	STD_LOGIC := '0';
 
 	-- Tristate
-	signal tristate_signals : STD_LOGIC_vector(30 downto 0);
+	signal tristate_signals : STD_LOGIC_vector(31 downto 0);
 	-- Dslot
 	signal forceoutputdisable :		STD_LOGIC;
 	-- define internal clock
@@ -184,7 +184,6 @@ architecture behavior of Soft_Off_V0 is
 	attribute noclip of dummy_signal  : signal is "on";
 	attribute syn_keep of dummy_signal : signal is true;
 	attribute syn_noprune of dummy_signal : signal is true;
-
 
 begin
 	OSCInst0: OSCH
@@ -231,7 +230,7 @@ tristate_signals <= DIG5S3C00 & DIG5S3C01 & DIG5S3C02 & DIG5S3C03 & DIG5S3C04  &
 	& DIG5S3C24 & DIG5S3C25 & DIG5S3C26 & DIG5S3C27 & DIG5S3C28 & DIG5S3C29
 	& FlexMIOs26 & FlexMIOs27 & FlexMIOs28 & FlexMIOs29 & FlexMIOs30 & FlexMIOs31
 	& FlexMIOs32 & FlexMIOs33 & FlexMIOs34 & FlexMIOs35 & FlexMIOs36 & FlexMIOs37
-	& FlexMIOs54 & FlexMIOs62 & FlexMIOs63 & FPIO_FlexMIO27 & FPIO_FlexMIO28 & FPIO_FlexMIO29 & FPIO_FlexMIO30;
+	& FlexMIOs54 & FlexMIOs62 & FlexMIOs63 & FPIO_FlexMIO27 & FPIO_FlexMIO28 & FPIO_FlexMIO29 & FPIO_FlexMIO30 & TDnFFnFS;
 -- Assign 'Z' to all unused signal
 tristate_signals <= (others => 'Z');
 
@@ -239,7 +238,6 @@ tristate_signals <= (others => 'Z');
 SD_SEL <= '0';
 FPIO_FlexMIO52 <= FlexMIOs52_PCIe;
 FlexMio61ExternalStop <= FPIO_ExternalStop;
-TDnFFnFS <= 'Z';
 
 -- Mapping of buttons (1 <=> button pressed) and other inputs for debounce and detection logic
 debounce_inputs(1) <= SysSW_Pwr_NC;		-- Power button
@@ -637,7 +635,7 @@ process(clk)
 					DIGS3C_Shared_ReqSafeState <= '1';		-- info to dcplds
 					counter <= 1000;
 					next_state <= sleep_for_dslot_down;
-				elsif enable = '1' then
+				elsif stop = '0' AND enable = '1' then	-- when both buttons pressed no state change
 					next_state <= Ready_State;
 				end if;
 				checkandhandle_harderror;

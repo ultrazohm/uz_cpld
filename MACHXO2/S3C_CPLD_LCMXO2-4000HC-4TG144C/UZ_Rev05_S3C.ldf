@@ -21,9 +21,6 @@
         <Source name="S3C_Rev06_beta/source/UZ_S3C_toplevel.vhd" type="VHDL" type_short="VHDL">
             <Options top_module="Soft_Off_V0"/>
         </Source>
-        <Source name="S3C_Rev06_beta/source/tick_counter.vhd" type="VHDL" type_short="VHDL" excluded="TRUE">
-            <Options/>
-        </Source>
         <Source name="S3C_Rev06_beta/impl_0.xcf" type="Programming Project File" type_short="Programming">
             <Options/>
         </Source>

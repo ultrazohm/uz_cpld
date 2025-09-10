@@ -195,24 +195,6 @@ begin
 	SEDSTDBY => open
 	);
 
-
--- Instanzen
---u_cnt50 : entity work.tick_counter
-	--generic map (COUNTER_LIMIT => 50)
-	--port map (
-		--clk     => clk,
-		--tick_in => tick1ms,
-		--done    => done_50ms
-	--);
-
---u_cnt1000 : entity work.tick_counter
-	--generic map (COUNTER_LIMIT => 1000)
-	--port map (
-		--clk     => clk,
-		--tick_in => tick1ms,
-		--done    => done_1000ms
-	--);
-
 dummy_signal <= TDnALERT AND TDnSHDN and ANL_S3C_P54_Legacy AND ANL_S3C_SLOTOK(1) AND ANL_S3C_SLOTOK(2) AND ANL_S3C_SLOTOK(3)
 	AND DIGS3C_SlotD_SlotOK(1) AND DIGS3C_SlotD_SlotOK(2) AND DIGS3C_SlotD_SlotOK(3) AND DIGS3C_SlotD_SlotOK(4) AND DIGS3C_SlotD_SlotOK(5)
 	AND DIG5S3C00 AND DIG5S3C01 AND DIG5S3C02 AND DIG5S3C03 AND DIG5S3C04 AND DIG5S3C05

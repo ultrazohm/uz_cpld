@@ -28,7 +28,7 @@ entity Soft_Off_V0 is
 		SysSW_Pwr_NC 	: 		in STD_LOGIC;						-- button Power, pin 121
 		FPIO_isoCtrlRSTn	: 	out STD_LOGIC;						-- Z off, 1 on, none
 		FPIO_iosCtrlINTn	: 	in STD_LOGIC;
-		Carrier_PG_3V3	: out STD_LOGIC := 'Z';					-- Powergood 3.3V, pin 115
+		Carrier_PG_3V3	: out STD_LOGIC;							-- Powergood 3.3V, pin 115
 		FPIO_ExternalStop: in STD_LOGIC;							-- button external stop, pin 114
 		FPIO_FlexMIO28 	: inout STD_LOGIC:= 'Z';					-- Z
 		FPIO_FlexMIO27 	: inout STD_LOGIC:= 'Z';

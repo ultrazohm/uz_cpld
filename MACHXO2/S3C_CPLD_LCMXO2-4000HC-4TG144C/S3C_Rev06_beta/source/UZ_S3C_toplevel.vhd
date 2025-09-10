@@ -119,7 +119,7 @@ architecture behavior of Soft_Off_V0 is
 		Wait_State, EthernetPhy_Reset,
 		Ack_previous_Harderror, Ack_bootup_Harderror,
 		Ready_State, Warning_State, Softerror,
-		Harderror_1ReqSafe, Harderror_2SoftOff,
+		Harderror_1ReqSafe,
 		sleep_for_dslot_down
 	);
 	constant init_state : state_type := Soft_Off;
@@ -403,9 +403,15 @@ process(clk)
 				forceoutputdisable <= '1';
 				DIGS3C_Shared_ReqSafeState <= '1';	-- not working because bank 1 1.8vper not supplied
 
-				FP_SysLEDr <= '0';
-				FP_SysLEDb <= '1';
-				FP_SysLEDg <= '0';
+				if lasterror = NoError then
+					FP_SysLEDr <= '0';
+					FP_SysLEDb <= '1';
+					FP_SysLEDg <= '0';
+				else
+					FP_SysLEDr <= '1';
+					FP_SysLEDb <= '1';
+					FP_SysLEDg <= '0';
+				end if;
 
 				FlexMIOs53_GPIO_PowerDown <= '0';
 
@@ -583,33 +589,7 @@ process(clk)
 						counter <= counter - 1;
 					end if;
 				else
-					Carrier_PwrOn <= '0';		-- all rails down, only s3c alive
-					Carrier_PG_3V3 <= '0';
-					FPIO_isoCtrlRSTn <= '0';	-- reset IsoIO on
-					next_state <= Harderror_2SoftOff;
-				end if;
-
-			when Harderror_2SoftOff =>
-				forceoutputdisable <= '1';
-				DIGS3C_Shared_ReqSafeState <= '1';	-- not working because bank 1 1.8vper not supplied
-
-				FP_SysLEDr <= '1';
-				FP_SysLEDb <= '1';
-				FP_SysLEDg <= '0';
-
-				FlexMIOs53_GPIO_PowerDown <= '0';
-
-				if power_pressededge = '1' then
-					harderror_duringbootup <= '0';
-					Carrier_PwrOn <= '1';		-- enables all rails
-					Carrier_PG_3V3 <= '1';		-- Hack IsoIo on, if power on
-					next_state <= Wait_State;
-					counter <= 1000;			-- Counter gleich starten
-				else
-					Carrier_PwrOn <= '0';		-- all rails down, only s3c alive
-					Carrier_PG_3V3 <= '0';
-					FPIO_isoCtrlRSTn <= '0';	-- reset IsoIO enable
-					Carrier_PG_1V8 <= 'Z';		-- tristate as long as system is down
+					next_state <= Soft_Off;
 				end if;
 
 			when Softerror =>

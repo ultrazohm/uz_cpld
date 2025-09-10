@@ -120,7 +120,7 @@ architecture behavior of Soft_Off_V0 is
 		Ack_previous_Harderror, Ack_bootup_Harderror,
 		Ready_State, Warning_State, Softerror,
 		Harderror_1ReqSafe, Harderror_2SoftOff,
-		sleep_for_dslot_down, Wait_for_PowerbuttonReleased_Powerdown
+		sleep_for_dslot_down
 	);
 	constant init_state : state_type := Soft_Off;
 
@@ -513,7 +513,7 @@ process(clk)
 
 				show_harderror(get_harderror);
 				if get_harderror = NoError AND power_pressededge = '1' then
-					next_state <= Wait_for_PowerbuttonReleased_Powerdown;
+					next_state <= Soft_Off;
 				end if;
 				if power_pushed2sec = '1' then
 					FlexMIOs53_GPIO_PowerDown <= '0';		-- end info to som
@@ -640,22 +640,6 @@ process(clk)
 						counter <= counter - 1;
 					end if;
 				else
-					next_state <= Wait_for_PowerbuttonReleased_Powerdown;
-				end if;
-
-			when Wait_for_PowerbuttonReleased_Powerdown =>
-				forceoutputdisable <= '1';
-
-				FP_SysLEDr <= '1';
-				FP_SysLEDb <= '0';
-				FP_SysLEDg <= '1';
-				FP_SysLEDs <= '0';
-
-				Carrier_PwrOn <= '0';		-- all rails down, only s3c alive
-				Carrier_PG_3V3 <= '0';
-				FPIO_isoCtrlRSTn <= '0';	-- reset IsoIO on
-
-				if power = '0' then
 					next_state <= Soft_Off;
 				end if;
 

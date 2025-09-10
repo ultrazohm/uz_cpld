@@ -119,7 +119,7 @@ architecture behavior of Soft_Off_V0 is
 		Wait_State, EthernetPhy_Reset,
 		Ack_previous_Harderror, Ack_bootup_Harderror,
 		Ready_State, Warning_State, Softerror,
-		Harderror_1ReqSafe,
+		Harderror,
 		sleep_for_dslot_down
 	);
 	constant init_state : state_type := Soft_Off;
@@ -366,7 +366,7 @@ process(clk)
 	begin
 		if error_reason /= NoError then
 			counter <= 5000;
-			next_state <= Harderror_1ReqSafe;
+			next_state <= Harderror;
 
 	--		case error_reason is
 	--			when NoError =>
@@ -572,7 +572,7 @@ process(clk)
 				end if;
 				checkandhandle_harderror;
 
-			when Harderror_1ReqSafe =>
+			when Harderror =>
 				--Request safe state to dslots
 				forceoutputdisable <= NOT PPn_VIN;	-- noch zu messen, evtl durch debounce version ersetzen
 				DIGS3C_Shared_ReqSafeState <= '1';

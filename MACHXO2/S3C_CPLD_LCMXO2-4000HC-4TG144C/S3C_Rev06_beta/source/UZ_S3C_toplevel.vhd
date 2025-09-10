@@ -106,6 +106,8 @@ end Soft_Off_V0;
 
 architecture behavior of Soft_Off_V0 is
 	signal clk	:	STD_LOGIC;
+	signal rst	:	STD_LOGIC := '1';
+
 	signal counter : integer range 0 to 5000 := 0;		-- counter for fsm
 
 	-- signals for tick creation
@@ -124,10 +126,10 @@ architecture behavior of Soft_Off_V0 is
 	);
 	constant init_state : state_type := Soft_Off;
 
-	signal next_state : state_type := init_state;
+	signal next_state : state_type;
 	attribute syn_encoding : string;
-	attribute syn_encoding of next_state : signal is "gray";	-- NB: Do not use one-hot encoding (due to initial reg state) - "sequential" should be an alternative choice with slightly different resource demand...
-	-- TODO: It might be a better option to explicitly define all states on bit level (via syn_enum_encoding in Synplify Pro) - Otherwise, the initial state has to remain the first one in the above (type) definition
+	attribute syn_encoding of next_state : signal is "safe,gray";	-- NB: Do not use one-hot encoding (due to initial reg state) - "sequential" should be an alternative choice with slightly different resource demand...
+
 	-- error type definitions (currently hard errors only)
 	type error_type is (NoError, TemperatureShutdown, ExternalStop, SlotError, SupplyFailure);
 	signal lasterror : error_type := NoError;
@@ -194,6 +196,15 @@ begin
 	SEDSTDBY => open
 	);
 
+
+process(clk)
+	begin
+	if rising_edge(clk) then
+		if rst = '1' then
+			rst <= '0';
+		end if;
+	end if;
+end process;
 
 -- Instanzen
 --u_cnt50 : entity work.tick_counter
@@ -398,234 +409,238 @@ process(clk)
 -- state machine start
 	begin
 	if rising_edge(clk) then
-		case next_state is
-			when Soft_Off =>
-				forceoutputdisable <= '1';
-				DIGS3C_Shared_ReqSafeState <= '1';	-- not working because bank 1 1.8vper not supplied
+		if rst = '1' then
+			next_state <= init_state;
+		else
+			case next_state is
+				when Soft_Off =>
+					forceoutputdisable <= '1';
+					DIGS3C_Shared_ReqSafeState <= '1';	-- not working because bank 1 1.8vper not supplied
 
-				if lasterror = NoError then
-					FP_SysLEDr <= '0';
-					FP_SysLEDb <= '1';
-					FP_SysLEDg <= '0';
-				else
-					FP_SysLEDr <= '1';
-					FP_SysLEDb <= '1';
-					FP_SysLEDg <= '0';
-				end if;
-
-				FlexMIOs53_GPIO_PowerDown <= '0';
-
-				if power_pressededge = '1' then
-					harderror_duringbootup <= '0';
-					Carrier_PwrOn <= '1';		-- enables all rails
-					Carrier_PG_3V3 <= '1';		-- Hack IsoIo on, if power on
-					next_state <= Wait_State;
-					counter <= 1000;			-- Counter gleich starten
-				else
-					Carrier_PwrOn <= '0';		-- all rails down, only s3c alive
-					Carrier_PG_3V3 <= '0';
-					FPIO_isoCtrlRSTn <= '0';	-- reset IsoIO enable
-					Carrier_PG_1V8 <= 'Z';		-- tristate as long as system is down
-				end if;
-
-			when Wait_State =>
-				forceoutputdisable <= '1';
-				DIGS3C_Shared_ReqSafeState <= '1';	-- not working because bank 1 1.8vper not supplied
-
-				FP_SysLEDr <= '1';
-				FP_SysLEDb <= '1';
-				FP_SysLEDg <= '0';
-
-				if counter > 0 then
-					if tick1ms = '1' then
-						counter <= counter - 1;
-					end if;
-				else
-					Carrier_PG_1V8 <= '0';				-- resetn for 50ms to zero
-					next_state <= EthernetPhy_Reset;
-					counter <= 50;						-- Counter gleich starten
-				end if;
-
-			when EthernetPhy_Reset =>
-				forceoutputdisable <= '1';
-				DIGS3C_Shared_ReqSafeState <= '1';	-- not working because bank 1 1.8vper not supplied
-
-				FP_SysLEDr <= '1';
-				FP_SysLEDb <= '1';
-				FP_SysLEDg <= '1';
-
-				if get_harderror /= NoError then
-					harderror_duringbootup <= '1';
-				end if;
-
-				if counter > 0 then
-					if tick1ms = '1' then
-						counter <= counter - 1;
-					end if;
-				else
-					-- Init complete
-					Carrier_PG_1V8 <= 'Z';		-- after 50 ms tristate
-					FPIO_isoCtrlRSTn <= '1';	-- reset IsoIO off
-
-					if lasterror /= NoError then
-						next_state <= Ack_previous_Harderror;
-					elsif harderror_duringbootup = '1' then
-						next_state <= Ack_bootup_Harderror;
+					if lasterror = NoError then
+						FP_SysLEDr <= '0';
+						FP_SysLEDb <= '1';
+						FP_SysLEDg <= '0';
 					else
-						next_state <= ready_state;
+						FP_SysLEDr <= '1';
+						FP_SysLEDb <= '1';
+						FP_SysLEDg <= '0';
 					end if;
-				end if;
-			when Ack_previous_Harderror =>
-				-- Blinky
-				if counter > 0 then
-					if tick1ms = '1' then
-						counter <= counter - 1;
+
+					FlexMIOs53_GPIO_PowerDown <= '0';
+
+					if power_pressededge = '1' then
+						harderror_duringbootup <= '0';
+						Carrier_PwrOn <= '1';		-- enables all rails
+						Carrier_PG_3V3 <= '1';		-- Hack IsoIo on, if power on
+						next_state <= Wait_State;
+						counter <= 1000;			-- Counter gleich starten
+					else
+						Carrier_PwrOn <= '0';		-- all rails down, only s3c alive
+						Carrier_PG_3V3 <= '0';
+						FPIO_isoCtrlRSTn <= '0';	-- reset IsoIO enable
+						Carrier_PG_1V8 <= 'Z';		-- tristate as long as system is down
 					end if;
-				else
-					counter <= 400;
-				end if;
-				if counter > 300 then
+
+				when Wait_State =>
+					forceoutputdisable <= '1';
+					DIGS3C_Shared_ReqSafeState <= '1';	-- not working because bank 1 1.8vper not supplied
+
 					FP_SysLEDr <= '1';
 					FP_SysLEDb <= '1';
-					show_harderror(NoError);
-				else
+					FP_SysLEDg <= '0';
+
+					if counter > 0 then
+						if tick1ms = '1' then
+							counter <= counter - 1;
+						end if;
+					else
+						Carrier_PG_1V8 <= '0';				-- resetn for 50ms to zero
+						next_state <= EthernetPhy_Reset;
+						counter <= 50;						-- Counter gleich starten
+					end if;
+
+				when EthernetPhy_Reset =>
+					forceoutputdisable <= '1';
+					DIGS3C_Shared_ReqSafeState <= '1';	-- not working because bank 1 1.8vper not supplied
+
+					FP_SysLEDr <= '1';
+					FP_SysLEDb <= '1';
+					FP_SysLEDg <= '1';
+
+					if get_harderror /= NoError then
+						harderror_duringbootup <= '1';
+					end if;
+
+					if counter > 0 then
+						if tick1ms = '1' then
+							counter <= counter - 1;
+						end if;
+					else
+						-- Init complete
+						Carrier_PG_1V8 <= 'Z';		-- after 50 ms tristate
+						FPIO_isoCtrlRSTn <= '1';	-- reset IsoIO off
+
+						if lasterror /= NoError then
+							next_state <= Ack_previous_Harderror;
+						elsif harderror_duringbootup = '1' then
+							next_state <= Ack_bootup_Harderror;
+						else
+							next_state <= ready_state;
+						end if;
+					end if;
+				when Ack_previous_Harderror =>
+					-- Blinky
+					if counter > 0 then
+						if tick1ms = '1' then
+							counter <= counter - 1;
+						end if;
+					else
+						counter <= 400;
+					end if;
+					if counter > 300 then
+						FP_SysLEDr <= '1';
+						FP_SysLEDb <= '1';
+						show_harderror(NoError);
+					else
+						FP_SysLEDr <= '0';
+						FP_SysLEDb <= '0';
+						show_harderror(lasterror);
+					end if;
+					FP_SysLEDg <= '0';
+
+					if get_harderror /= NoError then
+						harderror_duringbootup <= '1';
+					end if;
+
+					if power_pressededge = '1' then
+						lasterror <= NoError;
+						if harderror_duringbootup = '0' then
+							show_harderror(NoError);
+							next_state <= ready_state;
+						else
+							next_state <= Ack_bootup_Harderror;
+						end if;
+					end if;
+
+				when Ack_bootup_Harderror =>
+
+					FP_SysLEDr <= '1';
+					FP_SysLEDb <= '1';
+					FP_SysLEDg <= '0';
+
+					FlexMIOs53_GPIO_PowerDown <= '1';		-- info to som, power linux down;
+
+					show_harderror(get_harderror);
+					if get_harderror = NoError AND power_pressededge = '1' then
+						next_state <= Soft_Off;
+					end if;
+					if power_pushed2sec = '1' then
+						FlexMIOs53_GPIO_PowerDown <= '0';		-- end info to som
+						DIGS3C_Shared_ReqSafeState <= '1';		-- info to dcplds
+						counter <= 1000;
+						next_state <= sleep_for_dslot_down;		-- Version 1:Blau = Nutzer fährt system herunter, Lila = system fährt sich selbst herunter
+					end if;
+
+				when ready_state =>
+					forceoutputdisable <= NOT PPn_VIN;	-- noch zu messen, evtl durch debounce version ersetzen
+					DIGS3C_Shared_ReqSafeState <= '0';
+
 					FP_SysLEDr <= '0';
 					FP_SysLEDb <= '0';
-					show_harderror(lasterror);
-				end if;
-				FP_SysLEDg <= '0';
+					FP_SysLEDg <= '1';
+					FP_SysLEDs <= '1';
 
-				if get_harderror /= NoError then
-					harderror_duringbootup <= '1';
-				end if;
+					FlexMIOs53_GPIO_PowerDown <= power;			-- NB: This copies the power button's current state to the SoM, which is going to be '1' just at/after entering this state (as the button is still pressed)
 
-				if power_pressededge = '1' then
-					lasterror <= NoError;
-					if harderror_duringbootup = '0' then
-						show_harderror(NoError);
-						next_state <= ready_state;
+					if stop = '1' then
+						next_state <= Softerror;
+					elsif warning = '1' then
+						next_state <= Warning_State;
+					elsif power_pushed2sec = '1' then			-- NB: In line with FlexMIOs53_GPIO_PowerDown above, this timer surely is going to start just at/after entering this state (as the button is still pressed)
+						FlexMIOs53_GPIO_PowerDown <= '0';		-- end info to som
+						DIGS3C_Shared_ReqSafeState <= '1';		-- info to dcplds
+						counter <= 1000;
+						next_state <= sleep_for_dslot_down;
+					end if;
+					checkandhandle_harderror;
+
+				when warning_state =>
+					forceoutputdisable <= NOT PPn_VIN;	-- noch zu messen, evtl durch debounce version ersetzen
+					DIGS3C_Shared_ReqSafeState <= '0';
+
+					FP_SysLEDr <= '0';
+					FP_SysLEDb <= '1';
+					FP_SysLEDg <= '0';
+					FP_SysLEDs <= '0';
+
+					FlexMIOs53_GPIO_PowerDown <= power;
+
+					if stop = '1' then
+						next_state <= Softerror;
+					elsif power_pushed2sec = '1' then
+						FlexMIOs53_GPIO_PowerDown <= '0';		-- end info to som
+						DIGS3C_Shared_ReqSafeState <= '1';		-- info to dcplds
+						counter <= 1000;
+						next_state <= sleep_for_dslot_down;
+					end if;
+					checkandhandle_harderror;
+
+				when Harderror =>
+					--Request safe state to dslots
+					forceoutputdisable <= NOT PPn_VIN;	-- noch zu messen, evtl durch debounce version ersetzen
+					DIGS3C_Shared_ReqSafeState <= '1';
+
+					FP_SysLEDr <= '1';
+					FP_SysLEDb <= '0';
+					FP_SysLEDg <= '0';
+					FP_SysLEDs <= '1';
+
+					FlexMIOs53_GPIO_PowerDown <= '1';		-- info to som, power linux down;
+
+					if counter > 0 then
+						if tick1ms = '1' then
+							counter <= counter - 1;
+						end if;
 					else
-						next_state <= Ack_bootup_Harderror;
+						next_state <= Soft_Off;
 					end if;
-				end if;
 
-			when Ack_bootup_Harderror =>
+				when Softerror =>
+					--Request safe state to dslots
+					forceoutputdisable <= NOT PPn_VIN;	-- noch zu messen, evtl durch debounce version ersetzen
+					DIGS3C_Shared_ReqSafeState <= '1';
 
-				FP_SysLEDr <= '1';
-				FP_SysLEDb <= '1';
-				FP_SysLEDg <= '0';
+					FP_SysLEDr <= '1';
+					FP_SysLEDb <= '1';
+					FP_SysLEDg <= '1';
+					FP_SysLEDs <= '1';
 
-				FlexMIOs53_GPIO_PowerDown <= '1';		-- info to som, power linux down;
+					FlexMIOs53_GPIO_PowerDown <= power;
 
-				show_harderror(get_harderror);
-				if get_harderror = NoError AND power_pressededge = '1' then
-					next_state <= Soft_Off;
-				end if;
-				if power_pushed2sec = '1' then
-					FlexMIOs53_GPIO_PowerDown <= '0';		-- end info to som
-					DIGS3C_Shared_ReqSafeState <= '1';		-- info to dcplds
-					counter <= 1000;
-					next_state <= sleep_for_dslot_down;		-- Version 1:Blau = Nutzer fährt system herunter, Lila = system fährt sich selbst herunter
-				end if;
-
-			when ready_state =>
-				forceoutputdisable <= NOT PPn_VIN;	-- noch zu messen, evtl durch debounce version ersetzen
-				DIGS3C_Shared_ReqSafeState <= '0';
-
-				FP_SysLEDr <= '0';
-				FP_SysLEDb <= '0';
-				FP_SysLEDg <= '1';
-				FP_SysLEDs <= '1';
-
-				FlexMIOs53_GPIO_PowerDown <= power;			-- NB: This copies the power button's current state to the SoM, which is going to be '1' just at/after entering this state (as the button is still pressed)
-
-				if stop = '1' then
-					next_state <= Softerror;
-				elsif warning = '1' then
-					next_state <= Warning_State;
-				elsif power_pushed2sec = '1' then			-- NB: In line with FlexMIOs53_GPIO_PowerDown above, this timer surely is going to start just at/after entering this state (as the button is still pressed)
-					FlexMIOs53_GPIO_PowerDown <= '0';		-- end info to som
-					DIGS3C_Shared_ReqSafeState <= '1';		-- info to dcplds
-					counter <= 1000;
-					next_state <= sleep_for_dslot_down;
-				end if;
-				checkandhandle_harderror;
-
-			when warning_state =>
-				forceoutputdisable <= NOT PPn_VIN;	-- noch zu messen, evtl durch debounce version ersetzen
-				DIGS3C_Shared_ReqSafeState <= '0';
-
-				FP_SysLEDr <= '0';
-				FP_SysLEDb <= '1';
-				FP_SysLEDg <= '0';
-				FP_SysLEDs <= '0';
-
-				FlexMIOs53_GPIO_PowerDown <= power;
-
-				if stop = '1' then
-					next_state <= Softerror;
-				elsif power_pushed2sec = '1' then
-					FlexMIOs53_GPIO_PowerDown <= '0';		-- end info to som
-					DIGS3C_Shared_ReqSafeState <= '1';		-- info to dcplds
-					counter <= 1000;
-					next_state <= sleep_for_dslot_down;
-				end if;
-				checkandhandle_harderror;
-
-			when Harderror =>
-				--Request safe state to dslots
-				forceoutputdisable <= NOT PPn_VIN;	-- noch zu messen, evtl durch debounce version ersetzen
-				DIGS3C_Shared_ReqSafeState <= '1';
-
-				FP_SysLEDr <= '1';
-				FP_SysLEDb <= '0';
-				FP_SysLEDg <= '0';
-				FP_SysLEDs <= '1';
-
-				FlexMIOs53_GPIO_PowerDown <= '1';		-- info to som, power linux down;
-
-				if counter > 0 then
-					if tick1ms = '1' then
-						counter <= counter - 1;
+					if power_pushed2sec = '1' then
+						FlexMIOs53_GPIO_PowerDown <= '0';		-- end info to som
+						DIGS3C_Shared_ReqSafeState <= '1';		-- info to dcplds
+						counter <= 1000;
+						next_state <= sleep_for_dslot_down;
+					elsif enable = '1' then
+						next_state <= Ready_State;
 					end if;
-				else
-					next_state <= Soft_Off;
-				end if;
+					checkandhandle_harderror;
 
-			when Softerror =>
-				--Request safe state to dslots
-				forceoutputdisable <= NOT PPn_VIN;	-- noch zu messen, evtl durch debounce version ersetzen
-				DIGS3C_Shared_ReqSafeState <= '1';
-
-				FP_SysLEDr <= '1';
-				FP_SysLEDb <= '1';
-				FP_SysLEDg <= '1';
-				FP_SysLEDs <= '1';
-
-				FlexMIOs53_GPIO_PowerDown <= power;
-
-				if power_pushed2sec = '1' then
-					FlexMIOs53_GPIO_PowerDown <= '0';		-- end info to som
-					DIGS3C_Shared_ReqSafeState <= '1';		-- info to dcplds
-					counter <= 1000;
-					next_state <= sleep_for_dslot_down;
-				elsif enable = '1' then
-					next_state <= Ready_State;
-				end if;
-				checkandhandle_harderror;
-
-			when sleep_for_dslot_down =>
-				if counter > 0 then
-					if tick1ms = '1' then
-						counter <= counter - 1;
+				when sleep_for_dslot_down =>
+					if counter > 0 then
+						if tick1ms = '1' then
+							counter <= counter - 1;
+						end if;
+					else
+						next_state <= Soft_Off;
 					end if;
-				else
-					next_state <= Soft_Off;
-				end if;
 
-			when others =>
-				next_state <= init_state;
-		end case;
-	end if;
+				when others =>
+					next_state <= init_state;
+			end case;
+		end if;			-- rst
+	end if;				-- clk
 end process;
 end behavior;

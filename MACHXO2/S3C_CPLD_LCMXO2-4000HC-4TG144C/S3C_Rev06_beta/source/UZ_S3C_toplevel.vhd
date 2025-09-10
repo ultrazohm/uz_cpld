@@ -116,7 +116,7 @@ architecture behavior of Soft_Off_V0 is
 	-- states in statemachine
 	type state_type is (
 		Soft_Off,
-		WaitFor_PowerbuttonRelease_Bootup, Wait_State, EthernetPhy_Reset,
+		Wait_State, EthernetPhy_Reset,
 		Ack_previous_Harderror, Ack_bootup_Harderror,
 		Ready_State, Warning_State, Softerror,
 		Harderror_1ReqSafe, Harderror_2SoftOff,
@@ -156,8 +156,8 @@ architecture behavior of Soft_Off_V0 is
 	-- External Stop: "Is one connected" detection
 	signal externstop_wasfound: 	STD_LOGIC := '0';
 	-- Power button: Edge and long press detection
-	--signal power_falling: 	STD_LOGIC;
-	--signal power_lastvalue: 	STD_LOGIC;
+	signal power_pressededge:	STD_LOGIC;
+	signal power_lastvalue:		STD_LOGIC := '0';
 	signal power_pushed2sec: 	STD_LOGIC := '0';
 
 	-- Tristate
@@ -290,6 +290,9 @@ process(clk)
 				end if;
 			end loop;
 
+			-- powerbutton "just pressed" check
+			power_pressededge <= NOT power_lastvalue AND power;
+			power_lastvalue <= power;
 			-- powerbutton press duration check
 			if power = '1' then
 				if counter2sec > 0 then
@@ -406,29 +409,17 @@ process(clk)
 
 				FlexMIOs53_GPIO_PowerDown <= '0';
 
-				if power = '1' then
+				if power_pressededge = '1' then
 					harderror_duringbootup <= '0';
-					next_state <= WaitFor_PowerbuttonRelease_Bootup;
+					Carrier_PwrOn <= '1';		-- enables all rails
+					Carrier_PG_3V3 <= '1';		-- Hack IsoIo on, if power on
+					next_state <= Wait_State;
+					counter <= 1000;			-- Counter gleich starten
 				else
 					Carrier_PwrOn <= '0';		-- all rails down, only s3c alive
 					Carrier_PG_3V3 <= '0';
 					FPIO_isoCtrlRSTn <= '0';	-- reset IsoIO enable
 					Carrier_PG_1V8 <= 'Z';		-- tristate as long as system is down
-				end if;
-
-			when WaitFor_PowerbuttonRelease_Bootup =>
-				forceoutputdisable <= '1';
-				DIGS3C_Shared_ReqSafeState <= '1';	-- not working because bank 1 1.8vper not supplied
-
-				FP_SysLEDr <= '0';
-				FP_SysLEDb <= '1';
-				FP_SysLEDg <= '1';
-
-				if power = '0' then
-					Carrier_PwrOn <= '1';		-- enables all rails
-					Carrier_PG_3V3 <= '1';		-- Hack IsoIo on, if power on
-					next_state <= Wait_State;
-					counter <= 1000;			-- Counter gleich starten
 				end if;
 
 			when Wait_State =>
@@ -502,7 +493,7 @@ process(clk)
 					harderror_duringbootup <= '1';
 				end if;
 
-				if power = '1' then
+				if power_pressededge = '1' then
 					lasterror <= NoError;
 					if harderror_duringbootup = '0' then
 						show_harderror(NoError);
@@ -521,7 +512,7 @@ process(clk)
 				FlexMIOs53_GPIO_PowerDown <= '1';		-- info to som, power linux down;
 
 				show_harderror(get_harderror);
-				if get_harderror = NoError AND power = '1' then
+				if get_harderror = NoError AND power_pressededge = '1' then
 					next_state <= Wait_for_PowerbuttonReleased_Powerdown;
 				end if;
 				if power_pushed2sec = '1' then
@@ -540,13 +531,13 @@ process(clk)
 				FP_SysLEDg <= '1';
 				FP_SysLEDs <= '1';
 
-				FlexMIOs53_GPIO_PowerDown <= power;
+				FlexMIOs53_GPIO_PowerDown <= power;			-- NB: This copies the power button's current state to the SoM, which is going to be '1' just at/after entering this state (as the button is still pressed)
 
 				if stop = '1' then
 					next_state <= Softerror;
 				elsif warning = '1' then
 					next_state <= Warning_State;
-				elsif power_pushed2sec = '1' then
+				elsif power_pushed2sec = '1' then			-- NB: In line with FlexMIOs53_GPIO_PowerDown above, this timer surely is going to start just at/after entering this state (as the button is still pressed)
 					FlexMIOs53_GPIO_PowerDown <= '0';		-- end info to som
 					DIGS3C_Shared_ReqSafeState <= '1';		-- info to dcplds
 					counter <= 1000;
@@ -608,9 +599,12 @@ process(clk)
 
 				FlexMIOs53_GPIO_PowerDown <= '0';
 
-				if power = '1' then
+				if power_pressededge = '1' then
 					harderror_duringbootup <= '0';
-					next_state <= WaitFor_PowerbuttonRelease_Bootup;
+					Carrier_PwrOn <= '1';		-- enables all rails
+					Carrier_PG_3V3 <= '1';		-- Hack IsoIo on, if power on
+					next_state <= Wait_State;
+					counter <= 1000;			-- Counter gleich starten
 				else
 					Carrier_PwrOn <= '0';		-- all rails down, only s3c alive
 					Carrier_PG_3V3 <= '0';

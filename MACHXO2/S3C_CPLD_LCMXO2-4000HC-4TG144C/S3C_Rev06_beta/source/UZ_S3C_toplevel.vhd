@@ -187,14 +187,15 @@ architecture behavior of Soft_Off_V0 is
 	attribute NOM_FREQ of OSCinst0 : label is "2.08";
 
 	-- Tristate
-	signal tristate_signals : STD_LOGIC_vector(30 downto 0);
+	signal tristate_signals : STD_LOGIC_vector(31 downto 0);
 	-- In-Dummy
 	signal dummy_signal : STD_LOGIC;
 	attribute syn_keep : boolean;
+	attribute syn_noprune : boolean;
 	attribute noclip   : string;
 	attribute noclip of dummy_signal  : signal is "on";
 	attribute syn_keep of dummy_signal : signal is true;
-
+	attribute syn_noprune of dummy_signal : signal is true;
 
 begin
 
@@ -217,23 +218,6 @@ process(clk)
 	end if;
 end process;
 
--- Instanzen
---u_cnt50 : entity work.tick_counter
-	--generic map (COUNTER_LIMIT => 50)
-	--port map (
-		--clk     => clk,
-		--tick_in => tick1ms,
-		--done    => done_50ms
-	--);
-
---u_cnt1000 : entity work.tick_counter
-	--generic map (COUNTER_LIMIT => 1000)
-	--port map (
-		--clk     => clk,
-		--tick_in => tick1ms,
-		--done    => done_1000ms
-	--);
-
 dummy_signal <= TDnALERT AND TDnSHDN and ANL_S3C_P54_Legacy AND ANL_S3C_SLOTOK(1) AND ANL_S3C_SLOTOK(2) AND ANL_S3C_SLOTOK(3)
 	AND DIGS3C_SlotD_SlotOK(1) AND DIGS3C_SlotD_SlotOK(2) AND DIGS3C_SlotD_SlotOK(3) AND DIGS3C_SlotD_SlotOK(4) AND DIGS3C_SlotD_SlotOK(5)
 	AND DIG5S3C00 AND DIG5S3C01 AND DIG5S3C02 AND DIG5S3C03 AND DIG5S3C04 AND DIG5S3C05
@@ -245,13 +229,13 @@ dummy_signal <= TDnALERT AND TDnSHDN and ANL_S3C_P54_Legacy AND ANL_S3C_SLOTOK(1
 	AND FlexMIOs32 AND FlexMIOs33 AND FlexMIOs34 AND FlexMIOs35 AND FlexMIOs36 AND FlexMIOs37
 	AND FlexMIOs45 AND FlexMIOs54 AND FlexMIOs62 AND FlexMIOs63 AND PG_Module
 	AND S3CsI2C_SCL AND S3CsI2C_SDA
-	AND SCL AND SD0_CD AND SD1_CD AND SDA AND SPI_S3C_nCS_USR;
+	AND SCL AND SD0_CD AND SD1_CD AND SDA AND SPI_S3C_nCS_USR AND TDnFFnFS;
 
 tristate_signals <= DIG5S3C00 & DIG5S3C01 & DIG5S3C02 & DIG5S3C03 & DIG5S3C04  & DIG5S3C05
 	& DIG5S3C24 & DIG5S3C25 & DIG5S3C26 & DIG5S3C27 & DIG5S3C28 & DIG5S3C29
 	& FlexMIOs26 & FlexMIOs27 & FlexMIOs28 & FlexMIOs29 & FlexMIOs30 & FlexMIOs31
 	& FlexMIOs32 & FlexMIOs33 & FlexMIOs34 & FlexMIOs35 & FlexMIOs36 & FlexMIOs37
-	& FlexMIOs54 & FlexMIOs62 & FlexMIOs63 & FPIO_FlexMIO27 & FPIO_FlexMIO28 & FPIO_FlexMIO29 & FPIO_FlexMIO30;
+	& FlexMIOs54 & FlexMIOs62 & FlexMIOs63 & FPIO_FlexMIO27 & FPIO_FlexMIO28 & FPIO_FlexMIO29 & FPIO_FlexMIO30 & TDnFFnFS;
 -- Assign 'Z' to all unused signal
 tristate_signals <= (others => 'Z');
 
@@ -259,7 +243,6 @@ tristate_signals <= (others => 'Z');
 SD_SEL <= '0';
 FPIO_FlexMIO52 <= FlexMIOs52_PCIe;
 FlexMio61ExternalStop <= FPIO_ExternalStop;
-TDnFFnFS <= 'Z';
 
 -- Mapping of buttons (1 <=> button pressed) and other inputs for debounce and detection logic
 debounce_inputs(1)	<= SysSW_Pwr_NC;			-- Power button
@@ -646,7 +629,7 @@ process(clk)
 						DIGS3C_Shared_ReqSafeState <= '1';		-- info to dcplds
 						counter <= 1000;
 						fsm_state <= sleep_for_dslot_down;
-					elsif enable = '1' then
+					elsif stop = '0' AND enable = '1' then	-- when both buttons pressed no state change
 						fsm_state <= Ready_State;
 					end if;
 					checkandhandle_harderror;

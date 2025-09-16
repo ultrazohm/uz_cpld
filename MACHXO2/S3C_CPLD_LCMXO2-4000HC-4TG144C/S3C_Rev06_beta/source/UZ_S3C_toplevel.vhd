@@ -4,6 +4,7 @@ use machxo2.all;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
+
 entity Soft_Off_V0 is
 	generic (
 		CLK_FREQ_HZ : integer := 2080000;		-- CLK - 2.08 MHz
@@ -35,6 +36,7 @@ entity Soft_Off_V0 is
 		FPIO_FlexMIO30 	: inout STD_LOGIC:= 'Z';
 		FPIO_FlexMIO29 	: inout STD_LOGIC:= 'Z';
 		FPIO_FlexMIO52 	: out STD_LOGIC;							-- is converted in PS, pin 109, Z
+
 		--- Bank 1, 1.8V
 		Carrier_PG_1V8	: out STD_LOGIC := 'Z';					-- ResetN Port, Powergood 1.8V pin 107
 		S3CsI2C_SDA		: inout STD_LOGIC;
@@ -49,6 +51,7 @@ entity Soft_Off_V0 is
 		DIGS3C_SlotD_ReqOE : in STD_LOGIC_VECTOR (5 downto 1);		-- pin 92,89,86,84,82
 		DIGS3C_SlotD_SlotOK : in STD_LOGIC_VECTOR (5 downto 1);	-- pin 91,87,85,83,81
 		FlexLIO 		: inout STD_LOGIC_VECTOR (5 downto 0)  := (others => 'Z');
+
 		--- Bank 2, 1.8V
 		DIG5S3C26	: inout STD_LOGIC;								-- bidir,Z
 		DIG5S3C25	: inout STD_LOGIC;								-- bidir,Z
@@ -74,6 +77,7 @@ entity Soft_Off_V0 is
 		FlexMIOs34	: inout STD_LOGIC;								-- bidir,Z
 		FlexMIOs33	: inout STD_LOGIC;								-- bidir,Z
 		FlexMIOs32	: inout STD_LOGIC;								-- bidir,Z
+
 		--- Bank 3, 1.8V
 		DIG5S3C03	: inout STD_LOGIC;								-- bidir,Z
 		DIG5S3C04	: inout STD_LOGIC;								-- bidir,Z
@@ -129,7 +133,7 @@ architecture behavior of Soft_Off_V0 is
 
 	signal next_state : state_type;
 	attribute syn_encoding : string;
-	attribute syn_encoding of next_state : signal is "safe,gray";	-- NB: Do not use one-hot encoding (due to initial reg state) - "sequential" should be an alternative choice with slightly different resource demand...
+	attribute syn_encoding of next_state : signal is "safe,gray";	-- NB: Do not use one-hot encoding with LSE (due to initial reg state) - "sequential" should be an alternative choice with slightly different resource demand...
 
 	-- error type definitions (currently hard errors only)
 	type error_type is (NoError, TemperatureShutdown, ExternalStop, SlotError, SupplyFailure);
@@ -146,33 +150,34 @@ architecture behavior of Soft_Off_V0 is
 	signal debounce_inputs_asyn2	: STD_LOGIC_VECTOR(6 downto 1)	:= debounce_init;		-- inputs after 2. flip flop
 	signal debounce_pushed			: STD_LOGIC_VECTOR(6 downto 1)	:= NOT debounce_init;
 	signal debounce_outputs			: STD_LOGIC_VECTOR(6 downto 1)	:= debounce_init;
-	-- counter outside fsm 2sec
-	signal counter2sec : integer range 0 to 2000 := 0;		-- counter for button
-	-- debounced signal
+	-- debounced signals (aliases of debounce_outputs)
 	signal power	:	STD_LOGIC;
 	signal externstop	:	STD_LOGIC;
 	signal stop	:	STD_LOGIC;
 	signal enable	:	STD_LOGIC;
 	signal pg10v	:	STD_LOGIC;
 	signal ppn6v	:	STD_LOGIC;
-	signal warning 	: 	STD_LOGIC;
 
 	-- External Stop: "Is one connected" detection
 	signal externstop_wasfound: 	STD_LOGIC := '0';
+
+	-- counter outside fsm 2sec
+	signal counter2sec : integer range 0 to 2000 := 0;		-- counter for button
 	-- Power button: Edge and long press detection
 	signal power_pressededge:	STD_LOGIC;
 	signal power_lastvalue:		STD_LOGIC := '0';
 	signal power_pushed2sec: 	STD_LOGIC := '0';
 
-	-- Tristate
-	signal tristate_signals : STD_LOGIC_vector(30 downto 0);
+	signal warning 	: 	STD_LOGIC;
+
 	-- Dslot
 	signal forceoutputdisable :		STD_LOGIC;
+
 	-- define internal clock
 	COMPONENT OSCH
-	-- synthesis translate_off
-	GENERIC (NOM_FREQ: string := "2.08");
-	-- synthesis translate_on
+		-- synthesis translate_off
+		GENERIC (NOM_FREQ: string := "2.08");
+		-- synthesis translate_on
 	PORT (
 		STDBY	:	IN	STD_LOGIC;
 		OSC		:	OUT	STD_LOGIC;
@@ -180,7 +185,10 @@ architecture behavior of Soft_Off_V0 is
 	END COMPONENT;
 	attribute NOM_FREQ 	: string;
 	attribute NOM_FREQ of OSCinst0 : label is "2.08";
-	attribute HGROUP 	: string;
+
+	-- Tristate
+	signal tristate_signals : STD_LOGIC_vector(30 downto 0);
+	-- In-Dummy
 	signal dummy_signal : STD_LOGIC;
 	attribute syn_keep : boolean;
 	attribute noclip   : string;
@@ -189,15 +197,16 @@ architecture behavior of Soft_Off_V0 is
 
 
 begin
-	OSCInst0: OSCH
+
+OSCInst0: OSCH
 	-- synthesis translate_off
 	GENERIC MAP( NOM_FREQ => "2.08" )
 	-- synthesis translate_on
-	PORT MAP (STDBY=> '0',
+PORT MAP (
+	STDBY=> '0',
 	OSC => clk,
 	SEDSTDBY => open
-	);
-
+);
 
 process(clk)
 	begin
@@ -339,7 +348,7 @@ end process;
 -- State machine
 process(clk)
 
--- error handling
+	--- error detection and handling
 
 	-- LED mapping (4 downto 1): FP_UsrLED[4] is "User", FP_UsrLED[3] is "Error", FP_UsrLED[2] is "Running", and FP_UsrLED[1] is "Ready"
 	procedure show_harderror (
@@ -362,6 +371,7 @@ process(clk)
 		end case;
 	end procedure;
 
+	-- Error sources
 	impure function get_harderror return error_type is
 	begin
 		if pg10v = '0' then
@@ -380,14 +390,6 @@ process(clk)
 		if error_reason /= NoError then
 			counter <= 5000;
 			next_state <= Harderror;
-
-	--		case error_reason is
-	--			when NoError =>
-	--			when ExternalStop =>
-	--			when SupplyFailure =>
-	--			--when TemperatureShutdown =>
-	--			--when SlotError =>
-	--		end case;
 		end if;
 
 		lasterror <= error_reason;
@@ -422,6 +424,8 @@ process(clk)
 					FP_SysLEDr <= '1';
 					FP_SysLEDb <= '0';
 					FP_SysLEDg <= '1';
+
+					FlexMIOs53_GPIO_PowerDown <= '0';
 
 					-- Wait until
 					-- - the VIN rail has exceeded 6V (i.e., PPn_VIN via ppn6v), and

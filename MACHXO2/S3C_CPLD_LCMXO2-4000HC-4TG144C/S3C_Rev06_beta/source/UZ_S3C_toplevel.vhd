@@ -117,6 +117,7 @@ architecture behavior of Soft_Off_V0 is
 
 	-- states in statemachine
 	type state_type is (
+		WaitForSupply,
 		Soft_Off,
 		Wait_State, EthernetPhy_Reset,
 		Ack_previous_Harderror, Ack_bootup_Harderror,
@@ -124,7 +125,7 @@ architecture behavior of Soft_Off_V0 is
 		Harderror,
 		sleep_for_dslot_down
 	);
-	constant init_state : state_type := Soft_Off;
+	constant init_state : state_type := WaitForSupply;
 
 	signal next_state : state_type;
 	attribute syn_encoding : string;
@@ -140,10 +141,11 @@ architecture behavior of Soft_Off_V0 is
 	type debounce_array is array (1 to 6) of integer range 0 to debounce_limit;
 	signal debounce_counters : debounce_array := (others => 0);
 	signal debounce_inputs  : STD_LOGIC_VECTOR(6 downto 1);								-- inputs
-	signal debounce_inputs_asyn1  : STD_LOGIC_VECTOR(6 downto 1)  := (others => '1');	-- inputs after 1. flip flop
-	signal debounce_inputs_asyn2  : STD_LOGIC_VECTOR(6 downto 1)  := (others => '1');	-- inputs after 2. flip flop
-	signal pushed : STD_LOGIC_VECTOR(6 downto 1)  := (others => '0');
-	signal signals_debounced_syn   : STD_LOGIC_VECTOR(6 downto 1)  := (others => '1');
+	constant debounce_init			: STD_LOGIC_VECTOR(6 downto 1)	:= "000000";			-- Bits 6-5 (TPS3803) low (nRESET), bits 4-3 (SW1/3) low (U21), bit 2 (Ext. STOP) low (R18/26 @ FPM), and bit 1 (Power button) low (R1)
+	signal debounce_inputs_asyn1	: STD_LOGIC_VECTOR(6 downto 1)	:= debounce_init;		-- inputs after 1. flip flop
+	signal debounce_inputs_asyn2	: STD_LOGIC_VECTOR(6 downto 1)	:= debounce_init;		-- inputs after 2. flip flop
+	signal pushed					: STD_LOGIC_VECTOR(6 downto 1)	:= NOT debounce_init;
+	signal signals_debounced_syn	: STD_LOGIC_VECTOR(6 downto 1)	:= debounce_init;
 	-- counter outside fsm 2sec
 	signal counter2sec : integer range 0 to 2000 := 0;		-- counter for button
 	-- debounced signal
@@ -413,6 +415,21 @@ process(clk)
 			next_state <= init_state;
 		else
 			case next_state is
+				when WaitForSupply =>
+					forceoutputdisable <= '1';
+					DIGS3C_Shared_ReqSafeState <= '1';	-- not working because bank 1 1.8vper not supplied
+
+					FP_SysLEDr <= '1';
+					FP_SysLEDb <= '0';
+					FP_SysLEDg <= '1';
+
+					-- Wait until
+					-- - the VIN rail has exceeded 6V (i.e., PPn_VIN via ppn6v), and
+					-- - SysSW_Pwr_NC=1 (i.e., FP connected and button not pressed).
+					if ppn6v = '1' AND power = '0' then
+						next_state <= Soft_Off;
+					end if;
+
 				when Soft_Off =>
 					forceoutputdisable <= '1';
 					DIGS3C_Shared_ReqSafeState <= '1';	-- not working because bank 1 1.8vper not supplied

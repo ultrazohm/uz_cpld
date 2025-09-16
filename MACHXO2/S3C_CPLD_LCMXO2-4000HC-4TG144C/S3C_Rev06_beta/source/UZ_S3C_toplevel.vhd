@@ -141,8 +141,8 @@ architecture behavior of Soft_Off_V0 is
 	signal harderror_duringbootup :	STD_LOGIC := '0';
 
 	-- debounce constant, counters and vectors for input debouncing
-	constant debounce_limit : integer := 20800;											-- debounce constant: 10ms, at 2.08MhZ
-	type debounce_array is array (1 to 6) of integer range 0 to debounce_limit;
+	constant debounce_ms : integer := 10;													-- debounce constant: 10ms
+	type debounce_array is array (1 to 6) of integer range 0 to debounce_ms;
 	signal debounce_counters : debounce_array := (others => 0);
 	signal debounce_inputs			: STD_LOGIC_VECTOR(6 downto 1);						-- inputs
 	constant debounce_init			: STD_LOGIC_VECTOR(6 downto 1)	:= "000000";			-- Bits 6-5 (TPS3803) low (nRESET), bits 4-3 (SW1/3) low (U21), bit 2 (Ext. STOP) low (R18/26 @ FPM), and bit 1 (Power button) low (R1)
@@ -295,13 +295,15 @@ process(clk)
 			-- debouncing for all signals
 			for i in 1 to 6 loop
 				if debounce_inputs_asyn2(i) = '0' then	-- button pressed (low)
-					if debounce_counters(i) < debounce_limit then
-						debounce_counters(i) <= debounce_counters(i) + 1;
+					if debounce_counters(i) < debounce_ms then
+						if tick1ms = '1' then
+							debounce_counters(i) <= debounce_counters(i) + 1;
+						end if;
 					else
 						debounce_pushed(i) <= '1';	-- button pressed = true
 					end if;
 				else	-- button high
-					debounce_counters(i) <= 0;
+					debounce_counters(i) <= 0;		-- TODO: off by one?
 					debounce_pushed(i) <= '0';
 				end if;
 				-- result inverted

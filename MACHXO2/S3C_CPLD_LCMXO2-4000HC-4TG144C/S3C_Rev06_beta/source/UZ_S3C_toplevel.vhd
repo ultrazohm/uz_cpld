@@ -162,7 +162,7 @@ architecture behavior of Soft_Off_V0 is
 	signal externstop_wasfound: 	STD_LOGIC := '0';
 
 	-- counter outside fsm 2sec
-	signal counter2sec : integer range 0 to 2000 := 0;		-- counter for button
+	signal power_counter2sec : integer range 0 to 2000 := 0;		-- counter for button
 	-- Power button: Edge and long press detection
 	signal power_pressededge:	STD_LOGIC;
 	signal power_lastvalue:		STD_LOGIC := '0';
@@ -317,15 +317,15 @@ process(clk)
 			power_lastvalue <= power;
 			-- powerbutton press duration check
 			if power = '1' then
-				if counter2sec > 0 then
+				if power_counter2sec > 0 then
 					if tick1ms = '1' then
-						counter2sec <= counter2sec - 1;
+						power_counter2sec <= power_counter2sec - 1;
 					end if;
 				else
 					power_pushed2sec <= '1';
 				end if;
 			else
-				counter2sec <= 2000;
+				power_counter2sec <= 2000;
 				power_pushed2sec <= '0';
 			end if;
 		end if;

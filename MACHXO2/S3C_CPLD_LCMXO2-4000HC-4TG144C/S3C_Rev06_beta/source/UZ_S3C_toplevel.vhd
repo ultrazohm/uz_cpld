@@ -140,12 +140,12 @@ architecture behavior of Soft_Off_V0 is
 	constant debounce_limit : integer := 20800;											-- debounce constant: 10ms, at 2.08MhZ
 	type debounce_array is array (1 to 6) of integer range 0 to debounce_limit;
 	signal debounce_counters : debounce_array := (others => 0);
-	signal debounce_inputs  : STD_LOGIC_VECTOR(6 downto 1);								-- inputs
+	signal debounce_inputs			: STD_LOGIC_VECTOR(6 downto 1);						-- inputs
 	constant debounce_init			: STD_LOGIC_VECTOR(6 downto 1)	:= "000000";			-- Bits 6-5 (TPS3803) low (nRESET), bits 4-3 (SW1/3) low (U21), bit 2 (Ext. STOP) low (R18/26 @ FPM), and bit 1 (Power button) low (R1)
 	signal debounce_inputs_asyn1	: STD_LOGIC_VECTOR(6 downto 1)	:= debounce_init;		-- inputs after 1. flip flop
 	signal debounce_inputs_asyn2	: STD_LOGIC_VECTOR(6 downto 1)	:= debounce_init;		-- inputs after 2. flip flop
-	signal pushed					: STD_LOGIC_VECTOR(6 downto 1)	:= NOT debounce_init;
-	signal signals_debounced_syn	: STD_LOGIC_VECTOR(6 downto 1)	:= debounce_init;
+	signal debounce_pushed			: STD_LOGIC_VECTOR(6 downto 1)	:= NOT debounce_init;
+	signal debounce_outputs			: STD_LOGIC_VECTOR(6 downto 1)	:= debounce_init;
 	-- counter outside fsm 2sec
 	signal counter2sec : integer range 0 to 2000 := 0;		-- counter for button
 	-- debounced signal
@@ -253,18 +253,18 @@ FlexMio61ExternalStop <= FPIO_ExternalStop;
 TDnFFnFS <= 'Z';
 
 -- Mapping of buttons (1 <=> button pressed) and other inputs for debounce and detection logic
-debounce_inputs(1) <= SysSW_Pwr_NC;		-- Power button
-power<=NOT signals_debounced_syn(1);
-debounce_inputs(2) <= FPIO_ExternalStop;	-- External STOP
-externstop<=NOT signals_debounced_syn(2);
-debounce_inputs(3) <= FP_UsrSW3;			-- STOP button
-stop<=NOT signals_debounced_syn(3);
-debounce_inputs(4) <= FP_UsrSW1;			-- EnableSystem button
-enable<=NOT signals_debounced_syn(4);
-debounce_inputs(5) <= PG_VIN;				-- Power Good (10V)
-pg10v<=signals_debounced_syn(5);
-debounce_inputs(6) <= PPn_VIN;				-- Power Panic (6V)
-ppn6v<=signals_debounced_syn(6);
+debounce_inputs(1)	<= SysSW_Pwr_NC;			-- Power button
+power				<= NOT debounce_outputs(1);
+debounce_inputs(2)	<= FPIO_ExternalStop;		-- External STOP
+externstop			<= NOT debounce_outputs(2);
+debounce_inputs(3)	<= FP_UsrSW3;				-- STOP button
+stop				<= NOT debounce_outputs(3);
+debounce_inputs(4)	<= FP_UsrSW1;				-- EnableSystem button
+enable				<= NOT debounce_outputs(4);
+debounce_inputs(5)	<= PG_VIN;					-- Power Good (10V)
+pg10v				<= debounce_outputs(5);
+debounce_inputs(6)	<= PPn_VIN;					-- Power Panic (6V)
+ppn6v				<= debounce_outputs(6);
 
 warning <= '0';					-- hardcoded 0 = never warning
 
@@ -289,17 +289,17 @@ process(clk)
 					if debounce_counters(i) < debounce_limit then
 						debounce_counters(i) <= debounce_counters(i) + 1;
 					else
-						pushed(i) <= '1';	-- button pressed = true
+						debounce_pushed(i) <= '1';	-- button pressed = true
 					end if;
 				else	-- button high
 					debounce_counters(i) <= 0;
-					pushed(i) <= '0';
+					debounce_pushed(i) <= '0';
 				end if;
 				-- result inverted
-				if pushed(i) = '1' then
-					signals_debounced_syn(i) <= '0';
+				if debounce_pushed(i) = '1' then
+					debounce_outputs(i) <= '0';
 				else
-					signals_debounced_syn(i) <= '1';
+					debounce_outputs(i) <= '1';
 				end if;
 			end loop;
 

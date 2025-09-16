@@ -129,11 +129,11 @@ architecture behavior of Soft_Off_V0 is
 		Harderror,
 		sleep_for_dslot_down
 	);
-	constant init_state : state_type := WaitForSupply;
+	constant fsm_init	: state_type := WaitForSupply;
 
-	signal next_state : state_type;
+	signal fsm_state	: state_type;
 	attribute syn_encoding : string;
-	attribute syn_encoding of next_state : signal is "safe,gray";	-- NB: Do not use one-hot encoding with LSE (due to initial reg state) - "sequential" should be an alternative choice with slightly different resource demand...
+	attribute syn_encoding of fsm_state : signal is "safe,gray";	-- NB: Do not use one-hot encoding with LSE (due to initial reg state) - "sequential" should be an alternative choice with slightly different resource demand...
 
 	-- error type definitions (currently hard errors only)
 	type error_type is (NoError, TemperatureShutdown, ExternalStop, SlotError, SupplyFailure);
@@ -389,7 +389,7 @@ process(clk)
 	begin
 		if error_reason /= NoError then
 			counter <= 5000;
-			next_state <= Harderror;
+			fsm_state <= Harderror;
 		end if;
 
 		lasterror <= error_reason;
@@ -414,9 +414,9 @@ process(clk)
 	begin
 	if rising_edge(clk) then
 		if rst = '1' then
-			next_state <= init_state;
+			fsm_state <= fsm_init;
 		else
-			case next_state is
+			case fsm_state is
 				when WaitForSupply =>
 					forceoutputdisable <= '1';
 					DIGS3C_Shared_ReqSafeState <= '1';	-- not working because bank 1 1.8vper not supplied
@@ -431,7 +431,7 @@ process(clk)
 					-- - the VIN rail has exceeded 6V (i.e., PPn_VIN via ppn6v), and
 					-- - SysSW_Pwr_NC=1 (i.e., FP connected and button not pressed).
 					if ppn6v = '1' AND power = '0' then
-						next_state <= Soft_Off;
+						fsm_state <= Soft_Off;
 					end if;
 
 				when Soft_Off =>
@@ -454,7 +454,7 @@ process(clk)
 						harderror_duringbootup <= '0';
 						Carrier_PwrOn <= '1';		-- enables all rails
 						Carrier_PG_3V3 <= '1';		-- Hack IsoIo on, if power on
-						next_state <= Wait_State;
+						fsm_state <= Wait_State;
 						counter <= 1000;			-- Counter gleich starten
 					else
 						Carrier_PwrOn <= '0';		-- all rails down, only s3c alive
@@ -477,7 +477,7 @@ process(clk)
 						end if;
 					else
 						Carrier_PG_1V8 <= '0';				-- resetn for 50ms to zero
-						next_state <= EthernetPhy_Reset;
+						fsm_state <= EthernetPhy_Reset;
 						counter <= 50;						-- Counter gleich starten
 					end if;
 
@@ -503,11 +503,11 @@ process(clk)
 						FPIO_isoCtrlRSTn <= '1';	-- reset IsoIO off
 
 						if lasterror /= NoError then
-							next_state <= Ack_previous_Harderror;
+							fsm_state <= Ack_previous_Harderror;
 						elsif harderror_duringbootup = '1' then
-							next_state <= Ack_bootup_Harderror;
+							fsm_state <= Ack_bootup_Harderror;
 						else
-							next_state <= ready_state;
+							fsm_state <= ready_state;
 						end if;
 					end if;
 				when Ack_previous_Harderror =>
@@ -538,9 +538,9 @@ process(clk)
 						lasterror <= NoError;
 						if harderror_duringbootup = '0' then
 							show_harderror(NoError);
-							next_state <= ready_state;
+							fsm_state <= ready_state;
 						else
-							next_state <= Ack_bootup_Harderror;
+							fsm_state <= Ack_bootup_Harderror;
 						end if;
 					end if;
 
@@ -554,13 +554,13 @@ process(clk)
 
 					show_harderror(get_harderror);
 					if get_harderror = NoError AND power_pressededge = '1' then
-						next_state <= Soft_Off;
+						fsm_state <= Soft_Off;
 					end if;
 					if power_pushed2sec = '1' then
 						FlexMIOs53_GPIO_PowerDown <= '0';		-- end info to som
 						DIGS3C_Shared_ReqSafeState <= '1';		-- info to dcplds
 						counter <= 1000;
-						next_state <= sleep_for_dslot_down;		-- Version 1:Blau = Nutzer fährt system herunter, Lila = system fährt sich selbst herunter
+						fsm_state <= sleep_for_dslot_down;		-- Version 1:Blau = Nutzer fährt system herunter, Lila = system fährt sich selbst herunter
 					end if;
 
 				when ready_state =>
@@ -575,14 +575,14 @@ process(clk)
 					FlexMIOs53_GPIO_PowerDown <= power;			-- NB: This copies the power button's current state to the SoM, which is going to be '1' just at/after entering this state (as the button is still pressed)
 
 					if stop = '1' then
-						next_state <= Softerror;
+						fsm_state <= Softerror;
 					elsif warning = '1' then
-						next_state <= Warning_State;
+						fsm_state <= Warning_State;
 					elsif power_pushed2sec = '1' then			-- NB: In line with FlexMIOs53_GPIO_PowerDown above, this timer surely is going to start just at/after entering this state (as the button is still pressed)
 						FlexMIOs53_GPIO_PowerDown <= '0';		-- end info to som
 						DIGS3C_Shared_ReqSafeState <= '1';		-- info to dcplds
 						counter <= 1000;
-						next_state <= sleep_for_dslot_down;
+						fsm_state <= sleep_for_dslot_down;
 					end if;
 					checkandhandle_harderror;
 
@@ -598,12 +598,12 @@ process(clk)
 					FlexMIOs53_GPIO_PowerDown <= power;
 
 					if stop = '1' then
-						next_state <= Softerror;
+						fsm_state <= Softerror;
 					elsif power_pushed2sec = '1' then
 						FlexMIOs53_GPIO_PowerDown <= '0';		-- end info to som
 						DIGS3C_Shared_ReqSafeState <= '1';		-- info to dcplds
 						counter <= 1000;
-						next_state <= sleep_for_dslot_down;
+						fsm_state <= sleep_for_dslot_down;
 					end if;
 					checkandhandle_harderror;
 
@@ -624,7 +624,7 @@ process(clk)
 							counter <= counter - 1;
 						end if;
 					else
-						next_state <= Soft_Off;
+						fsm_state <= Soft_Off;
 					end if;
 
 				when Softerror =>
@@ -643,9 +643,9 @@ process(clk)
 						FlexMIOs53_GPIO_PowerDown <= '0';		-- end info to som
 						DIGS3C_Shared_ReqSafeState <= '1';		-- info to dcplds
 						counter <= 1000;
-						next_state <= sleep_for_dslot_down;
+						fsm_state <= sleep_for_dslot_down;
 					elsif enable = '1' then
-						next_state <= Ready_State;
+						fsm_state <= Ready_State;
 					end if;
 					checkandhandle_harderror;
 
@@ -655,11 +655,11 @@ process(clk)
 							counter <= counter - 1;
 						end if;
 					else
-						next_state <= Soft_Off;
+						fsm_state <= Soft_Off;
 					end if;
 
 				when others =>
-					next_state <= init_state;
+					fsm_state <= fsm_init;
 			end case;
 		end if;			-- rst
 	end if;				-- clk

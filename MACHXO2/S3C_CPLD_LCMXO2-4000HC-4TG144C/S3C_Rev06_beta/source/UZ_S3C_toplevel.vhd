@@ -5,7 +5,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
-entity Soft_Off_V0 is
+entity S3C is
 	generic (
 		CLK_FREQ_HZ : integer := 2080000;		-- CLK - 2.08 MHz
 		TICK_US     : integer := 1000			-- Tickdauer in µs (1000 = 1 ms)
@@ -106,9 +106,9 @@ entity Soft_Off_V0 is
 		S3C_S1 			: in STD_LOGIC								-- pin 10, pulldown
 	);
 
-end Soft_Off_V0;
+end S3C;
 
-architecture behavior of Soft_Off_V0 is
+architecture S3C_arch of S3C is
 	signal clk	:	STD_LOGIC;
 	signal rst	:	STD_LOGIC := '1';
 
@@ -197,7 +197,7 @@ architecture behavior of Soft_Off_V0 is
 	attribute syn_keep of dummy_signal : signal is true;
 	attribute syn_noprune of dummy_signal : signal is true;
 
-begin
+begin	-- arch
 
 OSCInst0: OSCH
 	-- synthesis translate_off
@@ -333,6 +333,8 @@ end process;
 -- State machine
 process(clk)
 
+	------ FSM helpers
+
 	-- Regular state changes (incl. errors...)
 	procedure change2state (
 		constant target_state : in state_type
@@ -402,8 +404,9 @@ process(clk)
 				FP_UsrLED <= "1111";	-- Err +  *
 			when SlotError =>
 				FP_UsrLED <= "0101";	-- Err + Rdy
-			when others =>
-				FP_UsrLED <= "0000";
+
+			-- No OTHERS as all cases are defined :)
+
 		end case;
 	end procedure;
 
@@ -445,8 +448,9 @@ process(clk)
 		enter_errorstate(current_error);
 	end procedure;
 
--- state machine start
-	begin
+	begin	-- process
+
+	------ FSM start
 	if rising_edge(clk) then
 		if rst = '1' then
 			fsm_state <= fsm_init;
@@ -681,4 +685,4 @@ process(clk)
 		end if;			-- rst
 	end if;				-- clk
 end process;
-end behavior;
+end S3C_arch;

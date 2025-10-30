@@ -333,6 +333,57 @@ end process;
 -- State machine
 process(clk)
 
+	-- Regular state changes (incl. errors...)
+	procedure change2state (
+		constant target_state : in state_type
+	) is
+	begin
+
+		case target_state is
+
+			when WaitForSupply =>
+				-- Note that fsm_init (aka WaitForSupply) is entered directly and thus anything here (i.e., inside of change2state) is *not* going to take any effect...
+				NULL;
+
+			when Soft_Off =>
+				NULL;
+
+			when Wait_State =>
+				harderror_duringbootup <= '0';
+				Carrier_PwrOn <= '1';		-- enables all rails
+				Carrier_PG_3V3 <= '1';		-- Hack IsoIo on, if power on
+
+				counter <= 1000;			-- Counter gleich starten
+
+			when EthernetPhy_Reset =>
+				Carrier_PG_1V8 <= '0';				-- resetn for 50ms to zero
+
+				counter <= 50;						-- Counter gleich starten
+
+			when Ack_previous_Harderror
+			   | Ack_bootup_Harderror
+			   | Ready_State
+			   | Warning_State
+			   | Softerror =>
+				NULL;
+
+			when Harderror =>
+
+				counter <= 5000;
+
+			when sleep_for_dslot_down =>
+				FlexMIOs53_GPIO_PowerDown <= '0';		-- end info to som
+				DIGS3C_Shared_ReqSafeState <= '1';		-- info to dcplds
+
+				counter <= 1000;
+
+		end case;
+
+		fsm_state <= target_state;
+
+	end procedure;
+
+
 	--- error detection and handling
 
 	-- LED mapping (4 downto 1): FP_UsrLED[4] is "User", FP_UsrLED[3] is "Error", FP_UsrLED[2] is "Running", and FP_UsrLED[1] is "Ready"
@@ -373,8 +424,7 @@ process(clk)
 	) is
 	begin
 		if error_reason /= NoError then
-			counter <= 5000;
-			fsm_state <= Harderror;
+			change2state(Harderror);
 		end if;
 
 		lasterror <= error_reason;
@@ -416,7 +466,7 @@ process(clk)
 					-- - the VIN rail has exceeded 6V (i.e., PPn_VIN via ppn6v), and
 					-- - SysSW_Pwr_NC=1 (i.e., FP connected and button not pressed).
 					if ppn6v = '1' AND power = '0' then
-						fsm_state <= Soft_Off;
+						change2state(Soft_Off);
 					end if;
 
 				when Soft_Off =>
@@ -436,11 +486,7 @@ process(clk)
 					FlexMIOs53_GPIO_PowerDown <= '0';
 
 					if power_pressededge = '1' then
-						harderror_duringbootup <= '0';
-						Carrier_PwrOn <= '1';		-- enables all rails
-						Carrier_PG_3V3 <= '1';		-- Hack IsoIo on, if power on
-						fsm_state <= Wait_State;
-						counter <= 1000;			-- Counter gleich starten
+						change2state(Wait_State);
 					else
 						Carrier_PwrOn <= '0';		-- all rails down, only s3c alive
 						Carrier_PG_3V3 <= '0';
@@ -461,9 +507,7 @@ process(clk)
 							counter <= counter - 1;
 						end if;
 					else
-						Carrier_PG_1V8 <= '0';				-- resetn for 50ms to zero
-						fsm_state <= EthernetPhy_Reset;
-						counter <= 50;						-- Counter gleich starten
+						change2state(EthernetPhy_Reset);
 					end if;
 
 				when EthernetPhy_Reset =>
@@ -488,11 +532,11 @@ process(clk)
 						FPIO_isoCtrlRSTn <= '1';	-- reset IsoIO off
 
 						if lasterror /= NoError then
-							fsm_state <= Ack_previous_Harderror;
+							change2state(Ack_previous_Harderror);
 						elsif harderror_duringbootup = '1' then
-							fsm_state <= Ack_bootup_Harderror;
+							change2state(Ack_bootup_Harderror);
 						else
-							fsm_state <= ready_state;
+							change2state(ready_state);
 						end if;
 					end if;
 				when Ack_previous_Harderror =>
@@ -523,9 +567,9 @@ process(clk)
 						lasterror <= NoError;
 						if harderror_duringbootup = '0' then
 							show_harderror(NoError);
-							fsm_state <= ready_state;
+							change2state(ready_state);
 						else
-							fsm_state <= Ack_bootup_Harderror;
+							change2state(Ack_bootup_Harderror);
 						end if;
 					end if;
 
@@ -539,13 +583,10 @@ process(clk)
 
 					show_harderror(get_harderror);
 					if get_harderror = NoError AND power_pressededge = '1' then
-						fsm_state <= Soft_Off;
+						change2state(Soft_Off);
 					end if;
 					if power_pushed2sec = '1' then
-						FlexMIOs53_GPIO_PowerDown <= '0';		-- end info to som
-						DIGS3C_Shared_ReqSafeState <= '1';		-- info to dcplds
-						counter <= 1000;
-						fsm_state <= sleep_for_dslot_down;		-- Version 1:Blau = Nutzer fährt system herunter, Lila = system fährt sich selbst herunter
+						change2state(sleep_for_dslot_down);		-- Version 1:Blau = Nutzer fährt system herunter, Lila = system fährt sich selbst herunter
 					end if;
 
 				when ready_state =>
@@ -560,14 +601,11 @@ process(clk)
 					FlexMIOs53_GPIO_PowerDown <= power;			-- NB: This copies the power button's current state to the SoM, which is going to be '1' just at/after entering this state (as the button is still pressed)
 
 					if stop = '1' then
-						fsm_state <= Softerror;
+						change2state(Softerror);
 					elsif warning = '1' then
-						fsm_state <= Warning_State;
+						change2state(Warning_State);
 					elsif power_pushed2sec = '1' then			-- NB: In line with FlexMIOs53_GPIO_PowerDown above, this timer surely is going to start just at/after entering this state (as the button is still pressed)
-						FlexMIOs53_GPIO_PowerDown <= '0';		-- end info to som
-						DIGS3C_Shared_ReqSafeState <= '1';		-- info to dcplds
-						counter <= 1000;
-						fsm_state <= sleep_for_dslot_down;
+						change2state(sleep_for_dslot_down);
 					end if;
 					checkandhandle_harderror;
 
@@ -583,12 +621,9 @@ process(clk)
 					FlexMIOs53_GPIO_PowerDown <= power;
 
 					if stop = '1' then
-						fsm_state <= Softerror;
+						change2state(Softerror);
 					elsif power_pushed2sec = '1' then
-						FlexMIOs53_GPIO_PowerDown <= '0';		-- end info to som
-						DIGS3C_Shared_ReqSafeState <= '1';		-- info to dcplds
-						counter <= 1000;
-						fsm_state <= sleep_for_dslot_down;
+						change2state(sleep_for_dslot_down);
 					end if;
 					checkandhandle_harderror;
 
@@ -609,7 +644,7 @@ process(clk)
 							counter <= counter - 1;
 						end if;
 					else
-						fsm_state <= Soft_Off;
+						change2state(Soft_Off);
 					end if;
 
 				when Softerror =>
@@ -625,12 +660,9 @@ process(clk)
 					FlexMIOs53_GPIO_PowerDown <= power;
 
 					if power_pushed2sec = '1' then
-						FlexMIOs53_GPIO_PowerDown <= '0';		-- end info to som
-						DIGS3C_Shared_ReqSafeState <= '1';		-- info to dcplds
-						counter <= 1000;
-						fsm_state <= sleep_for_dslot_down;
+						change2state(sleep_for_dslot_down);
 					elsif stop = '0' AND enable = '1' then	-- when both buttons pressed no state change
-						fsm_state <= Ready_State;
+						change2state(Ready_State);
 					end if;
 					checkandhandle_harderror;
 
@@ -640,7 +672,7 @@ process(clk)
 							counter <= counter - 1;
 						end if;
 					else
-						fsm_state <= Soft_Off;
+						change2state(Soft_Off);
 					end if;
 
 				when others =>

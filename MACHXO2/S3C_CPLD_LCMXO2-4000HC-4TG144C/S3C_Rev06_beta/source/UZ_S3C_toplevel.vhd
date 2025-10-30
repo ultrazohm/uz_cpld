@@ -197,7 +197,9 @@ architecture S3C_arch of S3C is
 	attribute syn_keep of dummy_signal : signal is true;
 	attribute syn_noprune of dummy_signal : signal is true;
 
+
 begin	-- arch
+
 
 OSCInst0: OSCH
 	-- synthesis translate_off
@@ -210,7 +212,7 @@ PORT MAP (
 );
 
 process(clk)
-	begin
+begin
 	if rising_edge(clk) then
 		if rst = '1' then
 			rst <= '0';
@@ -270,50 +272,50 @@ DIGS3C_SlotD_SlotOE <= DIGS3C_SlotD_ReqOE and (DIGS3C_SlotD_SlotOE'Range => NOT 
 
 -- debounce process
 process(clk)
-	begin
-		if rising_edge(clk) then
-			debounce_inputs_asyn1 <= debounce_inputs;
-			debounce_inputs_asyn2 <= debounce_inputs_asyn1;
+begin
+	if rising_edge(clk) then
+		debounce_inputs_asyn1 <= debounce_inputs;
+		debounce_inputs_asyn2 <= debounce_inputs_asyn1;
 
-			-- debouncing for all signals
-			for i in 1 to 6 loop
-				if debounce_inputs_asyn2(i) = '0' then	-- button pressed (low)
-					if debounce_counters(i) < debounce_ms then
-						if tick1ms = '1' then
-							debounce_counters(i) <= debounce_counters(i) + 1;
-						end if;
-					else
-						debounce_pushed(i) <= '1';	-- button pressed = true
-					end if;
-				else	-- button high
-					debounce_counters(i) <= 0;		-- TODO: off by one?
-					debounce_pushed(i) <= '0';
-				end if;
-				-- result inverted
-				if debounce_pushed(i) = '1' then
-					debounce_outputs(i) <= '0';
-				else
-					debounce_outputs(i) <= '1';
-				end if;
-			end loop;
-
-			-- powerbutton "just pressed" check
-			power_pressededge <= NOT power_lastvalue AND power;
-			power_lastvalue <= power;
-			-- powerbutton press duration check
-			if power = '1' then
-				if power_counter2sec > 0 then
+		-- debouncing for all signals
+		for i in 1 to 6 loop
+			if debounce_inputs_asyn2(i) = '0' then	-- button pressed (low)
+				if debounce_counters(i) < debounce_ms then
 					if tick1ms = '1' then
-						power_counter2sec <= power_counter2sec - 1;
+						debounce_counters(i) <= debounce_counters(i) + 1;
 					end if;
 				else
-					power_pushed2sec <= '1';
+					debounce_pushed(i) <= '1';	-- button pressed = true
+				end if;
+			else	-- button high
+				debounce_counters(i) <= 0;		-- TODO: off by one?
+				debounce_pushed(i) <= '0';
+			end if;
+			-- result inverted
+			if debounce_pushed(i) = '1' then
+				debounce_outputs(i) <= '0';
+			else
+				debounce_outputs(i) <= '1';
+			end if;
+		end loop;
+
+		-- powerbutton "just pressed" check
+		power_pressededge <= NOT power_lastvalue AND power;
+		power_lastvalue <= power;
+		-- powerbutton press duration check
+		if power = '1' then
+			if power_counter2sec > 0 then
+				if tick1ms = '1' then
+					power_counter2sec <= power_counter2sec - 1;
 				end if;
 			else
-				power_counter2sec <= 2000;
-				power_pushed2sec <= '0';
+				power_pushed2sec <= '1';
 			end if;
+		else
+			power_counter2sec <= 2000;
+			power_pushed2sec <= '0';
 		end if;
+	end if;
 end process;
 
 -- process tick 1ms
@@ -448,7 +450,9 @@ process(clk)
 		enter_errorstate(current_error);
 	end procedure;
 
-	begin	-- process
+
+begin	-- process
+
 
 	------ FSM start
 	if rising_edge(clk) then
@@ -456,6 +460,7 @@ process(clk)
 			fsm_state <= fsm_init;
 		else
 			case fsm_state is
+
 				when WaitForSupply =>
 					forceoutputdisable <= '1';
 					DIGS3C_Shared_ReqSafeState <= '1';	-- not working because bank 1 1.8vper not supplied
@@ -543,6 +548,7 @@ process(clk)
 							change2state(ready_state);
 						end if;
 					end if;
+
 				when Ack_previous_Harderror =>
 					-- Blinky
 					if counter > 0 then
@@ -681,8 +687,10 @@ process(clk)
 
 				when others =>
 					fsm_state <= fsm_init;
+
 			end case;
 		end if;			-- rst
 	end if;				-- clk
 end process;
+
 end S3C_arch;

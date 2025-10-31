@@ -7,7 +7,7 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity S3C is
 	--generic (
-	--	CLK_FREQ_HZ : integer := 2080000		-- CLK - 2.08 MHz
+	--	CLK_FREQ_HZ : integer := 2_080_000		-- CLK - 2.08 MHz
 	--);
 	Port (
 		-- Mapping according to banks
@@ -123,7 +123,7 @@ architecture S3C_arch of S3C is
 	signal ppn6v	:	STD_LOGIC;
 
 	-- counter outside fsm 2sec
-	signal power_counter2sec : integer range 0 to 2000 := 0;		-- counter for button
+	signal power_counter2sec : integer range 0 to 2_000 := 0;		-- counter for button
 	-- Power button: Edge and long press detection
 	signal power_pressededge:	STD_LOGIC;
 	signal power_lastvalue:		STD_LOGIC := '0';
@@ -146,12 +146,6 @@ architecture S3C_arch of S3C is
 
 begin	-- arch
 
-
-s3c_clkrst: ENTITY work.sXc_clkrst
-	PORT MAP (
-		clk	=> clk,
-		rst	=> rst
-	);
 
 dummy_signal <= TDnALERT AND TDnSHDN and ANL_S3C_P54_Legacy AND ANL_S3C_SLOTOK(1) AND ANL_S3C_SLOTOK(2) AND ANL_S3C_SLOTOK(3)
 	AND DIGS3C_SlotD_SlotOK(1) AND DIGS3C_SlotD_SlotOK(2) AND DIGS3C_SlotD_SlotOK(3) AND DIGS3C_SlotD_SlotOK(4) AND DIGS3C_SlotD_SlotOK(5)
@@ -179,6 +173,27 @@ SD_SEL <= '0';
 FPIO_FlexMIO52 <= FlexMIOs52_PCIe;
 FlexMio61ExternalStop <= FPIO_ExternalStop;
 
+-- FIXME: Debug
+FlexIO01 <= PG_Module AND ppn6v;					-- move (possibly AND-ed) to TP
+FlexIO02 <= PG_Module AND S3C_S1;
+FlexIO05 <= PG_Module AND NOT clk;
+
+-- Conditional passthrough for OE of D slots
+DIGS3C_SlotD_SlotOE <= DIGS3C_SlotD_ReqOE and (DIGS3C_SlotD_SlotOE'Range => NOT forceoutputdisable);
+
+
+s3c_clkrst: ENTITY work.sXc_clkrst
+	PORT MAP (
+		clk	=> clk,
+		rst	=> rst
+	);
+
+s3c_tick1ms: ENTITY work.sXc_tick1ms
+	PORT MAP (
+		clk		=> clk,
+		tick1ms	=> tick1ms
+	);
+
 -- Mapping of buttons (1 <=> button pressed) and other inputs for debounce and detection logic
 s3c_debounce: ENTITY work.sXc_debounce
 	GENERIC MAP (
@@ -205,14 +220,6 @@ s3c_debounce: ENTITY work.sXc_debounce
 		debounce_outputs(1) =>																										power
 	);
 
--- FIXME: Debug
-FlexIO01 <= PG_Module AND ppn6v;					-- move (possibly AND-ed) to TP
-FlexIO02 <= PG_Module AND S3C_S1;
-FlexIO05 <= PG_Module AND NOT clk;
-
--- Conditional passthrough for OE of D slots
-DIGS3C_SlotD_SlotOE <= DIGS3C_SlotD_ReqOE and (DIGS3C_SlotD_SlotOE'Range => NOT forceoutputdisable);
-
 -- post-debounce processing for power button
 process(clk)
 begin
@@ -230,17 +237,11 @@ begin
 				power_pushed2sec <= '1';
 			end if;
 		else
-			power_counter2sec <= 2000;
+			power_counter2sec <= 2_000;
 			power_pushed2sec <= '0';
 		end if;
 	end if;
 end process;
-
-s3c_tick1ms: ENTITY work.sXc_tick1ms
-	PORT MAP (
-		clk		=> clk,
-		tick1ms	=> tick1ms
-	);
 
 s3c_fsm: ENTITY work.s3c_fsm
 	PORT MAP (

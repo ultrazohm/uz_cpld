@@ -61,7 +61,7 @@ ARCHITECTURE fsm_arch OF s3c_fsm IS
 	ATTRIBUTE syn_encoding:	STRING;
 	ATTRIBUTE syn_encoding OF fsm_state:	SIGNAL IS "safe,gray";	-- NB: Do not use one-hot encoding with LSE (due to initial reg state) - "sequential" should be an alternative choice with slightly different resource demand...
 
-	SIGNAL counter:	INTEGER RANGE 0 TO 5000 := 0;
+	SIGNAL counter:	INTEGER RANGE 0 TO 5_000 := 0;
 
 	-- error type definitions (currently hard errors only)
 	TYPE error_type IS (NoError, TemperatureShutdown, ExternalStop, SlotError, SupplyFailure);
@@ -115,7 +115,7 @@ BEGIN
 					Carrier_PwrOn <= '1';		-- enables all rails
 					Carrier_PG_3V3 <= '1';		-- Hack IsoIo on, if power on
 
-					counter <= 1000;			-- Counter gleich starten
+					counter <= 1_000;			-- Counter gleich starten
 
 				when EthernetPhy_Reset =>
 					Carrier_PG_1V8 <= '0';				-- resetn for 50ms to zero
@@ -131,13 +131,13 @@ BEGIN
 
 				when Harderror =>
 
-					counter <= 5000;
+					counter <= 5_000;
 
 				when sleep_for_dslot_down =>
 					FlexMIOs53_GPIO_PowerDown <= '0';		-- end info to som
 					DIGS3C_Shared_ReqSafeState <= '1';		-- info to dcplds
 
-					counter <= 1000;
+					counter <= 1_000;
 
 			end case;
 
@@ -146,7 +146,7 @@ BEGIN
 		end procedure;
 
 
-		--- error detection and handling
+		---- error detection and handling
 
 		-- LED mapping (4 downto 1): FP_UsrLED[4] is "User", FP_UsrLED[3] is "Error", FP_UsrLED[2] is "Running", and FP_UsrLED[1] is "Ready"
 		procedure show_harderror (

@@ -5,7 +5,7 @@ USE machxo2.ALL;
 
 ENTITY sXc_clkrst IS
 	--GENERIC (
-	--	CLK_FREQ_HZ : INTEGER := 2080000		-- CLK - 2.08 MHz
+	--	CLK_FREQ_HZ : INTEGER := 2_080_000		-- CLK - 2.08 MHz
 	--);
 	PORT (
 		clk:	OUT STD_LOGIC;
@@ -67,7 +67,7 @@ USE IEEE.STD_LOGIC_1164.ALL;
 
 ENTITY sXc_tick1ms IS
 	GENERIC (
-		CLK_FREQ_HZ : INTEGER := 2080000		-- CLK - 2.08 MHz
+		CLK_FREQ_HZ : INTEGER := 2_080_000		-- CLK - 2.08 MHz
 	);
 	PORT (
 		clk:		IN STD_LOGIC;
@@ -77,7 +77,7 @@ END sXc_tick1ms;
 
 ARCHITECTURE tick1ms_arch OF sXc_tick1ms IS
 
-	CONSTANT TICK_US:			INTEGER := 1000;			-- Tickdauer in µs (1000 = 1 ms)
+	CONSTANT TICK_US:			INTEGER := 1_000;			-- Tickdauer in µs (1000 = 1 ms)
 	CONSTANT TICKS_PER_PERIOD:	INTEGER := CLK_FREQ_HZ / (1_000_000 / TICK_US);
 
 	SIGNAL tickcounter:	INTEGER RANGE 0 TO TICKS_PER_PERIOD-1 := 0;

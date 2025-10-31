@@ -17,9 +17,15 @@
         </Source>
     </Implementation>
     <Implementation title="S3C_Rev06_beta" dir="S3C_Rev06_beta" description="S3C_Rev06_beta" synthesis="synplify" default_strategy="Strategy1">
-        <Options def_top="Soft_Off_V0"/>
+        <Options def_top="S3C"/>
         <Source name="S3C_Rev06_beta/source/UZ_S3C_toplevel.vhd" type="VHDL" type_short="VHDL">
-            <Options top_module="Soft_Off_V0"/>
+            <Options top_module="S3C"/>
+        </Source>
+        <Source name="S3C_Rev06_beta/source/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="S3C_Rev06_beta/source/s3c_fsm.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
         </Source>
         <Source name="S3C_Rev06_beta/impl_0.xcf" type="Programming Project File" type_short="Programming">
             <Options/>

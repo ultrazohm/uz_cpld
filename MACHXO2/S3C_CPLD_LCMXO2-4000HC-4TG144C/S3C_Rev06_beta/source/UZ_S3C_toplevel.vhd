@@ -337,6 +337,20 @@ process(clk)
 
 	------ FSM helpers
 
+	-- Counter
+	impure function counter_done return boolean is
+	begin
+		if counter > 0 then
+			if tick1ms = '1' then
+				counter <= counter - 1;
+			end if;
+
+			return(false);
+		else
+			return(true);
+		end if;
+	end function;
+
 	-- Regular state changes (incl. errors...)
 	procedure change2state (
 		constant target_state : in state_type
@@ -511,11 +525,7 @@ begin	-- process
 					FP_SysLEDb <= '1';
 					FP_SysLEDg <= '0';
 
-					if counter > 0 then
-						if tick1ms = '1' then
-							counter <= counter - 1;
-						end if;
-					else
+					if counter_done then
 						change2state(EthernetPhy_Reset);
 					end if;
 
@@ -531,11 +541,7 @@ begin	-- process
 						harderror_duringbootup <= '1';
 					end if;
 
-					if counter > 0 then
-						if tick1ms = '1' then
-							counter <= counter - 1;
-						end if;
-					else
+					if counter_done then
 						-- Init complete
 						Carrier_PG_1V8 <= 'Z';		-- after 50 ms tristate
 						FPIO_isoCtrlRSTn <= '1';	-- reset IsoIO off
@@ -551,11 +557,7 @@ begin	-- process
 
 				when Ack_previous_Harderror =>
 					-- Blinky
-					if counter > 0 then
-						if tick1ms = '1' then
-							counter <= counter - 1;
-						end if;
-					else
+					if counter_done then
 						counter <= 400;
 					end if;
 					if counter > 300 then
@@ -649,11 +651,7 @@ begin	-- process
 
 					FlexMIOs53_GPIO_PowerDown <= '1';		-- info to som, power linux down;
 
-					if counter > 0 then
-						if tick1ms = '1' then
-							counter <= counter - 1;
-						end if;
-					else
+					if counter_done then
 						change2state(Soft_Off);
 					end if;
 
@@ -677,11 +675,7 @@ begin	-- process
 					checkandhandle_harderror;
 
 				when sleep_for_dslot_down =>
-					if counter > 0 then
-						if tick1ms = '1' then
-							counter <= counter - 1;
-						end if;
-					else
+					if counter_done then
 						change2state(Soft_Off);
 					end if;
 

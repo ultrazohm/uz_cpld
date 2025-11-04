@@ -159,40 +159,28 @@ LAT_IOTYPES(fpga_29,LVCMOS18,-);
 " Circuit functionality
 EQUATIONS
 
-" output signals (UZ --> inverter)
-d_00 = fpga_00;
-d_01 = fpga_01;
-d_02 = fpga_02;
-d_03 = fpga_03;
-d_04 = fpga_04;
-d_05 = fpga_05;
-d_06 = fpga_06;
-d_22 = fpga_22;
-d_24 = fpga_24;
-d_26 = fpga_26;
-d_28 = fpga_28;
+" FPGA to Adapter Board
+d_00 = fpga_06;
+d_01 = fpga_07; 
+d_02 = fpga_08; 
+d_03 = fpga_09;  
+d_04 = fpga_10;  
+d_05 = fpga_11;  
+d_06 = fpga_12;  
+d_07 = fpga_13;  
 
-" input signals (UZ <-- inverter)
-fpga_07 = d_07;
-fpga_08 = d_08;
-fpga_09 = d_09;
-fpga_10 = d_10;
-fpga_11 = d_11;
-fpga_12 = d_12;
-fpga_13 = d_13;
-fpga_14 = d_14;
-fpga_15 = d_15;
-fpga_16 = d_16;
-fpga_17 = d_17;
-fpga_18 = d_18;
-fpga_19 = d_19;
-fpga_20 = d_20;
-fpga_21 = d_21;
-fpga_23 = d_23;
-fpga_25 = d_25;
-fpga_27 = d_27;
-fpga_29 = d_29;
+d_09 = fpga_15;
+d_10 = fpga_16;
+d_11 = fpga_17;
+d_12 = fpga_18;
+d_13 = fpga_19;
+d_14 = fpga_20;
+d_15 = fpga_21;
+d_16 = fpga_22;
 
+" Adapter Board to FPGA
+fpga_14 = d_08;
+fpga_23 = d_17;
 
 
 " ----------------------------

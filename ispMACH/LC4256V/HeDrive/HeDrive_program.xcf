@@ -19,8 +19,8 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/LC4256V/HeDrive_D1/hedrive_d1.jed</File>
-			<FileTime>06/26/25 15:33:33</FileTime>
+			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LC4256V/HeDrive/HeDrive_D1/hedrive_d1.jed</File>
+			<FileTime>11/03/25 14:53:43</FileTime>
 			<JedecChecksum>0x9B94</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
@@ -29,6 +29,7 @@
 				<PreloadLength>260</PreloadLength>
 				<IOVectorData>0x00000000000000000000000000000000000000000000000000000000000000000</IOVectorData>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<SVFProcessor>SVF Processor</SVFProcessor>
 				<Usercode>0xFFFFFFFF</Usercode>
 				<AccessMode>JTAG</AccessMode>
 			</Option>
@@ -48,8 +49,8 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/LC4256V/HeDrive_D2/hedrive_d2.jed</File>
-			<FileTime>06/26/25 15:37:35</FileTime>
+			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LC4256V/HeDrive/HeDrive_D2/hedrive_d2.jed</File>
+			<FileTime>11/03/25 14:53:43</FileTime>
 			<JedecChecksum>0x9BE0</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
@@ -58,12 +59,13 @@
 				<PreloadLength>260</PreloadLength>
 				<IOVectorData>0x00000000000000000000000000000000000000000000000000000000000000000</IOVectorData>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<SVFProcessor>SVF Processor</SVFProcessor>
 				<Usercode>0xFFFFFFFF</Usercode>
 				<AccessMode>JTAG</AccessMode>
 			</Option>
 		</Device>
 		<Device>
-			<SelectedProg value="FALSE"/>
+			<SelectedProg value="TRUE"/>
 			<Pos>3</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>ispMACH4000</Family>
@@ -77,6 +79,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
+			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LC4256V/HeDrive/HeDrive_D3/hedrive_d3.jed</File>
+			<FileTime>11/14/25 15:40:46</FileTime>
+			<JedecChecksum>0x8D4C</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -84,6 +89,8 @@
 				<PreloadLength>260</PreloadLength>
 				<IOVectorData>0x00000000000000000000000000000000000000000000000000000000000000000</IOVectorData>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<SVFProcessor>SVF Processor</SVFProcessor>
+				<Usercode>0xFFFFFFFF</Usercode>
 				<AccessMode>JTAG</AccessMode>
 			</Option>
 		</Device>
@@ -109,11 +116,12 @@
 				<PreloadLength>260</PreloadLength>
 				<IOVectorData>0x00000000000000000000000000000000000000000000000000000000000000000</IOVectorData>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<SVFProcessor>SVF Processor</SVFProcessor>
 				<AccessMode>JTAG</AccessMode>
 			</Option>
 		</Device>
 		<Device>
-			<SelectedProg value="FALSE"/>
+			<SelectedProg value="TRUE"/>
 			<Pos>5</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>ispMACH4000</Family>
@@ -127,6 +135,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
+			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LC4256V/HeDrive/HeDrive_D5/hedrive_d5.jed</File>
+			<FileTime>11/14/25 15:41:56</FileTime>
+			<JedecChecksum>0xE72C</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -134,6 +145,8 @@
 				<PreloadLength>260</PreloadLength>
 				<IOVectorData>0x00000000000000000000000000000000000000000000000000000000000000000</IOVectorData>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<SVFProcessor>SVF Processor</SVFProcessor>
+				<Usercode>0xFFFFFFFF</Usercode>
 				<AccessMode>JTAG</AccessMode>
 			</Option>
 		</Device>
@@ -150,7 +163,7 @@
 	<CableOptions>
 		<CableName>USB2</CableName>
 		<PortAdd>FTUSB-1</PortAdd>
-		<USBID>UltraZohm C Location 0002 Serial 0400101000011C</USBID>
+		<USBID>UltraZohm B Location 0001 Serial 0400101000011B</USBID>
 		<JTAGPinSetting>
 			TRST	ABSENT;
 			ISPEN	ABSENT;

@@ -19,9 +19,9 @@ Tools->Fitter Report File Format...
 
 <A name="Project_Summary"></A><FONT COLOR=maroon><U><B><big>Project_Summary</big></B></U></FONT>
 <BR>
-Project Name         :  uz_d_abs_encoder_ssi_rev01
-Project Path         :  C:\GIT\UltraZohm\software\cpld_lattice_clean\ispMACH\LA4128V\uz_d_abs_encoder_ssi_rev01
-Project Fitted on    :  Thu Mar 27 16:13:26 2025
+Project Name         :  uz_d_abs_encoder
+Project Path         :  C:\GIT\UltraZohm\software\cpld_lattice_clean\ispMACH\LA4128V\uz_d_abs_encoder
+Project Fitted on    :  Mon Nov 17 17:33:58 2025
 
 Device               :  M4128_64
 Package              :  100
@@ -32,13 +32,13 @@ Part Number          :  LA4128V-75TN100E
 Source Format        :  ABEL_Schematic
 
 
-<font color=green size=4><span class=blink><strong><B>Project 'uz_d_abs_encoder_ssi_rev01' Fit Successfully!</B></strong></span></font>
+<font color=green size=4><span class=blink><strong><B>Project 'uz_d_abs_encoder' Fit Successfully!</B></strong></span></font>
 
 
 <A name="Compilation_Times"></A><FONT COLOR=maroon><U><B><big>Compilation_Times</big></B></U></FONT>
 <BR>
 Prefit Time                     0 secs
-Load Design Time                0.08 secs
+Load Design Time                0.13 secs
 Partition Time                  0.00 secs
 Place Time                      0.00 secs
 Route Time                      0.00 secs
@@ -47,16 +47,16 @@ Total Fit Time                  00:00:01
 
 <A name="Design_Summary"></A><FONT COLOR=maroon><U><B><big>Design_Summary</big></B></U></FONT>
 <BR>
-Total Input Pins                48
-Total Logic Functions           12
-  Total Output Pins             12
+Total Input Pins                45
+Total Logic Functions           15
+  Total Output Pins             15
   Total Bidir I/O Pins          0
   Total Buried Nodes            0
 Total Flip-Flops                0
   Total D Flip-Flops            0
   Total T Flip-Flops            0
   Total Latches                 0
-Total Product Terms             12
+Total Product Terms             15
 
 Total Reserved Pins             0
 Total Locked Pins               60
@@ -81,13 +81,13 @@ Fmax Logic Levels               -
   Input-Only Pins                   6        0      6    -->     0
   I/O / Enable Pins                 2        2      0    -->   100
 I/O Pins                           62       58      4    -->    93
-Logic Functions                   128       12    116    -->     9
+Logic Functions                   128       15    113    -->    11
   Input Registers                  64        0     64    -->     0
 
-GLB Inputs                        288       12    276    -->     4
-Logical Product Terms             640       12    628    -->     1
+GLB Inputs                        288       15    273    -->     5
+Logical Product Terms             640       15    625    -->     2
 Occupied GLBs                       8        8      0    -->   100
-Macrocells                        128       12    116    -->     9
+Macrocells                        128       15    113    -->    11
 
 Control Product Terms:
   GLB Clock/Clock Enables           8        0      8    -->     0
@@ -98,9 +98,9 @@ Control Product Terms:
   Macrocell Resets                128        0    128    -->     0
   Macrocell Presets               128        0    128    -->     0
 
-Global Routing Pool               220       12    208    -->     5
-  GRP from IFB                     ..       12     ..    -->    ..
-    (from input signals)           ..       12     ..    -->    ..
+Global Routing Pool               220       15    205    -->     6
+  GRP from IFB                     ..       15     ..    -->    ..
+    (from input signals)           ..       15     ..    -->    ..
     (from output signals)          ..        0     ..    -->    ..
     (from bidir signals)           ..        0     ..    -->    ..
   GRP from MFB                     ..        0     ..    -->    ..
@@ -125,12 +125,12 @@ Maximum
   GLB    C      0     0     0      8/8      0    0      0             16        0        0
   GLB    D      1     0     1      8/8      0    1      0             15        1        1
 -------------------------------------------------------------------------------------------
-  GLB    E      4     0     4      8/8      0    4      0             12        4        4
-  GLB    F      3     0     3      8/8      0    3      0             13        3        3
+  GLB    E      5     0     5      8/8      0    5      0             11        5        5
+  GLB    F      5     0     5      8/8      0    5      0             11        5        5
   GLB    G      1     0     1      7/8      0    1      0             15        1        1
   GLB    H      1     0     1      6/8      0    1      0             15        1        1
 -------------------------------------------------------------------------------------------
-TOTALS:        12     0    12     58/64     0   12      0            116       12       12
+TOTALS:        15     0    15     58/64     0   15      0            113       15       15
 
 &lt;Note&gt; 1 : For ispMACH 4000 devices, the number of IOs depends on the GLB.
 &lt;Note&gt; 2 : Four rightmost columns above reflect last status of the placement process.
@@ -275,18 +275,18 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name
 46    |GNDIO1 |   -  |    |        |                 |       |
 47    |  I_O  |   1  |E8  |    *   |LVCMOS33         | Input |<A href=#42>d_06</A>
 48    |  I_O  |   1  |E10 |    *   |LVCMOS33         | Output|<A href=#40>d_04</A>
-49    |  I_O  |   1  |E12 |    *   |LVCMOS33         | Input |<A href=#38>d_02</A>
+49    |  I_O  |   1  |E12 |    *   |LVCMOS33         | Output|<A href=#38>d_02</A>
 50    |  I_O  |   1  |E14 |    *   |LVCMOS33         | Input |<A href=#36>d_00</A>
 51    | GND   |   -  |    |        |                 |       |
 52    | TMS   |   -  |    |        |                 |       |
 53    |  I_O  |   1  |F0  |    *   |LVCMOS33         | Input |<A href=#37>d_01</A>
-54    |  I_O  |   1  |F2  |    *   |LVCMOS33         | Input |<A href=#39>d_03</A>
+54    |  I_O  |   1  |F2  |    *   |LVCMOS33         | Output|<A href=#39>d_03</A>
 55    |  I_O  |   1  |F4  |    *   |LVCMOS33         | Output|<A href=#41>d_05</A>
 56    |  I_O  |   1  |F6  |    *   |LVCMOS33         | Input |<A href=#43>d_07</A>
 57    |GNDIO1 |   -  |    |        |                 |       |
 58    |  I_O  |   1  |F8  |    *   |LVCMOS33         | Output|<A href=#45>d_09</A>
 59    |  I_O  |   1  |F10 |    *   |LVCMOS33         | Output|<A href=#47>d_11</A>
-60    |  I_O  |   1  |F12 |    *   |LVCMOS33         | Input |<A href=#49>d_13</A>
+60    |  I_O  |   1  |F12 |    *   |LVCMOS33         | Output|<A href=#49>d_13</A>
 61    |  I_O  |   1  |F13 |    *   |LVCMOS33         | Input |<A href=#51>d_15</A>
 62    | IN3   |   1  |    |        |                 |       |
 63    |VCCIO1 |   -  |    |        |                 |       |
@@ -348,12 +348,9 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name
 </B>------------------------------------------
   50   E  I/O   1 -B------    Down <A name=36>d_00</A>
   53   F  I/O   1 -B------    Down <A name=37>d_01</A>
-  49   E  I/O     --------    Down <A name=38>d_02</A>
-  54   F  I/O     --------    Down <A name=39>d_03</A>
   47   E  I/O     --------    Down <A name=42>d_06</A>
   56   F  I/O     --------    Down <A name=43>d_07</A>
   43   E  I/O   1 ---D----    Down <A name=48>d_12</A>
-  60   F  I/O     --------    Down <A name=49>d_13</A>
   61   F  I/O     --------    Down <A name=51>d_15</A>
   85   H  I/O     --------    Down <A name=54>d_18</A>
   65   G  I/O     --------    Down <A name=55>d_19</A>
@@ -373,11 +370,11 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name
    6   B  I/O     --------    Down <A name=9>fpga_03</A>
    8   B  I/O     --------    Down <A name=10>fpga_04</A>
    9   B  I/O     --------    Down <A name=11>fpga_05</A>
-  14   C  I/O     --------    Down <A name=14>fpga_08</A>
-  15   C  I/O     --------    Down <A name=15>fpga_09</A>
+  14   C  I/O   1 -----F--    Down <A name=14>fpga_08</A>
+  15   C  I/O   1 ----E---    Down <A name=15>fpga_09</A>
   16   C  I/O   1 ----E---    Down <A name=16>fpga_10</A>
   17   C  I/O   1 -----F--    Down <A name=17>fpga_11</A>
-  19   C  I/O     --------    Down <A name=18>fpga_12</A>
+  19   C  I/O   1 -----F--    Down <A name=18>fpga_12</A>
   20   C  I/O     --------    Down <A name=19>fpga_13</A>
   21   C  I/O   1 ----E---    Down <A name=20>fpga_14</A>
   22   C  I/O   1 -----F--    Down <A name=21>fpga_15</A>
@@ -403,12 +400,15 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name
           N         L Mc   R E U C O F B Fanout
  Pin GLB  P LL PTs  S Type E S P E E P P             Slew Pullup Signal
 </B>------------------------------------------------------------------------
+  49   E  1  1   1  1 COM                  --------  Fast   Down <A href=#38>d_02</A>
+  54   F  1  1   1  1 COM                  --------  Fast   Down <A href=#39>d_03</A>
   48   E  1  1   1  1 COM                  --------  Fast   Down <A href=#40>d_04</A>
   55   F  1  1   1  1 COM                  --------  Fast   Down <A href=#41>d_05</A>
   41   E  1  1   1  1 COM                  --------  Fast   Down <A href=#44>d_08</A>
   58   F  1  1   1  1 COM                  --------  Fast   Down <A href=#45>d_09</A>
   42   E  1  1   1  1 COM                  --------  Fast   Down <A href=#46>d_10</A>
   59   F  1  1   1  1 COM                  --------  Fast   Down <A href=#47>d_11</A>
+  60   F  1  1   1  1 COM                  --------  Fast   Down <A href=#49>d_13</A>
   44   E  1  1   1  1 COM                  --------  Fast   Down <A href=#50>d_14</A>
   84   H  1  1   1  1 COM                  --------  Fast   Down <A href=#52>d_16</A>
   64   G  1  1   1  1 COM                  --------  Fast   Down <A href=#53>d_17</A>
@@ -457,6 +457,10 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name
 
 <A name="PostFit_Equations"></A><FONT COLOR=maroon><U><B><big>PostFit_Equations</big></B></U></FONT>
 <BR>
+<A name=38>d_02</A> = <A href=#15>fpga_09</A> ; (1 pterm, 1 signal)
+
+<A name=39>d_03</A> = <A href=#14>fpga_08</A> ; (1 pterm, 1 signal)
+
 <A name=40>d_04</A> = <A href=#16>fpga_10</A> ; (1 pterm, 1 signal)
 
 <A name=41>d_05</A> = <A href=#17>fpga_11</A> ; (1 pterm, 1 signal)
@@ -468,6 +472,8 @@ Pin No| Type  |Number|Pad |Pin     |     I/O Type    | Type  | Signal name
 <A name=46>d_10</A> = <A href=#22>fpga_16</A> ; (1 pterm, 1 signal)
 
 <A name=47>d_11</A> = <A href=#23>fpga_17</A> ; (1 pterm, 1 signal)
+
+<A name=49>d_13</A> = <A href=#18>fpga_12</A> ; (1 pterm, 1 signal)
 
 <A name=50>d_14</A> = <A href=#26>fpga_20</A> ; (1 pterm, 1 signal)
 

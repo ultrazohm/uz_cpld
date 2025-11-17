@@ -123,12 +123,12 @@ begin
 	d_08 <= fpga_14;
 	d_16 <= fpga_22;
 	
-	-- Rx signals: ssi_data channels 1,2,3
+	-- Rx signals: data channels 1,2,3
 	fpga_07 <= d_01;
 	fpga_06 <= d_00;
 	fpga_18 <= d_12;
 
-	-- EnDat specific signals
+	-- Tx signals: data channels 1,2,3
 	d_03 <= fpga_08;
 	d_02 <= fpga_09;
 	d_13 <= fpga_12;

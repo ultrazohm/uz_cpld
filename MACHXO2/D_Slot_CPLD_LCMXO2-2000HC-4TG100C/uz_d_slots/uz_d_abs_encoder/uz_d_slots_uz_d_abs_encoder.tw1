@@ -1,0 +1,103 @@
+
+Loading design for application trce from file uz_d_slots_uz_d_abs_encoder_map.ncd.
+Design name: SignalRouter
+NCD version: 3.3
+Vendor:      LATTICE
+Device:      LCMXO2-2000HC
+Package:     TQFP100
+Performance: 4
+Loading device for application trce from file 'xo2c2000.nph' in environment: C:/lscc/diamond/3.13/ispfpga.
+Package Status:                     Final          Version 1.44.
+Performance Hardware Data Status:   Final          Version 34.4.
+Setup and Hold Report
+
+--------------------------------------------------------------------------------
+Lattice TRACE Report - Setup, Version Diamond (64-bit) 3.13.0.56.2
+Sat Oct 04 15:23:59 2025
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
+
+Report Information
+------------------
+Command line:    trce -v 1 -gt -mapchkpnt 0 -sethld -o uz_d_slots_uz_d_abs_encoder.tw1 -gui uz_d_slots_uz_d_abs_encoder_map.ncd uz_d_slots_uz_d_abs_encoder.prf 
+Design file:     uz_d_slots_uz_d_abs_encoder_map.ncd
+Preference file: uz_d_slots_uz_d_abs_encoder.prf
+Device,speed:    LCMXO2-2000HC,4
+Report level:    verbose report, limited to 1 item per preference
+--------------------------------------------------------------------------------
+
+BLOCK ASYNCPATHS
+BLOCK RESETPATHS
+--------------------------------------------------------------------------------
+
+
+
+================================================================================
+Preference: Default path enumeration
+            20 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+Report:    9.753ns delay fpga_27 to slotok
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     1.767         96.PAD to       96.PADDI fpga_27
+ROUTE         1   e 1.234       96.PADDI to     SLICE_0.B0 fpga_27_c
+CTOF_DEL    ---     0.495     SLICE_0.B0 to     SLICE_0.F0 SLICE_0
+ROUTE         1   e 0.480     SLICE_0.F0 to     SLICE_0.D1 n6
+CTOF_DEL    ---     0.495     SLICE_0.D1 to     SLICE_0.F1 SLICE_0
+ROUTE         1   e 1.234     SLICE_0.F1 to       81.PADDO slotok_c
+DOPAD_DEL   ---     4.048       81.PADDO to         81.PAD slotok
+                  --------
+                    9.753   (69.8% logic, 30.2% route), 4 logic levels.
+
+Report:    9.753ns is the maximum delay for this preference.
+
+
+================================================================================
+Preference: Default net enumeration
+            23 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+Report:    2.770ns maximum delay on d_04_c_c
+
+           Delays             Connection(s)
+         e 2.770ns         38.PADDI to 15.PADDO        
+
+Report:    2.770ns is the maximum delay for this preference.
+
+Report Summary
+--------------
+----------------------------------------------------------------------------
+Preference                              |   Constraint|       Actual|Levels
+----------------------------------------------------------------------------
+                                        |             |             |
+Default path enumeration                |     0.000 ns|     9.753 ns|   0  
+                                        |             |             |
+Default net enumeration                 |     0.000 ns|     2.770 ns|   0  
+                                        |             |             |
+----------------------------------------------------------------------------
+
+
+All preferences were met.
+
+
+Clock Domains Analysis
+------------------------
+
+Found 0 clocks:
+
+
+Timing summary (Setup):
+---------------
+
+Timing errors: 0  Score: 0
+Cumulative negative slack: 0
+
+Constraints cover 20 paths, 23 nets, and 23 connections (100.00% coverage)
+
+--------------------------------------------------------------------------------
+

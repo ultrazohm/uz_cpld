@@ -17,21 +17,21 @@ entity SignalRouter is
         -- Define 30 fpga ports
         fpga_00 : in STD_LOGIC;
         fpga_01 : in STD_LOGIC;
-        fpga_02 : in STD_LOGIC;
+        fpga_02 : out STD_LOGIC;
         fpga_03 : in STD_LOGIC;
-        fpga_04 : in STD_LOGIC;
+        fpga_04 : out STD_LOGIC;
         fpga_05 : in STD_LOGIC;
         fpga_06 : in STD_LOGIC;
         fpga_07 : in STD_LOGIC;
-        fpga_08 : in STD_LOGIC;
+        fpga_08 : out STD_LOGIC;
         fpga_09 : in STD_LOGIC;
-        fpga_10 : in STD_LOGIC;
+        fpga_10 : out STD_LOGIC;
         fpga_11 : in STD_LOGIC;
         fpga_12 : in STD_LOGIC;
         fpga_13 : in STD_LOGIC;
-        fpga_14 : in STD_LOGIC;
+        fpga_14 : out STD_LOGIC;
         fpga_15 : in STD_LOGIC;
-        fpga_16 : in STD_LOGIC;
+        fpga_16 : out STD_LOGIC;
         fpga_17 : in STD_LOGIC;
         fpga_18 : in STD_LOGIC;
         fpga_19 : in STD_LOGIC;
@@ -49,21 +49,21 @@ entity SignalRouter is
         -- Define 30 d-slot ports
         d_00 : out STD_LOGIC;
         d_01 : out STD_LOGIC;
-        d_02 : out STD_LOGIC;
+        d_02 : in STD_LOGIC;
         d_03 : out STD_LOGIC;
-        d_04 : out STD_LOGIC;
+        d_04 : in STD_LOGIC;
         d_05 : out STD_LOGIC;
         d_06 : out STD_LOGIC;
         d_07 : out STD_LOGIC;
-        d_08 : out STD_LOGIC;
+        d_08 : in STD_LOGIC;
         d_09 : out STD_LOGIC;
-        d_10 : out STD_LOGIC;
+        d_10 : in STD_LOGIC;
         d_11 : out STD_LOGIC;
         d_12 : out STD_LOGIC;
         d_13 : out STD_LOGIC;
-        d_14 : out STD_LOGIC;
+        d_14 : in STD_LOGIC;
         d_15 : out STD_LOGIC;
-        d_16 : out STD_LOGIC;
+        d_16 : in STD_LOGIC;
         d_17 : out STD_LOGIC;
         d_18 : out STD_LOGIC;
         d_19 : out STD_LOGIC;
@@ -107,25 +107,30 @@ begin
     
 
     -- Map ports
-    d_00 <= fpga_00 AND enable_forwarding;
-    d_01 <= fpga_01 AND enable_forwarding;
-    d_02 <= fpga_02 AND enable_forwarding;
-    d_03 <= fpga_03 AND enable_forwarding;
-    d_04 <= fpga_04 AND enable_forwarding;
-    d_05 <= fpga_05 AND enable_forwarding;
-    d_06 <= fpga_06 AND enable_forwarding;
-    d_07 <= fpga_07 AND enable_forwarding;
-    d_08 <= fpga_08 AND enable_forwarding;
-    d_09 <= fpga_09 AND enable_forwarding;
-    d_10 <= fpga_10 AND enable_forwarding;
-    d_11 <= fpga_11 AND enable_forwarding;
-    d_12 <= fpga_12 AND enable_forwarding;
-    d_13 <= fpga_13 AND enable_forwarding;
-    d_14 <= fpga_14 AND enable_forwarding;
-    d_15 <= fpga_15 AND enable_forwarding;
-    d_16 <= fpga_16 AND enable_forwarding;
-    d_17 <= fpga_17 AND enable_forwarding;
-    d_18 <= fpga_18 AND enable_forwarding;
+	-- LTC2983 - 1
+    d_00 <= fpga_00 AND enable_forwarding; --SCLK1
+    d_01 <= fpga_01 AND enable_forwarding; --MOSI1
+    fpga_02 <= d_02 AND enable_forwarding; --MISO1
+    d_03 <= fpga_03 AND enable_forwarding; --CS1
+    fpga_04 <= d_04 AND enable_forwarding; --VOB1 (Interrupt)
+    d_05 <= fpga_05 AND enable_forwarding; --DCLK1
+	-- LTC2983 - 3
+    d_06 <= fpga_06 AND enable_forwarding; --SCLK3
+    d_07 <= fpga_07 AND enable_forwarding; --MOSI3
+    fpga_08 <= d_08 AND enable_forwarding; --MISO3
+    d_09 <= fpga_09 AND enable_forwarding; --CS3
+    fpga_10 <= d_10 AND enable_forwarding; --VOB3 (Interrupt)
+    d_11 <= fpga_11 AND enable_forwarding; --DCLK3
+	-- LTC2983 - 2
+	d_12 <= fpga_12 AND enable_forwarding; --SCLK2
+    d_13 <= fpga_13 AND enable_forwarding; --MOSI2
+    fpga_14 <= d_14 AND enable_forwarding; --MISO2
+    d_15 <= fpga_15 AND enable_forwarding; --CS2
+    fpga_16 <= d_16 AND enable_forwarding; --VOB2 (Interrupt)
+    d_17 <= fpga_17 AND enable_forwarding; --DCLK2
+	-- global reset
+	d_18 <= fpga_18 AND enable_forwarding; --Reset
+	-- unused pins
     d_19 <= fpga_19 AND enable_forwarding;
     d_20 <= fpga_20 AND enable_forwarding;
     d_21 <= fpga_21 AND enable_forwarding;

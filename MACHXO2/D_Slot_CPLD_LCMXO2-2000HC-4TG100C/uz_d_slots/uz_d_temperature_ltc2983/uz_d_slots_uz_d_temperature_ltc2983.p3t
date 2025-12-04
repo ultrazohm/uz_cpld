@@ -1,0 +1,5 @@
+-rem
+-distrce
+-log "uz_d_slots_uz_d_temperature_ltc2983.log"
+-o "uz_d_slots_uz_d_temperature_ltc2983.csv"
+-pr "uz_d_slots_uz_d_temperature_ltc2983.prf"

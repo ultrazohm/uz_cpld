@@ -108,38 +108,38 @@ begin
 	user_enable_forwarding <= '1'; -- for 14tx_4rx
 
     -- Map ports
-    d_00 <= fpga_00;
-    d_01 <= fpga_01;
-    d_02 <= fpga_02;
-    d_03 <= fpga_03;
-    d_04 <= fpga_04;
-    d_05 <= fpga_05;
-    d_06 <= fpga_06;
-    d_07 <= fpga_07;
-    d_08 <= fpga_08;
-    d_09 <= fpga_09;
-    d_10 <= fpga_10;
-    d_11 <= fpga_11;
-    d_12 <= fpga_12;
-    d_13 <= fpga_13;
+    d_00 <= fpga_00 AND enable_forwarding;
+    d_01 <= fpga_01 AND enable_forwarding;
+    d_02 <= fpga_02 AND enable_forwarding;
+    d_03 <= fpga_03 AND enable_forwarding;
+    d_04 <= fpga_04 AND enable_forwarding;
+    d_05 <= fpga_05 AND enable_forwarding;
+    d_06 <= fpga_06 AND enable_forwarding;
+    d_07 <= fpga_07 AND enable_forwarding;
+    d_08 <= fpga_08 AND enable_forwarding;
+    d_09 <= fpga_09 AND enable_forwarding;
+    d_10 <= fpga_10 AND enable_forwarding;
+    d_11 <= fpga_11 AND enable_forwarding;
+    d_12 <= fpga_12 AND enable_forwarding;
+    d_13 <= fpga_13 AND enable_forwarding;
 	
     fpga_14 <= d_14;
     fpga_15 <= d_15;
     fpga_16 <= d_16;
     fpga_17 <= d_17;
 	
-    d_18 <= fpga_18;
-    d_19 <= fpga_19;
-    d_20 <= fpga_20;
-    d_21 <= fpga_21;
-    d_22 <= fpga_22;
-    d_23 <= fpga_23;
-    d_24 <= fpga_24;
-    d_25 <= fpga_25;
-    d_26 <= fpga_26;
-    d_27 <= fpga_27;
-    d_28 <= fpga_28;
-    d_29 <= fpga_29;
+    d_18 <= fpga_18 AND enable_forwarding;
+    d_19 <= fpga_19 AND enable_forwarding;
+    d_20 <= fpga_20 AND enable_forwarding;
+    d_21 <= fpga_21 AND enable_forwarding;
+    d_22 <= fpga_22 AND enable_forwarding;
+    d_23 <= fpga_23 AND enable_forwarding;
+    d_24 <= fpga_24 AND enable_forwarding;
+    d_25 <= fpga_25 AND enable_forwarding;
+    d_26 <= fpga_26 AND enable_forwarding;
+    d_27 <= fpga_27 AND enable_forwarding;
+    d_28 <= fpga_28 AND enable_forwarding;
+    d_29 <= fpga_29 AND enable_forwarding;
 	-- Make sure ports are not optimized away
 	dummy_signal <= i2c_scl AND i2c_sda AND carrierrdy AND pilot_in;
 end Behavioral;

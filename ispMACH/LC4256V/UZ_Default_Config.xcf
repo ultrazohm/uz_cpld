@@ -19,9 +19,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LC4256V/HeDrive/HeDrive_D1/hedrive_d1.jed</File>
-			<FileTime>11/03/25 14:53:43</FileTime>
-			<JedecChecksum>0x9B94</JedecChecksum>
+			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LC4256V/30tx/uz_cpld_30tx.jed</File>
+			<FileTime>02/04/26 13:54:56</FileTime>
+			<JedecChecksum>0x9E1F</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -29,7 +29,6 @@
 				<PreloadLength>260</PreloadLength>
 				<IOVectorData>0x00000000000000000000000000000000000000000000000000000000000000000</IOVectorData>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
-				<SVFProcessor>SVF Processor</SVFProcessor>
 				<Usercode>0xFFFFFFFF</Usercode>
 				<AccessMode>JTAG</AccessMode>
 			</Option>
@@ -49,9 +48,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LC4256V/HeDrive/HeDrive_D2/hedrive_d2.jed</File>
-			<FileTime>11/03/25 14:53:43</FileTime>
-			<JedecChecksum>0x9BE0</JedecChecksum>
+			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LC4256V/30tx/uz_cpld_30tx.jed</File>
+			<FileTime>02/04/26 13:54:56</FileTime>
+			<JedecChecksum>0x9E1F</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -59,7 +58,6 @@
 				<PreloadLength>260</PreloadLength>
 				<IOVectorData>0x00000000000000000000000000000000000000000000000000000000000000000</IOVectorData>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
-				<SVFProcessor>SVF Processor</SVFProcessor>
 				<Usercode>0xFFFFFFFF</Usercode>
 				<AccessMode>JTAG</AccessMode>
 			</Option>
@@ -79,9 +77,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LC4256V/HeDrive/HeDrive_D3/hedrive_d3.jed</File>
-			<FileTime>11/14/25 15:40:46</FileTime>
-			<JedecChecksum>0x8D4C</JedecChecksum>
+			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LC4256V/30tx/uz_cpld_30tx.jed</File>
+			<FileTime>02/04/26 13:54:56</FileTime>
+			<JedecChecksum>0x9E1F</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -89,13 +87,12 @@
 				<PreloadLength>260</PreloadLength>
 				<IOVectorData>0x00000000000000000000000000000000000000000000000000000000000000000</IOVectorData>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
-				<SVFProcessor>SVF Processor</SVFProcessor>
 				<Usercode>0xFFFFFFFF</Usercode>
 				<AccessMode>JTAG</AccessMode>
 			</Option>
 		</Device>
 		<Device>
-			<SelectedProg value="FALSE"/>
+			<SelectedProg value="TRUE"/>
 			<Pos>4</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>ispMACH4000</Family>
@@ -109,6 +106,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
+			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LC4256V/30tx/uz_cpld_30tx.jed</File>
+			<FileTime>02/04/26 13:54:56</FileTime>
+			<JedecChecksum>0x9E1F</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -116,7 +116,7 @@
 				<PreloadLength>260</PreloadLength>
 				<IOVectorData>0x00000000000000000000000000000000000000000000000000000000000000000</IOVectorData>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
-				<SVFProcessor>SVF Processor</SVFProcessor>
+				<Usercode>0xFFFFFFFF</Usercode>
 				<AccessMode>JTAG</AccessMode>
 			</Option>
 		</Device>
@@ -135,8 +135,8 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LC4256V/HeDrive/HeDrive_D5/hedrive_d5.jed</File>
-			<FileTime>11/14/25 15:41:56</FileTime>
+			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LC4256V/uz_d_resolver/digital_D5/uz_cpld_uz_d_resolver_d5.jed</File>
+			<FileTime>11/03/25 14:53:43</FileTime>
 			<JedecChecksum>0xE72C</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
@@ -145,7 +145,6 @@
 				<PreloadLength>260</PreloadLength>
 				<IOVectorData>0x00000000000000000000000000000000000000000000000000000000000000000</IOVectorData>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
-				<SVFProcessor>SVF Processor</SVFProcessor>
 				<Usercode>0xFFFFFFFF</Usercode>
 				<AccessMode>JTAG</AccessMode>
 			</Option>

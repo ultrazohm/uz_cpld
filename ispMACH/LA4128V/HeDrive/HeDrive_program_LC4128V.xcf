@@ -9,27 +9,26 @@
 			<Pos>1</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>ispMACH4000</Family>
-			<Name>LC4256V</Name>
-			<IDCode>0x11815043</IDCode>
+			<Name>LC4128V</Name>
+			<IDCode>0x01811043</IDCode>
 			<Package>All</Package>
-			<PON>LC4256V</PON>
+			<PON>LC4128V</PON>
 			<Bypass>
 				<InstrLen>8</InstrLen>
 				<InstrVal>11111111</InstrVal>
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LC4256V/HeDrive/HeDrive_D1/hedrive_d1.jed</File>
-			<FileTime>11/03/25 14:53:43</FileTime>
-			<JedecChecksum>0x9B94</JedecChecksum>
+			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LA4128V/HeDrive/HeDrive_D1/hedrive_d1.jed</File>
+			<FileTime>03/03/26 11:40:04</FileTime>
+			<JedecChecksum>0x31DC</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
 				<IOState>HighZ</IOState>
-				<PreloadLength>260</PreloadLength>
-				<IOVectorData>0x00000000000000000000000000000000000000000000000000000000000000000</IOVectorData>
+				<PreloadLength>196</PreloadLength>
+				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
-				<SVFProcessor>SVF Processor</SVFProcessor>
 				<Usercode>0xFFFFFFFF</Usercode>
 				<AccessMode>JTAG</AccessMode>
 			</Option>
@@ -39,27 +38,26 @@
 			<Pos>2</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>ispMACH4000</Family>
-			<Name>LC4256V</Name>
-			<IDCode>0x11815043</IDCode>
+			<Name>LC4128V</Name>
+			<IDCode>0x01811043</IDCode>
 			<Package>All</Package>
-			<PON>LC4256V</PON>
+			<PON>LC4128V</PON>
 			<Bypass>
 				<InstrLen>8</InstrLen>
 				<InstrVal>11111111</InstrVal>
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LC4256V/HeDrive/HeDrive_D2/hedrive_d2.jed</File>
-			<FileTime>11/03/25 14:53:43</FileTime>
-			<JedecChecksum>0x9BE0</JedecChecksum>
+			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LA4128V/HeDrive/HeDrive_D2/hedrive_d2.jed</File>
+			<FileTime>03/03/26 11:42:15</FileTime>
+			<JedecChecksum>0x343A</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
 				<IOState>HighZ</IOState>
-				<PreloadLength>260</PreloadLength>
-				<IOVectorData>0x00000000000000000000000000000000000000000000000000000000000000000</IOVectorData>
+				<PreloadLength>196</PreloadLength>
+				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
-				<SVFProcessor>SVF Processor</SVFProcessor>
 				<Usercode>0xFFFFFFFF</Usercode>
 				<AccessMode>JTAG</AccessMode>
 			</Option>
@@ -69,54 +67,56 @@
 			<Pos>3</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>ispMACH4000</Family>
-			<Name>LC4256V</Name>
-			<IDCode>0x11815043</IDCode>
+			<Name>LC4128V</Name>
+			<IDCode>0x01811043</IDCode>
 			<Package>All</Package>
-			<PON>LC4256V</PON>
+			<PON>LC4128V</PON>
 			<Bypass>
 				<InstrLen>8</InstrLen>
 				<InstrVal>11111111</InstrVal>
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LC4256V/HeDrive/HeDrive_D3/hedrive_d3.jed</File>
-			<FileTime>11/14/25 15:40:46</FileTime>
-			<JedecChecksum>0x8D4C</JedecChecksum>
+			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LA4128V/HeDrive/HeDrive_D3/hedrive_d3.jed</File>
+			<FileTime>03/03/26 11:42:46</FileTime>
+			<JedecChecksum>0x32A0</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
 				<IOState>HighZ</IOState>
-				<PreloadLength>260</PreloadLength>
-				<IOVectorData>0x00000000000000000000000000000000000000000000000000000000000000000</IOVectorData>
+				<PreloadLength>196</PreloadLength>
+				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
-				<SVFProcessor>SVF Processor</SVFProcessor>
 				<Usercode>0xFFFFFFFF</Usercode>
 				<AccessMode>JTAG</AccessMode>
 			</Option>
 		</Device>
 		<Device>
-			<SelectedProg value="FALSE"/>
+			<SelectedProg value="TRUE"/>
 			<Pos>4</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>ispMACH4000</Family>
-			<Name>LC4256V</Name>
-			<IDCode>0x11815043</IDCode>
+			<Name>LC4128V</Name>
+			<IDCode>0x01811043</IDCode>
 			<Package>All</Package>
-			<PON>LC4256V</PON>
+			<PON>LC4128V</PON>
 			<Bypass>
 				<InstrLen>8</InstrLen>
 				<InstrVal>11111111</InstrVal>
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
+			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LA4128V/uz_d_temperature_ltc2983/uz_temperature_card.jed</File>
+			<FileTime>03/03/26 10:50:42</FileTime>
+			<JedecChecksum>0x2FE7</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
 				<IOState>HighZ</IOState>
-				<PreloadLength>260</PreloadLength>
-				<IOVectorData>0x00000000000000000000000000000000000000000000000000000000000000000</IOVectorData>
+				<PreloadLength>196</PreloadLength>
+				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
-				<SVFProcessor>SVF Processor</SVFProcessor>
+				<Usercode>0xFFFFFFFF</Usercode>
 				<AccessMode>JTAG</AccessMode>
 			</Option>
 		</Device>
@@ -125,27 +125,26 @@
 			<Pos>5</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>ispMACH4000</Family>
-			<Name>LC4256V</Name>
-			<IDCode>0x11815043</IDCode>
+			<Name>LC4128V</Name>
+			<IDCode>0x01811043</IDCode>
 			<Package>All</Package>
-			<PON>LC4256V</PON>
+			<PON>LC4128V</PON>
 			<Bypass>
 				<InstrLen>8</InstrLen>
 				<InstrVal>11111111</InstrVal>
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LC4256V/HeDrive/HeDrive_D5/hedrive_d5.jed</File>
-			<FileTime>11/14/25 15:41:56</FileTime>
-			<JedecChecksum>0xE72C</JedecChecksum>
+			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LA4128V/HeDrive/HeDrive_D5/hedrive_d5.jed</File>
+			<FileTime>03/03/26 11:43:29</FileTime>
+			<JedecChecksum>0x6A09</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
 				<IOState>HighZ</IOState>
-				<PreloadLength>260</PreloadLength>
-				<IOVectorData>0x00000000000000000000000000000000000000000000000000000000000000000</IOVectorData>
+				<PreloadLength>196</PreloadLength>
+				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
-				<SVFProcessor>SVF Processor</SVFProcessor>
 				<Usercode>0xFFFFFFFF</Usercode>
 				<AccessMode>JTAG</AccessMode>
 			</Option>
@@ -163,10 +162,12 @@
 	<CableOptions>
 		<CableName>USB2</CableName>
 		<PortAdd>FTUSB-1</PortAdd>
-		<USBID>UltraZohm B Location 0001 Serial 0400101000004B</USBID>
+		<USBID>UltraZohm B Location 0001 Serial 0400101000013B</USBID>
 		<JTAGPinSetting>
-			TRST	ABSENT;
-			ISPEN	ABSENT;
+			TMS	LOW;
+			TCK	LOW;
+			TDI	LOW;
+			TDO	LOW;
 		</JTAGPinSetting>
 	</CableOptions>
 </ispXCF>

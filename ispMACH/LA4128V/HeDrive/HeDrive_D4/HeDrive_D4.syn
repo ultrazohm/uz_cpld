@@ -1,8 +1,8 @@
 JDF B
 // Created by Version 2.0 
 PROJECT UltraZohm_CPLD_Digital
-DESIGN uz_cpld_30tx Normal
-DEVKIT LC4256V-75T100E
+DESIGN hedrive_d1 Normal
+DEVKIT LC4256V-75T100C
 ENTRY ABEL/Schematic
 MODULE top_level.abl
 MODSTYLE UZ_CPLD Normal

@@ -1,10 +1,11 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <!DOCTYPE		ispXCF	SYSTEM	"IspXCF.dtd" >
-<ispXCF version="18.1">
+<ispXCF version="3.11.0">
 	<Comment></Comment>
 	<Chain>
 		<Comm>JTAG</Comm>
 		<Device>
+			<SelectedProg value="TRUE"/>
 			<Pos>1</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>ispMACH4000</Family>
@@ -18,8 +19,8 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:\GIT\UltraZohm\software\cpld_lattice_clean\LC4256V\30tx\uz_cpld_30tx.jed</File>
-			<FileTime>02/14/24 14:38:54</FileTime>
+			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LC4256V/30tx/uz_cpld_30tx.jed</File>
+			<FileTime>11/03/25 14:53:43</FileTime>
 			<JedecChecksum>0x9E1F</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
@@ -36,6 +37,7 @@
 			</Option>
 		</Device>
 		<Device>
+			<SelectedProg value="TRUE"/>
 			<Pos>2</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>ispMACH4000</Family>
@@ -49,8 +51,8 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:\GIT\UltraZohm\software\cpld_lattice_clean\LC4256V\30tx\uz_cpld_30tx.jed</File>
-			<FileTime>02/14/24 14:38:54</FileTime>
+			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LC4256V/30tx/uz_cpld_30tx.jed</File>
+			<FileTime>11/03/25 14:53:43</FileTime>
 			<JedecChecksum>0x9E1F</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
@@ -67,6 +69,7 @@
 			</Option>
 		</Device>
 		<Device>
+			<SelectedProg value="TRUE"/>
 			<Pos>3</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>ispMACH4000</Family>
@@ -80,8 +83,8 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:\GIT\UltraZohm\software\cpld_lattice_clean\LC4256V\30tx\uz_cpld_30tx.jed</File>
-			<FileTime>02/14/24 14:38:54</FileTime>
+			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LC4256V/30tx/uz_cpld_30tx.jed</File>
+			<FileTime>11/03/25 14:53:43</FileTime>
 			<JedecChecksum>0x9E1F</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
@@ -98,6 +101,7 @@
 			</Option>
 		</Device>
 		<Device>
+			<SelectedProg value="TRUE"/>
 			<Pos>4</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>ispMACH4000</Family>
@@ -111,8 +115,8 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:\GIT\UltraZohm\software\cpld_lattice_clean\LC4256V\uz_d_temperature_ltc2983\uz_temperature_card.jed</File>
-			<FileTime>11/09/23 15:46:44</FileTime>
+			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LC4256V/uz_d_temperature_ltc2983/uz_temperature_card.jed</File>
+			<FileTime>11/03/25 14:53:43</FileTime>
 			<JedecChecksum>0x98CC</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
@@ -129,6 +133,7 @@
 			</Option>
 		</Device>
 		<Device>
+			<SelectedProg value="TRUE"/>
 			<Pos>5</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>ispMACH4000</Family>
@@ -142,8 +147,8 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:\GIT\UltraZohm\software\cpld_lattice_clean\LC4256V\uz_d_resolver\digital_D5\uz_cpld_uz_d_resolver_d5.jed</File>
-			<FileTime>02/05/24 16:58:45</FileTime>
+			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LC4256V/uz_d_resolver/digital_D5/uz_cpld_uz_d_resolver_d5.jed</File>
+			<FileTime>11/03/25 14:53:43</FileTime>
 			<JedecChecksum>0xE72C</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
@@ -168,15 +173,17 @@
 		<EndTAP>TLR</EndTAP>
 		<DeGlitch value="TRUE"/>
 		<VerifyUsercode value="TRUE"/>
-		<PinSetting>
+		<TCKDelay>1</TCKDelay>
+	</ProjectOptions>
+	<CableOptions>
+		<CableName>USB2</CableName>
+		<PortAdd>FTUSB-1</PortAdd>
+		<USBID>UltraZohm B Location 0001 Serial 0400101000004B</USBID>
+		<JTAGPinSetting>
 			TMS	LOW;
 			TCK	LOW;
 			TDI	LOW;
 			TDO	LOW;
-		</PinSetting>
-	</ProjectOptions>
-	<USBOptions>
-		<PortAdd>FTUSB-0</PortAdd>
-		<USBID>Digilent USB Device A Location 0000 Serial 251633005B1EA</USBID>
-	</USBOptions>
+		</JTAGPinSetting>
+	</CableOptions>
 </ispXCF>

@@ -6,6 +6,7 @@ I/O cells:      67
                                cell     count   Res Usage(%)
                                 GSR         1          100.0
                                  IB        35          100.0
-                               LUT4         2          100.0
+                               LUT4        28          100.0
                                  OB        32          100.0
-                              TOTAL        70
+                        VERIFIC_PWR         1          100.0
+                              TOTAL        97

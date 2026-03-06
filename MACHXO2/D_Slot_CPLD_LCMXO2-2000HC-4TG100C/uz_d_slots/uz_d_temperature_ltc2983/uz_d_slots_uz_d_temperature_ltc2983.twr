@@ -1,0 +1,275 @@
+
+Loading design for application trce from file uz_d_slots_uz_d_temperature_ltc2983.ncd.
+Design name: SignalRouter
+NCD version: 3.3
+Vendor:      LATTICE
+Device:      LCMXO2-2000HC
+Package:     TQFP100
+Performance: 4
+Loading device for application trce from file 'xo2c2000.nph' in environment: C:/lscc/diamond/3.13/ispfpga.
+Package Status:                     Final          Version 1.44.
+Performance Hardware Data Status:   Final          Version 34.4.
+Setup and Hold Report
+
+--------------------------------------------------------------------------------
+Lattice TRACE Report - Setup, Version Diamond (64-bit) 3.13.0.56.2
+Thu Dec 04 11:20:50 2025
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
+
+Report Information
+------------------
+Command line:    trce -v 10 -gt -sethld -sp 4 -sphld m -o uz_d_slots_uz_d_temperature_ltc2983.twr -gui -msgset C:/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/promote.xml uz_d_slots_uz_d_temperature_ltc2983.ncd uz_d_slots_uz_d_temperature_ltc2983.prf 
+Design file:     uz_d_slots_uz_d_temperature_ltc2983.ncd
+Preference file: uz_d_slots_uz_d_temperature_ltc2983.prf
+Device,speed:    LCMXO2-2000HC,4
+Report level:    verbose report, limited to 10 items per preference
+--------------------------------------------------------------------------------
+
+BLOCK ASYNCPATHS
+BLOCK RESETPATHS
+--------------------------------------------------------------------------------
+
+
+
+================================================================================
+Preference: Default path enumeration
+            61 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+Report:   15.961ns delay reqsafestate to d_23
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     1.767         76.PAD to       76.PADDI reqsafestate
+ROUTE        31     7.539       76.PADDI to      R10C5C.C1 reqsafestate_c
+CTOF_DEL    ---     0.495      R10C5C.C1 to      R10C5C.F1 SLICE_6
+ROUTE         1     3.363      R10C5C.F1 to       64.PADDO d_23_c
+DOPAD_DEL   ---     2.797       64.PADDO to         64.PAD d_23
+                  --------
+                   15.961   (31.7% logic, 68.3% route), 3 logic levels.
+
+Report:   15.604ns delay reqsafestate to fpga_16
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     1.767         76.PAD to       76.PADDI reqsafestate
+ROUTE        31     7.539       76.PADDI to      R10C5C.C0 reqsafestate_c
+CTOF_DEL    ---     0.495      R10C5C.C0 to      R10C5C.F0 SLICE_6
+ROUTE         1     1.755      R10C5C.F0 to       18.PADDO fpga_16_c
+DOPAD_DEL   ---     4.048       18.PADDO to         18.PAD fpga_16
+                  --------
+                   15.604   (40.4% logic, 59.6% route), 3 logic levels.
+
+Report:   15.109ns delay reqsafestate to d_22
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     1.767         76.PAD to       76.PADDI reqsafestate
+ROUTE        31     8.193       76.PADDI to      R10C3A.A1 reqsafestate_c
+CTOF_DEL    ---     0.495      R10C3A.A1 to      R10C3A.F1 SLICE_7
+ROUTE         1     1.857      R10C3A.F1 to        7.PADDO d_22_c
+DOPAD_DEL   ---     2.797        7.PADDO to          7.PAD d_22
+                  --------
+                   15.109   (33.5% logic, 66.5% route), 3 logic levels.
+
+Report:   15.018ns delay reqsafestate to fpga_14
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     1.767         76.PAD to       76.PADDI reqsafestate
+ROUTE        31     6.346       76.PADDI to       R5C5D.A0 reqsafestate_c
+CTOF_DEL    ---     0.495       R5C5D.A0 to       R5C5D.F0 SLICE_5
+ROUTE         1     2.362       R5C5D.F0 to       37.PADDO fpga_14_c
+DOPAD_DEL   ---     4.048       37.PADDO to         37.PAD fpga_14
+                  --------
+                   15.018   (42.0% logic, 58.0% route), 3 logic levels.
+
+Report:   14.752ns delay reqsafestate to d_18
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     1.767         76.PAD to       76.PADDI reqsafestate
+ROUTE        31     7.960       76.PADDI to       R9C2A.C1 reqsafestate_c
+CTOF_DEL    ---     0.495       R9C2A.C1 to       R9C2A.F1 SLICE_11
+ROUTE         1     1.733       R9C2A.F1 to        4.PADDO d_18_c
+DOPAD_DEL   ---     2.797        4.PADDO to          4.PAD d_18
+                  --------
+                   14.752   (34.3% logic, 65.7% route), 3 logic levels.
+
+Report:   14.393ns delay reqsafestate to d_00
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     1.767         76.PAD to       76.PADDI reqsafestate
+ROUTE        31     8.193       76.PADDI to      R10C3A.A0 reqsafestate_c
+CTOF_DEL    ---     0.495      R10C3A.A0 to      R10C3A.F0 SLICE_7
+ROUTE         1     1.141      R10C3A.F0 to       17.PADDO d_00_c
+DOPAD_DEL   ---     2.797       17.PADDO to         17.PAD d_00
+                  --------
+                   14.393   (35.1% logic, 64.9% route), 3 logic levels.
+
+Report:   14.244ns delay reqsafestate to d_06
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     1.767         76.PAD to       76.PADDI reqsafestate
+ROUTE        31     7.960       76.PADDI to       R9C2A.C0 reqsafestate_c
+CTOF_DEL    ---     0.495       R9C2A.C0 to       R9C2A.F0 SLICE_11
+ROUTE         1     1.225       R9C2A.F0 to       14.PADDO d_06_c
+DOPAD_DEL   ---     2.797       14.PADDO to         14.PAD d_06
+                  --------
+                   14.244   (35.5% logic, 64.5% route), 3 logic levels.
+
+Report:   14.108ns delay reqsafestate to fpga_08
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     1.767         76.PAD to       76.PADDI reqsafestate
+ROUTE        31     4.711       76.PADDI to       R3C8B.D0 reqsafestate_c
+CTOF_DEL    ---     0.495       R3C8B.D0 to       R3C8B.F0 SLICE_3
+ROUTE         1     3.087       R3C8B.F0 to       41.PADDO fpga_08_c
+DOPAD_DEL   ---     4.048       41.PADDO to         41.PAD fpga_08
+                  --------
+                   14.108   (44.7% logic, 55.3% route), 3 logic levels.
+
+Report:   13.374ns delay reqsafestate to d_24
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     1.767         76.PAD to       76.PADDI reqsafestate
+ROUTE        31     6.402       76.PADDI to       R5C5D.D1 reqsafestate_c
+CTOF_DEL    ---     0.495       R5C5D.D1 to       R5C5D.F1 SLICE_5
+ROUTE         1     1.913       R5C5D.F1 to        2.PADDO d_24_c
+DOPAD_DEL   ---     2.797        2.PADDO to          2.PAD d_24
+                  --------
+                   13.374   (37.8% logic, 62.2% route), 3 logic levels.
+
+Report:   12.493ns delay fpga_20 to d_20
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     1.767         29.PAD to       29.PADDI fpga_20
+ROUTE         1     3.525       29.PADDI to     R12C21C.A1 fpga_20_c
+CTOF_DEL    ---     0.495     R12C21C.A1 to     R12C21C.F1 SLICE_9
+ROUTE         1     3.909     R12C21C.F1 to        8.PADDO d_20_c
+DOPAD_DEL   ---     2.797        8.PADDO to          8.PAD d_20
+                  --------
+                   12.493   (40.5% logic, 59.5% route), 3 logic levels.
+
+Report:   15.961ns is the maximum delay for this preference.
+
+
+================================================================================
+Preference: Default net enumeration
+            63 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+Report:    8.193ns maximum delay on reqsafestate_c
+
+           Delays             Connection(s)
+           5.197ns         76.PADDI to R7C11B.D0       
+           3.026ns         76.PADDI to R11C24B.C1      
+           3.026ns         76.PADDI to R11C24B.C0      
+           2.614ns         76.PADDI to R11C24A.C1      
+           2.614ns         76.PADDI to R11C24A.C0      
+           3.802ns         76.PADDI to R12C24C.B1      
+           3.802ns         76.PADDI to R12C24C.B0      
+           7.960ns         76.PADDI to R9C2A.C1        
+           7.960ns         76.PADDI to R9C2A.C0        
+           3.133ns         76.PADDI to R12C24B.C1      
+           3.133ns         76.PADDI to R12C24B.C0      
+           3.372ns         76.PADDI to R12C21C.B1      
+           3.372ns         76.PADDI to R12C21C.B0      
+           3.133ns         76.PADDI to R12C24A.C1      
+           3.133ns         76.PADDI to R12C24A.C0      
+           8.193ns         76.PADDI to R10C3A.A1       
+           8.193ns         76.PADDI to R10C3A.A0       
+           7.539ns         76.PADDI to R10C5C.C1       
+           7.539ns         76.PADDI to R10C5C.C0       
+           6.402ns         76.PADDI to R5C5D.D1        
+           6.346ns         76.PADDI to R5C5D.A0        
+           4.500ns         76.PADDI to R6C16A.B1       
+           4.500ns         76.PADDI to R6C16A.B0       
+           4.711ns         76.PADDI to R3C8B.D1        
+           4.711ns         76.PADDI to R3C8B.D0        
+           3.639ns         76.PADDI to R5C19D.B1       
+           3.639ns         76.PADDI to R5C19D.B0       
+           3.261ns         76.PADDI to R2C20A.D1       
+           3.261ns         76.PADDI to R2C20A.D0       
+           2.912ns         76.PADDI to R5C22C.C1       
+           2.772ns         76.PADDI to R5C22C.B0       
+
+Report:    4.122ns maximum delay on fpga_19_c
+
+           Delays             Connection(s)
+           4.122ns         21.PADDI to R12C24B.B1      
+
+Report:    4.113ns maximum delay on d_04_c
+
+           Delays             Connection(s)
+           4.113ns         15.PADDI to R5C22C.A0       
+
+Report:    4.082ns maximum delay on fpga_00_c
+
+           Delays             Connection(s)
+           4.082ns         78.PADDI to R10C3A.C0       
+
+Report:    3.909ns maximum delay on d_20_c
+
+           Delays             Connection(s)
+           3.909ns       R12C21C.F1 to 8.PADDO         
+
+Report:    3.744ns maximum delay on fpga_15_c
+
+           Delays             Connection(s)
+           3.744ns         24.PADDI to R11C24A.D1      
+
+Report:    3.634ns maximum delay on fpga_06_c
+
+           Delays             Connection(s)
+           3.634ns         42.PADDI to R9C2A.B0        
+
+Report:    3.614ns maximum delay on d_02_c
+
+           Delays             Connection(s)
+           3.614ns         16.PADDI to R5C19D.A0       
+
+Report:    3.586ns maximum delay on fpga_17_c
+
+           Delays             Connection(s)
+           3.586ns         19.PADDI to R12C24C.A1      
+
+Report:    3.525ns maximum delay on fpga_20_c
+
+           Delays             Connection(s)
+           3.525ns         29.PADDI to R12C21C.A1      
+
+Report:    8.193ns is the maximum delay for this preference.
+
+Report Summary
+--------------
+----------------------------------------------------------------------------
+Preference                              |   Constraint|       Actual|Levels
+----------------------------------------------------------------------------
+                                        |             |             |
+Default path enumeration                |     0.000 ns|    15.961 ns|   0  
+                                        |             |             |
+Default net enumeration                 |     0.000 ns|     8.193 ns|   0  
+                                        |             |             |
+----------------------------------------------------------------------------
+
+
+All preferences were met.
+
+
+Clock Domains Analysis
+------------------------
+
+Found 0 clocks:
+
+
+Timing summary (Setup):
+---------------
+
+Timing errors: 0  Score: 0
+Cumulative negative slack: 0
+
+Constraints cover 61 paths, 63 nets, and 93 connections (100.00% coverage)
+
+--------------------------------------------------------------------------------
+

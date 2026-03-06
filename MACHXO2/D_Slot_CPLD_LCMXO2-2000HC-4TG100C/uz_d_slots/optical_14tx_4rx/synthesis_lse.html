@@ -7,17 +7,17 @@
 </STYLE>
 </HEAD>
 <PRE><A name="Syn"></A><B><U><big>Synthesis and Ngdbuild  Report</big></U></B>
-synthesis:  version Diamond (64-bit) 3.14.0.75.2
+synthesis:  version Diamond (64-bit) 3.13.0.56.2
 
 Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
 Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
-Copyright (c) 2002-2024 Lattice Semiconductor Corporation,  All rights reserved.
-Fri Nov 01 18:43:10 2024
+Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
+Thu Jan 15 14:11:52 2026
 
 
-Command Line:  synthesis -f uz_d_slots_optical_14tx_4rx_lattice.synproj -gui -msgset C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/promote.xml 
+Command Line:  synthesis -f uz_d_slots_optical_14tx_4rx_lattice.synproj -gui -msgset C:/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/promote.xml 
 
 Synthesis options:
 The -a option is MachXO2.
@@ -70,11 +70,11 @@ ROM style = auto
 RAM style = auto
 The -comp option is FALSE.
 The -syn option is FALSE.
--p C:/lscc/diamond/3.14/ispfpga/xo2c00/data (searchpath added)
--p C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/optical_14tx_4rx (searchpath added)
--p C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots (searchpath added)
+-p C:/lscc/diamond/3.13/ispfpga/xo2c00/data (searchpath added)
+-p C:/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/optical_14tx_4rx (searchpath added)
+-p C:/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots (searchpath added)
 VHDL library = work
-VHDL design file = C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/optical_14tx_4rx.vhdl
+VHDL design file = C:/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/optical_14tx_4rx/source/optical_14tx_4rx.vhdl
 NGD file = uz_d_slots_optical_14tx_4rx.ngd
 -sdc option: SDC file input not used.
 -lpf option: Output file option is ON.
@@ -82,168 +82,66 @@ Hardtimer checking is enabled (default). The -dt option is not used.
 The -r option is OFF. [ Remove LOC Properties is OFF. ]
 Technology check ok...
 
-Analyzing Verilog file C:/lscc/diamond/3.14/ispfpga/userware/NT/SYNTHESIS_HEADERS/machxo2.v. VERI-1482
+Analyzing Verilog file C:/lscc/diamond/3.13/ispfpga/userware/NT/SYNTHESIS_HEADERS/machxo2.v. VERI-1482
 Compile design.
 Compile Design Begin
-INFO - synthesis: The default VHDL library search path is now "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/optical_14tx_4rx". VHDL-1504
-Analyzing VHDL file c:/git/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/optical_14tx_4rx.vhdl. VHDL-1481
-INFO - synthesis: c:/git/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/optical_14tx_4rx.vhdl(5): analyzing entity signalrouter. VHDL-1012
-INFO - synthesis: c:/git/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/optical_14tx_4rx.vhdl(77): analyzing architecture behavioral. VHDL-1010
+INFO - synthesis: The default VHDL library search path is now "C:/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/optical_14tx_4rx". VHDL-1504
+Analyzing VHDL file c:/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/optical_14tx_4rx/source/optical_14tx_4rx.vhdl. VHDL-1481
+INFO - synthesis: c:/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/optical_14tx_4rx/source/optical_14tx_4rx.vhdl(5): analyzing entity signalrouter. VHDL-1012
+INFO - synthesis: c:/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/optical_14tx_4rx/source/optical_14tx_4rx.vhdl(96): analyzing architecture behavioral. VHDL-1010
 unit SignalRouter is not yet analyzed. VHDL-1485
 unit SignalRouter is not yet analyzed. VHDL-1485
-c:/git/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/optical_14tx_4rx.vhdl(5): executing SignalRouter(Behavioral)
+c:/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/optical_14tx_4rx/source/optical_14tx_4rx.vhdl(5): executing SignalRouter(Behavioral)
 
-WARNING - synthesis: c:/git/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/optical_14tx_4rx.vhdl(75): replacing existing netlist SignalRouter(Behavioral). VHDL-1205
+WARNING - synthesis: c:/cpld_lattice/machxo2/d_slot_cpld_lcmxo2-2000hc-4tg100c/uz_d_slots/optical_14tx_4rx/source/optical_14tx_4rx.vhdl(94): replacing existing netlist SignalRouter(Behavioral). VHDL-1205
 Top module name (VHDL): SignalRouter
-Loading NGL library 'C:/lscc/diamond/3.14/ispfpga/xo2c00a/data/xo2alib.ngl'...
-Loading NGL library 'C:/lscc/diamond/3.14/ispfpga/xo2c00/data/xo2clib.ngl'...
-Loading NGL library 'C:/lscc/diamond/3.14/ispfpga/mg5g00/data/mg5glib.ngl'...
-Loading NGL library 'C:/lscc/diamond/3.14/ispfpga/or5g00/data/orc5glib.ngl'...
-Loading device for application map from file 'xo2c2000.nph' in environment: C:/lscc/diamond/3.14/ispfpga.
+Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/xo2c00a/data/xo2alib.ngl'...
+Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/xo2c00/data/xo2clib.ngl'...
+Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/mg5g00/data/mg5glib.ngl'...
+Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/or5g00/data/orc5glib.ngl'...
+Loading device for application map from file 'xo2c2000.nph' in environment: C:/lscc/diamond/3.13/ispfpga.
 Package Status:                     Final          Version 1.44.
 Top-level module name = SignalRouter.
-WARNING - synthesis: I/O Port fpga_00 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_01 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_02 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_03 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_04 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_05 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_06 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_07 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_08 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_09 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_10 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_11 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_12 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_13 's net has no driver and is unused.
 WARNING - synthesis: I/O Port fpga_14 's net has no driver and is unused.
 WARNING - synthesis: I/O Port fpga_15 's net has no driver and is unused.
 WARNING - synthesis: I/O Port fpga_16 's net has no driver and is unused.
 WARNING - synthesis: I/O Port fpga_17 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_18 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_19 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_20 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_21 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_22 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_23 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_24 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_25 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_26 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_27 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_28 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_29 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_00 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_01 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_02 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_03 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_04 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_05 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_06 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_07 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_08 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_09 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_10 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_11 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_12 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_13 's net has no driver and is unused.
 WARNING - synthesis: I/O Port d_14 's net has no driver and is unused.
 WARNING - synthesis: I/O Port d_15 's net has no driver and is unused.
 WARNING - synthesis: I/O Port d_16 's net has no driver and is unused.
 WARNING - synthesis: I/O Port d_17 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_18 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_19 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_20 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_21 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_22 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_23 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_24 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_25 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_26 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_27 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_28 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_29 's net has no driver and is unused.
 
 
 
-WARNING - synthesis: I/O Port fpga_00 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_01 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_02 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_03 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_04 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_05 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_06 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_07 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_08 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_09 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_10 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_11 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_12 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_13 's net has no driver and is unused.
 WARNING - synthesis: I/O Port fpga_14 's net has no driver and is unused.
 WARNING - synthesis: I/O Port fpga_15 's net has no driver and is unused.
 WARNING - synthesis: I/O Port fpga_16 's net has no driver and is unused.
 WARNING - synthesis: I/O Port fpga_17 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_18 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_19 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_20 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_21 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_22 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_23 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_24 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_25 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_26 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_27 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_28 's net has no driver and is unused.
-WARNING - synthesis: I/O Port fpga_29 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_00 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_01 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_02 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_03 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_04 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_05 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_06 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_07 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_08 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_09 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_10 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_11 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_12 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_13 's net has no driver and is unused.
 WARNING - synthesis: I/O Port d_14 's net has no driver and is unused.
 WARNING - synthesis: I/O Port d_15 's net has no driver and is unused.
 WARNING - synthesis: I/O Port d_16 's net has no driver and is unused.
 WARNING - synthesis: I/O Port d_17 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_18 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_19 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_20 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_21 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_22 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_23 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_24 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_25 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_26 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_27 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_28 's net has no driver and is unused.
-WARNING - synthesis: I/O Port d_29 's net has no driver and is unused.
 GSR will not be inferred because no asynchronous signal was found in the netlist.
 Applying 200.000000 MHz constraint to all clocks
 
 WARNING - synthesis: No user .sdc file.
 Results of NGD DRC are available in SignalRouter_drc.log.
-Loading NGL library 'C:/lscc/diamond/3.14/ispfpga/xo2c00a/data/xo2alib.ngl'...
-Loading NGL library 'C:/lscc/diamond/3.14/ispfpga/xo2c00/data/xo2clib.ngl'...
-Loading NGL library 'C:/lscc/diamond/3.14/ispfpga/mg5g00/data/mg5glib.ngl'...
-Loading NGL library 'C:/lscc/diamond/3.14/ispfpga/or5g00/data/orc5glib.ngl'...
+Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/xo2c00a/data/xo2alib.ngl'...
+Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/xo2c00/data/xo2clib.ngl'...
+Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/mg5g00/data/mg5glib.ngl'...
+Loading NGL library 'C:/lscc/diamond/3.13/ispfpga/or5g00/data/orc5glib.ngl'...
 WARNING - synthesis: logical net 'GND_net' has no load.
-WARNING - synthesis: DRC complete with 1 warnings.
+WARNING - synthesis: logical net 'dummy_signal' has no load.
+WARNING - synthesis: DRC complete with 2 warnings.
 All blocks are expanded and NGD expansion is successful.
 Writing NGD file uz_d_slots_optical_14tx_4rx.ngd.
 
 ################### Begin Area Report (SignalRouter)######################
 Number of register bits => 0 of 2352 (0 % )
 GSR => 1
-IB => 30
-OB => 30
+IB => 35
+LUT4 => 28
+OB => 32
 ################### End Area Report ##################
 
 ################### Begin BlackBox Report ######################
@@ -258,22 +156,22 @@ Number of Clock Enables: 0
 Top 0 highest fanout Clock Enables:
 Highest fanout non-clock nets
 Top 10 highest fanout non-clock nets:
-  Net : d_00_c_c, loads : 1
-  Net : d_01_c_c, loads : 1
-  Net : d_02_c_c, loads : 1
-  Net : d_03_c_c, loads : 1
-  Net : d_04_c_c, loads : 1
-  Net : d_05_c_c, loads : 1
-  Net : d_06_c_c, loads : 1
-  Net : d_07_c_c, loads : 1
-  Net : d_08_c_c, loads : 1
-  Net : d_09_c_c, loads : 1
+  Net : reqsafestate_c, loads : 27
+  Net : pilot_in_c, loads : 1
+  Net : carrierrdy_c, loads : 1
+  Net : i2c_scl_c, loads : 1
+  Net : i2c_sda_c, loads : 1
+  Net : fpga_00_c, loads : 1
+  Net : fpga_01_c, loads : 1
+  Net : fpga_02_c, loads : 1
+  Net : fpga_03_c, loads : 1
+  Net : fpga_04_c, loads : 1
 ################### End Clock Report ##################
 
-Peak Memory Usage: 70.035  MB
+Peak Memory Usage: 71.172  MB
 
 --------------------------------------------------------------
-Elapsed CPU time for LSE flow : 0.281  secs
+Elapsed CPU time for LSE flow : 0.781  secs
 --------------------------------------------------------------
 
 

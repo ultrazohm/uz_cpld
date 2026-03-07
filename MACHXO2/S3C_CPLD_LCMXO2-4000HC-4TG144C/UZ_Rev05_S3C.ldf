@@ -21,7 +21,7 @@
         <Source name="S3C_Rev06_beta/source/UZ_S3C_toplevel.vhd" type="VHDL" type_short="VHDL">
             <Options top_module="S3C"/>
         </Source>
-        <Source name="S3C_Rev06_beta/source/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+        <Source name="../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="S3C_Rev06_beta/source/s3c_fsm.vhd" type="VHDL" type_short="VHDL">

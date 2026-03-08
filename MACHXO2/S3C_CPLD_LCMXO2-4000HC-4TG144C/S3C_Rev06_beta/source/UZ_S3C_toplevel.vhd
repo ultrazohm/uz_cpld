@@ -188,10 +188,14 @@ s3c_clkrst: ENTITY work.sXc_clkrst
 		rst	=> rst
 	);
 
-s3c_tick1ms: ENTITY work.sXc_tick1ms
+s3c_tick1ms: ENTITY work.sXc_tickgen
+	GENERIC MAP (
+		CASCADE	=> 0
+	)
 	PORT MAP (
 		clk		=> clk,
-		tick1ms	=> tick1ms
+		tickin	=> OPEN,
+		tickout	=> tick1ms
 	);
 
 -- Mapping of buttons (1 <=> button pressed) and other inputs for debounce and detection logic

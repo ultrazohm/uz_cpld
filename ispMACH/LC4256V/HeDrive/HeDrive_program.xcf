@@ -5,7 +5,7 @@
 	<Chain>
 		<Comm>JTAG</Comm>
 		<Device>
-			<SelectedProg value="TRUE"/>
+			<SelectedProg value="FALSE"/>
 			<Pos>1</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>ispMACH4000</Family>
@@ -35,7 +35,7 @@
 			</Option>
 		</Device>
 		<Device>
-			<SelectedProg value="TRUE"/>
+			<SelectedProg value="FALSE"/>
 			<Pos>2</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>ispMACH4000</Family>
@@ -65,7 +65,7 @@
 			</Option>
 		</Device>
 		<Device>
-			<SelectedProg value="TRUE"/>
+			<SelectedProg value="FALSE"/>
 			<Pos>3</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>ispMACH4000</Family>
@@ -95,7 +95,7 @@
 			</Option>
 		</Device>
 		<Device>
-			<SelectedProg value="FALSE"/>
+			<SelectedProg value="TRUE"/>
 			<Pos>4</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>ispMACH4000</Family>
@@ -109,6 +109,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
+			<File>D:/Work_Xilinx/UltraZohm/cpld_lattice/ispMACH/LC4256V/HeDrive/HeDrive_D4/hedrive_d4.jed</File>
+			<FileTime>05/18/26 20:11:20</FileTime>
+			<JedecChecksum>0xE8E8</JedecChecksum>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -117,11 +120,12 @@
 				<IOVectorData>0x00000000000000000000000000000000000000000000000000000000000000000</IOVectorData>
 				<TCKFrequency>1.000000 MHz</TCKFrequency>
 				<SVFProcessor>SVF Processor</SVFProcessor>
+				<Usercode>0xFFFFFFFF</Usercode>
 				<AccessMode>JTAG</AccessMode>
 			</Option>
 		</Device>
 		<Device>
-			<SelectedProg value="TRUE"/>
+			<SelectedProg value="FALSE"/>
 			<Pos>5</Pos>
 			<Vendor>Lattice</Vendor>
 			<Family>ispMACH4000</Family>
@@ -162,11 +166,7 @@
 	</ProjectOptions>
 	<CableOptions>
 		<CableName>USB2</CableName>
-		<PortAdd>FTUSB-1</PortAdd>
-		<USBID>UltraZohm B Location 0001 Serial 0400101000004B</USBID>
-		<JTAGPinSetting>
-			TRST	ABSENT;
-			ISPEN	ABSENT;
-		</JTAGPinSetting>
+		<PortAdd>FTUSB-0</PortAdd>
+		<USBID>UltraZohm B Location 0001 Serial 0400101000011B</USBID>
 	</CableOptions>
 </ispXCF>

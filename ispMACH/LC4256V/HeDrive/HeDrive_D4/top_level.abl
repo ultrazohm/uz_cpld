@@ -159,40 +159,29 @@ LAT_IOTYPES(fpga_29,LVCMOS18,-);
 " Circuit functionality
 EQUATIONS
 
-" output signals (UZ --> inverter)
-d_00 = fpga_00;
-d_01 = fpga_01;
-d_02 = fpga_02;
-d_03 = fpga_03;
-d_04 = fpga_04;
-d_05 = fpga_05;
-d_06 = fpga_06;
-d_22 = fpga_22;
-d_24 = fpga_24;
-d_26 = fpga_26;
-d_28 = fpga_28;
+" output signals (UZ --> adapter card)
+d_00 = fpga_00;	" SPI_SCLK_1
+d_01 = fpga_01;	" SPI_MOSI_1
+d_03 = fpga_03;	" SPI_SS_1
+d_18 = fpga_18;	" LTC_resetn_1
 
-" input signals (UZ <-- inverter)
-fpga_07 = d_07;
-fpga_08 = d_08;
-fpga_09 = d_09;
-fpga_10 = d_10;
-fpga_11 = d_11;
-fpga_12 = d_12;
-fpga_13 = d_13;
-fpga_14 = d_14;
-fpga_15 = d_15;
-fpga_16 = d_16;
-fpga_17 = d_17;
-fpga_18 = d_18;
-fpga_19 = d_19;
-fpga_20 = d_20;
-fpga_21 = d_21;
-fpga_23 = d_23;
-fpga_25 = d_25;
-fpga_27 = d_27;
-fpga_29 = d_29;
+d_12 = fpga_12;	" SPI_SCLK_2
+d_13 = fpga_13;	" SPI_MOSI_2
+d_15 = fpga_15;	" SPI_SS_2
 
+d_06 = fpga_06;	" SPI_SCLK_3
+d_07 = fpga_07;	" SPI_MOSI_3
+d_09 = fpga_09;	" SPI_SS_3
+
+" input signals (UZ <-- adapter card)
+fpga_02 = d_02;	" SPI_MISO_1
+fpga_04 = d_04;	" LTC_Interrupt_1
+
+fpga_14 = d_14;	" SPI_MISO_2
+fpga_16 = d_16;	" LTC_Interrupt_2
+
+fpga_08 = d_08;	" SPI_MISO_3
+fpga_10 = d_10;	" LTC_Interrupt_3
 
 
 " ----------------------------

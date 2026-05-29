@@ -1,0 +1,74 @@
+# Lattice Diamond generated build directories
+**/.vdbs/
+**/*.dir/
+
+# Lattice Diamond generated build/status files
+**/.build_status
+**/automake.log
+**/synthesis.log
+**/hdlparser.log
+
+# Lattice Diamond implementation artifacts
+**/*.alt
+**/*.arearep
+**/*.asd
+**/*.bgn
+**/*.bit
+**/*.cam
+**/*.drc
+**/*.hrr
+**/*.ior
+**/*.log
+**/*.lsedata
+**/*.mrp
+**/*.mt
+**/*.ncd
+**/*.ngd
+**/*.p2t
+**/*.p3t
+**/*.pad
+**/*.par
+**/*.prf
+**/*.pt
+**/*.synproj
+**/*.t2b
+**/*.tw1
+**/*.twr
+**/*.vdb
+**/xxx_lse_cp_file_list
+**/xxx_lse_sign_file
+**/SignalRouter_prim.v
+
+# Generated reports
+**/*_bgn.html
+**/*_iotiming.html
+**/*_lse_lsetwr.html
+**/*_mrp.html
+**/*_pad.html
+**/*_par.html
+**/*_summary.html
+**/*_tw1.html
+**/*_twr.html
+**/hdla_gen_hierarchy.html
+**/synthesis_lse.html
+
+# Temporary helper scripts generated for batch builds
+**/build_all_voltage_variants.tcl
+**/build_voltage_*.tcl
+**/register_voltage_*.tcl
+
+# Keep design inputs and programming outputs trackable
+!**/*.ldf
+!**/*.lpf
+!**/*.sty
+!**/*.vhd
+!**/*.vhdl
+!**/*.v
+!**/*.jed
+
+# Generated files whose extensions overlap with design/source files
+**/SignalRouter_prim.v
+**/_math_real.vhd
+**/uz_d_slots_*.lpf
+**/Voltage_3v3_5v/uz_d_slots_Voltage_3v3_5v.jed
+!**/source/*.lpf

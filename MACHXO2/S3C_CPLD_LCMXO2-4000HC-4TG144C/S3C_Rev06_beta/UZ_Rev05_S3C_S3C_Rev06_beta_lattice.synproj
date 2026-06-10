@@ -24,20 +24,20 @@
 
 
 
-
+-vhdl2008 1
 -use_io_insertion 1
 -resolve_mixed_drivers 0
 -use_io_reg auto
 
 
 -lpf 1
--lib "work" -vhd "C:/cpld/cpld_lattice/xo2_libraries/lib_sXc.vhd"
--lib "work" -vhd "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_Rev06_beta/source/s3c_fsm.vhd"
--lib "work" -vhd "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_Rev06_beta/source/UZ_S3C_toplevel.vhd"
+-lib "work" -vhd "C:/cpld_lattice/xo2_libraries/lib_sXc.vhd"
+-lib "work" -vhd "C:/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_Rev06_beta/source/s3c_fsm.vhd"
+-lib "work" -vhd "C:/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_Rev06_beta/source/UZ_S3C_toplevel.vhd"
 -top S3C
 
 
--p "C:/lscc/diamond/3.13/ispfpga/xo2c00/data" "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_Rev06_beta" "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C"
+-p "C:/lscc/diamond/3.13/ispfpga/xo2c00/data" "C:/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_Rev06_beta" "C:/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C"
 
 -ngd "UZ_Rev05_S3C_S3C_Rev06_beta.ngd"
 

@@ -24,18 +24,18 @@
 
 
 
-
+-vhdl2008 1
 -use_io_insertion 1
 -resolve_mixed_drivers 0
 -use_io_reg auto
 
 
 -lpf 1
--lib "work" -vhd "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_171224/source/Power_on_debounce.vhd"
+-lib "work" -vhd "C:/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_171224/source/Power_on_debounce.vhd"
 -top Waiting_for_Powerbutton_pressed_V0
 
 
--p "C:/lscc/diamond/3.13/ispfpga/xo2c00/data" "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_171224" "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C"
+-p "C:/lscc/diamond/3.13/ispfpga/xo2c00/data" "C:/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_171224" "C:/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C"
 
 -ngd "UZ_Rev05_S3C_S3C_171224.ngd"
 

@@ -31,8 +31,10 @@
 
 
 -lpf 1
+-lib "work" -vhd "C:/cpld/cpld_lattice/xo2_libraries/lib_sXc.vhd"
+-lib "work" -vhd "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_Rev06_beta/source/s3c_fsm.vhd"
 -lib "work" -vhd "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_Rev06_beta/source/UZ_S3C_toplevel.vhd"
--top Waiting_for_Powerbutton_pressed_V0
+-top S3C
 
 
 -p "C:/lscc/diamond/3.13/ispfpga/xo2c00/data" "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_Rev06_beta" "C:/cpld/cpld_lattice/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C"

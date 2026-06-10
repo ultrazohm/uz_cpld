@@ -131,6 +131,7 @@ architecture S3C_arch of S3C is
 
 	-- Dslot
 	signal forceoutputdisable :		STD_LOGIC;
+	signal dslot_reqsafe_static :	STD_LOGIC := '1';
 
 	-- Tristate
 	signal tristate_signals : STD_LOGIC_vector(31 downto 0);
@@ -247,6 +248,12 @@ begin
 	end if;
 end process;
 
+s3c_dslot_heartbeat: ENTITY work.sXc_heartbeat_sender
+	PORT MAP (
+		clk		=> clk,
+		safe_state_request	=> dslot_reqsafe_static,
+		heartbeat_out		=> DIGS3C_Shared_ReqSafeState
+	);
 s3c_fsm: ENTITY work.s3c_fsm
 	PORT MAP (
 		clk							=> clk,
@@ -283,7 +290,7 @@ s3c_fsm: ENTITY work.s3c_fsm
 		Carrier_PG_1V8				=> Carrier_PG_1V8,
 		FPIO_isoCtrlRSTn			=> FPIO_isoCtrlRSTn,
 		FlexMIOs53_GPIO_PowerDown	=> FlexMIOs53_GPIO_PowerDown,
-		DIGS3C_Shared_ReqSafeState	=> DIGS3C_Shared_ReqSafeState,
+		DIGS3C_Shared_ReqSafeState	=> dslot_reqsafe_static,
 
 		-- Internal
 		forceoutputdisable			=> forceoutputdisable

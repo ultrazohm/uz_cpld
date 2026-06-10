@@ -1,282 +1,0 @@
-<HTML>
-<HEAD><TITLE>Lattice Synthesis Timing Report</TITLE>
-<STYLE TYPE="text/css">
-<!--
- body,pre{    font-family:'Courier New', monospace;    color: #000000;    font-size:88%;    background-color: #ffffff;}h1 {    font-weight: bold;    margin-top: 24px;    margin-bottom: 10px;    border-bottom: 3px solid #000;    font-size: 1em;}h2 {    font-weight: bold;    margin-top: 18px;    margin-bottom: 5px;    font-size: 0.90em;}h3 {    font-weight: bold;    margin-top: 12px;    margin-bottom: 5px;    font-size: 0.80em;}p {    font-size:78%;}P.Table {    margin-top: 4px;    margin-bottom: 4px;    margin-right: 4px;    margin-left: 4px;}table{    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    border-collapse: collapse;}th {    font-weight:bold;    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    text-align:left;    font-size:78%;}td {    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    font-size:78%;}a {    color:#013C9A;    text-decoration:none;}a:visited {    color:#013C9A;}a:hover, a:active {    text-decoration:underline;    color:#5BAFD4;}.pass{background-color: #00ff00;}.fail{background-color: #ff0000;}.comment{    font-size: 90%;    font-style: italic;}
--->
-</STYLE>
-</HEAD>
-<PRE><A name="Map_Twr"></A><B><U><big>Lattice Synthesis Timing Report</big></U></B>
---------------------------------------------------------------------------------
-Lattice Synthesis Timing Report, Version  
-Thu Aug 21 13:11:12 2025
-
-Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
-Copyright (c) 1995 AT&T Corp.   All rights reserved.
-Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
-Copyright (c) 2001 Agere Systems   All rights reserved.
-Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
-
-<A name="mtw1_ri"></A><B><U><big>Report Information</big></U></B>
-------------------
-Design:     Waiting_for_Powerbutton_pressed_V0
-Constraint file:  
-Report level:    verbose report, limited to 3 items per constraint
---------------------------------------------------------------------------------
-
-
-
-================================================================================
-Constraint: create_clock -period 5.000000 -name clk0 [get_nets clk]
-            4096 items scored, 4096 timing errors detected.
---------------------------------------------------------------------------------
-
-
-Error:  The following path violates requirements by 11.867ns
-
- Logical Details:  Cell type  Pin type       Cell name  (clock net +/-)
-
-   Source:         FD1P3AX    CK             counter_i0_i18  (from clk +)
-   Destination:    FD1P3AX    D              counter_i0_i24  (to clk +)
-
-   Delay:                  16.707ns  (29.2% logic, 70.8% route), 10 logic levels.
-
- Constraint Details:
-
-     16.707ns data_path counter_i0_i18 to counter_i0_i24 violates
-      5.000ns delay constraint less
-      0.160ns L_S requirement (totaling 4.840ns) by 11.867ns
-
- Path Details: counter_i0_i18 to counter_i0_i24
-
-   Name    Fanout   Delay (ns)          Pins               Resource(Cell.Net)
-L_CO        ---     0.444             CK to Q              counter_i0_i18 (from clk)
-Route         2   e 1.198                                  counter[18]
-LUT4        ---     0.493              D to Z              i17_4_lut
-Route         1   e 0.941                                  n42
-LUT4        ---     0.493              B to Z              i21_4_lut
-Route         1   e 0.941                                  n46
-LUT4        ---     0.493              B to Z              i23_4_lut
-Route         1   e 0.941                                  n48
-LUT4        ---     0.493              B to Z              i24_4_lut
-Route        21   e 1.831                                  FPIO_isoCtrlRSTn_N_687
-LUT4        ---     0.493              B to Z              i60_3_lut
-Route         1   e 0.941                                  n2796
-LUT4        ---     0.493              B to Z              i58_4_lut_adj_8
-Route         1   e 0.941                                  n29
-LUT4        ---     0.493              C to Z              i1_4_lut_4_lut
-Route        15   e 1.811                                  n2563
-LUT4        ---     0.493              B to Z              i887_2_lut_rep_60
-Route         4   e 1.340                                  n5700
-LUT4        ---     0.493              D to Z              mux_613_i25_4_lut
-Route         1   e 0.941                                  n2491
-                  --------
-                   16.707  (29.2% logic, 70.8% route), 10 logic levels.
-
-
-Error:  The following path violates requirements by 11.867ns
-
- Logical Details:  Cell type  Pin type       Cell name  (clock net +/-)
-
-   Source:         FD1P3AX    CK             counter_i0_i18  (from clk +)
-   Destination:    FD1P3AX    D              counter_i0_i23  (to clk +)
-
-   Delay:                  16.707ns  (29.2% logic, 70.8% route), 10 logic levels.
-
- Constraint Details:
-
-     16.707ns data_path counter_i0_i18 to counter_i0_i23 violates
-      5.000ns delay constraint less
-      0.160ns L_S requirement (totaling 4.840ns) by 11.867ns
-
- Path Details: counter_i0_i18 to counter_i0_i23
-
-   Name    Fanout   Delay (ns)          Pins               Resource(Cell.Net)
-L_CO        ---     0.444             CK to Q              counter_i0_i18 (from clk)
-Route         2   e 1.198                                  counter[18]
-LUT4        ---     0.493              D to Z              i17_4_lut
-Route         1   e 0.941                                  n42
-LUT4        ---     0.493              B to Z              i21_4_lut
-Route         1   e 0.941                                  n46
-LUT4        ---     0.493              B to Z              i23_4_lut
-Route         1   e 0.941                                  n48
-LUT4        ---     0.493              B to Z              i24_4_lut
-Route        21   e 1.831                                  FPIO_isoCtrlRSTn_N_687
-LUT4        ---     0.493              B to Z              i60_3_lut
-Route         1   e 0.941                                  n2796
-LUT4        ---     0.493              B to Z              i58_4_lut_adj_8
-Route         1   e 0.941                                  n29
-LUT4        ---     0.493              C to Z              i1_4_lut_4_lut
-Route        15   e 1.811                                  n2563
-LUT4        ---     0.493              B to Z              i887_2_lut_rep_60
-Route         4   e 1.340                                  n5700
-LUT4        ---     0.493              D to Z              mux_613_i24_4_lut
-Route         1   e 0.941                                  n2492
-                  --------
-                   16.707  (29.2% logic, 70.8% route), 10 logic levels.
-
-
-Error:  The following path violates requirements by 11.867ns
-
- Logical Details:  Cell type  Pin type       Cell name  (clock net +/-)
-
-   Source:         FD1P3AX    CK             counter_i0_i18  (from clk +)
-   Destination:    FD1P3AX    D              counter_i0_i22  (to clk +)
-
-   Delay:                  16.707ns  (29.2% logic, 70.8% route), 10 logic levels.
-
- Constraint Details:
-
-     16.707ns data_path counter_i0_i18 to counter_i0_i22 violates
-      5.000ns delay constraint less
-      0.160ns L_S requirement (totaling 4.840ns) by 11.867ns
-
- Path Details: counter_i0_i18 to counter_i0_i22
-
-   Name    Fanout   Delay (ns)          Pins               Resource(Cell.Net)
-L_CO        ---     0.444             CK to Q              counter_i0_i18 (from clk)
-Route         2   e 1.198                                  counter[18]
-LUT4        ---     0.493              D to Z              i17_4_lut
-Route         1   e 0.941                                  n42
-LUT4        ---     0.493              B to Z              i21_4_lut
-Route         1   e 0.941                                  n46
-LUT4        ---     0.493              B to Z              i23_4_lut
-Route         1   e 0.941                                  n48
-LUT4        ---     0.493              B to Z              i24_4_lut
-Route        21   e 1.831                                  FPIO_isoCtrlRSTn_N_687
-LUT4        ---     0.493              B to Z              i60_3_lut
-Route         1   e 0.941                                  n2796
-LUT4        ---     0.493              B to Z              i58_4_lut_adj_8
-Route         1   e 0.941                                  n29
-LUT4        ---     0.493              C to Z              i1_4_lut_4_lut
-Route        15   e 1.811                                  n2563
-LUT4        ---     0.493              B to Z              i887_2_lut_rep_60
-Route         4   e 1.340                                  n5700
-LUT4        ---     0.493              D to Z              mux_613_i23_4_lut
-Route         1   e 0.941                                  n2493
-                  --------
-                   16.707  (29.2% logic, 70.8% route), 10 logic levels.
-
-Warning: 16.867 ns is the maximum delay for this constraint.
-
-
-<A name="mtw1_rs"></A><B><U><big>Timing Report Summary</big></U></B>
---------------
---------------------------------------------------------------------------------
-Constraint                              |   Constraint|       Actual|Levels
---------------------------------------------------------------------------------
-                                        |             |             |
-create_clock -period 5.000000 -name     |             |             |
-clk0 [get_nets clk]                     |     5.000 ns|    16.867 ns|    10 *
-                                        |             |             |
---------------------------------------------------------------------------------
-
-
-1 constraints not met.
-
---------------------------------------------------------------------------------
-Critical Nets                           |   Loads|  Errors| % of total
---------------------------------------------------------------------------------
-FPIO_isoCtrlRSTn_N_687                  |      21|    4082|     99.66%
-                                        |        |        |
-n48                                     |       1|    3192|     77.93%
-                                        |        |        |
-clk_enable_141                          |      26|    2053|     50.12%
-                                        |        |        |
-n45                                     |       1|    1766|     43.12%
-                                        |        |        |
-n74                                     |       3|    1766|     43.12%
-                                        |        |        |
-n46                                     |       1|    1608|     39.26%
-                                        |        |        |
-n2563                                   |      15|    1587|     38.75%
-                                        |        |        |
-n29                                     |       1|    1106|     27.00%
-                                        |        |        |
-n3525                                   |       7|     938|     22.90%
-                                        |        |        |
-n49                                     |       1|     883|     21.56%
-                                        |        |        |
-n57                                     |       1|     883|     21.56%
-                                        |        |        |
-n42                                     |       1|     808|     19.73%
-                                        |        |        |
-n40                                     |       1|     792|     19.34%
-                                        |        |        |
-n4059                                   |       1|     719|     17.55%
-                                        |        |        |
-n5441                                   |       3|     719|     17.55%
-                                        |        |        |
-n2796                                   |       1|     625|     15.26%
-                                        |        |        |
-n35                                     |       1|     481|     11.74%
-                                        |        |        |
---------------------------------------------------------------------------------
-
-
-<A name="mtw1_ts"></A><B><U><big>Timing summary:</big></U></B>
----------------
-
-Timing errors: 4096  Score: 34731652
-
-Constraints cover  13734 paths, 625 nets, and 1609 connections (92.6% coverage)
-
-
-Peak memory: 91471872 bytes, TRCE: 5799936 bytes, DLYMAN: 163840 bytes
-CPU_TIME_REPORT: 0 secs 
-
-
-
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-</PRE></FONT>
-</BODY>
-</HTML>

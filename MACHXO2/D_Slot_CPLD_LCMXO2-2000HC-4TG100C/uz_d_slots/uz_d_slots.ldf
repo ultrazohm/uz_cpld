@@ -1,82 +1,133 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<BaliProject version="3.2" title="uz_d_slots" device="LCMXO2-2000HC-4TG100C" default_implementation="uz_d_abs_encoder_ssi_rev01">
+<BaliProject version="3.2" title="uz_d_slots" device="LCMXO2-2000HC-4TG100C" default_implementation="tx30">
     <Options/>
-    <Implementation title="optical_14tx_4rx" dir="optical_14tx_4rx" description="optical_14tx_4rx" synthesis="lse" default_strategy="Strategy1">
+    <Implementation title="optical_14tx_4rx" dir="optical_14tx_4rx" description="optical_14tx_4rx" synthesis="synplify" default_strategy="Strategy1">
         <Options def_top="SignalRouter"/>
         <Source name="optical_14tx_4rx/source/optical_14tx_4rx.vhdl" type="VHDL" type_short="VHDL">
             <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
         </Source>
         <Source name="optical_14tx_4rx/source/uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
             <Options/>
         </Source>
     </Implementation>
-    <Implementation title="rx30" dir="rx30" description="rx30" synthesis="lse" default_strategy="Strategy1">
+    <Implementation title="rx30" dir="rx30" description="rx30" synthesis="synplify" default_strategy="Strategy1">
         <Options def_top="SignalRouter"/>
         <Source name="rx30/source/rx30.vhdl" type="VHDL" type_short="VHDL">
             <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
         </Source>
         <Source name="rx30/source/uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
             <Options/>
         </Source>
     </Implementation>
-    <Implementation title="template_dslots" dir="template_dslots" description="template_dslots" synthesis="lse" default_strategy="Strategy1">
+    <Implementation title="template_dslots" dir="template_dslots" description="template_dslots" synthesis="synplify" default_strategy="Strategy1">
         <Options def_top="SignalRouter"/>
         <Source name="template_dslots/source/template_w_enable.vhdl" type="VHDL" type_short="VHDL">
             <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
         </Source>
         <Source name="template_dslots/source/uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
             <Options/>
         </Source>
     </Implementation>
-    <Implementation title="tx26_w_enable" dir="tx26_w_enable" description="tx26_w_enable" synthesis="lse" default_strategy="Strategy1">
+    <Implementation title="tx16_14rx" dir="tx16_14rx" description="tx16_14rx" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="tx16_14rx/source/tx16_14rx.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="tx16_14rx/source/uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="tx20_10rx" dir="tx20_10rx" description="tx20_10rx" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="tx20_10rx/source/tx20_10rx.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="tx20_10rx/source/uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="tx26_w_enable" dir="tx26_w_enable" description="tx26_w_enable" synthesis="synplify" default_strategy="Strategy1">
         <Options def_top="SignalRouter"/>
         <Source name="tx26_w_enable/source/tx26_w_enable.vhdl" type="VHDL" type_short="VHDL">
             <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
         </Source>
         <Source name="tx26_w_enable/source/uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
             <Options/>
         </Source>
     </Implementation>
-    <Implementation title="tx30" dir="tx30" description="tx30" synthesis="lse" default_strategy="Strategy1">
+    <Implementation title="tx30" dir="tx30" description="tx30" synthesis="synplify" default_strategy="Strategy1">
         <Options def_top="SignalRouter"/>
         <Source name="tx30/source/tx30.vhdl" type="VHDL" type_short="VHDL">
             <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
         </Source>
         <Source name="tx30/source/uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
             <Options/>
         </Source>
     </Implementation>
-    <Implementation title="uz_d_3ph_inverter" dir="uz_d_3ph_inverter" description="uz_d_3ph_inverter" synthesis="lse" default_strategy="Strategy1">
+    <Implementation title="uz_d_3ph_inverter" dir="uz_d_3ph_inverter" description="uz_d_3ph_inverter" synthesis="synplify" default_strategy="Strategy1">
         <Options def_top="SignalRouter"/>
         <Source name="uz_d_3ph_inverter/source/uz_d_3ph_inverter.vhdl" type="VHDL" type_short="VHDL">
             <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
         </Source>
         <Source name="uz_d_3ph_inverter/source/uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
             <Options/>
         </Source>
     </Implementation>
-    <Implementation title="uz_d_abs_encoder_ssi_rev01" dir="uz_d_abs_encoder_ssi_rev01" description="uz_d_abs_encoder_ssi_rev01" synthesis="lse" default_strategy="Strategy1">
+    <Implementation title="uz_d_abs_encoder_ssi_rev01" dir="uz_d_abs_encoder_ssi_rev01" description="uz_d_abs_encoder_ssi_rev01" synthesis="synplify" default_strategy="Strategy1">
         <Options def_top="SignalRouter"/>
         <Source name="uz_d_abs_encoder_ssi_rev01/source/uz_d_abs_encoder_ssi_rev01.vhdl" type="VHDL" type_short="VHDL">
             <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
         </Source>
         <Source name="uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
             <Options/>
         </Source>
     </Implementation>
-    <Implementation title="uz_d_resolver_d1_to_d4" dir="uz_d_resolver_d1_to_d4" description="uz_d_resolver_d1_to_d4" synthesis="lse" default_strategy="Strategy1">
+    <Implementation title="uz_d_resolver_d1_to_d4" dir="uz_d_resolver_d1_to_d4" description="uz_d_resolver_d1_to_d4" synthesis="synplify" default_strategy="Strategy1">
         <Options def_top="SignalRouter"/>
         <Source name="uz_d_resolver_d1_to_d4/source/uz_d_resolver_d1_to_d4.vhdl" type="VHDL" type_short="VHDL">
             <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
         </Source>
         <Source name="uz_d_resolver_d1_to_d4/source/uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
             <Options/>
         </Source>
     </Implementation>
-    <Implementation title="uz_d_resolver_d5" dir="uz_d_resolver_d5" description="uz_d_resolver_d5" synthesis="lse" default_strategy="Strategy1">
+    <Implementation title="uz_d_resolver_d5" dir="uz_d_resolver_d5" description="uz_d_resolver_d5" synthesis="synplify" default_strategy="Strategy1">
         <Options def_top="SignalRouter"/>
         <Source name="uz_d_resolver_d5/source/uz_d_resolver_d5.vhdl" type="VHDL" type_short="VHDL">
             <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
         </Source>
         <Source name="uz_d_resolver_d5/source/uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
             <Options/>

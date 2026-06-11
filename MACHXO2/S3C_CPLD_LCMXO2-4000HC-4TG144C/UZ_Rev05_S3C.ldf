@@ -34,5 +34,5 @@
             <Options/>
         </Source>
     </Implementation>
-    <Strategy name="Strategy1" file="UZ_Rev05_S3C1.sty"/>
+    <Strategy name="Strategy1" file="UZ_Rev05_S3C.sty"/>
 </BaliProject>

@@ -133,5 +133,5 @@
             <Options/>
         </Source>
     </Implementation>
-    <Strategy name="Strategy1" file="uz_d_slots1.sty"/>
+    <Strategy name="Strategy1" file="uz_d_slots.sty"/>
 </BaliProject>

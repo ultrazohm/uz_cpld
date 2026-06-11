@@ -51,8 +51,8 @@ entity SignalRouter is
         -- Define 30 d-slot ports
         d_00 : in STD_LOGIC;
         d_01 : in STD_LOGIC;
-        d_02 : in STD_LOGIC;
-        d_03 : in STD_LOGIC;
+        d_02 : out STD_LOGIC;
+        d_03 : out STD_LOGIC;
         d_04 : out STD_LOGIC;
         d_05 : out STD_LOGIC;
         d_06 : in STD_LOGIC;
@@ -62,7 +62,7 @@ entity SignalRouter is
         d_10 : out STD_LOGIC;
         d_11 : out STD_LOGIC;
         d_12 : in STD_LOGIC;
-        d_13 : in STD_LOGIC;
+        d_13 : out STD_LOGIC;
         d_14 : out STD_LOGIC;
         d_15 : in STD_LOGIC;
         d_16 : out STD_LOGIC;
@@ -131,11 +131,17 @@ begin
 	d_08 <= fpga_14;
 	d_16 <= fpga_22;
 	
-	-- Rx signals: ssi_data channels 1,2,3
+	-- Rx signals: data channels 1,2,3
 	fpga_07 <= d_01;
 	fpga_06 <= d_00;
 	fpga_18 <= d_12;
 
+	-- Tx signals: data channels 1,2,3
+	d_03 <= fpga_08;
+	d_02 <= fpga_09;
+	d_13 <= fpga_12;
+	
+	
 	-- Make sure ports are not optimized away
 	dummy_signal <= i2c_scl AND i2c_sda AND carrierrdy AND pilot_in;
 

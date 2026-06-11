@@ -24,7 +24,6 @@
 
 
 
-
 -vhdl2008 1
 -use_io_insertion 1
 -resolve_mixed_drivers 0
@@ -32,11 +31,10 @@
 
 
 -lpf 1
--lib "work" -vhd "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_abs_encoder_ssi_rev01/source/uz_d_abs_encoder_ssi_rev01.vhdl"
+-lib "work" -vhd "C:/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_abs_encoder/source/uz_d_abs_encoder.vhdl"
 -top SignalRouter
 
 
--p "C:/lscc/diamond/3.14/ispfpga/xo2c00/data" "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_abs_encoder_ssi_rev01" "C:/git/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots"
+-p "C:/lscc/diamond/3.13/ispfpga/xo2c00/data" "C:/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_abs_encoder" "C:/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots"
 
--ngd "uz_d_slots_uz_d_abs_encoder_ssi_rev01.ngd"
-
+-ngd "uz_d_slots_uz_d_abs_encoder.ngd"

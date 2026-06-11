@@ -1,0 +1,101 @@
+
+Loading design for application trce from file uz_d_slots_uz_d_temperature_ltc2983_map.ncd.
+Design name: SignalRouter
+NCD version: 3.3
+Vendor:      LATTICE
+Device:      LCMXO2-2000HC
+Package:     TQFP100
+Performance: 4
+Loading device for application trce from file 'xo2c2000.nph' in environment: C:/lscc/diamond/3.13/ispfpga.
+Package Status:                     Final          Version 1.44.
+Performance Hardware Data Status:   Final          Version 34.4.
+Setup and Hold Report
+
+--------------------------------------------------------------------------------
+Lattice TRACE Report - Setup, Version Diamond (64-bit) 3.13.0.56.2
+Thu Dec 04 11:20:44 2025
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
+
+Report Information
+------------------
+Command line:    trce -v 1 -gt -mapchkpnt 0 -sethld -o uz_d_slots_uz_d_temperature_ltc2983.tw1 -gui -msgset C:/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/promote.xml uz_d_slots_uz_d_temperature_ltc2983_map.ncd uz_d_slots_uz_d_temperature_ltc2983.prf 
+Design file:     uz_d_slots_uz_d_temperature_ltc2983_map.ncd
+Preference file: uz_d_slots_uz_d_temperature_ltc2983.prf
+Device,speed:    LCMXO2-2000HC,4
+Report level:    verbose report, limited to 1 item per preference
+--------------------------------------------------------------------------------
+
+BLOCK ASYNCPATHS
+BLOCK RESETPATHS
+--------------------------------------------------------------------------------
+
+
+
+================================================================================
+Preference: Default path enumeration
+            61 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+Report:    8.778ns delay reqsafestate to fpga_02
+
+   Name    Fanout   Delay (ns)          Site               Resource
+PADI_DEL    ---     1.767         76.PAD to       76.PADDI reqsafestate
+ROUTE        31   e 1.234       76.PADDI to     SLICE_2.A0 reqsafestate_c
+CTOF_DEL    ---     0.495     SLICE_2.A0 to     SLICE_2.F0 SLICE_2
+ROUTE         1   e 1.234     SLICE_2.F0 to       84.PADDO fpga_02_c
+DOPAD_DEL   ---     4.048       84.PADDO to         84.PAD fpga_02
+                  --------
+                    8.778   (71.9% logic, 28.1% route), 3 logic levels.
+
+Report:    8.778ns is the maximum delay for this preference.
+
+
+================================================================================
+Preference: Default net enumeration
+            63 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+Report:    1.234ns maximum delay on d_16_c
+
+           Delays             Connection(s)
+         e 1.234ns          3.PADDI to SLICE_6.B0      
+
+Report:    1.234ns is the maximum delay for this preference.
+
+Report Summary
+--------------
+----------------------------------------------------------------------------
+Preference                              |   Constraint|       Actual|Levels
+----------------------------------------------------------------------------
+                                        |             |             |
+Default path enumeration                |     0.000 ns|     8.778 ns|   0  
+                                        |             |             |
+Default net enumeration                 |     0.000 ns|     1.234 ns|   0  
+                                        |             |             |
+----------------------------------------------------------------------------
+
+
+All preferences were met.
+
+
+Clock Domains Analysis
+------------------------
+
+Found 0 clocks:
+
+
+Timing summary (Setup):
+---------------
+
+Timing errors: 0  Score: 0
+Cumulative negative slack: 0
+
+Constraints cover 61 paths, 63 nets, and 93 connections (100.00% coverage)
+
+--------------------------------------------------------------------------------
+

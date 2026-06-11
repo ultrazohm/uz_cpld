@@ -1,0 +1,3 @@
+[submodule "xo2_libraries"]
+	path = xo2_libraries
+	url = ../xo2_libraries.git

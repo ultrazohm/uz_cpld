@@ -24,7 +24,7 @@
 
 
 
-
+-vhdl2008 1
 -use_io_insertion 1
 -resolve_mixed_drivers 0
 -use_io_reg auto

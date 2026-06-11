@@ -1,5 +1,6 @@
 library IEEE;
 library machxo2;
+use machxo2.all;
 use IEEE.STD_LOGIC_1164.ALL;
 
 entity SignalRouter is
@@ -91,10 +92,17 @@ entity SignalRouter is
 end SignalRouter;
 
 architecture Behavioral of SignalRouter is
+	SIGNAL safe_state_request : STD_LOGIC;
 begin
+	dslot_heartbeat: ENTITY work.dslot_heartbeat_receiver
+		PORT MAP (
+			reqsafestate		=> reqsafestate,
+			safe_state_request	=> safe_state_request
+		);
+
 	--Fixed definitions
 	reqoe <= NOT tristate_outputs; 
-	enable_forwarding <= user_enable_forwarding AND NOT reqsafestate;
+	enable_forwarding <= user_enable_forwarding AND NOT safe_state_request;
 	
 	-- Specific safety definitions for card
 	slotok <= enable_forwarding;

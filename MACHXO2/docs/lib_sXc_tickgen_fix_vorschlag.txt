@@ -1,0 +1,109 @@
+Fixvorschlag fuer lib_sXc.vhd / sXc_tickgen (noch mit mgeier besprechen)
+===========================================================================
+
+Betroffene Datei:
+  C:\cpld_lattice\xo2_libraries\lib_sXc.vhd
+
+Aktuelle Meldungen
+------------------
+S3C Warning:
+  WARNING - ... lib_sXc.vhd(76,32-76,50) (VHDL-1200) range is empty (null range)
+
+D-Slot Error:
+  ERROR - ... lib_sXc.vhd(72,3-72,10) (VHDL-1769) formal generic 'cascade' has no actual or default value
+
+Ursache
+-------
+Die Entity sXc_tickgen definiert aktuell CASCADE ohne Defaultwert:
+
+  CASCADE : INTEGER RANGE 0 TO 1
+
+Gleichzeitig haengt die Breite von tickin direkt von CASCADE ab:
+
+  tickin : IN STD_LOGIC_VECTOR(CASCADE-1 DOWNTO 0);
+
+Wenn CASCADE = 0 ist, wird daraus:
+
+  STD_LOGIC_VECTOR(-1 DOWNTO 0)
+
+Das ist eine leere Range. Genau daher kommt die S3C-Warnung.
+
+Der D-Slot-Fehler entsteht, weil Diamond/LSE/Synplify beim Elaborieren der Library
+sXc_tickgen auch ohne explizites Generic-Map sehen kann. Da CASCADE keinen Default
+hat, ist die Entity dann nicht vollstaendig elaborierbar.
+
+Vorgeschlagene Aenderung
+------------------------
+CASCADE bekommt einen Defaultwert, und tickin wird immer ein 1-Bit-Vektor.
+Damit gibt es keine Null-Range mehr und die Entity ist auch ohne Generic-Map gueltig.
+
+Aktueller Code:
+
+  ENTITY sXc_tickgen IS
+    GENERIC (
+      CLK_FREQ_HZ : INTEGER := 2_080_000;
+      TICK_US     : INTEGER := 1_000;
+      CASCADE     : INTEGER RANGE 0 TO 1
+    );
+    PORT (
+      clk:     IN STD_LOGIC;
+      tickin:  IN STD_LOGIC_VECTOR(CASCADE-1 DOWNTO 0);
+      tickout: OUT STD_LOGIC
+    );
+  END sXc_tickgen;
+
+Vorgeschlagener Code:
+
+  ENTITY sXc_tickgen IS
+    GENERIC (
+      CLK_FREQ_HZ : INTEGER := 2_080_000;
+      TICK_US     : INTEGER := 1_000;
+
+      -- 0 = standalone tick generator, 1 = cascaded tick generator.
+      -- Default 0 macht die Entity auch ohne explizites Generic-Map gueltig.
+      CASCADE     : INTEGER RANGE 0 TO 1 := 0
+    );
+    PORT (
+      clk:     IN STD_LOGIC;
+
+      -- Immer 1 Bit breit, damit bei CASCADE=0 keine Null-Range entsteht.
+      -- Fuer CASCADE=0 wird tickin ignoriert.
+      -- Fuer CASCADE=1 wird tickin(0) als Enable/Prescaler-Eingang verwendet.
+      tickin:  IN STD_LOGIC_VECTOR(0 DOWNTO 0) := "1";
+
+      tickout: OUT STD_LOGIC
+    );
+  END sXc_tickgen;
+
+Die bestehende Generate-Logik kann unveraendert bleiben:
+
+  cascaded_disabled: IF ( CASCADE = 0 ) GENERATE
+    tick_local <= '1';
+  END GENERATE;
+
+  cascaded_enabled: IF ( CASCADE /= 0 ) GENERATE
+    tick_local <= tickin(0);
+  END GENERATE;
+
+Erwarteter Effekt
+-----------------
+1. Die S3C-Warnung "range is empty (null range)" verschwindet, weil tickin nicht
+   mehr von CASCADE-1 DOWNTO 0 abhaengt.
+
+2. Der D-Slot-Fehler "formal generic 'cascade' has no actual or default value"
+   verschwindet, weil CASCADE nun den Defaultwert 0 hat.
+
+3. Das Verhalten fuer vorhandene normale Instanzen bleibt gleich:
+   - Ohne CASCADE-Angabe laeuft sXc_tickgen standalone.
+   - tick_local ist dauerhaft '1'.
+
+4. Kaskadierte Instanzen bleiben moeglich:
+   - CASCADE => 1 setzen.
+   - tickin => <1-bit-vector> verbinden.
+
+Hinweis
+-------
+Diese Aenderung ist API-kompatibel fuer standalone Nutzung.
+Falls irgendwo eine kaskadierte Nutzung mit tickin als Vektor anderer Breite geplant war,
+muss diese Instanz auf einen 1-Bit-Vektor fuer tickin(0) angepasst werden.
+Aktuell wurde in MACHXO2 nur die S3C-Instanz von sXc_tickgen gefunden.

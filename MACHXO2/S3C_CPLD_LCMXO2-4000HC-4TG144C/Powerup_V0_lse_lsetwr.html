@@ -1,382 +1,0 @@
-<HTML>
-<HEAD><TITLE>Lattice Synthesis Timing Report</TITLE>
-<STYLE TYPE="text/css">
-<!--
- body,pre{    font-family:'Courier New', monospace;    color: #000000;    font-size:88%;    background-color: #ffffff;}h1 {    font-weight: bold;    margin-top: 24px;    margin-bottom: 10px;    border-bottom: 3px solid #000;    font-size: 1em;}h2 {    font-weight: bold;    margin-top: 18px;    margin-bottom: 5px;    font-size: 0.90em;}h3 {    font-weight: bold;    margin-top: 12px;    margin-bottom: 5px;    font-size: 0.80em;}p {    font-size:78%;}P.Table {    margin-top: 4px;    margin-bottom: 4px;    margin-right: 4px;    margin-left: 4px;}table{    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    border-collapse: collapse;}th {    font-weight:bold;    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    text-align:left;    font-size:78%;}td {    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    font-size:78%;}a {    color:#013C9A;    text-decoration:none;}a:visited {    color:#013C9A;}a:hover, a:active {    text-decoration:underline;    color:#5BAFD4;}.pass{background-color: #00ff00;}.fail{background-color: #ff0000;}.comment{    font-size: 90%;    font-style: italic;}
--->
-</STYLE>
-</HEAD>
-<PRE><A name="Map_Twr"></A><B><U><big>Lattice Synthesis Timing Report</big></U></B>
---------------------------------------------------------------------------------
-Lattice Synthesis Timing Report, Version  
-Wed Oct 30 13:45:19 2024
-
-Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
-Copyright (c) 1995 AT&T Corp.   All rights reserved.
-Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
-Copyright (c) 2001 Agere Systems   All rights reserved.
-Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
-
-<A name="mtw1_ri"></A><B><U><big>Report Information</big></U></B>
-------------------
-Design:     Powerup_V0
-Constraint file:  
-Report level:    verbose report, limited to 3 items per constraint
---------------------------------------------------------------------------------
-
-
-
-================================================================================
-Constraint: create_clock -period 5.000000 -name clk0 [get_nets clk]
-            1453 items scored, 1453 timing errors detected.
---------------------------------------------------------------------------------
-
-
-Error:  The following path violates requirements by 4.337ns
-
- Logical Details:  Cell type  Pin type       Cell name  (clock net +/-)
-
-   Source:         FD1P3IX    CK             debounce_counters[2]__i8  (from clk +)
-   Destination:    FD1P3IX    SP             debounce_counters[2]__i31  (to clk +)
-
-   Delay:                   9.052ns  (45.2% logic, 54.8% route), 15 logic levels.
-
- Constraint Details:
-
-      9.052ns data_path debounce_counters[2]__i8 to debounce_counters[2]__i31 violates
-      5.000ns delay constraint less
-      0.285ns LCE_S requirement (totaling 4.715ns) by 4.337ns
-
- Path Details: debounce_counters[2]__i8 to debounce_counters[2]__i31
-
-   Name    Fanout   Delay (ns)          Pins               Resource(Cell.Net)
-L_CO        ---     0.444             CK to Q              debounce_counters[2]__i8 (from clk)
-Route         2   e 1.198                                  debounce_counters[2][8]
-A1_TO_FCO   ---     0.827           A[2] to COUT           add_426_2
-Route         1   e 0.020                                  n1753
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_4
-Route         1   e 0.020                                  n1754
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_6
-Route         1   e 0.020                                  n1755
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_8
-Route         1   e 0.020                                  n1756
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_10
-Route         1   e 0.020                                  n1757
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_12
-Route         1   e 0.020                                  n1758
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_14
-Route         1   e 0.020                                  n1759
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_16
-Route         1   e 0.020                                  n1760
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_18
-Route         1   e 0.020                                  n1761
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_20
-Route         1   e 0.020                                  n1762
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_22
-Route         1   e 0.020                                  n1763
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_24
-Route         1   e 0.020                                  n1764
-FCI_TO_F    ---     0.598            CIN to S[2]           add_426_26
-Route         2   e 1.486                                  clk_enable_134
-LUT4        ---     0.493              A to Z              i469_2_lut
-Route        32   e 2.039                                  clk_enable_132
-                  --------
-                    9.052  (45.2% logic, 54.8% route), 15 logic levels.
-
-
-Error:  The following path violates requirements by 4.337ns
-
- Logical Details:  Cell type  Pin type       Cell name  (clock net +/-)
-
-   Source:         FD1P3IX    CK             debounce_counters[2]__i8  (from clk +)
-   Destination:    FD1P3IX    SP             debounce_counters[2]__i30  (to clk +)
-
-   Delay:                   9.052ns  (45.2% logic, 54.8% route), 15 logic levels.
-
- Constraint Details:
-
-      9.052ns data_path debounce_counters[2]__i8 to debounce_counters[2]__i30 violates
-      5.000ns delay constraint less
-      0.285ns LCE_S requirement (totaling 4.715ns) by 4.337ns
-
- Path Details: debounce_counters[2]__i8 to debounce_counters[2]__i30
-
-   Name    Fanout   Delay (ns)          Pins               Resource(Cell.Net)
-L_CO        ---     0.444             CK to Q              debounce_counters[2]__i8 (from clk)
-Route         2   e 1.198                                  debounce_counters[2][8]
-A1_TO_FCO   ---     0.827           A[2] to COUT           add_426_2
-Route         1   e 0.020                                  n1753
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_4
-Route         1   e 0.020                                  n1754
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_6
-Route         1   e 0.020                                  n1755
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_8
-Route         1   e 0.020                                  n1756
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_10
-Route         1   e 0.020                                  n1757
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_12
-Route         1   e 0.020                                  n1758
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_14
-Route         1   e 0.020                                  n1759
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_16
-Route         1   e 0.020                                  n1760
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_18
-Route         1   e 0.020                                  n1761
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_20
-Route         1   e 0.020                                  n1762
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_22
-Route         1   e 0.020                                  n1763
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_24
-Route         1   e 0.020                                  n1764
-FCI_TO_F    ---     0.598            CIN to S[2]           add_426_26
-Route         2   e 1.486                                  clk_enable_134
-LUT4        ---     0.493              A to Z              i469_2_lut
-Route        32   e 2.039                                  clk_enable_132
-                  --------
-                    9.052  (45.2% logic, 54.8% route), 15 logic levels.
-
-
-Error:  The following path violates requirements by 4.337ns
-
- Logical Details:  Cell type  Pin type       Cell name  (clock net +/-)
-
-   Source:         FD1P3IX    CK             debounce_counters[2]__i8  (from clk +)
-   Destination:    FD1P3IX    SP             debounce_counters[2]__i29  (to clk +)
-
-   Delay:                   9.052ns  (45.2% logic, 54.8% route), 15 logic levels.
-
- Constraint Details:
-
-      9.052ns data_path debounce_counters[2]__i8 to debounce_counters[2]__i29 violates
-      5.000ns delay constraint less
-      0.285ns LCE_S requirement (totaling 4.715ns) by 4.337ns
-
- Path Details: debounce_counters[2]__i8 to debounce_counters[2]__i29
-
-   Name    Fanout   Delay (ns)          Pins               Resource(Cell.Net)
-L_CO        ---     0.444             CK to Q              debounce_counters[2]__i8 (from clk)
-Route         2   e 1.198                                  debounce_counters[2][8]
-A1_TO_FCO   ---     0.827           A[2] to COUT           add_426_2
-Route         1   e 0.020                                  n1753
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_4
-Route         1   e 0.020                                  n1754
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_6
-Route         1   e 0.020                                  n1755
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_8
-Route         1   e 0.020                                  n1756
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_10
-Route         1   e 0.020                                  n1757
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_12
-Route         1   e 0.020                                  n1758
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_14
-Route         1   e 0.020                                  n1759
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_16
-Route         1   e 0.020                                  n1760
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_18
-Route         1   e 0.020                                  n1761
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_20
-Route         1   e 0.020                                  n1762
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_22
-Route         1   e 0.020                                  n1763
-FCI_TO_FCO  ---     0.157            CIN to COUT           add_426_24
-Route         1   e 0.020                                  n1764
-FCI_TO_F    ---     0.598            CIN to S[2]           add_426_26
-Route         2   e 1.486                                  clk_enable_134
-LUT4        ---     0.493              A to Z              i469_2_lut
-Route        32   e 2.039                                  clk_enable_132
-                  --------
-                    9.052  (45.2% logic, 54.8% route), 15 logic levels.
-
-Warning: 9.337 ns is the maximum delay for this constraint.
-
-
-<A name="mtw1_rs"></A><B><U><big>Timing Report Summary</big></U></B>
---------------
---------------------------------------------------------------------------------
-Constraint                              |   Constraint|       Actual|Levels
---------------------------------------------------------------------------------
-                                        |             |             |
-create_clock -period 5.000000 -name     |             |             |
-clk0 [get_nets clk]                     |     5.000 ns|     9.337 ns|    15 *
-                                        |             |             |
---------------------------------------------------------------------------------
-
-
-1 constraints not met.
-
---------------------------------------------------------------------------------
-Critical Nets                           |   Loads|  Errors| % of total
---------------------------------------------------------------------------------
-clk_enable_135                          |       2|     384|     26.43%
-                                        |        |        |
-clk_enable_137                          |      32|     384|     26.43%
-                                        |        |        |
-n1746                                   |       1|     384|     26.43%
-                                        |        |        |
-n1747                                   |       1|     384|     26.43%
-                                        |        |        |
-n1748                                   |       1|     384|     26.43%
-                                        |        |        |
-n1749                                   |       1|     384|     26.43%
-                                        |        |        |
-n1750                                   |       1|     384|     26.43%
-                                        |        |        |
-n1751                                   |       1|     384|     26.43%
-                                        |        |        |
-n1752                                   |       1|     384|     26.43%
-                                        |        |        |
-clk_enable_12                           |       2|     352|     24.23%
-                                        |        |        |
-clk_enable_57                           |      32|     352|     24.23%
-                                        |        |        |
-clk_enable_101                          |      32|     352|     24.23%
-                                        |        |        |
-clk_enable_132                          |      32|     352|     24.23%
-                                        |        |        |
-clk_enable_133                          |       2|     352|     24.23%
-                                        |        |        |
-clk_enable_134                          |       2|     352|     24.23%
-                                        |        |        |
-n1733                                   |       1|     352|     24.23%
-                                        |        |        |
-n1734                                   |       1|     352|     24.23%
-                                        |        |        |
-n1735                                   |       1|     352|     24.23%
-                                        |        |        |
-n1736                                   |       1|     352|     24.23%
-                                        |        |        |
-n1737                                   |       1|     352|     24.23%
-                                        |        |        |
-n1738                                   |       1|     352|     24.23%
-                                        |        |        |
-n1739                                   |       1|     352|     24.23%
-                                        |        |        |
-n1740                                   |       1|     352|     24.23%
-                                        |        |        |
-n1745                                   |       1|     352|     24.23%
-                                        |        |        |
-n1757                                   |       1|     352|     24.23%
-                                        |        |        |
-n1758                                   |       1|     352|     24.23%
-                                        |        |        |
-n1759                                   |       1|     352|     24.23%
-                                        |        |        |
-n1760                                   |       1|     352|     24.23%
-                                        |        |        |
-n1761                                   |       1|     352|     24.23%
-                                        |        |        |
-n1762                                   |       1|     352|     24.23%
-                                        |        |        |
-n1763                                   |       1|     352|     24.23%
-                                        |        |        |
-n1764                                   |       1|     352|     24.23%
-                                        |        |        |
-n1769                                   |       1|     352|     24.23%
-                                        |        |        |
-n1770                                   |       1|     352|     24.23%
-                                        |        |        |
-n1771                                   |       1|     352|     24.23%
-                                        |        |        |
-n1772                                   |       1|     352|     24.23%
-                                        |        |        |
-n1773                                   |       1|     352|     24.23%
-                                        |        |        |
-n1774                                   |       1|     352|     24.23%
-                                        |        |        |
-n1775                                   |       1|     352|     24.23%
-                                        |        |        |
-n1776                                   |       1|     352|     24.23%
-                                        |        |        |
-n1732                                   |       1|     288|     19.82%
-                                        |        |        |
-n1744                                   |       1|     288|     19.82%
-                                        |        |        |
-n1756                                   |       1|     288|     19.82%
-                                        |        |        |
-n1768                                   |       1|     288|     19.82%
-                                        |        |        |
-n1731                                   |       1|     224|     15.42%
-                                        |        |        |
-n1743                                   |       1|     224|     15.42%
-                                        |        |        |
-n1755                                   |       1|     224|     15.42%
-                                        |        |        |
-n1767                                   |       1|     224|     15.42%
-                                        |        |        |
-n1730                                   |       1|     160|     11.01%
-                                        |        |        |
-n1742                                   |       1|     160|     11.01%
-                                        |        |        |
-n1754                                   |       1|     160|     11.01%
-                                        |        |        |
-n1766                                   |       1|     160|     11.01%
-                                        |        |        |
---------------------------------------------------------------------------------
-
-
-<A name="mtw1_ts"></A><B><U><big>Timing summary:</big></U></B>
----------------
-
-Timing errors: 1453  Score: 5810859
-
-Constraints cover  6340 paths, 496 nets, and 991 connections (85.3% coverage)
-
-
-Peak memory: 83832832 bytes, TRCE: 5517312 bytes, DLYMAN: 0 bytes
-CPU_TIME_REPORT: 0 secs 
-
-
-
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-</PRE></FONT>
-</BODY>
-</HTML>

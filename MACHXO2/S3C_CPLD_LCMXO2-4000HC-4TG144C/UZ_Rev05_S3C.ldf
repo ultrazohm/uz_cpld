@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <BaliProject version="3.2" title="UZ_Rev05_S3C" device="LCMXO2-4000HC-4TG144C" default_implementation="S3C_Rev06_beta">
     <Options/>
-    <Implementation title="S3C_171224" dir="S3C_171224" description="S3C_171224" synthesis="lse" default_strategy="Strategy1">
+    <Implementation title="S3C_171224" dir="S3C_171224" description="S3C_171224" synthesis="synplify" default_strategy="Strategy1">
         <Options def_top="Waiting_for_Powerbutton_pressed_V0"/>
         <Source name="S3C_171224/source/POWER_ON.vhd" type="VHDL" type_short="VHDL" excluded="TRUE">
             <Options/>
@@ -19,13 +19,13 @@
     <Implementation title="S3C_Rev06_beta" dir="S3C_Rev06_beta" description="S3C_Rev06_beta" synthesis="synplify" default_strategy="Strategy1">
         <Options def_top="S3C"/>
         <Source name="S3C_Rev06_beta/source/UZ_S3C_toplevel.vhd" type="VHDL" type_short="VHDL">
-            <Options top_module="S3C"/>
-        </Source>
-        <Source name="../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
         <Source name="S3C_Rev06_beta/source/s3c_fsm.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
+            <Options top_module="s3c_fsm"/>
+        </Source>
+        <Source name="../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options top_module="sXc_tickgen"/>
         </Source>
         <Source name="S3C_Rev06_beta/impl_0.xcf" type="Programming Project File" type_short="Programming">
             <Options/>
@@ -34,5 +34,5 @@
             <Options/>
         </Source>
     </Implementation>
-    <Strategy name="Strategy1" file="UZ_Rev05_S3C1.sty"/>
+    <Strategy name="Strategy1" file="UZ_Rev05_S3C.sty"/>
 </BaliProject>

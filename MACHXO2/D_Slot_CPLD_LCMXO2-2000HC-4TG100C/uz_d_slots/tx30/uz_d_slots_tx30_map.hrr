@@ -3,6 +3,22 @@ Report for cell SignalRouter
    Instance path: SignalRouter
                      Cell usage:
                                   cell	      count    Res Usage(%)
-                                  SLIC	      16.00        100.0
-                                  LUT4	      32.00        100.0
+                                  SLIC	      45.00        100.0
+                                 IOLGC	       1.00        100.0
+                                  LUT4	      64.00        100.0
+                                 IOREG	          1        100.0
                                  IOBUF	         63        100.0
+                                PFUREG	         24        100.0
+                                RIPPLE	         13        100.0
+SUB MODULES
+                                  cell	      count    SLC Usage(%)
+              dslot_heartbeat_receiver	          1        65.6
+---------------------------------------------------
+Report for cell dslot_heartbeat_receiver
+   Instance path: SignalRouter/dslot_heartbeat
+                     Cell usage:
+                                  cell	      count    Res Usage(%)
+                                  SLIC	      29.50        65.6
+                                  LUT4	      33.00        51.6
+                                PFUREG	         24        100.0
+                                RIPPLE	         13        100.0

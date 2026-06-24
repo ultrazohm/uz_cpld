@@ -97,6 +97,18 @@
             <Options/>
         </Source>
     </Implementation>
+    <Implementation title="uz_d_abs_encoder" dir="uz_d_abs_encoder" description="uz_d_abs_encoder" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="uz_d_abs_encoder/source/uz_d_abs_encoder.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
     <Implementation title="uz_d_resolver_d1_to_d4" dir="uz_d_resolver_d1_to_d4" description="uz_d_resolver_d1_to_d4" synthesis="synplify" default_strategy="Strategy1">
         <Options def_top="SignalRouter"/>
         <Source name="uz_d_resolver_d1_to_d4/source/uz_d_resolver_d1_to_d4.vhdl" type="VHDL" type_short="VHDL">
@@ -112,6 +124,18 @@
     <Implementation title="uz_d_resolver_d5" dir="uz_d_resolver_d5" description="uz_d_resolver_d5" synthesis="synplify" default_strategy="Strategy1">
         <Options def_top="SignalRouter"/>
         <Source name="uz_d_resolver_d5/source/uz_d_resolver_d5.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="uz_d_temperature_ltc2983" dir="uz_d_temperature_ltc2983" description="uz_d_temperature_ltc2983" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="uz_d_temperature_ltc2983/source/uz_d_temperature_ltc2983.vhdl" type="VHDL" type_short="VHDL">
             <Options top_module="SignalRouter"/>
         </Source>
         <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">

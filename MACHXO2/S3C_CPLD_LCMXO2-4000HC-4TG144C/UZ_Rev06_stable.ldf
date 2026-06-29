@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<BaliProject version="3.2" title="UZ_Rev05_S3C" device="LCMXO2-4000HC-4TG144C" default_implementation="S3C_Rev06_beta">
+<BaliProject version="3.2" title="UZ_Rev06_stable" device="LCMXO2-4000HC-4TG144C" default_implementation="S3C_Rev06_beta">
     <Options/>
     <Implementation title="S3C_171224" dir="S3C_171224" description="S3C_171224" synthesis="synplify" default_strategy="Strategy1">
         <Options def_top="Waiting_for_Powerbutton_pressed_V0"/>

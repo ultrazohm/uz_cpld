@@ -38,6 +38,7 @@ ENTITY s3c_fsm IS
 		FPIO_isoCtrlRSTn:			OUT STD_LOGIC;
 		FlexMIOs53_GPIO_PowerDown:	OUT STD_LOGIC;
 		DIGS3C_Shared_ReqSafeState:	OUT STD_LOGIC;
+		DIGS3C_Shared_CarrierReady:	OUT STD_LOGIC;
 
 		-- Internal
 		forceoutputdisable:			OUT STD_LOGIC
@@ -136,6 +137,7 @@ BEGIN
 				when sleep_for_dslot_down =>
 					FlexMIOs53_GPIO_PowerDown <= '0';		-- end info to som
 					DIGS3C_Shared_ReqSafeState <= '1';		-- info to dcplds
+					DIGS3C_Shared_CarrierReady <= '0';		-- stop carrier-ready heartbeat
 
 					counter <= 1_000;
 
@@ -215,8 +217,10 @@ BEGIN
 		------ FSM start
 		if rising_edge(clk) then
 			if rst = '1' then
+				DIGS3C_Shared_CarrierReady <= '0';
 				fsm_state <= fsm_init;
 			else
+				DIGS3C_Shared_CarrierReady <= '0';
 				case fsm_state is
 
 					when WaitForSupply =>
@@ -264,6 +268,7 @@ BEGIN
 					when Wait_State =>
 						forceoutputdisable <= '1';
 						DIGS3C_Shared_ReqSafeState <= '1';	-- not working because bank 1 1.8vper not supplied
+						DIGS3C_Shared_CarrierReady <= '1';
 
 						FP_SysLEDr <= '1';
 						FP_SysLEDb <= '1';
@@ -276,6 +281,7 @@ BEGIN
 					when EthernetPhy_Reset =>
 						forceoutputdisable <= '1';
 						DIGS3C_Shared_ReqSafeState <= '1';	-- not working because bank 1 1.8vper not supplied
+						DIGS3C_Shared_CarrierReady <= '1';
 
 						FP_SysLEDr <= '1';
 						FP_SysLEDb <= '1';
@@ -300,6 +306,7 @@ BEGIN
 						end if;
 
 					when Ack_previous_Harderror =>
+						DIGS3C_Shared_CarrierReady <= '1';
 						-- Blinky
 						if counter_done then
 							counter <= 400;
@@ -330,6 +337,7 @@ BEGIN
 						end if;
 
 					when Ack_bootup_Harderror =>
+						DIGS3C_Shared_CarrierReady <= '1';
 
 						FP_SysLEDr <= '1';
 						FP_SysLEDb <= '1';
@@ -348,6 +356,7 @@ BEGIN
 					when ready_state =>
 						forceoutputdisable <= NOT PPn_VIN;	-- noch zu messen, evtl durch debounce version ersetzen
 						DIGS3C_Shared_ReqSafeState <= '0';
+						DIGS3C_Shared_CarrierReady <= '1';
 
 						FP_SysLEDr <= '0';
 						FP_SysLEDb <= '0';
@@ -368,6 +377,7 @@ BEGIN
 					when warning_state =>
 						forceoutputdisable <= NOT PPn_VIN;	-- noch zu messen, evtl durch debounce version ersetzen
 						DIGS3C_Shared_ReqSafeState <= '0';
+						DIGS3C_Shared_CarrierReady <= '1';
 
 						FP_SysLEDr <= '0';
 						FP_SysLEDb <= '1';
@@ -387,6 +397,7 @@ BEGIN
 						--Request safe state to dslots
 						forceoutputdisable <= NOT PPn_VIN;	-- noch zu messen, evtl durch debounce version ersetzen
 						DIGS3C_Shared_ReqSafeState <= '1';
+						DIGS3C_Shared_CarrierReady <= '1';
 
 						FP_SysLEDr <= '1';
 						FP_SysLEDb <= '0';
@@ -403,6 +414,7 @@ BEGIN
 						--Request safe state to dslots
 						forceoutputdisable <= NOT PPn_VIN;	-- noch zu messen, evtl durch debounce version ersetzen
 						DIGS3C_Shared_ReqSafeState <= '1';
+						DIGS3C_Shared_CarrierReady <= '1';
 
 						FP_SysLEDr <= '1';
 						FP_SysLEDb <= '1';

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <BaliProject version="3.2" title="uz_d_slots" device="LCMXO2-2000HC-4TG100C" default_implementation="voltage_8rx_8rx_8rx_6rx">
     <Options/>
     <Implementation title="optical_14tx_4rx" dir="optical_14tx_4rx" description="optical_14tx_4rx" synthesis="synplify" default_strategy="Strategy1">
@@ -80,6 +80,18 @@
         </Source>
         <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
             <Options top_module="sXc_heartbeat_sender"/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="tx30_hearbeattesting" dir="tx30_hearbeattesting" description="tx30_hearbeattesting" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="tx30_hearbeattesting/source/tx30_hearbeattesting.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
         </Source>
         <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
             <Options/>
@@ -339,4 +351,3 @@
     </Implementation>
     <Strategy name="Strategy1" file="uz_d_slots.sty"/>
 </BaliProject>
-

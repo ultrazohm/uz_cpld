@@ -48,14 +48,14 @@ jobs:
           include-hidden-files: true
           retention-days: 14
       - name: Upload the Pages site
-        if: ${{ success() && github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
+        if: ${{ success() && github.event_name != 'pull_request' && github.ref == 'refs/heads/feature/m4_inverter_resolver_d4_d5' }}
         uses: actions/upload-pages-artifact@v4
         with:
           path: new_approach/docs/_build/html/
 
   deploy:
     needs: checks
-    if: ${{ github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
+    if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/feature/m4_inverter_resolver_d4_d5' }}
     runs-on: ubuntu-22.04
     timeout-minutes: 10
     permissions:

@@ -1,0 +1,24 @@
+{
+  "name": "UltraZohm CPLD — documentation and simulation",
+  "build": {
+    "dockerfile": "../new_approach/.devcontainer/Dockerfile",
+    "context": "../new_approach",
+    "options": [
+      "--platform=linux/amd64"
+    ],
+    "target": "development"
+  },
+  "remoteUser": "vscode",
+  "updateRemoteUserUID": true,
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "openai.chatgpt"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  },
+  "init": true
+}

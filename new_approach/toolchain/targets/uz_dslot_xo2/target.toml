@@ -1,0 +1,9 @@
+name = "uz_dslot_xo2"
+device = "LCMXO2-2000HC-4TG100C"
+backend = "diamond"
+
+[diamond]
+strategy = "baseline.sty"
+version = "3.14.0.75.2"
+
+[diamond.options]

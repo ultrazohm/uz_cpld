@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+diamond_root=${DIAMOND_ROOT:-/opt/diamond}
+launcher="$diamond_root/bin/lin64/diamondc"
+if [[ ! -x "$launcher" ]]; then
+    echo "Diamond launcher not found: $launcher" >&2
+    echo "Mount the installation and set DIAMOND_ROOT to its container path." >&2
+    exit 2
+fi
+# The vendor wrapper configures Tcl, shared libraries, FOUNDRY and licensing.
+exec "$launcher" "$@"

@@ -1,0 +1,35 @@
+{
+  "name": "UltraZohm CPLD — Diamond",
+  "build": {
+    "dockerfile": "../../new_approach/.devcontainer/Dockerfile",
+    "context": "../../new_approach",
+    "target": "diamond",
+    "options": [
+      "--platform=linux/amd64"
+    ]
+  },
+  "runArgs": [
+    "--network=host"
+  ],
+  "mounts": [
+    "source=${localEnv:DIAMOND_HOST_ROOT},target=/opt/diamond,type=bind,readonly"
+  ],
+  "containerEnv": {
+    "DIAMOND_ROOT": "/opt/diamond",
+    "LM_LICENSE_FILE": "${localEnv:LM_LICENSE_FILE}"
+  },
+  "remoteUser": "vscode",
+  "updateRemoteUserUID": true,
+  "postCreateCommand": "check-diamond",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "openai.chatgpt"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  },
+  "init": true
+}

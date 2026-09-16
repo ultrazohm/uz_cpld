@@ -108,3 +108,15 @@ message.xml
 *.naf
 *.sif
 *.dmp
+
+# Headless build frontend and documentation
+/build/
+/new_approach/docs/_build/
+/.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Consolidated tooling workspace
+/new_approach/build/
+/new_approach/.venv/

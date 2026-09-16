@@ -1,0 +1,15 @@
+# Only image inputs enter the build context; workspace sources are mounted.
+*
+!.devcontainer/
+!.devcontainer/Dockerfile
+!.devcontainer/diamond-cli
+!.devcontainer/check-diamond
+!.devcontainer/smoke.tcl
+!toolchain/
+!toolchain/simulation/
+!toolchain/simulation/requirements.txt
+!toolchain/analysis/
+!toolchain/analysis/requirements.txt
+!requirements.txt
+!docs/
+!docs/requirements.txt

@@ -1,0 +1,7 @@
+name = "tx26_w_enable"
+top = "SignalRouter"
+standard = "1993"
+targets = ["uz_dslot_xo2"]
+constraints = ["tx26_w_enable_constraints.lpf"]
+sources = [{path = "tx26_w_enable.vhdl", library = "work"}]
+testbench = "tx26_w_enable_tb.py"

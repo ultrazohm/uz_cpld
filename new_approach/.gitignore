@@ -1,0 +1,8 @@
+# Program outputs and shared toolchain results (at any depth).
+build/
+docs/_build/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+docs/_generated/

@@ -1,0 +1,7 @@
+name = "tx30"
+top = "SignalRouter"
+standard = "1993"
+targets = ["uz_dslot_xo2"]
+constraints = ["tx30_constraints.lpf"]
+sources = [{path = "tx30.vhdl", library = "work"}]
+testbench = "tx30_tb.py"

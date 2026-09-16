@@ -1,0 +1,5 @@
+# Compatible with the container's Python 3.10.
+Sphinx==7.4.7
+-r ../requirements.txt
+-r ../toolchain/analysis/requirements.txt
+-r ../toolchain/simulation/requirements.txt

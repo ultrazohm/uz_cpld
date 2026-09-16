@@ -14,7 +14,8 @@ Extensions
 ----------
 
 * Migrate additional D-slot programs with reviewed constraints, dependencies and testbenches.
-* Add a FOSS firmware backend and compare its outputs against the Diamond reference.
+* Extend FOSS validation to routed logic, electrical defaults and hardware acceptance against the Diamond reference.
+* Add supported FOSS JEDEC/TRACEID export, further LPF directives and configuration-clock encodings.
 * Add ispMACH, S2C or S3C targets when their device-specific requirements are supported.
 * Add a separate hardware-programming command with explicit chain/adapter configuration.
 * Extract shared HDL and constraints after equivalence and conflict checks.
@@ -22,4 +23,5 @@ Extensions
 * Investigate supported automation for Diamond Netlist Analyzer exports.
 * Add oscillator/EFB behavioral models and host-compiled C-driver cosimulation where required.
 
-Generic RTL SVG/PDF export and interactive program documentation are implemented; they do not establish a FOSS firmware flow or vendor-netlist equivalence.
+Generic RTL diagrams and waveforms are independent of firmware backend selection.
+FOSS synthesis equivalence does not establish vendor-netlist or bitstream equivalence.

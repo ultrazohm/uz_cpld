@@ -1,7 +1,7 @@
 UltraZohm CPLD
 ==============
 
-This workspace builds firmware for the Rev05+ D-slot ``LCMXO2-2000HC-4TG100C`` with Diamond and verifies its VHDL with GHDL/cocotb.
+This workspace builds firmware for the Rev05+ D-slot ``LCMXO2-2000HC-4TG100C`` with Diamond or the FOSS pipeline and verifies its VHDL with GHDL/cocotb.
 The supported catalog contains ``tx30``, ``rx30`` and ``tx26_w_enable``.
 Legacy projects remain in ``MACHXO2/`` and ``ispMACH/``; their presence does not imply support by the headless toolchain.
 
@@ -15,7 +15,7 @@ With Docker installed, run these commands from the repository root::
    make docs
 
 Open ``new_approach/docs/_build/html/index.html`` for the complete site, including program diagrams and interactive waveforms.
-Firmware builds require :doc:`Diamond setup <environments>` and never program hardware::
+Diamond firmware builds require :doc:`vendor setup <environments>` and never program hardware::
 
    make list
    make build PROGRAM=tx30
@@ -29,6 +29,7 @@ Paths in this documentation are relative to ``new_approach/`` unless stated othe
 
    environments
    builds
+   foss
    simulation
    program-documentation
    _generated/programs/index

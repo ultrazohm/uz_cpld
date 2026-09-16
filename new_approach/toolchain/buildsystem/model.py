@@ -72,7 +72,7 @@ class Build:
     sources: tuple[Source, ...]
     constraint: Path
     device: str
-    strategy: Path
+    strategy: Path | None
     options: dict
     manifests: tuple[Path, ...]
     expected_version: str
@@ -91,7 +91,7 @@ class Build:
     @property
     def inputs(self) -> tuple[Path, ...]:
         """All authored inputs included in provenance."""
-        return tuple(s.path for s in self.sources) + (self.constraint, self.strategy, self.testbench) + self.manifests
+        return tuple(s.path for s in self.sources) + (self.constraint, self.testbench) + ((self.strategy,) if self.strategy else ()) + self.manifests
 
 
 def catalog(root: Path) -> list[str]:
@@ -109,14 +109,14 @@ def load_build(root: Path, name: str, target: str = 'uz_dslot_xo2', backend: str
     tm = input_path(root, root, f'toolchain/targets/{target}/target.toml')
     p, t = read_toml(pm), read_toml(tm)
     pf = {'name', 'top', 'standard', 'sources', 'targets', 'constraints', 'testbench'}
-    tf = {'name', 'device', 'backend', 'diamond'}
-    keys(p, pf, pf, str(pm)); keys(t, tf, tf, str(tm))
+    tf = {'name', 'device', 'backend', 'diamond', 'foss'}
+    keys(p, pf, pf, str(pm)); keys(t, tf, {'name', 'device', 'backend'}, str(tm))
     if p['name'] != name or t['name'] != target:
         raise BuildError('Manifest name must match its directory')
     if target not in strings(p['targets'], 'targets'):
         raise BuildError(f'{name} does not support {target}')
     backend = identifier(backend or t['backend'])
-    if backend != 'diamond' or t['backend'] != 'diamond':
+    if backend not in ('diamond', 'foss') or t['backend'] not in ('diamond', 'foss'):
         raise BuildError(f'Unimplemented backend: {backend}')
     if p['standard'] not in ('1993', '2008'):
         raise BuildError('VHDL standard must be "1993" or "2008"')
@@ -142,7 +142,19 @@ def load_build(root: Path, name: str, target: str = 'uz_dslot_xo2', backend: str
     testbench = input_path(root, pm.parent, p['testbench'])
     if testbench != pm.parent / f'{name}_tb.py':
         raise BuildError('Testbench must be named <program>_tb.py in the program directory')
-    d = t['diamond']
+    if t['device'] != 'LCMXO2-2000HC-4TG100C':
+        raise BuildError('Only LCMXO2-2000HC-4TG100C is supported by these backends')
+    if backend == 'foss':
+        f = t.get('foss', {})
+        keys(f, {'version', 'seed'}, {'version', 'seed'}, 'foss')
+        if not isinstance(f['version'], str) or not re.fullmatch(r'\d{4}-\d{2}-\d{2}', f['version']):
+            raise BuildError('foss.version must specify the pinned OSS CAD Suite release date')
+        if type(f['seed']) is not int or not 1 <= f['seed'] <= 2147483647:
+            raise BuildError('foss.seed must be a positive 32-bit integer')
+        pin = input_path(root, root, 'toolchain/foss/toolchain.json')
+        return Build(root, name, target, backend, p['top'], p['standard'], tuple(sources), constraint,
+                     t['device'], None, {'seed': f['seed']}, (pm, tm, pin, input_path(root, root, 'toolchain/foss/sources.json')), f['version'], testbench)
+    d = t.get('diamond', {})
     keys(d, {'strategy', 'version', 'options'}, {'strategy', 'version', 'options'}, 'diamond')
     if not isinstance(d['options'], dict) or any(not isinstance(v, str) for v in d['options'].values()):
         raise BuildError('Diamond options must be a table of string values')
@@ -150,8 +162,6 @@ def load_build(root: Path, name: str, target: str = 'uz_dslot_xo2', backend: str
         raise BuildError('Invalid Diamond strategy option name')
     if 'lse_vhdl2008' in d['options']:
         raise BuildError('Use program.standard instead of lse_vhdl2008')
-    if t['device'] != 'LCMXO2-2000HC-4TG100C':
-        raise BuildError('Only LCMXO2-2000HC-4TG100C is validated by this backend')
     if not isinstance(d['version'], str) or not d['version']:
         raise BuildError('diamond.version must specify the required tool version')
     return Build(root, name, target, backend, p['top'], p['standard'], tuple(sources), constraint,

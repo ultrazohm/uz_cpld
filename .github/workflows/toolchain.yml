@@ -10,7 +10,7 @@ permissions:
 jobs:
   checks:
     runs-on: ubuntu-22.04
-    timeout-minutes: 25
+    timeout-minutes: 45
     concurrency:
       group: cpld-checks-${{ github.ref }}
       cancel-in-progress: true
@@ -24,6 +24,9 @@ jobs:
         run: make sim-image
       - name: Run tooling tests
         run: docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make test
+      - name: Build all FOSS firmware
+        if: ${{ !cancelled() && steps.image.outcome == 'success' }}
+        run: docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make build-all backend=foss
       - name: Build program documentation and run HDL simulations
         if: ${{ !cancelled() && steps.image.outcome == 'success' }}
         run: docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make docs-local
@@ -35,6 +38,7 @@ jobs:
           path: |
             new_approach/programs/*/build/simulation/
             new_approach/programs/*/build/netlist/
+            new_approach/programs/*/build/uz_dslot_xo2/foss/
             new_approach/toolchain/build/simulation/
           if-no-files-found: warn
           retention-days: 14

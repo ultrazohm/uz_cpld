@@ -1,0 +1,12 @@
+{
+  "nextpnr": {
+    "revision": "6030081a15221d9de772fb937e45e08ecf280d15",
+    "url": "https://codeload.github.com/YosysHQ/nextpnr/tar.gz/6030081a15221d9de772fb937e45e08ecf280d15",
+    "sha256": "bd1b723fbbfce8367ebdcab5300c8fb1b579d77df8655383558dd754507fc404"
+  },
+  "trellis": {
+    "revision": "3afe7b5",
+    "url": "https://codeload.github.com/YosysHQ/prjtrellis/tar.gz/3afe7b5",
+    "sha256": "819d1cb00f210302c6b867b4f65fd0d40c87b495c092de6d4c7d929a41255b5b"
+  }
+}

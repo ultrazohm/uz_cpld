@@ -10,22 +10,25 @@ Evidence
    * - Check
      - Evidence
    * - Tooling regressions
-     - 22 tests covering manifest validation, cloning, locking, cleanup, failure handling, Tcl quoting, VCD interpretation and static-site publishing checks.
+     - 31 tests covering manifest validation, cloning, locking, cleanup, failure handling, Tcl quoting, VCD interpretation, FOSS constraints and static-site publishing checks.
    * - RTL simulation
      - Passing routing, enable and safe-state tests for all three catalog programs.
    * - Diamond builds
      - Fresh JEDEC and bitstream exports for all three programs with Diamond 3.14.0.75.2.
+   * - FOSS builds
+     - All three programs export bitstreams with synthesis equivalence proven for all 32 outputs, successful Trellis unpacking, and 63 placed pin assignments per program matching the Diamond reports.
    * - Legacy comparison
      - Matching JEDEC programming records, pin-table rows and resource counts against rebuilt legacy projects.
    * - Portability
-     - Standalone checkout paths with spaces, cloned-program simulation and generated documentation.
+     - Standalone checkout paths with spaces and shell metacharacters, cloned-program FOSS compilation, simulation and generated documentation.
    * - Documentation
-     - Strict Sphinx 7.4.7 build, 33 HTML files checked for local links, and Chromium checks of all three program pages under ``/uz_cpld/`` with external requests blocked.
+     - Strict Sphinx 7.4.7 build, 35 HTML files checked for local links, and Chromium checks of all three program pages under ``/uz_cpld/`` with external requests blocked.
    * - Publishing configuration
      - Actionlint validation and Dev Container build-path checks; a fresh Docker build and hosted deployment remain unverified.
 
 These comparisons concern rebuilt legacy projects, not proof that every committed firmware binary matches its source.
-Whole-file JEDEC hashes can differ because of metadata, and bitstream payload equivalence is not established.
+Whole-file JEDEC hashes can differ because of metadata, and Diamond/FOSS bitstream payload equivalence is not established.
+The FOSS synthesis proof compares mapped logic with GHDL-generated Verilog and does not cover routed logic or hardware.
 Saved local evidence is under ``toolchain/build/validation/`` and historical ``build/validation/`` directories; a clean checkout must regenerate it.
 
 Repeat the licensed comparison after ``make build-all``::

@@ -1,4 +1,21 @@
 # syntax=docker/dockerfile:1
+FROM ubuntu:22.04 AS foss-builder
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates curl python3 python3-pip python3-dev build-essential \
+    libboost-filesystem-dev libboost-program-options-dev libboost-iostreams-dev libboost-thread-dev \
+    libeigen3-dev pybind11-dev \
+    && rm -rf /var/lib/apt/lists/*
+RUN python3 -m pip install --no-cache-dir cmake==3.31.6
+COPY toolchain/foss/ /tmp/foss-setup/
+ARG FOSS_BUILD_JOBS=2
+RUN python3 /tmp/foss-setup/install.py --prefix /opt/oss-cad-suite \
+    && python3 /tmp/foss-setup/build_nextpnr.py --suite /opt/oss-cad-suite --jobs ${FOSS_BUILD_JOBS} \
+    && /opt/oss-cad-suite/bin/yosys -V \
+    && /opt/oss-cad-suite/native/nextpnr-machxo2 --version \
+    && /opt/oss-cad-suite/bin/ecppack --version \
+    && /opt/oss-cad-suite/bin/openFPGALoader --Version
+
 FROM ubuntu:22.04 AS toolchain
 ARG DEBIAN_FRONTEND=noninteractive
 RUN test "$(dpkg --print-architecture)" = amd64 || { echo 'This toolchain requires linux/amd64 (native or emulated).' >&2; exit 1; }
@@ -19,6 +36,8 @@ COPY toolchain/simulation/requirements.txt /tmp/dependencies/toolchain/simulatio
 COPY toolchain/analysis/requirements.txt /tmp/dependencies/toolchain/analysis/requirements.txt
 RUN python3 -m pip install --no-cache-dir -r /tmp/dependencies/docs/requirements.txt \
     && python3 -m pip check && ghdl --version && python3 -m sphinx --version
+COPY --from=foss-builder /opt/oss-cad-suite /opt/oss-cad-suite
+ENV FOSS_ROOT=/opt/oss-cad-suite
 ARG USER_UID=1000
 ARG USER_GID=1000
 RUN groupadd --gid ${USER_GID} vscode \

@@ -2,12 +2,26 @@
 PYTHON ?= python3
 TARGET ?= uz_dslot_xo2
 TEMPLATE ?= tx30
+backend ?= $(if $(BACKEND),$(BACKEND),$(if $(TOOLCHAIN),$(TOOLCHAIN),diamond))
+ifneq ($(backend),diamond)
+ifneq ($(backend),foss)
+$(error backend must be diamond or foss)
+endif
+endif
 # Quote values as single shell arguments, including embedded apostrophes.
 quote = '$(subst ','"'"',$(1))'
-ARGS = --target $(call quote,$(TARGET)) $(if $(PROGRAM),--program $(call quote,$(PROGRAM))) $(if $(TOOLCHAIN),--toolchain $(call quote,$(TOOLCHAIN)))
+ARGS = --target $(call quote,$(TARGET)) $(if $(PROGRAM),--program $(call quote,$(PROGRAM))) --backend $(call quote,$(backend))
 .PHONY: build list doctor new check project gui build-all clean test docs docs-local docs-assets-local netlist netlist-local sim sim-image sim-container test-container docs-container _sim
-build list doctor check project gui build-all:
+list check:
 	$(PYTHON) -m toolchain.buildsystem $@ $(ARGS)
+# FOSS firmware commands use the same container dispatch as simulation on hosts.
+ifeq ($(backend)$(filter 1,$(CPLD_TOOLCHAIN_CONTAINER)),foss)
+build doctor project gui build-all: sim-image
+	$(CONTAINER_RUN) make $@ backend=foss $(if $(PROGRAM),PROGRAM=$(call quote,$(PROGRAM))) TARGET=$(call quote,$(TARGET))
+else
+build doctor project gui build-all:
+	$(PYTHON) -m toolchain.buildsystem $@ $(ARGS)
+endif
 new:
 	$(PYTHON) -m toolchain.buildsystem new $(ARGS) --name $(call quote,$(NAME)) --template $(call quote,$(TEMPLATE))
 clean:

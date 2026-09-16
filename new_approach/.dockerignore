@@ -13,3 +13,8 @@
 !requirements.txt
 !docs/
 !docs/requirements.txt
+!toolchain/foss/
+!toolchain/foss/install.py
+!toolchain/foss/toolchain.json
+!toolchain/foss/build_nextpnr.py
+!toolchain/foss/sources.json

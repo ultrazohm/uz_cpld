@@ -24,3 +24,6 @@ Use :doc:`architecture` for the public workflow and :doc:`configuration` for man
 
 .. automodule:: toolchain.analysis.waveform
    :members: read_vcd, write_waveform
+
+.. automodule:: toolchain.buildsystem.backends.foss
+   :members:

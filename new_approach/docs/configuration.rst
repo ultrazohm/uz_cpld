@@ -29,5 +29,9 @@ Set VHDL standard through the program manifest rather than ``lse_vhdl2008``.
 Unknown vendor options fail during Diamond preparation.
 ``diamond.version`` must appear in the build log; the extractor recognizes the ``3.14.0.<number>.<number>`` release family.
 
+``backend`` selects the target default; both ``diamond`` and ``foss`` are supported.
+The selected backend table is required.
+``foss.version`` matches the pinned OSS CAD Suite release, and ``foss.seed`` selects a positive deterministic nextpnr seed.
+Diamond strategy settings do not apply to FOSS builds.
 Unknown manifest fields and unsupported backends/devices are rejected.
 Feature declarations such as ``capabilities`` and ``requires`` are future extensions, not accepted fields.

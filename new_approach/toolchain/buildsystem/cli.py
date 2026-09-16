@@ -15,7 +15,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument('--root', type=Path, default=Path(__file__).resolve().parents[2])
     parser.add_argument('--program')
     parser.add_argument('--target', default='uz_dslot_xo2')
-    parser.add_argument('--toolchain')
+    parser.add_argument('--backend', '--toolchain', dest='toolchain', choices=['diamond', 'foss'])
     parser.add_argument('--name')
     parser.add_argument('--template', default='tx30', help='Existing program to clone (default: tx30)')
     parser.add_argument('--discard-project-changes', action='store_true')
@@ -29,18 +29,23 @@ def main(argv: list[str] | None = None) -> int:
                 build = load_build(root, name, args.target, args.toolchain)
                 print(f'{name}\t{build.target}\t{build.backend}')
         elif args.command == 'doctor':
-            print(f'Python: {sys.version.split()[0]}\nDiamond: {launcher()}')
-            for name in catalog(root):
-                load_build(root, name, args.target, args.toolchain)
-            with tempfile.TemporaryDirectory(prefix='cpld-doctor-') as tmp:
-                script = Path(tmp) / 'doctor.tcl'
-                script.write_text(wrap(['if {[llength [info commands prj_project]] == 0} {error "Project Tcl unavailable"}', 'puts "Diamond project Tcl available"']))
-                print(run(script, Path(tmp) / 'doctor.log').strip())
-            print('Catalog and Tcl startup passed; run build to validate synthesis and exports.')
+            builds = [load_build(root, name, args.target, args.toolchain) for name in catalog(root)]
+            print(f'Python: {sys.version.split()[0]}')
+            if builds and builds[0].backend == 'foss':
+                from .backends.foss import doctor
+                print(doctor(builds[0]))
+            else:
+                print(f'Diamond: {launcher()}')
+                with tempfile.TemporaryDirectory(prefix='cpld-doctor-') as tmp:
+                    script = Path(tmp) / 'doctor.tcl'
+                    script.write_text(wrap(['if {[llength [info commands prj_project]] == 0} {error "Project Tcl unavailable"}', 'puts "Diamond project Tcl available"']))
+                    print(run(script, Path(tmp) / 'doctor.log').strip())
+            print('Catalog and tool startup passed; run build to validate synthesis and exports.')
         elif args.command == 'new':
             if not args.name:
                 raise BuildError('new requires --name (Make: NAME=...)')
-            print(workflow.scaffold(root, args.name, args.template, args.target))
+            load_build(root, args.template, args.target, args.toolchain)
+            print(workflow.scaffold(root, args.name, args.template, args.target, args.toolchain))
         elif args.command == 'build-all':
             failed = []
             for name in catalog(root):

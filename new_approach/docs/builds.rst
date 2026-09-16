@@ -11,12 +11,15 @@ Firmware commands
    make doctor
    make build PROGRAM=tx30
    make build-all
+   make build PROGRAM=tx30 backend=foss
 
-``check`` validates manifests and files; ``doctor`` also checks Diamond Tcl startup.
+``check`` validates manifests and files; ``doctor`` also checks the selected tools.
 ``build-all`` processes the explicit ``programs/catalog.toml`` list and fails if any entry fails.
 The default Make target is ``build`` and requires ``PROGRAM``.
-``TARGET`` defaults to ``uz_dslot_xo2`` and ``TOOLCHAIN`` selects the implemented backend, ``diamond``.
-Firmware commands run in the calling environment and never flash a device.
+``TARGET`` defaults to ``uz_dslot_xo2`` and ``backend`` selects ``diamond`` (default) or ``foss``.
+See :doc:`foss` for open-source setup, artifacts and validation limits.
+Diamond commands run in the calling environment; FOSS compilation uses the toolchain container on hosts.
+Firmware commands never flash a device.
 
 Create a program
 ----------------
@@ -41,7 +44,7 @@ Outputs and failures
 Artifacts include ``firmware.jed``, ``firmware.bit``, reports and a ``build.json`` provenance record.
 ``configuration.json`` detects changes to generated settings; ``status.json`` records builds that passed the initial guards.
 
-A build that passes the lock/configuration guards removes previous artifacts before invoking Diamond.
+A build that passes the lock/configuration guards removes previous artifacts before invoking the selected backend.
 Preparation or compilation failure preserves logs without publishing stale firmware.
 An earlier rejection, such as an invalid manifest or edited generated settings, leaves previous outputs untouched.
 ``project`` regenerates project files without refreshing firmware; consult ``build.json`` for the inputs used by an export.
@@ -60,5 +63,5 @@ Check the destination when saving from Spreadsheet View, because an exported LPF
 Transfer useful project/strategy changes into manifests or the target strategy before regenerating.
 ``gui`` preserves an existing project, while ``project``, ``build`` and ordinary ``clean`` reject edited generated settings.
 After preserving useful changes, ``make clean PROGRAM=tx30 DISCARD_PROJECT_CHANGES=1`` explicitly discards them.
-Cleanup removes only the selected firmware directory and preserves simulation, netlist and lock files.
+Cleanup removes only the selected backend firmware directory and preserves simulation, netlist and lock files.
 Managed operations share a program/target lock; independently launched GUI sessions cannot honor it and must be closed before a build.

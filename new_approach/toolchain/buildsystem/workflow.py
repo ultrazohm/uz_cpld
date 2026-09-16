@@ -13,6 +13,13 @@ from .model import Build, BuildError, identifier, load_build, read_toml
 from .backends.diamond import DiamondBackend, launcher
 
 
+def backend_for(build):
+    if build.backend == 'diamond':
+        return DiamondBackend()
+    from .backends.foss import FossBackend
+    return FossBackend()
+
+
 def digest(path: Path) -> str:
     """Return a file's SHA-256 digest."""
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -63,7 +70,7 @@ def locked(build: Build):
 def configuration(project: Path) -> dict:
     """Fingerprint generated project settings, including GUI-added metadata."""
     return {str(p.relative_to(project)): digest(p) for p in sorted(project.rglob('*'))
-            if p.is_file() and p.suffix in ('.ldf', '.sty', '.tcl')}
+            if p.is_file() and (p.suffix in ('.ldf', '.sty', '.tcl', '.ys', '.lpf') or p.name == 'build-plan.json')}
 
 
 def guard(directory: Path):
@@ -89,7 +96,7 @@ def prepare(build: Build, directory: Path):
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     log = logs / f'{stamp}-prepare.log'
     try:
-        DiamondBackend().prepare(build, project, log)
+        backend_for(build).prepare(build, project, log)
     finally:
         # Even a failed generation can be safely retried if it remains unchanged.
         if project.exists():
@@ -98,17 +105,17 @@ def prepare(build: Build, directory: Path):
 
 
 def project(build: Build) -> Path:
-    """Create a GUI-compatible project without synthesizing it."""
+    """Create a Diamond project or a FOSS build plan without synthesizing it."""
     with locked(build) as directory:
         path, _ = prepare(build, directory)
-        return path / 'firmware.ldf'
+        return path / ('firmware.ldf' if build.backend == 'diamond' else 'build-plan.json')
 
 
 def build_program(build: Build) -> Path:
     """Build fresh firmware; publish success only after input/output validation.
 
     Failed attempts retain logs and intermediates. Previous artifacts are removed
-    before invoking Diamond so they cannot be mistaken for the current result.
+    before invoking the selected backend so they cannot be mistaken for the current result.
     """
     with locked(build) as directory:
         guard(directory)
@@ -122,14 +129,14 @@ def build_program(build: Build) -> Path:
         before = hashes(build)
         try:
             proj, log = prepare(build, directory)
-            output = DiamondBackend().build(proj, log)
+            output = backend_for(build).build(proj, log)
             versions = re.findall(r'3\.14\.0\.\d+\.\d+', output)
-            if build.expected_version not in versions:
+            if build.backend == 'diamond' and build.expected_version not in versions:
                 raise BuildError(f'Expected Diamond {build.expected_version} not reported; see {log}')
             if before != hashes(build):
                 raise BuildError('Inputs changed during build; outputs were not published')
             exports = {}
-            for ext in ('jed', 'bit'):
+            for ext in (('jed', 'bit') if build.backend == 'diamond' else ('bit',)):
                 path = proj / 'impl' / f'firmware_impl.{ext}'
                 if not path.is_file() or not path.stat().st_size:
                     raise BuildError(f'Missing fresh export: {path}; see {log}')
@@ -139,7 +146,7 @@ def build_program(build: Build) -> Path:
                 shutil.copy2(path, artifacts / f'firmware.{ext}')
             reports = artifacts / 'reports'; reports.mkdir()
             for p in (proj / 'impl').rglob('*'):
-                if p.is_file() and p.suffix.lower() in {'.twr', '.mrp', '.par', '.pad', '.srr', '.rpt', '.bgn', '.html', '.log'}:
+                if p.is_file() and p.suffix.lower() in {'.twr', '.mrp', '.par', '.pad', '.srr', '.rpt', '.bgn', '.html', '.log', '.json', '.config'}:
                     destination = reports / p.relative_to(proj / 'impl')
                     destination.parent.mkdir(parents=True, exist_ok=True)
                     shutil.copy2(p, destination)
@@ -149,9 +156,8 @@ def build_program(build: Build) -> Path:
             record = {'schema_version': 1, 'status': 'success', 'program': build.name,
                       'target': build.target, 'backend': build.backend, 'device': build.device,
                       'top': build.top, 'standard': build.standard,
-                      'tool_version': build.expected_version, 'launcher': str(launcher()),
-                      'launcher_sha256': digest(launcher()),
-                      'options': dict(build.options, lse_vhdl2008='True' if build.standard == '2008' else 'False'),
+                      'tool_version': build.expected_version,
+                      'options': build.options,
                       'generated_configuration': configuration(proj),
                       'warnings': [line for line in output.splitlines() if 'WARNING' in line.upper()],
                       'timing_acceptance': 'not evaluated: no program timing budget defined',
@@ -160,6 +166,12 @@ def build_program(build: Build) -> Path:
                       'inputs': before, 'completed_at': datetime.now(timezone.utc).isoformat(),
                       'log': str(log.relative_to(build.root)),
                       'outputs': {str(p.relative_to(artifacts)): digest(p) for p in sorted(artifacts.rglob('*')) if p.is_file()}}
+            if build.backend == 'diamond':
+                record.update(launcher=str(launcher()), launcher_sha256=digest(launcher()),
+                              options=dict(build.options, lse_vhdl2008='True' if build.standard == '2008' else 'False'))
+            else:
+                record['tools'] = json.loads((proj / 'impl/tools.json').read_text())
+                record['limitations'] = 'Experimental MachXO2 flow; no hardware or Diamond bitstream equivalence established; no JEDEC export.'
             write_json(artifacts / 'build.json', record)
             write_json(directory / 'status.json', {'status': 'success'})
         except Exception as exc:
@@ -188,6 +200,8 @@ def gui(build: Build):
     The launcher must remain foregrounded until Diamond closes. Do not open the
     same implementation separately while a managed operation is running.
     """
+    if build.backend != 'diamond':
+        raise BuildError('gui is only supported by backend=diamond; FOSS project emits a build plan')
     executable = launcher(gui=True)
     with locked(build) as directory:
         # Preserve existing GUI experiments; explicit project/build regenerates.
@@ -199,7 +213,7 @@ def gui(build: Build):
             raise BuildError(f'Diamond GUI exited {result.returncode}')
 
 
-def scaffold(root: Path, name: str, template: str, target: str = 'uz_dslot_xo2') -> Path:
+def scaffold(root: Path, name: str, template: str, target: str = 'uz_dslot_xo2', backend: str | None = None) -> Path:
     """Clone an existing program, renaming its files and manifest references.
 
     ``template`` names a program under ``programs/``; no template directory is
@@ -214,7 +228,7 @@ def scaffold(root: Path, name: str, template: str, target: str = 'uz_dslot_xo2')
     destination = root / 'programs' / name
     if destination.exists() or destination.is_symlink():
         raise BuildError(f'Program already exists: {destination}')
-    original = load_build(root, template, target)
+    original = load_build(root, template, target, backend)
     source = original.manifests[0].parent
     meta = read_toml(original.manifests[0])
     local_inputs = [s.path for s in original.sources] + [original.constraint, original.testbench]
@@ -256,7 +270,7 @@ def scaffold(root: Path, name: str, template: str, target: str = 'uz_dslot_xo2')
             (destination / old).rename(destination / new)
         (destination / f'{name}.toml').write_text(
             ''.join(f'{key} = {toml_value(value)}\n' for key, value in meta.items()))
-        load_build(root, name, target)
+        load_build(root, name, target, backend)
     except Exception:
         shutil.rmtree(destination)
         raise

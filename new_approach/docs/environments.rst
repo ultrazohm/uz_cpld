@@ -4,7 +4,7 @@ Environment setup
 Containers
 ----------
 
-The Dockerfile defines three Linux amd64 stages sharing the same simulation, analysis and documentation dependencies.
+The Dockerfile defines three Linux amd64 runtime stages sharing firmware, simulation, analysis and documentation tools, plus a ``foss-builder`` stage for compiling device support.
 
 .. list-table:: Image stages
    :header-rows: 1
@@ -12,7 +12,7 @@ The Dockerfile defines three Linux amd64 stages sharing the same simulation, ana
    * - Stage
      - Purpose
    * - ``toolchain``
-     - CI and host Make commands; GHDL, Yosys, Graphviz, Python and Sphinx, without Diamond or interactive developer tools.
+     - CI and host Make commands; GHDL, Yosys, nextpnr-machxo2, Trellis, openFPGALoader, Graphviz, Python and Sphinx.
    * - ``development``
      - VS Code development; adds GTKWave, shell utilities, sudo and the developer CLI.
    * - ``diamond``
@@ -30,7 +30,7 @@ Dev Container
 -------------
 
 Open the repository or ``new_approach/`` in VS Code and select **Dev Containers: Reopen in Container**.
-The default configuration uses the ``development`` stage without a Diamond mount or host networking.
+The default configuration uses the ``development`` stage, including the FOSS firmware tools, without a Diamond mount or host networking.
 Choose the **Diamond** configuration when firmware compilation is needed.
 Before launching VS Code for that configuration, export the installation root, which is the parent of ``bin``::
 
@@ -76,4 +76,5 @@ Native tools
 Native use requires Python 3.10+, GHDL, Yosys, Graphviz and the packages in ``docs/requirements.txt``.
 The tooling tests also require Tcl support through ``python3-tk`` on Ubuntu.
 The image and native requirements select the same Sphinx version; OS packages and the Ubuntu image tag remain mutable inputs.
-Build dependencies are installed in the image, not downloaded by the documentation build.
+Build dependencies are installed in the image, not downloaded by firmware or documentation commands.
+See :doc:`foss` for the pinned tool bundle and native source-build prerequisites.

@@ -7,3 +7,7 @@ strategy = "baseline.sty"
 version = "3.14.0.75.2"
 
 [diamond.options]
+
+[foss]
+version = "2026-09-16"
+seed = 1

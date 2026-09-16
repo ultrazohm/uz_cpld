@@ -10,7 +10,8 @@ Source layout
    ├── Makefile
    ├── .devcontainer/          image stages and optional Diamond configuration
    ├── toolchain/
-   │   ├── buildsystem/        validated model, CLI, lifecycle and Diamond backend
+   │   ├── buildsystem/        validated model, CLI, lifecycle and firmware backends
+   │   ├── foss/               pinned tool installers and device-specific source build
    │   ├── simulation/         pytest/GHDL runner
    │   ├── analysis/           RTL export, VCD viewer and Sphinx page generation
    │   ├── targets/            board manifests and strategy inputs
@@ -33,7 +34,8 @@ Generated Diamond metadata keeps builds scriptable while retaining GUI access; u
 Board and backend separation permits extensions, but changing a target flag cannot make device-specific HDL portable.
 
 The workflow validates inputs, acquires a lock, protects edited generated settings and creates a fresh project.
-Diamond runs synthesis, translation, mapping, place-and-route, timing reporting and both firmware exports without a display or interactive stdin.
+The Diamond backend runs synthesis, translation, mapping, place-and-route, timing reporting and both firmware exports without a display or interactive stdin.
+The :doc:`FOSS backend <foss>` shares the build lifecycle and adds synthesis equivalence, LPF translation and bitstream packing.
 Because Diamond's Tcl interface treats ``def_top`` as internal, preparation sets it in the saved LDF XML.
 Publication requires nonempty exports, the configured tool version and unchanged input hashes.
 ``build.json`` records inputs, options, tool/launcher identity, Git state, reports and output hashes; it is an audit record rather than proof of reproducibility.

@@ -23,7 +23,7 @@ The build checks local page, image, iframe and download links for missing files 
 GitHub Pages
 ------------
 
-The repository workflow ``.github/workflows/toolchain.yml`` builds the image, runs tooling tests and generates documentation in separate steps.
+The repository workflow ``.github/workflows/toolchain.yml`` builds the image, runs tooling tests, compiles the FOSS firmware catalog and generates documentation in separate steps.
 Pull requests and pushes to other branches produce review artifacts without publishing.
 Successful pushes or manual runs on ``feature/m4_inverter_resolver_d4_d5`` upload a Pages artifact and deploy through the ``github-pages`` environment.
 Both the artifact upload and deployment conditions select this branch explicitly.
@@ -34,7 +34,7 @@ The deployment job uses ``pages: write`` and ``id-token: write``; the build job 
 The deployment URL appears in the workflow's environment result, with ``https://ultrazohm.github.io/uz_cpld/`` as the standard project-site address unless repository settings specify a custom domain.
 
 The workflow uploads only the generated HTML site for deployment, retaining build diagnostics separately.
-It does not compile or publish firmware.
+FOSS firmware and reports are retained as workflow artifacts and excluded from the Pages site.
 A configured workflow is not evidence of a successful hosted deployment; verify the GitHub Actions run after pushing the workflow to the deployment branch.
 
 Maintenance

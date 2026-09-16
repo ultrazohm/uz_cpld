@@ -1,9 +1,89 @@
-*.tcl
+# Lattice Diamond / ispLEVER generated files.
+# Keep HDL, constraints (.lpf/.ldc/.lci/.sdc/.fdc), projects (.ldf/.syn/.prj),
+# strategies (.sty), IP configuration/netlists (.ipx/.lpc/.edn/.edf),
+# Programmer chains (.xcf), scripts (.tcl), and mapping tables (.csv).
+# Keep programming deliverables (.jed/.bit/.svf/.xsvf) available for versioning.
+# Do not ignore entire implementation folders: they can contain source files.
+
+# Local GUI state, recovery, and temporary files
+.build_status
+.run_manager.ini
+.recovery
+.setting.ini
+.spread_sheet.ini
+.spreadsheet_view.ini
+*.bak
+*.tmp
+*.tmp[0-9]*
+*~
+
+# Synthesis caches and generated helper files
+.vdbs/
+*.dir/
+synwork/
+synlog/
+syntmp/
+*.vdb
+*.lsedata
+*_lattice.synproj
+*_syn.prj
+*_prim.v
+*_syn.v
+*_syn.vhd
+*_syn.vhdl
+_math_real.vhd
+._Real_._Math_.vhd
+xxx_lse_cp_file_list
+xxx_lse_sign_file
+*.ccl
+*.srs
+*.srm
+*.srr
+*.srp
+*.srf
+*.fse
+*.fdep
+*.fdeporig
+
+# Translation, mapping, place-and-route, and timing intermediates
+*.ngd
+*.ngo
+*.ncd
+*.ncl
+*.asd
+*.cam
+*.prf
+*.pt
+*.p2t
+*.p3t
+*.t2b
+*.alt
+*.mt
 *.lct
+*.lco
 *.vho
-*.eq*   
-*.ini
-*.csv
+*.vo
+*.sdf
+
+# Reports, logs, and generated message databases
+*.html
+*.htm
+*.log
+*.err
+*.rpt
+*.twr
+*.tw[0-9]
+*.par
+*.pad
+*.mrp
+*.bgn
+*.drc
+*.hrr
+*.arearep
+message.xml
+
+# Legacy ispLEVER implementation scratch files
+*.eq*
 *.abt
 *.b2*
 *.bl*
@@ -11,27 +91,15 @@
 *.crf
 *.d0
 *.dum
-*.err
 *.fti
 *.imp
-*.ini
-*.ipr
 *.lst
-*.lci
 *.rev
-*.sdf
-*.sty
-*.STY
-*.sym
 *.tda
 *.tt4
 *.xrf
 *.jhd
-*.rs*
-*.log
-*.lco
 *.ppn
-*.rpt
 *.svl
 *.l0*
 *.lc_
@@ -39,21 +107,4 @@
 *.env
 *.naf
 *.sif
-*.bak
-*.tmp
-*.html
-
-impl*/
-*.xml
-.build_status
-.run_manager.ini
-.recovery
-.spread_sheet.ini
-.spreadsheet_view.ini
-*.dir/
-*.log
-*.tcl
-*.ccl
-*.srp
 *.dmp
-._Real_._Math_.vhd

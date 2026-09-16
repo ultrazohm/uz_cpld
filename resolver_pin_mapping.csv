@@ -1,0 +1,48 @@
+Idee: CPLD routed the signale so, dass sie zum mapping links passen (rechts is CPLD eingang, rechts CPLD ausgang -> Block Design ist kompatible)
+
+D5 Resolver 4 (D3: Resolver 4 im BIld)
+
+Pin 4inverter,signal name m4 inverter, pin karte
+Dig_00,Res4_SPI_SDO,Dig_07
+Dig_01,Res4_SPI_SDI,Dig_14
+Dig_02,Res4_SPI_CLK,Dig_09
+Dig_03,Res4_SPI_CS,Dig_13
+Dig_04,Res4_FSYNC,Dig_08
+Dig_05,Res4_RESET,Dig_10
+Dig_06,Res4_A0,Dig_12
+Dig_07,Res4_A1,Dig_11
+Dig_08,Res4_NSAMPLE,Dig_06
+
+D4 Resolver 1-3 (D2:Resolver 1-3 in Picture)
+
+Pin 4inverter,signal name m4 inverter, pin karte
+Dig_00,Res1_SPI_SDO,Dig_01
+Dig_01,Res1_SPI_SDI,Dig_08
+Dig_02,Res1_SPI_CLK,Dig_03
+Dig_03,Res1_SPI_CS,Dig_07
+Dig_04,Res1_FSYNC,Dig_02
+Dig_05,Res1_RESET,Dig_04
+Dig_06,Res1_A0,Dig_06
+Dig_07,Res1_A1,Dig_05
+Dig_08,Res1_NSAMPLE,Dig_00
+Dig_09,Res2_SPI_SDO,Dig_10
+Dig_10,Res2_SPI_SDI,Dig_17
+Dig_11,Res2_SPI_CLK,Dig_12
+Dig_12,Res2_SPI_CS,Dig_16
+Dig_13,Res2_FSYNC,Dig_11
+Dig_14,Res2_RESET,Dig_13
+Dig_15,Res2_A0,Dig_15
+Dig_16,Res2_A1,Dig_14
+Dig_17,Res2_NSAMPLE,Dig_09
+Dig_18,Res3_SPI_SDO,Dig_19
+Dig_19,Res3_SPI_SDI,Dig_26
+Dig_20,Res3_SPI_CLK,Dig_21
+Dig_21,Res3_SPI_CS,Dig_25
+Dig_22,Res3_SPI_FSYNC,Dig_20
+Dig_23,Res3_SPI_RESET,Dig_22
+Dig_24,Res3_A0,Dig_24
+Dig_25,Res3_A1,Dig_23
+Dig_26,Res3_NSAMPLE,Dig_18
+Dig_27,nc,
+Dig_28,nc,
+Dig_29,nc,

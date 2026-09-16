@@ -1,174 +1,0 @@
-<HTML>
-<HEAD><TITLE>Lattice Map TRACE Report</TITLE>
-<STYLE TYPE="text/css">
-<!--
- body,pre{    font-family:'Courier New', monospace;    color: #000000;    font-size:88%;    background-color: #ffffff;}h1 {    font-weight: bold;    margin-top: 24px;    margin-bottom: 10px;    border-bottom: 3px solid #000;    font-size: 1em;}h2 {    font-weight: bold;    margin-top: 18px;    margin-bottom: 5px;    font-size: 0.90em;}h3 {    font-weight: bold;    margin-top: 12px;    margin-bottom: 5px;    font-size: 0.80em;}p {    font-size:78%;}P.Table {    margin-top: 4px;    margin-bottom: 4px;    margin-right: 4px;    margin-left: 4px;}table{    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    border-collapse: collapse;}th {    font-weight:bold;    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    text-align:left;    font-size:78%;}td {    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    font-size:78%;}a {    color:#013C9A;    text-decoration:none;}a:visited {    color:#013C9A;}a:hover, a:active {    text-decoration:underline;    color:#5BAFD4;}.pass{background-color: #00ff00;}.fail{background-color: #ff0000;}.comment{    font-size: 90%;    font-style: italic;}
--->
-</STYLE>
-</HEAD>
-<PRE><A name="Map_Twr"></A><B><U><big>Map TRACE Report</big></U></B>
-
-Loading design for application trce from file uz_d_slots_uz_d_abs_encoder_map.ncd.
-Design name: SignalRouter
-NCD version: 3.3
-Vendor:      LATTICE
-Device:      LCMXO2-2000HC
-Package:     TQFP100
-Performance: 4
-Loading device for application trce from file 'xo2c2000.nph' in environment: C:/lscc/diamond/3.13/ispfpga.
-Package Status:                     Final          Version 1.44.
-Performance Hardware Data Status:   Final          Version 34.4.
-Setup and Hold Report
-
---------------------------------------------------------------------------------
-<A name="Map_Twr_setup"></A><B><U><big>Lattice TRACE Report - Setup, Version Diamond (64-bit) 3.13.0.56.2</big></U></B>
-Sat Oct 04 15:23:59 2025
-
-Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
-Copyright (c) 1995 AT&T Corp.   All rights reserved.
-Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
-Copyright (c) 2001 Agere Systems   All rights reserved.
-Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
-
-<A name="mtw1_set_ri"></A><B><U><big>Report Information</big></U></B>
-------------------
-Command line:    trce -v 1 -gt -mapchkpnt 0 -sethld -o uz_d_slots_uz_d_abs_encoder.tw1 -gui uz_d_slots_uz_d_abs_encoder_map.ncd uz_d_slots_uz_d_abs_encoder.prf 
-Design file:     uz_d_slots_uz_d_abs_encoder_map.ncd
-Preference file: uz_d_slots_uz_d_abs_encoder.prf
-Device,speed:    LCMXO2-2000HC,4
-Report level:    verbose report, limited to 1 item per preference
---------------------------------------------------------------------------------
-
-<A name="mtw1_set_ps"></A><B><U><big>Preference Summary</big></U></B>
-
-<LI><A href='#map_twr_pref_0_0' Target='right'>Default path enumeration(0 errors)</A></LI>            20 items scored, 0 timing errors detected.
-
-<LI><A href='#map_twr_pref_0_1' Target='right'>Default net enumeration(0 errors)</A></LI>            23 items scored, 0 timing errors detected.
-
-BLOCK ASYNCPATHS
-BLOCK RESETPATHS
---------------------------------------------------------------------------------
-
-
-
-================================================================================
-<A name="map_twr_pref_0_0"></A>Preference: Default path enumeration
-            20 items scored, 0 timing errors detected.
---------------------------------------------------------------------------------
-
-Report:    9.753ns delay fpga_27 to slotok
-
-   Name    Fanout   Delay (ns)          Site               Resource
-PADI_DEL    ---     1.767         96.PAD to       96.PADDI fpga_27
-ROUTE         1   e 1.234       96.PADDI to     SLICE_0.B0 fpga_27_c
-CTOF_DEL    ---     0.495     SLICE_0.B0 to     SLICE_0.F0 SLICE_0
-ROUTE         1   e 0.480     SLICE_0.F0 to     SLICE_0.D1 n6
-CTOF_DEL    ---     0.495     SLICE_0.D1 to     SLICE_0.F1 SLICE_0
-ROUTE         1   e 1.234     SLICE_0.F1 to       81.PADDO slotok_c
-DOPAD_DEL   ---     4.048       81.PADDO to         81.PAD slotok
-                  --------
-                    9.753   (69.8% logic, 30.2% route), 4 logic levels.
-
-Report:    9.753ns is the maximum delay for this preference.
-
-
-================================================================================
-<A name="map_twr_pref_0_1"></A>Preference: Default net enumeration
-            23 items scored, 0 timing errors detected.
---------------------------------------------------------------------------------
-
-Report:    2.770ns maximum delay on d_04_c_c
-
-           Delays             Connection(s)
-         e 2.770ns         38.PADDI to 15.PADDO        
-
-Report:    2.770ns is the maximum delay for this preference.
-
-<A name="mtw1_set_rs"></A><B><U><big>Report Summary</big></U></B>
---------------
-----------------------------------------------------------------------------
-Preference                              |   Constraint|       Actual|Levels
-----------------------------------------------------------------------------
-                                        |             |             |
-Default path enumeration                |     0.000 ns|     9.753 ns|   0  
-                                        |             |             |
-Default net enumeration                 |     0.000 ns|     2.770 ns|   0  
-                                        |             |             |
-----------------------------------------------------------------------------
-
-
-All preferences were met.
-
-
-<A name="mtw1_set_clkda"></A><B><U><big>Clock Domains Analysis</big></U></B>
-------------------------
-
-Found 0 clocks:
-
-
-<A name="mtw1_set_ts"></A><B><U><big>Timing summary (Setup):</big></U></B>
----------------
-
-Timing errors: 0  Score: 0
-Cumulative negative slack: 0
-
-Constraints cover 20 paths, 23 nets, and 23 connections (100.00% coverage)
-
---------------------------------------------------------------------------------
-
-
-
-
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-</PRE></FONT>
-</BODY>
-</HTML>

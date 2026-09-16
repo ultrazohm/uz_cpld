@@ -1,298 +1,0 @@
-<HTML>
-<HEAD><TITLE>Lattice TRACE Report</TITLE>
-<STYLE TYPE="text/css">
-<!--
- body,pre{    font-family:'Courier New', monospace;    color: #000000;    font-size:88%;    background-color: #ffffff;}h1 {    font-weight: bold;    margin-top: 24px;    margin-bottom: 10px;    border-bottom: 3px solid #000;    font-size: 1em;}h2 {    font-weight: bold;    margin-top: 18px;    margin-bottom: 5px;    font-size: 0.90em;}h3 {    font-weight: bold;    margin-top: 12px;    margin-bottom: 5px;    font-size: 0.80em;}p {    font-size:78%;}P.Table {    margin-top: 4px;    margin-bottom: 4px;    margin-right: 4px;    margin-left: 4px;}table{    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    border-collapse: collapse;}th {    font-weight:bold;    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    text-align:left;    font-size:78%;}td {    padding: 4px;    border-width: 1px 1px 1px 1px;    border-style: solid solid solid solid;    border-color: black black black black;    vertical-align:top;    font-size:78%;}a {    color:#013C9A;    text-decoration:none;}a:visited {    color:#013C9A;}a:hover, a:active {    text-decoration:underline;    color:#5BAFD4;}.pass{background-color: #00ff00;}.fail{background-color: #ff0000;}.comment{    font-size: 90%;    font-style: italic;}
--->
-</STYLE>
-</HEAD>
-<PRE><A name="Par_Twr"></A><B><U><big>Place & Route TRACE Report</big></U></B>
-
-Loading design for application trce from file uz_d_slots_uz_d_resolver_d1_to_d4.ncd.
-Design name: SignalRouter
-NCD version: 3.3
-Vendor:      LATTICE
-Device:      LCMXO2-2000HC
-Package:     TQFP100
-Performance: 4
-Loading device for application trce from file 'xo2c2000.nph' in environment: C:/lscc/diamond/3.13/ispfpga.
-Package Status:                     Final          Version 1.44.
-Performance Hardware Data Status:   Final          Version 34.4.
-Setup and Hold Report
-
---------------------------------------------------------------------------------
-<A name="Par_Twr_setup"></A><B><U><big>Lattice TRACE Report - Setup, Version Diamond (64-bit) 3.13.0.56.2</big></U></B>
-Mon Dec 16 09:21:03 2024
-
-Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
-Copyright (c) 1995 AT&T Corp.   All rights reserved.
-Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
-Copyright (c) 2001 Agere Systems   All rights reserved.
-Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
-
-<A name="ptwr_set_ri"></A><B><U><big>Report Information</big></U></B>
-------------------
-Command line:    trce -v 10 -gt -sethld -sp 4 -sphld m -o uz_d_slots_uz_d_resolver_d1_to_d4.twr -gui -msgset C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/promote.xml uz_d_slots_uz_d_resolver_d1_to_d4.ncd uz_d_slots_uz_d_resolver_d1_to_d4.prf 
-Design file:     uz_d_slots_uz_d_resolver_d1_to_d4.ncd
-Preference file: uz_d_slots_uz_d_resolver_d1_to_d4.prf
-Device,speed:    LCMXO2-2000HC,4
-Report level:    verbose report, limited to 10 items per preference
---------------------------------------------------------------------------------
-
-<A name="ptwr_set_ps"></A><B><U><big>Preference Summary</big></U></B>
-
-<LI><A href='#par_twr_pref_0_0' Target='right'>Default path enumeration(0 errors)</A></LI>            31 items scored, 0 timing errors detected.
-
-<LI><A href='#par_twr_pref_0_1' Target='right'>Default net enumeration(0 errors)</A></LI>            33 items scored, 0 timing errors detected.
-
-BLOCK ASYNCPATHS
-BLOCK RESETPATHS
---------------------------------------------------------------------------------
-
-
-
-================================================================================
-<A name="par_twr_pref_0_0"></A>Preference: Default path enumeration
-            31 items scored, 0 timing errors detected.
---------------------------------------------------------------------------------
-
-Report:   10.119ns delay reqsafestate to slotok
-
-   Name    Fanout   Delay (ns)          Site               Resource
-PADI_DEL    ---     1.767         76.PAD to       76.PADDI reqsafestate
-ROUTE         1     2.488       76.PADDI to      R2C20A.C0 reqsafestate_c
-CTOF_DEL    ---     0.495      R2C20A.C0 to      R2C20A.F0 SLICE_0
-ROUTE         1     1.321      R2C20A.F0 to       81.PADDO slotok_c
-DOPAD_DEL   ---     4.048       81.PADDO to         81.PAD slotok
-                  --------
-                   10.119   (62.4% logic, 37.6% route), 3 logic levels.
-
-Report:    9.634ns delay fpga_00 to d_00
-
-   Name    Fanout   Delay (ns)          Site               Resource
-PADI_DEL    ---     1.767         78.PAD to       78.PADDI fpga_00
-ROUTE         1     5.070       78.PADDI to       17.PADDO d_00_c_c
-DOPAD_DEL   ---     2.797       17.PADDO to         17.PAD d_00
-                  --------
-                    9.634   (47.4% logic, 52.6% route), 2 logic levels.
-
-Report:    9.443ns delay d_17 to fpga_17
-
-   Name    Fanout   Delay (ns)          Site               Resource
-PADI_DEL    ---     1.132         61.PAD to       61.PADDI d_17
-ROUTE         1     4.263       61.PADDI to       19.PADDO fpga_17_c_c
-DOPAD_DEL   ---     4.048       19.PADDO to         19.PAD fpga_17
-                  --------
-                    9.443   (54.9% logic, 45.1% route), 2 logic levels.
-
-Report:    9.342ns delay fpga_19 to d_19
-
-   Name    Fanout   Delay (ns)          Site               Resource
-PADI_DEL    ---     1.767         21.PAD to       21.PADDI fpga_19
-ROUTE         1     4.778       21.PADDI to       62.PADDO d_19_c_c
-DOPAD_DEL   ---     2.797       62.PADDO to         62.PAD d_19
-                  --------
-                    9.342   (48.9% logic, 51.1% route), 2 logic levels.
-
-Report:    9.326ns delay fpga_15 to d_15
-
-   Name    Fanout   Delay (ns)          Site               Resource
-PADI_DEL    ---     1.767         24.PAD to       24.PADDI fpga_15
-ROUTE         1     4.762       24.PADDI to       60.PADDO d_15_c_c
-DOPAD_DEL   ---     2.797       60.PADDO to         60.PAD d_15
-                  --------
-                    9.326   (48.9% logic, 51.1% route), 2 logic levels.
-
-Report:    9.145ns delay d_08 to fpga_08
-
-   Name    Fanout   Delay (ns)          Site               Resource
-PADI_DEL    ---     1.132          9.PAD to        9.PADDI d_08
-ROUTE         1     3.965        9.PADDI to       41.PADDO fpga_08_c_c
-DOPAD_DEL   ---     4.048       41.PADDO to         41.PAD fpga_08
-                  --------
-                    9.145   (56.6% logic, 43.4% route), 2 logic levels.
-
-Report:    8.935ns delay fpga_23 to d_23
-
-   Name    Fanout   Delay (ns)          Site               Resource
-PADI_DEL    ---     1.767         28.PAD to       28.PADDI fpga_23
-ROUTE         1     4.371       28.PADDI to       64.PADDO d_23_c_c
-DOPAD_DEL   ---     2.797       64.PADDO to         64.PAD d_23
-                  --------
-                    8.935   (51.1% logic, 48.9% route), 2 logic levels.
-
-Report:    8.863ns delay fpga_21 to d_21
-
-   Name    Fanout   Delay (ns)          Site               Resource
-PADI_DEL    ---     1.767         30.PAD to       30.PADDI fpga_21
-ROUTE         1     4.299       30.PADDI to       63.PADDO d_21_c_c
-DOPAD_DEL   ---     2.797       63.PADDO to         63.PAD d_21
-                  --------
-                    8.863   (51.5% logic, 48.5% route), 2 logic levels.
-
-Report:    8.789ns delay fpga_10 to d_10
-
-   Name    Fanout   Delay (ns)          Site               Resource
-PADI_DEL    ---     1.767         38.PAD to       38.PADDI fpga_10
-ROUTE         1     4.225       38.PADDI to       10.PADDO d_10_c_c
-DOPAD_DEL   ---     2.797       10.PADDO to         10.PAD d_10
-                  --------
-                    8.789   (51.9% logic, 48.1% route), 2 logic levels.
-
-Report:    8.744ns delay fpga_02 to d_02
-
-   Name    Fanout   Delay (ns)          Site               Resource
-PADI_DEL    ---     1.767         84.PAD to       84.PADDI fpga_02
-ROUTE         1     4.180       84.PADDI to       16.PADDO d_02_c_c
-DOPAD_DEL   ---     2.797       16.PADDO to         16.PAD d_02
-                  --------
-                    8.744   (52.2% logic, 47.8% route), 2 logic levels.
-
-Report:   10.119ns is the maximum delay for this preference.
-
-
-================================================================================
-<A name="par_twr_pref_0_1"></A>Preference: Default net enumeration
-            33 items scored, 0 timing errors detected.
---------------------------------------------------------------------------------
-
-Report:    5.070ns maximum delay on d_00_c_c
-
-           Delays             Connection(s)
-           5.070ns         78.PADDI to 17.PADDO        
-
-Report:    4.778ns maximum delay on d_19_c_c
-
-           Delays             Connection(s)
-           4.778ns         21.PADDI to 62.PADDO        
-
-Report:    4.762ns maximum delay on d_15_c_c
-
-           Delays             Connection(s)
-           4.762ns         24.PADDI to 60.PADDO        
-
-Report:    4.371ns maximum delay on d_23_c_c
-
-           Delays             Connection(s)
-           4.371ns         28.PADDI to 64.PADDO        
-
-Report:    4.299ns maximum delay on d_21_c_c
-
-           Delays             Connection(s)
-           4.299ns         30.PADDI to 63.PADDO        
-
-Report:    4.263ns maximum delay on fpga_17_c_c
-
-           Delays             Connection(s)
-           4.263ns         61.PADDI to 19.PADDO        
-
-Report:    4.225ns maximum delay on d_10_c_c
-
-           Delays             Connection(s)
-           4.225ns         38.PADDI to 10.PADDO        
-
-Report:    4.180ns maximum delay on d_02_c_c
-
-           Delays             Connection(s)
-           4.180ns         84.PADDI to 16.PADDO        
-
-Report:    4.060ns maximum delay on d_27_c_c
-
-           Delays             Connection(s)
-           4.060ns         96.PADDI to 66.PADDO        
-
-Report:    3.989ns maximum delay on d_01_c_c
-
-           Delays             Connection(s)
-           3.989ns         83.PADDI to 51.PADDO        
-
-Report:    5.070ns is the maximum delay for this preference.
-
-<A name="ptwr_set_rs"></A><B><U><big>Report Summary</big></U></B>
---------------
-----------------------------------------------------------------------------
-Preference                              |   Constraint|       Actual|Levels
-----------------------------------------------------------------------------
-                                        |             |             |
-Default path enumeration                |     0.000 ns|    10.119 ns|   0  
-                                        |             |             |
-Default net enumeration                 |     0.000 ns|     5.070 ns|   0  
-                                        |             |             |
-----------------------------------------------------------------------------
-
-
-All preferences were met.
-
-
-<A name="ptwr_set_clkda"></A><B><U><big>Clock Domains Analysis</big></U></B>
-------------------------
-
-Found 0 clocks:
-
-
-<A name="ptwr_set_ts"></A><B><U><big>Timing summary (Setup):</big></U></B>
----------------
-
-Timing errors: 0  Score: 0
-Cumulative negative slack: 0
-
-Constraints cover 31 paths, 33 nets, and 33 connections (100.00% coverage)
-
---------------------------------------------------------------------------------
-
-
-
-
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-<BR>
-</PRE></FONT>
-</BODY>
-</HTML>

@@ -54,32 +54,32 @@ entity SignalRouter is
 
         -- Define 30 d-slot ports
         d_00 : out STD_LOGIC;
-        d_01 : out STD_LOGIC;
+        d_01 : in STD_LOGIC;
         d_02 : out STD_LOGIC;
         d_03 : out STD_LOGIC;
         d_04 : out STD_LOGIC;
         d_05 : out STD_LOGIC;
         d_06 : out STD_LOGIC;
         d_07 : out STD_LOGIC;
-        d_08 : in STD_LOGIC;
+        d_08 : out STD_LOGIC;
         d_09 : out STD_LOGIC;
-        d_10 : out STD_LOGIC;
+        d_10 : in STD_LOGIC;
         d_11 : out STD_LOGIC;
         d_12 : out STD_LOGIC;
         d_13 : out STD_LOGIC;
         d_14 : out STD_LOGIC;
         d_15 : out STD_LOGIC;
         d_16 : out STD_LOGIC;
-        d_17 : in STD_LOGIC;
+        d_17 : out STD_LOGIC;
         d_18 : out STD_LOGIC;
-        d_19 : out STD_LOGIC;
+        d_19 : in STD_LOGIC;
         d_20 : out STD_LOGIC;
         d_21 : out STD_LOGIC;
         d_22 : out STD_LOGIC;
         d_23 : out STD_LOGIC;
         d_24 : out STD_LOGIC;
         d_25 : out STD_LOGIC;
-        d_26 : in STD_LOGIC;
+        d_26 : out STD_LOGIC;
         d_27 : out STD_LOGIC;
         d_28 : out STD_LOGIC;
         d_29 : out STD_LOGIC
@@ -108,38 +108,38 @@ begin
     -- Define the user specific enable_forwarding signal logic
 	user_enable_forwarding <= '1'; -- for resolver    
     -- Map ports
-    d_00 <= fpga_00;
-    d_01 <= fpga_01;
-    d_02 <= fpga_02;
-    d_03 <= fpga_03;
-    d_04 <= fpga_04;
-    d_05 <= fpga_05;
+    d_00 <= fpga_01;
+    fpga_08 <= d_01;
+    d_02 <= fpga_03;
+    d_03 <= fpga_07;
+    d_04 <= fpga_02;
+    d_05 <= fpga_04;
     d_06 <= fpga_06;
-    d_07 <= fpga_07;
+    d_07 <= fpga_05;
 	
-    fpga_08 <= d_08;
+    d_08 <= fpga_00;
 	
-    d_09 <= fpga_09;
-    d_10 <= fpga_10;
-    d_11 <= fpga_11;
-    d_12 <= fpga_12;
-    d_13 <= fpga_13;
-    d_14 <= fpga_14;
+    d_09 <= fpga_10;
+    fpga_17 <= d_10;
+    d_11 <= fpga_12;
+    d_12 <= fpga_16;
+    d_13 <= fpga_11;
+    d_14 <= fpga_13;
     d_15 <= fpga_15;
-    d_16 <= fpga_16;
+    d_16 <= fpga_14;
 	
-    fpga_17 <= d_17;
+    d_17 <= fpga_09;
 	
-    d_18 <= fpga_18;
-    d_19 <= fpga_19;
-    d_20 <= fpga_20;
-    d_21 <= fpga_21;
-    d_22 <= fpga_22;
-    d_23 <= fpga_23;
+    d_18 <= fpga_19;
+    fpga_26 <= d_19;
+    d_20 <= fpga_21;
+    d_21 <= fpga_25;
+    d_22 <= fpga_20;
+    d_23 <= fpga_22;
     d_24 <= fpga_24;
-    d_25 <= fpga_25;
+    d_25 <= fpga_23;
 	
-    fpga_26 <= d_26;
+    d_26 <= fpga_18;
 	
     d_27 <= fpga_27;
     d_28 <= fpga_28;

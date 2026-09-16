@@ -49,14 +49,14 @@ entity SignalRouter is
 
         -- Define 30 d-slot ports
         d_00 : out STD_LOGIC;
-        d_01 : out STD_LOGIC;
+        d_01 : in STD_LOGIC;
         d_02 : out STD_LOGIC;
         d_03 : out STD_LOGIC;
         d_04 : out STD_LOGIC;
         d_05 : out STD_LOGIC;
         d_06 : out STD_LOGIC;
         d_07 : out STD_LOGIC;
-        d_08 : in STD_LOGIC;
+        d_08 : out STD_LOGIC;
         d_09 : out STD_LOGIC;
         d_10 : out STD_LOGIC;
         d_11 : out STD_LOGIC;
@@ -103,16 +103,16 @@ begin
     -- Define the user specific enable_forwarding signal logic
 	user_enable_forwarding <= '1';  -- for resolver  
     -- Map ports
-    d_00 <= fpga_06;
-    d_01 <= fpga_07;
-    d_02 <= fpga_08;
-    d_03 <= fpga_09;
-    d_04 <= fpga_10;
-    d_05 <= fpga_11;
+    d_00 <= fpga_07;
+    fpga_14 <= d_01;
+    d_02 <= fpga_09;
+    d_03 <= fpga_13;
+    d_04 <= fpga_08;
+    d_05 <= fpga_10;
     d_06 <= fpga_12;
-    d_07 <= fpga_13;
+    d_07 <= fpga_11;
 	
-    fpga_14 <= d_08;
+    d_08 <= fpga_06;
 	
     d_09 <= fpga_15;
     d_10 <= fpga_16;

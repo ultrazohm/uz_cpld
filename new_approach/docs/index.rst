@@ -8,6 +8,8 @@ Legacy projects remain in ``MACHXO2/`` and ``ispMACH/``; their presence does not
 Quick start
 -----------
 
+See :doc:`quick-start` to create a new program and build its ``.jed`` file with Diamond.
+
 With Docker installed, run these commands from the repository root::
 
    make test-container
@@ -27,6 +29,7 @@ Paths in this documentation are relative to ``new_approach/`` unless stated othe
 .. toctree::
    :maxdepth: 1
 
+   quick-start
    environments
    builds
    foss

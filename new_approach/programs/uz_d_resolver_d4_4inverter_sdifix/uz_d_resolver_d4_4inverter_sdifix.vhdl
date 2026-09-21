@@ -1,5 +1,4 @@
 library IEEE;
-library machxo2;
 use IEEE.STD_LOGIC_1164.ALL;
 
 entity SignalRouter is
@@ -53,8 +52,8 @@ entity SignalRouter is
         fpga_29 : in STD_LOGIC;
 
         -- Define 30 d-slot ports
-        d_00 : out STD_LOGIC;
-        d_01 : in STD_LOGIC;
+        d_00 : in STD_LOGIC;
+        d_01 : out STD_LOGIC;
         d_02 : out STD_LOGIC;
         d_03 : out STD_LOGIC;
         d_04 : out STD_LOGIC;
@@ -62,8 +61,8 @@ entity SignalRouter is
         d_06 : out STD_LOGIC;
         d_07 : out STD_LOGIC;
         d_08 : out STD_LOGIC;
-        d_09 : out STD_LOGIC;
-        d_10 : in STD_LOGIC;
+        d_09 : in STD_LOGIC;
+        d_10 : out STD_LOGIC;
         d_11 : out STD_LOGIC;
         d_12 : out STD_LOGIC;
         d_13 : out STD_LOGIC;
@@ -71,8 +70,8 @@ entity SignalRouter is
         d_15 : out STD_LOGIC;
         d_16 : out STD_LOGIC;
         d_17 : out STD_LOGIC;
-        d_18 : out STD_LOGIC;
-        d_19 : in STD_LOGIC;
+        d_18 : in STD_LOGIC;
+        d_19 : out STD_LOGIC;
         d_20 : out STD_LOGIC;
         d_21 : out STD_LOGIC;
         d_22 : out STD_LOGIC;
@@ -108,8 +107,9 @@ begin
     -- Define the user specific enable_forwarding signal logic
 	user_enable_forwarding <= '1'; -- for resolver    
     -- Map ports
-    d_00 <= fpga_01;
-    fpga_08 <= d_01;
+    -- Physical d_00/d_01 wires are swapped on this installation.
+    d_01 <= fpga_01;
+    fpga_08 <= d_00;
     d_02 <= fpga_03;
     d_03 <= fpga_07;
     d_04 <= fpga_02;
@@ -119,8 +119,9 @@ begin
 	
     d_08 <= fpga_00;
 	
-    d_09 <= fpga_10;
-    fpga_17 <= d_10;
+    -- Physical d_09/d_10 wires are swapped on this installation.
+    d_10 <= fpga_10;
+    fpga_17 <= d_09;
     d_11 <= fpga_12;
     d_12 <= fpga_16;
     d_13 <= fpga_11;
@@ -130,8 +131,9 @@ begin
 	
     d_17 <= fpga_09;
 	
-    d_18 <= fpga_19;
-    fpga_26 <= d_19;
+    -- Physical d_18/d_19 wires are swapped on this installation.
+    d_19 <= fpga_19;
+    fpga_26 <= d_18;
     d_20 <= fpga_21;
     d_21 <= fpga_25;
     d_22 <= fpga_20;

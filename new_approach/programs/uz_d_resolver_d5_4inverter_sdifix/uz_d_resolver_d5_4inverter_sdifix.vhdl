@@ -1,5 +1,4 @@
 library IEEE;
-library machxo2;
 use IEEE.STD_LOGIC_1164.ALL;
 
 entity SignalRouter is
@@ -48,8 +47,8 @@ entity SignalRouter is
         fpga_29 : out STD_LOGIC;
 
         -- Define 30 d-slot ports
-        d_00 : out STD_LOGIC;
-        d_01 : in STD_LOGIC;
+        d_00 : in STD_LOGIC;
+        d_01 : out STD_LOGIC;
         d_02 : out STD_LOGIC;
         d_03 : out STD_LOGIC;
         d_04 : out STD_LOGIC;
@@ -103,8 +102,9 @@ begin
     -- Define the user specific enable_forwarding signal logic
 	user_enable_forwarding <= '1';  -- for resolver  
     -- Map ports
-    d_00 <= fpga_07;
-    fpga_14 <= d_01;
+    -- Physical d_00/d_01 wires are swapped on this installation.
+    d_01 <= fpga_07;
+    fpga_14 <= d_00;
     d_02 <= fpga_09;
     d_03 <= fpga_13;
     d_04 <= fpga_08;

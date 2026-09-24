@@ -15,8 +15,7 @@ except ModuleNotFoundError:
 from . import __version__
 
 PACKAGE = Path(__file__).resolve().parent
-CONTROLS = {'clk', 'reset', 'pilot_in', 'reqsafestate', 'carrierrdy', 'slotok', 'reqoe',
-            'state_normal', 'state_safe', 'state_error', 'card_enable'}
+DATA_PINS = tuple(f'{bank}_{i:02d}' for bank in ('fpga', 'd') for i in range(30))
 KEYWORDS = set('''abs access after alias all and architecture array assert attribute begin block body buffer bus case component configuration constant disconnect downto else elsif end entity exit file for function generate generic group guarded if impure in inertial inout is label library linkage literal loop map mod nand new next nor not null of on open or others out package port postponed procedure process pure range record register reject rem report return rol ror select severity shared signal sla sll sra srl subtype then to transport type unaffected units until use variable wait when while with xnor xor context force parameter protected release assume cover default property restrict sequence vmode vprop vunit'''.split())
 SUPPORT = ('s3c_logic.vhdl',)
 RECEIPT = 'generator-output.json'
@@ -81,8 +80,8 @@ def load_config(path):
     data = read_toml(path)
     required = {'schema_version', 'name', 'routing', 'contract', 'clock', 'pilot_policy', 'fault_recovery'}
     keys(data, required | {'enable'}, required, 'configuration')
-    if type(data['schema_version']) is not int or data['schema_version'] != 1:
-        raise GeneratorError('Only schema_version = 1 is supported')
+    if type(data['schema_version']) is not int or data['schema_version'] != 2:
+        raise GeneratorError('Use schema_version = 2 with output,normal,safe,error routing; remove input rows and the direction column')
     name = identifier(data['name'])
     if name == 's3c_logic':
         raise GeneratorError('Program name s3c_logic is reserved for the controller')
@@ -116,43 +115,41 @@ def load_config(path):
     routing = relative(path.parent, data['routing'])
     try:
         reader = csv.DictReader(io.StringIO(routing.read_text()))
-        if reader.fieldnames != ['pin', 'direction', 'normal', 'safe', 'error']:
-            raise GeneratorError('CSV header must be pin,direction,normal,safe,error')
-        pins = []
+        if reader.fieldnames != ['output', 'normal', 'safe', 'error']:
+            raise GeneratorError('CSV header must be output,normal,safe,error')
+        outputs = {}
         for line, row in enumerate(reader, 2):
             if None in row or any(v is None for v in row.values()):
-                raise GeneratorError(f'CSV line {line}: expected five columns')
-            p = identifier(row['pin'].strip())
-            direction = row['direction'].strip()
-            actions = tuple(row[s].strip().lower() for s in ('normal', 'safe', 'error'))
-            if p in CONTROLS or any(old.name == p for old in pins):
-                raise GeneratorError(f'CSV line {line}: duplicate or reserved pin {p}')
-            if direction not in ('in', 'out'):
-                raise GeneratorError(f'CSV line {line}: direction must be in or out; inout is not supported in v1')
-            if direction == 'in' and any(actions):
-                raise GeneratorError(f'Input {p} cannot have output actions')
-            if direction == 'out' and not all(actions):
-                raise GeneratorError(f'Output {p} requires an action in every state')
-            pins.append(Pin(p, direction, actions))
+                raise GeneratorError(f'CSV line {line}: expected four columns')
+            output = row['output'].strip()
+            if output not in DATA_PINS:
+                raise GeneratorError(f'CSV line {line}: output must be d_00..d_29 or fpga_00..fpga_29: {output!r}')
+            if output in outputs:
+                raise GeneratorError(f'CSV line {line}: duplicate output {output}')
+            actions = tuple(row[state].strip() for state in ('normal', 'safe', 'error'))
+            if any(value not in DATA_PINS and value not in ('0', '1', 'Z') for value in actions):
+                raise GeneratorError(f'CSV line {line}: actions must be d_00..d_29, fpga_00..fpga_29, 0, 1, or Z')
+            outputs[output] = actions
     except OSError as exc:
         raise GeneratorError(str(exc)) from exc
-    if not pins or not any(p.direction == 'out' for p in pins):
-        raise GeneratorError('Routing must declare at least one output')
-    inputs = {p.name for p in pins if p.direction == 'in'}
-    allowed = inputs | {'0', '1', 'z'}
-    for p in pins:
-        if p.direction == 'out' and any(a not in allowed for a in p.actions):
-            raise GeneratorError(f'{p.name}: actions must be 0, 1, Z, or a declared input')
+    for output, actions in outputs.items():
+        if any(value in outputs for value in actions):
+            raise GeneratorError(f'{output}: an output cannot also be used as an input')
+    inputs = set(DATA_PINS) - outputs.keys()
     enable = data.get('enable', {})
     if not isinstance(enable, dict) or any(k not in inputs or type(v) is not int or v not in (0, 1) for k, v in enable.items()):
-        raise GeneratorError('enable must map declared input pins to 0 or 1')
+        raise GeneratorError('enable must map input pins from d_00..d_29 or fpga_00..fpga_29 to 0 or 1')
+    # Preserve every data pin in the interface; omitted pins have no HDL driver.
+    pins = tuple(Pin(pin, 'out', outputs[pin]) if pin in outputs else Pin(pin, 'in', ('', '', ''))
+                 for pin in DATA_PINS)
     return Config(path, name, routing, tuple(pins), contract_path, contract, data['clock'],
                   data['pilot_policy'], data['fault_recovery'], enable)
 
 
 def ports(config, clock=False):
     result = [('clk', 'in'), ('reset', 'in')] if clock else []
-    result += [('pilot_in', 'in'), ('reqsafestate', 'in'), ('carrierrdy', 'in'), ('slotok', 'out'), ('reqoe', 'out')]
+    result += [('pilot_in', 'in'), ('reqsafestate', 'in'), ('carrierrdy', 'in'), ('slotok', 'out'), ('reqoe', 'out'),
+               ('i2c_scl', 'in'), ('i2c_sda', 'in')]
     return result + [(p.name, p.direction) for p in config.pins]
 
 
@@ -166,7 +163,7 @@ HEADER = '-- Generated by cpld_vhdl_generator; regenerate instead of editing.\nl
 
 
 def action(value):
-    if value in ('0', '1', 'z'):
+    if value in ('0', '1', 'Z'):
         return "'" + value.upper() + "'"
     return value
 

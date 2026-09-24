@@ -4,7 +4,7 @@ import subprocess
 import tempfile
 import unittest
 
-from cpld_vhdl_generator import GeneratorError, check, generate, load_config, render
+from cpld_vhdl_generator import GeneratorError, check, generate, load_config
 
 
 class GeneratorTests(unittest.TestCase):
@@ -14,7 +14,7 @@ class GeneratorTests(unittest.TestCase):
         self.root = Path(self.tmp.name)
         self.config = self.root / 'generator.toml'
         self.output = self.root
-        self.config.write_text('''schema_version = 1
+        self.config.write_text('''schema_version = 2
 name = "example"
 routing = "routing.csv"
 contract = "s3c_power_on_debounce_v1"
@@ -22,12 +22,9 @@ clock = "external"
 pilot_policy = "required"
 fault_recovery = "safe_cycle"
 ''')
-        (self.root / 'routing.csv').write_text('''pin,direction,normal,safe,error
-src,in,,,
-feedback,in,,,
-enablepin,in,,,
-outp,out,src,0,1
-rx,out,feedback,feedback,0
+        (self.root / 'routing.csv').write_text('''output,normal,safe,error
+d_00,fpga_00,0,1
+fpga_01,d_01,d_01,0
 ''')
 
     def profile(self, mode, ready='unused'):
@@ -84,16 +81,18 @@ reqoe = [1, 1, 1]
     def test_reject_invalid_routing(self):
         routing = self.root / 'routing.csv'
         original = routing.read_text()
-        invalid = [original.replace('outp,out,src,0,1', 'outp,out,src,,1'),
-                   original + 'outp,out,src,0,0\n',
-                   original.replace('outp,out,src', 'outp,out,' + 'outp'),
-                   original.replace('outp,out,src', 'outp,out,' + 'src AND feedback'),
-                   original.replace('outp,out,src', 'outp,out,' + 'custom.missing'),
-                   original.replace('src,in,,,', 'src,in,1,0,0'),
-                   original.replace('src,in,,,', 'src,inout,,,'),
-                   original.replace('enablepin', 'reqoe'),
-                   original.replace('enablepin', 'end'),
-                   original + 'x,out,0,0,0,extra\n']
+        invalid = [original.replace('d_00,fpga_00,0,1', 'd_00,fpga_00,,1'),
+                   original + 'd_00,fpga_00,0,0\n',
+                   original.replace('d_00,fpga_00', 'd_00,d_00'),
+                   original.replace('d_00,fpga_00', 'd_00,fpga_01'),
+                   original.replace('d_00,fpga_00', 'd_00,fpga_00 AND d_01'),
+                   original.replace('d_00,fpga_00', 'd_00,custom.missing'),
+                   original + 'd_02,0,0,0,extra\n',
+                   original.replace('output,normal,safe,error', 'pin,direction,normal,safe,error')]
+        for bad in ('fpga_000', 'fpga_0', 'fpga_30', 'd_0', 'd_30', 'D_00', 'FPGA_00',
+                    'pilot_in', 'i2c_scl', 'typo', '-', 'X', 'z'):
+            invalid += [original.replace('d_00,fpga_00', f'{bad},fpga_00'),
+                        original.replace('d_00,fpga_00', f'd_00,{bad}')]
         for text in invalid:
             with self.subTest(text=text):
                 routing.write_text(text)
@@ -142,7 +141,7 @@ reqoe = [1, 1, 1]
     @unittest.skipUnless(shutil.which('ghdl'), 'GHDL is needed for HDL behavioral checks')
     def test_active_low_and_enable_pattern(self):
         self.profile('active_low')
-        self.config.write_text(self.config.read_text() + 'enable = { enablepin = 1 }\n')
+        self.config.write_text(self.config.read_text() + 'enable = { fpga_02 = 1 }\n')
         self.simulate('''
         reqsafestate <= '0'; cycles(8); assert slotok = '0' severity failure;
         reqsafestate <= '1'; cycles(5); assert slotok = '0' severity failure;
@@ -169,7 +168,7 @@ reqoe = [1, 1, 1]
     @unittest.skipUnless(shutil.which('ghdl'), 'GHDL is needed for HDL behavioral checks')
     def test_unknown_request_reset_and_tristate(self):
         routing = self.root / 'routing.csv'
-        routing.write_text(routing.read_text().replace('outp,out,src,0,1', 'outp,out,src,Z,1'))
+        routing.write_text(routing.read_text().replace('d_00,fpga_00,0,1', 'd_00,fpga_00,Z,1'))
         self.simulate('''
         cycles(8); assert outp = 'Z' severity failure;
         reqsafestate <= '0'; cycles(3); assert outp = '0' and slotok = '1' severity failure;
@@ -180,8 +179,53 @@ reqoe = [1, 1, 1]
         pilot_in <= '1'; reset <= '0'; cycles(8); assert slotok = '1' severity failure;
         ''')
 
+    def test_full_interface_and_unused_pins(self):
+        config = load_config(self.config)
+        pins = {p.name: p for p in config.pins}
+        expected = {f'{bank}_{i:02d}' for bank in ('d', 'fpga') for i in range(30)}
+        self.assertEqual(set(pins), expected)
+        self.assertEqual({p.name for p in config.pins if p.direction == 'out'}, {'d_00', 'fpga_01'})
+        self.assertEqual(pins['d_29'].direction, 'in')
+        self.assertEqual(pins['fpga_29'].direction, 'in')
+        self.assertEqual(pins['d_29'].actions, ('', '', ''))
+        self.config.write_text(self.config.read_text() + 'enable = {fpga_29 = 1}\n')
+        self.assertEqual(load_config(self.config).enable, {'fpga_29': 1})
+        for invalid in ('d_00', 'fpga_30', 'fpga_0', 'i2c_scl'):
+            self.config.write_text(self.config.read_text().split('enable =')[0] + f'enable = {{{invalid} = 1}}\n')
+            with self.assertRaises(GeneratorError):
+                load_config(self.config)
+
+    @unittest.skipUnless(shutil.which('ghdl'), 'GHDL is needed for HDL behavioral checks')
+    def test_ungated_fanout_constants_and_unused_inputs(self):
+        routing = self.root / 'routing.csv'
+        routing.write_text(routing.read_text() + 'd_02,fpga_00,fpga_00,fpga_00\nd_03,1,0,Z\n')
+        self.simulate('''
+        cycles(8); assert always_out = '0' and constant_out = '0' severity failure;
+        src <= '1'; wait for 1 ns; assert always_out = '1' and outp = '0' severity failure;
+        reqsafestate <= '0'; cycles(3);
+        assert always_out = '1' and outp = '1' and constant_out = '1' severity failure;
+        pilot_in <= '0'; cycles(3);
+        assert always_out = '1' and constant_out = 'Z' severity failure;
+        src <= '0'; wait for 1 ns; assert always_out = '0' severity failure;
+        ''')
+
+    @unittest.skipUnless(shutil.which('ghdl'), 'GHDL is needed for HDL behavioral checks')
+    def test_empty_routing_retains_all_pins_as_inputs(self):
+        (self.root / 'routing.csv').write_text('output,normal,safe,error\n')
+        config = load_config(self.config)
+        self.assertEqual(len(config.pins), 60)
+        self.assertTrue(all(p.direction == 'in' for p in config.pins))
+        self.simulate("cycles(8); assert slotok = '0' severity failure;")
+
     def simulate(self, body):
         sources = generate(self.config, self.output)
+        config = load_config(self.config)
+        signals = {'fpga_00': 'src', 'd_01': 'feedback', 'fpga_02': 'enablepin',
+                   'd_00': 'outp', 'fpga_01': 'rx', 'd_02': 'always_out', 'd_03': 'constant_out'}
+        mappings = []
+        for pin in config.pins:
+            default = 'open' if pin.direction == 'out' else "'0'"
+            mappings.append(f'{pin.name} => {signals.get(pin.name, default)}')
         bench = self.root / 'bench.vhdl'
         bench.write_text('''library ieee;
 use ieee.std_logic_1164.all;
@@ -194,13 +238,13 @@ architecture test of bench is
     signal carrierrdy : std_logic := '0';
     signal feedback : std_logic := '1';
     signal src, enablepin : std_logic := '0';
-    signal outp, rx, slotok, reqoe : std_logic;
+    signal outp, rx, slotok, reqoe, always_out, constant_out : std_logic;
 begin
     dut: entity work.example port map (
         clk => clk, reset => reset, pilot_in => pilot_in, reqsafestate => reqsafestate,
-        carrierrdy => carrierrdy, slotok => slotok, reqoe => reqoe, src => src,
-        feedback => feedback,
-        enablepin => enablepin, outp => outp, rx => rx);
+        carrierrdy => carrierrdy, slotok => slotok, reqoe => reqoe,
+        i2c_scl => '0', i2c_sda => '0',
+''' + ',\n'.join(mappings) + ''');
     process
         procedure cycles(n : positive) is
         begin

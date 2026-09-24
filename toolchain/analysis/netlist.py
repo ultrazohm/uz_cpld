@@ -72,11 +72,16 @@ def _export_netlist(build):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--program')
-    parser.add_argument('--target', default='uz_dslot_xo2')
+    parser.add_argument('--target')
     args = parser.parse_args()
     try:
         for name in [args.program] if args.program else catalog(ROOT):
-            print(export_netlist(load_build(ROOT, name, args.target)))
+            if args.target is None:
+                print(export_netlist(load_build(ROOT, name)))
+            else:
+                from toolchain.buildsystem.model import program_targets
+                if args.target in program_targets(ROOT, name):
+                    print(export_netlist(load_build(ROOT, name, args.target)))
     except (BuildError, OSError, ValueError) as exc:
         print(exc, file=sys.stderr)
         return 1

@@ -18,7 +18,7 @@ Tools and installation
 ----------------------
 
 The container installs checksum-pinned OSS CAD Suite 2026-09-16 for Yosys, Project Trellis and openFPGALoader, alongside GHDL 4.1.0.
-The stock nextpnr binary includes other devices but omits XO2-2000, so the ``foss-builder`` Docker stage builds a pinned nextpnr revision with ``MACHXO2_DEVICES=2000``.
+The stock nextpnr binary omits the two board devices, so the ``foss-builder`` Docker stage builds a pinned nextpnr revision with XO2-2000 and XO2-4000 support.
 That stage builds the Trellis Python module to generate the device database, links Boost statically into nextpnr and excludes its GUI/Python integration.
 Compiler dependencies remain in the builder stage; the single runtime image receives the resulting tools.
 ``FOSS_BUILD_JOBS`` controls build parallelism and defaults to 2.
@@ -47,7 +47,7 @@ Yosys proves the mapped logic equivalent to the GHDL-generated Verilog before ro
 The equivalence check covers synthesis, not place-and-route or hardware behavior.
 Unknown RTL values remain unspecified for synthesis and do not establish physical output levels.
 
-Outputs live under ``programs/<name>/build/uz_dslot_xo2_foss/`` with ``<name>_uz_dslot_xo2_foss.bit``, ``reports/``, ``metadata/``, project files and logs under the same directory.
+Outputs live under ``programs/<name>/build/<target>_foss/`` with ``<name>_<target>_foss.bit``, ``reports/``, ``metadata/``, project files and logs under the same directory.
 The FOSS build plan and generated JSON reports live in ``metadata/``.
 Reports include synthesized/routed JSON, timing, completed/unpacked configuration, equivalence evidence, tool versions/hashes and the constraint translation record.
 ``project backend=foss`` prepares scripts and a build plan; ``gui`` requires ``backend=diamond``.
@@ -57,19 +57,20 @@ The FOSS backend exports ``.bit``; JEDEC export remains available through Diamon
 Constraints and limits
 ----------------------
 
-Diamond PIO names such as ``PT22A`` are translated to TQFP100 package pins using the pinned Trellis database.
+Diamond PIO names such as ``PT22A`` are translated through the selected XO2-2000 TQFP100 or XO2-4000 TQFP144 package database. Numeric package pins are accepted for either target.
+For the S3C target, the LPF must declare the Rev05 board's six bank voltages. The FOSS flow checks each assigned pin's ``IO_TYPE`` against its bank and writes the three 1.8 V bank enums using locations decoded from the archived Diamond S3C image.
 Unloaded input ports are removed before routing; remaining IO must have explicit pin constraints, with automatic unconstrained placement disabled.
 Constraints for absent ports are listed in the report, including the inherited ``CPLD_DIGOUT_01`` entries.
 IO type, slew, pull mode and drive directives pass through; unsupported LPF commands or attributes fail the build.
 
-``SDM_PORT`` and ``SLAVE_SPI_PORT`` are applied as database-validated CFG tile enums before packing.
-``MCCLK_FREQ=2.08`` uses the default MachXO2 oscillator/control encoding checked against the Diamond reference; other configuration frequencies are rejected.
+``SDM_PORT``, ``SLAVE_SPI_PORT`` and ``I2C_PORT`` are applied as database-validated CFG tile enums before packing.
+``MCCLK_FREQ=2.08`` uses the default MachXO2 encoding checked against a Diamond reference; other values, including the archived S3C LPF's ``7``, need a device-specific comparison before support is added. ``USERCODE HEX`` is passed to the packer.
 ``TRACEID`` is retained in provenance but is not encoded by this backend.
 The LPF reset/asynchronous-path exclusions are recorded without establishing a timing acceptance budget.
 
 Upstream MachXO2 support is experimental.
 Successful exports and synthesis equivalence do not establish matching Diamond bitstreams, electrical defaults, timing closure or hardware qualification.
-The current flow supports the catalog programs with ``work`` library sources and the LPF subset described above.
+The current flow supports the catalog programs with ``work`` library sources and the LPF subset described above. The S3C toolchain test program exercises the second device and package, but it does not implement the carrier's operating state machine. The archived S3C LPF still contains ``JTAG_PORT`` and ``MCCLK_FREQ=7`` settings that this FOSS flow rejects; porting that controller requires an explicit configuration review.
 
 Programming and CI
 ------------------

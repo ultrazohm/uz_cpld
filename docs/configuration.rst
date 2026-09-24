@@ -22,7 +22,17 @@ Target
 .. literalinclude:: ../toolchain/targets/uz_dslot_xo2/target.toml
    :language: toml
 
-The supported target is the Rev05+ UltraZohm D-slot ``LCMXO2-2000HC-4TG100C``.
+The D-slot target is ``uz_dslot_xo2`` (``LCMXO2-2000HC-4TG100C``).
+The S3C target is ``uz_s3c_xo2`` (``LCMXO2-4000HC-4TG144C``)::
+
+   make check program=s3c_toolchain_test_program
+   make build program=s3c_toolchain_test_program backend=diamond
+   make build program=s3c_toolchain_test_program backend=foss
+
+Each catalog program declares its compatible target in ``targets``. Commands
+for one program infer that target when it is unique. ``target=...`` selects a
+target explicitly; catalog commands process both targets by default and can be
+filtered with the same option.
 A board target is separate from the backend, program mapping and eventual JTAG chain position.
 ``diamond.strategy`` selects the captured strategy input; the empty ``diamond.options`` table is required and accepts string-valued vendor overrides.
 Set VHDL standard through the program manifest rather than ``lse_vhdl2008``.

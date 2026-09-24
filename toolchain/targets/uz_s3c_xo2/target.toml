@@ -1,0 +1,13 @@
+name = "uz_s3c_xo2"
+device = "LCMXO2-4000HC-4TG144C"
+backend = "diamond"
+
+[diamond]
+strategy = "baseline.sty"
+version = "3.14.0.75.2"
+
+[diamond.options]
+
+[foss]
+version = "2026-09-16"
+seed = 1

@@ -105,10 +105,32 @@ def catalog(root: Path) -> list[str]:
     return [identifier(n) for n in strings(data['programs'], 'catalog.programs')]
 
 
-def load_build(root: Path, name: str, target: str = 'uz_dslot_xo2', backend: str | None = None) -> Build:
+SUPPORTED_DEVICES = {
+    'LCMXO2-2000HC-4TG100C',
+    'LCMXO2-4000HC-4TG144C',
+}
+
+
+def program_targets(root: Path, name: str) -> list[str]:
+    """Read the targets declared by one catalog program."""
+    name = identifier(name)
+    path = input_path(root.resolve(), root.resolve(), f'programs/{name}/{name}.toml')
+    targets = strings(read_toml(path).get('targets'), f'{name}.targets')
+    if not targets:
+        raise BuildError(f'{name}: targets must not be empty')
+    return [identifier(target) for target in targets]
+
+
+def load_build(root: Path, name: str, target: str | None = None, backend: str | None = None) -> Build:
     """Validate manifests and return a build model; no vendor tools are needed."""
     root = root.resolve()
-    name, target = identifier(name), identifier(target)
+    name = identifier(name)
+    declared_targets = program_targets(root, name)
+    if target is None:
+        if len(declared_targets) != 1:
+            raise BuildError(f'{name} has multiple targets; select one explicitly')
+        target = declared_targets[0]
+    target = identifier(target)
     pm = input_path(root, root, f'programs/{name}/{name}.toml')
     tm = input_path(root, root, f'toolchain/targets/{target}/target.toml')
     p, t = read_toml(pm), read_toml(tm)
@@ -117,7 +139,7 @@ def load_build(root: Path, name: str, target: str = 'uz_dslot_xo2', backend: str
     keys(p, pf, pf, str(pm)); keys(t, tf, {'name', 'device', 'backend'}, str(tm))
     if p['name'] != name or t['name'] != target:
         raise BuildError('Manifest name must match its directory')
-    if target not in strings(p['targets'], 'targets'):
+    if target not in declared_targets:
         raise BuildError(f'{name} does not support {target}')
     backend = identifier(backend or t['backend'])
     if backend not in ('diamond', 'foss') or t['backend'] not in ('diamond', 'foss'):
@@ -146,8 +168,8 @@ def load_build(root: Path, name: str, target: str = 'uz_dslot_xo2', backend: str
     testbench = input_path(root, pm.parent, p['testbench'])
     if testbench != pm.parent / f'{name}_tb.py':
         raise BuildError('Testbench must be named <program>_tb.py in the program directory')
-    if t['device'] != 'LCMXO2-2000HC-4TG100C':
-        raise BuildError('Only LCMXO2-2000HC-4TG100C is supported by these backends')
+    if t['device'] not in SUPPORTED_DEVICES:
+        raise BuildError(f'Unsupported device: {t["device"]}')
     if backend == 'foss':
         f = t.get('foss', {})
         keys(f, {'version', 'seed'}, {'version', 'seed'}, 'foss')

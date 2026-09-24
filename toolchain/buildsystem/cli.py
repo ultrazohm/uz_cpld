@@ -3,7 +3,7 @@ import argparse
 from pathlib import Path
 import sys
 import tempfile
-from .model import BuildError, catalog, load_build
+from .model import BuildError, catalog, load_build, program_targets
 from . import workflow
 from .backends.diamond import launcher, run, wrap
 
@@ -14,7 +14,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument('command', choices=['list', 'doctor', 'new', 'check', 'project', 'build', 'gui', 'build-all', 'clean', 'clean-all'])
     parser.add_argument('--root', type=Path, default=Path(__file__).resolve().parents[2])
     parser.add_argument('--program')
-    parser.add_argument('--target', default='uz_dslot_xo2')
+    parser.add_argument('--target', help='Filter catalog commands or select a program target')
     parser.add_argument('--backend', choices=['diamond', 'foss'])
     parser.add_argument('--name')
     parser.add_argument('--template', default='tx30', help='Existing program to clone (default: tx30)')
@@ -24,16 +24,26 @@ def main(argv: list[str] | None = None) -> int:
     try:
         if args.discard_project_changes and args.command != 'clean':
             raise BuildError('--discard-project-changes is only valid for clean')
-        if args.command == 'list':
+        def selected_builds():
+            builds = []
             for name in catalog(root):
-                build = load_build(root, name, args.target, args.backend)
-                print(f'{name}\t{build.target}\t{build.backend}')
+                for target in program_targets(root, name):
+                    if args.target is None or args.target == target:
+                        builds.append(load_build(root, name, target, args.backend))
+            if not builds and args.target:
+                raise BuildError(f'No catalog programs target {args.target}')
+            return builds
+
+        if args.command == 'list':
+            for build in selected_builds():
+                print(f'{build.name}\t{build.target}\t{build.backend}')
         elif args.command == 'doctor':
-            builds = [load_build(root, name, args.target, args.backend) for name in catalog(root)]
+            builds = selected_builds()
             print(f'Python: {sys.version.split()[0]}')
             if builds and builds[0].backend == 'foss':
                 from .backends.foss import doctor
-                print(doctor(builds[0]))
+                for device, build in {build.device: build for build in builds}.items():
+                    print(f'{device}: {doctor(build)}')
             else:
                 print(f'Diamond: {launcher()}')
                 with tempfile.TemporaryDirectory(prefix='cpld-doctor-') as tmp:
@@ -50,11 +60,11 @@ def main(argv: list[str] | None = None) -> int:
             print(workflow.scaffold(root, args.name, args.template, args.target, args.backend))
         elif args.command == 'build-all':
             failed = []
-            for name in catalog(root):
+            for build in selected_builds():
                 try:
-                    print(workflow.build_program(load_build(root, name, args.target, args.backend)))
+                    print(workflow.build_program(build))
                 except (BuildError, OSError, ValueError) as exc:
-                    failed.append(name); print(f'{name}: {exc}', file=sys.stderr)
+                    failed.append(build.name); print(f'{build.name}: {exc}', file=sys.stderr)
             if failed:
                 raise BuildError('Failed programs: ' + ', '.join(failed))
         else:

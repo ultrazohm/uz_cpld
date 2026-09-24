@@ -57,6 +57,10 @@ class FossTests(unittest.TestCase):
         self.assertEqual(deferred['SDM_PORT'], 'DISABLE')
         self.assertEqual(deferred['MCCLK_FREQ'], '2.08')
         self.assertTrue(notes)
+        _, deferred, _ = constraints('USERCODE HEX "BADEAFFE"; IOBUF PORT "safe" IO_TYPE=LVCMOS18;')
+        self.assertEqual(deferred['USERCODE'], 'BADEAFFE')
+        _, deferred, _ = constraints('BANK 1 VCCIO 1.8 V;')
+        self.assertEqual(deferred['BANK_1'], '1.8')
 
     def fake_database(self):
         db = self.root / 'share/trellis/database/MachXO2'
@@ -71,26 +75,72 @@ class FossTests(unittest.TestCase):
 
     def test_pin_translation_and_absent_ports_are_reported(self):
         self.fake_database()
-        lpf, report = package_lpf('LOCATE COMP "a" SITE "PT22A"; LOCATE COMP "b" SITE "PL2A"; LOCATE COMP "absent" SITE "PR4B";', {'a', 'b'}, self.root)
+        lpf, report = package_lpf('LOCATE COMP "a" SITE "PT22A"; LOCATE COMP "b" SITE "PL2A"; LOCATE COMP "absent" SITE "PR4B";', {'a', 'b'}, self.root, self.build.device, {})
         self.assertIn('SITE "78"', lpf)
         self.assertEqual(report['pins'], {'78': 'a', '1': 'b'})
         self.assertEqual(len(report['ignored']), 1)
         with self.assertRaisesRegex(BuildError, 'Unknown or unbonded'):
-            package_lpf('LOCATE COMP "a" SITE "PT99A";', {'a'}, self.root)
+            package_lpf('LOCATE COMP "a" SITE "PT99A";', {'a'}, self.root, self.build.device, {})
         with self.assertRaisesRegex(BuildError, 'Conflicting package pin'):
-            package_lpf('LOCATE COMP "a" SITE "78"; LOCATE COMP "b" SITE "78";', {'a', 'b'}, self.root)
+            package_lpf('LOCATE COMP "a" SITE "78"; LOCATE COMP "b" SITE "78";', {'a', 'b'}, self.root, self.build.device, {})
+
+    def test_s3c_pin_translation_uses_tqfp144(self):
+        self.fake_database()
+        db = self.root / 'share/trellis/database/MachXO2/LCMXO2-4000'
+        db.mkdir()
+        (db / 'iodb.json').write_text(json.dumps({
+            'packages': {'TQFP144': {'93': {'col': 31, 'row': 9, 'pio': 'B'}}},
+            'pio_metadata': [{'col': 31, 'row': 9, 'pio': 'B', 'bank': 1},
+                             {'col': 31, 'row': 22, 'pio': 'A', 'bank': 1}],
+        }))
+        from toolchain.buildsystem.foss_config import S3C_BANKS, S3C_BANK_TILES
+        grid = {'PT5:CFG1': {'type': 'CFG1'}}
+        for tile in S3C_BANK_TILES.values():
+            grid[tile] = {'type': tile.split(':')[1]}
+            bank_db = self.root / 'share/trellis/database/MachXO2/tiledata' / tile.split(':')[1]
+            bank_db.mkdir()
+            (bank_db / 'bits.db').write_text('.config_enum BANK.VCCIO NONE\nNONE -\n1.8 F1B1\n3.3 F1B2\n\n')
+        (db / 'tilegrid.json').write_text(json.dumps(grid))
+        cfg = self.root / 'share/trellis/database/MachXO2/tiledata/CFG1'
+        cfg.mkdir()
+        (cfg / 'bits.db').write_text('.config_enum SYSCONFIG.SLAVE_SPI_PORT DISABLE\nDISABLE -\nENABLE F5B36\n\n'
+                                     '.config_enum SYSCONFIG.I2C_PORT DISABLE\nDISABLE -\nENABLE F5B38\n\n')
+        settings = {f'BANK_{bank}': voltage for bank, voltage in S3C_BANKS.items()}
+        translated, report = package_lpf('LOCATE COMP "safe" SITE "93"; IOBUF PORT "safe" IO_TYPE=LVCMOS18;', {'safe'},
+                                         self.root, 'LCMXO2-4000HC-4TG144C', settings)
+        self.assertIn('SITE "93"', translated)
+        self.assertEqual(report['pins'], {'93': 'safe'})
+        with self.assertRaisesRegex(BuildError, 'TQFP144'):
+            package_lpf('LOCATE COMP "safe" SITE "78";', {'safe'},
+                        self.root, 'LCMXO2-4000HC-4TG144C', settings)
+        with self.assertRaisesRegex(BuildError, 'IO_TYPE=LVCMOS18'):
+            package_lpf('LOCATE COMP "safe" SITE "93"; IOBUF PORT "safe" IO_TYPE=LVCMOS33;', {'safe'},
+                        self.root, 'LCMXO2-4000HC-4TG144C', settings)
+        with self.assertRaisesRegex(BuildError, 'BANK VCCIO settings'):
+            package_lpf('LOCATE COMP "safe" SITE "93"; IOBUF PORT "safe" IO_TYPE=LVCMOS18;', {'safe'},
+                        self.root, 'LCMXO2-4000HC-4TG144C', {**settings, 'BANK_1': '3.3'})
+        config = self.root / 's3c.config'
+        config.write_text('.device LCMXO2-4000HC\n')
+        complete_config(config, {**settings, 'SLAVE_SPI_PORT': 'ENABLE', 'I2C_PORT': 'DISABLE'},
+                        self.root, 'LCMXO2-4000HC-4TG144C')
+        self.assertIn('.tile PT5:CFG1', config.read_text())
+        self.assertIn('SYSCONFIG.SLAVE_SPI_PORT ENABLE', config.read_text())
+        for tile in S3C_BANK_TILES.values():
+            self.assertIn(f'.tile {tile}\nenum: BANK.VCCIO 1.8', config.read_text())
 
     def test_config_preserves_other_tiles_and_rejects_conflicts(self):
         self.fake_database()
         config = self.root / 'routed.config'
         config.write_text('.device LCMXO2-2000HC\n\n.tile PT4:CFG0\nenum: GSR.GSRMODE NONE\n\n.tile other\nenum: setting ON\n')
-        complete_config(config, {'SDM_PORT': 'DISABLE'}, self.root)
+        complete_config(config, {'SDM_PORT': 'DISABLE'}, self.root, self.build.device)
         self.assertIn('enum: SYSCONFIG.SDM_PORT DISABLE', config.read_text())
         self.assertIn('.tile other\nenum: setting ON', config.read_text())
         with self.assertRaisesRegex(BuildError, 'Conflicting synthesized'):
-            complete_config(config, {'SDM_PORT': 'DONE'}, self.root)
+            complete_config(config, {'SDM_PORT': 'DONE'}, self.root, self.build.device)
         with self.assertRaisesRegex(BuildError, 'only MCCLK_FREQ'):
-            complete_config(config, {'MCCLK_FREQ': '4.16'}, self.root)
+            complete_config(config, {'MCCLK_FREQ': '4.16'}, self.root, self.build.device)
+        with self.assertRaisesRegex(BuildError, 'only for the S3C target'):
+            complete_config(config, {'BANK_0': '3.3'}, self.root, self.build.device)
 
     def test_checksum_failure_does_not_install(self):
         archive = self.root / 'invalid.tgz'

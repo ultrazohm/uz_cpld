@@ -1,4 +1,4 @@
-"""Build a headless nextpnr with the XO2-2000 database omitted from stock binaries."""
+"""Build headless nextpnr with the XO2-2000 and XO2-4000 device databases."""
 import argparse
 import hashlib
 import json
@@ -37,15 +37,16 @@ def build(suite, jobs=2, archives=None):
             '-DCURRENT_GIT_VERSION=' + pin['trellis']['revision'])
         run('--build', trellis, '--target', 'pytrellis', '-j', jobs)
         nextpnr = tmp / 'nextpnr-build'
-        run('-S', tmp / 'nextpnr', '-B', nextpnr, '-DARCH=machxo2', '-DMACHXO2_DEVICES=2000',
+        run('-S', tmp / 'nextpnr', '-B', nextpnr, '-DARCH=machxo2', '-DMACHXO2_DEVICES=2000;4000',
             '-DBUILD_GUI=OFF', '-DBUILD_PYTHON=OFF', '-DUSE_IPO=OFF', '-DBoost_USE_STATIC_LIBS=ON',
             '-DTRELLIS_LIBDIR=' + str(trellis), '-DTRELLIS_DATADIR=' + str(suite / 'share/trellis'),
             f'-DPython3_EXECUTABLE={sys.executable}', '-DCURRENT_GIT_VERSION=' + pin['nextpnr']['revision'])
         run('--build', nextpnr, '-j', jobs)
         binary = nextpnr / 'nextpnr-machxo2'
         devices = subprocess.check_output([str(binary), '--list-devices'], stderr=subprocess.STDOUT, text=True)
-        if 'LCMXO2-2000HC-4TG100C' not in devices:
-            raise ValueError('Built nextpnr does not include the required device')
+        required = ('LCMXO2-2000HC-4TG100C', 'LCMXO2-4000HC-4TG144C')
+        if any(device not in devices for device in required):
+            raise ValueError('Built nextpnr does not include both required devices')
         output.mkdir()
         try:
             shutil.copy2(binary, output / binary.name)

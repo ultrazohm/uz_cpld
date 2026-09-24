@@ -279,7 +279,7 @@ def gui(build: Build):
             raise BuildError(f'Diamond GUI exited {result.returncode}')
 
 
-def scaffold(root: Path, name: str, template: str, target: str = 'uz_dslot_xo2', backend: str | None = None) -> Path:
+def scaffold(root: Path, name: str, template: str, target: str | None = None, backend: str | None = None) -> Path:
     """Clone an existing program and register it in the catalog.
 
     ``template`` names a program under ``programs/``; no template directory is
@@ -288,7 +288,9 @@ def scaffold(root: Path, name: str, template: str, target: str = 'uz_dslot_xo2',
     before cloning so the new program is independently editable.
     """
     root = root.resolve()
-    name, template, target = map(identifier, (name, template, target))
+    name, template = map(identifier, (name, template))
+    if target is not None:
+        target = identifier(target)
     if (root / 'programs').is_symlink():
         raise BuildError('Programs directory must not be a symlink')
     destination = root / 'programs' / name

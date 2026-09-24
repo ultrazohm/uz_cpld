@@ -9,6 +9,8 @@ Run the tooling tests, HDL simulations, FOSS firmware builds and documentation c
    make docs
 
 ``make test`` runs the Python tooling tests with installed dependencies.
+Catalog-wide commands now include the D-slot programs and ``s3c_toolchain_test_program``;
+``target=uz_dslot_xo2`` or ``target=uz_s3c_xo2`` filters firmware builds.
 ``make check program=tx30`` validates a manifest and its input files, while ``make doctor backend=foss`` checks the FOSS tool installation.
 For Diamond, run ``make doctor backend=diamond`` and ``make build-all backend=diamond`` in a licensed environment.
 Generated firmware provenance, tool identity, input hashes and output hashes are in each backend directory's ``metadata/build.json``; simulation provenance is in ``build/simulation/metadata/run.json``.

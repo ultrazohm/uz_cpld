@@ -1,13 +1,13 @@
 UltraZohm CPLD
 ==============
 
-This workspace builds firmware for the Rev05+ D-slot ``LCMXO2-2000HC-4TG100C`` with Diamond or the FOSS pipeline and verifies its VHDL with GHDL/cocotb.
-The supported catalog contains ``tx30``, ``rx30``, ``tx26_w_enable``, ``uz_d_resolver_d4_4inverter_sdifix`` and ``uz_d_resolver_d5_4inverter_sdifix``.
+This workspace builds firmware for the Rev05+ D-slot ``LCMXO2-2000HC-4TG100C`` and S3C ``LCMXO2-4000HC-4TG144C`` with Diamond or the FOSS pipeline, and verifies VHDL with GHDL/cocotb.
+The supported catalog contains five D-slot programs and the ``s3c_toolchain_test_program`` S3C build example.
 
 Quick start
 -----------
 
-See :doc:`quick-start` to create a new program and build its ``.jed`` file with Diamond.
+See :doc:`quick-start` for the path from a new program through simulation to a Diamond ``.jed`` or FOSS ``.bit`` export.
 
 Run ``make`` to see all commands. With Docker installed, run these commands from the repository root::
 

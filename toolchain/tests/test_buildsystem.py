@@ -1,4 +1,6 @@
 """Regression tests for destructive boundaries, failure reporting and manifests."""
+from contextlib import redirect_stdout
+import io
 import json
 from pathlib import Path
 import shutil
@@ -8,7 +10,8 @@ import unittest
 from unittest.mock import patch
 from toolchain.buildsystem.model import BuildError, catalog, load_build
 from toolchain.buildsystem import workflow
-from toolchain.buildsystem.backends.diamond import tcl
+from toolchain.buildsystem.cli import main as cli_main
+from toolchain.buildsystem.backends.diamond import DiamondBackend, tcl
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -61,6 +64,46 @@ class FrontendTests(unittest.TestCase):
         self.assertEqual(second.sources[0].path.read_bytes(), custom.sources[0].path.read_bytes())
         self.assertEqual(second.top, custom.top)
         self.assertEqual(catalog(self.root)[-2:], ['custom', 'second'])
+
+    def test_s3c_target_and_scaffold_keep_device_selection(self):
+        diamond = load_build(self.root, 's3c_toolchain_test_program')
+        foss = load_build(self.root, 's3c_toolchain_test_program', backend='foss')
+        self.assertEqual(diamond.target, 'uz_s3c_xo2')
+        self.assertEqual(diamond.device, 'LCMXO2-4000HC-4TG144C')
+        self.assertEqual(foss.device, diamond.device)
+        self.assertNotEqual(foss.directory, diamond.directory)
+        with self.assertRaisesRegex(BuildError, 'does not support'):
+            load_build(self.root, 's3c_toolchain_test_program', 'uz_dslot_xo2')
+        workflow.scaffold(self.root, 's3c_clone', 's3c_toolchain_test_program')
+        self.assertEqual(load_build(self.root, 's3c_clone').target, 'uz_s3c_xo2')
+
+    def test_diamond_s3c_project_requests_4000hc(self):
+        build = load_build(self.root, 's3c_toolchain_test_program')
+        project = self.root / 'diamond_s3c_project'
+        def fake_run(script, log):
+            (project / 'firmware.ldf').write_text('<BaliProject><Implementation><Options/></Implementation></BaliProject>')
+            return 'prepared'
+        with patch('toolchain.buildsystem.backends.diamond.run', side_effect=fake_run):
+            DiamondBackend().prepare(build, project, project / 'prepare.log')
+        script = (project / 'prepare.tcl').read_text()
+        self.assertIn('-dev "LCMXO2-4000HC-4TG144C"', script)
+        self.assertIn('s3c_toolchain_test_program_constraints.lpf', script)
+        self.assertIn('s3c_toolchain_test_program.vhdl', script)
+        self.assertIn('def_top="S3CToolchainTestProgram"', (project / 'firmware.ldf').read_text())
+
+    def test_build_all_selects_each_program_target(self):
+        selected = []
+        def capture(build):
+            selected.append((build.name, build.target))
+            return build.directory
+        with patch('toolchain.buildsystem.cli.workflow.build_program', side_effect=capture), redirect_stdout(io.StringIO()):
+            self.assertEqual(cli_main(['build-all', '--root', str(self.root)]), 0)
+        self.assertEqual(len(selected), len(catalog(self.root)))
+        self.assertIn(('s3c_toolchain_test_program', 'uz_s3c_xo2'), selected)
+        selected.clear()
+        with patch('toolchain.buildsystem.cli.workflow.build_program', side_effect=capture), redirect_stdout(io.StringIO()):
+            self.assertEqual(cli_main(['build-all', '--root', str(self.root), '--target', 'uz_s3c_xo2']), 0)
+        self.assertEqual(selected, [('s3c_toolchain_test_program', 'uz_s3c_xo2')])
 
     def test_failed_catalog_update_removes_clone(self):
         path = self.root / 'programs/catalog.toml'

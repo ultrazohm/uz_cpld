@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := $(if $(program),build,help)
 python ?= python3
-target ?= uz_dslot_xo2
+target ?=
 template ?= tx30
 backend ?= diamond
 ifneq ($(backend),diamond)
@@ -10,7 +10,7 @@ endif
 endif
 # Quote values as single shell arguments, including embedded apostrophes.
 quote = '$(subst ','"'"',$(1))'
-args = --target $(call quote,$(target)) $(if $(program),--program $(call quote,$(program))) --backend $(call quote,$(backend))
+args = $(if $(target),--target $(call quote,$(target))) $(if $(program),--program $(call quote,$(program))) --backend $(call quote,$(backend))
 .PHONY: help build list doctor new check project gui build-all clean clean-all test docs docs-local docs-assets-local netlist netlist-local sim image test-container _sim
 help:
 	@printf '%-31s %s\n' \
@@ -35,7 +35,7 @@ help:
 	  'make netlist-local' 'Export diagrams with installed tools' \
 	  'make docs-assets-local' 'Generate program documentation assets' \
 	  'make docs-local' 'Build documentation with installed tools'
-	@printf '%s\n' '' 'Options: backend=diamond|foss target=uz_dslot_xo2 template=tx30 seed=1 wave_format=vcd|ghw|fst'
+	@printf '%s\n' '' 'Options: backend=diamond|foss target=uz_dslot_xo2|uz_s3c_xo2 template=tx30 seed=1 wave_format=vcd|ghw|fst'
 list check:
 	$(python) -m toolchain.buildsystem $@ $(args)
 # FOSS firmware commands use the same container dispatch as simulation on hosts.
@@ -87,7 +87,7 @@ _sim:
 	@test "$(CPLD_TOOLCHAIN_CONTAINER)" = "1" || { echo "Use 'make sim' to run in the simulation container." >&2; exit 1; }
 	python3 -m pytest toolchain/simulation/test_simulation.py -v --junitxml=toolchain/build/simulation/junit.xml $(if $(program),--program $(call quote,$(program))) --seed $(call quote,$(seed)) --wave-format $(call quote,$(wave_format))
 netlist-local:
-	$(python) -m toolchain.analysis.netlist --target $(call quote,$(target)) $(if $(program),--program $(call quote,$(program)))
+	$(python) -m toolchain.analysis.netlist $(if $(target),--target $(call quote,$(target))) $(if $(program),--program $(call quote,$(program)))
 docs-assets-local:
 	$(python) -m toolchain.analysis.documentation
 docs-local: docs-assets-local

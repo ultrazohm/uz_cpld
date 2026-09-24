@@ -36,7 +36,7 @@ def tools(build):
         if json.loads((root / 'native/sources.json').read_text()) != native_pin:
             raise BuildError('Native nextpnr source pin mismatch')
     except OSError as exc:
-        raise BuildError('Missing XO2-2000 nextpnr; run toolchain/foss/build_nextpnr.py') from exc
+        raise BuildError('Missing XO2 nextpnr; run toolchain/foss/build_nextpnr.py') from exc
     ghdl = shutil.which('ghdl')
     if not ghdl:
         raise BuildError('GHDL is missing; rebuild the toolchain container')
@@ -61,10 +61,15 @@ def tools(build):
 
 def doctor(build):
     record = tools(build)
+    require_device(build)
+    return json.dumps(record, indent=2)
+
+
+def require_device(build):
+    """Fail before synthesis when the pinned native build lacks this target."""
     result = subprocess.run([tool('nextpnr-machxo2'), '--list-devices'], capture_output=True, text=True)
     if result.returncode or build.device not in result.stdout + result.stderr:
-        raise BuildError(f'nextpnr does not list target device {build.device}')
-    return json.dumps(record, indent=2)
+        raise BuildError(f'nextpnr does not list target device {build.device}; rebuild the toolchain image or install a fresh FOSS prefix')
 
 
 def constraints(text):
@@ -88,13 +93,23 @@ def constraints(text):
                 if '=' not in word:
                     raise BuildError(f'Invalid LPF SYSCONFIG: {word}')
                 key, value = word.split('=', 1)
-                if key not in ('SDM_PORT', 'SLAVE_SPI_PORT', 'MCCLK_FREQ'):
+                if key not in ('SDM_PORT', 'SLAVE_SPI_PORT', 'I2C_PORT', 'MCCLK_FREQ'):
                     raise BuildError(f'Unsupported FOSS SYSCONFIG setting: {word}')
                 if key in deferred and deferred[key] != value:
                     raise BuildError(f'Conflicting SYSCONFIG setting: {key}')
                 deferred[key] = value
         elif words[0] == 'LOCATE' and len(words) == 5 and words[1] == 'COMP' and words[3] == 'SITE':
             lines.append(command.strip() + ';')
+        elif words[0] == 'BANK' and len(words) == 5 and words[1].isdigit() and words[2] == 'VCCIO' and words[4] == 'V':
+            key = 'BANK_' + words[1]
+            if key in deferred and deferred[key] != words[3]:
+                raise BuildError(f'Conflicting BANK setting: {words[1]}')
+            deferred[key] = words[3]
+        elif words[0] == 'USERCODE' and len(words) == 3 and words[1] == 'HEX' and re.fullmatch(r'[0-9A-Fa-f]{8}', words[2]):
+            value = words[2].upper()
+            if 'USERCODE' in deferred and deferred['USERCODE'] != value:
+                raise BuildError('Conflicting USERCODE settings')
+            deferred['USERCODE'] = value
         elif words[0] == 'IOBUF' and len(words) >= 4 and words[1] == 'PORT':
             for attr in words[3:]:
                 if '=' not in attr or attr.split('=', 1)[0] not in ('IO_TYPE', 'SLEWRATE', 'PULLMODE', 'DRIVE'):
@@ -110,11 +125,14 @@ class FossBackend:
         if any(s.library.lower() != 'work' for s in build.sources):
             raise BuildError('FOSS synthesis currently supports only work-library sources')
         tools(build)
+        require_device(build)
         project.mkdir(parents=True)
         (project / 'impl').mkdir()
         metadata = project.parent / 'metadata'
         (metadata / 'reports').mkdir(parents=True, exist_ok=True)
         lpf, deferred, notes = constraints(build.constraint.read_text())
+        from ..foss_config import validate_s3c_banks
+        validate_s3c_banks(deferred, build.device)
         if 'TRACEID' in deferred:
             notes.append('TRACEID is retained as provenance only; Trellis does not encode Diamond TRACEID.')
         (project / 'constraints.lpf').write_text(lpf)
@@ -168,7 +186,8 @@ class FossBackend:
             del module['ports'][name]
         (project.parent / 'metadata/reports/pnr-input.json').write_text(json.dumps(netlist))
         lpf, pin_report = package_lpf((project / 'constraints.lpf').read_text(),
-                                      netlist['modules'][plan['top']]['ports'], suite_root())
+                                      netlist['modules'][plan['top']]['ports'], suite_root(), build.device,
+                                      plan['deferred'])
         pin_report['unused_inputs_removed'] = unused
         (project / 'routed.lpf').write_text(lpf)
         run([tool('nextpnr-machxo2'), '--device', plan['device'], '--json', '../metadata/reports/pnr-input.json',
@@ -176,8 +195,11 @@ class FossBackend:
              '--write', '../metadata/reports/routed.json', '--report', '../metadata/reports/timing.json'])
         # Device-specific configuration is completed before packing, never dropped.
         from ..foss_config import complete_config
-        complete_config(project / 'impl/routed.config', plan['deferred'], suite_root())
-        run([tool('ecppack'), 'impl/routed.config', 'impl/firmware_impl.bit'])
+        complete_config(project / 'impl/routed.config', plan['deferred'], suite_root(), build.device)
+        pack = [tool('ecppack'), 'impl/routed.config', 'impl/firmware_impl.bit']
+        if 'USERCODE' in plan['deferred']:
+            pack += ['--usercode', str(int(plan['deferred']['USERCODE'], 16))]
+        run(pack)
         run([tool('ecpunpack'), 'impl/firmware_impl.bit', 'impl/unpacked.config'])
         (project.parent / 'metadata/reports/constraints.json').write_text(json.dumps({
             'deferred_settings': plan['deferred'], 'notes': plan['constraint_notes'], 'package': pin_report,

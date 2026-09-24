@@ -17,7 +17,10 @@ A missing program or failed assertion produces a failing command.
 Behavior
 --------
 
-The tests apply all-zero, all-one, walking-one and walking-zero data patterns with safe-state transitions ``0 → 1 → 0``.
+The ``tx30`` test drives all inputs low and high, then raises and lowers each input separately while checking every route.
+It requests safe state with all inputs high and checks that all outputs fall low and recover afterward.
+The other D-slot testbenches apply all-zero, all-one, walking-one and walking-zero data patterns with safe-state transitions ``0 → 1 → 0``.
+``s3c_toolchain_test_program`` checks its fixed safe-state outputs.
 ``tx26_w_enable`` additionally tests all 16 combinations of its four enable pins.
 The D4 and D5 resolver tests check their adapter routes, physical wire-swap compensation and safe-state status without gating data.
 Pilot, carrier-ready and I2C inputs are held low; exhaustive auxiliary-input combinations and randomized stimulus are excluded.
@@ -25,7 +28,7 @@ The tests are deterministic, while ``seed`` is recorded for programs that use ra
 
 Cocotb drives inputs and checks outputs while GHDL executes the VHDL.
 ``await Timer(1, unit="ns")`` advances simulated time by 1 ns; the test ends when its coroutine completes or an assertion fails.
-The tests span 186 ns for ``tx30``, ``rx30`` and the D4 resolver, 114 ns for the D5 resolver, and 2592 ns for ``tx26_w_enable``.
+The simulated duration of each run is recorded in ``metadata/run.json``.
 These waits allow combinational logic to settle and are not device timing requirements.
 
 Results

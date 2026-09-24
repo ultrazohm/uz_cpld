@@ -8,7 +8,7 @@ import unittest
 from unittest.mock import patch
 
 from toolchain.buildsystem import workflow
-from toolchain.buildsystem.model import catalog, BuildError, load_build
+from toolchain.buildsystem.model import catalog, program_backends, BuildError, load_build
 from toolchain.buildsystem.backends.foss import constraints
 from toolchain.buildsystem.foss_config import complete_config, package_lpf
 from toolchain.foss.install import install
@@ -39,7 +39,8 @@ class FossTests(unittest.TestCase):
     def test_make_backend_selection_and_invalid_value(self):
         result = subprocess.run(['make', 'list', 'backend=foss'], cwd=ROOT, capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(result.stdout.count('\tfoss'), len(catalog(ROOT)))
+        self.assertEqual(result.stdout.count('\tfoss'),
+                         sum('foss' in program_backends(ROOT, name) for name in catalog(ROOT)))
         result = subprocess.run(['make', 'list', 'backend=unknown'], cwd=ROOT, capture_output=True, text=True)
         self.assertNotEqual(result.returncode, 0)
 
@@ -83,6 +84,15 @@ class FossTests(unittest.TestCase):
             package_lpf('LOCATE COMP "a" SITE "PT99A";', {'a'}, self.root, self.build.device, {})
         with self.assertRaisesRegex(BuildError, 'Conflicting package pin'):
             package_lpf('LOCATE COMP "a" SITE "78"; LOCATE COMP "b" SITE "78";', {'a', 'b'}, self.root, self.build.device, {})
+
+    def test_vector_bit_pin_translation(self):
+        self.fake_database()
+        ports = {'bus': {'bits': [10, 11]}}
+        lpf, report = package_lpf('LOCATE COMP "bus[0]" SITE "78"; LOCATE COMP "bus[2]" SITE "1";',
+                                  ports, self.root, self.build.device, {})
+        self.assertIn('LOCATE COMP "bus[0]" SITE "78";', lpf)
+        self.assertEqual(report['pins'], {'78': 'bus[0]'})
+        self.assertEqual(len(report['ignored']), 1)
 
     def test_s3c_pin_translation_uses_tqfp144(self):
         self.fake_database()

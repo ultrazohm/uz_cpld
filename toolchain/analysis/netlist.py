@@ -24,6 +24,8 @@ def _export_netlist(build):
     output.mkdir(parents=True)
     (output / 'metadata').mkdir()
     inputs = {str(s.path.relative_to(build.root)): digest(s.path) for s in build.sources}
+    primitive = build.root / 'toolchain/hdl/machxo2_primitives.v'
+    inputs[str(primitive.relative_to(build.root))] = digest(primitive)
     try:
         for tool in ('ghdl', 'yosys', 'dot'):
             if not shutil.which(tool):
@@ -36,7 +38,8 @@ def _export_netlist(build):
             subprocess.run(['ghdl', '--synth', f'--std={standard}', '--out=verilog',
                             *(str(s.path) for s in build.sources), '-e', build.top],
                            cwd=output, stdout=net, stderr=log, check=True)
-        script = '\n'.join(['read_verilog rtl.v', f'hierarchy -check -top {build.top}',
+        script = '\n'.join([f'read_verilog -lib "{primitive}"',
+                            'read_verilog rtl.v', f'hierarchy -check -top {build.top}',
                             'proc', 'flatten', 'opt_clean',
                             'write_json metadata/rtl.json', f'show -format dot -prefix netlist {build.top}'])
         (output / 'netlist.ys').write_text(script + '\n')
@@ -49,8 +52,10 @@ def _export_netlist(build):
                                cwd=output, stdout=log, stderr=subprocess.STDOUT, check=True)
                 if not (output / f'netlist.{fmt}').stat().st_size:
                     raise BuildError(f'Empty {fmt} export')
-        if inputs != {str(s.path.relative_to(build.root)): digest(s.path) for s in build.sources}:
-            raise BuildError('HDL changed during netlist export')
+        current_inputs = {str(s.path.relative_to(build.root)): digest(s.path) for s in build.sources}
+        current_inputs[str(primitive.relative_to(build.root))] = digest(primitive)
+        if inputs != current_inputs:
+            raise BuildError('Netlist inputs changed during export')
         versions = {name: subprocess.check_output(args, stderr=subprocess.STDOUT, text=True).splitlines()[0]
                     for name, args in [('ghdl', ['ghdl', '--version']),
                                        ('yosys', ['yosys', '-V']), ('graphviz', ['dot', '-V'])]}

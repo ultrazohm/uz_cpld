@@ -121,6 +121,16 @@ def program_targets(root: Path, name: str) -> list[str]:
     return [identifier(target) for target in targets]
 
 
+def program_backends(root: Path, name: str) -> list[str]:
+    """Return the firmware backends declared by one catalog program."""
+    name = identifier(name)
+    path = input_path(root.resolve(), root.resolve(), f'programs/{name}/{name}.toml')
+    backends = strings(read_toml(path).get('backends', ['diamond', 'foss']), f'{name}.backends')
+    if not backends or any(value not in ('diamond', 'foss') for value in backends):
+        raise BuildError(f'{name}: backends must list diamond and/or foss')
+    return backends
+
+
 def load_build(root: Path, name: str, target: str | None = None, backend: str | None = None) -> Build:
     """Validate manifests and return a build model; no vendor tools are needed."""
     root = root.resolve()
@@ -134,9 +144,9 @@ def load_build(root: Path, name: str, target: str | None = None, backend: str | 
     pm = input_path(root, root, f'programs/{name}/{name}.toml')
     tm = input_path(root, root, f'toolchain/targets/{target}/target.toml')
     p, t = read_toml(pm), read_toml(tm)
-    pf = {'name', 'top', 'standard', 'sources', 'targets', 'constraints', 'testbench'}
+    pf = {'name', 'top', 'standard', 'sources', 'targets', 'backends', 'constraints', 'foss_constraints', 'testbench'}
     tf = {'name', 'device', 'backend', 'diamond', 'foss'}
-    keys(p, pf, pf, str(pm)); keys(t, tf, {'name', 'device', 'backend'}, str(tm))
+    keys(p, pf, pf - {'foss_constraints', 'backends'}, str(pm)); keys(t, tf, {'name', 'device', 'backend'}, str(tm))
     if p['name'] != name or t['name'] != target:
         raise BuildError('Manifest name must match its directory')
     if target not in declared_targets:
@@ -144,6 +154,8 @@ def load_build(root: Path, name: str, target: str | None = None, backend: str | 
     backend = identifier(backend or t['backend'])
     if backend not in ('diamond', 'foss') or t['backend'] not in ('diamond', 'foss'):
         raise BuildError(f'Unimplemented backend: {backend}')
+    if backend not in program_backends(root, name):
+        raise BuildError(f'{name} does not support the {backend} firmware backend')
     if p['standard'] not in ('1993', '2008'):
         raise BuildError('VHDL standard must be "1993" or "2008"')
     hdl_id = r'[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)*'
@@ -165,6 +177,15 @@ def load_build(root: Path, name: str, target: str | None = None, backend: str | 
     constraint = input_path(root, pm.parent, constraints[0])
     if constraint.suffix.lower() != '.lpf':
         raise BuildError('Constraint must be an LPF')
+    if 'foss_constraints' in p:
+        foss_constraints = strings(p['foss_constraints'], 'foss_constraints')
+        if len(foss_constraints) != 1:
+            raise BuildError('Exactly one FOSS LPF is required')
+        foss_constraint = input_path(root, pm.parent, foss_constraints[0])
+        if foss_constraint.suffix.lower() != '.lpf':
+            raise BuildError('FOSS constraint must be an LPF')
+        if backend == 'foss':
+            constraint = foss_constraint
     testbench = input_path(root, pm.parent, p['testbench'])
     if testbench != pm.parent / f'{name}_tb.py':
         raise BuildError('Testbench must be named <program>_tb.py in the program directory')

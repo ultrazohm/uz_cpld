@@ -1,1 +1,1 @@
-programs = ["tx30", "rx30", "tx26_w_enable", "uz_d_resolver_d4_4inverter_sdifix", "uz_d_resolver_d5_4inverter_sdifix", "s3c_toolchain_test_program"]
+programs = ["tx30", "rx30", "tx26_w_enable", "uz_d_resolver_d4_4inverter_sdifix", "uz_d_resolver_d5_4inverter_sdifix", "s3c_toolchain_test_program", "s3c_power_on_debounce"]

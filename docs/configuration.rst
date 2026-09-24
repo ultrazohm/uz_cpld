@@ -12,7 +12,8 @@ All shown fields are required.
 ``top`` and source libraries are VHDL basic identifiers; ``standard`` is ``1993`` or ``2008``.
 ``sources`` is a nonempty ordered list with no duplicate paths, and ``targets`` explicitly lists compatible board targets.
 Input paths are relative to the manifest, must exist and must stay within the workspace.
-Exactly one authored LPF is supported; constraint merging is excluded to avoid ambiguous precedence.
+``constraints`` names the authored Diamond LPF. An optional ``foss_constraints`` names a separate FOSS LPF when vendor settings cannot be reproduced by Trellis; each backend reads exactly one LPF.
+An optional ``backends`` list limits firmware exports to ``diamond`` and/or ``foss``. Omitted lists permit both.
 ``testbench`` must name the program-local ``<name>_tb.py`` file; manifest validation checks its existence but does not run it.
 ``description.rst`` is optional program prose discovered by the documentation generator.
 
@@ -39,7 +40,7 @@ Set VHDL standard through the program manifest rather than ``lse_vhdl2008``.
 Unknown vendor options fail during Diamond preparation.
 ``diamond.version`` must appear in the build log; the extractor recognizes the ``3.14.0.<number>.<number>`` release family.
 
-``backend`` selects the target default; both ``diamond`` and ``foss`` are supported.
+``backend`` selects the target default; both ``diamond`` and ``foss`` are implemented for the S3C target, subject to each program's ``backends`` list.
 The selected backend table is required.
 ``foss.version`` matches the pinned OSS CAD Suite release, and ``foss.seed`` selects a positive deterministic nextpnr seed.
 Diamond strategy settings do not apply to FOSS builds.

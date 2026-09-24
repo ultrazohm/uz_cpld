@@ -2,7 +2,7 @@ UltraZohm CPLD
 ==============
 
 This workspace builds firmware for the Rev05+ D-slot ``LCMXO2-2000HC-4TG100C`` and S3C ``LCMXO2-4000HC-4TG144C`` with Diamond or the FOSS pipeline, and verifies VHDL with GHDL/cocotb.
-The supported catalog contains five D-slot programs and the ``s3c_toolchain_test_program`` S3C build example.
+The supported catalog contains five D-slot programs, the ``s3c_toolchain_test_program`` S3C build example, and the extracted ``s3c_power_on_debounce`` controller.
 
 Quick start
 -----------

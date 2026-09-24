@@ -61,12 +61,20 @@ def package_lpf(lpf, ports, suite, device, settings):
             raise BuildError(f'Unexpected interior package IO: {pin}')
         sites[site] = pin
     lines, ignored, assigned, io_types = [], [], {}, {}
+    def active_port(name):
+        if name in ports:
+            return True
+        match = re.fullmatch(r'(.+)\[(\d+)\]', name)
+        if not match or not isinstance(ports, dict) or match[1] not in ports:
+            return False
+        return int(match[2]) < len(ports[match[1]]['bits'])
+
     for command in lpf.split(';'):
         words = shlex.split(command)
         if not words:
             continue
         port = words[2]
-        if port not in ports:
+        if not active_port(port):
             ignored.append({'command': command.strip(), 'reason': 'Port absent from synthesized top-level interface'})
             continue
         if words[0] == 'LOCATE':

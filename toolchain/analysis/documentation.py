@@ -33,7 +33,8 @@ def generate(root=ROOT):
         if before != {str(p.relative_to(root)): digest(p) for p in (*[s.path for s in build.sources], build.testbench)}:
             raise BuildError(f'{name}: sources changed while generating documentation')
         net_inputs = json.loads((netlist / 'metadata/netlist.json').read_text())['inputs']
-        if any(before[path] != value for path, value in net_inputs.items()):
+        if any((before[path] if path in before else digest(root / path)) != value
+               for path, value in net_inputs.items()):
             raise BuildError(f'{name}: netlist and simulation use different HDL')
         simulation = build.build_root / 'simulation'
         run = json.loads((simulation / 'metadata/run.json').read_text())

@@ -3,7 +3,7 @@ import argparse
 from pathlib import Path
 import sys
 import tempfile
-from .model import BuildError, catalog, load_build, program_targets
+from .model import BuildError, catalog, load_build, program_backends, program_targets
 from . import workflow
 from .backends.diamond import launcher, run, wrap
 
@@ -27,11 +27,13 @@ def main(argv: list[str] | None = None) -> int:
         def selected_builds():
             builds = []
             for name in catalog(root):
+                if args.backend and args.backend not in program_backends(root, name):
+                    continue
                 for target in program_targets(root, name):
                     if args.target is None or args.target == target:
                         builds.append(load_build(root, name, target, args.backend))
             if not builds and args.target:
-                raise BuildError(f'No catalog programs target {args.target}')
+                raise BuildError(f'No catalog programs support target {args.target} and backend {args.backend or "diamond"}')
             return builds
 
         if args.command == 'list':

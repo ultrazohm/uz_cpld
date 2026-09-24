@@ -136,7 +136,9 @@ class FossBackend:
         if 'TRACEID' in deferred:
             notes.append('TRACEID is retained as provenance only; Trellis does not encode Diamond TRACEID.')
         (project / 'constraints.lpf').write_text(lpf)
+        primitive = build.root / 'toolchain/hdl/machxo2_primitives.v'
         (project / 'synth.ys').write_text('\n'.join([
+            f'read_verilog -lib "{primitive}"',
             'read_verilog rtl.v', f'hierarchy -check -top {build.top}',
             f'synth_lattice -family xo2 -top {build.top} -json ../metadata/reports/synth.json',
             'check', 'stat']) + '\n')

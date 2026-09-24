@@ -70,7 +70,7 @@ The LPF reset/asynchronous-path exclusions are recorded without establishing a t
 
 Upstream MachXO2 support is experimental.
 Successful exports and synthesis equivalence do not establish matching Diamond bitstreams, electrical defaults, timing closure or hardware qualification.
-The current flow supports the catalog programs with ``work`` library sources and the LPF subset described above. The S3C toolchain test program exercises the second device and package, but it does not implement the carrier's operating state machine. The archived S3C LPF still contains ``JTAG_PORT`` and ``MCCLK_FREQ=7`` settings that this FOSS flow rejects; porting that controller requires an explicit configuration review.
+The S3C toolchain test program exercises the second device and package but does not implement the carrier's operating state machine. ``s3c_power_on_debounce`` extracts the archived ``S3C_171224`` controller for Diamond and simulation. Its FOSS firmware backend is disabled because mapped sequential equivalence remains unproven. A prepared FOSS LPF omits ``JTAG_PORT=DISABLE``, which Trellis cannot reproduce, corrects two bank-2 ``IO_TYPE`` declarations to 1.8 V, and translates one-based VHDL vector indices to zero-based Verilog indices. These differences and the archive's incomplete safety outputs require review before hardware use. Other archived S3C variants use ``MCCLK_FREQ=7``, which this FOSS flow still rejects.
 
 Programming and CI
 ------------------

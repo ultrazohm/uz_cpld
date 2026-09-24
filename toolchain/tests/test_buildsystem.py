@@ -91,6 +91,13 @@ class FrontendTests(unittest.TestCase):
         self.assertIn('s3c_toolchain_test_program.vhdl', script)
         self.assertIn('def_top="S3CToolchainTestProgram"', (project / 'firmware.ldf').read_text())
 
+    def test_imported_s3c_selects_backend_constraints(self):
+        diamond = load_build(self.root, 's3c_power_on_debounce', backend='diamond')
+        self.assertIn('JTAG_PORT=DISABLE', diamond.constraint.read_text())
+        with self.assertRaisesRegex(BuildError, 'does not support the foss firmware backend'):
+            load_build(self.root, 's3c_power_on_debounce', backend='foss')
+        self.assertEqual(diamond.target, 'uz_s3c_xo2')
+
     def test_build_all_selects_each_program_target(self):
         selected = []
         def capture(build):
@@ -103,6 +110,11 @@ class FrontendTests(unittest.TestCase):
         selected.clear()
         with patch('toolchain.buildsystem.cli.workflow.build_program', side_effect=capture), redirect_stdout(io.StringIO()):
             self.assertEqual(cli_main(['build-all', '--root', str(self.root), '--target', 'uz_s3c_xo2']), 0)
+        self.assertEqual(selected, [('s3c_toolchain_test_program', 'uz_s3c_xo2'),
+                                    ('s3c_power_on_debounce', 'uz_s3c_xo2')])
+        selected.clear()
+        with patch('toolchain.buildsystem.cli.workflow.build_program', side_effect=capture), redirect_stdout(io.StringIO()):
+            self.assertEqual(cli_main(['build-all', '--root', str(self.root), '--target', 'uz_s3c_xo2', '--backend', 'foss']), 0)
         self.assertEqual(selected, [('s3c_toolchain_test_program', 'uz_s3c_xo2')])
 
     def test_failed_catalog_update_removes_clone(self):

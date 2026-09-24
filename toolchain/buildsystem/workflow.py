@@ -10,7 +10,7 @@ import re
 import shutil
 import subprocess
 import tempfile
-from .model import Build, BuildError, catalog, identifier, load_build, read_toml
+from .model import Build, BuildError, catalog, identifier, input_path, load_build, read_toml
 from .backends.diamond import DiamondBackend, launcher
 
 
@@ -29,6 +29,8 @@ def digest(path: Path) -> str:
 def hashes(build: Build) -> dict:
     """Hash authored inputs and the Python implementation used for this build."""
     paths = set(build.inputs) | set((build.root / 'toolchain/buildsystem').rglob('*.py'))
+    if build.backend == 'foss':
+        paths |= set((build.root / 'toolchain/hdl').rglob('*.v'))
     return {str(p.relative_to(build.root)): digest(p) for p in sorted(paths)}
 
 
@@ -305,7 +307,10 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
     original = load_build(root, template, target, backend)
     source = original.manifests[0].parent
     meta = read_toml(original.manifests[0])
-    local_inputs = [s.path for s in original.sources] + [original.constraint, original.testbench]
+    primary_constraint = input_path(root, source, meta['constraints'][0])
+    local_inputs = [s.path for s in original.sources] + [primary_constraint, original.testbench]
+    if 'foss_constraints' in meta:
+        local_inputs.append(input_path(root, source, meta['foss_constraints'][0]))
     if any(path.is_relative_to(source / 'build') for path in local_inputs):
         raise BuildError('Cloning requires authored inputs outside the generated build directory')
     if any(not path.is_relative_to(source) for path in local_inputs):
@@ -318,8 +323,10 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
         raise BuildError(f'Cloning requires the primary source {primary.name}')
     renames = {Path(f'{template}.toml'): Path(f'{name}.toml'),
                primary.relative_to(source): Path(f'{name}.vhdl'),
-               original.constraint.relative_to(source): Path(f'{name}_constraints.lpf'),
+               primary_constraint.relative_to(source): Path(f'{name}_constraints.lpf'),
                original.testbench.relative_to(source): Path(f'{name}_tb.py')}
+    if 'foss_constraints' in meta:
+        renames[Path(meta['foss_constraints'][0])] = Path(f'{name}_foss_constraints.lpf')
     for old, new in renames.items():
         if (source / new).exists() and new != old:
             raise BuildError(f'Clone filename conflicts with an existing file: {new}')
@@ -327,6 +334,8 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
     meta['sources'] = [{'path': str(renames.get(s.path.relative_to(source), s.path.relative_to(source))),
                         'library': s.library} for s in original.sources]
     meta['constraints'] = [f'{name}_constraints.lpf']
+    if 'foss_constraints' in meta:
+        meta['foss_constraints'] = [f'{name}_foss_constraints.lpf']
     meta['testbench'] = f'{name}_tb.py'
 
     def toml_value(value):

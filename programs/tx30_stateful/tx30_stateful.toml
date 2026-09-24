@@ -1,0 +1,9 @@
+name = "tx30_stateful"
+top = "tx30_stateful"
+standard = "1993"
+targets = ["uz_dslot_xo2"]
+backends = ["diamond"]
+constraints = ["tx30_stateful_constraints.lpf"]
+generator = "generator.toml"
+sources = [{path = "s3c_logic.vhdl", library = "work"}, {path = "tx30_stateful.vhdl", library = "work"}]
+testbench = "tx30_stateful_tb.py"

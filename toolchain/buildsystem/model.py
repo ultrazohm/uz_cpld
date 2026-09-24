@@ -144,9 +144,9 @@ def load_build(root: Path, name: str, target: str | None = None, backend: str | 
     pm = input_path(root, root, f'programs/{name}/{name}.toml')
     tm = input_path(root, root, f'toolchain/targets/{target}/target.toml')
     p, t = read_toml(pm), read_toml(tm)
-    pf = {'name', 'top', 'standard', 'sources', 'targets', 'backends', 'constraints', 'foss_constraints', 'testbench'}
+    pf = {'name', 'top', 'standard', 'sources', 'targets', 'backends', 'constraints', 'foss_constraints', 'testbench', 'generator'}
     tf = {'name', 'device', 'backend', 'diamond', 'foss'}
-    keys(p, pf, pf - {'foss_constraints', 'backends'}, str(pm)); keys(t, tf, {'name', 'device', 'backend'}, str(tm))
+    keys(p, pf, pf - {'foss_constraints', 'backends', 'generator'}, str(pm)); keys(t, tf, {'name', 'device', 'backend'}, str(tm))
     if p['name'] != name or t['name'] != target:
         raise BuildError('Manifest name must match its directory')
     if target not in declared_targets:
@@ -171,6 +171,22 @@ def load_build(root: Path, name: str, target: str | None = None, backend: str | 
         sources.append(Source(input_path(root, pm.parent, s['path']), s['library']))
     if len({s.path for s in sources}) != len(sources):
         raise BuildError('Duplicate source path')
+    generator_inputs = ()
+    if 'generator' in p:
+        from cpld_vhdl_generator.generator import check, dependencies, source_paths, GeneratorError, RECEIPT, PACKAGE
+        config_path = input_path(root, pm.parent, p['generator'])
+        generation_output = sources[-1].path.parent
+        try:
+            generated = check(config_path, generation_output)
+        except (GeneratorError, OSError) as exc:
+            raise BuildError(f'{name}: {exc}') from exc
+        if generated.name != p['top'] or p['standard'] != '1993':
+            raise BuildError('Generated top and VHDL standard must match the generator')
+        if [s.path for s in sources] != source_paths(generated, generation_output) or any(s.library != 'work' for s in sources):
+            raise BuildError('Manifest sources must match generator-output.json in order, in library work')
+        generator_inputs = tuple(input_path(root, root, str(path.relative_to(root)))
+                                 for path in dependencies(generated) + [generation_output / RECEIPT]
+                                 if path.is_relative_to(root) or not path.is_relative_to(PACKAGE))
     constraints = strings(p['constraints'], 'constraints')
     if len(constraints) != 1:
         raise BuildError('Exactly one authored LPF is required')
@@ -200,7 +216,7 @@ def load_build(root: Path, name: str, target: str | None = None, backend: str | 
             raise BuildError('foss.seed must be a positive 32-bit integer')
         pin = input_path(root, root, 'toolchain/foss/toolchain.json')
         return Build(root, name, target, backend, p['top'], p['standard'], tuple(sources), constraint,
-                     t['device'], None, {'seed': f['seed']}, (pm, tm, pin, input_path(root, root, 'toolchain/foss/sources.json')), f['version'], testbench)
+                     t['device'], None, {'seed': f['seed']}, (pm, tm, pin, input_path(root, root, 'toolchain/foss/sources.json'), *generator_inputs), f['version'], testbench)
     d = t.get('diamond', {})
     keys(d, {'strategy', 'version', 'options'}, {'strategy', 'version', 'options'}, 'diamond')
     if not isinstance(d['options'], dict) or any(not isinstance(v, str) for v in d['options'].values()):
@@ -212,4 +228,4 @@ def load_build(root: Path, name: str, target: str | None = None, backend: str | 
     if not isinstance(d['version'], str) or not d['version']:
         raise BuildError('diamond.version must specify the required tool version')
     return Build(root, name, target, backend, p['top'], p['standard'], tuple(sources), constraint,
-                 t['device'], input_path(root, tm.parent, d['strategy']), d['options'], (pm, tm), d['version'], testbench)
+                 t['device'], input_path(root, tm.parent, d['strategy']), d['options'], (pm, tm, *generator_inputs), d['version'], testbench)

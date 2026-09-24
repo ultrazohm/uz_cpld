@@ -53,6 +53,7 @@ clean:
 clean-all:
 	$(python) -m toolchain.buildsystem clean-all
 test:
+	$(python) -m unittest discover -s cpld_vhdl_generator/tests -v
 	$(python) -m unittest discover -s toolchain/tests -v
 container_engine ?= docker
 container_platform ?= linux/amd64

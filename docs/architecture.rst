@@ -8,6 +8,7 @@ Source layout
 
    repository root/
    ├── Makefile
+   ├── cpld_vhdl_generator/   standalone CSV/TOML generator, contracts and shared HDL
    ├── .devcontainer/          image stages and optional Diamond configuration
    ├── toolchain/
    │   ├── buildsystem/        validated model, CLI, lifecycle and firmware backends
@@ -22,7 +23,9 @@ Source layout
 
 The workspace can be copied or renamed.
 Program inputs are independently editable copies.
-Generated files live under each program's ignored ``build/`` directory, while aggregate reports use ``toolchain/build/`` and documentation uses ``docs/_generated/`` and ``docs/_build/``.
+Generated programs regenerate ``s3c_logic.vhdl`` and their top-level VHDL directly in the program directory from their CSV and selected contract.
+The build system validates generated files through the standalone package, while the generator itself has no build-system dependency.
+Firmware build artifacts live under each program's ignored ``build/`` directory, while aggregate reports use ``toolchain/build/`` and documentation uses ``docs/_generated/`` and ``docs/_build/``.
 The repository root has one Makefile and one pair of Dev Container configurations.
 
 Design decisions

@@ -318,13 +318,16 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
     if any(path.is_symlink() for path in source.rglob('*')
            if path.relative_to(source).parts[0] != 'build'):
         raise BuildError('Cloning requires regular files, not symlinks, in the source program')
-    primary = source / f'{template}.vhdl'
+    primary = original.sources[-1].path if 'generator' in meta else source / f'{template}.vhdl'
     if primary not in [s.path for s in original.sources]:
         raise BuildError(f'Cloning requires the primary source {primary.name}')
     renames = {Path(f'{template}.toml'): Path(f'{name}.toml'),
                primary.relative_to(source): Path(f'{name}.vhdl'),
                primary_constraint.relative_to(source): Path(f'{name}_constraints.lpf'),
                original.testbench.relative_to(source): Path(f'{name}_tb.py')}
+    if 'generator' in meta:
+        # The generator renames its owned HDL using the receipt and preserves the routing specification.
+        del renames[primary.relative_to(source)]
     if 'foss_constraints' in meta:
         renames[Path(meta['foss_constraints'][0])] = Path(f'{name}_foss_constraints.lpf')
     for old, new in renames.items():
@@ -351,6 +354,18 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
                         ignore=shutil.ignore_patterns('build', '__pycache__', '*.pyc', '.pytest_cache'))
         for old, new in renames.items():
             (destination / old).rename(destination / new)
+        if 'generator' in meta:
+            from cpld_vhdl_generator import generate
+            generator_path = destination / meta['generator']
+            generator_config = read_toml(generator_path)
+            generator_config['name'] = name
+            generator_path.write_text(''.join(f'{key} = {toml_value(value)}\n'
+                                              for key, value in generator_config.items()))
+            generation_output = destination / primary.parent.relative_to(source)
+            generated_sources = generate(generator_path, generation_output)
+            meta['top'] = name
+            meta['sources'] = [{'path': str(path.relative_to(destination)), 'library': 'work'}
+                               for path in generated_sources]
         (destination / f'{name}.toml').write_text(
             ''.join(f'{key} = {toml_value(value)}\n' for key, value in meta.items()))
         load_build(root, name, target, backend)

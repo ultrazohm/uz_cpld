@@ -6,6 +6,7 @@ Run every command from the repository root.
 The D-slot target is ``uz_dslot_xo2`` (``LCMXO2-2000HC-4TG100C``); the S3C target is ``uz_s3c_xo2`` (``LCMXO2-4000HC-4TG144C``).
 
 The order is ``new → edit → check → sim → doctor → build → inspect``.
+For CSV routing with shared NORMAL, SAFE, and ERROR states, use the ``tx30_stateful`` example and follow :doc:`vhdl-generator`.
 Simulation checks the behavior exercised by the testbench; a firmware build implements the design for the device.
 Neither step programs hardware.
 

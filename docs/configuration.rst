@@ -15,6 +15,9 @@ Input paths are relative to the manifest, must exist and must stay within the wo
 ``constraints`` names the authored Diamond LPF. An optional ``foss_constraints`` names a separate FOSS LPF when vendor settings cannot be reproduced by Trellis; each backend reads exactly one LPF.
 An optional ``backends`` list limits firmware exports to ``diamond`` and/or ``foss``. Omitted lists permit both.
 ``testbench`` must name the program-local ``<name>_tb.py`` file; manifest validation checks its existence but does not run it.
+An optional ``generator`` path selects a standalone generator configuration and requires fresh emitted VHDL and provenance before builds, simulation, or documentation.
+Generated programs list the sources from ``generator-output.json`` in order and use VHDL-1993 in library ``work``.
+The sources are ``s3c_logic.vhdl`` followed by the top-level VHDL file, both in the program directory beside the provenance record.
 ``description.rst`` is optional program prose discovered by the documentation generator.
 
 Target

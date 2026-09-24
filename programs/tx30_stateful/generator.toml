@@ -1,0 +1,7 @@
+schema_version = 1
+name = "tx30_stateful"
+routing = "routing.csv"
+contract = "s3c_power_on_debounce_v1"
+clock = "machxo2"
+pilot_policy = "unused"
+fault_recovery = "safe_cycle"

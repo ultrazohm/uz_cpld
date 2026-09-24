@@ -6,3 +6,6 @@ __pycache__/
 *.pyc
 .pytest_cache/
 docs/_generated/
+
+# Standalone Python package metadata.
+*.egg-info/

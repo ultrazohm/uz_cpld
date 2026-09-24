@@ -4,25 +4,19 @@ Environment setup
 Containers
 ----------
 
-The Dockerfile defines three Linux amd64 runtime stages sharing firmware, simulation, analysis and documentation tools, plus a ``foss-builder`` stage for compiling device support.
-
-.. list-table:: Image stages
-   :header-rows: 1
-
-   * - Stage
-     - Purpose
-   * - ``toolchain``
-     - CI and host Make commands; GHDL, Yosys, nextpnr-machxo2, Trellis, openFPGALoader, Graphviz, Python and Sphinx.
-   * - ``development``
-     - VS Code development; adds GTKWave, shell utilities, sudo and the developer CLI.
-   * - ``diamond``
-     - Development with vendor runtime libraries and launchers; requires an external Diamond installation and license.
+The Dockerfile has one Linux amd64 runtime image, ``toolchain``, used by Make, CI and both Dev Container configurations.
+An intermediate ``foss-builder`` stage compiles the pinned XO2 tools; it is not a separate runtime image.
+The runtime image includes GHDL, Yosys, nextpnr-machxo2, Trellis, openFPGALoader, Graphviz, Python, Sphinx, GTKWave, development utilities and Diamond runtime libraries.
+The Dev Container setup installs the developer CLI for its user after creation.
+Diamond itself and its license remain external.
+The shared image is larger because development utilities and Diamond runtime libraries are present in the same runtime.
+Build the image with ``make image``.
 
 ``make sim``, ``make netlist`` and ``make docs`` build the cached ``toolchain`` image on the host and run directly inside a toolchain container.
 ``make test-container`` follows the same rule; ``make test``, ``make netlist-local`` and ``make docs-local`` always use installed tools.
 ``CPLD_TOOLCHAIN_CONTAINER=1`` identifies the installed environment and avoids nested Docker.
 
-``container_engine`` selects Docker or Podman, ``container_platform`` defaults to ``linux/amd64``, ``sim_image`` selects the image tag and ``sim_workspace`` selects the host bind source.
+``container_engine`` selects Docker or Podman, ``container_platform`` defaults to ``linux/amd64``, ``toolchain_image`` selects the image tag and ``sim_workspace`` selects the host bind source.
 Rootless Podman runs use ``--userns=keep-id`` to preserve workspace ownership.
 The daemon must be able to access the checkout; ARM hosts require amd64 emulation.
 
@@ -30,8 +24,8 @@ Dev Container
 -------------
 
 Open the repository in VS Code and select **Dev Containers: Reopen in Container**.
-The default configuration uses the ``development`` stage, including the FOSS firmware tools, without a Diamond mount or host networking.
-Choose the **Diamond** configuration when firmware compilation is needed.
+Both configurations build the same ``toolchain`` image.
+The default configuration needs no Diamond mount or host networking; choose **Diamond** to mount a Linux Diamond installation, expose its license settings and check startup.
 Before launching VS Code for that configuration, export the installation root, which is the parent of ``bin``::
 
    export DIAMOND_HOST_ROOT="$HOME/lscc/diamond/3.14"

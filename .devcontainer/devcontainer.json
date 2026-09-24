@@ -6,7 +6,7 @@
     "options": [
       "--platform=linux/amd64"
     ],
-    "target": "development"
+    "target": "toolchain"
   },
   "remoteUser": "vscode",
   "updateRemoteUserUID": true,
@@ -20,5 +20,6 @@
       }
     }
   },
-  "init": true
+  "init": true,
+  "postCreateCommand": "bash .devcontainer/setup.sh"
 }

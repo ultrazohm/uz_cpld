@@ -8,7 +8,7 @@ Local build
 
    make docs
 
-The host command builds the ``toolchain`` image and runs simulation, netlist analysis and Sphinx inside it without Diamond, license mounts, host networking or developer CLI installation.
+The host command builds the ``toolchain`` image and runs simulation, netlist analysis and Sphinx inside it without a Diamond installation, license mount or host networking.
 Inside a Dev Container, the command uses installed tools directly.
 ``make docs-local`` uses installed tools directly.
 Dependencies come from ``docs/requirements.txt`` and its referenced files in both the image and native setup.

@@ -20,7 +20,7 @@ Tools and installation
 The container installs checksum-pinned OSS CAD Suite 2026-09-16 for Yosys, Project Trellis and openFPGALoader, alongside GHDL 4.1.0.
 The stock nextpnr binary includes other devices but omits XO2-2000, so the ``foss-builder`` Docker stage builds a pinned nextpnr revision with ``MACHXO2_DEVICES=2000``.
 That stage builds the Trellis Python module to generate the device database, links Boost statically into nextpnr and excludes its GUI/Python integration.
-Compiler dependencies remain in the build stage; the three runtime stages share the resulting tools.
+Compiler dependencies remain in the builder stage; the single runtime image receives the resulting tools.
 ``FOSS_BUILD_JOBS`` controls build parallelism and defaults to 2.
 The bundle is large and the first image build includes C++ compilation; subsequent image builds reuse Docker layers.
 

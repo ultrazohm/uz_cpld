@@ -92,5 +92,5 @@ docs-assets-local:
 	$(python) -m toolchain.analysis.documentation
 docs-local: docs-assets-local
 	$(python) -m toolchain.analysis.sitecheck --clean docs/_build/html
-	$(python) -m sphinx -W --keep-going -b html docs docs/_build/html
+	LC_ALL=C.UTF-8 $(python) -m sphinx -W --keep-going -b html docs docs/_build/html
 	$(python) -m toolchain.analysis.sitecheck docs/_build/html

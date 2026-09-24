@@ -1,8 +1,8 @@
 {
   "name": "UltraZohm CPLD — documentation and simulation",
   "build": {
-    "dockerfile": "../new_approach/.devcontainer/Dockerfile",
-    "context": "../new_approach",
+    "dockerfile": "Dockerfile",
+    "context": "..",
     "options": [
       "--platform=linux/amd64"
     ],

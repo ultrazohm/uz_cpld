@@ -14,9 +14,6 @@ jobs:
     concurrency:
       group: cpld-checks-${{ github.ref }}
       cancel-in-progress: true
-    defaults:
-      run:
-        working-directory: new_approach
     steps:
       - uses: actions/checkout@v4
       - name: Build the license-free toolchain image
@@ -36,10 +33,10 @@ jobs:
         with:
           name: program-diagnostics
           path: |
-            new_approach/programs/*/build/simulation/
-            new_approach/programs/*/build/netlist/
-            new_approach/programs/*/build/uz_dslot_xo2/foss/
-            new_approach/toolchain/build/simulation/
+            programs/*/build/simulation/
+            programs/*/build/netlist/
+            programs/*/build/uz_dslot_xo2_foss/
+            toolchain/build/simulation/
           if-no-files-found: warn
           retention-days: 14
       - name: Retain the documentation preview
@@ -47,7 +44,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: cpld-documentation
-          path: new_approach/docs/_build/html/
+          path: docs/_build/html/
           if-no-files-found: warn
           include-hidden-files: true
           retention-days: 14
@@ -55,7 +52,7 @@ jobs:
         if: ${{ success() && github.event_name != 'pull_request' && github.ref == 'refs/heads/feature/m4_inverter_resolver_d4_d5' }}
         uses: actions/upload-pages-artifact@v4
         with:
-          path: new_approach/docs/_build/html/
+          path: docs/_build/html/
 
   deploy:
     needs: checks

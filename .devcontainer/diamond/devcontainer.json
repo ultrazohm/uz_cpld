@@ -1,8 +1,8 @@
 {
   "name": "UltraZohm CPLD — Diamond",
   "build": {
-    "dockerfile": "../../new_approach/.devcontainer/Dockerfile",
-    "context": "../../new_approach",
+    "dockerfile": "../Dockerfile",
+    "context": "../..",
     "target": "diamond",
     "options": [
       "--platform=linux/amd64"

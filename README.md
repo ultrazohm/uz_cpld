@@ -1,4 +1,3 @@
-# UltraZohm CPLD
+# Archive
 
-See the [Sphinx documentation](new_approach/docs/index.rst) for setup, firmware builds, simulation, program diagrams and GitHub Pages publishing.
-Run `make docs` to build `new_approach/docs/_build/html/index.html`.
+`MACHXO2/` and `ispMACH/` contain earlier vendor projects and programming files. The other files here are reference notes and mappings. The root Makefile, program catalog and documentation build use the active sources outside this directory.

@@ -14,17 +14,16 @@ class GeneratorTests(unittest.TestCase):
         self.root = Path(self.tmp.name)
         self.config = self.root / 'generator.toml'
         self.output = self.root
-        self.config.write_text('''schema_version = 2
+        self.config.write_text('''schema_version = 3
 name = "example"
 routing = "routing.csv"
 contract = "s3c_power_on_debounce_v1"
 clock = "external"
 pilot_policy = "required"
-fault_recovery = "safe_cycle"
 ''')
-        (self.root / 'routing.csv').write_text('''output,normal,safe,error
-d_00,fpga_00,0,1
-fpga_01,d_01,d_01,0
+        (self.root / 'routing.csv').write_text('''output,normal_state,safe_state
+d_00,fpga_00,0
+fpga_01,d_01,d_01
 ''')
 
     def profile(self, mode, ready='unused'):
@@ -32,8 +31,8 @@ fpga_01,d_01,d_01,0
 compatible_s3c = ["test_s3c"]
 request_mode = "{mode}"
 carrier_ready = "{ready}"
-slotok = [1, 0, 0]
-reqoe = [1, 1, 1]
+slotok = [1, 0]
+reqoe = [1, 1]
 ''')
         self.config.write_text(self.config.read_text().replace('"s3c_power_on_debounce_v1"', '"profile.toml"'))
 
@@ -46,6 +45,9 @@ reqoe = [1, 1, 1]
         self.assertNotIn('generic', logic)
         self.assertNotIn('heartbeat', logic.lower())
         self.assertNotIn('custom', logic.lower())
+        self.assertIn('type state_type is (safe_state, normal_state);', logic)
+        self.assertNotIn('state_error', logic)
+        self.assertNotIn('safe_seen', logic)
         self.assertIn('controller: entity work.s3c_logic', sources[1].read_text())
         check(self.config, self.output)
         self.profile('active_low', 'active_high')
@@ -81,14 +83,14 @@ reqoe = [1, 1, 1]
     def test_reject_invalid_routing(self):
         routing = self.root / 'routing.csv'
         original = routing.read_text()
-        invalid = [original.replace('d_00,fpga_00,0,1', 'd_00,fpga_00,,1'),
-                   original + 'd_00,fpga_00,0,0\n',
+        invalid = [original.replace('d_00,fpga_00,0', 'd_00,fpga_00,'),
+                   original + 'd_00,fpga_00,0\n',
                    original.replace('d_00,fpga_00', 'd_00,d_00'),
                    original.replace('d_00,fpga_00', 'd_00,fpga_01'),
                    original.replace('d_00,fpga_00', 'd_00,fpga_00 AND d_01'),
                    original.replace('d_00,fpga_00', 'd_00,custom.missing'),
-                   original + 'd_02,0,0,0,extra\n',
-                   original.replace('output,normal,safe,error', 'pin,direction,normal,safe,error')]
+                   original + 'd_02,0,0,extra\n',
+                   original.replace('output,normal_state,safe_state', 'pin,direction,normal,safe,error')]
         for bad in ('fpga_000', 'fpga_0', 'fpga_30', 'd_0', 'd_30', 'D_00', 'FPGA_00',
                     'pilot_in', 'i2c_scl', 'typo', '-', 'X', 'z'):
             invalid += [original.replace('d_00,fpga_00', f'{bad},fpga_00'),
@@ -100,6 +102,16 @@ reqoe = [1, 1, 1]
                     load_config(self.config)
         routing.write_text(original)
 
+    def test_contract_status_requires_two_levels(self):
+        self.profile('active_high')
+        profile = self.root / 'profile.toml'
+        original = profile.read_text()
+        for field, levels in [('slotok', '[1, 0]'), ('reqoe', '[1, 1]')]:
+            with self.subTest(field=field):
+                profile.write_text(original.replace(f'{field} = {levels}', f'{field} = [1, 0, 0]'))
+                with self.assertRaisesRegex(GeneratorError, 'two bits'):
+                    load_config(self.config)
+
     def test_heartbeat_is_not_implemented(self):
         self.profile('heartbeat', 'active_high')
         with self.assertRaisesRegex(GeneratorError, 'heartbeat is not implemented'):
@@ -107,35 +119,34 @@ reqoe = [1, 1, 1]
 
     def test_reject_removed_features_and_unknown_keys(self):
         original = self.config.read_text()
-        for extra in ('unrecognized = true', 'heartbeat_timeout_cycles = 8', 'heartbeat_edges = 2',
+        for extra in ('unrecognized = true', 'fault_recovery = "safe_cycle"', 'heartbeat_timeout_cycles = 8', 'heartbeat_edges = 2',
                       '[custom]\npath = "custom.vhdl"\nsignals = ["processed"]'):
             with self.subTest(extra=extra):
                 self.config.write_text(original + extra + '\n')
                 with self.assertRaises(GeneratorError):
                     load_config(self.config)
-        self.config.write_text(original.replace('"safe_cycle"', '"custom_ack"'))
-        with self.assertRaisesRegex(GeneratorError, 'fault_recovery'):
-            load_config(self.config)
         self.config.write_text(original.replace('"example"', '"s3c_logic"'))
         with self.assertRaisesRegex(GeneratorError, 'reserved'):
             load_config(self.config)
 
     @unittest.skipUnless(shutil.which('ghdl'), 'GHDL is needed for HDL behavioral checks')
-    def test_active_high_safe_and_latched_error(self):
+    def test_active_high_safe_and_automatic_pilot_recovery(self):
         self.simulate('''
         cycles(8); assert slotok = '0' and outp = '0' and rx = '1' severity failure;
-        reqsafestate <= '0'; cycles(5);
+        reqsafestate <= '0'; cycles(3);
         assert slotok = '1' and outp = '0' and reqoe = '1' severity failure;
         src <= '1'; wait for 1 ns; assert outp = '1' severity failure;
-        src <= '0'; reqsafestate <= '1'; cycles(3);
+        reqsafestate <= '1'; cycles(3);
         assert slotok = '0' and outp = '0' and rx = '1' severity failure;
-        reqsafestate <= '0'; cycles(3); assert slotok = '1' severity failure;
+        reqsafestate <= '0'; cycles(3); assert slotok = '1' and outp = '1' severity failure;
         pilot_in <= '0'; cycles(3);
-        assert slotok = '0' and outp = '1' and rx = '0' and reqoe = '1' severity failure;
-        reqsafestate <= '1'; cycles(5); reqsafestate <= '0'; cycles(5);
-        pilot_in <= '1'; cycles(6); assert outp = '1' and slotok = '0' severity failure;
-        reqsafestate <= '1'; cycles(5); reqsafestate <= '0'; cycles(5);
-        assert slotok = '1' and outp = '0' severity failure;
+        assert slotok = '0' and outp = '0' and rx = '1' and reqoe = '1' severity failure;
+        pilot_in <= '1'; cycles(3); assert slotok = '1' and outp = '1' severity failure;
+        pilot_in <= 'X'; cycles(3); assert slotok = '0' and outp = '0' severity failure;
+        pilot_in <= '1'; cycles(3); assert slotok = '1' severity failure;
+        pilot_in <= '0'; cycles(3); reqsafestate <= '1'; cycles(3);
+        pilot_in <= '1'; cycles(3); assert slotok = '0' and outp = '0' severity failure;
+        reqsafestate <= '0'; cycles(3); assert slotok = '1' and outp = '1' severity failure;
         ''')
 
     @unittest.skipUnless(shutil.which('ghdl'), 'GHDL is needed for HDL behavioral checks')
@@ -168,13 +179,13 @@ reqoe = [1, 1, 1]
     @unittest.skipUnless(shutil.which('ghdl'), 'GHDL is needed for HDL behavioral checks')
     def test_unknown_request_reset_and_tristate(self):
         routing = self.root / 'routing.csv'
-        routing.write_text(routing.read_text().replace('d_00,fpga_00,0,1', 'd_00,fpga_00,Z,1'))
+        routing.write_text(routing.read_text().replace('d_00,fpga_00,0', 'd_00,fpga_00,Z'))
         self.simulate('''
         cycles(8); assert outp = 'Z' severity failure;
         reqsafestate <= '0'; cycles(3); assert outp = '0' and slotok = '1' severity failure;
         reqsafestate <= 'X'; cycles(3); assert outp = 'Z' and slotok = '0' severity failure;
         reqsafestate <= '0'; cycles(3); assert slotok = '1' severity failure;
-        pilot_in <= '0'; cycles(3); assert outp = '1' and slotok = '0' severity failure;
+        pilot_in <= '0'; cycles(3); assert outp = 'Z' and slotok = '0' severity failure;
         reset <= '1'; cycles(1); assert outp = 'Z' severity failure;
         pilot_in <= '1'; reset <= '0'; cycles(8); assert slotok = '1' severity failure;
         ''')
@@ -187,7 +198,7 @@ reqoe = [1, 1, 1]
         self.assertEqual({p.name for p in config.pins if p.direction == 'out'}, {'d_00', 'fpga_01'})
         self.assertEqual(pins['d_29'].direction, 'in')
         self.assertEqual(pins['fpga_29'].direction, 'in')
-        self.assertEqual(pins['d_29'].actions, ('', '', ''))
+        self.assertEqual(pins['d_29'].actions, ('', ''))
         self.config.write_text(self.config.read_text() + 'enable = {fpga_29 = 1}\n')
         self.assertEqual(load_config(self.config).enable, {'fpga_29': 1})
         for invalid in ('d_00', 'fpga_30', 'fpga_0', 'i2c_scl'):
@@ -198,20 +209,20 @@ reqoe = [1, 1, 1]
     @unittest.skipUnless(shutil.which('ghdl'), 'GHDL is needed for HDL behavioral checks')
     def test_ungated_fanout_constants_and_unused_inputs(self):
         routing = self.root / 'routing.csv'
-        routing.write_text(routing.read_text() + 'd_02,fpga_00,fpga_00,fpga_00\nd_03,1,0,Z\n')
+        routing.write_text(routing.read_text() + 'd_02,fpga_00,fpga_00\nd_03,1,0\n')
         self.simulate('''
         cycles(8); assert always_out = '0' and constant_out = '0' severity failure;
         src <= '1'; wait for 1 ns; assert always_out = '1' and outp = '0' severity failure;
         reqsafestate <= '0'; cycles(3);
         assert always_out = '1' and outp = '1' and constant_out = '1' severity failure;
         pilot_in <= '0'; cycles(3);
-        assert always_out = '1' and constant_out = 'Z' severity failure;
+        assert always_out = '1' and constant_out = '0' severity failure;
         src <= '0'; wait for 1 ns; assert always_out = '0' severity failure;
         ''')
 
     @unittest.skipUnless(shutil.which('ghdl'), 'GHDL is needed for HDL behavioral checks')
     def test_empty_routing_retains_all_pins_as_inputs(self):
-        (self.root / 'routing.csv').write_text('output,normal,safe,error\n')
+        (self.root / 'routing.csv').write_text('output,normal_state,safe_state\n')
         config = load_config(self.config)
         self.assertEqual(len(config.pins), 60)
         self.assertTrue(all(p.direction == 'in' for p in config.pins))

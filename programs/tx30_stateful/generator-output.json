@@ -7,29 +7,27 @@
     "id": "s3c_power_on_debounce_v1",
     "reqoe": [
       1,
-      1,
       1
     ],
     "request_mode": "active_high",
     "slotok": [
       1,
-      0,
       0
     ]
   },
   "files": {
-    "s3c_logic.vhdl": "cd45d718be24f58191ffb0f2f220e8b72067d7e87fb181f9644f998b3704614c",
-    "tx30_stateful.vhdl": "817895d4b15a22691cf06e2b4f8491b672585bb630f784d12b064c285532d4c2"
+    "s3c_logic.vhdl": "d89e317eef76c46b99f0922db933d19ab76cbc48425b751d2691eca05a269127",
+    "tx30_stateful.vhdl": "c0eab5b2a6db94a12bdb3c86356e569dbd8214db6727edbdf1a0f91c9f0a388d"
   },
-  "generator_version": "0.1.0",
+  "generator_version": "0.3.0",
   "inputs": {
-    "generator/__init__.py": "c4af786e2a4a0549dff08e1fc5fdf0141b2638ef112025b14781b134133b60c0",
+    "generator/__init__.py": "e9ac34016b5571da098b0a28807512c3b0a2e3dffb5526ff83cab630f7dfe801",
     "generator/__main__.py": "47d0a830e20065dbcbd55789103a034578b993010c1daf5e2a2d0d25d2f15bbe",
-    "generator/contracts/s3c_power_on_debounce_v1.toml": "77ff769d29d53e723740b4c3adf8fc4f9929560c60496626ed7fc7dc3d2fadef",
-    "generator/generator.py": "eb1b4713503af37d33dd1663d96bfbc6f026367d8b07d4edf29513aa3b7eaca1",
-    "generator/hdl/s3c_logic.vhdl": "9df205bcfb5bfb3fa68b3f61336b9c1c577d9e938affe97183c3a22dbd4add9a",
-    "spec/generator.toml": "2e8b3c8103489368e3d10c459b4dede3fd96aab7bffd2cce4a2960e5f1bde538",
-    "spec/routing.csv": "eb110f5c2d6dce3cdc8aa8f65162c3a500c2dcb8abd305fae27d2bda0bb5b539"
+    "generator/contracts/s3c_power_on_debounce_v1.toml": "a4ce427e439926166fad28c438d9380793e83e8214b3735226ed0e281b0a95dc",
+    "generator/generator.py": "97e92f4d4071db055f70e7b3fd5f4622abb3d01d98c29089e1507f07afc07227",
+    "generator/hdl/s3c_logic.vhdl": "5d58b9a4d805966e48c8153df69e1d9500d76ddfa138fd9192204cb294ffe0c7",
+    "spec/generator.toml": "96f95336e6a43b9544b75110785a6bcc2c307d8c5ba967904dbfa57ccbcef39e",
+    "spec/routing.csv": "856f95037eb9b7538fd37aec42c8752a5589a2fda1f71eeaa36a25129b089021"
   },
   "name": "tx30_stateful",
   "schema_version": 1,

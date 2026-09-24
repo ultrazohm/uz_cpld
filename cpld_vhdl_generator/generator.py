@@ -54,7 +54,7 @@ def relative(base, value):
 class Pin:
     name: str
     direction: str
-    actions: tuple[str, str, str]
+    actions: tuple[str, str]
 
 
 @dataclass(frozen=True)
@@ -67,7 +67,6 @@ class Config:
     contract: dict
     clock: str
     pilot_policy: str
-    fault_recovery: str
     enable: dict
 
     @property
@@ -78,15 +77,14 @@ class Config:
 def load_config(path):
     path = Path(path).resolve()
     data = read_toml(path)
-    required = {'schema_version', 'name', 'routing', 'contract', 'clock', 'pilot_policy', 'fault_recovery'}
+    required = {'schema_version', 'name', 'routing', 'contract', 'clock', 'pilot_policy'}
     keys(data, required | {'enable'}, required, 'configuration')
-    if type(data['schema_version']) is not int or data['schema_version'] != 2:
-        raise GeneratorError('Use schema_version = 2 with output,normal,safe,error routing; remove input rows and the direction column')
+    if type(data['schema_version']) is not int or data['schema_version'] != 3:
+        raise GeneratorError('Only schema_version = 3 is supported')
     name = identifier(data['name'])
     if name == 's3c_logic':
         raise GeneratorError('Program name s3c_logic is reserved for the controller')
-    for field, choices in [('clock', ('external', 'machxo2')), ('pilot_policy', ('unused', 'required')),
-                           ('fault_recovery', ('safe_cycle',))]:
+    for field, choices in [('clock', ('external', 'machxo2')), ('pilot_policy', ('unused', 'required'))]:
         if data[field] not in choices:
             raise GeneratorError(f'{field} must be one of {choices}')
     contract_ref = data['contract']
@@ -110,23 +108,23 @@ def load_config(path):
         raise GeneratorError('Invalid carrier_ready mode')
     for output in ('slotok', 'reqoe'):
         levels = contract[output]
-        if not isinstance(levels, list) or len(levels) != 3 or any(type(x) is not int or x not in (0, 1) for x in levels):
-            raise GeneratorError(f'{output} must contain NORMAL, SAFE, ERROR levels as three bits')
+        if not isinstance(levels, list) or len(levels) != 2 or any(type(x) is not int or x not in (0, 1) for x in levels):
+            raise GeneratorError(f'{output} must contain normal_state and safe_state levels as two bits')
     routing = relative(path.parent, data['routing'])
     try:
         reader = csv.DictReader(io.StringIO(routing.read_text()))
-        if reader.fieldnames != ['output', 'normal', 'safe', 'error']:
-            raise GeneratorError('CSV header must be output,normal,safe,error')
+        if reader.fieldnames != ['output', 'normal_state', 'safe_state']:
+            raise GeneratorError('CSV header must be output,normal_state,safe_state')
         outputs = {}
         for line, row in enumerate(reader, 2):
             if None in row or any(v is None for v in row.values()):
-                raise GeneratorError(f'CSV line {line}: expected four columns')
+                raise GeneratorError(f'CSV line {line}: expected three columns')
             output = row['output'].strip()
             if output not in DATA_PINS:
                 raise GeneratorError(f'CSV line {line}: output must be d_00..d_29 or fpga_00..fpga_29: {output!r}')
             if output in outputs:
                 raise GeneratorError(f'CSV line {line}: duplicate output {output}')
-            actions = tuple(row[state].strip() for state in ('normal', 'safe', 'error'))
+            actions = tuple(row[state].strip() for state in ('normal_state', 'safe_state'))
             if any(value not in DATA_PINS and value not in ('0', '1', 'Z') for value in actions):
                 raise GeneratorError(f'CSV line {line}: actions must be d_00..d_29, fpga_00..fpga_29, 0, 1, or Z')
             outputs[output] = actions
@@ -140,10 +138,10 @@ def load_config(path):
     if not isinstance(enable, dict) or any(k not in inputs or type(v) is not int or v not in (0, 1) for k, v in enable.items()):
         raise GeneratorError('enable must map input pins from d_00..d_29 or fpga_00..fpga_29 to 0 or 1')
     # Preserve every data pin in the interface; omitted pins have no HDL driver.
-    pins = tuple(Pin(pin, 'out', outputs[pin]) if pin in outputs else Pin(pin, 'in', ('', '', ''))
+    pins = tuple(Pin(pin, 'out', outputs[pin]) if pin in outputs else Pin(pin, 'in', ('', ''))
                  for pin in DATA_PINS)
     return Config(path, name, routing, tuple(pins), contract_path, contract, data['clock'],
-                  data['pilot_policy'], data['fault_recovery'], enable)
+                  data['pilot_policy'], enable)
 
 
 def ports(config, clock=False):
@@ -182,35 +180,34 @@ def render(config):
         declarations.append(f"    signal {name}_meta, {name}_sync : std_logic := '{initial}';")
         reset_lines.append(f"                {name}_meta <= '{initial}'; {name}_sync <= '{initial}';")
         sampling.append(f"                {name}_meta <= {source}; {name}_sync <= {name}_meta;")
-    ready = "true"
+    ready = ''
     if c['carrier_ready'] != 'unused':
         level = '1' if c['carrier_ready'] == 'active_high' else '0'
         initial = '0' if level == '1' else '1'
         declarations.append(f"    signal ready_meta, ready_sync : std_logic := '{initial}';")
         reset_lines.append(f"                ready_meta <= '{initial}'; ready_sync <= '{initial}';")
         sampling.append('                ready_meta <= carrierrdy; ready_sync <= ready_meta;')
-        ready = f"ready_sync = '{level}'"
-    fault = "'0'"
+        ready = f" and ready_sync = '{level}'"
+    pilot_ok = "'1'"
     if config.pilot_policy == 'required':
         declarations.append("    signal pilot_meta, pilot_sync : std_logic := '0';")
         reset_lines.append("                pilot_meta <= '0'; pilot_sync <= '0';")
         sampling.append('                pilot_meta <= pilot_in; pilot_sync <= pilot_meta;')
-        fault = "'1' when permit_normal = '1' and pilot_sync /= '1' else '0'"
+        pilot_ok = "'1' when pilot_sync = '1' else '0'"
     status = []
     for pin in ('slotok', 'reqoe'):
-        normal, safe, error = c[pin]
-        status.append(f"    {pin} <= '{normal}' when state = NORMAL and reset = '0' else "
-                      f"'{error}' when state = ERROR and reset = '0' else '{safe}';")
+        normal, safe = c[pin]
+        status.append(f"    {pin} <= '{normal}' when state = normal_state and reset = '0' else '{safe}';")
     from string import Template
     logic = Template((PACKAGE / 'hdl' / SUPPORT[0]).read_text()).substitute(
         contract=c['id'], request_mode=c['request_mode'], carrier_ready=c['carrier_ready'],
         declarations='\n'.join(declarations), reset_lines='\n'.join(reset_lines),
         sampling='\n'.join(sampling), ready=ready, normal_level='0' if request_level == '1' else '1',
-        fault=fault, status='\n'.join(status))
+        pilot_ok=pilot_ok, status='\n'.join(status))
     external = config.clock == 'external'
     text = HEADER + entity(config.name, ports(config, external))
     text += f'\narchitecture rtl of {config.name} is\n'
-    text += '    signal cvg_normal, cvg_error, cvg_card_enable : std_logic;\n'
+    text += '    signal cvg_normal_state, cvg_card_enable : std_logic;\n'
     if not external:
         text += '''    signal cvg_clk : std_logic;
     signal cvg_reset : std_logic := '1';
@@ -240,13 +237,13 @@ def render(config):
     text += f"    cvg_card_enable <= '1' when {condition} else '0';\n" if condition else "    cvg_card_enable <= '1';\n"
     pairs = [('clk', 'clk' if external else 'cvg_clk'), ('reset', 'reset' if external else 'cvg_reset')]
     pairs += [(name, name) for name in ('pilot_in', 'reqsafestate', 'carrierrdy', 'slotok', 'reqoe')]
-    pairs += [('card_enable', 'cvg_card_enable'), ('state_normal', 'cvg_normal'),
-              ('state_safe', 'open'), ('state_error', 'cvg_error')]
+    pairs += [('card_enable', 'cvg_card_enable'), ('state_normal', 'cvg_normal_state'),
+              ('state_safe', 'open')]
     text += '    controller: entity work.s3c_logic\n        port map (\n' + mapping(pairs) + '\n        );\n'
     for p in config.pins:
         if p.direction == 'out':
-            normal, safe, error = map(action, p.actions)
-            text += f"    {p.name} <= {normal} when cvg_normal = '1' else {error} when cvg_error = '1' else {safe};\n"
+            normal, safe = map(action, p.actions)
+            text += f"    {p.name} <= {normal} when cvg_normal_state = '1' else {safe};\n"
     text += 'end architecture;\n'
     return {'s3c_logic.vhdl': logic, config.name + '.vhdl': text}
 

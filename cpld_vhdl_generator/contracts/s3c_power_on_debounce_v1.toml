@@ -3,6 +3,6 @@ compatible_s3c = ["s3c_power_on_debounce"]
 request_mode = "active_high"
 carrier_ready = "unused"
 # These are driven logic levels, not inferred electrical polarities.
-# Keeping ReqOE high lets the slot actively drive its CSV safe/error levels.
-slotok = [1, 0, 0] # NORMAL, SAFE, ERROR
-reqoe = [1, 1, 1]
+# Keeping ReqOE high lets the slot actively drive its CSV safe-state levels.
+slotok = [1, 0] # normal_state, safe_state
+reqoe = [1, 1]

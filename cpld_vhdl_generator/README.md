@@ -12,18 +12,18 @@ python3 -m cpld_vhdl_generator programs/my_slot/generator.toml --output programs
 ## Routing
 
 ```csv
-output,normal,safe,error
-d_00,fpga_00,0,0
-d_01,fpga_01,fpga_01,fpga_01
-fpga_02,d_02,0,0
-d_29,0,0,0
+output,normal_state,safe_state
+d_00,fpga_00,0
+d_01,fpga_01,fpga_01
+fpga_02,d_02,0
+d_29,0,0
 ```
 
-Each row declares an output and its value in NORMAL, SAFE, and ERROR.
+Each row declares an output and its value in normal_state and safe_state.
 The examples show gated forwarding, forwarding in every state, routing toward the FPGA, and a constant-low output.
 Only `d_00`–`d_29` and `fpga_00`–`fpga_29` are valid pin names, with exactly two digits and lowercase letters.
 State values accept those input names, `0`, `1`, or uppercase `Z`.
-Every output requires all three state values.
+Every output requires both state values.
 Outputs must be unique and cannot also be used as inputs, including in `enable`.
 Multiple outputs may share an input.
 Expressions and bidirectional ports are unsupported.
@@ -38,30 +38,27 @@ The fixed S3C signals and unused `i2c_scl`/`i2c_sda` inputs are provided separat
 ## Configuration
 
 ```toml
-schema_version = 2
+schema_version = 3
 name = "my_slot"
 routing = "routing.csv"
 contract = "s3c_power_on_debounce_v1"
 clock = "machxo2"
 pilot_policy = "unused"
-fault_recovery = "safe_cycle"
-# Optional input levels required for NORMAL:
+# Optional input levels required for normal_state:
 # enable = {fpga_26 = 0, fpga_27 = 0, fpga_28 = 1, fpga_29 = 1}
 ```
 
 `clock` selects `machxo2` for the internal nominal 2.08 MHz oscillator or `external` for `clk` and active-high `reset` ports.
 `pilot_policy` selects `unused` or `required`.
-Required pilot monitoring treats a low synchronized `pilot_in` as a fault when the S3C permits operation.
-The controller starts in SAFE, synchronizes controls, and enters NORMAL when permitted by the S3C and optional enable pattern.
-Faults latch ERROR until a safe request is observed and then released after fault clearance, or reset is asserted.
-Recovery passes through SAFE; `safe_cycle` is the only recovery policy.
-With pilot monitoring unused, ERROR is unreachable for the supported contracts.
+Required pilot monitoring keeps the controller in `safe_state` unless synchronized `pilot_in` is high.
+The controller starts in `safe_state`, synchronizes controls, and enters `normal_state` when the S3C, pilot policy, and optional enable pattern permit operation.
+It returns to `safe_state` when any condition fails and resumes `normal_state` automatically when all conditions are satisfied.
 After startup, a stable control change reaches the state on the third clock edge counting its first sampling edge.
 Data forwarding remains combinational.
 
 ## S3C contract
 
-The built-in `s3c_power_on_debounce_v1` contract uses active-high ReqSafeState, ignores CarrierReady, asserts SlotOK only in NORMAL, and keeps ReqOE high.
+The built-in `s3c_power_on_debounce_v1` contract uses active-high ReqSafeState, ignores CarrierReady, asserts SlotOK only in normal_state, and keeps ReqOE high.
 To describe another level-based contract, select a relative TOML path with these fields:
 
 ```toml
@@ -69,14 +66,14 @@ id = "my_s3c_v1"
 compatible_s3c = ["my_s3c"]
 request_mode = "active_low"
 carrier_ready = "active_high"
-slotok = [1, 0, 0]
-reqoe = [1, 1, 1]
+slotok = [1, 0]
+reqoe = [1, 1]
 ```
 
 `request_mode` accepts `active_high` or `active_low`.
 `carrier_ready` accepts `unused`, `active_high`, or `active_low`.
-Status levels are listed in NORMAL, SAFE, ERROR order.
-Unknown request levels or inactive/unknown readiness request SAFE.
+Status levels are listed in `normal_state`, `safe_state` order.
+Unknown request levels or inactive/unknown readiness request safe_state.
 Compatibility names declare the intended firmware pairing; they do not detect installed firmware.
 
 ## Output and checks

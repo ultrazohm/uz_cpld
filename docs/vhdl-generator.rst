@@ -1,95 +1,69 @@
 Generated slot programs
 =======================
 
-``cpld_vhdl_generator`` is an independent Python package that emits VHDL-1993 from a CSV routing table and a TOML configuration.
-It does not import the build toolchain or invoke synthesis tools.
-The repository build system consumes its emitted sources and checks that they match their specification.
+``cpld_vhdl_generator`` generates VHDL-1993 from CSV and TOML independently of the build toolchain.
+The repository checks generated sources for freshness before building.
 
-Create and regenerate
----------------------
+Workflow
+--------
 
-The catalog example ``tx30_stateful`` uses NORMAL, SAFE, and ERROR states and the ``s3c_power_on_debounce_v1`` contract.
-Clone it through the normal program workflow::
+Clone the example, edit its CSV or TOML, and regenerate::
 
    make new name=my_slot template=tx30_stateful
    python3 -m cpld_vhdl_generator programs/my_slot/generator.toml --output programs/my_slot
    make sim program=my_slot
    make build program=my_slot backend=diamond
 
-Edit ``routing.csv`` and ``generator.toml`` to describe routing and controller policy, then regenerate.
-The generator writes ``s3c_logic.vhdl`` and ``my_slot.vhdl`` directly into the program directory.
-The S3C file contains the selected contract's signal interpretation, synchronization, state machine, and status outputs.
-The top level supplies the clock/reset, evaluates the optional enable pattern, instantiates ``s3c_logic`` once, and implements the CSV routes.
-Only the selected contract's logic is emitted, with no alternative adapters or protocol-selection generics.
-``generator-output.json`` records source order and generator, specification, and contract hashes.
-Compile ``s3c_logic.vhdl`` before the top level in library ``work``.
-``make new`` updates the program name and regenerates its sources.
+Add ``--check`` to the generator command to verify freshness without writing files.
+The program directory contains ``s3c_logic.vhdl``, ``my_slot.vhdl``, and ``generator-output.json``.
+The S3C file contains the selected contract and state controller; the top level contains the clock and routing.
+The manifest lists the S3C file before the top level, in library ``work``.
+The JSON record tracks source order and input hashes.
+Diamond builds require a valid license.
 
-Standalone generation needs no repository manifest::
+Routing
+-------
 
-   python3 -m cpld_vhdl_generator path/to/my_slot/generator.toml --output path/to/my_slot
-   python3 -m cpld_vhdl_generator path/to/my_slot/generator.toml --output path/to/my_slot --check
+::
 
-Installing with ``pip install .`` provides the equivalent ``cpld-vhdl-generator`` command.
-Constraints remain the responsibility of the consuming board build.
+   output,normal_state,safe_state
+   d_00,fpga_00,0
+   d_01,fpga_01,fpga_01
+   fpga_02,d_02,0
+   d_29,0,0
 
-Supported functions
--------------------
+Each row defines one output in normal_state and safe_state.
+Only ``d_00``–``d_29`` and ``fpga_00``–``fpga_29`` are valid pin names, with exactly two digits and lowercase letters.
+State values accept input names, ``0``, ``1``, or uppercase ``Z``.
+Outputs cannot also serve as inputs, including in ``enable``.
+Multiple outputs may share an input.
+Expressions and bidirectional ports are unsupported.
+
+All 60 data pins remain in the interface.
+Pins omitted from the output column are inputs and have no HDL output driver.
+Use a constant output row when a pin must be driven to a defined level.
+Physical pulls and unused-pad settings belong to board constraints and synthesis configuration.
+The fixed S3C signals and unused I2C inputs are provided separately and cannot appear in the CSV.
+
+Configuration and states
+------------------------
 
 .. literalinclude:: ../programs/tx30_stateful/generator.toml
    :language: toml
 
-The CSV header is ``pin,direction,normal,safe,error``.
-Directions are ``in`` and ``out`` from the CPLD's perspective.
-Output actions are declared input names, ``0``, ``1``, or ``Z``.
-Every output requires all three state actions, while input rows leave those fields empty.
-Output-to-output references, arbitrary expressions, conflicting declarations, unknown signals, and bidirectional ports are rejected.
-The optional ``enable`` table maps declared input pins to required levels and keeps the slot in SAFE unless all levels match.
+``clock`` selects ``machxo2`` for an internal nominal 2.08 MHz oscillator or ``external`` for clock/reset ports.
+The optional ``enable`` table specifies required data input levels, for example ``enable = {fpga_29 = 1}``.
+``pilot_policy = "required"`` requires a high synchronized pilot input for normal operation; ``unused`` ignores it.
+The controller starts in ``safe_state`` and enters ``normal_state`` when synchronized S3C controls, the pilot policy, and the enable pattern permit operation.
+It returns to ``safe_state`` when any condition fails and resumes ``normal_state`` automatically when all conditions are satisfied.
+After startup, control changes reach the state on the third clock edge counting their first sampling edge.
+Data forwarding remains combinational.
 
-There are no custom logic hooks or generated extension stubs.
-Users needing additional behavior can manually edit VHDL or create fully custom programs.
-To convert a repository program to manual VHDL, remove the optional ``generator`` field from its program manifest, maintain its source list explicitly, and stop regenerating its sources.
-The generator refuses to overwrite manually edited or unowned files.
+The built-in contract uses active-high ReqSafeState, ignores CarrierReady, asserts SlotOK only in normal_state, and keeps ReqOE high.
+Additional contract files support active-high or active-low requests and unused, active-high, or active-low readiness.
+The complete contract schema and standalone commands are documented in ``cpld_vhdl_generator/README.md``.
 
-Controller behavior
--------------------
-
-The controller starts in SAFE and requires initialized, synchronized control inputs before entering NORMAL.
-Faults take priority and latch ERROR.
-``fault_recovery = "safe_cycle"`` is the only supported recovery policy.
-It requires observing the normalized S3C safe request in ERROR, then its release after the fault clears.
-A release while the fault persists does not acknowledge later fault clearance.
-Recovery passes through SAFE for at least one clock, and reset clears the error latch.
-``pilot_policy = "required"`` treats a low synchronized pilot as a fault when the S3C permits operation.
-With ``pilot_policy = "unused"``, ERROR remains part of the state machine but is unreachable with the currently supported contracts.
-
-``clock = "external"`` adds ``clk`` and a synchronous active-high ``reset`` input.
-``clock = "machxo2"`` supplies a nominal 2.08 MHz OSCH clock and startup reset sequence.
-Controls use two synchronization registers and three warmup clocks after reset.
-A stable request reaches the registered state on the third receiving-clock edge counting its first sampling edge, excluding metastability delay.
-Routed data remains combinational.
-
-S3C contracts
--------------
-
-The built-in legacy contract treats ReqSafeState as active high, ignores CarrierReady, drives SlotOK high only in NORMAL, and keeps ReqOE high in all states.
-This allows the CSV to drive defined safe/error levels even when the S3C leaves SlotOE asserted during a soft stop.
-The S3C can still disable the physical driver independently.
-
-A separate contract TOML file can define an identifier, compatible S3C program names, request polarity, CarrierReady interpretation, and the three SlotOK and ReqOE levels.
-Request mode supports ``active_high`` and ``active_low``.
-CarrierReady supports ``unused``, ``active_high``, and ``active_low``.
-Unknown request levels and inactive or unknown readiness levels request SAFE.
-Heartbeat support is a possible future extension and is not implemented.
-Heartbeat configuration is rejected.
-Compatibility declarations do not detect the firmware actually loaded on a board.
-
-Validation
-----------
-
-``make test`` includes validation, polarity, readiness, routing, safe-state, error-latching, and recovery tests.
-The integration test exercises the actual S3C debounce/startup counters and confirms that soft stop gates slot data even with SlotOE asserted.
-The example selects the Diamond firmware backend, which requires a valid license for synthesis and export validation.
-Its FOSS firmware backend remains disabled pending sequential equivalence validation.
-Existing archived programs retain their original sources and behavior.
-See the standalone package's ``README.md`` for the complete configuration and contract schema.
+Generated programs use the supported routing and controller functions.
+For manual VHDL, stop regenerating and remove the program manifest's optional ``generator`` field.
+The generator refuses to overwrite manually edited output files.
+``make test`` checks the generator and its integration with the actual S3C program.

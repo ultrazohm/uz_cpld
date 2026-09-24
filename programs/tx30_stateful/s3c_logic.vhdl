@@ -7,74 +7,54 @@ entity s3c_logic is
     port (
         clk, reset : in std_logic;
         reqsafestate, carrierrdy, pilot_in, card_enable : in std_logic;
-        state_normal, state_safe, state_error : out std_logic;
+        state_normal, state_safe : out std_logic;
         slotok, reqoe : out std_logic
     );
 end entity;
 
 architecture rtl of s3c_logic is
-    type state_type is (SAFE, NORMAL, ERROR);
-    signal state : state_type := SAFE;
+    type state_type is (safe_state, normal_state);
+    signal state : state_type := safe_state;
     signal request_meta, request_sync : std_logic := '1';
     signal enable_meta, enable_sync : std_logic := '0';
     signal warmup : natural range 0 to 3 := 0;
-    signal safe_seen : std_logic := '0';
-    signal request_safe, permit_normal, fault_present : std_logic;
+    signal request_safe, permit_normal, pilot_ok : std_logic;
 begin
-    -- Normalize only the selected contract; unknown control levels request SAFE.
-    permit_normal <= '1' when reset = '0' and warmup = 3 and true else '0';
+    -- Normalize only the selected contract; unknown control levels request safe_state.
+    permit_normal <= '1' when reset = '0' and warmup = 3 else '0';
     request_safe <= '0' when permit_normal = '1' and request_sync = '0' else '1';
-    fault_present <= '0';
+    pilot_ok <= '1';
     process(clk)
     begin
         if rising_edge(clk) then
             if reset = '1' then
-                state <= SAFE;
+                state <= safe_state;
                 request_meta <= '1'; request_sync <= '1';
                 enable_meta <= '0'; enable_sync <= '0';
                 warmup <= 0;
-                safe_seen <= '0';
             else
                 request_meta <= reqsafestate; request_sync <= request_meta;
                 enable_meta <= card_enable; enable_sync <= enable_meta;
                 if warmup < 3 then
                     warmup <= warmup + 1;
-                    state <= SAFE;
+                    state <= safe_state;
                 else
                     case state is
-                        when ERROR =>
-                            if request_safe = '1' then
-                                safe_seen <= '1';
-                            else
-                                safe_seen <= '0';
+                        when safe_state =>
+                            if request_safe = '0' and enable_sync = '1' and pilot_ok = '1' then
+                                state <= normal_state;
                             end if;
-                            -- A release while the fault persists consumes the safe cycle.
-                            if fault_present = '0' and safe_seen = '1' and request_safe = '0' then
-                                state <= SAFE;
-                                safe_seen <= '0';
-                            end if;
-                        when SAFE =>
-                            if fault_present = '1' then
-                                state <= ERROR;
-                                safe_seen <= '0';
-                            elsif request_safe = '0' and enable_sync = '1' then
-                                state <= NORMAL;
-                            end if;
-                        when NORMAL =>
-                            if fault_present = '1' then
-                                state <= ERROR;
-                                safe_seen <= '0';
-                            elsif request_safe /= '0' or enable_sync /= '1' then
-                                state <= SAFE;
+                        when normal_state =>
+                            if request_safe /= '0' or enable_sync /= '1' or pilot_ok /= '1' then
+                                state <= safe_state;
                             end if;
                     end case;
                 end if;
             end if;
         end if;
     end process;
-    state_normal <= '1' when state = NORMAL and reset = '0' else '0';
-    state_error <= '1' when state = ERROR and reset = '0' else '0';
-    state_safe <= '1' when state = SAFE or reset /= '0' else '0';
-    slotok <= '1' when state = NORMAL and reset = '0' else '0' when state = ERROR and reset = '0' else '0';
-    reqoe <= '1' when state = NORMAL and reset = '0' else '1' when state = ERROR and reset = '0' else '1';
+    state_normal <= '1' when state = normal_state and reset = '0' else '0';
+    state_safe <= '1' when state = safe_state or reset /= '0' else '0';
+    slotok <= '1' when state = normal_state and reset = '0' else '0';
+    reqoe <= '1' when state = normal_state and reset = '0' else '1';
 end architecture;

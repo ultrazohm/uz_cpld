@@ -28,7 +28,7 @@ class GeneratedProgramTests(unittest.TestCase):
                              [new / 's3c_logic.vhdl', new / 'stateful_clone.vhdl'])
             routing = new / 'routing.csv'
             self.assertEqual(routing.read_bytes(), (ROOT / 'programs/tx30_stateful/routing.csv').read_bytes())
-            routing.write_text(routing.read_text().replace('fpga_00,0,0', 'fpga_00,1,0'))
+            routing.write_text(routing.read_text().replace('d_00,fpga_00,0', 'd_00,fpga_00,1'))
             with self.assertRaisesRegex(BuildError, 'Stale'):
                 load_build(root, 'stateful_clone')
 

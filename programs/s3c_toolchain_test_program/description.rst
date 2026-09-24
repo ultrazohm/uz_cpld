@@ -1,7 +1,15 @@
-S3C toolchain test program
---------------------------
+Purpose
+-------
 
-This program exercises the S3C target and its package pin assignments. It holds
-the carrier power request and all five digital slot output enables low, and
-asserts the shared safe-state request. It has no power-up or release state
-machine and is intended for build and simulation validation.
+``s3c_toolchain_test_program`` is a fixed-output example for building and simulating the S3C ``LCMXO2-4000HC-4TG144C`` target.
+
+Behavior
+--------
+
+It holds ``Carrier_PwrOn`` and both carrier-ready outputs low, asserts ``DIGS3C_Shared_ReqSafeState``, and holds all five digital slot output enables low.
+It has no inputs, debounce logic, power-up sequence, or shutdown state machine.
+
+Verification
+------------
+
+The cocotb test checks the constant values of all nine outputs.

@@ -1,7 +1,17 @@
-Forwards FPGA channels 0–25 only when pins 26, 27, 28, 29 are ``0, 0, 1, 1`` and ``reqsafestate`` is low.
-Otherwise the 26 data outputs are forced low and ``slotok`` is deasserted.
-``reqoe`` stays high.
+Purpose
+-------
 
-Adapter outputs 26–29 are declared but undriven.
-Their unknown values are visible in the waveform; they are not valid data outputs.
-The test checks 54 data patterns, all 16 enable codes and safe-state transitions ``0 → 1 → 0``, for a total of 2592 ns at 1 ns per check.
+``tx26_w_enable`` sends FPGA channels 0 through 25 to their matching D-slot adapter outputs when a four-pin enable code is present.
+
+Behavior
+--------
+
+Forwarding requires ``fpga_26`` and ``fpga_27`` low, ``fpga_28`` and ``fpga_29`` high, and ``reqsafestate`` low.
+If any condition fails, ``d_00`` through ``d_25`` and ``slotok`` are low.
+``reqoe`` is always high.
+Adapter outputs ``d_26`` through ``d_29`` are declared but have no VHDL drivers and must not be treated as valid data outputs.
+
+Verification
+------------
+
+The cocotb test checks all-low, all-high, walking-one, and walking-zero data patterns against all 16 enable codes and safe-state transitions.

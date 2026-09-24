@@ -24,7 +24,9 @@ Dev Container
 -------------
 
 Open the repository in VS Code and select **Dev Containers: Reopen in Container**.
-Both configurations build the same ``toolchain`` image.
+Both configurations build the same ``toolchain`` image and use bridge networking with
+``eth0`` assigned the MAC address ``10:91:d1:3d:14:ae``.
+Rebuild the container to apply these network settings to an existing container.
 The default configuration needs no Diamond mount or host networking; choose **Diamond** to mount a Linux Diamond installation, expose its license settings and check startup.
 Before launching VS Code for that configuration, export the installation root, which is the parent of ``bin``::
 
@@ -56,8 +58,9 @@ Diamond and licensing
 
 The vendor ``diamondc`` wrapper configures libraries and includes its installation's ``license/license.dat`` in the license search path.
 Additional license files need their own mount and a container-visible path.
-Host networking in the Diamond configuration exposes host interfaces for node-locked license detection; it reduces network isolation and does not guarantee licensing on another host.
-Floating-license configurations can use a server address without requiring host networking.
+The Diamond configuration exposes the fixed container MAC for node-locked license detection.
+Floating-license configurations can use a server address reachable from the container;
+``localhost`` refers to the container itself with bridge networking.
 
 ``check-diamond`` tests Tcl startup; ``check-diamond --synthesis`` also synthesizes a one-gate design.
 These shell helpers use ``DIAMOND_ROOT`` rather than ``DIAMOND_CLI``.

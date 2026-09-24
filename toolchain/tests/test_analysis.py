@@ -7,6 +7,7 @@ import unittest
 from unittest.mock import patch
 
 from toolchain.analysis.netlist import export_netlist
+from toolchain.analysis.state_diagram import extract_state_machines
 from toolchain.analysis.waveform import read_vcd, write_waveform
 from toolchain.buildsystem.model import BuildError, load_build
 
@@ -93,3 +94,23 @@ class AnalysisTests(unittest.TestCase):
         self.assertFalse((output / 'netlist.svg').exists())
         self.assertFalse((output / 'netlist.pdf').exists())
         self.assertFalse((output / 'metadata/netlist.json').exists())
+
+    def test_s3c_state_diagram_tracks_vhdl_transitions(self):
+        source = (ROOT / 'programs/s3c_power_on_debounce/s3c_power_on_debounce.vhdl').read_text()
+        machines = extract_state_machines(source)
+        self.assertEqual(len(machines), 1)
+        name, states, initial, transitions = machines[0]
+        self.assertEqual(name, 'next_state')
+        self.assertEqual(len(states), 12)
+        self.assertEqual(initial, 'Waiting_for_Powerbutton_pressed')
+        self.assertIn(('Ready_State', 'Harderror', "externstop_falling = '1'"), transitions)
+        self.assertIn(('Ready_State', 'Softerror',
+                       "not (externstop_falling = '1') and stop = '1'"), transitions)
+        self.assertIn(('Wait_State', 'EthernetPhy_Reset', 'not (counter > 0)'), transitions)
+        self.assertIn(('Waiting_for_Powerbutton_pressed_2sec', 'sleep_for_dslot_down',
+                       "not (counter > 0) and power = '1'"), transitions)
+        self.assertIn(('EthernetPhy_Reset', 'Ready_State',
+                       "not (counter > 0) and not (extern_connected='1' AND stopextern = '1')"),
+                      transitions)
+        self.assertFalse(any(origin == 'Harderror' and target == 'Ready_State'
+                             for origin, target, _ in transitions))

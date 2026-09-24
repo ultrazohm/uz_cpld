@@ -6,6 +6,7 @@ import subprocess
 import sys
 
 from toolchain.analysis.netlist import ROOT, export_netlist
+from toolchain.analysis.state_diagram import export_state_diagrams
 from toolchain.analysis.waveform import write_waveform
 from toolchain.buildsystem.model import BuildError, load_build
 from toolchain.buildsystem.workflow import digest, write_json
@@ -27,6 +28,7 @@ def generate(root=ROOT):
     for name in names:
         build = load_build(root, name)
         netlist = export_netlist(build)
+        state_diagrams = export_state_diagrams(build)
         before = {str(p.relative_to(root)): digest(p) for p in (*[s.path for s in build.sources], build.testbench)}
         subprocess.run([sys.executable, '-m', 'pytest', 'toolchain/simulation/test_simulation.py',
                         '--program', name, '--wave-format', 'vcd', '--seed', '1', '-q'], cwd=root, check=True)
@@ -36,6 +38,11 @@ def generate(root=ROOT):
         if any((before[path] if path in before else digest(root / path)) != value
                for path, value in net_inputs.items()):
             raise BuildError(f'{name}: netlist and simulation use different HDL')
+        state_info = None
+        if state_diagrams:
+            state_info = json.loads((state_diagrams / 'metadata/state-diagrams.json').read_text())
+            if any(before[path] != value for path, value in state_info['inputs'].items()):
+                raise BuildError(f'{name}: state diagrams and simulation use different HDL')
         simulation = build.build_root / 'simulation'
         run = json.loads((simulation / 'metadata/run.json').read_text())
         info = write_waveform(simulation / 'waves.vcd', simulation / 'waveform.html',
@@ -50,6 +57,26 @@ def generate(root=ROOT):
             destination = assets / 'metadata' if src.suffix == '.json' else assets
             destination.mkdir(exist_ok=True)
             shutil.copy2(src, destination / src.name)
+        state_section = ''
+        if state_info:
+            shutil.copy2(state_diagrams / 'metadata/state-diagrams.json',
+                         assets / 'metadata/state-diagrams.json')
+            state_section = ('State diagrams\n--------------\n\n'
+                             'These diagrams show possible state assignments and their conditions extracted from the VHDL. '
+                             'Conditions on ``elsif`` and ``else`` paths include the earlier guards being false. '
+                             'Implicit state holds are omitted.\n\n')
+            for diagram in state_info['diagrams']:
+                stem = diagram['stem']
+                for fmt in ('svg', 'pdf'):
+                    shutil.copy2(state_diagrams / f'{stem}.{fmt}', assets / f'{stem}.{fmt}')
+                state_section += (f'``{diagram["name"]}`` from ``{diagram["source"]}``\n\n'
+                                  f'.. image:: ../static/program-assets/{name}/{stem}.svg\n'
+                                  f'   :alt: Possible state transitions for {diagram["name"]}\n'
+                                  '   :width: 100%\n\n'
+                                  f'Download :download:`SVG <../static/program-assets/{name}/{stem}.svg>` '
+                                  f'or :download:`PDF <../static/program-assets/{name}/{stem}.pdf>`.\n\n')
+            state_section += (f'Download :download:`state diagram provenance '
+                              f'<../static/program-assets/{name}/metadata/state-diagrams.json>`.\n\n')
         intro = root / 'programs' / name / 'description.rst'
         description = (f'.. include:: ../../../programs/{name}/description.rst\n\n' if intro.is_file()
                        else 'This page is generated from the program manifest, HDL and cocotb testbench.\n\n')
@@ -70,7 +97,7 @@ The schematic shows generic RTL before device mapping, placement and routing; se
 
 Download :download:`SVG <../static/program-assets/{name}/netlist.svg>`, :download:`PDF <../static/program-assets/{name}/netlist.pdf>` or :download:`netlist provenance <../static/program-assets/{name}/metadata/netlist.json>`.
 
-Simulation waveform
+{state_section}Simulation waveform
 -------------------
 
 The passing cocotb regression produces **{info['duration_ns']:g} ns** of simulated time across **{info['signal_count']} signals**.

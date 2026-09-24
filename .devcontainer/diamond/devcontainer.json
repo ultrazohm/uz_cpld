@@ -9,7 +9,8 @@
     ]
   },
   "runArgs": [
-    "--network=host"
+    "--network=bridge",
+    "--mac-address=10:91:d1:3d:14:ae"
   ],
   "mounts": [
     "source=${localEnv:DIAMOND_HOST_ROOT},target=/opt/diamond,type=bind,readonly"
@@ -24,7 +25,8 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "openai.chatgpt"
+        "openai.chatgpt",
+        "teros-technology.teroshdl"
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "bash"

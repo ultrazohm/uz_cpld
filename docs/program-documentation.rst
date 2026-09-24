@@ -21,6 +21,17 @@ Vendor attributes such as ``syn_keep`` can be ignored, and unsupported primitive
 ``programs/<name>/build/netlist/`` contains ``netlist.svg``, ``netlist.pdf``, intermediates and diagnostic logs; ``metadata/`` contains netlist provenance and the Yosys JSON export.
 Netlist exports use the managed program/target lock and remove stale diagrams on failure.
 
+State diagrams
+--------------
+
+For programs with an enumerated state signal and a ``case`` statement, documentation generation extracts possible state assignments from the manifest VHDL and renders an SVG/PDF diagram with Graphviz.
+The diagram identifies the declared initial state and explicit transitions and labels each arrow with its source-level condition.
+For ``elsif`` and ``else`` branches, the label also includes the preceding guards being false.
+An unconditional assignment is labeled ``always``; the implicit hold when a branch does not assign a new state is omitted.
+It is a source navigation aid, not a proof that a transition is reachable or safe.
+Generated files and source hashes are under ``programs/<name>/build/state-diagrams/``.
+TerosHDL offers an interactive state-machine viewer in VS Code; Sphinx's headless export uses the repository's own extractor.
+
 Interactive waveforms
 ---------------------
 

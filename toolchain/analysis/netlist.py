@@ -33,9 +33,11 @@ def _export_netlist(build):
         if any(s.library.lower() != 'work' for s in build.sources):
             raise BuildError('Netlist analysis currently supports only work-library sources')
         standard = {'1993': '93', '2008': '08'}[build.standard]
+        from toolchain.buildsystem.ghdl import machxo2_library
+        library_args = machxo2_library(build.root, build.sources, output, standard)
         # Use argv for source paths; Yosys sees fixed local filenames only.
         with (output / 'rtl.v').open('w') as net, (output / 'ghdl.log').open('w') as log:
-            subprocess.run(['ghdl', '--synth', f'--std={standard}', '--out=verilog',
+            subprocess.run(['ghdl', '--synth', f'--std={standard}', *library_args, '--out=verilog',
                             *(str(s.path) for s in build.sources), '-e', build.top],
                            cwd=output, stdout=net, stderr=log, check=True)
         script = '\n'.join([f'read_verilog -lib "{primitive}"',

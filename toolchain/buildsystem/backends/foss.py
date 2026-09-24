@@ -105,8 +105,10 @@ def constraints(text):
             if key in deferred and deferred[key] != words[3]:
                 raise BuildError(f'Conflicting BANK setting: {words[1]}')
             deferred[key] = words[3]
-        elif words[0] == 'USERCODE' and len(words) == 3 and words[1] == 'HEX' and re.fullmatch(r'[0-9A-Fa-f]{8}', words[2]):
-            value = words[2].upper()
+        elif (words[0] == 'USERCODE' and len(words) == 3 and
+              ((words[1] == 'HEX' and re.fullmatch(r'[0-9A-Fa-f]{8}', words[2])) or
+               (words[1] == 'BIN' and re.fullmatch(r'[01]{32}', words[2])))):
+            value = words[2].upper() if words[1] == 'HEX' else f'{int(words[2], 2):08X}'
             if 'USERCODE' in deferred and deferred['USERCODE'] != value:
                 raise BuildError('Conflicting USERCODE settings')
             deferred['USERCODE'] = value
@@ -172,8 +174,10 @@ class FossBackend:
             if result.returncode:
                 raise BuildError(f'FOSS tool failed ({result.returncode}): {argv[0]}; see {log}')
         standard = {'1993': '93', '2008': '08'}[plan['standard']]
+        from ..ghdl import machxo2_library
+        library_args = machxo2_library(build.root, build.sources, project, standard)
         with (project / 'rtl.v').open('w') as rtl:
-            run([record['executables']['ghdl']['path'], '--synth', f'--std={standard}', '--out=verilog',
+            run([record['executables']['ghdl']['path'], '--synth', f'--std={standard}', *library_args, '--out=verilog',
                  *plan['sources'], '-e', plan['top']], stdout=rtl)
         run([tool('yosys'), '-s', 'synth.ys'])
         run([tool('yosys'), '-l', 'impl/equivalence.log', '-s', 'equivalence.ys'])

@@ -60,6 +60,8 @@ class FossTests(unittest.TestCase):
         self.assertTrue(notes)
         _, deferred, _ = constraints('USERCODE HEX "BADEAFFE"; IOBUF PORT "safe" IO_TYPE=LVCMOS18;')
         self.assertEqual(deferred['USERCODE'], 'BADEAFFE')
+        _, binary_deferred, _ = constraints('USERCODE BIN "10111010110111101010111111111110";')
+        self.assertEqual(binary_deferred['USERCODE'], 'BADEAFFE')
         _, deferred, _ = constraints('BANK 1 VCCIO 1.8 V;')
         self.assertEqual(deferred['BANK_1'], '1.8')
 

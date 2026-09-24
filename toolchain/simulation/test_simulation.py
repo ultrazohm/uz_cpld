@@ -10,6 +10,7 @@ import xml.etree.ElementTree as ET
 from cocotb_tools.runner import get_runner
 
 from toolchain.buildsystem.model import load_build
+from toolchain.buildsystem.ghdl import machxo2_library
 from toolchain.buildsystem.workflow import locked, safe_directory
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -61,9 +62,10 @@ def run_simulation(build, request):
     }
     (metadata / "run.json").write_text(json.dumps(provenance, indent=2) + "\n")
     runner = get_runner("ghdl")
+    library_args = machxo2_library(ROOT, build.sources, output, standard)
     runner.build(
         sources=[s.path for s in build.sources], hdl_library="work",
-        hdl_toplevel=build.top.lower(), build_args=[f"--std={standard}"],
+        hdl_toplevel=build.top.lower(), build_args=[f"--std={standard}", *library_args],
         build_dir=output, always=True, log_file=output / "compile.log",
     )
     wave = output / f"waves.{wave_format}"

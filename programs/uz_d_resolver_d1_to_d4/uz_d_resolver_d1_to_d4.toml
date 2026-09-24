@@ -1,0 +1,7 @@
+name = "uz_d_resolver_d1_to_d4"
+top = "SignalRouter"
+standard = "1993"
+targets = ["uz_dslot_xo2"]
+constraints = ["uz_d_resolver_d1_to_d4_constraints.lpf"]
+sources = [{path = "uz_d_resolver_d1_to_d4.vhdl", library = "work"}]
+testbench = "uz_d_resolver_d1_to_d4_tb.py"

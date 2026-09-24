@@ -72,6 +72,16 @@ class FrontendTests(unittest.TestCase):
         self.assertFalse((self.root / 'programs/custom').exists())
         self.assertEqual(list((self.root / 'programs').glob('.catalog-*.tmp')), [])
 
+    def test_make_without_program_shows_commands(self):
+        result = subprocess.run(['make'], cwd=ROOT, capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('make build program=NAME', result.stdout)
+        self.assertIn('make clean-all', result.stdout)
+        explicit = subprocess.run(['make', 'help', 'program=tx30'], cwd=ROOT,
+                                  capture_output=True, text=True)
+        self.assertEqual(explicit.returncode, 0, explicit.stderr)
+        self.assertEqual(explicit.stdout, result.stdout)
+
     def test_make_uses_lowercase_arguments(self):
         result = subprocess.run(['make', '-n', 'program=tx30'], cwd=ROOT,
                                 capture_output=True, text=True)

@@ -6,6 +6,7 @@ Firmware commands
 
 ::
 
+   make help
    make list
    make check program=tx30
    make doctor
@@ -15,7 +16,7 @@ Firmware commands
 
 ``check`` validates manifests and files; ``doctor`` also checks the selected tools.
 ``build-all`` processes the explicit ``programs/catalog.toml`` list and fails if any entry fails.
-The default Make target is ``build`` and requires ``program``.
+Bare ``make`` shows the command overview; ``make program=tx30`` builds one program.
 ``target`` defaults to ``uz_dslot_xo2`` and ``backend`` selects ``diamond`` (default) or ``foss``.
 See :doc:`foss` for open-source setup, artifacts and validation limits.
 Diamond commands run in the calling environment; FOSS compilation uses the toolchain container on hosts.

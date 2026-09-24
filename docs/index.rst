@@ -9,7 +9,7 @@ Quick start
 
 See :doc:`quick-start` to create a new program and build its ``.jed`` file with Diamond.
 
-With Docker installed, run these commands from the repository root::
+Run ``make`` to see all commands. With Docker installed, run these commands from the repository root::
 
    make test-container
    make sim

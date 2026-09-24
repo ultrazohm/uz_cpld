@@ -1,4 +1,4 @@
-.DEFAULT_GOAL := build
+.DEFAULT_GOAL := $(if $(program),build,help)
 python ?= python3
 target ?= uz_dslot_xo2
 template ?= tx30
@@ -11,7 +11,31 @@ endif
 # Quote values as single shell arguments, including embedded apostrophes.
 quote = '$(subst ','"'"',$(1))'
 args = --target $(call quote,$(target)) $(if $(program),--program $(call quote,$(program))) --backend $(call quote,$(backend))
-.PHONY: build list doctor new check project gui build-all clean clean-all test docs docs-local docs-assets-local netlist netlist-local sim sim-image test-container _sim
+.PHONY: help build list doctor new check project gui build-all clean clean-all test docs docs-local docs-assets-local netlist netlist-local sim sim-image test-container _sim
+help:
+	@printf '%-31s %s\n' \
+	  'make [help]' 'Show all commands (default without program)' \
+	  'make program=NAME' 'Build one program (default with program)' \
+	  'make build program=NAME' 'Build one program' \
+	  'make build-all' 'Build the program catalog' \
+	  'make list' 'List catalog programs' \
+	  'make check program=NAME' 'Validate one program' \
+	  'make doctor' 'Check the selected firmware tools' \
+	  'make new name=NAME' 'Clone a program and add it to the catalog' \
+	  'make project program=NAME' 'Prepare a firmware project' \
+	  'make gui program=NAME' 'Open the Diamond project GUI' \
+	  'make sim [program=NAME]' 'Run HDL simulations' \
+	  'make netlist [program=NAME]' 'Export RTL diagrams' \
+	  'make docs' 'Generate and build documentation' \
+	  'make test' 'Run tooling tests with installed tools' \
+	  'make test-container' 'Run tooling tests in the container' \
+	  'make clean program=NAME' 'Remove one firmware build' \
+	  'make clean-all' 'Remove generated files and caches' \
+	  'make sim-image' 'Build the toolchain container image' \
+	  'make netlist-local' 'Export diagrams with installed tools' \
+	  'make docs-assets-local' 'Generate program documentation assets' \
+	  'make docs-local' 'Build documentation with installed tools'
+	@printf '%s\n' '' 'Options: backend=diamond|foss target=uz_dslot_xo2 template=tx30 seed=1 wave_format=vcd|ghw|fst'
 list check:
 	$(python) -m toolchain.buildsystem $@ $(args)
 # FOSS firmware commands use the same container dispatch as simulation on hosts.

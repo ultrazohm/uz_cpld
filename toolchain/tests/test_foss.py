@@ -8,8 +8,9 @@ import unittest
 from unittest.mock import patch
 
 from toolchain.buildsystem import workflow
+from toolchain.buildsystem.report import catalog_report
 from toolchain.buildsystem.model import catalog, program_backends, BuildError, load_build
-from toolchain.buildsystem.backends.foss import constraints, equivalence_script, normalize_oscillator_frequency
+from toolchain.buildsystem.backends.foss import constraints, equivalence_script, normalize_oscillator_frequency, startup_script, startup_points_script, tool
 from toolchain.buildsystem.foss_config import complete_config, package_lpf
 from toolchain.foss.install import install
 
@@ -53,6 +54,7 @@ class FossTests(unittest.TestCase):
                 }}}
                 script, record = equivalence_script(build, mapped)
                 self.assertIn('equiv_induct -seq 8', script)
+                self.assertIn('write_json impl/proof-copies.json', script)
                 self.assertIn('equiv_status -assert', script)
                 self.assertIn(f'expose -input {top}/w:{clock}', script)
                 self.assertIn(f'delete {top}/c:{instance}', script)
@@ -61,6 +63,59 @@ class FossTests(unittest.TestCase):
                     mapped['modules'][top]['ports'][names[0]] = {}
                     with self.assertRaisesRegex(BuildError, 'internal signal names'):
                         equivalence_script(build, mapped)
+
+    def test_startup_miter_rejects_mutated_initial_state(self):
+        try:
+            yosys = tool('yosys')
+        except BuildError:
+            self.skipTest('Pinned Yosys is unavailable')
+        project = self.root / 'startup-proof'
+        (project / 'impl').mkdir(parents=True)
+        gold = '''module gold(input clk, input d, output reg q);
+initial q = 1'b1;
+always @(posedge clk) q <= d;
+endmodule
+'''
+        (project / 'gold.v').write_text(gold)
+        for initial, expected in (("1'b1", 0), ("1'b0", 1)):
+            (project / 'gate.v').write_text(gold.replace('module gold', 'module gate').replace("1'b1", initial))
+            prep = subprocess.run([yosys, '-Q', '-T', '-p',
+                                   'read_verilog gold.v gate.v; proc; write_json impl/proof-copies.json'],
+                                  cwd=project, capture_output=True, text=True)
+            self.assertEqual(prep.returncode, 0, prep.stderr)
+            script, omitted = startup_script(json.loads((project / 'impl/proof-copies.json').read_text()))
+            self.assertEqual(omitted, [])
+            (project / 'startup.ys').write_text(script)
+            proof = subprocess.run([yosys, '-Q', '-T', '-s', 'startup.ys'],
+                                   cwd=project, capture_output=True, text=True)
+            self.assertEqual(proof.returncode != 0, bool(expected), proof.stdout[-1500:] + proof.stderr)
+
+    def test_initial_match_point_check_catches_hidden_state_change(self):
+        try:
+            yosys = tool('yosys')
+        except BuildError:
+            self.skipTest('Pinned Yosys is unavailable')
+        project = self.root / 'hidden-state-proof'
+        (project / 'impl').mkdir(parents=True)
+        for module, value in (('gold', 1), ('gate', 0)):
+            (project / f'{module}.v').write_text(
+                f"module {module}(input clk, input d, output o);\n"
+                f"(* keep *) reg q; initial q = 1'b{value};\n"
+                "always @(posedge clk) q <= d; assign o = 1'b0; endmodule\n")
+        prep = subprocess.run([yosys, '-Q', '-T', '-p',
+                               'read_verilog gold.v gate.v; proc; write_json impl/proof-copies.json'],
+                              cwd=project, capture_output=True, text=True)
+        self.assertEqual(prep.returncode, 0, prep.stderr)
+        copies = json.loads((project / 'impl/proof-copies.json').read_text())
+        output_script, omitted = startup_script(copies)
+        (project / 'startup.ys').write_text(output_script)
+        output_proof = subprocess.run([yosys, '-Q', '-T', '-s', 'startup.ys'],
+                                      cwd=project, capture_output=True, text=True)
+        self.assertEqual(output_proof.returncode, 0, output_proof.stderr)
+        (project / 'startup-points.ys').write_text(startup_points_script(omitted, False))
+        points_proof = subprocess.run([yosys, '-Q', '-T', '-s', 'startup-points.ys'],
+                                      cwd=project, capture_output=True, text=True)
+        self.assertNotEqual(points_proof.returncode, 0, points_proof.stdout[-1500:])
 
     def test_oscillator_frequency_preserves_value_and_checks_lpf(self):
         bits = ''.join(f'{byte:08b}' for byte in b'2.08')
@@ -232,6 +287,13 @@ class FossTests(unittest.TestCase):
         self.assertEqual(self.build.firmware_path('bit').read_bytes(), b'new bitstream')
         self.assertFalse(self.build.firmware_path('jed').exists())
         record = json.loads((directory / 'metadata/build.json').read_text())
+        stub = self.root / 'toolchain/hdl/machxo2_empty.vhdl'
+        stub_name = str(stub.relative_to(self.root))
+        self.assertIn(stub_name, record['inputs'])
+        stub.write_text(stub.read_text() + '\n-- changed placeholder\n')
+        reported = json.loads(catalog_report([self.build]).with_suffix('.json').read_text())['builds'][0]
+        self.assertEqual(reported['status'], 'stale')
+        self.assertIn(stub_name, reported['changed_inputs'])
         self.assertIn(self.build.firmware_path('bit').name, record['outputs'])
         self.assertIn('reports/firmware_impl.rpt', record['outputs'])
         self.assertIn('metadata/reports/timing.json', record['outputs'])

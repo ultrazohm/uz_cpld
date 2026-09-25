@@ -10,6 +10,7 @@ import unittest
 from unittest.mock import patch
 from toolchain.buildsystem.model import BuildError, catalog, load_build
 from toolchain.buildsystem import workflow
+from toolchain.buildsystem.report import catalog_report
 from toolchain.buildsystem.cli import main as cli_main
 from toolchain.buildsystem.backends.diamond import DiamondBackend, tcl
 
@@ -115,17 +116,58 @@ class FrontendTests(unittest.TestCase):
         with patch('toolchain.buildsystem.cli.workflow.build_program', side_effect=capture), redirect_stdout(io.StringIO()):
             self.assertEqual(cli_main(['build-all', '--root', str(self.root)]), 0)
         self.assertEqual(len(selected), len(catalog(self.root)))
+        self.assertTrue((self.root / 'toolchain/build/validation/diamond-catalog/report.md').is_file())
         self.assertIn(('s3c_toolchain_test_program', 'uz_s3c_xo2'), selected)
         selected.clear()
         with patch('toolchain.buildsystem.cli.workflow.build_program', side_effect=capture), redirect_stdout(io.StringIO()):
             self.assertEqual(cli_main(['build-all', '--root', str(self.root), '--target', 'uz_s3c_xo2']), 0)
         self.assertEqual(selected, [('s3c_toolchain_test_program', 'uz_s3c_xo2'),
                                     ('s3c_power_on_debounce', 'uz_s3c_xo2')])
+        self.assertTrue((self.root / 'toolchain/build/validation/diamond-uz_s3c_xo2-catalog/report.json').is_file())
         selected.clear()
         with patch('toolchain.buildsystem.cli.workflow.build_program', side_effect=capture), redirect_stdout(io.StringIO()):
             self.assertEqual(cli_main(['build-all', '--root', str(self.root), '--target', 'uz_s3c_xo2', '--backend', 'foss']), 0)
         self.assertEqual(selected, [('s3c_toolchain_test_program', 'uz_s3c_xo2'),
                                     ('s3c_power_on_debounce', 'uz_s3c_xo2')])
+
+    def test_build_all_continues_after_tool_failure_and_reports_it(self):
+        attempted = []
+        def capture(build):
+            attempted.append(build.name)
+            if build.name == 'tx30':
+                raise subprocess.CalledProcessError(1, 'ghdl')
+            return build.directory
+        with patch('toolchain.buildsystem.cli.workflow.build_program', side_effect=capture), \
+             redirect_stdout(io.StringIO()):
+            self.assertEqual(cli_main(['build-all', '--root', str(self.root)]), 1)
+        self.assertEqual(len(attempted), len(catalog(self.root)))
+        report = self.root / 'toolchain/build/validation/diamond-catalog/report.json'
+        rows = json.loads(report.read_text())['builds']
+        failed = next(row for row in rows if row['program'] == 'tx30')
+        self.assertEqual(failed['status'], 'failed')
+        self.assertIn('ghdl', failed['error'])
+
+    def test_build_all_reports_invalid_manifest_and_builds_others(self):
+        manifest = self.root / 'programs/tx30/tx30.toml'
+        manifest.write_text(manifest.read_text() + '\nunknown_field = true\n')
+        attempted = []
+        with patch('toolchain.buildsystem.cli.workflow.build_program',
+                   side_effect=lambda build: attempted.append(build.name) or build.directory), \
+             redirect_stdout(io.StringIO()):
+            self.assertEqual(cli_main(['build-all', '--root', str(self.root)]), 1)
+        self.assertNotIn('tx30', attempted)
+        self.assertEqual(len(attempted), len(catalog(self.root)) - 1)
+        report = self.root / 'toolchain/build/validation/diamond-catalog/report.json'
+        row = next(row for row in json.loads(report.read_text())['builds'] if row['program'] == 'tx30')
+        self.assertEqual(row['status'], 'failed')
+        self.assertIn('unknown fields', row['error'])
+
+    def test_input_hash_failure_sets_failed_status(self):
+        with patch('toolchain.buildsystem.workflow.hashes', side_effect=FileNotFoundError('missing input')):
+            with self.assertRaisesRegex(FileNotFoundError, 'missing input'):
+                workflow.build_program(self.build)
+        status = json.loads((self.build.directory / 'metadata/status.json').read_text())
+        self.assertEqual(status, {'status': 'failed', 'error': 'missing input'})
 
     def test_failed_catalog_update_removes_clone(self):
         path = self.root / 'programs/catalog.toml'
@@ -236,6 +278,26 @@ class FrontendTests(unittest.TestCase):
         with self.assertRaisesRegex(BuildError, 'Expected Diamond'):
             self.run_build(version)
 
+    def test_catalog_report_detects_changed_inputs_and_outputs(self):
+        report = catalog_report([self.build])
+        first = json.loads(report.with_suffix('.json').read_text())['builds'][0]
+        self.assertEqual(first['status'], 'missing')
+        self.run_build()
+        fresh = json.loads(catalog_report([self.build]).with_suffix('.json').read_text())['builds'][0]
+        self.assertEqual(fresh['status'], 'success')
+        self.build.sources[0].path.write_text(self.build.sources[0].path.read_text() + '\n-- changed\n')
+        self.build.firmware_path('bit').write_text('changed firmware')
+        stale = json.loads(catalog_report([self.build]).with_suffix('.json').read_text())['builds'][0]
+        self.assertEqual(stale['status'], 'stale')
+        self.assertIn(str(self.build.sources[0].path.relative_to(self.root)), stale['changed_inputs'])
+        self.assertIn(self.build.firmware_path('bit').name, stale['changed_outputs'])
+
+    def test_foss_code_change_does_not_invalidate_diamond_evidence(self):
+        before = workflow.hashes(self.build)
+        path = self.root / 'toolchain/buildsystem/backends/foss.py'
+        path.write_text(path.read_text() + '\n# unrelated backend edit\n')
+        self.assertEqual(before, workflow.hashes(self.build))
+
     def test_gui_changes_are_protected(self):
         self.run_build()
         (self.build.directory / 'project/firmware.ldf').write_text('GUI experiment')
@@ -279,6 +341,77 @@ class FrontendTests(unittest.TestCase):
         with workflow.locked(self.build):
             with self.assertRaisesRegex(BuildError, 'already active'):
                 workflow.clean(self.build)
+
+    def test_clean_all_preserves_active_build_and_lock(self):
+        self.run_build()
+        with workflow.locked(self.build):
+            lock = self.root / 'toolchain/build/locks/tx30.uz_dslot_xo2.diamond.lock'
+            inode = lock.stat().st_ino
+            with self.assertRaisesRegex(BuildError, 'already active'):
+                workflow.clean_all(self.root)
+            self.assertTrue(self.build.firmware_path('bit').is_file())
+            self.assertEqual(lock.stat().st_ino, inode)
+            with self.assertRaisesRegex(BuildError, 'already active'):
+                with workflow.locked(self.build):
+                    self.fail('Acquired a competing build lock')
+        workflow.clean_all(self.root)
+        self.assertFalse(self.build.build_root.exists())
+        with workflow.locked(self.build):
+            pass
+
+    def test_cleanup_excludes_new_operations_even_after_removing_lock_files(self):
+        self.run_build()
+        cleanup = workflow._clean_all
+
+        def during_cleanup(root):
+            cleanup(root)
+            self.assertFalse((root / 'toolchain/build').exists())
+            for build in (self.build, load_build(root, 'rx30')):
+                with self.assertRaisesRegex(BuildError, 'already active'):
+                    with workflow.locked(build):
+                        self.fail('Started an operation during cleanup')
+            with self.assertRaisesRegex(BuildError, 'already active'):
+                workflow.clean_all(root)
+
+        with patch('toolchain.buildsystem.workflow._clean_all', side_effect=during_cleanup):
+            workflow.clean_all(self.root)
+        with workflow.locked(self.build), workflow.locked(load_build(self.root, 'rx30')):
+            pass
+
+    def test_clean_all_rejects_operation_in_another_process(self):
+        command = ['python3', '-c',
+                   'from pathlib import Path; from toolchain.buildsystem.workflow import clean_all; '
+                   'import sys; clean_all(Path(sys.argv[1]))', str(self.root)]
+        with workflow.locked(self.build):
+            result = subprocess.run(command, cwd=ROOT, capture_output=True, text=True)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn('already active', result.stderr)
+
+    def test_report_records_stale_generator_and_continues(self):
+        self.run_build()
+        config = self.root / 'programs/tx30_stateful/generator.toml'
+        config.write_text(config.read_text() + '\n# changed generation input\n')
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual(cli_main(['report', '--root', str(self.root), '--backend', 'diamond']), 1)
+        report = self.root / 'toolchain/build/validation/diamond-catalog/report.json'
+        rows = {row['program']: row for row in json.loads(report.read_text())['builds']}
+        self.assertEqual(rows['tx30']['status'], 'success')
+        self.assertEqual(rows['tx30_stateful']['status'], 'failed')
+        self.assertIn('inputs changed', rows['tx30_stateful']['error'])
+        self.assertEqual(len(rows), len(catalog(self.root)))
+
+    def test_report_is_written_when_every_selected_program_is_invalid(self):
+        (self.root / 'programs/catalog.toml').write_text('programs = ["tx30"]\n')
+        manifest = self.build.manifests[0]
+        manifest.write_text(manifest.read_text() + '\nunknown_field = true\n')
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual(cli_main(['report', '--root', str(self.root), '--backend', 'diamond',
+                                       '--target', self.build.target]), 1)
+        report = self.root / 'toolchain/build/validation/diamond-uz_dslot_xo2-catalog/report.json'
+        row, = json.loads(report.read_text())['builds']
+        self.assertEqual(row['program'], 'tx30')
+        self.assertEqual(row['status'], 'failed')
+        self.assertIn('unknown fields', row['error'])
 
     def test_symlink_cannot_redirect_clean(self):
         self.build.build_root.symlink_to(self.root / 'programs', target_is_directory=True)

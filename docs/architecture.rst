@@ -43,6 +43,7 @@ The :doc:`FOSS backend <foss>` shares the build lifecycle and adds synthesis equ
 Because Diamond's Tcl interface treats ``def_top`` as internal, preparation sets it in the saved LDF XML.
 Publication requires nonempty exports, the configured tool version and unchanged input hashes.
 ``metadata/build.json`` records inputs, options, tool/launcher identity, Git state, reports and output hashes; it is an audit record rather than proof of reproducibility.
+The build hash covers common workflow code and the selected backend, so a FOSS-only implementation edit does not invalidate Diamond evidence.
 The external Diamond installation, mutable base image and OS packages remain environmental inputs.
 
 Python integration

@@ -17,5 +17,8 @@ For Diamond, run ``make doctor backend=diamond`` and ``make build-all backend=di
 Generated firmware provenance, tool identity, input hashes and output hashes are in each backend directory's ``metadata/build.json``; simulation provenance is in ``build/simulation/metadata/run.json``.
 A passing simulation checks the behavior exercised by its testbench.
 A successful firmware build verifies fresh exports and unchanged authored inputs; the FOSS build also checks synthesis equivalence and bitstream format.
+The sequential FOSS induction check alone does not prove startup alignment.
+The additional initialized-state miter passes for ``tx30_stateful`` and records a counterexample for the unchanged ``s3c_power_on_debounce``; its build remains an export, not an initial-state equivalence claim.
+``make report backend=foss`` or ``make report backend=diamond`` checks existing build evidence for stale inputs and outputs without rebuilding.
 Neither command establishes hardware behavior or a timing acceptance limit.
 The authored LPFs contain no timing budget, so inspect the reports and board-specific electrical settings before using firmware on hardware.

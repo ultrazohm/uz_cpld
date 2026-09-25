@@ -3,6 +3,7 @@ import hashlib
 from importlib.metadata import version
 import json
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import xml.etree.ElementTree as ET
@@ -32,16 +33,13 @@ def run_simulation(build, request):
     """Run one program while its caller holds the generated-output lock."""
     program = build.name
     output = safe_directory(build, build.build_root / "simulation")
+    # GHDL libraries retain design units removed from a manifest. Recreate the
+    # whole directory so elaboration can only use this run's declared sources.
+    if output.exists():
+        shutil.rmtree(output)
     output.mkdir(parents=True, exist_ok=True)
     metadata = safe_directory(build, output / 'metadata')
     metadata.mkdir(exist_ok=True)
-    # Never leave a previous successful run's waveform/results beside a failed
-    # compilation. Preserve the directory itself (it contains GHDL's library).
-    for pattern in ("waves.*", "waveform.*", "*.result.xml", "*.log", "*.json"):
-        for artifact in output.glob(pattern):
-            artifact.unlink()
-    for artifact in metadata.glob('*.json'):
-        artifact.unlink()
     seed = request.config.getoption("--seed")
     wave_format = request.config.getoption("--wave-format")
     standard = {"1993": "93", "2008": "08"}[build.standard]

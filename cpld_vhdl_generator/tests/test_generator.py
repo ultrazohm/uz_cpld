@@ -146,6 +146,19 @@ reqoe = [1, 1]
         with self.assertRaisesRegex(GeneratorError, 'reserved'):
             load_config(self.config)
 
+    def test_reject_program_names_that_shadow_generated_vhdl(self):
+        original = self.config.read_text()
+        for clock in ('external', 'machxo2'):
+            for name in ('ieee', 'std', 'work', 's3c', 's3c_logic', 'std_logic',
+                         'natural', 'string', 'rising_edge', 'true', 'false', 'osch'):
+                with self.subTest(clock=clock, name=name):
+                    self.config.write_text(original.replace('"example"', f'"{name}"')
+                                           .replace('"external"', f'"{clock}"'))
+                    with self.assertRaisesRegex(GeneratorError, 'reserved'):
+                        generate(self.config, self.output)
+                    self.assertFalse((self.output / f'{name}.vhdl').exists())
+        self.assertFalse((self.output / 'generator-output.json').exists())
+
     @unittest.skipUnless(shutil.which('ghdl'), 'GHDL is needed for HDL behavioral checks')
     def test_active_high_safe_and_automatic_pilot_recovery(self):
         self.simulate('''

@@ -28,9 +28,13 @@ def digest(path: Path) -> str:
 
 def hashes(build: Build) -> dict:
     """Hash authored inputs and the Python implementation used for this build."""
-    paths = set(build.inputs) | set((build.root / 'toolchain/buildsystem').rglob('*.py'))
+    code = build.root / 'toolchain/buildsystem'
+    paths = set(build.inputs) | {code / name for name in
+                                 ('model.py', 'workflow.py', 'cli.py', 'backends/' + build.backend + '.py')}
     if build.backend == 'foss':
+        paths |= {code / 'ghdl.py', code / 'foss_config.py'}
         paths |= set((build.root / 'toolchain/hdl').rglob('*.v'))
+        paths |= set((build.root / 'toolchain/hdl').rglob('*.vhdl'))
     return {str(p.relative_to(build.root)): digest(p) for p in sorted(paths)}
 
 
@@ -53,19 +57,35 @@ def safe_directory(build: Build, directory: Path | None = None) -> Path:
 
 
 @contextmanager
-def locked(build: Build):
-    """Hold a nonblocking process lock across project, build, GUI or clean work."""
-    directory = safe_directory(build)
-    lockdir = safe_directory(build, build.root / 'toolchain/build/locks')
-    lockdir.mkdir(parents=True, exist_ok=True)
-    lockpath = lockdir / f'{build.name}.{build.target}.{build.backend}.lock'
-    fd = os.open(lockpath, os.O_CREAT | os.O_RDWR | os.O_NOFOLLOW, 0o600)
-    with os.fdopen(fd, 'w') as stream:
+def workspace_lock(root: Path, *, exclusive: bool = False):
+    """Coordinate cleanup on the checkout directory inode, which cleanup preserves."""
+    fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+    try:
         try:
-            fcntl.flock(stream, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            mode = fcntl.LOCK_EX if exclusive else fcntl.LOCK_SH
+            fcntl.flock(fd, mode | fcntl.LOCK_NB)
         except BlockingIOError as exc:
-            raise BuildError(f'Build or GUI already active: {directory}') from exc
-        yield directory
+            raise BuildError(f'Workspace operation already active; cannot overlap clean-all: {root}') from exc
+        yield
+    finally:
+        os.close(fd)
+
+
+@contextmanager
+def locked(build: Build):
+    """Exclude cleanup and competing project, build, GUI or clean operations."""
+    with workspace_lock(build.root):
+        directory = safe_directory(build)
+        lockdir = safe_directory(build, build.root / 'toolchain/build/locks')
+        lockdir.mkdir(parents=True, exist_ok=True)
+        lockpath = lockdir / f'{build.name}.{build.target}.{build.backend}.lock'
+        fd = os.open(lockpath, os.O_CREAT | os.O_RDWR | os.O_NOFOLLOW, 0o600)
+        with os.fdopen(fd, 'w') as stream:
+            try:
+                fcntl.flock(stream, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except BlockingIOError as exc:
+                raise BuildError(f'Build or GUI already active: {directory}') from exc
+            yield directory
 
 
 def configuration(project: Path) -> dict:
@@ -156,8 +176,8 @@ def build_program(build: Build) -> Path:
         metadata = directory / 'metadata'
         metadata.mkdir(exist_ok=True)
         write_json(metadata / 'status.json', {'status': 'running'})
-        before = hashes(build)
         try:
+            before = hashes(build)
             proj, log = prepare(build, directory)
             output = backend_for(build).build(proj, log)
             versions = re.findall(r'3\.14\.0\.\d+\.\d+', output)
@@ -228,6 +248,12 @@ def clean(build: Build, discard_project_changes: bool = False):
 def clean_all(root: Path):
     """Remove generated toolchain outputs, documentation, caches and local environment."""
     root = root.resolve()
+    with workspace_lock(root, exclusive=True):
+        _clean_all(root)
+
+
+def _clean_all(root: Path):
+    """Delete generated files while holding the exclusive workspace lock."""
     for folder in ('programs', 'toolchain', 'docs'):
         if (root / folder).is_symlink():
             raise BuildError(f'Authored directory must not be a symlink: {root / folder}')
@@ -309,6 +335,8 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
     meta = read_toml(original.manifests[0])
     primary_constraint = input_path(root, source, meta['constraints'][0])
     local_inputs = [s.path for s in original.sources if 'generator' not in meta or s.path.is_relative_to(source)] + [primary_constraint, original.testbench]
+    if 'generator' in meta:
+        local_inputs.append(input_path(root, source, meta['generator']))
     if 'foss_constraints' in meta:
         local_inputs.append(input_path(root, source, meta['foss_constraints'][0]))
     if 'foss_equivalence_blacklist' in meta:
@@ -317,6 +345,9 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
         raise BuildError('Cloning requires authored inputs outside the generated build directory')
     if any(not path.is_relative_to(source) for path in local_inputs):
         raise BuildError('Cloning requires program-local inputs; copy shared inputs into the source program first')
+    if 'generator' in meta:
+        # Normalize aliases such as ../<template>/generator.toml before copying.
+        meta['generator'] = str(input_path(root, source, meta['generator']).relative_to(source))
     if any(path.is_symlink() for path in source.rglob('*')
            if path.relative_to(source).parts[0] != 'build'):
         raise BuildError('Cloning requires regular files, not symlinks, in the source program')

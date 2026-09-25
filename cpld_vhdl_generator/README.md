@@ -51,6 +51,7 @@ pilot_policy = "unused"
 ```
 
 `clock` selects `machxo2` for the internal nominal 2.08 MHz oscillator or `external` for `clk` and active-high `reset` ports.
+`name` must be a lowercase VHDL identifier. VHDL keywords, the `cvg_` prefix, and names used by generated declarations (`ieee`, `std`, `work`, `s3c`, `s3c_logic`, `std_logic`, `natural`, `string`, `rising_edge`, `true`, `false`, and `osch`) are reserved.
 `pilot_policy` selects `unused` or `required`.
 Required pilot monitoring keeps the controller in `safe_state` unless synchronized `pilot_in` is high.
 The controller starts in `safe_state`, synchronizes controls, and enters `normal_state` when the S3C, pilot policy, and optional enable pattern permit operation.

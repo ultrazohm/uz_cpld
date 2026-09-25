@@ -18,6 +18,10 @@ PACKAGE = Path(__file__).resolve().parent
 DATA_PINS = tuple(f'{bank}_{i:02d}' for bank in ('fpga', 'd') for i in range(30))
 KEYWORDS = set('''abs access after alias all and architecture array assert attribute begin block body buffer bus case component configuration constant disconnect downto else elsif end entity exit file for function generate generic group guarded if impure in inertial inout is label library linkage literal loop map mod nand new next nor not null of on open or others out package port postponed procedure process pure range record register reject rem report return rol ror select severity shared signal sla sll sra srl subtype then to transport type unaffected units until use variable wait when while with xnor xor context force parameter protected release assume cover default property restrict sequence vmode vprop vunit'''.split())
 RECEIPT = 'generator-output.json'
+# Entity names must not hide libraries, types, literals or functions used below,
+# or bind the internal oscillator component to the generated top itself.
+RESERVED_PROGRAM_NAMES = {'ieee', 'std', 'work', 's3c', 's3c_logic', 'std_logic',
+                          'natural', 'string', 'rising_edge', 'true', 'false', 'osch'}
 
 
 class GeneratorError(ValueError):
@@ -82,8 +86,8 @@ def load_config(path):
     if type(data['schema_version']) is not int or data['schema_version'] != 3:
         raise GeneratorError('Only schema_version = 3 is supported')
     name = identifier(data['name'])
-    if name == 's3c_logic':
-        raise GeneratorError('Program name s3c_logic is reserved for the controller')
+    if name in RESERVED_PROGRAM_NAMES:
+        raise GeneratorError(f'Program name {name} is reserved by the generated VHDL')
     for field, choices in [('clock', ('external', 'machxo2')), ('pilot_policy', ('unused', 'required'))]:
         if data[field] not in choices:
             raise GeneratorError(f'{field} must be one of {choices}')

@@ -170,7 +170,9 @@ def equivalence_script(build, mapped):
     match = 'equiv_make'
     if build.foss_equivalence_blacklist:
         match += ' -blacklist equivalence-blacklist.txt'
-    commands += [match + ' gold gate equiv', 'hierarchy -top equiv', 'equiv_simple']
+    # Keep both flattened copies for a separate initial-state/output miter.
+    commands += ['write_json impl/proof-copies.json', match + ' gold gate equiv',
+                 'hierarchy -top equiv', 'equiv_simple']
     if sequential:
         commands.append('equiv_induct -seq 8')
     commands.append('equiv_status -assert')
@@ -181,6 +183,43 @@ def equivalence_script(build, mapped):
                       if build.foss_equivalence_blacklist else []),
         'initial_alignment_proven': not sequential,
     }
+
+
+def startup_script(proof_copies):
+    """Check defined RTL outputs from declared initial state for eight cycles.
+
+    Entirely undefined/high-impedance RTL ports cannot be compared as logic.
+    They are reported explicitly instead of being silently treated as zeros.
+    """
+    gold = proof_copies['modules']['gold']['ports']
+    gate = proof_copies['modules']['gate']['ports']
+    if gold.keys() != gate.keys():
+        raise BuildError('Startup proof copies have different top-level ports')
+    omitted = []
+    for name, port in gold.items():
+        if port['direction'] != 'input' and all(bit in ('x', 'z') for bit in port['bits']):
+            if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*', name):
+                raise BuildError(f'Unsupported startup proof port name: {name}')
+            omitted.append(name)
+        elif port['direction'] != 'input' and any(bit in ('x', 'z') for bit in port['bits']):
+            raise BuildError(f'Partly undefined RTL output needs explicit proof handling: {name}')
+    commands = ['read_json impl/proof-copies.json']
+    commands += [f'delete -port gold/w:{name} gate/w:{name}' for name in omitted]
+    commands += ['miter -equiv -make_assert -flatten gold gate startup',
+                 'hierarchy -top startup', 'sat -seq 8 -prove-asserts -verify']
+    return '\n'.join(commands) + '\n', omitted
+
+
+def startup_points_script(omitted, blacklisted):
+    """Check every retained induction match point from the initial state."""
+    commands = ['read_json impl/proof-copies.json']
+    commands += [f'delete -port gold/w:{name} gate/w:{name}' for name in omitted]
+    match = 'equiv_make -make_assert'
+    if blacklisted:
+        match += ' -blacklist equivalence-blacklist.txt'
+    commands += [match + ' gold gate startup_points', 'hierarchy -top startup_points',
+                 'flatten -wb', 'sat -seq 8 -prove-asserts -verify']
+    return '\n'.join(commands) + '\n'
 
 
 def normalize_oscillator_frequency(module, expected):
@@ -257,6 +296,40 @@ class FossBackend:
             shutil.copy2(build.foss_equivalence_blacklist, project / 'equivalence-blacklist.txt')
         run([tool('yosys'), '-l', 'impl/equivalence.log', '-s', 'equivalence.ys'])
         proof_record['result'] = 'proven'
+        if proof_record['method'] == 'mapped sequential induction':
+            copies = json.loads((project / 'impl/proof-copies.json').read_text())
+            startup, omitted = startup_script(copies)
+            (project / 'startup.ys').write_text(startup)
+            proof_record['undefined_rtl_outputs'] = omitted
+            startup_log = project / 'impl/startup.log'
+            with log.open('a') as stream:
+                stream.write('$ yosys -l impl/startup.log -s startup.ys\n')
+                stream.flush()
+                result = subprocess.run([tool('yosys'), '-l', 'impl/startup.log', '-s', 'startup.ys'],
+                                        cwd=project, stdout=stream, stderr=stream)
+            if result.returncode:
+                if 'ERROR: Called with -verify and proof did fail!' not in startup_log.read_text():
+                    raise BuildError(f'Startup proof tool failed; see {startup_log}')
+                proof_record['initial_alignment'] = 'output counterexample'
+            else:
+                (project / 'startup-points.ys').write_text(
+                    startup_points_script(omitted, bool(build.foss_equivalence_blacklist)))
+                points_log = project / 'impl/startup-points.log'
+                with log.open('a') as stream:
+                    stream.write('$ yosys -l impl/startup-points.log -s startup-points.ys\n')
+                    stream.flush()
+                    points_result = subprocess.run([tool('yosys'), '-l', 'impl/startup-points.log',
+                                                    '-s', 'startup-points.ys'], cwd=project,
+                                                   stdout=stream, stderr=stream)
+                if points_result.returncode:
+                    if 'ERROR: Called with -verify and proof did fail!' not in points_log.read_text():
+                        raise BuildError(f'Initial match-point proof tool failed; see {points_log}')
+                    proof_record['initial_alignment'] = 'internal match-point counterexample'
+                else:
+                    proof_record['initial_alignment'] = 'all retained match points proven for eight cycles'
+                    proof_record['initial_alignment_proven'] = True
+        else:
+            proof_record['initial_alignment'] = 'not applicable: combinational design'
         (project.parent / 'metadata/reports/equivalence.json').write_text(json.dumps(proof_record, indent=2) + '\n')
         from ..foss_config import package_lpf
         netlist = mapped

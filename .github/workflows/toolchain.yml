@@ -38,6 +38,7 @@ jobs:
             programs/*/build/uz_dslot_xo2_foss/
             programs/*/build/uz_s3c_xo2_foss/
             toolchain/build/simulation/
+            toolchain/build/validation/
           if-no-files-found: warn
           retention-days: 14
       - name: Retain the documentation preview
@@ -50,14 +51,14 @@ jobs:
           include-hidden-files: true
           retention-days: 14
       - name: Upload the Pages site
-        if: ${{ success() && github.event_name != 'pull_request' && github.ref == 'refs/heads/feature/m4_inverter_resolver_d4_d5' }}
+        if: ${{ success() && github.event_name != 'pull_request' && github.ref == 'refs/heads/develop' }}
         uses: actions/upload-pages-artifact@v4
         with:
           path: docs/_build/html/
 
   deploy:
     needs: checks
-    if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/feature/m4_inverter_resolver_d4_d5' }}
+    if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/develop' }}
     runs-on: ubuntu-22.04
     timeout-minutes: 10
     permissions:

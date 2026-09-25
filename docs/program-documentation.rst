@@ -16,7 +16,7 @@ RTL netlists
 
 GHDL synthesizes the manifest's VHDL to Verilog, Yosys lowers processes and flattens/cleans the generic netlist, and Graphviz renders SVG and PDF.
 This analysis excludes LPF constraints, device mapping, placement, routing and timing, so it does not represent Diamond's implemented netlist.
-Vendor attributes such as ``syn_keep`` can be ignored, and unsupported primitives or non-``work`` libraries require explicit support.
+Vendor attributes such as ``syn_keep`` can be ignored; sources in the manifest are compiled in their declared libraries, while unsupported primitives still require explicit models.
 
 ``programs/<name>/build/netlist/`` contains ``netlist.svg``, ``netlist.pdf``, intermediates and diagnostic logs; ``metadata/`` contains netlist provenance and the Yosys JSON export.
 Netlist exports use the managed program/target lock and remove stale diagrams on failure.

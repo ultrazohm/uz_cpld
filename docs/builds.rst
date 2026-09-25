@@ -33,26 +33,16 @@ Firmware commands never flash a device.
 Create a program
 ----------------
 
-For a project generated from CSV routing::
-
-   make new name=my_slot template=generator
-   # Edit programs/my_slot/routing.csv
-   make generate program=my_slot
-   make sim program=my_slot
-   make build program=my_slot backend=diamond
-
-The starter contains ``routing.csv``, ``generator.toml`` and ``description.rst``.
-Generation creates VHDL matching the routing, a matching cocotb testbench, D-slot board constraints, the build manifest and the generation receipt, then registers the completed program in the catalog.
-See :ref:`generator-quickstart` for the generated filenames and :doc:`vhdl-generator` for routing and configuration details.
+Use :ref:`generator-quickstart` to create a D-slot project from CSV routing.
+See :doc:`vhdl-generator` for routing, configuration and generated-file ownership.
 
 To clone a program whose logic and testbench you will maintain manually::
 
    make new name=my_adapter template=tx30
-   make check program=my_adapter
-   make sim program=my_adapter
-   make build program=my_adapter
 
-Edit the cloned VHDL, LPF, cocotb testbench and optional ``description.rst`` before validation.
+Edit the cloned VHDL, LPF, cocotb testbench and optional ``description.rst``, then validate, simulate and build as shown in :doc:`quick-start`.
+``template`` defaults to ``tx30``.
+For an S3C program, use ``template=s3c_toolchain_test_program``; its starter logic holds carrier power and slot output enables inactive.
 Cloning copies the selected program's current files, preserves entity names and libraries, and excludes generated ``build/`` directories and Python caches.
 It requires a listed ``<template>.vhdl`` primary source, program-local inputs and no authored symlinks, and refuses an existing destination.
 Generated templates also require a program-local generator configuration; copy a shared configuration into the template and update its manifest before cloning.

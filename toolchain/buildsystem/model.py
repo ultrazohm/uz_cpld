@@ -118,7 +118,11 @@ def program_targets(root: Path, name: str) -> list[str]:
     """Read the targets declared by one catalog program."""
     name = identifier(name)
     path = input_path(root.resolve(), root.resolve(), f'programs/{name}/{name}.toml')
-    targets = strings(read_toml(path).get('targets'), f'{name}.targets')
+    return _declared_targets(read_toml(path), name)
+
+
+def _declared_targets(data: dict, name: str) -> list[str]:
+    targets = strings(data.get('targets'), f'{name}.targets')
     if not targets:
         raise BuildError(f'{name}: targets must not be empty')
     return [identifier(target) for target in targets]
@@ -128,7 +132,11 @@ def program_backends(root: Path, name: str) -> list[str]:
     """Return the firmware backends declared by one catalog program."""
     name = identifier(name)
     path = input_path(root.resolve(), root.resolve(), f'programs/{name}/{name}.toml')
-    backends = strings(read_toml(path).get('backends', ['diamond', 'foss']), f'{name}.backends')
+    return _declared_backends(read_toml(path), name)
+
+
+def _declared_backends(data: dict, name: str) -> list[str]:
+    backends = strings(data.get('backends', ['diamond', 'foss']), f'{name}.backends')
     if not backends or any(value not in ('diamond', 'foss') for value in backends):
         raise BuildError(f'{name}: backends must list diamond and/or foss')
     return backends
@@ -138,15 +146,16 @@ def load_build(root: Path, name: str, target: str | None = None, backend: str | 
     """Validate manifests and return a build model; no vendor tools are needed."""
     root = root.resolve()
     name = identifier(name)
-    declared_targets = program_targets(root, name)
+    pm = input_path(root, root, f'programs/{name}/{name}.toml')
+    p = read_toml(pm)
+    declared_targets = _declared_targets(p, name)
     if target is None:
         if len(declared_targets) != 1:
             raise BuildError(f'{name} has multiple targets; select one explicitly')
         target = declared_targets[0]
     target = identifier(target)
-    pm = input_path(root, root, f'programs/{name}/{name}.toml')
     tm = input_path(root, root, f'toolchain/targets/{target}/target.toml')
-    p, t = read_toml(pm), read_toml(tm)
+    t = read_toml(tm)
     pf = {'name', 'top', 'standard', 'sources', 'targets', 'backends', 'constraints',
           'foss_constraints', 'foss_equivalence_blacklist', 'testbench', 'generator'}
     tf = {'name', 'device', 'backend', 'diamond', 'foss'}
@@ -158,7 +167,7 @@ def load_build(root: Path, name: str, target: str | None = None, backend: str | 
     backend = identifier(backend or t['backend'])
     if backend not in ('diamond', 'foss') or t['backend'] not in ('diamond', 'foss'):
         raise BuildError(f'Unimplemented backend: {backend}')
-    if backend not in program_backends(root, name):
+    if backend not in _declared_backends(p, name):
         raise BuildError(f'{name} does not support the {backend} firmware backend')
     if p['standard'] not in ('1993', '2008'):
         raise BuildError('VHDL standard must be "1993" or "2008"')

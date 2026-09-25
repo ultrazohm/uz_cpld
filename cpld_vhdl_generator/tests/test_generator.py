@@ -6,6 +6,8 @@ import tempfile
 import unittest
 
 from cpld_vhdl_generator import GeneratorError, check, generate, load_config, source_entries
+from cpld_vhdl_generator.generator import read_toml
+from cpld_vhdl_generator.toml import dumps
 
 
 class GeneratorTests(unittest.TestCase):
@@ -53,6 +55,16 @@ reqoe = [1, 1]
         top = sources[-1].read_text()
         self.assertIn("REQUEST_SAFE_LEVEL => '0'", top)
         self.assertIn('USE_CARRIER_READY => true', top)
+
+    def test_manifest_serialization_preserves_nested_values_and_escaped_paths(self):
+        manifest = {
+            'name': 'example', 'targets': ['uz_dslot_xo2'],
+            'sources': [{'path': 'folder "quoted"/back\\slash.vhdl', 'library': 'work'}],
+            'options': {'enabled': True, 'count': 3, 'text': 'line one\nline two\tend'},
+        }
+        path = self.root / 'manifest.toml'
+        path.write_text(dumps(manifest))
+        self.assertEqual(read_toml(path), manifest)
 
     @unittest.skipUnless(shutil.which('ghdl'), 'GHDL is needed for HDL behavioral checks')
     def test_select_alternative_shared_architecture(self):

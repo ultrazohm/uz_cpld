@@ -204,7 +204,10 @@ class FrontendTests(unittest.TestCase):
         original = path.read_text()
         for text in (original + '\ntyop = 1\n', original.replace('standard = "1993"', 'standard = "1987"'),
                      original.replace('tx30.vhdl', 'missing.vhdl'),
-                     original.replace('library = "work"', 'library = "bad__name"')):
+                     original.replace('library = "work"', 'library = "bad__name"'),
+                     original.replace('targets = ["uz_dslot_xo2"]', 'targets = []'),
+                     original.replace('targets = ["uz_dslot_xo2"]', 'targets = ["../outside"]'),
+                     original + '\nbackends = []\n', original + '\nbackends = ["unknown"]\n'):
             path.write_text(text)
             with self.assertRaises(BuildError):
                 load_build(self.root, 'tx30')

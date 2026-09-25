@@ -396,6 +396,8 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
     files are copied, excluding Python caches. External inputs must be localized
     before cloning so the new program is independently editable.
     """
+    from cpld_vhdl_generator.toml import dumps
+
     if template == 'generator':
         return generator_template(root, name, target, backend)
     root = root.resolve()
@@ -470,13 +472,6 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
         meta['foss_equivalence_blacklist'] = f'{name}_foss_equivalence_blacklist.txt'
     meta['testbench'] = f'{name}_tb.py'
 
-    def toml_value(value):
-        if isinstance(value, dict):
-            return '{' + ', '.join(f'{k} = {toml_value(v)}' for k, v in value.items()) + '}'
-        if isinstance(value, list):
-            return '[' + ', '.join(toml_value(v) for v in value) + ']'
-        return json.dumps(value)
-
     destination.mkdir()
     try:
         shutil.copytree(source, destination, dirs_exist_ok=True,
@@ -488,8 +483,7 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
             generator_path = destination / meta['generator']
             generator_config = read_toml(generator_path)
             generator_config['name'] = name
-            generator_path.write_text(''.join(f'{key} = {toml_value(value)}\n'
-                                              for key, value in generator_config.items()))
+            generator_path.write_text(dumps(generator_config))
             generation_output = destination / primary.parent.relative_to(source)
             generate(generator_path, generation_output)
             generated_sources = source_entries(load_config(generator_path), generation_output)
@@ -497,8 +491,7 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
             meta['sources'] = [{'path': os.path.relpath(s.path, destination), 'library': s.library}
                                for s in generated_sources]
         if not generated_project:
-            (destination / f'{name}.toml').write_text(
-                ''.join(f'{key} = {toml_value(value)}\n' for key, value in meta.items()))
+            (destination / f'{name}.toml').write_text(dumps(meta))
         load_build(root, name, target, backend)
         register_program(root, name)
     except Exception:

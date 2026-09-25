@@ -80,7 +80,63 @@ class Config:
         return [self.path, self.routing, self.contract_path]
 
 
+def load_contract(path):
+    """Read and validate a level-based S3C contract."""
+    contract = read_toml(path)
+    fields = {'id', 'compatible_s3c', 'request_mode', 'carrier_ready', 'slotok', 'reqoe', 'implementation'}
+    keys(contract, fields, fields, 'contract')
+    identifier(contract['id'])
+    implementation = identifier(contract['implementation'])
+    if implementation == 's3c_logic':
+        raise GeneratorError('implementation must name an architecture source, not the entity declaration')
+    compatible = contract['compatible_s3c']
+    if (not isinstance(compatible, list) or not compatible or
+            any(not isinstance(item, str) for item in compatible) or len(set(compatible)) != len(compatible)):
+        raise GeneratorError('compatible_s3c must list distinct program identifiers')
+    for program in compatible:
+        identifier(program)
+    if contract['request_mode'] not in ('active_high', 'active_low'):
+        raise GeneratorError('request_mode must be active_high or active_low; heartbeat is not implemented')
+    if contract['carrier_ready'] not in ('unused', 'active_high', 'active_low'):
+        raise GeneratorError('Invalid carrier_ready mode')
+    for output in ('slotok', 'reqoe'):
+        levels = contract[output]
+        if not isinstance(levels, list) or len(levels) != 2 or any(type(x) is not int or x not in (0, 1) for x in levels):
+            raise GeneratorError(f'{output} must contain normal_state and safe_state levels as two bits')
+    return contract
+
+
+def load_routing(path):
+    """Read output actions and infer directions for the complete data interface."""
+    try:
+        reader = csv.DictReader(io.StringIO(path.read_text()))
+        if reader.fieldnames != ['output', 'normal_state', 'safe_state']:
+            raise GeneratorError('CSV header must be output,normal_state,safe_state')
+        outputs = {}
+        for line, row in enumerate(reader, 2):
+            if None in row or any(v is None for v in row.values()):
+                raise GeneratorError(f'CSV line {line}: expected three columns')
+            output = row['output'].strip()
+            if output not in DATA_PINS:
+                raise GeneratorError(f'CSV line {line}: output must be d_00..d_29 or fpga_00..fpga_29: {output!r}')
+            if output in outputs:
+                raise GeneratorError(f'CSV line {line}: duplicate output {output}')
+            actions = tuple(row[state].strip() for state in ('normal_state', 'safe_state'))
+            if any(value not in DATA_PINS and value not in ('0', '1', 'Z') for value in actions):
+                raise GeneratorError(f'CSV line {line}: actions must be d_00..d_29, fpga_00..fpga_29, 0, 1, or Z')
+            outputs[output] = actions
+    except OSError as exc:
+        raise GeneratorError(str(exc)) from exc
+    for output, actions in outputs.items():
+        if any(value in outputs for value in actions):
+            raise GeneratorError(f'{output}: an output cannot also be used as an input')
+    # Preserve every data pin in the interface; omitted pins have no HDL driver.
+    return tuple(Pin(pin, 'out', outputs[pin]) if pin in outputs else Pin(pin, 'in', ('', ''))
+                 for pin in DATA_PINS)
+
+
 def load_config(path):
+    """Load configuration and validate its contract, routing and shared sources."""
     path = Path(path).resolve()
     data = read_toml(path)
     required = {'schema_version', 'name', 'routing', 'contract', 'clock', 'pilot_policy'}
@@ -104,62 +160,18 @@ def load_config(path):
         raise GeneratorError('contract must be a built-in ID or relative TOML path')
     builtin = PACKAGE / 'contracts' / (contract_ref + '.toml')
     contract_path = builtin if re.fullmatch(r'[a-z0-9_]+', contract_ref) and builtin.is_file() else relative(path.parent, contract_ref)
-    contract = read_toml(contract_path)
-    fields = {'id', 'compatible_s3c', 'request_mode', 'carrier_ready', 'slotok', 'reqoe', 'implementation'}
-    keys(contract, fields, fields, 'contract')
-    identifier(contract['id'])
-    implementation = identifier(contract['implementation'])
-    if implementation == 's3c_logic':
-        raise GeneratorError('implementation must name an architecture source, not the entity declaration')
+    contract = load_contract(contract_path)
     s3c_library = relative(path.parent, data['s3c_library']) if 's3c_library' in data else PACKAGE / 'hdl'
-    for filename in ('s3c_logic.vhdl', implementation + '.vhdl'):
+    for filename in ('s3c_logic.vhdl', contract['implementation'] + '.vhdl'):
         if not (s3c_library / filename).is_file():
             raise GeneratorError(f'Missing shared S3C source: {s3c_library / filename}')
-    compatible = contract['compatible_s3c']
-    if (not isinstance(compatible, list) or not compatible or
-            any(not isinstance(item, str) for item in compatible) or len(set(compatible)) != len(compatible)):
-        raise GeneratorError('compatible_s3c must list distinct program identifiers')
-    for program in compatible:
-        identifier(program)
-    if contract['request_mode'] not in ('active_high', 'active_low'):
-        raise GeneratorError('request_mode must be active_high or active_low; heartbeat is not implemented')
-    if contract['carrier_ready'] not in ('unused', 'active_high', 'active_low'):
-        raise GeneratorError('Invalid carrier_ready mode')
-    for output in ('slotok', 'reqoe'):
-        levels = contract[output]
-        if not isinstance(levels, list) or len(levels) != 2 or any(type(x) is not int or x not in (0, 1) for x in levels):
-            raise GeneratorError(f'{output} must contain normal_state and safe_state levels as two bits')
     routing = relative(path.parent, data['routing'])
-    try:
-        reader = csv.DictReader(io.StringIO(routing.read_text()))
-        if reader.fieldnames != ['output', 'normal_state', 'safe_state']:
-            raise GeneratorError('CSV header must be output,normal_state,safe_state')
-        outputs = {}
-        for line, row in enumerate(reader, 2):
-            if None in row or any(v is None for v in row.values()):
-                raise GeneratorError(f'CSV line {line}: expected three columns')
-            output = row['output'].strip()
-            if output not in DATA_PINS:
-                raise GeneratorError(f'CSV line {line}: output must be d_00..d_29 or fpga_00..fpga_29: {output!r}')
-            if output in outputs:
-                raise GeneratorError(f'CSV line {line}: duplicate output {output}')
-            actions = tuple(row[state].strip() for state in ('normal_state', 'safe_state'))
-            if any(value not in DATA_PINS and value not in ('0', '1', 'Z') for value in actions):
-                raise GeneratorError(f'CSV line {line}: actions must be d_00..d_29, fpga_00..fpga_29, 0, 1, or Z')
-            outputs[output] = actions
-    except OSError as exc:
-        raise GeneratorError(str(exc)) from exc
-    for output, actions in outputs.items():
-        if any(value in outputs for value in actions):
-            raise GeneratorError(f'{output}: an output cannot also be used as an input')
-    inputs = set(DATA_PINS) - outputs.keys()
+    pins = load_routing(routing)
+    inputs = {pin.name for pin in pins if pin.direction == 'in'}
     enable = data.get('enable', {})
     if not isinstance(enable, dict) or any(k not in inputs or type(v) is not int or v not in (0, 1) for k, v in enable.items()):
         raise GeneratorError('enable must map input pins from d_00..d_29 or fpga_00..fpga_29 to 0 or 1')
-    # Preserve every data pin in the interface; omitted pins have no HDL driver.
-    pins = tuple(Pin(pin, 'out', outputs[pin]) if pin in outputs else Pin(pin, 'in', ('', ''))
-                 for pin in DATA_PINS)
-    return Config(path, name, routing, tuple(pins), contract_path, contract, data['clock'],
+    return Config(path, name, routing, pins, contract_path, contract, data['clock'],
                   data['pilot_policy'], enable, s3c_library, target)
 
 

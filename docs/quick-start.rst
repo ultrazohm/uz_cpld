@@ -5,19 +5,53 @@ This guide follows a D-slot program from authored files through RTL simulation t
 Run every command from the repository root.
 The D-slot target is ``uz_dslot_xo2`` (``LCMXO2-2000HC-4TG100C``); the S3C target is ``uz_s3c_xo2`` (``LCMXO2-4000HC-4TG144C``).
 
-The order is ``new → edit → check → sim → doctor → build → inspect``.
-For CSV routing with shared normal and safe states, use the ``tx30_stateful`` example and follow :doc:`vhdl-generator`.
+Choose CSV generation or clone a program for manual VHDL editing.
 Simulation checks the behavior exercised by the testbench; a firmware build implements the design for the device.
 Neither step programs hardware.
 
-Create and edit a program
--------------------------
+.. _generator-quickstart:
+
+Generate a program from CSV
+---------------------------
+
+Use the generator starter for a D-slot program with normal and safe routing states::
+
+   make new name=my_slot template=generator
+   # Edit programs/my_slot/routing.csv
+   make generate program=my_slot
+   make sim program=my_slot
+   make build program=my_slot backend=diamond
+
+The starter in ``programs/my_slot/`` contains:
+
+* ``routing.csv``: output pins and their normal-state and safe-state values.
+* ``generator.toml``: program name, clock, S3C contract, pilot policy and target.
+* ``description.rst``: program documentation.
+
+``make generate program=my_slot`` creates:
+
+* ``my_slot.vhdl``: VHDL matching the routing.
+* ``my_slot_tb.py``: a matching cocotb testbench.
+* ``my_slot_constraints.lpf``: D-slot board constraints.
+* ``my_slot.toml``: the build manifest.
+* ``generator-output.json``: the generation receipt with input and output hashes.
+
+Generation validates the project and registers it in ``programs/catalog.toml``.
+The starter is excluded from catalog commands until generation succeeds.
+Edit ``routing.csv`` and, when needed, ``generator.toml``, then rerun ``make generate`` to update the generated files together.
+The generator protects manually edited output files from overwriting.
+The generated testbench checks input/output directions, normal and safe routing, and configured control conditions.
+This workflow uses the ``uz_dslot_xo2`` board constraints, internal MachXO2 clock and Diamond backend.
+Diamond requires a licensed installation; see :doc:`environments` for setup and :doc:`vhdl-generator` for routing and configuration details.
+
+Clone a program for manual editing
+----------------------------------
 
 Clone an existing program, replacing ``my_adapter`` with your program name::
 
    make new name=my_adapter template=tx30
 
-``template`` defaults to ``tx30``; it can name another existing program.
+``template`` defaults to ``tx30`` and can name another program to clone.
 The clone is added to ``programs/catalog.toml``, so catalog-wide commands and CI will include it.
 ``make list`` shows the current catalog.
 Edit these files in ``programs/my_adapter/``:
@@ -67,7 +101,7 @@ The open-source option uses the same authored VHDL and LPF::
 
 The FOSS pipeline uses GHDL, Yosys, nextpnr-machxo2 and Project Trellis to export ``my_adapter_uz_dslot_xo2_foss.bit``.
 It also checks synthesis equivalence and unpacks the bitstream as a format check.
-It does not export JEDEC; its MachXO2 support remains experimental.
+It does not export JEDEC; its MachXO2 support is experimental.
 On a host, Make runs FOSS firmware commands in the toolchain container; inside a Dev Container it uses installed tools.
 See :doc:`foss` for constraints and validation limits.
 

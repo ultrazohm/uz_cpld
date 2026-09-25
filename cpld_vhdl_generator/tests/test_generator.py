@@ -1,4 +1,5 @@
 from pathlib import Path
+import json
 import shutil
 import subprocess
 import tempfile
@@ -83,6 +84,38 @@ reqoe = [1, 1]
         moved = self.root / 'relocated'
         shutil.copytree(self.root, moved, ignore=shutil.ignore_patterns('relocated'))
         check(moved / 'generator.toml', moved)
+
+    def test_project_artifacts_and_relative_source_paths_survive_relocation(self):
+        library = self.root / 'shared'
+        shutil.copytree(load_config(self.config).s3c_library, library)
+        self.config.write_text(self.config.read_text().replace('"external"', '"machxo2"') +
+                               'target = "uz_dslot_xo2"\ns3c_library = "shared"\n')
+        output = self.root / 'output'
+        generate(self.config, output)
+        check(self.config, output)
+        record = json.loads((output / 'generator-output.json').read_text())
+        self.assertIn('generator/targets/uz_dslot_xo2.lpf', record['inputs'])
+        self.assertEqual(set(record['files']), {'example.vhdl', 'example.toml',
+                                              'example_tb.py', 'example_constraints.lpf'})
+        manifest = (output / 'example.toml').read_text()
+        self.assertIn('generator = "../generator.toml"', manifest)
+        self.assertIn('path = "../shared/s3c_logic.vhdl"', manifest)
+        before = {path.name: path.read_bytes() for path in output.iterdir()}
+        generate(self.config, output)
+        self.assertEqual(before, {path.name: path.read_bytes() for path in output.iterdir()})
+        moved = self.root / 'relocated'
+        shutil.copytree(self.root, moved, ignore=shutil.ignore_patterns('relocated'))
+        check(moved / 'generator.toml', moved / 'output')
+
+    def test_project_target_requires_a_supported_board_and_clock(self):
+        original = self.config.read_text()
+        self.config.write_text(original + 'target = "uz_dslot_xo2"\n')
+        with self.assertRaisesRegex(GeneratorError, 'clock'):
+            load_config(self.config)
+        self.config.write_text(original.replace('"external"', '"machxo2"') +
+                               'target = "uz_s3c_xo2"\n')
+        with self.assertRaisesRegex(GeneratorError, 'target'):
+            load_config(self.config)
 
     def test_changed_input_and_edited_generated_file_rejected(self):
         generate(self.config, self.output)

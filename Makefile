@@ -11,7 +11,7 @@ endif
 # Quote values as single shell arguments, including embedded apostrophes.
 quote = '$(subst ','"'"',$(1))'
 args = $(if $(target),--target $(call quote,$(target))) $(if $(program),--program $(call quote,$(program))) --backend $(call quote,$(backend))
-.PHONY: help build list doctor new check project gui build-all report clean clean-all test docs docs-local docs-assets-local netlist netlist-local sim image test-container _sim
+.PHONY: help build list doctor new generate check project gui build-all report clean clean-all test docs docs-local docs-assets-local netlist netlist-local sim image test-container _sim
 help:
 	@printf '%-31s %s\n' \
 	  'make [help]' 'Show all commands (default without program)' \
@@ -23,6 +23,8 @@ help:
 	  'make check program=NAME' 'Validate one program' \
 	  'make doctor' 'Check the selected firmware tools' \
 	  'make new name=NAME' 'Clone a program and add it to the catalog' \
+	  'make new name=NAME template=generator' 'Create editable routing and generator configuration' \
+	  'make generate program=NAME' 'Generate project files and register the program' \
 	  'make project program=NAME' 'Prepare a firmware project' \
 	  'make gui program=NAME' 'Open the Diamond project GUI' \
 	  'make sim [program=NAME]' 'Run HDL simulations' \
@@ -37,7 +39,7 @@ help:
 	  'make docs-assets-local' 'Generate program documentation assets' \
 	  'make docs-local' 'Build documentation with installed tools'
 	@printf '%s\n' '' 'Options: backend=diamond|foss target=uz_dslot_xo2|uz_s3c_xo2 template=tx30 seed=1 wave_format=vcd|ghw|fst'
-list check report:
+list check report generate:
 	$(python) -m toolchain.buildsystem $@ $(args)
 # FOSS firmware commands use the same container dispatch as simulation on hosts.
 ifeq ($(backend)$(filter 1,$(CPLD_TOOLCHAIN_CONTAINER)),foss)

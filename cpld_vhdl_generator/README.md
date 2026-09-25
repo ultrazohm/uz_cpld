@@ -4,6 +4,33 @@ Generates VHDL-1993 slot programs from CSV routing and TOML configuration, indep
 Run from the checkout, or install with `pip install .` to use `cpld-vhdl-generator`.
 Python 3.10 requires `tomli`; newer Python versions use the standard library.
 
+## Quick start
+
+Run these commands from the repository root:
+
+```sh
+make new name=my_slot template=generator
+# Edit programs/my_slot/routing.csv
+make generate program=my_slot
+make sim program=my_slot
+make build program=my_slot backend=diamond
+```
+
+The starter contains `routing.csv`, `generator.toml` and `description.rst` in `programs/my_slot/`.
+Generation creates:
+
+* `my_slot.vhdl`: VHDL matching the routing.
+* `my_slot_tb.py`: a matching cocotb testbench.
+* `my_slot_constraints.lpf`: D-slot board constraints.
+* `my_slot.toml`: the build manifest.
+* `generator-output.json`: the generation receipt.
+
+`make generate` validates the finished project and registers it in the catalog.
+Edit the CSV or configuration and run the same generation command to update the generated files together.
+The testbench follows the CSV input/output directions and checks both routing states, constants, high impedance, and configured control conditions.
+
+You can also run the standalone generator directly; this does not update the repository catalog:
+
 ```sh
 python3 -m cpld_vhdl_generator programs/my_slot/generator.toml --output programs/my_slot
 python3 -m cpld_vhdl_generator programs/my_slot/generator.toml --output programs/my_slot --check
@@ -28,7 +55,7 @@ Outputs must be unique and cannot also be used as inputs, including in `enable`.
 Multiple outputs may share an input.
 Expressions and bidirectional ports are unsupported.
 
-All 60 data pins remain in the top-level interface.
+The top-level interface includes all 60 data pins.
 Pins omitted from the output column are inputs, including unused pins; they have no HDL output driver.
 Use an explicit constant row when a pin must be driven to a defined level.
 A header-only CSV leaves all data pins as inputs.
@@ -48,6 +75,8 @@ pilot_policy = "unused"
 # s3c_library = "../../cpld_vhdl_generator/hdl"
 # Optional input levels required for normal_state:
 # enable = {fpga_26 = 0, fpga_27 = 0, fpga_28 = 1, fpga_29 = 1}
+# Optional complete D-slot project (the repository starter sets this):
+# target = "uz_dslot_xo2"
 ```
 
 `clock` selects `machxo2` for the internal nominal 2.08 MHz oscillator or `external` for `clk` and active-high `reset` ports.
@@ -57,7 +86,11 @@ Required pilot monitoring keeps the controller in `safe_state` unless synchroniz
 The controller starts in `safe_state`, synchronizes controls, and enters `normal_state` when the S3C, pilot policy, and optional enable pattern permit operation.
 It returns to `safe_state` when any condition fails and resumes `normal_state` automatically when all conditions are satisfied.
 After startup, a stable control change reaches the state on the third clock edge counting its first sampling edge.
-Data forwarding remains combinational.
+Data forwarding is combinational.
+
+`target = "uz_dslot_xo2"` also generates `<name>.toml`, `<name>_tb.py` and `<name>_constraints.lpf`.
+This project mode uses `clock = "machxo2"`, the packaged D-slot board pin map and electrical settings, and the Diamond backend.
+Without `target`, the generator emits VHDL and provenance only.
 
 ## S3C contract
 
@@ -90,6 +123,7 @@ Additional implementations must provide that architecture for the same entity in
 Only the entity declaration and selected architecture are compiled.
 
 The generator writes `<name>.vhdl` and `generator-output.json` into the program directory.
+In project mode, the manifest, testbench and constraints are also owned generated files; edit the routing/configuration and regenerate to update them together.
 The top level supplies clock/reset, routing, and generics derived from the selected contract and pilot policy.
 It explicitly instantiates `entity s3c.s3c_logic(level_signals)` for the built-in contract.
 Compile the shared entity and architecture in library `s3c`, followed by the generated top level in library `work`.
@@ -99,6 +133,7 @@ Changing shared HDL requires regenerating dependent programs to refresh their pr
 Edit the CSV or TOML, regenerate, and use `--check` to verify freshness.
 Manually edited or unowned output files are never overwritten.
 For manually maintained VHDL, stop regenerating and remove the repository manifest's optional `generator` field.
+
 ## Tests
 
 HDL tests require GHDL.

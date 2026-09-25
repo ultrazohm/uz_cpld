@@ -19,7 +19,7 @@ Firmware commands
 ``build-all`` processes the explicit ``programs/catalog.toml`` list and fails if any entry fails.
 It also writes ``toolchain/build/validation/<backend>-catalog/report.md`` and ``report.json`` after attempting every valid selected build, even if a tool fails. Invalid program manifests appear as failed report rows and do not prevent other programs from building.
 ``make report backend=diamond|foss`` refreshes the selected catalog report from existing build records without invoking firmware tools.
-Invalid manifests and stale generator outputs appear as failed rows; the remaining programs are still reported, and the command exits with a failure status after writing the report.
+Invalid manifests and stale generator outputs appear as failed rows; the report includes the other programs, and the command exits with a failure status after writing the report.
 The report checks recorded input and output hashes, lists missing or failed builds, proof and startup results, warning counts, and the recorded timing acceptance status.
 Use ``target=...`` to write a separate target-filtered report.
 Bare ``make`` shows the command overview; ``make program=tx30`` builds one program.
@@ -33,7 +33,19 @@ Firmware commands never flash a device.
 Create a program
 ----------------
 
-::
+For a project generated from CSV routing::
+
+   make new name=my_slot template=generator
+   # Edit programs/my_slot/routing.csv
+   make generate program=my_slot
+   make sim program=my_slot
+   make build program=my_slot backend=diamond
+
+The starter contains ``routing.csv``, ``generator.toml`` and ``description.rst``.
+Generation creates VHDL matching the routing, a matching cocotb testbench, D-slot board constraints, the build manifest and the generation receipt, then registers the completed program in the catalog.
+See :ref:`generator-quickstart` for the generated filenames and :doc:`vhdl-generator` for routing and configuration details.
+
+To clone a program whose logic and testbench you will maintain manually::
 
    make new name=my_adapter template=tx30
    make check program=my_adapter
@@ -70,7 +82,9 @@ With a native Diamond installation and display::
    make gui program=tx30
    make clean program=tx30
 
-Generated projects reference authored HDL and LPFs; edits to those files persist.
+Diamond projects reference the program's HDL and LPFs.
+For manually maintained programs, edit those files directly.
+For generator-managed programs, edit the CSV or generator configuration and run ``make generate program=NAME``.
 Check the destination when saving from Spreadsheet View, because an exported LPF does not replace the authored input automatically.
 Transfer useful project/strategy changes into manifests or the target strategy before regenerating.
 ``gui`` preserves an existing project, while ``project``, ``build`` and ordinary ``clean`` reject edited generated settings.

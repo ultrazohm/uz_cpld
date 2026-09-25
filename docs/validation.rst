@@ -9,16 +9,16 @@ Run the tooling tests, HDL simulations, FOSS firmware builds and documentation c
    make docs
 
 ``make test`` runs the Python tooling tests with installed dependencies.
-Catalog-wide commands now include the D-slot programs and both S3C programs;
-``target=uz_dslot_xo2`` or ``target=uz_s3c_xo2`` filters firmware builds.
-FOSS ``build-all`` includes all catalog programs, including ``tx30_stateful`` and ``s3c_power_on_debounce``.
+Catalog-wide commands select programs from ``programs/catalog.toml``.
+``target=uz_dslot_xo2`` or ``target=uz_s3c_xo2`` filters firmware builds, and backend selection respects each program's ``backends`` list.
+``make generate`` registers completed generator projects in the catalog; unfinished starters are excluded.
 ``make check program=tx30`` validates a manifest and its input files, while ``make doctor backend=foss`` checks the FOSS tool installation.
 For Diamond, run ``make doctor backend=diamond`` and ``make build-all backend=diamond`` in a licensed environment.
 Generated firmware provenance, tool identity, input hashes and output hashes are in each backend directory's ``metadata/build.json``; simulation provenance is in ``build/simulation/metadata/run.json``.
 A passing simulation checks the behavior exercised by its testbench.
 A successful firmware build verifies fresh exports and unchanged authored inputs; the FOSS build also checks synthesis equivalence and bitstream format.
 The sequential FOSS induction check alone does not prove startup alignment.
-The additional initialized-state miter passes for ``tx30_stateful`` and records a counterexample for the unchanged ``s3c_power_on_debounce``; its build remains an export, not an initial-state equivalence claim.
+The initialized-state miter passes for ``tx30_stateful`` and records a counterexample for ``s3c_power_on_debounce``; a successful export does not establish initial-state equivalence for that program.
 ``make report backend=foss`` or ``make report backend=diamond`` checks existing build evidence for stale inputs and outputs without rebuilding.
 Neither command establishes hardware behavior or a timing acceptance limit.
 The authored LPFs contain no timing budget, so inspect the reports and board-specific electrical settings before using firmware on hardware.

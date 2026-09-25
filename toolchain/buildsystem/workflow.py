@@ -65,7 +65,7 @@ def workspace_lock(root: Path, *, exclusive: bool = False):
             mode = fcntl.LOCK_EX if exclusive else fcntl.LOCK_SH
             fcntl.flock(fd, mode | fcntl.LOCK_NB)
         except BlockingIOError as exc:
-            raise BuildError(f'Workspace operation already active; cannot overlap clean-all: {root}') from exc
+            raise BuildError(f'Workspace operation already active: {root}') from exc
         yield
     finally:
         os.close(fd)
@@ -307,6 +307,87 @@ def gui(build: Build):
             raise BuildError(f'Diamond GUI exited {result.returncode}')
 
 
+def generator_template(root: Path, name: str, target: str | None = None,
+                       backend: str | None = None) -> Path:
+    """Create editable generator inputs; catalog registration follows generation."""
+    from cpld_vhdl_generator import load_config
+    from cpld_vhdl_generator.generator import identifier as vhdl_identifier, RESERVED_PROGRAM_NAMES
+    root = root.resolve()
+    name = vhdl_identifier(name)
+    if name in RESERVED_PROGRAM_NAMES or name == 'generator':
+        raise BuildError(f'Reserved generated program name: {name}')
+    if target not in (None, 'uz_dslot_xo2') or backend not in (None, 'diamond'):
+        raise BuildError('The generator template supports target=uz_dslot_xo2 backend=diamond')
+    with workspace_lock(root, exclusive=True):
+        if (root / 'programs').is_symlink():
+            raise BuildError('Programs directory must not be a symlink')
+        destination = root / 'programs' / name
+        if destination.exists() or destination.is_symlink() or name in catalog(root):
+            raise BuildError(f'Program already exists: {destination}')
+        destination.mkdir()
+        try:
+            (destination / 'generator.toml').write_text(f'''schema_version = 3
+name = "{name}"
+routing = "routing.csv"
+contract = "s3c_power_on_debounce_v1"
+clock = "machxo2"
+pilot_policy = "unused"
+s3c_library = "../../cpld_vhdl_generator/hdl"
+target = "uz_dslot_xo2"
+''')
+            (destination / 'routing.csv').write_text('output,normal_state,safe_state\n' +
+                ''.join(f'd_{i:02d},fpga_{i:02d},0\n' for i in range(30)))
+            (destination / 'description.rst').write_text(
+                'Purpose\n-------\n\nDescribe the adapter and its routing here.\n')
+            load_config(destination / 'generator.toml')
+        except Exception:
+            shutil.rmtree(destination)
+            raise
+        return destination
+
+
+def register_program(root: Path, name: str):
+    """Atomically add a validated program to the catalog without duplicates."""
+    path = root / 'programs/catalog.toml'
+    if path.is_symlink():
+        raise BuildError('Program catalog must not be a symlink')
+    programs = catalog(root)
+    if name in programs:
+        return
+    fd, temporary = tempfile.mkstemp(prefix='.catalog-', suffix='.tmp', dir=path.parent)
+    try:
+        with os.fdopen(fd, 'w') as stream:
+            stream.write('programs = ' + json.dumps([*programs, name]) + '\n')
+        os.chmod(temporary, path.stat().st_mode & 0o777)
+        os.replace(temporary, path)
+    finally:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
+
+
+def generate_program(root: Path, name: str, target: str | None = None,
+                     backend: str | None = None) -> Path:
+    """Generate project artifacts, validate them, and register the finished program."""
+    from cpld_vhdl_generator import generate, load_config
+    root = root.resolve()
+    name = identifier(name)
+    with workspace_lock(root, exclusive=True):
+        config_path = input_path(root, root, f'programs/{name}/generator.toml')
+        if config_path != root / 'programs' / name / 'generator.toml':
+            raise BuildError('Generation requires a regular program-local generator.toml')
+        config = load_config(config_path)
+        if config.name != name:
+            raise BuildError('Generator name must match the program directory')
+        if target is not None and config.target is not None and target != config.target:
+            raise BuildError(f'{name} does not support target {target}')
+        if config.target and backend not in (None, 'diamond'):
+            raise BuildError('Generated projects support backend=diamond')
+        generate(config_path, config_path.parent)
+        load_build(root, name, target, backend)
+        register_program(root, name)
+        return config_path.parent
+
+
 def scaffold(root: Path, name: str, template: str, target: str | None = None, backend: str | None = None) -> Path:
     """Clone an existing program and register it in the catalog.
 
@@ -315,6 +396,8 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
     files are copied, excluding Python caches. External inputs must be localized
     before cloning so the new program is independently editable.
     """
+    if template == 'generator':
+        return generator_template(root, name, target, backend)
     root = root.resolve()
     name, template = map(identifier, (name, template))
     if target is not None:
@@ -335,8 +418,12 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
     meta = read_toml(original.manifests[0])
     primary_constraint = input_path(root, source, meta['constraints'][0])
     local_inputs = [s.path for s in original.sources if 'generator' not in meta or s.path.is_relative_to(source)] + [primary_constraint, original.testbench]
+    generated_project = False
     if 'generator' in meta:
-        local_inputs.append(input_path(root, source, meta['generator']))
+        from cpld_vhdl_generator import load_config
+        config_path = input_path(root, source, meta['generator'])
+        local_inputs.append(config_path)
+        generated_project = load_config(config_path).target is not None
     if 'foss_constraints' in meta:
         local_inputs.append(input_path(root, source, meta['foss_constraints'][0]))
     if 'foss_equivalence_blacklist' in meta:
@@ -365,6 +452,10 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
         renames[Path(meta['foss_constraints'][0])] = Path(f'{name}_foss_constraints.lpf')
     if 'foss_equivalence_blacklist' in meta:
         renames[Path(meta['foss_equivalence_blacklist'])] = Path(f'{name}_foss_equivalence_blacklist.txt')
+    if generated_project:
+        # All four project files belong to the generator receipt. Let generation
+        # rename them together, preserving ownership and protection of edits.
+        renames = {}
     for old, new in renames.items():
         if (source / new).exists() and new != old:
             raise BuildError(f'Clone filename conflicts with an existing file: {new}')
@@ -405,18 +496,11 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
             meta['top'] = name
             meta['sources'] = [{'path': os.path.relpath(s.path, destination), 'library': s.library}
                                for s in generated_sources]
-        (destination / f'{name}.toml').write_text(
-            ''.join(f'{key} = {toml_value(value)}\n' for key, value in meta.items()))
+        if not generated_project:
+            (destination / f'{name}.toml').write_text(
+                ''.join(f'{key} = {toml_value(value)}\n' for key, value in meta.items()))
         load_build(root, name, target, backend)
-        fd, temporary = tempfile.mkstemp(prefix='.catalog-', suffix='.tmp', dir=catalog_path.parent)
-        try:
-            with os.fdopen(fd, 'w') as stream:
-                stream.write('programs = ' + json.dumps([*programs, name]) + '\n')
-            os.chmod(temporary, catalog_path.stat().st_mode & 0o777)
-            os.replace(temporary, catalog_path)
-        finally:
-            if os.path.exists(temporary):
-                os.unlink(temporary)
+        register_program(root, name)
     except Exception:
         shutil.rmtree(destination)
         raise

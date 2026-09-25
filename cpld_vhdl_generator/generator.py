@@ -4,6 +4,7 @@ import csv
 import hashlib
 import io
 import json
+import os
 from pathlib import Path
 import re
 import tempfile
@@ -72,6 +73,7 @@ class Config:
     pilot_policy: str
     enable: dict
     s3c_library: Path
+    target: str | None = None
 
     @property
     def inputs(self):
@@ -82,7 +84,7 @@ def load_config(path):
     path = Path(path).resolve()
     data = read_toml(path)
     required = {'schema_version', 'name', 'routing', 'contract', 'clock', 'pilot_policy'}
-    keys(data, required | {'enable', 's3c_library'}, required, 'configuration')
+    keys(data, required | {'enable', 's3c_library', 'target'}, required, 'configuration')
     if type(data['schema_version']) is not int or data['schema_version'] != 3:
         raise GeneratorError('Only schema_version = 3 is supported')
     name = identifier(data['name'])
@@ -91,6 +93,12 @@ def load_config(path):
     for field, choices in [('clock', ('external', 'machxo2')), ('pilot_policy', ('unused', 'required'))]:
         if data[field] not in choices:
             raise GeneratorError(f'{field} must be one of {choices}')
+    target = data.get('target')
+    if 'target' in data:
+        if target != 'uz_dslot_xo2':
+            raise GeneratorError('Project generation supports target = "uz_dslot_xo2"')
+        if data['clock'] != 'machxo2':
+            raise GeneratorError('The uz_dslot_xo2 pin map requires clock = "machxo2"')
     contract_ref = data['contract']
     if not isinstance(contract_ref, str):
         raise GeneratorError('contract must be a built-in ID or relative TOML path')
@@ -152,7 +160,7 @@ def load_config(path):
     pins = tuple(Pin(pin, 'out', outputs[pin]) if pin in outputs else Pin(pin, 'in', ('', ''))
                  for pin in DATA_PINS)
     return Config(path, name, routing, tuple(pins), contract_path, contract, data['clock'],
-                  data['pilot_policy'], enable, s3c_library)
+                  data['pilot_policy'], enable, s3c_library, target)
 
 
 def ports(config, clock=False):
@@ -181,7 +189,7 @@ def mapping(pairs):
     return ',\n'.join(f'            {a} => {b}' for a, b in pairs)
 
 
-def render(config):
+def render(config, output=None):
     """Emit routing that instantiates the selected shared S3C architecture."""
     c = config.contract
     external = config.clock == 'external'
@@ -234,12 +242,17 @@ def render(config):
             normal, safe = map(action, p.actions)
             text += f"    {p.name} <= {normal} when cvg_normal_state = '1' else {safe};\n"
     text += 'end architecture;\n'
-    return {config.name + '.vhdl': text}
+    files = {config.name + '.vhdl': text}
+    if config.target:
+        from .project import render_project
+        files.update(render_project(config, Path(output or config.path.parent).resolve()))
+    return files
 
 
 def dependencies(config):
     """Authored and generator inputs required to reproduce the emitted files."""
-    return config.inputs + sorted(PACKAGE.glob('*.py')) + shared_sources(config)
+    return (config.inputs + sorted(PACKAGE.glob('*.py')) + shared_sources(config) +
+            ([PACKAGE / 'targets' / (config.target + '.lpf')] if config.target else []))
 
 
 def digest(path):
@@ -268,7 +281,6 @@ def source_paths(config, output):
 
 def receipt(config, output, files):
     # Relative names keep specifications relocatable; hashes identify the contents.
-    import os
     return {
         'generator_version': __version__, 'schema_version': 1, 'name': config.name,
         'contract': config.contract,
@@ -285,7 +297,7 @@ def check(config_path, output):
     """Fail if generated files or provenance differ from the current specification."""
     config = load_config(config_path)
     output = Path(output).resolve()
-    files = render(config)
+    files = render(config, output)
     for name, value in files.items():
         p = output / name
         if not p.is_file() or p.read_bytes() != value.encode():
@@ -314,7 +326,7 @@ def generate(config_path, output):
     """Emit owned VHDL files; never overwrite manually edited or unowned files."""
     config = load_config(config_path)
     output = Path(output).resolve()
-    files = render(config)
+    files = render(config, output)
     protected = set(config.inputs + shared_sources(config))
     if set(output / n for n in (*files, RECEIPT)) & protected:
         raise GeneratorError('Generated output would overwrite a specification or shared source')

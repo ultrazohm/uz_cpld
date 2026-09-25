@@ -40,6 +40,8 @@ A configured workflow is not evidence of a successful hosted deployment; verify 
 Maintenance
 -----------
 
+Document the tool's current commands, behavior, inputs, outputs and limits.
+Keep change history, migration notes and development progress out of user guides.
 Keep prose concise and factual; :doc:`architecture` describes the implementation.
 Use one sentence per RST source line with no manual wrapping; code blocks and directive/table syntax retain their required structure.
 README files point to this Sphinx project rather than duplicating instructions.

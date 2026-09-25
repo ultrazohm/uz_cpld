@@ -8,7 +8,7 @@ Source layout
 
    repository root/
    ├── Makefile
-   ├── cpld_vhdl_generator/   standalone CSV/TOML generator, contracts and shared HDL
+   ├── cpld_vhdl_generator/    standalone generator, contracts, shared HDL and board profiles
    ├── .devcontainer/          image stages and optional Diamond configuration
    ├── toolchain/
    │   ├── buildsystem/        validated model, CLI, lifecycle and firmware backends
@@ -19,11 +19,12 @@ Source layout
    │   └── tests/              tooling regressions and licensed integration check
    ├── programs/<name>/        TOML, VHDL, LPF, testbench and description.rst
    ├── docs/                  shared Sphinx source
-   └── archive/               earlier vendor projects and reference material
+   └── archive/               vendor reference projects and material
 
 The workspace can be copied or renamed.
-Program inputs are independently editable copies.
-Generated programs regenerate their routing top level and reference the shared S3C entity and selected architecture in ``cpld_vhdl_generator/hdl``.
+Manually maintained programs contain editable HDL, constraints, manifests and testbenches.
+Generator-managed projects use editable CSV/TOML inputs to produce the VHDL, testbench, board constraints, manifest and generation receipt.
+Generated VHDL references the shared S3C entity and selected architecture in ``cpld_vhdl_generator/hdl``.
 The build system validates generated files through the standalone package, while the generator itself has no build-system dependency.
 Firmware build artifacts live under each program's ignored ``build/`` directory, while aggregate reports use ``toolchain/build/`` and documentation uses ``docs/_generated/`` and ``docs/_build/``.
 The repository root has one Makefile and one pair of Dev Container configurations.
@@ -35,7 +36,7 @@ Explicit manifests avoid accidentally combining programs that share the same top
 Per-program LPFs preserve adapter electrical settings; sharing constraints requires reviewed conflict handling.
 Cloning editable files keeps authoring simple but deliberately duplicates code and requires independent maintenance.
 Generated Diamond metadata keeps builds scriptable while retaining GUI access; useful GUI settings require manual transfer to authored configuration.
-Board and backend settings remain separate; device-specific HDL still requires matching program inputs.
+Board and backend settings are separate; device-specific HDL requires matching program inputs.
 
 The workflow validates inputs, acquires a lock, protects edited generated settings and creates a fresh project.
 The Diamond backend runs synthesis, translation, mapping, place-and-route, timing reporting and both firmware exports without a display or interactive stdin.
@@ -44,7 +45,7 @@ Because Diamond's Tcl interface treats ``def_top`` as internal, preparation sets
 Publication requires nonempty exports, the configured tool version and unchanged input hashes.
 ``metadata/build.json`` records inputs, options, tool/launcher identity, Git state, reports and output hashes; it is an audit record rather than proof of reproducibility.
 The build hash covers common workflow code and the selected backend, so a FOSS-only implementation edit does not invalidate Diamond evidence.
-The external Diamond installation, mutable base image and OS packages remain environmental inputs.
+The external Diamond installation, mutable base image and OS packages are environmental inputs.
 
 Python integration
 ------------------

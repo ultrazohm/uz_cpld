@@ -12,12 +12,14 @@ All shown fields are required.
 ``top`` and source libraries are VHDL basic identifiers; ``standard`` is ``1993`` or ``2008``.
 ``sources`` is a nonempty ordered list with no duplicate paths, and ``targets`` explicitly lists compatible board targets.
 Input paths are relative to the manifest, must exist and must stay within the workspace.
-``constraints`` names the authored Diamond LPF. An optional ``foss_constraints`` names a separate FOSS LPF when vendor settings cannot be reproduced by Trellis; each backend reads exactly one LPF.
+``constraints`` names the program's Diamond LPF.
+An optional ``foss_constraints`` names a separate FOSS LPF when vendor settings cannot be reproduced by Trellis; each backend reads exactly one LPF.
 An optional ``foss_equivalence_blacklist`` names a program-local file of distinct mapped internal signals that should not be matched as proof cutpoints.
 Top-level ports cannot be blacklisted, and the file is included in firmware provenance.
 An optional ``backends`` list limits firmware exports to ``diamond`` and/or ``foss``. Omitted lists permit both.
 ``testbench`` must name the program-local ``<name>_tb.py`` file; manifest validation checks its existence but does not run it.
 An optional ``generator`` path selects a standalone generator configuration and requires fresh emitted VHDL and provenance before builds, simulation, or documentation.
+Configurations with ``target = "uz_dslot_xo2"`` also generate the program manifest, testbench and constraints, and freshness checks cover all these files.
 Generated programs use VHDL-1993 and list sources in the order and libraries recorded by ``generator-output.json``.
 The shared S3C entity and selected architecture use library ``s3c``; the generated top level uses library ``work``.
 The provenance record stays in the program directory and includes the shared source hashes.

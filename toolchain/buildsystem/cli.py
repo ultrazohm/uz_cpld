@@ -12,13 +12,13 @@ from .backends.diamond import launcher, run, wrap
 def main(argv: list[str] | None = None) -> int:
     """Execute a command and return a shell-compatible status code."""
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command', choices=['list', 'doctor', 'new', 'check', 'project', 'build', 'gui', 'build-all', 'report', 'clean', 'clean-all'])
+    parser.add_argument('command', choices=['list', 'doctor', 'new', 'generate', 'check', 'project', 'build', 'gui', 'build-all', 'report', 'clean', 'clean-all'])
     parser.add_argument('--root', type=Path, default=Path(__file__).resolve().parents[2])
     parser.add_argument('--program')
     parser.add_argument('--target', help='Filter catalog commands or select a program target')
     parser.add_argument('--backend', choices=['diamond', 'foss'])
     parser.add_argument('--name')
-    parser.add_argument('--template', default='tx30', help='Existing program to clone (default: tx30)')
+    parser.add_argument('--template', default='tx30', help='Existing program to clone, or generator for editable CSV/TOML inputs (default: tx30)')
     parser.add_argument('--discard-project-changes', action='store_true')
     args = parser.parse_args(argv)
     root = args.root.resolve()
@@ -73,8 +73,13 @@ def main(argv: list[str] | None = None) -> int:
         elif args.command == 'new':
             if not args.name:
                 raise BuildError('new requires --name (Make: name=...)')
-            load_build(root, args.template, args.target, args.backend)
             print(workflow.scaffold(root, args.name, args.template, args.target, args.backend))
+            if args.template == 'generator':
+                print(f'Edit programs/{args.name}/routing.csv, then run make generate program={args.name}')
+        elif args.command == 'generate':
+            if not args.program:
+                raise BuildError('generate requires --program (Make: program=...)')
+            print(workflow.generate_program(root, args.program, args.target, args.backend))
         elif args.command == 'build-all':
             failed = []
             build_errors = []

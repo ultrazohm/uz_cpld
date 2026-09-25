@@ -44,6 +44,8 @@ routing = "routing.csv"
 contract = "s3c_power_on_debounce_v1"
 clock = "machxo2"
 pilot_policy = "unused"
+# Optional shared HDL directory; defaults to this package's hdl directory:
+# s3c_library = "../../cpld_vhdl_generator/hdl"
 # Optional input levels required for normal_state:
 # enable = {fpga_26 = 0, fpga_27 = 0, fpga_28 = 1, fpga_29 = 1}
 ```
@@ -64,6 +66,7 @@ To describe another level-based contract, select a relative TOML path with these
 ```toml
 id = "my_s3c_v1"
 compatible_s3c = ["my_s3c"]
+implementation = "level_signals"
 request_mode = "active_low"
 carrier_ready = "active_high"
 slotok = [1, 0]
@@ -76,14 +79,31 @@ Status levels are listed in `normal_state`, `safe_state` order.
 Unknown request levels or inactive/unknown readiness request safe_state.
 Compatibility names declare the intended firmware pairing; they do not detect installed firmware.
 
-## Output and checks
+## Shared library and output
 
-The program directory receives `s3c_logic.vhdl`, `<name>.vhdl`, and `generator-output.json`.
-Compile `s3c_logic.vhdl` first, then the top level, in library `work`.
-The controller contains only the selected contract; the top level contains clock setup and routing.
-The JSON record tracks source order and input hashes.
+The shared VHDL lives in `cpld_vhdl_generator/hdl` and is compiled independently for each program into library `s3c`.
+`s3c_logic.vhdl` declares the common entity interface and generics.
+`level_signals.vhdl` implements the two-state controller for level-based S3C contracts.
+The contract's `implementation` selects an architecture and its same-named VHDL file from the shared directory.
+Additional implementations must provide that architecture for the same entity interface.
+Only the entity declaration and selected architecture are compiled.
+
+The generator writes `<name>.vhdl` and `generator-output.json` into the program directory.
+The top level supplies clock/reset, routing, and generics derived from the selected contract and pilot policy.
+It explicitly instantiates `entity s3c.s3c_logic(level_signals)` for the built-in contract.
+Compile the shared entity and architecture in library `s3c`, followed by the generated top level in library `work`.
+`source_entries(load_config(config_path), output_directory)` returns the ordered paths and libraries for standalone build tools.
+The JSON record uses `s3c_library` and `output` as path bases and hashes all shared dependencies.
+Changing shared HDL requires regenerating dependent programs to refresh their provenance.
 Edit the CSV or TOML, regenerate, and use `--check` to verify freshness.
 Manually edited or unowned output files are never overwritten.
 For manually maintained VHDL, stop regenerating and remove the repository manifest's optional `generator` field.
-Run tests with `python3 -m unittest discover -s cpld_vhdl_generator/tests -v`.
+## Tests
+
 HDL tests require GHDL.
+Run the direct controller testbench with `python3 -m unittest cpld_vhdl_generator.tests.test_s3c_logic -v`.
+It checks state and status outputs, startup/reset, synchronization latency, both polarities, pilot, readiness, and enable conditions.
+Run the actual S3C interaction testbench with `python3 -m unittest toolchain.tests.test_s3c_interaction -v` from the repository.
+It connects the generated slot and shared controller to the real `s3c_power_on_debounce` sources through startup, soft stop, and re-enable.
+Its simulation oscillator runs faster to exercise the original debounce and startup counters quickly.
+`make test` runs both testbenches and generator/build regressions.

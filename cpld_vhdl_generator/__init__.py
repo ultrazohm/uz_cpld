@@ -1,7 +1,7 @@
 """Standalone, deterministic VHDL generation with no build-tool dependencies."""
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
-from .generator import GeneratorError, check, generate, load_config, render
+from .generator import GeneratorError, check, generate, load_config, render, source_entries
 
-__all__ = ['GeneratorError', 'check', 'generate', 'load_config', 'render']
+__all__ = ['GeneratorError', 'check', 'generate', 'load_config', 'render', 'source_entries']

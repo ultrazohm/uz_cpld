@@ -10,7 +10,7 @@ import xml.etree.ElementTree as ET
 from cocotb_tools.runner import get_runner
 
 from toolchain.buildsystem.model import load_build
-from toolchain.buildsystem.ghdl import machxo2_library
+from toolchain.buildsystem.ghdl import analyze_sources
 from toolchain.buildsystem.workflow import locked, safe_directory
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -45,9 +45,6 @@ def run_simulation(build, request):
     seed = request.config.getoption("--seed")
     wave_format = request.config.getoption("--wave-format")
     standard = {"1993": "93", "2008": "08"}[build.standard]
-    # Catalog programs currently have only work-library sources. Fail explicitly if
-    # their manifests grow dependencies that need a separate compilation step.
-    assert all(s.library.lower() == "work" for s in build.sources)
     provenance = {
         "program": program, "seed": seed, "standard": build.standard,
         "python": sys.version,
@@ -62,9 +59,9 @@ def run_simulation(build, request):
     }
     (metadata / "run.json").write_text(json.dumps(provenance, indent=2) + "\n")
     runner = get_runner("ghdl")
-    library_args = machxo2_library(ROOT, build.sources, output, standard)
+    library_args = analyze_sources(ROOT, build.sources, output, standard)
     runner.build(
-        sources=[s.path for s in build.sources], hdl_library="work",
+        sources=[s.path for s in build.sources if s.library.lower() == "work"], hdl_library="work",
         hdl_toplevel=build.top.lower(), build_args=[f"--std={standard}", *library_args],
         build_dir=output, always=True, log_file=output / "compile.log",
     )
@@ -75,7 +72,7 @@ def run_simulation(build, request):
     runner.test(
         hdl_toplevel=build.top.lower(), hdl_toplevel_library="work",
         hdl_toplevel_lang="vhdl", test_module=f"programs.{program}.{build.testbench.stem}",
-        test_args=[f"--std={standard}"],
+        test_args=[f"--std={standard}", *library_args],
         plusargs=trace_args + ["--assert-level=error"],
         seed=seed,
         log_file=output / "simulation.log",

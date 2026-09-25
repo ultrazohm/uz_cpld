@@ -23,7 +23,7 @@ Source layout
 
 The workspace can be copied or renamed.
 Program inputs are independently editable copies.
-Generated programs regenerate ``s3c_logic.vhdl`` and their top-level VHDL directly in the program directory from their CSV and selected contract.
+Generated programs regenerate their routing top level and reference the shared S3C entity and selected architecture in ``cpld_vhdl_generator/hdl``.
 The build system validates generated files through the standalone package, while the generator itself has no build-system dependency.
 Firmware build artifacts live under each program's ignored ``build/`` directory, while aggregate reports use ``toolchain/build/`` and documentation uses ``docs/_generated/`` and ``docs/_build/``.
 The repository root has one Makefile and one pair of Dev Container configurations.

@@ -5,5 +5,5 @@ targets = ["uz_dslot_xo2"]
 backends = ["diamond"]
 constraints = ["tx30_stateful_constraints.lpf"]
 generator = "generator.toml"
-sources = [{path = "s3c_logic.vhdl", library = "work"}, {path = "tx30_stateful.vhdl", library = "work"}]
+sources = [{path = "../../cpld_vhdl_generator/hdl/s3c_logic.vhdl", library = "s3c"}, {path = "../../cpld_vhdl_generator/hdl/level_signals.vhdl", library = "s3c"}, {path = "tx30_stateful.vhdl", library = "work"}]
 testbench = "tx30_stateful_tb.py"

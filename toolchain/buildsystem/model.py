@@ -173,7 +173,7 @@ def load_build(root: Path, name: str, target: str | None = None, backend: str | 
         raise BuildError('Duplicate source path')
     generator_inputs = ()
     if 'generator' in p:
-        from cpld_vhdl_generator.generator import check, dependencies, source_paths, GeneratorError, RECEIPT, PACKAGE
+        from cpld_vhdl_generator.generator import check, dependencies, source_entries, GeneratorError, RECEIPT, PACKAGE
         config_path = input_path(root, pm.parent, p['generator'])
         generation_output = sources[-1].path.parent
         try:
@@ -182,8 +182,8 @@ def load_build(root: Path, name: str, target: str | None = None, backend: str | 
             raise BuildError(f'{name}: {exc}') from exc
         if generated.name != p['top'] or p['standard'] != '1993':
             raise BuildError('Generated top and VHDL standard must match the generator')
-        if [s.path for s in sources] != source_paths(generated, generation_output) or any(s.library != 'work' for s in sources):
-            raise BuildError('Manifest sources must match generator-output.json in order, in library work')
+        if [(s.path, s.library) for s in sources] != [(s.path, s.library) for s in source_entries(generated, generation_output)]:
+            raise BuildError('Manifest sources must match generator-output.json paths, order, and libraries')
         generator_inputs = tuple(input_path(root, root, str(path.relative_to(root)))
                                  for path in dependencies(generated) + [generation_output / RECEIPT]
                                  if path.is_relative_to(root) or not path.is_relative_to(PACKAGE))

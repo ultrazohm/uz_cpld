@@ -2,6 +2,8 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
+library s3c;
+
 entity tx30_stateful is
     port (
         pilot_in : in std_logic;
@@ -98,7 +100,17 @@ begin
         end if;
     end process;
     cvg_card_enable <= '1';
-    controller: entity work.s3c_logic
+    controller: entity s3c.s3c_logic(level_signals)
+        generic map (
+            REQUIRE_PILOT => false,
+            REQUEST_SAFE_LEVEL => '1',
+            USE_CARRIER_READY => false,
+            CARRIER_READY_LEVEL => '1',
+            SLOTOK_NORMAL => '1',
+            SLOTOK_SAFE => '0',
+            REQOE_NORMAL => '1',
+            REQOE_SAFE => '1'
+        )
         port map (
             clk => cvg_clk,
             reset => cvg_reset,

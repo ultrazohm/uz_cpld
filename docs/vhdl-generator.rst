@@ -15,10 +15,13 @@ Clone the example, edit its CSV or TOML, and regenerate::
    make build program=my_slot backend=diamond
 
 Add ``--check`` to the generator command to verify freshness without writing files.
-The program directory contains ``s3c_logic.vhdl``, ``my_slot.vhdl``, and ``generator-output.json``.
-The S3C file contains the selected contract and state controller; the top level contains the clock and routing.
-The manifest lists the S3C file before the top level, in library ``work``.
-The JSON record tracks source order and input hashes.
+The program directory receives ``my_slot.vhdl`` and ``generator-output.json``.
+Shared sources live in ``cpld_vhdl_generator/hdl`` and are referenced by each program's manifest.
+The shared entity ``s3c_logic.vhdl`` and selected architecture ``level_signals.vhdl`` compile into library ``s3c`` before the top level in library ``work``.
+The top level contains clock setup and routing and instantiates ``s3c.s3c_logic(level_signals)``.
+The contract selects the architecture; its levels and the program's pilot policy are passed as generics.
+The JSON record tracks paths, libraries, and hashes, including shared sources.
+Changing shared HDL requires regenerating and validating dependent programs.
 Diamond builds require a valid license.
 
 Routing
@@ -61,9 +64,22 @@ Data forwarding remains combinational.
 
 The built-in contract uses active-high ReqSafeState, ignores CarrierReady, asserts SlotOK only in normal_state, and keeps ReqOE high.
 Additional contract files support active-high or active-low requests and unused, active-high, or active-low readiness.
+``s3c_library`` selects the shared HDL directory and defaults to the standalone package's ``hdl`` directory.
 The complete contract schema and standalone commands are documented in ``cpld_vhdl_generator/README.md``.
 
 Generated programs use the supported routing and controller functions.
 For manual VHDL, stop regenerating and remove the program manifest's optional ``generator`` field.
 The generator refuses to overwrite manually edited output files.
-``make test`` checks the generator and its integration with the actual S3C program.
+Testbenches
+-----------
+
+The direct shared-controller testbench checks startup/reset, state/status outputs, control latency, polarity, readiness, pilot, and enable behavior::
+
+   python3 -m unittest cpld_vhdl_generator.tests.test_s3c_logic -v
+
+The interaction testbench connects the generated slot to the actual S3C sources and checks startup, soft stop, and re-enable::
+
+   python3 -m unittest toolchain.tests.test_s3c_interaction -v
+
+It uses an accelerated simulation oscillator while retaining the S3C's original counters.
+Both testbenches require GHDL and run under ``make test``.

@@ -1,4 +1,5 @@
 id = "s3c_power_on_debounce_v1"
+implementation = "level_signals"
 compatible_s3c = ["s3c_power_on_debounce"]
 request_mode = "active_high"
 carrier_ready = "unused"

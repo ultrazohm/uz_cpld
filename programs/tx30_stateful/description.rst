@@ -21,11 +21,13 @@ Edit ``routing.csv`` and ``generator.toml``, then regenerate.
 The CSV header is ``output,normal_state,safe_state``.
 Only ``d_00``–``d_29`` and ``fpga_00``–``fpga_29`` are accepted as pin names.
 All 60 data pins remain in the interface; pins not declared as outputs remain inputs without HDL drivers.
-``s3c_logic.vhdl`` contains the controller, and ``tx30_stateful.vhdl`` contains clock setup and routing.
+The shared ``s3c.s3c_logic(level_signals)`` controller is compiled from ``cpld_vhdl_generator/hdl``.
+``tx30_stateful.vhdl`` contains clock setup and routing; the program has no local controller copy.
 
 Verification
 ------------
 
 The testbench checks startup, every route, safe-state gating, and re-enable behavior.
-The integration test connects the program to the actual S3C controller through startup, soft stop, and enable.
+The direct controller testbench checks states, status levels, synchronization, and enable policies.
+The interaction testbench connects the program to the actual S3C controller through startup, soft stop, and enable.
 The firmware backend is Diamond and requires a valid license.

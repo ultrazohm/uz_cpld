@@ -5,6 +5,7 @@
       "s3c_power_on_debounce"
     ],
     "id": "s3c_power_on_debounce_v1",
+    "implementation": "level_signals",
     "reqoe": [
       1,
       1
@@ -16,23 +17,36 @@
     ]
   },
   "files": {
-    "s3c_logic.vhdl": "d89e317eef76c46b99f0922db933d19ab76cbc48425b751d2691eca05a269127",
-    "tx30_stateful.vhdl": "c0eab5b2a6db94a12bdb3c86356e569dbd8214db6727edbdf1a0f91c9f0a388d"
+    "tx30_stateful.vhdl": "752d8339a70fbe08638d44e2ba3d10cb558d845c984ef95fb7578cc4e6e20d13"
   },
-  "generator_version": "0.3.0",
+  "generator_version": "0.4.0",
   "inputs": {
-    "generator/__init__.py": "e9ac34016b5571da098b0a28807512c3b0a2e3dffb5526ff83cab630f7dfe801",
+    "generator/__init__.py": "9aa6665b32248e8d5f86bf6bd92da4fcdef7ee8fa5e2bef2f0eae9e8c51882d4",
     "generator/__main__.py": "47d0a830e20065dbcbd55789103a034578b993010c1daf5e2a2d0d25d2f15bbe",
-    "generator/contracts/s3c_power_on_debounce_v1.toml": "a4ce427e439926166fad28c438d9380793e83e8214b3735226ed0e281b0a95dc",
-    "generator/generator.py": "97e92f4d4071db055f70e7b3fd5f4622abb3d01d98c29089e1507f07afc07227",
-    "generator/hdl/s3c_logic.vhdl": "5d58b9a4d805966e48c8153df69e1d9500d76ddfa138fd9192204cb294ffe0c7",
-    "spec/generator.toml": "96f95336e6a43b9544b75110785a6bcc2c307d8c5ba967904dbfa57ccbcef39e",
+    "generator/contracts/s3c_power_on_debounce_v1.toml": "7e1a07f4a126de45196943eb92a6511d6ce6daba1bc37fe2446b2bf8c1541046",
+    "generator/generator.py": "aa44d8784f606c5e870e0ac42af8d487e7abbd5ab2b4f06a08c8dd83457e060e",
+    "s3c_library/level_signals.vhdl": "c3fbe92cf94f38cb498a5123027dfe5794edd02c6106dc4de4d6b675bc3b1969",
+    "s3c_library/s3c_logic.vhdl": "65bd059babdc1668fc7c8e3e47d561dc6eb455c5e3c67840635025f41fa91b0f",
+    "spec/generator.toml": "ebb55100d06ae18d8467a8eae21366c180d700ef2824b98da875bb651d4773ac",
     "spec/routing.csv": "856f95037eb9b7538fd37aec42c8752a5589a2fda1f71eeaa36a25129b089021"
   },
   "name": "tx30_stateful",
   "schema_version": 1,
   "sources": [
-    "s3c_logic.vhdl",
-    "tx30_stateful.vhdl"
+    {
+      "base": "s3c_library",
+      "library": "s3c",
+      "path": "s3c_logic.vhdl"
+    },
+    {
+      "base": "s3c_library",
+      "library": "s3c",
+      "path": "level_signals.vhdl"
+    },
+    {
+      "base": "output",
+      "library": "work",
+      "path": "tx30_stateful.vhdl"
+    }
   ]
 }

@@ -4,7 +4,7 @@ import subprocess
 import tempfile
 import unittest
 
-from cpld_vhdl_generator import GeneratorError, check, generate, load_config
+from cpld_vhdl_generator import GeneratorError, check, generate, load_config, source_entries
 
 
 class GeneratorTests(unittest.TestCase):
@@ -29,6 +29,7 @@ fpga_01,d_01,d_01
     def profile(self, mode, ready='unused'):
         (self.root / 'profile.toml').write_text(f'''id = "test_contract"
 compatible_s3c = ["test_s3c"]
+implementation = "level_signals"
 request_mode = "{mode}"
 carrier_ready = "{ready}"
 slotok = [1, 0]
@@ -36,26 +37,42 @@ reqoe = [1, 1]
 ''')
         self.config.write_text(self.config.read_text().replace('"s3c_power_on_debounce_v1"', '"profile.toml"'))
 
-    def test_two_sources_and_only_selected_contract(self):
+    def test_shared_sources_and_selected_contract(self):
         sources = generate(self.config, self.output)
-        self.assertEqual(sources, [self.output / 's3c_logic.vhdl', self.output / 'example.vhdl'])
-        logic = sources[0].read_text()
-        self.assertIn("request_sync = '0'", logic)
-        self.assertNotIn('ready_meta', logic)
-        self.assertNotIn('generic', logic)
-        self.assertNotIn('heartbeat', logic.lower())
-        self.assertNotIn('custom', logic.lower())
-        self.assertIn('type state_type is (safe_state, normal_state);', logic)
-        self.assertNotIn('state_error', logic)
-        self.assertNotIn('safe_seen', logic)
-        self.assertIn('controller: entity work.s3c_logic', sources[1].read_text())
+        entries = source_entries(load_config(self.config), self.output)
+        self.assertEqual([s.library for s in entries], ['s3c', 's3c', 'work'])
+        self.assertEqual([s.path for s in entries], sources)
+        self.assertFalse((self.output / 's3c_logic.vhdl').exists())
+        top = sources[-1].read_text()
+        self.assertIn('controller: entity s3c.s3c_logic(level_signals)', top)
+        self.assertIn("REQUEST_SAFE_LEVEL => '1'", top)
         check(self.config, self.output)
         self.profile('active_low', 'active_high')
         generate(self.config, self.output)
-        logic = sources[0].read_text()
-        self.assertIn("request_sync = '1'", logic)
-        self.assertIn("ready_sync = '1'", logic)
-        self.assertNotIn("request_sync = '0'", logic)
+        top = sources[-1].read_text()
+        self.assertIn("REQUEST_SAFE_LEVEL => '0'", top)
+        self.assertIn('USE_CARRIER_READY => true', top)
+
+    @unittest.skipUnless(shutil.which('ghdl'), 'GHDL is needed for HDL behavioral checks')
+    def test_select_alternative_shared_architecture(self):
+        config = load_config(self.config)
+        library = self.root / 'shared'
+        shutil.copytree(config.s3c_library, library)
+        alternate = (library / 'level_signals.vhdl').read_text().replace('architecture level_signals', 'architecture alternate')
+        alternate = alternate.replace('slotok <= SLOTOK_NORMAL', "slotok <= '0'")
+        (library / 'alternate.vhdl').write_text(alternate)
+        self.profile('active_high')
+        profile = self.root / 'profile.toml'
+        profile.write_text(profile.read_text().replace('"level_signals"', '"alternate"'))
+        self.config.write_text(self.config.read_text() + 's3c_library = "shared"\n')
+        self.simulate("reqsafestate <= '0'; src <= '1'; cycles(8); assert outp = '1' and slotok = '0' severity failure;")
+        entries = source_entries(load_config(self.config), self.output)
+        self.assertEqual(entries[1].path, library / 'alternate.vhdl')
+        check(self.config, self.output)
+        with (library / 'alternate.vhdl').open('a') as stream:
+            stream.write('\n-- shared implementation changed\n')
+        with self.assertRaisesRegex(GeneratorError, 'inputs changed'):
+            check(self.config, self.output)
 
     def test_deterministic_generation_and_relocation(self):
         generate(self.config, self.output)
@@ -271,9 +288,12 @@ begin
     end process;
 end architecture;
 ''')
-        for command in (['ghdl', '-a', '--std=93', *map(str, sources), str(bench)],
-                        ['ghdl', '-e', '--std=93', 'bench'],
-                        ['ghdl', '-r', '--std=93', 'bench', '--assert-level=error']):
+        commands = [['ghdl', '-a', '--std=93', '-P.', f'--work={source.library}', str(source.path)]
+                    for source in source_entries(config, self.output)]
+        commands += [['ghdl', '-a', '--std=93', '-P.', str(bench)],
+                     ['ghdl', '-e', '--std=93', '-P.', 'bench'],
+                     ['ghdl', '-r', '--std=93', '-P.', 'bench', '--assert-level=error']]
+        for command in commands:
             result = subprocess.run(command, cwd=self.root, capture_output=True, text=True, timeout=30)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn('CONTRACT PASSED', result.stdout + result.stderr)

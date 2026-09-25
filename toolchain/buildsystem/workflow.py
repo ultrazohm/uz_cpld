@@ -308,7 +308,7 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
     source = original.manifests[0].parent
     meta = read_toml(original.manifests[0])
     primary_constraint = input_path(root, source, meta['constraints'][0])
-    local_inputs = [s.path for s in original.sources] + [primary_constraint, original.testbench]
+    local_inputs = [s.path for s in original.sources if 'generator' not in meta or s.path.is_relative_to(source)] + [primary_constraint, original.testbench]
     if 'foss_constraints' in meta:
         local_inputs.append(input_path(root, source, meta['foss_constraints'][0]))
     if any(path.is_relative_to(source / 'build') for path in local_inputs):
@@ -334,7 +334,8 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
         if (source / new).exists() and new != old:
             raise BuildError(f'Clone filename conflicts with an existing file: {new}')
     meta['name'] = name
-    meta['sources'] = [{'path': str(renames.get(s.path.relative_to(source), s.path.relative_to(source))),
+    meta['sources'] = [{'path': str(renames.get(s.path.relative_to(source), s.path.relative_to(source)))
+                        if s.path.is_relative_to(source) else os.path.relpath(s.path, destination),
                         'library': s.library} for s in original.sources]
     meta['constraints'] = [f'{name}_constraints.lpf']
     if 'foss_constraints' in meta:
@@ -355,17 +356,18 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
         for old, new in renames.items():
             (destination / old).rename(destination / new)
         if 'generator' in meta:
-            from cpld_vhdl_generator import generate
+            from cpld_vhdl_generator import generate, load_config, source_entries
             generator_path = destination / meta['generator']
             generator_config = read_toml(generator_path)
             generator_config['name'] = name
             generator_path.write_text(''.join(f'{key} = {toml_value(value)}\n'
                                               for key, value in generator_config.items()))
             generation_output = destination / primary.parent.relative_to(source)
-            generated_sources = generate(generator_path, generation_output)
+            generate(generator_path, generation_output)
+            generated_sources = source_entries(load_config(generator_path), generation_output)
             meta['top'] = name
-            meta['sources'] = [{'path': str(path.relative_to(destination)), 'library': 'work'}
-                               for path in generated_sources]
+            meta['sources'] = [{'path': os.path.relpath(s.path, destination), 'library': s.library}
+                               for s in generated_sources]
         (destination / f'{name}.toml').write_text(
             ''.join(f'{key} = {toml_value(value)}\n' for key, value in meta.items()))
         load_build(root, name, target, backend)

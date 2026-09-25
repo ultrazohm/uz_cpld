@@ -21,7 +21,7 @@ class FrontendTests(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory(prefix="cpld space ' $[test]-")
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
-        for folder in ('programs', 'toolchain'):
+        for folder in ('programs', 'toolchain', 'cpld_vhdl_generator'):
             shutil.copytree(ROOT / folder, self.root / folder, ignore=shutil.ignore_patterns('build', '__pycache__'))
         self.build = load_build(self.root, 'tx30')
 

@@ -17,7 +17,6 @@ from . import __version__
 PACKAGE = Path(__file__).resolve().parent
 DATA_PINS = tuple(f'{bank}_{i:02d}' for bank in ('fpga', 'd') for i in range(30))
 KEYWORDS = set('''abs access after alias all and architecture array assert attribute begin block body buffer bus case component configuration constant disconnect downto else elsif end entity exit file for function generate generic group guarded if impure in inertial inout is label library linkage literal loop map mod nand new next nor not null of on open or others out package port postponed procedure process pure range record register reject rem report return rol ror select severity shared signal sla sll sra srl subtype then to transport type unaffected units until use variable wait when while with xnor xor context force parameter protected release assume cover default property restrict sequence vmode vprop vunit'''.split())
-SUPPORT = ('s3c_logic.vhdl',)
 RECEIPT = 'generator-output.json'
 
 
@@ -68,6 +67,7 @@ class Config:
     clock: str
     pilot_policy: str
     enable: dict
+    s3c_library: Path
 
     @property
     def inputs(self):
@@ -78,7 +78,7 @@ def load_config(path):
     path = Path(path).resolve()
     data = read_toml(path)
     required = {'schema_version', 'name', 'routing', 'contract', 'clock', 'pilot_policy'}
-    keys(data, required | {'enable'}, required, 'configuration')
+    keys(data, required | {'enable', 's3c_library'}, required, 'configuration')
     if type(data['schema_version']) is not int or data['schema_version'] != 3:
         raise GeneratorError('Only schema_version = 3 is supported')
     name = identifier(data['name'])
@@ -93,9 +93,16 @@ def load_config(path):
     builtin = PACKAGE / 'contracts' / (contract_ref + '.toml')
     contract_path = builtin if re.fullmatch(r'[a-z0-9_]+', contract_ref) and builtin.is_file() else relative(path.parent, contract_ref)
     contract = read_toml(contract_path)
-    fields = {'id', 'compatible_s3c', 'request_mode', 'carrier_ready', 'slotok', 'reqoe'}
+    fields = {'id', 'compatible_s3c', 'request_mode', 'carrier_ready', 'slotok', 'reqoe', 'implementation'}
     keys(contract, fields, fields, 'contract')
     identifier(contract['id'])
+    implementation = identifier(contract['implementation'])
+    if implementation == 's3c_logic':
+        raise GeneratorError('implementation must name an architecture source, not the entity declaration')
+    s3c_library = relative(path.parent, data['s3c_library']) if 's3c_library' in data else PACKAGE / 'hdl'
+    for filename in ('s3c_logic.vhdl', implementation + '.vhdl'):
+        if not (s3c_library / filename).is_file():
+            raise GeneratorError(f'Missing shared S3C source: {s3c_library / filename}')
     compatible = contract['compatible_s3c']
     if (not isinstance(compatible, list) or not compatible or
             any(not isinstance(item, str) for item in compatible) or len(set(compatible)) != len(compatible)):
@@ -141,7 +148,7 @@ def load_config(path):
     pins = tuple(Pin(pin, 'out', outputs[pin]) if pin in outputs else Pin(pin, 'in', ('', ''))
                  for pin in DATA_PINS)
     return Config(path, name, routing, tuple(pins), contract_path, contract, data['clock'],
-                  data['pilot_policy'], enable)
+                  data['pilot_policy'], enable, s3c_library)
 
 
 def ports(config, clock=False):
@@ -171,41 +178,10 @@ def mapping(pairs):
 
 
 def render(config):
-    """Emit the selected S3C controller and a top level containing CSV routing."""
+    """Emit routing that instantiates the selected shared S3C architecture."""
     c = config.contract
-    request_level = '1' if c['request_mode'] == 'active_high' else '0'
-    declarations, reset_lines, sampling = [], [], []
-    for name, source, initial in [('request', 'reqsafestate', request_level),
-                                  ('enable', 'card_enable', '0')]:
-        declarations.append(f"    signal {name}_meta, {name}_sync : std_logic := '{initial}';")
-        reset_lines.append(f"                {name}_meta <= '{initial}'; {name}_sync <= '{initial}';")
-        sampling.append(f"                {name}_meta <= {source}; {name}_sync <= {name}_meta;")
-    ready = ''
-    if c['carrier_ready'] != 'unused':
-        level = '1' if c['carrier_ready'] == 'active_high' else '0'
-        initial = '0' if level == '1' else '1'
-        declarations.append(f"    signal ready_meta, ready_sync : std_logic := '{initial}';")
-        reset_lines.append(f"                ready_meta <= '{initial}'; ready_sync <= '{initial}';")
-        sampling.append('                ready_meta <= carrierrdy; ready_sync <= ready_meta;')
-        ready = f" and ready_sync = '{level}'"
-    pilot_ok = "'1'"
-    if config.pilot_policy == 'required':
-        declarations.append("    signal pilot_meta, pilot_sync : std_logic := '0';")
-        reset_lines.append("                pilot_meta <= '0'; pilot_sync <= '0';")
-        sampling.append('                pilot_meta <= pilot_in; pilot_sync <= pilot_meta;')
-        pilot_ok = "'1' when pilot_sync = '1' else '0'"
-    status = []
-    for pin in ('slotok', 'reqoe'):
-        normal, safe = c[pin]
-        status.append(f"    {pin} <= '{normal}' when state = normal_state and reset = '0' else '{safe}';")
-    from string import Template
-    logic = Template((PACKAGE / 'hdl' / SUPPORT[0]).read_text()).substitute(
-        contract=c['id'], request_mode=c['request_mode'], carrier_ready=c['carrier_ready'],
-        declarations='\n'.join(declarations), reset_lines='\n'.join(reset_lines),
-        sampling='\n'.join(sampling), ready=ready, normal_level='0' if request_level == '1' else '1',
-        pilot_ok=pilot_ok, status='\n'.join(status))
     external = config.clock == 'external'
-    text = HEADER + entity(config.name, ports(config, external))
+    text = HEADER + 'library s3c;\n\n' + entity(config.name, ports(config, external))
     text += f'\narchitecture rtl of {config.name} is\n'
     text += '    signal cvg_normal_state, cvg_card_enable : std_logic;\n'
     if not external:
@@ -239,26 +215,51 @@ def render(config):
     pairs += [(name, name) for name in ('pilot_in', 'reqsafestate', 'carrierrdy', 'slotok', 'reqoe')]
     pairs += [('card_enable', 'cvg_card_enable'), ('state_normal', 'cvg_normal_state'),
               ('state_safe', 'open')]
-    text += '    controller: entity work.s3c_logic\n        port map (\n' + mapping(pairs) + '\n        );\n'
+    generics = [('REQUIRE_PILOT', str(config.pilot_policy == 'required').lower()),
+                ('REQUEST_SAFE_LEVEL', "'1'" if c['request_mode'] == 'active_high' else "'0'"),
+                ('USE_CARRIER_READY', str(c['carrier_ready'] != 'unused').lower()),
+                ('CARRIER_READY_LEVEL', "'0'" if c['carrier_ready'] == 'active_low' else "'1'")]
+    for pin in ('slotok', 'reqoe'):
+        for state, level in zip(('NORMAL', 'SAFE'), c[pin]):
+            generics.append((pin.upper() + '_' + state, f"'{level}'"))
+    text += f"    controller: entity s3c.s3c_logic({c['implementation']})\n"
+    text += '        generic map (\n' + mapping(generics) + '\n        )\n'
+    text += '        port map (\n' + mapping(pairs) + '\n        );\n'
     for p in config.pins:
         if p.direction == 'out':
             normal, safe = map(action, p.actions)
             text += f"    {p.name} <= {normal} when cvg_normal_state = '1' else {safe};\n"
     text += 'end architecture;\n'
-    return {'s3c_logic.vhdl': logic, config.name + '.vhdl': text}
+    return {config.name + '.vhdl': text}
 
 
 def dependencies(config):
     """Authored and generator inputs required to reproduce the emitted files."""
-    return config.inputs + sorted(PACKAGE.glob('*.py')) + [PACKAGE / 'hdl' / name for name in SUPPORT]
+    return config.inputs + sorted(PACKAGE.glob('*.py')) + shared_sources(config)
 
 
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+@dataclass(frozen=True)
+class Source:
+    path: Path
+    library: str
+
+
+def shared_sources(config):
+    return [config.s3c_library / 's3c_logic.vhdl',
+            config.s3c_library / (config.contract['implementation'] + '.vhdl')]
+
+
+def source_entries(config, output):
+    """Ordered sources and libraries for any consuming build tool."""
+    return [Source(p, 's3c') for p in shared_sources(config)] + [Source(Path(output) / (config.name + '.vhdl'), 'work')]
+
+
 def source_paths(config, output):
-    return [output / 's3c_logic.vhdl', output / (config.name + '.vhdl')]
+    return [s.path for s in source_entries(config, output)]
 
 
 def receipt(config, output, files):
@@ -267,9 +268,11 @@ def receipt(config, output, files):
     return {
         'generator_version': __version__, 'schema_version': 1, 'name': config.name,
         'contract': config.contract,
-        'inputs': {('generator/' + str(p.relative_to(PACKAGE)) if p.is_relative_to(PACKAGE)
+        'inputs': {('s3c_library/' + p.name if p in shared_sources(config) else
+                    'generator/' + str(p.relative_to(PACKAGE)) if p.is_relative_to(PACKAGE)
                     else 'spec/' + os.path.relpath(p, config.path.parent)): digest(p) for p in dependencies(config)},
-        'sources': [os.path.relpath(p, output) for p in source_paths(config, output)],
+        'sources': [{'path': p.name, 'library': 's3c', 'base': 's3c_library'} for p in shared_sources(config)] +
+                   [{'path': config.name + '.vhdl', 'library': 'work', 'base': 'output'}],
         'files': {name: hashlib.sha256(value.encode()).hexdigest() for name, value in files.items()},
     }
 
@@ -308,8 +311,9 @@ def generate(config_path, output):
     config = load_config(config_path)
     output = Path(output).resolve()
     files = render(config)
-    if set(output / n for n in (*files, RECEIPT)) & set(config.inputs):
-        raise GeneratorError('Generated output would overwrite a specification')
+    protected = set(config.inputs + shared_sources(config))
+    if set(output / n for n in (*files, RECEIPT)) & protected:
+        raise GeneratorError('Generated output would overwrite a specification or shared source')
     old_files = {}
     record = output / RECEIPT
     if record.is_symlink():
@@ -321,8 +325,8 @@ def generate(config_path, output):
             raise GeneratorError(f'Invalid generation receipt: {exc}') from exc
         if not isinstance(old_files, dict) or any(Path(n).name != n for n in old_files):
             raise GeneratorError('Invalid generated filenames in receipt')
-    if {output / name for name in old_files} & set(config.inputs):
-        raise GeneratorError('A specification input conflicts with a previously generated file')
+    if {output / name for name in old_files} & protected:
+        raise GeneratorError('A specification or shared source conflicts with a previously generated file')
     for name in set(files) | set(old_files):
         p = output / name
         if p.is_symlink():

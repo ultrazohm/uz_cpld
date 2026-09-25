@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<DiamondModule name="test_i2cuser" module="EFB" VendorName="Lattice Semiconductor Corporation" generator="IPexpress" date="2024 12 10 18:04:39.883" version="1.2" type="Module" synthesis="lse" source_format="VHDL">
-  <Package>
-		<File name="test_i2cuser.lpc" type="lpc" modified="2024 12 10 18:03:43.236"/>
-		<File name="test_i2cuser.vhd" type="top_level_vhdl" modified="2024 12 10 18:03:43.297"/>
-		<File name="test_i2cuser_tmpl.vhd" type="template_vhdl" modified="2024 12 10 18:03:43.297"/>
-  </Package>
-</DiamondModule>

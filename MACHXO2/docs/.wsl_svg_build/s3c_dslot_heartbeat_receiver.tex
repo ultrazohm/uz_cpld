@@ -1,0 +1,76 @@
+\documentclass[tikz,border=8pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,decorations.pathreplacing}
+
+\begin{document}
+\begin{tikzpicture}[
+  font=\sffamily,
+  >=Latex,
+  block/.style={draw, rounded corners=2pt, align=center, minimum height=12mm, minimum width=35mm, fill=green!7},
+  latch/.style={draw=red!70!black, fill=red!8, rounded corners=2pt, align=center, minimum height=12mm, minimum width=38mm},
+  note/.style={align=center, font=\sffamily\small},
+  tinytext/.style={align=center, font=\sffamily\scriptsize},
+  good/.style={draw=green!55!black, fill=green!10, rounded corners=1pt},
+  bad/.style={draw=red!70!black, fill=red!9, rounded corners=1pt},
+  sig/.style={thick}
+]
+
+\node[block] (sync) {2-FF synchronizer\\input: \texttt{CarrierReady}};
+\node[block, right=13mm of sync] (edge) {Edge detector\\measure clocks\\since last edge};
+\node[block, right=13mm of edge] (window) {Validation window\\5 us ... 25 us};
+\node[block, right=13mm of window] (counter) {Valid-edge counter\\16 edges required};
+\node[latch, right=13mm of counter] (valid) {\texttt{carrier\_ready\_valid}\\default = 0};
+\node[latch, below=16mm of valid] (forward) {Forwarding gate\\valid heartbeat\\AND NOT ReqSafeState};
+
+\draw[->] (sync) -- (edge);
+\draw[->] (edge) -- (window);
+\draw[->] (window) -- node[above,note] {accepted edge} (counter);
+\draw[->] (counter) -- node[above,note] {release valid} (valid);
+\draw[->] (valid) -- (forward);
+
+\node[note, left=9mm of forward, text width=36mm] (reqsafe) {\texttt{ReqSafeState}\\static 0/1\\separate input};
+\draw[->] (reqsafe) -- node[above,tinytext] {NOT} (forward);
+
+\node[note, below=9mm of forward] (out) {\texttt{forwarding\_allowed = carrier\_ready\_valid AND NOT ReqSafeState}};
+
+\coordinate (t0) at ($(sync.south west)+(0,-33mm)$);
+\draw[->] (t0) -- ++(150mm,0) node[right] {time};
+\node[note, anchor=east] at ($(t0)+(-3mm,0mm)$) {\texttt{CarrierReady}\\edges};
+\node[note, anchor=east] at ($(t0)+(-3mm,-14mm)$) {Window\\result};
+\node[note, anchor=east] at ($(t0)+(-3mm,-29mm)$) {\texttt{carrier\_ready\_valid}};
+
+\draw[sig] ($(t0)+(0,0)$)
+  -- ++(7mm,0) -- ++(0,5mm) -- ++(7mm,0) -- ++(0,-5mm)
+  -- ++(7mm,0) -- ++(0,5mm) -- ++(7mm,0) -- ++(0,-5mm)
+  -- ++(7mm,0) -- ++(0,5mm) -- ++(7mm,0) -- ++(0,-5mm)
+  -- ++(7mm,0) -- ++(0,5mm) -- ++(7mm,0) -- ++(0,-5mm)
+  -- ++(21mm,0);
+
+\foreach \x in {7,14,21,28,35,42,49,56,63,70,77,84,91,98} {
+  \draw[good] ($(t0)+(\x mm,-17mm)$) rectangle ++(5.5mm,6mm);
+}
+\node[tinytext, green!45!black] at ($(t0)+(50mm,-22mm)$) {accepted edge spacing};
+
+\draw[sig, red!75!black] ($(t0)+(0,-29mm)$) -- ++(98mm,0)
+  -- ++(0,-7mm) -- ++(28mm,0)
+  -- ++(0,7mm) -- ++(22mm,0);
+\node[tinytext, red!75!black] at ($(t0)+(42mm,-42mm)$) {invalid / safe};
+\node[tinytext, red!75!black] at ($(t0)+(111mm,-43mm)$) {valid};
+
+\draw[dashed, red!75!black] ($(t0)+(98mm,7mm)$) -- ($(t0)+(98mm,-38mm)$);
+\node[tinytext, red!75!black, anchor=south] at ($(t0)+(98mm,8mm)$) {heartbeat loss};
+\draw[<->, red!75!black] ($(t0)+(98mm,-48mm)$) -- node[below,tinytext] {100 us timeout} ($(t0)+(168mm,-48mm)$);
+
+\node[draw, rounded corners=2pt, fill=blue!5, align=left, font=\sffamily\small, anchor=north west, text width=128mm]
+  at ($(t0)+(0mm,-62mm)$) {
+  \textbf{Receiver rule}\\
+  The D-slot starts with \texttt{carrier\_ready\_valid = 0}. A static input, missing S3C supply,
+  slow signal, or short glitch cannot enable forwarding. The heartbeat is accepted only after
+  16 consecutive \texttt{CarrierReady} edges inside the 5 us to 25 us window. If edges stop,
+  \texttt{carrier\_ready\_valid} returns to 0 after 100 us. Static \texttt{ReqSafeState}
+  is checked separately.
+  };
+
+\end{tikzpicture}
+\end{document}

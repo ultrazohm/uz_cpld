@@ -121,6 +121,7 @@ architecture S3C_arch of S3C is
 	signal enable	:	STD_LOGIC;
 	signal pg10v	:	STD_LOGIC;
 	signal ppn6v	:	STD_LOGIC;
+	signal pg_som	:	STD_LOGIC;
 
 	-- counter outside fsm 2sec
 	signal power_counter2sec : integer range 0 to 2_000 := 0;		-- counter for button
@@ -132,6 +133,10 @@ architecture S3C_arch of S3C is
 	-- Dslot
 	signal forceoutputdisable :		STD_LOGIC;
 	signal dslot_reqsafe_static :	STD_LOGIC := '1';
+	signal dslot_carrierready_heartbeat_enable : STD_LOGIC := '0';
+	signal dslot_carrierready_heartbeat_enable_gated : STD_LOGIC := '0';
+	signal dslot_carrierready_heartbeat_safe_request : STD_LOGIC := '1';
+	signal dslot_carrierready_heartbeat_raw : STD_LOGIC := '0';
 
 	-- Tristate
 	signal tristate_signals : STD_LOGIC_vector(31 downto 0);
@@ -203,21 +208,23 @@ s3c_tick1ms: ENTITY work.sXc_tickgen
 s3c_debounce: ENTITY work.sXc_debounce
 	GENERIC MAP (
 		DEBOUNCE_TICKS => 10,					-- debounce constant: 10ms
-		DEBOUNCE_CHANNELS => 6,
-		DEBOUNCE_INITSTATE => "000000",			-- Bits 6-5 (TPS3803) low (nRESET), bits 4-3 (SW1/3) low (U21), bit 2 (Ext. STOP) low (R18/26 @ FPM), and bit 1 (Power button) low (R1)
-		                   ---	Power Panic (6V)	Power Good (10V)	EnableSystem button		STOP button		External STOP		Power button
-		DEBOUNCE_INVERTOUT =>	'0' &				'0' &				'1' &					'1' &			'1' &				'1'
+		DEBOUNCE_CHANNELS => 7,
+		DEBOUNCE_INITSTATE => "0000000",			-- Bits 7-5 power-good inputs low, bits 4-3 (SW1/3) low (U21), bit 2 (Ext. STOP) low (R18/26 @ FPM), and bit 1 (Power button) low (R1)
+		                   ---	SoM PG			Power Panic (6V)	Power Good (10V)	EnableSystem button		STOP button		External STOP		Power button
+		DEBOUNCE_INVERTOUT =>	'0' &			'0' &				'0' &				'1' &					'1' &			'1' &				'1'
 	)
 	PORT MAP (
 		clk => clk,        ---	|              |	|              |	|                 |		|         |		|               |	|          |
 		tick1ms => tick1ms,
-		debounce_inputs(6) =>	PPn_VIN,
+		debounce_inputs(7) =>	PG_Module,
+		debounce_inputs(6) =>			PPn_VIN,
 		debounce_inputs(5) =>						PG_VIN,
 		debounce_inputs(4) =>											FP_UsrSW1,
 		debounce_inputs(3) =>																	FP_UsrSW3,
 		debounce_inputs(2) =>																					FPIO_ExternalStop,
 		debounce_inputs(1) =>																										SysSW_Pwr_NC,
-		debounce_outputs(6) =>	ppn6v,
+		debounce_outputs(7) =>	pg_som,
+		debounce_outputs(6) =>			ppn6v,
 		debounce_outputs(5) =>						pg10v,
 		debounce_outputs(4) =>											enable,
 		debounce_outputs(3) =>																	stop,
@@ -248,11 +255,16 @@ begin
 	end if;
 end process;
 
-s3c_dslot_heartbeat: ENTITY work.sXc_heartbeat_sender
+dslot_carrierready_heartbeat_enable_gated <= dslot_carrierready_heartbeat_enable AND ppn6v AND pg_som;
+dslot_carrierready_heartbeat_safe_request <= NOT dslot_carrierready_heartbeat_enable_gated;
+DIGS3C_Shared_CarrierReady <= dslot_carrierready_heartbeat_raw AND dslot_carrierready_heartbeat_enable_gated;
+DIGS3C_Shared_ReqSafeState <= dslot_reqsafe_static;
+
+s3c_dslot_carrierready_heartbeat: ENTITY work.sXc_heartbeat_sender
 	PORT MAP (
 		clk		=> clk,
-		safe_state_request	=> dslot_reqsafe_static,
-		heartbeat_out		=> DIGS3C_Shared_ReqSafeState
+		safe_state_request	=> dslot_carrierready_heartbeat_safe_request,
+		heartbeat_out		=> dslot_carrierready_heartbeat_raw
 	);
 s3c_fsm: ENTITY work.s3c_fsm
 	PORT MAP (
@@ -291,6 +303,7 @@ s3c_fsm: ENTITY work.s3c_fsm
 		FPIO_isoCtrlRSTn			=> FPIO_isoCtrlRSTn,
 		FlexMIOs53_GPIO_PowerDown	=> FlexMIOs53_GPIO_PowerDown,
 		DIGS3C_Shared_ReqSafeState	=> dslot_reqsafe_static,
+		DIGS3C_Shared_CarrierReady	=> dslot_carrierready_heartbeat_enable,
 
 		-- Internal
 		forceoutputdisable			=> forceoutputdisable

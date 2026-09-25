@@ -41,7 +41,7 @@
 *.sif
 *.bak
 *.tmp
-
+*.bit
 
 impl*/
 *.xml

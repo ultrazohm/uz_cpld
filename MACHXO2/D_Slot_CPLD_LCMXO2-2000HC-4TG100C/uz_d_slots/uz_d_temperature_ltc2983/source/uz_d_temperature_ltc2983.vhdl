@@ -1,5 +1,6 @@
 library IEEE;
 library machxo2;
+use machxo2.all;
 use IEEE.STD_LOGIC_1164.ALL;
 
 entity SignalRouter is
@@ -91,10 +92,43 @@ entity SignalRouter is
 end SignalRouter;
 
 architecture Behavioral of SignalRouter is
+	SIGNAL heartbeat_invalid : STD_LOGIC;
+
+	SIGNAL clk: STD_LOGIC;
+
+	COMPONENT OSCH
+		-- synthesis translate_off
+		GENERIC (NOM_FREQ: STRING := "2.08");
+		-- synthesis translate_on
+		PORT (
+			STDBY: IN STD_LOGIC;
+			OSC: OUT STD_LOGIC;
+			SEDSTDBY: OUT STD_LOGIC
+		);
+	END COMPONENT;
+	ATTRIBUTE NOM_FREQ: STRING;
+	ATTRIBUTE NOM_FREQ OF OSCInst0: LABEL IS "2.08";
 begin
+	OSCInst0: OSCH
+		-- synthesis translate_off
+		GENERIC MAP (NOM_FREQ => "2.08")
+		-- synthesis translate_on
+		PORT MAP (
+			STDBY => '0',
+			OSC => clk,
+			SEDSTDBY => OPEN
+		);
+
+	dslot_heartbeat: ENTITY work.dslot_heartbeat_receiver
+		PORT MAP (
+			clk					=> clk,
+			heartbeat_in		=> carrierrdy,
+			heartbeat_invalid	=> heartbeat_invalid
+		);
+
 	--Fixed definitions
 	reqoe <= NOT tristate_outputs; 
-	enable_forwarding <= user_enable_forwarding AND NOT reqsafestate;
+	enable_forwarding <= user_enable_forwarding AND NOT heartbeat_invalid AND NOT reqsafestate;
 	
 	-- Specific safety definitions for card
 	slotok <= enable_forwarding;
@@ -108,28 +142,28 @@ begin
 
     -- Map ports
 	-- LTC2983 - 1
-    d_00 <= fpga_00 AND enable_forwarding; --SCLK1
-    d_01 <= fpga_01 AND enable_forwarding; --MOSI1
-    fpga_02 <= d_02 AND enable_forwarding; --MISO1
-    d_03 <= fpga_03 AND enable_forwarding; --CS1
-    fpga_04 <= d_04 AND enable_forwarding; --VOB1 (Interrupt)
-    d_05 <= fpga_05 AND enable_forwarding; --DCLK1
+    d_00 <= fpga_00; --SCLK1
+    d_01 <= fpga_01; --MOSI1
+    fpga_02 <= d_02; --MISO1
+    d_03 <= fpga_03; --CS1
+    fpga_04 <= d_04; --VOB1 (Interrupt)
+    d_05 <= fpga_05; --DCLK1
 	-- LTC2983 - 3
-    d_06 <= fpga_06 AND enable_forwarding; --SCLK3
-    d_07 <= fpga_07 AND enable_forwarding; --MOSI3
-    fpga_08 <= d_08 AND enable_forwarding; --MISO3
-    d_09 <= fpga_09 AND enable_forwarding; --CS3
-    fpga_10 <= d_10 AND enable_forwarding; --VOB3 (Interrupt)
-    d_11 <= fpga_11 AND enable_forwarding; --DCLK3
+    d_06 <= fpga_06; --SCLK3
+    d_07 <= fpga_07; --MOSI3
+    fpga_08 <= d_08; --MISO3
+    d_09 <= fpga_09; --CS3
+    fpga_10 <= d_10; --VOB3 (Interrupt)
+    d_11 <= fpga_11; --DCLK3
 	-- LTC2983 - 2
-	d_12 <= fpga_12 AND enable_forwarding; --SCLK2
-    d_13 <= fpga_13 AND enable_forwarding; --MOSI2
-    fpga_14 <= d_14 AND enable_forwarding; --MISO2
-    d_15 <= fpga_15 AND enable_forwarding; --CS2
-    fpga_16 <= d_16 AND enable_forwarding; --VOB2 (Interrupt)
-    d_17 <= fpga_17 AND enable_forwarding; --DCLK2
+	d_12 <= fpga_12; --SCLK2
+    d_13 <= fpga_13; --MOSI2
+    fpga_14 <= d_14; --MISO2
+    d_15 <= fpga_15; --CS2
+    fpga_16 <= d_16; --VOB2 (Interrupt)
+    d_17 <= fpga_17; --DCLK2
 	-- global reset
-	d_18 <= fpga_18 AND enable_forwarding; --Reset
+	d_18 <= fpga_18; --Reset
 	-- unused pins
     d_19 <= fpga_19 AND enable_forwarding;
     d_20 <= fpga_20 AND enable_forwarding;

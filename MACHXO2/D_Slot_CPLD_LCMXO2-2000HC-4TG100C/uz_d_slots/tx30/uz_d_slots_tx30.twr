@@ -13,7 +13,7 @@ Setup and Hold Report
 
 --------------------------------------------------------------------------------
 Lattice TRACE Report - Setup, Version Diamond (64-bit) 3.13.0.56.2
-Tue Dec 17 20:43:08 2024
+Wed Jun 24 14:46:09 2026
 
 Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
 Copyright (c) 1995 AT&T Corp.   All rights reserved.
@@ -23,7 +23,7 @@ Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
 
 Report Information
 ------------------
-Command line:    trce -v 10 -gt -sethld -sp 4 -sphld m -o uz_d_slots_tx30.twr -gui -msgset C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/promote.xml uz_d_slots_tx30.ncd uz_d_slots_tx30.prf 
+Command line:    trce -v 10 -gt -sethld -sp 4 -sphld m -o uz_d_slots_tx30.twr uz_d_slots_tx30.ncd uz_d_slots_tx30.prf 
 Design file:     uz_d_slots_tx30.ncd
 Preference file: uz_d_slots_tx30.prf
 Device,speed:    LCMXO2-2000HC,4
@@ -37,209 +37,553 @@ BLOCK RESETPATHS
 
 
 ================================================================================
-Preference: Default path enumeration
-            61 items scored, 0 timing errors detected.
+Preference: FREQUENCY NET "dslot_heartbeat.clk" 2.080000 MHz ;
+            1032 items scored, 0 timing errors detected.
 --------------------------------------------------------------------------------
 
-Report:   13.905ns delay reqsafestate to d_16
+
+Passed: The following path meets requirements by 472.158ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              dslot_heartbeat/hb_since_edge_cnt[26]  (from dslot_heartbeat.clk +)
+   Destination:    FF         Data in        dslot_heartbeat/hb_valid_edge_cnt[4]  (to dslot_heartbeat.clk +)
+
+   Delay:               8.445ns  (43.0% logic, 57.0% route), 7 logic levels.
+
+ Constraint Details:
+
+      8.445ns physical path delay dslot_heartbeat/SLICE_14 to dslot_heartbeat/SLICE_11 meets
+    480.769ns delay constraint less
+      0.000ns skew and
+      0.166ns DIN_SET requirement (totaling 480.603ns) by 472.158ns
+
+ Physical Path Details:
+
+      Data path dslot_heartbeat/SLICE_14 to dslot_heartbeat/SLICE_11:
 
    Name    Fanout   Delay (ns)          Site               Resource
-PADI_DEL    ---     1.767         76.PAD to       76.PADDI reqsafestate
-ROUTE        31     6.701       76.PADDI to       R7C2A.C1 reqsafestate_c
-CTOF_DEL    ---     0.495       R7C2A.C1 to       R7C2A.F1 SLICE_13
-ROUTE         1     2.145       R7C2A.F1 to        3.PADDO d_16_c
-DOPAD_DEL   ---     2.797        3.PADDO to          3.PAD d_16
+REG_DEL     ---     0.452     R6C19D.CLK to      R6C19D.Q0 dslot_heartbeat/SLICE_14 (from dslot_heartbeat.clk)
+ROUTE         4     1.619      R6C19D.Q0 to      R7C20B.C1 dslot_heartbeat/hb_since_edge_cnt[26]
+CTOF_DEL    ---     0.495      R7C20B.C1 to      R7C20B.F1 dslot_heartbeat/SLICE_27
+ROUTE         2     0.445      R7C20B.F1 to      R7C20D.C1 dslot_heartbeat/N_52
+CTOF_DEL    ---     0.495      R7C20D.C1 to      R7C20D.F1 dslot_heartbeat/SLICE_29
+ROUTE         2     0.978      R7C20D.F1 to      R6C20A.A1 dslot_heartbeat/un1_hb_valid_edge_cnt15_i_16_i_a2_i_o3_1
+CTOF_DEL    ---     0.495      R6C20A.A1 to      R6C20A.F1 dslot_heartbeat/SLICE_24
+ROUTE         2     1.772      R6C20A.F1 to      R5C20A.B1 dslot_heartbeat/hb_valid_edge_cnt_6[0]
+C1TOFCO_DE  ---     0.889      R5C20A.B1 to     R5C20A.FCO dslot_heartbeat/SLICE_0
+ROUTE         1     0.000     R5C20A.FCO to     R5C20B.FCI dslot_heartbeat/hb_valid_edge_cnt_cry[0]
+FCITOFCO_D  ---     0.162     R5C20B.FCI to     R5C20B.FCO dslot_heartbeat/SLICE_12
+ROUTE         1     0.000     R5C20B.FCO to     R5C20C.FCI dslot_heartbeat/hb_valid_edge_cnt_cry[2]
+FCITOF1_DE  ---     0.643     R5C20C.FCI to      R5C20C.F1 dslot_heartbeat/SLICE_11
+ROUTE         1     0.000      R5C20C.F1 to     R5C20C.DI1 dslot_heartbeat/hb_valid_edge_cnt_s[4] (to dslot_heartbeat.clk)
                   --------
-                   13.905   (36.4% logic, 63.6% route), 3 logic levels.
+                    8.445   (43.0% logic, 57.0% route), 7 logic levels.
 
-Report:   13.715ns delay reqsafestate to d_22
+ Clock Skew Details: 
+
+      Source Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_14:
 
    Name    Fanout   Delay (ns)          Site               Resource
-PADI_DEL    ---     1.767         76.PAD to       76.PADDI reqsafestate
-ROUTE        31     6.435       76.PADDI to       R9C2A.D1 reqsafestate_c
-CTOF_DEL    ---     0.495       R9C2A.D1 to       R9C2A.F1 SLICE_7
-ROUTE         1     2.221       R9C2A.F1 to        7.PADDO d_22_c
-DOPAD_DEL   ---     2.797        7.PADDO to          7.PAD d_22
+ROUTE        14     3.977        OSC.OSC to     R6C19D.CLK dslot_heartbeat.clk
                   --------
-                   13.715   (36.9% logic, 63.1% route), 3 logic levels.
+                    3.977   (0.0% logic, 100.0% route), 0 logic levels.
 
-Report:   13.043ns delay reqsafestate to d_18
+      Destination Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_11:
 
    Name    Fanout   Delay (ns)          Site               Resource
-PADI_DEL    ---     1.767         76.PAD to       76.PADDI reqsafestate
-ROUTE        31     6.267       76.PADDI to       R5C2A.C1 reqsafestate_c
-CTOF_DEL    ---     0.495       R5C2A.C1 to       R5C2A.F1 SLICE_11
-ROUTE         1     1.717       R5C2A.F1 to        4.PADDO d_18_c
-DOPAD_DEL   ---     2.797        4.PADDO to          4.PAD d_18
+ROUTE        14     3.977        OSC.OSC to     R5C20C.CLK dslot_heartbeat.clk
                   --------
-                   13.043   (38.8% logic, 61.2% route), 3 logic levels.
+                    3.977   (0.0% logic, 100.0% route), 0 logic levels.
 
-Report:   12.828ns delay reqsafestate to d_20
+
+Passed: The following path meets requirements by 472.216ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              dslot_heartbeat/hb_since_edge_cnt[26]  (from dslot_heartbeat.clk +)
+   Destination:    FF         Data in        dslot_heartbeat/hb_valid_edge_cnt[3]  (to dslot_heartbeat.clk +)
+
+   Delay:               8.387ns  (42.6% logic, 57.4% route), 7 logic levels.
+
+ Constraint Details:
+
+      8.387ns physical path delay dslot_heartbeat/SLICE_14 to dslot_heartbeat/SLICE_11 meets
+    480.769ns delay constraint less
+      0.000ns skew and
+      0.166ns DIN_SET requirement (totaling 480.603ns) by 472.216ns
+
+ Physical Path Details:
+
+      Data path dslot_heartbeat/SLICE_14 to dslot_heartbeat/SLICE_11:
 
    Name    Fanout   Delay (ns)          Site               Resource
-PADI_DEL    ---     1.767         76.PAD to       76.PADDI reqsafestate
-ROUTE        31     6.127       76.PADDI to       R6C2A.B1 reqsafestate_c
-CTOF_DEL    ---     0.495       R6C2A.B1 to       R6C2A.F1 SLICE_9
-ROUTE         1     1.642       R6C2A.F1 to        8.PADDO d_20_c
-DOPAD_DEL   ---     2.797        8.PADDO to          8.PAD d_20
+REG_DEL     ---     0.452     R6C19D.CLK to      R6C19D.Q0 dslot_heartbeat/SLICE_14 (from dslot_heartbeat.clk)
+ROUTE         4     1.619      R6C19D.Q0 to      R7C20B.C1 dslot_heartbeat/hb_since_edge_cnt[26]
+CTOF_DEL    ---     0.495      R7C20B.C1 to      R7C20B.F1 dslot_heartbeat/SLICE_27
+ROUTE         2     0.445      R7C20B.F1 to      R7C20D.C1 dslot_heartbeat/N_52
+CTOF_DEL    ---     0.495      R7C20D.C1 to      R7C20D.F1 dslot_heartbeat/SLICE_29
+ROUTE         2     0.978      R7C20D.F1 to      R6C20A.A1 dslot_heartbeat/un1_hb_valid_edge_cnt15_i_16_i_a2_i_o3_1
+CTOF_DEL    ---     0.495      R6C20A.A1 to      R6C20A.F1 dslot_heartbeat/SLICE_24
+ROUTE         2     1.772      R6C20A.F1 to      R5C20A.B1 dslot_heartbeat/hb_valid_edge_cnt_6[0]
+C1TOFCO_DE  ---     0.889      R5C20A.B1 to     R5C20A.FCO dslot_heartbeat/SLICE_0
+ROUTE         1     0.000     R5C20A.FCO to     R5C20B.FCI dslot_heartbeat/hb_valid_edge_cnt_cry[0]
+FCITOFCO_D  ---     0.162     R5C20B.FCI to     R5C20B.FCO dslot_heartbeat/SLICE_12
+ROUTE         1     0.000     R5C20B.FCO to     R5C20C.FCI dslot_heartbeat/hb_valid_edge_cnt_cry[2]
+FCITOF0_DE  ---     0.585     R5C20C.FCI to      R5C20C.F0 dslot_heartbeat/SLICE_11
+ROUTE         1     0.000      R5C20C.F0 to     R5C20C.DI0 dslot_heartbeat/hb_valid_edge_cnt_s[3] (to dslot_heartbeat.clk)
                   --------
-                   12.828   (39.4% logic, 60.6% route), 3 logic levels.
+                    8.387   (42.6% logic, 57.4% route), 7 logic levels.
 
-Report:   12.790ns delay reqsafestate to d_04
+ Clock Skew Details: 
+
+      Source Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_14:
 
    Name    Fanout   Delay (ns)          Site               Resource
-PADI_DEL    ---     1.767         76.PAD to       76.PADDI reqsafestate
-ROUTE        31     5.815       76.PADDI to       R4C2C.C0 reqsafestate_c
-CTOF_DEL    ---     0.495       R4C2C.C0 to       R4C2C.F0 SLICE_5
-ROUTE         1     1.916       R4C2C.F0 to       15.PADDO d_04_c
-DOPAD_DEL   ---     2.797       15.PADDO to         15.PAD d_04
+ROUTE        14     3.977        OSC.OSC to     R6C19D.CLK dslot_heartbeat.clk
                   --------
-                   12.790   (39.6% logic, 60.4% route), 3 logic levels.
+                    3.977   (0.0% logic, 100.0% route), 0 logic levels.
 
-Report:   12.635ns delay reqsafestate to d_06
+      Destination Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_11:
 
    Name    Fanout   Delay (ns)          Site               Resource
-PADI_DEL    ---     1.767         76.PAD to       76.PADDI reqsafestate
-ROUTE        31     6.435       76.PADDI to       R9C2A.D0 reqsafestate_c
-CTOF_DEL    ---     0.495       R9C2A.D0 to       R9C2A.F0 SLICE_7
-ROUTE         1     1.141       R9C2A.F0 to       14.PADDO d_06_c
-DOPAD_DEL   ---     2.797       14.PADDO to         14.PAD d_06
+ROUTE        14     3.977        OSC.OSC to     R5C20C.CLK dslot_heartbeat.clk
                   --------
-                   12.635   (40.0% logic, 60.0% route), 3 logic levels.
+                    3.977   (0.0% logic, 100.0% route), 0 logic levels.
 
-Report:   12.426ns delay reqsafestate to d_12
+
+Passed: The following path meets requirements by 472.320ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              dslot_heartbeat/hb_since_edge_cnt[26]  (from dslot_heartbeat.clk +)
+   Destination:    FF         Data in        dslot_heartbeat/hb_valid_edge_cnt[2]  (to dslot_heartbeat.clk +)
+
+   Delay:               8.283ns  (41.9% logic, 58.1% route), 6 logic levels.
+
+ Constraint Details:
+
+      8.283ns physical path delay dslot_heartbeat/SLICE_14 to dslot_heartbeat/SLICE_12 meets
+    480.769ns delay constraint less
+      0.000ns skew and
+      0.166ns DIN_SET requirement (totaling 480.603ns) by 472.320ns
+
+ Physical Path Details:
+
+      Data path dslot_heartbeat/SLICE_14 to dslot_heartbeat/SLICE_12:
 
    Name    Fanout   Delay (ns)          Site               Resource
-PADI_DEL    ---     1.767         76.PAD to       76.PADDI reqsafestate
-ROUTE        31     6.561       76.PADDI to       R7C2A.B0 reqsafestate_c
-CTOF_DEL    ---     0.495       R7C2A.B0 to       R7C2A.F0 SLICE_13
-ROUTE         1     0.806       R7C2A.F0 to       12.PADDO d_12_c
-DOPAD_DEL   ---     2.797       12.PADDO to         12.PAD d_12
+REG_DEL     ---     0.452     R6C19D.CLK to      R6C19D.Q0 dslot_heartbeat/SLICE_14 (from dslot_heartbeat.clk)
+ROUTE         4     1.619      R6C19D.Q0 to      R7C20B.C1 dslot_heartbeat/hb_since_edge_cnt[26]
+CTOF_DEL    ---     0.495      R7C20B.C1 to      R7C20B.F1 dslot_heartbeat/SLICE_27
+ROUTE         2     0.445      R7C20B.F1 to      R7C20D.C1 dslot_heartbeat/N_52
+CTOF_DEL    ---     0.495      R7C20D.C1 to      R7C20D.F1 dslot_heartbeat/SLICE_29
+ROUTE         2     0.978      R7C20D.F1 to      R6C20A.A1 dslot_heartbeat/un1_hb_valid_edge_cnt15_i_16_i_a2_i_o3_1
+CTOF_DEL    ---     0.495      R6C20A.A1 to      R6C20A.F1 dslot_heartbeat/SLICE_24
+ROUTE         2     1.772      R6C20A.F1 to      R5C20A.B1 dslot_heartbeat/hb_valid_edge_cnt_6[0]
+C1TOFCO_DE  ---     0.889      R5C20A.B1 to     R5C20A.FCO dslot_heartbeat/SLICE_0
+ROUTE         1     0.000     R5C20A.FCO to     R5C20B.FCI dslot_heartbeat/hb_valid_edge_cnt_cry[0]
+FCITOF1_DE  ---     0.643     R5C20B.FCI to      R5C20B.F1 dslot_heartbeat/SLICE_12
+ROUTE         1     0.000      R5C20B.F1 to     R5C20B.DI1 dslot_heartbeat/hb_valid_edge_cnt_s[2] (to dslot_heartbeat.clk)
                   --------
-                   12.426   (40.7% logic, 59.3% route), 3 logic levels.
+                    8.283   (41.9% logic, 58.1% route), 6 logic levels.
 
-Report:   12.401ns delay reqsafestate to d_08
+ Clock Skew Details: 
+
+      Source Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_14:
 
    Name    Fanout   Delay (ns)          Site               Resource
-PADI_DEL    ---     1.767         76.PAD to       76.PADDI reqsafestate
-ROUTE        31     6.127       76.PADDI to       R6C2A.B0 reqsafestate_c
-CTOF_DEL    ---     0.495       R6C2A.B0 to       R6C2A.F0 SLICE_9
-ROUTE         1     1.215       R6C2A.F0 to        9.PADDO d_08_c
-DOPAD_DEL   ---     2.797        9.PADDO to          9.PAD d_08
+ROUTE        14     3.977        OSC.OSC to     R6C19D.CLK dslot_heartbeat.clk
                   --------
-                   12.401   (40.8% logic, 59.2% route), 3 logic levels.
+                    3.977   (0.0% logic, 100.0% route), 0 logic levels.
 
-Report:   12.401ns delay reqsafestate to d_10
+      Destination Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_12:
 
    Name    Fanout   Delay (ns)          Site               Resource
-PADI_DEL    ---     1.767         76.PAD to       76.PADDI reqsafestate
-ROUTE        31     6.127       76.PADDI to       R5C2A.B0 reqsafestate_c
-CTOF_DEL    ---     0.495       R5C2A.B0 to       R5C2A.F0 SLICE_11
-ROUTE         1     1.215       R5C2A.F0 to       10.PADDO d_10_c
-DOPAD_DEL   ---     2.797       10.PADDO to         10.PAD d_10
+ROUTE        14     3.977        OSC.OSC to     R5C20B.CLK dslot_heartbeat.clk
                   --------
-                   12.401   (40.8% logic, 59.2% route), 3 logic levels.
+                    3.977   (0.0% logic, 100.0% route), 0 logic levels.
 
-Report:   12.374ns delay reqsafestate to d_02
+
+Passed: The following path meets requirements by 472.378ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              dslot_heartbeat/hb_since_edge_cnt[26]  (from dslot_heartbeat.clk +)
+   Destination:    FF         Data in        dslot_heartbeat/hb_valid_edge_cnt[1]  (to dslot_heartbeat.clk +)
+
+   Delay:               8.225ns  (41.5% logic, 58.5% route), 6 logic levels.
+
+ Constraint Details:
+
+      8.225ns physical path delay dslot_heartbeat/SLICE_14 to dslot_heartbeat/SLICE_12 meets
+    480.769ns delay constraint less
+      0.000ns skew and
+      0.166ns DIN_SET requirement (totaling 480.603ns) by 472.378ns
+
+ Physical Path Details:
+
+      Data path dslot_heartbeat/SLICE_14 to dslot_heartbeat/SLICE_12:
 
    Name    Fanout   Delay (ns)          Site               Resource
-PADI_DEL    ---     1.767         76.PAD to       76.PADDI reqsafestate
-ROUTE        31     5.229       76.PADDI to       R2C2A.B0 reqsafestate_c
-CTOF_DEL    ---     0.495       R2C2A.B0 to       R2C2A.F0 SLICE_3
-ROUTE         1     2.086       R2C2A.F0 to       16.PADDO d_02_c
-DOPAD_DEL   ---     2.797       16.PADDO to         16.PAD d_02
+REG_DEL     ---     0.452     R6C19D.CLK to      R6C19D.Q0 dslot_heartbeat/SLICE_14 (from dslot_heartbeat.clk)
+ROUTE         4     1.619      R6C19D.Q0 to      R7C20B.C1 dslot_heartbeat/hb_since_edge_cnt[26]
+CTOF_DEL    ---     0.495      R7C20B.C1 to      R7C20B.F1 dslot_heartbeat/SLICE_27
+ROUTE         2     0.445      R7C20B.F1 to      R7C20D.C1 dslot_heartbeat/N_52
+CTOF_DEL    ---     0.495      R7C20D.C1 to      R7C20D.F1 dslot_heartbeat/SLICE_29
+ROUTE         2     0.978      R7C20D.F1 to      R6C20A.A1 dslot_heartbeat/un1_hb_valid_edge_cnt15_i_16_i_a2_i_o3_1
+CTOF_DEL    ---     0.495      R6C20A.A1 to      R6C20A.F1 dslot_heartbeat/SLICE_24
+ROUTE         2     1.772      R6C20A.F1 to      R5C20A.B1 dslot_heartbeat/hb_valid_edge_cnt_6[0]
+C1TOFCO_DE  ---     0.889      R5C20A.B1 to     R5C20A.FCO dslot_heartbeat/SLICE_0
+ROUTE         1     0.000     R5C20A.FCO to     R5C20B.FCI dslot_heartbeat/hb_valid_edge_cnt_cry[0]
+FCITOF0_DE  ---     0.585     R5C20B.FCI to      R5C20B.F0 dslot_heartbeat/SLICE_12
+ROUTE         1     0.000      R5C20B.F0 to     R5C20B.DI0 dslot_heartbeat/hb_valid_edge_cnt_s[1] (to dslot_heartbeat.clk)
                   --------
-                   12.374   (40.9% logic, 59.1% route), 3 logic levels.
+                    8.225   (41.5% logic, 58.5% route), 6 logic levels.
 
-Report:   13.905ns is the maximum delay for this preference.
+ Clock Skew Details: 
+
+      Source Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_14:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     3.977        OSC.OSC to     R6C19D.CLK dslot_heartbeat.clk
+                  --------
+                    3.977   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Destination Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_12:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     3.977        OSC.OSC to     R5C20B.CLK dslot_heartbeat.clk
+                  --------
+                    3.977   (0.0% logic, 100.0% route), 0 logic levels.
 
 
-================================================================================
-Preference: Default net enumeration
-            63 items scored, 0 timing errors detected.
---------------------------------------------------------------------------------
+Passed: The following path meets requirements by 472.499ns
 
-Report:    6.701ns maximum delay on reqsafestate_c
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
 
-           Delays             Connection(s)
-           4.645ns         76.PADDI to R7C12D.B0       
-           4.458ns         76.PADDI to R10C25C.C1      
-           4.458ns         76.PADDI to R10C25C.C0      
-           6.701ns         76.PADDI to R7C2A.C1        
-           6.561ns         76.PADDI to R7C2A.B0        
-           4.045ns         76.PADDI to R11C25B.C1      
-           4.045ns         76.PADDI to R11C25B.C0      
-           6.267ns         76.PADDI to R5C2A.C1        
-           6.127ns         76.PADDI to R5C2A.B0        
-           4.045ns         76.PADDI to R11C25C.C1      
-           3.876ns         76.PADDI to R11C25C.B0      
-           6.127ns         76.PADDI to R6C2A.B1        
-           6.127ns         76.PADDI to R6C2A.B0        
-           3.389ns         76.PADDI to R12C25A.B1      
-           3.544ns         76.PADDI to R12C25A.C0      
-           6.435ns         76.PADDI to R9C2A.D1        
-           6.435ns         76.PADDI to R9C2A.D0        
-           3.544ns         76.PADDI to R12C25B.C1      
-           3.389ns         76.PADDI to R12C25B.B0      
-           5.675ns         76.PADDI to R4C2C.B1        
-           5.815ns         76.PADDI to R4C2C.C0        
-           3.408ns         76.PADDI to R12C24B.D1      
-           3.389ns         76.PADDI to R12C24B.B0      
-           5.229ns         76.PADDI to R2C2A.B1        
-           5.229ns         76.PADDI to R2C2A.B0        
-           3.280ns         76.PADDI to R5C16A.B1       
-           3.280ns         76.PADDI to R5C16A.B0       
-           3.274ns         76.PADDI to R2C20C.B1       
-           3.274ns         76.PADDI to R2C20C.B0       
-           2.767ns         76.PADDI to R5C25A.B1       
-           2.767ns         76.PADDI to R5C25A.B0       
+   Source:         FF         Q              dslot_heartbeat/hb_since_edge_cnt[26]  (from dslot_heartbeat.clk +)
+   Destination:    FF         Data in        dslot_heartbeat/hb_valid_edge_cnt[4]  (to dslot_heartbeat.clk +)
 
-Report:    4.657ns maximum delay on fpga_04_c
+   Delay:               8.104ns  (44.8% logic, 55.2% route), 7 logic levels.
 
-           Delays             Connection(s)
-           4.657ns         45.PADDI to R4C2C.B0        
+ Constraint Details:
 
-Report:    4.339ns maximum delay on fpga_25_c
+      8.104ns physical path delay dslot_heartbeat/SLICE_14 to dslot_heartbeat/SLICE_11 meets
+    480.769ns delay constraint less
+      0.000ns skew and
+      0.166ns DIN_SET requirement (totaling 480.603ns) by 472.499ns
 
-           Delays             Connection(s)
-           4.339ns         98.PADDI to R12C24B.B1      
+ Physical Path Details:
 
-Report:    4.085ns maximum delay on fpga_15_c
+      Data path dslot_heartbeat/SLICE_14 to dslot_heartbeat/SLICE_11:
 
-           Delays             Connection(s)
-           4.085ns         24.PADDI to R10C25C.A1      
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.452     R6C19D.CLK to      R6C19D.Q0 dslot_heartbeat/SLICE_14 (from dslot_heartbeat.clk)
+ROUTE         4     1.619      R6C19D.Q0 to      R7C20B.C1 dslot_heartbeat/hb_since_edge_cnt[26]
+CTOF_DEL    ---     0.495      R7C20B.C1 to      R7C20B.F1 dslot_heartbeat/SLICE_27
+ROUTE         2     0.445      R7C20B.F1 to      R7C20B.C0 dslot_heartbeat/N_52
+CTOF_DEL    ---     0.495      R7C20B.C0 to      R7C20B.F0 dslot_heartbeat/SLICE_27
+ROUTE         2     0.637      R7C20B.F0 to      R6C20A.D1 dslot_heartbeat/un1_hb_valid_edge_cnt15_i_16_i_a2_i_o3_2
+CTOF_DEL    ---     0.495      R6C20A.D1 to      R6C20A.F1 dslot_heartbeat/SLICE_24
+ROUTE         2     1.772      R6C20A.F1 to      R5C20A.B1 dslot_heartbeat/hb_valid_edge_cnt_6[0]
+C1TOFCO_DE  ---     0.889      R5C20A.B1 to     R5C20A.FCO dslot_heartbeat/SLICE_0
+ROUTE         1     0.000     R5C20A.FCO to     R5C20B.FCI dslot_heartbeat/hb_valid_edge_cnt_cry[0]
+FCITOFCO_D  ---     0.162     R5C20B.FCI to     R5C20B.FCO dslot_heartbeat/SLICE_12
+ROUTE         1     0.000     R5C20B.FCO to     R5C20C.FCI dslot_heartbeat/hb_valid_edge_cnt_cry[2]
+FCITOF1_DE  ---     0.643     R5C20C.FCI to      R5C20C.F1 dslot_heartbeat/SLICE_11
+ROUTE         1     0.000      R5C20C.F1 to     R5C20C.DI1 dslot_heartbeat/hb_valid_edge_cnt_s[4] (to dslot_heartbeat.clk)
+                  --------
+                    8.104   (44.8% logic, 55.2% route), 7 logic levels.
 
-Report:    4.050ns maximum delay on fpga_17_c
+ Clock Skew Details: 
 
-           Delays             Connection(s)
-           4.050ns         19.PADDI to R11C25B.B1      
+      Source Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_14:
 
-Report:    3.829ns maximum delay on fpga_08_c
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     3.977        OSC.OSC to     R6C19D.CLK dslot_heartbeat.clk
+                  --------
+                    3.977   (0.0% logic, 100.0% route), 0 logic levels.
 
-           Delays             Connection(s)
-           3.829ns         41.PADDI to R6C2A.C0        
+      Destination Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_11:
 
-Report:    3.634ns maximum delay on fpga_23_c
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     3.977        OSC.OSC to     R5C20C.CLK dslot_heartbeat.clk
+                  --------
+                    3.977   (0.0% logic, 100.0% route), 0 logic levels.
 
-           Delays             Connection(s)
-           3.634ns         28.PADDI to R12C25B.B1      
 
-Report:    3.623ns maximum delay on fpga_19_c
+Passed: The following path meets requirements by 472.557ns
 
-           Delays             Connection(s)
-           3.623ns         21.PADDI to R11C25C.B1      
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
 
-Report:    3.562ns maximum delay on fpga_13_c
+   Source:         FF         Q              dslot_heartbeat/hb_since_edge_cnt[26]  (from dslot_heartbeat.clk +)
+   Destination:    FF         Data in        dslot_heartbeat/hb_valid_edge_cnt[3]  (to dslot_heartbeat.clk +)
 
-           Delays             Connection(s)
-           3.562ns         36.PADDI to R10C25C.B0      
+   Delay:               8.046ns  (44.4% logic, 55.6% route), 7 logic levels.
 
-Report:    3.486ns maximum delay on fpga_02_c
+ Constraint Details:
 
-           Delays             Connection(s)
-           3.486ns         84.PADDI to R2C2A.C0        
+      8.046ns physical path delay dslot_heartbeat/SLICE_14 to dslot_heartbeat/SLICE_11 meets
+    480.769ns delay constraint less
+      0.000ns skew and
+      0.166ns DIN_SET requirement (totaling 480.603ns) by 472.557ns
 
-Report:    6.701ns is the maximum delay for this preference.
+ Physical Path Details:
+
+      Data path dslot_heartbeat/SLICE_14 to dslot_heartbeat/SLICE_11:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.452     R6C19D.CLK to      R6C19D.Q0 dslot_heartbeat/SLICE_14 (from dslot_heartbeat.clk)
+ROUTE         4     1.619      R6C19D.Q0 to      R7C20B.C1 dslot_heartbeat/hb_since_edge_cnt[26]
+CTOF_DEL    ---     0.495      R7C20B.C1 to      R7C20B.F1 dslot_heartbeat/SLICE_27
+ROUTE         2     0.445      R7C20B.F1 to      R7C20B.C0 dslot_heartbeat/N_52
+CTOF_DEL    ---     0.495      R7C20B.C0 to      R7C20B.F0 dslot_heartbeat/SLICE_27
+ROUTE         2     0.637      R7C20B.F0 to      R6C20A.D1 dslot_heartbeat/un1_hb_valid_edge_cnt15_i_16_i_a2_i_o3_2
+CTOF_DEL    ---     0.495      R6C20A.D1 to      R6C20A.F1 dslot_heartbeat/SLICE_24
+ROUTE         2     1.772      R6C20A.F1 to      R5C20A.B1 dslot_heartbeat/hb_valid_edge_cnt_6[0]
+C1TOFCO_DE  ---     0.889      R5C20A.B1 to     R5C20A.FCO dslot_heartbeat/SLICE_0
+ROUTE         1     0.000     R5C20A.FCO to     R5C20B.FCI dslot_heartbeat/hb_valid_edge_cnt_cry[0]
+FCITOFCO_D  ---     0.162     R5C20B.FCI to     R5C20B.FCO dslot_heartbeat/SLICE_12
+ROUTE         1     0.000     R5C20B.FCO to     R5C20C.FCI dslot_heartbeat/hb_valid_edge_cnt_cry[2]
+FCITOF0_DE  ---     0.585     R5C20C.FCI to      R5C20C.F0 dslot_heartbeat/SLICE_11
+ROUTE         1     0.000      R5C20C.F0 to     R5C20C.DI0 dslot_heartbeat/hb_valid_edge_cnt_s[3] (to dslot_heartbeat.clk)
+                  --------
+                    8.046   (44.4% logic, 55.6% route), 7 logic levels.
+
+ Clock Skew Details: 
+
+      Source Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_14:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     3.977        OSC.OSC to     R6C19D.CLK dslot_heartbeat.clk
+                  --------
+                    3.977   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Destination Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_11:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     3.977        OSC.OSC to     R5C20C.CLK dslot_heartbeat.clk
+                  --------
+                    3.977   (0.0% logic, 100.0% route), 0 logic levels.
+
+
+Passed: The following path meets requirements by 472.661ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              dslot_heartbeat/hb_since_edge_cnt[26]  (from dslot_heartbeat.clk +)
+   Destination:    FF         Data in        dslot_heartbeat/hb_valid_edge_cnt[2]  (to dslot_heartbeat.clk +)
+
+   Delay:               7.942ns  (43.7% logic, 56.3% route), 6 logic levels.
+
+ Constraint Details:
+
+      7.942ns physical path delay dslot_heartbeat/SLICE_14 to dslot_heartbeat/SLICE_12 meets
+    480.769ns delay constraint less
+      0.000ns skew and
+      0.166ns DIN_SET requirement (totaling 480.603ns) by 472.661ns
+
+ Physical Path Details:
+
+      Data path dslot_heartbeat/SLICE_14 to dslot_heartbeat/SLICE_12:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.452     R6C19D.CLK to      R6C19D.Q0 dslot_heartbeat/SLICE_14 (from dslot_heartbeat.clk)
+ROUTE         4     1.619      R6C19D.Q0 to      R7C20B.C1 dslot_heartbeat/hb_since_edge_cnt[26]
+CTOF_DEL    ---     0.495      R7C20B.C1 to      R7C20B.F1 dslot_heartbeat/SLICE_27
+ROUTE         2     0.445      R7C20B.F1 to      R7C20B.C0 dslot_heartbeat/N_52
+CTOF_DEL    ---     0.495      R7C20B.C0 to      R7C20B.F0 dslot_heartbeat/SLICE_27
+ROUTE         2     0.637      R7C20B.F0 to      R6C20A.D1 dslot_heartbeat/un1_hb_valid_edge_cnt15_i_16_i_a2_i_o3_2
+CTOF_DEL    ---     0.495      R6C20A.D1 to      R6C20A.F1 dslot_heartbeat/SLICE_24
+ROUTE         2     1.772      R6C20A.F1 to      R5C20A.B1 dslot_heartbeat/hb_valid_edge_cnt_6[0]
+C1TOFCO_DE  ---     0.889      R5C20A.B1 to     R5C20A.FCO dslot_heartbeat/SLICE_0
+ROUTE         1     0.000     R5C20A.FCO to     R5C20B.FCI dslot_heartbeat/hb_valid_edge_cnt_cry[0]
+FCITOF1_DE  ---     0.643     R5C20B.FCI to      R5C20B.F1 dslot_heartbeat/SLICE_12
+ROUTE         1     0.000      R5C20B.F1 to     R5C20B.DI1 dslot_heartbeat/hb_valid_edge_cnt_s[2] (to dslot_heartbeat.clk)
+                  --------
+                    7.942   (43.7% logic, 56.3% route), 6 logic levels.
+
+ Clock Skew Details: 
+
+      Source Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_14:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     3.977        OSC.OSC to     R6C19D.CLK dslot_heartbeat.clk
+                  --------
+                    3.977   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Destination Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_12:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     3.977        OSC.OSC to     R5C20B.CLK dslot_heartbeat.clk
+                  --------
+                    3.977   (0.0% logic, 100.0% route), 0 logic levels.
+
+
+Passed: The following path meets requirements by 472.684ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              dslot_heartbeat/hb_since_edge_cnt[27]  (from dslot_heartbeat.clk +)
+   Destination:    FF         Data in        dslot_heartbeat/hb_valid_edge_cnt[4]  (to dslot_heartbeat.clk +)
+
+   Delay:               7.919ns  (45.9% logic, 54.1% route), 7 logic levels.
+
+ Constraint Details:
+
+      7.919ns physical path delay dslot_heartbeat/SLICE_14 to dslot_heartbeat/SLICE_11 meets
+    480.769ns delay constraint less
+      0.000ns skew and
+      0.166ns DIN_SET requirement (totaling 480.603ns) by 472.684ns
+
+ Physical Path Details:
+
+      Data path dslot_heartbeat/SLICE_14 to dslot_heartbeat/SLICE_11:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.452     R6C19D.CLK to      R6C19D.Q1 dslot_heartbeat/SLICE_14 (from dslot_heartbeat.clk)
+ROUTE         4     1.093      R6C19D.Q1 to      R7C20B.D1 dslot_heartbeat/hb_since_edge_cnt[27]
+CTOF_DEL    ---     0.495      R7C20B.D1 to      R7C20B.F1 dslot_heartbeat/SLICE_27
+ROUTE         2     0.445      R7C20B.F1 to      R7C20D.C1 dslot_heartbeat/N_52
+CTOF_DEL    ---     0.495      R7C20D.C1 to      R7C20D.F1 dslot_heartbeat/SLICE_29
+ROUTE         2     0.978      R7C20D.F1 to      R6C20A.A1 dslot_heartbeat/un1_hb_valid_edge_cnt15_i_16_i_a2_i_o3_1
+CTOF_DEL    ---     0.495      R6C20A.A1 to      R6C20A.F1 dslot_heartbeat/SLICE_24
+ROUTE         2     1.772      R6C20A.F1 to      R5C20A.B1 dslot_heartbeat/hb_valid_edge_cnt_6[0]
+C1TOFCO_DE  ---     0.889      R5C20A.B1 to     R5C20A.FCO dslot_heartbeat/SLICE_0
+ROUTE         1     0.000     R5C20A.FCO to     R5C20B.FCI dslot_heartbeat/hb_valid_edge_cnt_cry[0]
+FCITOFCO_D  ---     0.162     R5C20B.FCI to     R5C20B.FCO dslot_heartbeat/SLICE_12
+ROUTE         1     0.000     R5C20B.FCO to     R5C20C.FCI dslot_heartbeat/hb_valid_edge_cnt_cry[2]
+FCITOF1_DE  ---     0.643     R5C20C.FCI to      R5C20C.F1 dslot_heartbeat/SLICE_11
+ROUTE         1     0.000      R5C20C.F1 to     R5C20C.DI1 dslot_heartbeat/hb_valid_edge_cnt_s[4] (to dslot_heartbeat.clk)
+                  --------
+                    7.919   (45.9% logic, 54.1% route), 7 logic levels.
+
+ Clock Skew Details: 
+
+      Source Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_14:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     3.977        OSC.OSC to     R6C19D.CLK dslot_heartbeat.clk
+                  --------
+                    3.977   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Destination Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_11:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     3.977        OSC.OSC to     R5C20C.CLK dslot_heartbeat.clk
+                  --------
+                    3.977   (0.0% logic, 100.0% route), 0 logic levels.
+
+
+Passed: The following path meets requirements by 472.719ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              dslot_heartbeat/hb_since_edge_cnt[26]  (from dslot_heartbeat.clk +)
+   Destination:    FF         Data in        dslot_heartbeat/hb_valid_edge_cnt[1]  (to dslot_heartbeat.clk +)
+
+   Delay:               7.884ns  (43.3% logic, 56.7% route), 6 logic levels.
+
+ Constraint Details:
+
+      7.884ns physical path delay dslot_heartbeat/SLICE_14 to dslot_heartbeat/SLICE_12 meets
+    480.769ns delay constraint less
+      0.000ns skew and
+      0.166ns DIN_SET requirement (totaling 480.603ns) by 472.719ns
+
+ Physical Path Details:
+
+      Data path dslot_heartbeat/SLICE_14 to dslot_heartbeat/SLICE_12:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.452     R6C19D.CLK to      R6C19D.Q0 dslot_heartbeat/SLICE_14 (from dslot_heartbeat.clk)
+ROUTE         4     1.619      R6C19D.Q0 to      R7C20B.C1 dslot_heartbeat/hb_since_edge_cnt[26]
+CTOF_DEL    ---     0.495      R7C20B.C1 to      R7C20B.F1 dslot_heartbeat/SLICE_27
+ROUTE         2     0.445      R7C20B.F1 to      R7C20B.C0 dslot_heartbeat/N_52
+CTOF_DEL    ---     0.495      R7C20B.C0 to      R7C20B.F0 dslot_heartbeat/SLICE_27
+ROUTE         2     0.637      R7C20B.F0 to      R6C20A.D1 dslot_heartbeat/un1_hb_valid_edge_cnt15_i_16_i_a2_i_o3_2
+CTOF_DEL    ---     0.495      R6C20A.D1 to      R6C20A.F1 dslot_heartbeat/SLICE_24
+ROUTE         2     1.772      R6C20A.F1 to      R5C20A.B1 dslot_heartbeat/hb_valid_edge_cnt_6[0]
+C1TOFCO_DE  ---     0.889      R5C20A.B1 to     R5C20A.FCO dslot_heartbeat/SLICE_0
+ROUTE         1     0.000     R5C20A.FCO to     R5C20B.FCI dslot_heartbeat/hb_valid_edge_cnt_cry[0]
+FCITOF0_DE  ---     0.585     R5C20B.FCI to      R5C20B.F0 dslot_heartbeat/SLICE_12
+ROUTE         1     0.000      R5C20B.F0 to     R5C20B.DI0 dslot_heartbeat/hb_valid_edge_cnt_s[1] (to dslot_heartbeat.clk)
+                  --------
+                    7.884   (43.3% logic, 56.7% route), 6 logic levels.
+
+ Clock Skew Details: 
+
+      Source Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_14:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     3.977        OSC.OSC to     R6C19D.CLK dslot_heartbeat.clk
+                  --------
+                    3.977   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Destination Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_12:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     3.977        OSC.OSC to     R5C20B.CLK dslot_heartbeat.clk
+                  --------
+                    3.977   (0.0% logic, 100.0% route), 0 logic levels.
+
+
+Passed: The following path meets requirements by 472.742ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              dslot_heartbeat/hb_since_edge_cnt[27]  (from dslot_heartbeat.clk +)
+   Destination:    FF         Data in        dslot_heartbeat/hb_valid_edge_cnt[3]  (to dslot_heartbeat.clk +)
+
+   Delay:               7.861ns  (45.5% logic, 54.5% route), 7 logic levels.
+
+ Constraint Details:
+
+      7.861ns physical path delay dslot_heartbeat/SLICE_14 to dslot_heartbeat/SLICE_11 meets
+    480.769ns delay constraint less
+      0.000ns skew and
+      0.166ns DIN_SET requirement (totaling 480.603ns) by 472.742ns
+
+ Physical Path Details:
+
+      Data path dslot_heartbeat/SLICE_14 to dslot_heartbeat/SLICE_11:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.452     R6C19D.CLK to      R6C19D.Q1 dslot_heartbeat/SLICE_14 (from dslot_heartbeat.clk)
+ROUTE         4     1.093      R6C19D.Q1 to      R7C20B.D1 dslot_heartbeat/hb_since_edge_cnt[27]
+CTOF_DEL    ---     0.495      R7C20B.D1 to      R7C20B.F1 dslot_heartbeat/SLICE_27
+ROUTE         2     0.445      R7C20B.F1 to      R7C20D.C1 dslot_heartbeat/N_52
+CTOF_DEL    ---     0.495      R7C20D.C1 to      R7C20D.F1 dslot_heartbeat/SLICE_29
+ROUTE         2     0.978      R7C20D.F1 to      R6C20A.A1 dslot_heartbeat/un1_hb_valid_edge_cnt15_i_16_i_a2_i_o3_1
+CTOF_DEL    ---     0.495      R6C20A.A1 to      R6C20A.F1 dslot_heartbeat/SLICE_24
+ROUTE         2     1.772      R6C20A.F1 to      R5C20A.B1 dslot_heartbeat/hb_valid_edge_cnt_6[0]
+C1TOFCO_DE  ---     0.889      R5C20A.B1 to     R5C20A.FCO dslot_heartbeat/SLICE_0
+ROUTE         1     0.000     R5C20A.FCO to     R5C20B.FCI dslot_heartbeat/hb_valid_edge_cnt_cry[0]
+FCITOFCO_D  ---     0.162     R5C20B.FCI to     R5C20B.FCO dslot_heartbeat/SLICE_12
+ROUTE         1     0.000     R5C20B.FCO to     R5C20C.FCI dslot_heartbeat/hb_valid_edge_cnt_cry[2]
+FCITOF0_DE  ---     0.585     R5C20C.FCI to      R5C20C.F0 dslot_heartbeat/SLICE_11
+ROUTE         1     0.000      R5C20C.F0 to     R5C20C.DI0 dslot_heartbeat/hb_valid_edge_cnt_s[3] (to dslot_heartbeat.clk)
+                  --------
+                    7.861   (45.5% logic, 54.5% route), 7 logic levels.
+
+ Clock Skew Details: 
+
+      Source Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_14:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     3.977        OSC.OSC to     R6C19D.CLK dslot_heartbeat.clk
+                  --------
+                    3.977   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Destination Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_11:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     3.977        OSC.OSC to     R5C20C.CLK dslot_heartbeat.clk
+                  --------
+                    3.977   (0.0% logic, 100.0% route), 0 logic levels.
+
+Report:  116.131MHz is the maximum frequency for this preference.
 
 Report Summary
 --------------
@@ -247,9 +591,8 @@ Report Summary
 Preference                              |   Constraint|       Actual|Levels
 ----------------------------------------------------------------------------
                                         |             |             |
-Default path enumeration                |     0.000 ns|    13.905 ns|   0  
-                                        |             |             |
-Default net enumeration                 |     0.000 ns|     6.701 ns|   0  
+FREQUENCY NET "dslot_heartbeat.clk"     |             |             |
+2.080000 MHz ;                          |    2.080 MHz|  116.131 MHz|   7  
                                         |             |             |
 ----------------------------------------------------------------------------
 
@@ -260,7 +603,10 @@ All preferences were met.
 Clock Domains Analysis
 ------------------------
 
-Found 0 clocks:
+Found 1 clocks:
+
+Clock Domain: dslot_heartbeat.clk   Source: dslot_heartbeat/OSCInst0.OSC   Loads: 14
+   Covered under: FREQUENCY NET "dslot_heartbeat.clk" 2.080000 MHz ;
 
 
 Timing summary (Setup):
@@ -269,7 +615,527 @@ Timing summary (Setup):
 Timing errors: 0  Score: 0
 Cumulative negative slack: 0
 
-Constraints cover 61 paths, 63 nets, and 93 connections (100.00% coverage)
+Constraints cover 1032 paths, 1 nets, and 240 connections (79.73% coverage)
+
+--------------------------------------------------------------------------------
+Lattice TRACE Report - Hold, Version Diamond (64-bit) 3.13.0.56.2
+Wed Jun 24 14:46:09 2026
+
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2023 Lattice Semiconductor Corporation,  All rights reserved.
+
+Report Information
+------------------
+Command line:    trce -v 10 -gt -sethld -sp 4 -sphld m -o uz_d_slots_tx30.twr uz_d_slots_tx30.ncd uz_d_slots_tx30.prf 
+Design file:     uz_d_slots_tx30.ncd
+Preference file: uz_d_slots_tx30.prf
+Device,speed:    LCMXO2-2000HC,m
+Report level:    verbose report, limited to 10 items per preference
+--------------------------------------------------------------------------------
+
+BLOCK ASYNCPATHS
+BLOCK RESETPATHS
+--------------------------------------------------------------------------------
+
+
+
+================================================================================
+Preference: FREQUENCY NET "dslot_heartbeat.clk" 2.080000 MHz ;
+            1032 items scored, 0 timing errors detected.
+--------------------------------------------------------------------------------
+
+
+Passed: The following path meets requirements by 0.320ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              dslot_heartbeat/reqsafe_sync  (from dslot_heartbeat.clk +)
+   Destination:    FF         Data in        dslot_heartbeat/reqsafe_last  (to dslot_heartbeat.clk +)
+
+   Delay:               0.301ns  (44.2% logic, 55.8% route), 1 logic levels.
+
+ Constraint Details:
+
+      0.301ns physical path delay dslot_heartbeat/SLICE_21 to dslot_heartbeat/SLICE_21 meets
+     -0.019ns M_HLD and
+      0.000ns delay constraint less
+      0.000ns skew requirement (totaling -0.019ns) by 0.320ns
+
+ Physical Path Details:
+
+      Data path dslot_heartbeat/SLICE_21 to dslot_heartbeat/SLICE_21:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.133     R5C19C.CLK to      R5C19C.Q0 dslot_heartbeat/SLICE_21 (from dslot_heartbeat.clk)
+ROUTE         9     0.168      R5C19C.Q0 to      R5C19C.M1 dslot_heartbeat/reqsafe_sync (to dslot_heartbeat.clk)
+                  --------
+                    0.301   (44.2% logic, 55.8% route), 1 logic levels.
+
+ Clock Skew Details: 
+
+      Source Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_21:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     1.416        OSC.OSC to     R5C19C.CLK dslot_heartbeat.clk
+                  --------
+                    1.416   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Destination Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_21:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     1.416        OSC.OSC to     R5C19C.CLK dslot_heartbeat.clk
+                  --------
+                    1.416   (0.0% logic, 100.0% route), 0 logic levels.
+
+
+Passed: The following path meets requirements by 0.379ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              dslot_heartbeat/hb_valid_edge_cnt[2]  (from dslot_heartbeat.clk +)
+   Destination:    FF         Data in        dslot_heartbeat/hb_valid_edge_cnt[2]  (to dslot_heartbeat.clk +)
+
+   Delay:               0.366ns  (63.9% logic, 36.1% route), 2 logic levels.
+
+ Constraint Details:
+
+      0.366ns physical path delay dslot_heartbeat/SLICE_12 to dslot_heartbeat/SLICE_12 meets
+     -0.013ns DIN_HLD and
+      0.000ns delay constraint less
+      0.000ns skew requirement (totaling -0.013ns) by 0.379ns
+
+ Physical Path Details:
+
+      Data path dslot_heartbeat/SLICE_12 to dslot_heartbeat/SLICE_12:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.133     R5C20B.CLK to      R5C20B.Q1 dslot_heartbeat/SLICE_12 (from dslot_heartbeat.clk)
+ROUTE         2     0.132      R5C20B.Q1 to      R5C20B.A1 dslot_heartbeat/hb_valid_edge_cnt[2]
+CTOF_DEL    ---     0.101      R5C20B.A1 to      R5C20B.F1 dslot_heartbeat/SLICE_12
+ROUTE         1     0.000      R5C20B.F1 to     R5C20B.DI1 dslot_heartbeat/hb_valid_edge_cnt_s[2] (to dslot_heartbeat.clk)
+                  --------
+                    0.366   (63.9% logic, 36.1% route), 2 logic levels.
+
+ Clock Skew Details: 
+
+      Source Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_12:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     1.416        OSC.OSC to     R5C20B.CLK dslot_heartbeat.clk
+                  --------
+                    1.416   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Destination Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_12:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     1.416        OSC.OSC to     R5C20B.CLK dslot_heartbeat.clk
+                  --------
+                    1.416   (0.0% logic, 100.0% route), 0 logic levels.
+
+
+Passed: The following path meets requirements by 0.379ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              dslot_heartbeat/hb_valid_edge_cnt[1]  (from dslot_heartbeat.clk +)
+   Destination:    FF         Data in        dslot_heartbeat/hb_valid_edge_cnt[1]  (to dslot_heartbeat.clk +)
+
+   Delay:               0.366ns  (63.9% logic, 36.1% route), 2 logic levels.
+
+ Constraint Details:
+
+      0.366ns physical path delay dslot_heartbeat/SLICE_12 to dslot_heartbeat/SLICE_12 meets
+     -0.013ns DIN_HLD and
+      0.000ns delay constraint less
+      0.000ns skew requirement (totaling -0.013ns) by 0.379ns
+
+ Physical Path Details:
+
+      Data path dslot_heartbeat/SLICE_12 to dslot_heartbeat/SLICE_12:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.133     R5C20B.CLK to      R5C20B.Q0 dslot_heartbeat/SLICE_12 (from dslot_heartbeat.clk)
+ROUTE         2     0.132      R5C20B.Q0 to      R5C20B.A0 dslot_heartbeat/hb_valid_edge_cnt[1]
+CTOF_DEL    ---     0.101      R5C20B.A0 to      R5C20B.F0 dslot_heartbeat/SLICE_12
+ROUTE         1     0.000      R5C20B.F0 to     R5C20B.DI0 dslot_heartbeat/hb_valid_edge_cnt_s[1] (to dslot_heartbeat.clk)
+                  --------
+                    0.366   (63.9% logic, 36.1% route), 2 logic levels.
+
+ Clock Skew Details: 
+
+      Source Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_12:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     1.416        OSC.OSC to     R5C20B.CLK dslot_heartbeat.clk
+                  --------
+                    1.416   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Destination Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_12:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     1.416        OSC.OSC to     R5C20B.CLK dslot_heartbeat.clk
+                  --------
+                    1.416   (0.0% logic, 100.0% route), 0 logic levels.
+
+
+Passed: The following path meets requirements by 0.385ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              dslot_heartbeat/hb_valid_edge_cnt[0]  (from dslot_heartbeat.clk +)
+   Destination:    FF         Data in        dslot_heartbeat/hb_valid_edge_cnt[0]  (to dslot_heartbeat.clk +)
+
+   Delay:               0.372ns  (62.9% logic, 37.1% route), 2 logic levels.
+
+ Constraint Details:
+
+      0.372ns physical path delay dslot_heartbeat/SLICE_0 to dslot_heartbeat/SLICE_0 meets
+     -0.013ns DIN_HLD and
+      0.000ns delay constraint less
+      0.000ns skew requirement (totaling -0.013ns) by 0.385ns
+
+ Physical Path Details:
+
+      Data path dslot_heartbeat/SLICE_0 to dslot_heartbeat/SLICE_0:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.133     R5C20A.CLK to      R5C20A.Q1 dslot_heartbeat/SLICE_0 (from dslot_heartbeat.clk)
+ROUTE         2     0.138      R5C20A.Q1 to      R5C20A.C1 dslot_heartbeat/hb_valid_edge_cnt[0]
+CTOF_DEL    ---     0.101      R5C20A.C1 to      R5C20A.F1 dslot_heartbeat/SLICE_0
+ROUTE         1     0.000      R5C20A.F1 to     R5C20A.DI1 dslot_heartbeat/hb_valid_edge_cnt_s[0] (to dslot_heartbeat.clk)
+                  --------
+                    0.372   (62.9% logic, 37.1% route), 2 logic levels.
+
+ Clock Skew Details: 
+
+      Source Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_0:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     1.416        OSC.OSC to     R5C20A.CLK dslot_heartbeat.clk
+                  --------
+                    1.416   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Destination Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_0:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     1.416        OSC.OSC to     R5C20A.CLK dslot_heartbeat.clk
+                  --------
+                    1.416   (0.0% logic, 100.0% route), 0 logic levels.
+
+
+Passed: The following path meets requirements by 0.388ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              dslot_heartbeat/reqsafe_last  (from dslot_heartbeat.clk +)
+   Destination:    FF         Data in        dslot_heartbeat/hb_timeout_cnt[7]  (to dslot_heartbeat.clk +)
+
+   Delay:               0.375ns  (62.4% logic, 37.6% route), 2 logic levels.
+
+ Constraint Details:
+
+      0.375ns physical path delay dslot_heartbeat/SLICE_21 to dslot_heartbeat/SLICE_19 meets
+     -0.013ns DIN_HLD and
+      0.000ns delay constraint less
+      0.000ns skew requirement (totaling -0.013ns) by 0.388ns
+
+ Physical Path Details:
+
+      Data path dslot_heartbeat/SLICE_21 to dslot_heartbeat/SLICE_19:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.133     R5C19C.CLK to      R5C19C.Q1 dslot_heartbeat/SLICE_21 (from dslot_heartbeat.clk)
+ROUTE         8     0.141      R5C19C.Q1 to      R5C19D.D1 dslot_heartbeat/reqsafe_last
+CTOF_DEL    ---     0.101      R5C19D.D1 to      R5C19D.F1 dslot_heartbeat/SLICE_19
+ROUTE         1     0.000      R5C19D.F1 to     R5C19D.DI1 dslot_heartbeat/hb_timeout_cnt_RNO[7] (to dslot_heartbeat.clk)
+                  --------
+                    0.375   (62.4% logic, 37.6% route), 2 logic levels.
+
+ Clock Skew Details: 
+
+      Source Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_21:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     1.416        OSC.OSC to     R5C19C.CLK dslot_heartbeat.clk
+                  --------
+                    1.416   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Destination Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_19:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     1.416        OSC.OSC to     R5C19D.CLK dslot_heartbeat.clk
+                  --------
+                    1.416   (0.0% logic, 100.0% route), 0 logic levels.
+
+
+Passed: The following path meets requirements by 0.388ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              dslot_heartbeat/reqsafe_last  (from dslot_heartbeat.clk +)
+   Destination:    FF         Data in        dslot_heartbeat/hb_timeout_cnt[1]  (to dslot_heartbeat.clk +)
+
+   Delay:               0.375ns  (62.4% logic, 37.6% route), 2 logic levels.
+
+ Constraint Details:
+
+      0.375ns physical path delay dslot_heartbeat/SLICE_21 to dslot_heartbeat/SLICE_16 meets
+     -0.013ns DIN_HLD and
+      0.000ns delay constraint less
+      0.000ns skew requirement (totaling -0.013ns) by 0.388ns
+
+ Physical Path Details:
+
+      Data path dslot_heartbeat/SLICE_21 to dslot_heartbeat/SLICE_16:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.133     R5C19C.CLK to      R5C19C.Q1 dslot_heartbeat/SLICE_21 (from dslot_heartbeat.clk)
+ROUTE         8     0.141      R5C19C.Q1 to      R5C19B.D1 dslot_heartbeat/reqsafe_last
+CTOF_DEL    ---     0.101      R5C19B.D1 to      R5C19B.F1 dslot_heartbeat/SLICE_16
+ROUTE         1     0.000      R5C19B.F1 to     R5C19B.DI1 dslot_heartbeat/hb_timeout_cnt_RNO[1] (to dslot_heartbeat.clk)
+                  --------
+                    0.375   (62.4% logic, 37.6% route), 2 logic levels.
+
+ Clock Skew Details: 
+
+      Source Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_21:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     1.416        OSC.OSC to     R5C19C.CLK dslot_heartbeat.clk
+                  --------
+                    1.416   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Destination Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_16:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     1.416        OSC.OSC to     R5C19B.CLK dslot_heartbeat.clk
+                  --------
+                    1.416   (0.0% logic, 100.0% route), 0 logic levels.
+
+
+Passed: The following path meets requirements by 0.390ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              dslot_heartbeat/hb_timeout_cnt[0]  (from dslot_heartbeat.clk +)
+   Destination:    FF         Data in        dslot_heartbeat/hb_timeout_cnt[0]  (to dslot_heartbeat.clk +)
+
+   Delay:               0.377ns  (62.1% logic, 37.9% route), 2 logic levels.
+
+ Constraint Details:
+
+      0.377ns physical path delay dslot_heartbeat/SLICE_16 to dslot_heartbeat/SLICE_16 meets
+     -0.013ns DIN_HLD and
+      0.000ns delay constraint less
+      0.000ns skew requirement (totaling -0.013ns) by 0.390ns
+
+ Physical Path Details:
+
+      Data path dslot_heartbeat/SLICE_16 to dslot_heartbeat/SLICE_16:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.133     R5C19B.CLK to      R5C19B.Q0 dslot_heartbeat/SLICE_16 (from dslot_heartbeat.clk)
+ROUTE         3     0.143      R5C19B.Q0 to      R5C19B.C0 dslot_heartbeat/hb_timeout_cnt[0]
+CTOF_DEL    ---     0.101      R5C19B.C0 to      R5C19B.F0 dslot_heartbeat/SLICE_16
+ROUTE         1     0.000      R5C19B.F0 to     R5C19B.DI0 dslot_heartbeat/hb_timeout_cnt_RNO[0] (to dslot_heartbeat.clk)
+                  --------
+                    0.377   (62.1% logic, 37.9% route), 2 logic levels.
+
+ Clock Skew Details: 
+
+      Source Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_16:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     1.416        OSC.OSC to     R5C19B.CLK dslot_heartbeat.clk
+                  --------
+                    1.416   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Destination Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_16:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     1.416        OSC.OSC to     R5C19B.CLK dslot_heartbeat.clk
+                  --------
+                    1.416   (0.0% logic, 100.0% route), 0 logic levels.
+
+
+Passed: The following path meets requirements by 0.397ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              dslot_heartbeat/local_safe_request  (from dslot_heartbeat.clk +)
+   Destination:    FF         Data in        dslot_heartbeat/local_safe_request  (to dslot_heartbeat.clk +)
+
+   Delay:               0.384ns  (59.4% logic, 40.6% route), 2 logic levels.
+
+ Constraint Details:
+
+      0.384ns physical path delay dslot_heartbeat/SLICE_23 to dslot_heartbeat/SLICE_23 meets
+     -0.013ns DIN_HLD and
+      0.000ns delay constraint less
+      0.000ns skew requirement (totaling -0.013ns) by 0.397ns
+
+ Physical Path Details:
+
+      Data path dslot_heartbeat/SLICE_23 to dslot_heartbeat/SLICE_23:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.133     R6C20D.CLK to      R6C20D.Q0 dslot_heartbeat/SLICE_23 (from dslot_heartbeat.clk)
+ROUTE        32     0.156      R6C20D.Q0 to      R6C20D.M0 safe_state_request
+MTOOFX_DEL  ---     0.095      R6C20D.M0 to    R6C20D.OFX0 dslot_heartbeat/SLICE_23
+ROUTE         1     0.000    R6C20D.OFX0 to     R6C20D.DI0 dslot_heartbeat/local_safe_request_r (to dslot_heartbeat.clk)
+                  --------
+                    0.384   (59.4% logic, 40.6% route), 2 logic levels.
+
+ Clock Skew Details: 
+
+      Source Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_23:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     1.416        OSC.OSC to     R6C20D.CLK dslot_heartbeat.clk
+                  --------
+                    1.416   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Destination Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_23:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     1.416        OSC.OSC to     R6C20D.CLK dslot_heartbeat.clk
+                  --------
+                    1.416   (0.0% logic, 100.0% route), 0 logic levels.
+
+
+Passed: The following path meets requirements by 0.471ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              dslot_heartbeat/hb_valid_edge_cnt[3]  (from dslot_heartbeat.clk +)
+   Destination:    FF         Data in        dslot_heartbeat/hb_valid_edge_cnt[3]  (to dslot_heartbeat.clk +)
+
+   Delay:               0.458ns  (51.1% logic, 48.9% route), 2 logic levels.
+
+ Constraint Details:
+
+      0.458ns physical path delay dslot_heartbeat/SLICE_11 to dslot_heartbeat/SLICE_11 meets
+     -0.013ns DIN_HLD and
+      0.000ns delay constraint less
+      0.000ns skew requirement (totaling -0.013ns) by 0.471ns
+
+ Physical Path Details:
+
+      Data path dslot_heartbeat/SLICE_11 to dslot_heartbeat/SLICE_11:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.133     R5C20C.CLK to      R5C20C.Q0 dslot_heartbeat/SLICE_11 (from dslot_heartbeat.clk)
+ROUTE         2     0.224      R5C20C.Q0 to      R5C20C.B0 dslot_heartbeat/hb_valid_edge_cnt[3]
+CTOF_DEL    ---     0.101      R5C20C.B0 to      R5C20C.F0 dslot_heartbeat/SLICE_11
+ROUTE         1     0.000      R5C20C.F0 to     R5C20C.DI0 dslot_heartbeat/hb_valid_edge_cnt_s[3] (to dslot_heartbeat.clk)
+                  --------
+                    0.458   (51.1% logic, 48.9% route), 2 logic levels.
+
+ Clock Skew Details: 
+
+      Source Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_11:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     1.416        OSC.OSC to     R5C20C.CLK dslot_heartbeat.clk
+                  --------
+                    1.416   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Destination Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_11:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     1.416        OSC.OSC to     R5C20C.CLK dslot_heartbeat.clk
+                  --------
+                    1.416   (0.0% logic, 100.0% route), 0 logic levels.
+
+
+Passed: The following path meets requirements by 0.472ns
+
+ Logical Details:  Cell type  Pin type       Cell/ASIC name  (clock net +/-)
+
+   Source:         FF         Q              dslot_heartbeat/reqsafe_last  (from dslot_heartbeat.clk +)
+   Destination:    FF         Data in        dslot_heartbeat/hb_timeout_cnt[6]  (to dslot_heartbeat.clk +)
+
+   Delay:               0.459ns  (51.0% logic, 49.0% route), 2 logic levels.
+
+ Constraint Details:
+
+      0.459ns physical path delay dslot_heartbeat/SLICE_21 to dslot_heartbeat/SLICE_19 meets
+     -0.013ns DIN_HLD and
+      0.000ns delay constraint less
+      0.000ns skew requirement (totaling -0.013ns) by 0.472ns
+
+ Physical Path Details:
+
+      Data path dslot_heartbeat/SLICE_21 to dslot_heartbeat/SLICE_19:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+REG_DEL     ---     0.133     R5C19C.CLK to      R5C19C.Q1 dslot_heartbeat/SLICE_21 (from dslot_heartbeat.clk)
+ROUTE         8     0.225      R5C19C.Q1 to      R5C19D.B0 dslot_heartbeat/reqsafe_last
+CTOF_DEL    ---     0.101      R5C19D.B0 to      R5C19D.F0 dslot_heartbeat/SLICE_19
+ROUTE         1     0.000      R5C19D.F0 to     R5C19D.DI0 dslot_heartbeat/hb_timeout_cnt_RNO[6] (to dslot_heartbeat.clk)
+                  --------
+                    0.459   (51.0% logic, 49.0% route), 2 logic levels.
+
+ Clock Skew Details: 
+
+      Source Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_21:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     1.416        OSC.OSC to     R5C19C.CLK dslot_heartbeat.clk
+                  --------
+                    1.416   (0.0% logic, 100.0% route), 0 logic levels.
+
+      Destination Clock Path dslot_heartbeat/OSCInst0 to dslot_heartbeat/SLICE_19:
+
+   Name    Fanout   Delay (ns)          Site               Resource
+ROUTE        14     1.416        OSC.OSC to     R5C19D.CLK dslot_heartbeat.clk
+                  --------
+                    1.416   (0.0% logic, 100.0% route), 0 logic levels.
+
+Report Summary
+--------------
+----------------------------------------------------------------------------
+Preference(MIN Delays)                  |   Constraint|       Actual|Levels
+----------------------------------------------------------------------------
+                                        |             |             |
+FREQUENCY NET "dslot_heartbeat.clk"     |             |             |
+2.080000 MHz ;                          |     0.000 ns|     0.320 ns|   1  
+                                        |             |             |
+----------------------------------------------------------------------------
+
+
+All preferences were met.
+
+
+Clock Domains Analysis
+------------------------
+
+Found 1 clocks:
+
+Clock Domain: dslot_heartbeat.clk   Source: dslot_heartbeat/OSCInst0.OSC   Loads: 14
+   Covered under: FREQUENCY NET "dslot_heartbeat.clk" 2.080000 MHz ;
+
+
+Timing summary (Hold):
+---------------
+
+Timing errors: 0  Score: 0
+Cumulative negative slack: 0
+
+Constraints cover 1032 paths, 1 nets, and 240 connections (79.73% coverage)
+
+
+
+Timing summary (Setup and Hold):
+---------------
+
+Timing errors: 0 (setup), 0 (hold)
+Score: 0 (setup), 0 (hold)
+Cumulative negative slack: 0 (0+0)
+--------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 

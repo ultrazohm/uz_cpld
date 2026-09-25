@@ -95,17 +95,43 @@ entity SignalRouter is
 end SignalRouter;
 
 architecture Behavioral of SignalRouter is
-	SIGNAL safe_state_request : STD_LOGIC;
+	SIGNAL heartbeat_invalid : STD_LOGIC;
+
+	SIGNAL clk: STD_LOGIC;
+
+	COMPONENT OSCH
+		-- synthesis translate_off
+		GENERIC (NOM_FREQ: STRING := "2.08");
+		-- synthesis translate_on
+		PORT (
+			STDBY: IN STD_LOGIC;
+			OSC: OUT STD_LOGIC;
+			SEDSTDBY: OUT STD_LOGIC
+		);
+	END COMPONENT;
+	ATTRIBUTE NOM_FREQ: STRING;
+	ATTRIBUTE NOM_FREQ OF OSCInst0: LABEL IS "2.08";
 begin
+	OSCInst0: OSCH
+		-- synthesis translate_off
+		GENERIC MAP (NOM_FREQ => "2.08")
+		-- synthesis translate_on
+		PORT MAP (
+			STDBY => '0',
+			OSC => clk,
+			SEDSTDBY => OPEN
+		);
+
 	dslot_heartbeat: ENTITY work.dslot_heartbeat_receiver
 		PORT MAP (
-			reqsafestate		=> reqsafestate,
-			safe_state_request	=> safe_state_request
+			clk					=> clk,
+			heartbeat_in		=> carrierrdy,
+			heartbeat_invalid	=> heartbeat_invalid
 		);
 
 	--Fixed definitions
 	reqoe <= NOT tristate_outputs; 
-	enable_forwarding <= user_enable_forwarding AND NOT safe_state_request;
+	enable_forwarding <= user_enable_forwarding AND NOT heartbeat_invalid AND NOT reqsafestate;
 	
 	-- Specific safety definitions for card
 	slotok <= enable_forwarding;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<BaliProject version="3.2" title="uz_d_slots" device="LCMXO2-2000HC-4TG100C" default_implementation="tx30">
+<BaliProject version="3.2" title="uz_d_slots" device="LCMXO2-2000HC-4TG100C" default_implementation="voltage_8rx_8rx_8rx_6rx">
     <Options/>
     <Implementation title="optical_14tx_4rx" dir="optical_14tx_4rx" description="optical_14tx_4rx" synthesis="synplify" default_strategy="Strategy1">
         <Options def_top="SignalRouter"/>
@@ -9,7 +9,7 @@
         <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="optical_14tx_4rx/source/uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
             <Options/>
         </Source>
     </Implementation>
@@ -21,7 +21,7 @@
         <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="rx30/source/uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
             <Options/>
         </Source>
     </Implementation>
@@ -33,7 +33,7 @@
         <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="template_dslots/source/uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
             <Options/>
         </Source>
     </Implementation>
@@ -45,7 +45,7 @@
         <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="tx16_14rx/source/uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
             <Options/>
         </Source>
     </Implementation>
@@ -55,9 +55,9 @@
             <Options top_module="SignalRouter"/>
         </Source>
         <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
-            <Options/>
+            <Options top_module="sXc_heartbeat_sender"/>
         </Source>
-        <Source name="tx20_10rx/source/uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
             <Options/>
         </Source>
     </Implementation>
@@ -69,7 +69,7 @@
         <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="tx26_w_enable/source/uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
             <Options/>
         </Source>
     </Implementation>
@@ -79,9 +79,21 @@
             <Options top_module="SignalRouter"/>
         </Source>
         <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options top_module="sXc_heartbeat_sender"/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
             <Options/>
         </Source>
-        <Source name="tx30/source/uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+    </Implementation>
+    <Implementation title="tx30_hearbeattesting" dir="tx30_hearbeattesting" description="tx30_hearbeattesting" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="tx30_hearbeattesting/source/tx30_hearbeattesting.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
             <Options/>
         </Source>
     </Implementation>
@@ -93,19 +105,19 @@
         <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="uz_d_3ph_inverter/source/uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
             <Options/>
         </Source>
     </Implementation>
-    <Implementation title="uz_d_abs_encoder_ssi_rev01" dir="uz_d_abs_encoder_ssi_rev01" description="uz_d_abs_encoder_ssi_rev01" synthesis="synplify" default_strategy="Strategy1">
+    <Implementation title="uz_d_abs_encoder" dir="uz_d_abs_encoder" description="uz_d_abs_encoder" synthesis="synplify" default_strategy="Strategy1">
         <Options def_top="SignalRouter"/>
-        <Source name="uz_d_abs_encoder_ssi_rev01/source/uz_d_abs_encoder_ssi_rev01.vhdl" type="VHDL" type_short="VHDL">
+        <Source name="uz_d_abs_encoder/source/uz_d_abs_encoder.vhdl" type="VHDL" type_short="VHDL">
             <Options top_module="SignalRouter"/>
         </Source>
         <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="uz_d_abs_encoder_ssi_rev01/source/uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
             <Options/>
         </Source>
     </Implementation>
@@ -117,7 +129,7 @@
         <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="uz_d_resolver_d1_to_d4/source/uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
             <Options/>
         </Source>
     </Implementation>
@@ -129,7 +141,211 @@
         <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
             <Options/>
         </Source>
-        <Source name="uz_d_resolver_d5/source/uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="uz_d_temperature_ltc2983" dir="uz_d_temperature_ltc2983" description="uz_d_temperature_ltc2983" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="uz_d_temperature_ltc2983/source/uz_d_temperature_ltc2983.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="voltage_8rx_8rx_8rx_6rx" dir="Voltage_3v3_5v/voltage_8rx_8rx_8rx_6rx" description="Voltage_3v3_5v: voltage_8rx_8rx_8rx_6rx" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="Voltage_3v3_5v/voltage_8rx_8rx_8rx_6rx/source/voltage_8rx_8rx_8rx_6rx.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options top_module="sXc_heartbeat_sender"/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="voltage_8rx_8rx_8rx_6tx" dir="Voltage_3v3_5v/voltage_8rx_8rx_8rx_6tx" description="Voltage_3v3_5v: voltage_8rx_8rx_8rx_6tx" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="Voltage_3v3_5v/voltage_8rx_8rx_8rx_6tx/source/voltage_8rx_8rx_8rx_6tx.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="voltage_8rx_8rx_8tx_6rx" dir="Voltage_3v3_5v/voltage_8rx_8rx_8tx_6rx" description="Voltage_3v3_5v: voltage_8rx_8rx_8tx_6rx" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="Voltage_3v3_5v/voltage_8rx_8rx_8tx_6rx/source/voltage_8rx_8rx_8tx_6rx.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="voltage_8rx_8rx_8tx_6tx" dir="Voltage_3v3_5v/voltage_8rx_8rx_8tx_6tx" description="Voltage_3v3_5v: voltage_8rx_8rx_8tx_6tx" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="Voltage_3v3_5v/voltage_8rx_8rx_8tx_6tx/source/voltage_8rx_8rx_8tx_6tx.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="voltage_8rx_8tx_8rx_6rx" dir="Voltage_3v3_5v/voltage_8rx_8tx_8rx_6rx" description="Voltage_3v3_5v: voltage_8rx_8tx_8rx_6rx" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="Voltage_3v3_5v/voltage_8rx_8tx_8rx_6rx/source/voltage_8rx_8tx_8rx_6rx.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="voltage_8rx_8tx_8rx_6tx" dir="Voltage_3v3_5v/voltage_8rx_8tx_8rx_6tx" description="Voltage_3v3_5v: voltage_8rx_8tx_8rx_6tx" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="Voltage_3v3_5v/voltage_8rx_8tx_8rx_6tx/source/voltage_8rx_8tx_8rx_6tx.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="voltage_8rx_8tx_8tx_6rx" dir="Voltage_3v3_5v/voltage_8rx_8tx_8tx_6rx" description="Voltage_3v3_5v: voltage_8rx_8tx_8tx_6rx" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="Voltage_3v3_5v/voltage_8rx_8tx_8tx_6rx/source/voltage_8rx_8tx_8tx_6rx.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="voltage_8rx_8tx_8tx_6tx" dir="Voltage_3v3_5v/voltage_8rx_8tx_8tx_6tx" description="Voltage_3v3_5v: voltage_8rx_8tx_8tx_6tx" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="Voltage_3v3_5v/voltage_8rx_8tx_8tx_6tx/source/voltage_8rx_8tx_8tx_6tx.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="voltage_8tx_8rx_8rx_6rx" dir="Voltage_3v3_5v/voltage_8tx_8rx_8rx_6rx" description="Voltage_3v3_5v: voltage_8tx_8rx_8rx_6rx" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="Voltage_3v3_5v/voltage_8tx_8rx_8rx_6rx/source/voltage_8tx_8rx_8rx_6rx.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="voltage_8tx_8rx_8rx_6tx" dir="Voltage_3v3_5v/voltage_8tx_8rx_8rx_6tx" description="Voltage_3v3_5v: voltage_8tx_8rx_8rx_6tx" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="Voltage_3v3_5v/voltage_8tx_8rx_8rx_6tx/source/voltage_8tx_8rx_8rx_6tx.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="voltage_8tx_8rx_8tx_6rx" dir="Voltage_3v3_5v/voltage_8tx_8rx_8tx_6rx" description="Voltage_3v3_5v: voltage_8tx_8rx_8tx_6rx" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="Voltage_3v3_5v/voltage_8tx_8rx_8tx_6rx/source/voltage_8tx_8rx_8tx_6rx.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="voltage_8tx_8rx_8tx_6tx" dir="Voltage_3v3_5v/voltage_8tx_8rx_8tx_6tx" description="Voltage_3v3_5v: voltage_8tx_8rx_8tx_6tx" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="Voltage_3v3_5v/voltage_8tx_8rx_8tx_6tx/source/voltage_8tx_8rx_8tx_6tx.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="voltage_8tx_8tx_8rx_6rx" dir="Voltage_3v3_5v/voltage_8tx_8tx_8rx_6rx" description="Voltage_3v3_5v: voltage_8tx_8tx_8rx_6rx" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="Voltage_3v3_5v/voltage_8tx_8tx_8rx_6rx/source/voltage_8tx_8tx_8rx_6rx.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="voltage_8tx_8tx_8rx_6tx" dir="Voltage_3v3_5v/voltage_8tx_8tx_8rx_6tx" description="Voltage_3v3_5v: voltage_8tx_8tx_8rx_6tx" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="Voltage_3v3_5v/voltage_8tx_8tx_8rx_6tx/source/voltage_8tx_8tx_8rx_6tx.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="voltage_8tx_8tx_8tx_6rx" dir="Voltage_3v3_5v/voltage_8tx_8tx_8tx_6rx" description="Voltage_3v3_5v: voltage_8tx_8tx_8tx_6rx" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="Voltage_3v3_5v/voltage_8tx_8tx_8tx_6rx/source/voltage_8tx_8tx_8tx_6rx.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Implementation title="voltage_8tx_8tx_8tx_6tx" dir="Voltage_3v3_5v/voltage_8tx_8tx_8tx_6tx" description="Voltage_3v3_5v: voltage_8tx_8tx_8tx_6tx" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="SignalRouter"/>
+        <Source name="Voltage_3v3_5v/voltage_8tx_8tx_8tx_6tx/source/voltage_8tx_8tx_8tx_6tx.vhdl" type="VHDL" type_short="VHDL">
+            <Options top_module="SignalRouter"/>
+        </Source>
+        <Source name="../../../xo2_libraries/lib_sXc.vhd" type="VHDL" type_short="VHDL">
+            <Options/>
+        </Source>
+        <Source name="uz_d_slots.lpf" type="Logic Preference" type_short="LPF">
             <Options/>
         </Source>
     </Implementation>

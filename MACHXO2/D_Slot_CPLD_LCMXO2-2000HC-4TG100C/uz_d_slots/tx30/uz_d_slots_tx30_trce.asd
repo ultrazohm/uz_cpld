@@ -1,7 +1,11 @@
 [ActiveSupport TRCE]
 ; Setup Analysis
-Other_0 = 13.905 ns (0.000 ns);
-Other_1 = 6.701 ns (0.000 ns);
-Failed = 0 (Total 2);
+Fmax_0 = 116.131 MHz (2.080 MHz);
+Failed = 0 (Total 1);
 Clock_ports = 0;
-Clock_nets = 0;
+Clock_nets = 1;
+; Hold Analysis
+Fmax_0 = 0.320 ns (0.000 ns);
+Failed = 0 (Total 1);
+Clock_ports = 0;
+Clock_nets = 1;

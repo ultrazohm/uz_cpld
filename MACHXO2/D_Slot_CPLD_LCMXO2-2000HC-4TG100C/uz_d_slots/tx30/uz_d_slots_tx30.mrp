@@ -8,30 +8,29 @@ Design Information
 Command line:   map -a MachXO2 -p LCMXO2-2000HC -t TQFP100 -s 4 -oc Commercial
      uz_d_slots_tx30.ngd -o uz_d_slots_tx30_map.ncd -pr uz_d_slots_tx30.prf -mp
      uz_d_slots_tx30.mrp -lpf C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-20
-     00HC-4TG100C/uz_d_slots/tx30/uz_d_slots_tx30.lpf -lpf C:/cpld/cpld_lattice/
-     MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30/source/uz_d_slots
-     .lpf -c 0 -gui -msgset C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000
-     HC-4TG100C/uz_d_slots/promote.xml 
+     00HC-4TG100C/uz_d_slots/tx30/uz_d_slots_tx30_synplify.lpf -lpf C:/cpld/cpld
+     _lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_slots.lp
+     f -c 0 
 Target Vendor:  LATTICE
 Target Device:  LCMXO2-2000HCTQFP100
 Target Performance:   4
 Mapper:  xo2c00,  version:  Diamond (64-bit) 3.13.0.56.2
-Mapped on:  12/17/24  20:43:02
+Mapped on:  06/24/26  14:45:46
 
 Design Summary
 --------------
 
-   Number of registers:      0 out of  2352 (0%)
-      PFU registers:            0 out of  2112 (0%)
-      PIO registers:            0 out of   240 (0%)
-   Number of SLICEs:        16 out of  1056 (2%)
-      SLICEs as Logic/ROM:     16 out of  1056 (2%)
+   Number of registers:     25 out of  2352 (1%)
+      PFU registers:           24 out of  2112 (1%)
+      PIO registers:            1 out of   240 (0%)
+   Number of SLICEs:        45 out of  1056 (4%)
+      SLICEs as Logic/ROM:     45 out of  1056 (4%)
       SLICEs as RAM:            0 out of   792 (0%)
-      SLICEs as Carry:          0 out of  1056 (0%)
-   Number of LUT4s:         32 out of  2112 (2%)
-      Number used as logic LUTs:         32
+      SLICEs as Carry:         13 out of  1056 (1%)
+   Number of LUT4s:         90 out of  2112 (4%)
+      Number used as logic LUTs:         64
       Number used as distributed RAM:     0
-      Number used as ripple logic:        0
+      Number used as ripple logic:       26
       Number used as shift registers:     0
    Number of PIO sites used: 63 + 4(JTAG) out of 80 (84%)
    Number of block RAMs:  0 out of 8 (0%)
@@ -39,7 +38,7 @@ Design Summary
    EFB used :        No
    JTAG used :       No
    Readback used :   No
-   Oscillator used : No
+   Oscillator used : Yes
    Startup used :    No
    POR :             On
    Bandgap :         On
@@ -58,43 +57,82 @@ Design Summary
      distributed RAMs) + 2*(Number of ripple logic)
       2. Number of logic LUT4s does not include count of distributed RAM and
      ripple logic.
-   Number of clocks:  0
-   Number of Clock Enables:  0
+   Number of clocks:  1
+     Net dslot_heartbeat.clk: 14 loads, 14 rising, 0 falling (Driver:
+     dslot_heartbeat/OSCInst0 )
 
                                     Page 1
 
 
 
 
-Design:  SignalRouter                                  Date:  12/17/24  20:43:02
+Design:  SignalRouter                                  Date:  06/24/26  14:45:46
 
 Design Summary (cont)
 ---------------------
+   Number of Clock Enables:  1
+     Net dslot_heartbeat/hb_valid_edge_cnte: 3 loads, 3 LSLICEs
    Number of LSRs:  0
    Number of nets driven by tri-state buffers:  0
    Top 10 highest fanout non-clock nets:
-     Net reqsafestate_c: 31 loads
-     Net d_00_c: 1 loads
-     Net d_01_c: 1 loads
-     Net d_02_c: 1 loads
-     Net d_03_c: 1 loads
-     Net d_04_c: 1 loads
-     Net fpga_00_c: 1 loads
-     Net fpga_01_c: 1 loads
-     Net n43: 1 loads
-     Net VCC_net: 1 loads
+     Net safe_state_request: 32 loads
+     Net dslot_heartbeat/un7lto7_4: 18 loads
+     Net dslot_heartbeat/un7lto7_5: 18 loads
+     Net dslot_heartbeat/N_35_i: 14 loads
+     Net dslot_heartbeat/reqsafe_sync: 9 loads
+     Net dslot_heartbeat/reqsafe_last: 8 loads
+     Net dslot_heartbeat/N_15_i: 6 loads
+     Net dslot_heartbeat/hb_since_edge_cnt[26]: 4 loads
+     Net dslot_heartbeat/hb_since_edge_cnt[27]: 4 loads
+     Net dslot_heartbeat/hb_since_edge_cnt[24]: 3 loads
 
 
 
 
-   Number of warnings:  0
+   Number of warnings:  9
    Number of errors:    0
      
 
 Design Errors/Warnings
 ----------------------
 
-   No errors or warnings present.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(123): Semantic error in "TRACEID "0000000000" ; ":
+     TRACEID bit length can not be more than 8 bits
+     . This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(125): Semantic error in "IOBUF PORT "i2c_scl"
+     IO_TYPE=LVCMOS18 PULLMODE=NONE ;": Port "i2c_scl" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(126): Semantic error in "IOBUF PORT "i2c_sda"
+     IO_TYPE=LVCMOS18 PULLMODE=NONE ;": Port "i2c_sda" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(129): Semantic error in "IOBUF PORT "pilot_in"
+     IO_TYPE=LVCMOS33 PULLMODE=NONE ;": Port "pilot_in" does not exist in the
+     design. This preference has been disabled.
+WARNING - map: C:/cpld/cpld_lattice/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz
+     _d_slots/uz_d_slots.lpf(136): Semantic error in "IOBUF PORT "carrierrdy"
+     IO_TYPE=LVCMOS18 ;": Port "carrierrdy" does not exist in the design. This
+     preference has been disabled.
+WARNING - map: IO buffer missing for top level port pilot_in...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port carrierrdy...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port i2c_scl...logic will be
+     discarded.
+WARNING - map: IO buffer missing for top level port i2c_sda...logic will be
+     discarded.
+
+
+
+                                    Page 2
+
+
+
+
+Design:  SignalRouter                                  Date:  06/24/26  14:45:46
 
 IO (PIO) Attributes
 -------------------
@@ -105,190 +143,217 @@ IO (PIO) Attributes
 +---------------------+-----------+-----------+------------+
 | slotok              | OUTPUT    | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-| reqoe               | OUTPUT    | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| d_00                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_01                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_02                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_03                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_04                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_05                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_06                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_07                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_08                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_09                | OUTPUT    | LVCMOS33  |            |
-
-                                    Page 2
-
-
-
-
-Design:  SignalRouter                                  Date:  12/17/24  20:43:02
-
-IO (PIO) Attributes (cont)
---------------------------
-+---------------------+-----------+-----------+------------+
-| d_10                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_11                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_12                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_13                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_14                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_15                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_16                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_17                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_18                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_19                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_20                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_21                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_22                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_23                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_24                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_25                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_26                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_27                | OUTPUT    | LVCMOS33  |            |
-+---------------------+-----------+-----------+------------+
-| d_28                | OUTPUT    | LVCMOS33  |            |
+| reqsafestate        | INPUT     | LVCMOS18  | IN         |
 +---------------------+-----------+-----------+------------+
 | d_29                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| reqsafestate        | INPUT     | LVCMOS18  |            |
+| d_28                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| fpga_00             | INPUT     | LVCMOS18  |            |
+| d_27                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| fpga_01             | INPUT     | LVCMOS18  |            |
+| d_26                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| fpga_02             | INPUT     | LVCMOS18  |            |
+| d_25                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| fpga_03             | INPUT     | LVCMOS18  |            |
+| d_24                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| fpga_04             | INPUT     | LVCMOS18  |            |
+| d_23                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| fpga_05             | INPUT     | LVCMOS18  |            |
+| d_22                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| fpga_06             | INPUT     | LVCMOS18  |            |
+| d_21                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| d_20                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| d_19                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| d_18                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| d_17                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| d_16                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| d_15                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| d_14                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| d_13                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| d_12                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| d_11                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| d_10                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| d_09                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| d_08                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| d_07                | OUTPUT    | LVCMOS33  |            |
++---------------------+-----------+-----------+------------+
+| d_06                | OUTPUT    | LVCMOS33  |            |
 
                                     Page 3
 
 
 
 
-Design:  SignalRouter                                  Date:  12/17/24  20:43:02
+Design:  SignalRouter                                  Date:  06/24/26  14:45:46
 
 IO (PIO) Attributes (cont)
 --------------------------
 +---------------------+-----------+-----------+------------+
-| fpga_07             | INPUT     | LVCMOS18  |            |
+| d_05                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| fpga_08             | INPUT     | LVCMOS18  |            |
+| d_04                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| fpga_09             | INPUT     | LVCMOS18  |            |
+| d_03                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| fpga_10             | INPUT     | LVCMOS18  |            |
+| d_02                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| fpga_11             | INPUT     | LVCMOS18  |            |
+| d_01                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
-| fpga_12             | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| fpga_13             | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| fpga_14             | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| fpga_15             | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| fpga_16             | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| fpga_17             | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| fpga_18             | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| fpga_19             | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| fpga_20             | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| fpga_21             | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| fpga_22             | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| fpga_23             | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| fpga_24             | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| fpga_25             | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| fpga_26             | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| fpga_27             | INPUT     | LVCMOS18  |            |
-+---------------------+-----------+-----------+------------+
-| fpga_28             | INPUT     | LVCMOS18  |            |
+| d_00                | OUTPUT    | LVCMOS33  |            |
 +---------------------+-----------+-----------+------------+
 | fpga_29             | INPUT     | LVCMOS18  |            |
 +---------------------+-----------+-----------+------------+
-
-Removed logic
--------------
-
-Block GSR_INST undriven or does not drive anything - clipped.
-Block i56 undriven or does not drive anything - clipped.
-Block i3_4_lut undriven or does not drive anything - clipped.
-Block i2c_sda_pad undriven or does not drive anything - clipped.
-Block i2c_scl_pad undriven or does not drive anything - clipped.
+| fpga_28             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_27             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_26             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_25             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_24             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_23             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_22             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_21             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_20             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_19             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_18             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_17             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_16             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_15             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_14             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_13             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_12             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_11             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_10             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_09             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_08             | INPUT     | LVCMOS18  |            |
 
                                     Page 4
 
 
 
 
-Design:  SignalRouter                                  Date:  12/17/24  20:43:02
+Design:  SignalRouter                                  Date:  06/24/26  14:45:46
 
-Removed logic (cont)
---------------------
-Block carrierrdy_pad undriven or does not drive anything - clipped.
-Block pilot_in_pad undriven or does not drive anything - clipped.
-Signal GND_net undriven or does not drive anything - clipped.
-Signal dummy_signal undriven or does not drive anything - clipped.
-Signal i2c_sda_c undriven or does not drive anything - clipped.
-Signal i2c_sda undriven or does not drive anything - clipped.
-Signal i2c_scl_c undriven or does not drive anything - clipped.
-Signal i2c_scl undriven or does not drive anything - clipped.
-Signal carrierrdy_c undriven or does not drive anything - clipped.
-Signal carrierrdy undriven or does not drive anything - clipped.
-Signal pilot_in_c undriven or does not drive anything - clipped.
-Signal pilot_in undriven or does not drive anything - clipped.
+IO (PIO) Attributes (cont)
+--------------------------
++---------------------+-----------+-----------+------------+
+| fpga_07             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_06             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_05             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_04             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_03             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_02             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_01             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| fpga_00             | INPUT     | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+| reqoe               | OUTPUT    | LVCMOS18  |            |
++---------------------+-----------+-----------+------------+
+
+Removed logic
+-------------
+
+Block GSR_INST undriven or does not drive anything - clipped.
+Block GND undriven or does not drive anything - clipped.
+Block dslot_heartbeat/VCC undriven or does not drive anything - clipped.
+Signal dslot_heartbeat/GND undriven or does not drive anything - clipped.
+Signal GND undriven or does not drive anything - clipped.
+Signal dslot_heartbeat/hb_valid_edge_cnt_cry_0_COUT[3] undriven or does not
+     drive anything - clipped.
+Signal dslot_heartbeat/un2_hb_since_edge_cnt_2_cry_0_0_S0 undriven or does not
+     drive anything - clipped.
+Signal dslot_heartbeat/N_2 undriven or does not drive anything - clipped.
+Signal dslot_heartbeat/un2_hb_since_edge_cnt_2_s_7_0_S1 undriven or does not
+     drive anything - clipped.
+Signal dslot_heartbeat/un2_hb_since_edge_cnt_2_s_7_0_COUT undriven or does not
+     drive anything - clipped.
+Signal dslot_heartbeat/un1_hb_timeout_cnt_cry_0_0_S1 undriven or does not drive
+     anything - clipped.
+Signal dslot_heartbeat/un1_hb_timeout_cnt_cry_0_0_S0 undriven or does not drive
+     anything - clipped.
+Signal dslot_heartbeat/N_3 undriven or does not drive anything - clipped.
+Signal dslot_heartbeat/un1_hb_timeout_cnt_s_7_0_S1 undriven or does not drive
+     anything - clipped.
+Signal dslot_heartbeat/un1_hb_timeout_cnt_s_7_0_COUT undriven or does not drive
+     anything - clipped.
+Signal dslot_heartbeat/hb_valid_edge_cnt_cry_0_S0[0] undriven or does not drive
+     anything - clipped.
+Signal dslot_heartbeat/N_1 undriven or does not drive anything - clipped.
+Signal dslot_heartbeat/OSCInst0_SEDSTDBY undriven or does not drive anything -
+     clipped.
+Block dslot_heartbeat/GND was optimized away.
 
      
+
+
+
+                                    Page 5
+
+
+
+
+Design:  SignalRouter                                  Date:  06/24/26  14:45:46
+
+OSC Summary
+-----------
+
+OSC 1:                                     Pin/Node Value
+  OSC Instance Name:                                dslot_heartbeat/OSCInst0
+  OSC Type:                                         OSCH
+  STDBY Input:                                      NONE
+  OSC Output:                              NODE     dslot_heartbeat.clk
+  OSC Nominal Frequency (MHz):                      2.08
+
+ASIC Components
+---------------
+
+Instance Name: dslot_heartbeat/OSCInst0
+         Type: OSCH
 
 Run Time and Memory Usage
 -------------------------
 
-   Total CPU Time: 0 secs  
+   Total CPU Time: 1 secs  
    Total REAL Time: 2 secs  
-   Peak Memory Usage: 44 MB
+   Peak Memory Usage: 46 MB
         
 
 
@@ -325,7 +390,8 @@ Run Time and Memory Usage
 
 
 
-                                    Page 5
+
+                                    Page 6
 
 
 Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.

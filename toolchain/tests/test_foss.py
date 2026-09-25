@@ -9,7 +9,7 @@ from unittest.mock import patch
 
 from toolchain.buildsystem import workflow
 from toolchain.buildsystem.model import catalog, program_backends, BuildError, load_build
-from toolchain.buildsystem.backends.foss import constraints
+from toolchain.buildsystem.backends.foss import constraints, equivalence_script, normalize_oscillator_frequency
 from toolchain.buildsystem.foss_config import complete_config, package_lpf
 from toolchain.foss.install import install
 
@@ -35,6 +35,40 @@ class FossTests(unittest.TestCase):
         self.build.directory.mkdir()
         workflow.clean(self.build)
         self.assertTrue(diamond.firmware_path('bit').is_file())
+
+    def test_stateful_and_s3c_foss_proofs_are_required(self):
+        for program, top, instance, clock in (
+            ('tx30_stateful', 'tx30_stateful', 'oscillator', 'oscillator_OSC'),
+            ('s3c_power_on_debounce', 'Waiting_for_Powerbutton_pressed_V0', 'oscinst0', 'oscinst0_OSC'),
+        ):
+            with self.subTest(program=program):
+                build = load_build(ROOT, program, backend='foss')
+                names = (build.foss_equivalence_blacklist.read_text().splitlines()
+                         if build.foss_equivalence_blacklist else [])
+                mapped = {'modules': {top: {
+                    'cells': {instance: {'type': 'OSCH', 'connections': {'OSC': [1]}},
+                              'register': {'type': 'TRELLIS_FF'}},
+                    'netnames': {clock: {'bits': [1]}, **{name: {'bits': [2]} for name in names}},
+                    'ports': {},
+                }}}
+                script, record = equivalence_script(build, mapped)
+                self.assertIn('equiv_induct -seq 8', script)
+                self.assertIn('equiv_status -assert', script)
+                self.assertIn(f'expose -input {top}/w:{clock}', script)
+                self.assertIn(f'delete {top}/c:{instance}', script)
+                self.assertEqual(record['blacklist'], names)
+                if names:
+                    mapped['modules'][top]['ports'][names[0]] = {}
+                    with self.assertRaisesRegex(BuildError, 'internal signal names'):
+                        equivalence_script(build, mapped)
+
+    def test_oscillator_frequency_preserves_value_and_checks_lpf(self):
+        bits = ''.join(f'{byte:08b}' for byte in b'2.08')
+        module = {'cells': {'clock': {'type': 'OSCH', 'parameters': {'NOM_FREQ': bits}}}}
+        with self.assertRaisesRegex(BuildError, 'conflicts'):
+            normalize_oscillator_frequency(module, '4.16')
+        normalize_oscillator_frequency(module, '2.08')
+        self.assertEqual(module['cells']['clock']['parameters']['NOM_FREQ'], '2.08')
 
     def test_make_backend_selection_and_invalid_value(self):
         result = subprocess.run(['make', 'list', 'backend=foss'], cwd=ROOT, capture_output=True, text=True)

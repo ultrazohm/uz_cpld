@@ -122,10 +122,88 @@ def constraints(text):
     return '\n'.join(lines) + '\n', deferred, notes
 
 
+def equivalence_script(build, mapped):
+    """Compare mapped logic to RTL, expanding sequential MachXO2 cell models."""
+    module = mapped['modules'][build.top]
+    cells = module['cells']
+    sequential = any(cell['type'] == 'TRELLIS_FF' for cell in cells.values())
+    oscillators = [(name, cell) for name, cell in cells.items() if cell['type'] == 'OSCH']
+    if len(oscillators) > 1:
+        raise BuildError('FOSS equivalence supports at most one internal OSCH')
+    clock_cut = None
+    if oscillators:
+        instance, cell = oscillators[0]
+        nets = [name for name, net in module['netnames'].items()
+                if name.endswith('_OSC') and net['bits'] == cell['connections']['OSC']]
+        if len(nets) != 1 or not all(re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*', value)
+                                      for value in (instance, nets[0], build.top)):
+            raise BuildError('Cannot identify a unique internal oscillator clock for FOSS equivalence')
+        clock_cut = (instance, nets[0])
+    if build.foss_equivalence_blacklist and not sequential:
+        raise BuildError('FOSS equivalence blacklist requires a sequential mapped design')
+    if build.foss_equivalence_blacklist:
+        lines = build.foss_equivalence_blacklist.read_text().splitlines()
+        if (not lines or len(set(lines)) != len(lines) or
+                any(not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*', line) or
+                    line not in module['netnames'] or line in module['ports'] for line in lines)):
+            raise BuildError('FOSS equivalence blacklist must contain distinct mapped internal signal names')
+    commands = ['read_json ../metadata/reports/synth.json']
+    if sequential:
+        # Parameterized mapping cells in synth.json are blackboxes; derive their
+        # functional models from cells_sim_xo2.v for the proof copy only.
+        commands.append('delete =*TRELLIS_FF* =*CCU2D*')
+    commands += ['read_verilog -overwrite +/lattice/cells_sim_xo2.v']
+    for name, start in (('gate', None), ('gold', 'read_verilog rtl.v')):
+        if start:
+            commands.append(start)
+        commands += [f'hierarchy -top {build.top}', 'proc',
+                     'flatten -wb' if sequential else 'flatten']
+        if clock_cut:
+            instance, net = clock_cut
+            # Both proof copies receive the same arbitrary clock. The real
+            # oscillator remains present in the synthesized firmware netlist.
+            commands += [f'expose -input {build.top}/w:{net}',
+                         f'delete {build.top}/c:{instance}']
+        commands += ['opt_clean', f'rename {build.top} {name}', f'design -stash {name}']
+    commands += ['design -copy-from gate -as gate gate',
+                 'design -copy-from gold -as gold gold']
+    match = 'equiv_make'
+    if build.foss_equivalence_blacklist:
+        match += ' -blacklist equivalence-blacklist.txt'
+    commands += [match + ' gold gate equiv', 'hierarchy -top equiv', 'equiv_simple']
+    if sequential:
+        commands.append('equiv_induct -seq 8')
+    commands.append('equiv_status -assert')
+    return '\n'.join(commands) + '\n', {
+        'method': 'mapped sequential induction' if sequential else 'mapped combinational SAT',
+        'clock_abstraction': dict(zip(('instance', 'net'), clock_cut)) if clock_cut else None,
+        'blacklist': (build.foss_equivalence_blacklist.read_text().splitlines()
+                      if build.foss_equivalence_blacklist else []),
+        'initial_alignment_proven': not sequential,
+    }
+
+
+def normalize_oscillator_frequency(module, expected):
+    """Convert GHDL's packed ASCII generic to nextpnr's string parameter."""
+    for cell in module['cells'].values():
+        if cell['type'] != 'OSCH':
+            continue
+        bits = cell['parameters'].get('NOM_FREQ')
+        if not isinstance(bits, str) or len(bits) % 8 or re.fullmatch(r'[01]+', bits) is None:
+            raise BuildError('Unsupported OSCH NOM_FREQ encoding in mapped netlist')
+        try:
+            frequency = bytes(int(bits[i:i + 8], 2) for i in range(0, len(bits), 8)).decode('ascii')
+        except UnicodeDecodeError as exc:
+            raise BuildError('OSCH NOM_FREQ is not ASCII') from exc
+        if re.fullmatch(r'\d+\.\d+', frequency) is None:
+            raise BuildError(f'Unsupported OSCH NOM_FREQ: {frequency!r}')
+        if expected not in (None, frequency):
+            raise BuildError('OSCH NOM_FREQ conflicts with LPF MCCLK_FREQ')
+        cell['parameters']['NOM_FREQ'] = frequency
+
+
 class FossBackend:
     def prepare(self, build, project, log):
-        if any(s.library.lower() != 'work' for s in build.sources):
-            raise BuildError('FOSS synthesis currently supports only work-library sources')
         tools(build)
         require_device(build)
         project.mkdir(parents=True)
@@ -144,15 +222,6 @@ class FossBackend:
             'read_verilog rtl.v', f'hierarchy -check -top {build.top}',
             f'synth_lattice -family xo2 -top {build.top} -json ../metadata/reports/synth.json',
             'check', 'stat']) + '\n')
-        (project / 'equivalence.ys').write_text('\n'.join([
-            'read_json ../metadata/reports/synth.json', 'read_verilog -overwrite +/lattice/cells_sim_xo2.v',
-            f'hierarchy -top {build.top}', 'proc', 'flatten', 'opt_clean',
-            f'rename {build.top} gate', 'design -stash gate',
-            'read_verilog rtl.v', f'hierarchy -top {build.top}', 'proc', 'flatten', 'opt_clean',
-            f'rename {build.top} gold', 'design -stash gold',
-            'design -copy-from gate -as gate gate', 'design -copy-from gold -as gold gold',
-            'equiv_make gold gate equiv', 'hierarchy -top equiv', 'equiv_simple',
-            'equiv_status -assert']) + '\n')
         plan = {'root': str(build.root), 'program': build.name, 'target': build.target,
                 'device': build.device, 'top': build.top, 'standard': build.standard,
                 'sources': [str(s.path) for s in build.sources], 'seed': build.options['seed'],
@@ -174,15 +243,23 @@ class FossBackend:
             if result.returncode:
                 raise BuildError(f'FOSS tool failed ({result.returncode}): {argv[0]}; see {log}')
         standard = {'1993': '93', '2008': '08'}[plan['standard']]
-        from ..ghdl import machxo2_library
-        library_args = machxo2_library(build.root, build.sources, project, standard)
+        from ..ghdl import analyze_sources
+        with log.open('a') as stream:
+            library_args = analyze_sources(build.root, build.sources, project, standard, log=stream)
         with (project / 'rtl.v').open('w') as rtl:
             run([record['executables']['ghdl']['path'], '--synth', f'--std={standard}', *library_args, '--out=verilog',
-                 *plan['sources'], '-e', plan['top']], stdout=rtl)
+                 plan['top']], stdout=rtl)
         run([tool('yosys'), '-s', 'synth.ys'])
+        mapped = json.loads((project.parent / 'metadata/reports/synth.json').read_text())
+        proof, proof_record = equivalence_script(build, mapped)
+        (project / 'equivalence.ys').write_text(proof)
+        if build.foss_equivalence_blacklist:
+            shutil.copy2(build.foss_equivalence_blacklist, project / 'equivalence-blacklist.txt')
         run([tool('yosys'), '-l', 'impl/equivalence.log', '-s', 'equivalence.ys'])
+        proof_record['result'] = 'proven'
+        (project.parent / 'metadata/reports/equivalence.json').write_text(json.dumps(proof_record, indent=2) + '\n')
         from ..foss_config import package_lpf
-        netlist = json.loads((project.parent / 'metadata/reports/synth.json').read_text())
+        netlist = mapped
         module = netlist['modules'][plan['top']]
         used = {bit for cell in module['cells'].values() for bits in cell['connections'].values() for bit in bits}
         used.update(bit for port in module['ports'].values() if port['direction'] != 'input' for bit in port['bits'])
@@ -190,6 +267,7 @@ class FossBackend:
                   if port['direction'] == 'input' and not any(bit in used for bit in port['bits'])]
         for name in unused:
             del module['ports'][name]
+        normalize_oscillator_frequency(module, plan['deferred'].get('MCCLK_FREQ'))
         (project.parent / 'metadata/reports/pnr-input.json').write_text(json.dumps(netlist))
         lpf, pin_report = package_lpf((project / 'constraints.lpf').read_text(),
                                       netlist['modules'][plan['top']]['ports'], suite_root(), build.device,

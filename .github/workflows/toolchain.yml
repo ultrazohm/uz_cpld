@@ -36,6 +36,7 @@ jobs:
             programs/*/build/simulation/
             programs/*/build/netlist/
             programs/*/build/uz_dslot_xo2_foss/
+            programs/*/build/uz_s3c_xo2_foss/
             toolchain/build/simulation/
           if-no-files-found: warn
           retention-days: 14

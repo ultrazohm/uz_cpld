@@ -20,7 +20,9 @@ The archived controller declares both ``CarrierReady`` outputs and the front-pan
 Its source comment reports that ``ReqSafeState`` did not work while the 1.8 V bank was unpowered.
 The state named ``Waiting_for_Powerbutton_released`` checks for the button being pressed again, so the name does not describe its actual transition condition.
 Diamond uses constraints copied from the selected archive implementation, including its pin and bank settings.
-The prepared FOSS constraints omit ``JTAG_PORT=DISABLE`` and correct the two bank-2 ``IO_TYPE`` settings, but the FOSS firmware backend remains disabled because mapped sequential equivalence has not been proven.
+The FOSS constraints omit ``JTAG_PORT=DISABLE`` and correct the two bank-2 ``IO_TYPE`` settings.
+The FOSS build proves mapped sequential equivalence with a shared abstract clock and excludes seven optimized internal signals from proof cutpoint matching.
+Both firmware backends build this program; their bitstreams and electrical behavior have not been shown equivalent.
 
 Verification
 ------------

@@ -2,8 +2,9 @@ name = "s3c_power_on_debounce"
 top = "Waiting_for_Powerbutton_pressed_V0"
 standard = "1993"
 targets = ["uz_s3c_xo2"]
-backends = ["diamond"]
+backends = ["diamond", "foss"]
 constraints = ["s3c_power_on_debounce_constraints.lpf"]
 foss_constraints = ["s3c_power_on_debounce_foss_constraints.lpf"]
+foss_equivalence_blacklist = "s3c_power_on_debounce_foss_equivalence_blacklist.txt"
 sources = [{path = "s3c_power_on_debounce.vhdl", library = "work"}]
 testbench = "s3c_power_on_debounce_tb.py"

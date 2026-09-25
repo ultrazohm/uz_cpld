@@ -94,9 +94,18 @@ class FrontendTests(unittest.TestCase):
     def test_imported_s3c_selects_backend_constraints(self):
         diamond = load_build(self.root, 's3c_power_on_debounce', backend='diamond')
         self.assertIn('JTAG_PORT=DISABLE', diamond.constraint.read_text())
-        with self.assertRaisesRegex(BuildError, 'does not support the foss firmware backend'):
-            load_build(self.root, 's3c_power_on_debounce', backend='foss')
+        foss = load_build(self.root, 's3c_power_on_debounce', backend='foss')
+        self.assertFalse(any('JTAG_PORT=DISABLE' in line for line in foss.constraint.read_text().splitlines()
+                             if not line.lstrip().startswith('#')))
         self.assertEqual(diamond.target, 'uz_s3c_xo2')
+
+    def test_s3c_clone_preserves_foss_equivalence_input(self):
+        cloned = workflow.scaffold(self.root, 's3c_copy', 's3c_power_on_debounce', backend='foss')
+        build = load_build(self.root, 's3c_copy', backend='foss')
+        self.assertEqual(build.foss_equivalence_blacklist,
+                         cloned / 's3c_copy_foss_equivalence_blacklist.txt')
+        self.assertEqual(build.foss_equivalence_blacklist.read_bytes(),
+                         (ROOT / 'programs/s3c_power_on_debounce/s3c_power_on_debounce_foss_equivalence_blacklist.txt').read_bytes())
 
     def test_build_all_selects_each_program_target(self):
         selected = []
@@ -115,7 +124,8 @@ class FrontendTests(unittest.TestCase):
         selected.clear()
         with patch('toolchain.buildsystem.cli.workflow.build_program', side_effect=capture), redirect_stdout(io.StringIO()):
             self.assertEqual(cli_main(['build-all', '--root', str(self.root), '--target', 'uz_s3c_xo2', '--backend', 'foss']), 0)
-        self.assertEqual(selected, [('s3c_toolchain_test_program', 'uz_s3c_xo2')])
+        self.assertEqual(selected, [('s3c_toolchain_test_program', 'uz_s3c_xo2'),
+                                    ('s3c_power_on_debounce', 'uz_s3c_xo2')])
 
     def test_failed_catalog_update_removes_clone(self):
         path = self.root / 'programs/catalog.toml'

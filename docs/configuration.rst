@@ -13,6 +13,8 @@ All shown fields are required.
 ``sources`` is a nonempty ordered list with no duplicate paths, and ``targets`` explicitly lists compatible board targets.
 Input paths are relative to the manifest, must exist and must stay within the workspace.
 ``constraints`` names the authored Diamond LPF. An optional ``foss_constraints`` names a separate FOSS LPF when vendor settings cannot be reproduced by Trellis; each backend reads exactly one LPF.
+An optional ``foss_equivalence_blacklist`` names a program-local file of distinct mapped internal signals that should not be matched as proof cutpoints.
+Top-level ports cannot be blacklisted, and the file is included in firmware provenance.
 An optional ``backends`` list limits firmware exports to ``diamond`` and/or ``foss``. Omitted lists permit both.
 ``testbench`` must name the program-local ``<name>_tb.py`` file; manifest validation checks its existence but does not run it.
 An optional ``generator`` path selects a standalone generator configuration and requires fresh emitted VHDL and provenance before builds, simulation, or documentation.

@@ -30,4 +30,4 @@ Verification
 The testbench checks startup, every route, safe-state gating, and re-enable behavior.
 The direct controller testbench checks states, status levels, synchronization, and enable policies.
 The interaction testbench connects the program to the actual S3C controller through startup, soft stop, and enable.
-The firmware backend is Diamond and requires a valid license.
+Both Diamond and FOSS build this program; the FOSS build proves mapped sequential equivalence with a shared abstract clock.

@@ -311,6 +311,8 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
     local_inputs = [s.path for s in original.sources if 'generator' not in meta or s.path.is_relative_to(source)] + [primary_constraint, original.testbench]
     if 'foss_constraints' in meta:
         local_inputs.append(input_path(root, source, meta['foss_constraints'][0]))
+    if 'foss_equivalence_blacklist' in meta:
+        local_inputs.append(input_path(root, source, meta['foss_equivalence_blacklist']))
     if any(path.is_relative_to(source / 'build') for path in local_inputs):
         raise BuildError('Cloning requires authored inputs outside the generated build directory')
     if any(not path.is_relative_to(source) for path in local_inputs):
@@ -330,6 +332,8 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
         del renames[primary.relative_to(source)]
     if 'foss_constraints' in meta:
         renames[Path(meta['foss_constraints'][0])] = Path(f'{name}_foss_constraints.lpf')
+    if 'foss_equivalence_blacklist' in meta:
+        renames[Path(meta['foss_equivalence_blacklist'])] = Path(f'{name}_foss_equivalence_blacklist.txt')
     for old, new in renames.items():
         if (source / new).exists() and new != old:
             raise BuildError(f'Clone filename conflicts with an existing file: {new}')
@@ -340,6 +344,8 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
     meta['constraints'] = [f'{name}_constraints.lpf']
     if 'foss_constraints' in meta:
         meta['foss_constraints'] = [f'{name}_foss_constraints.lpf']
+    if 'foss_equivalence_blacklist' in meta:
+        meta['foss_equivalence_blacklist'] = f'{name}_foss_equivalence_blacklist.txt'
     meta['testbench'] = f'{name}_tb.py'
 
     def toml_value(value):

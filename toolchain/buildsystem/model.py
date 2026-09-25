@@ -77,6 +77,7 @@ class Build:
     manifests: tuple[Path, ...]
     expected_version: str
     testbench: Path
+    foss_equivalence_blacklist: Path | None = None
 
     @property
     def build_root(self) -> Path:
@@ -95,7 +96,9 @@ class Build:
     @property
     def inputs(self) -> tuple[Path, ...]:
         """All authored inputs included in provenance."""
-        return tuple(s.path for s in self.sources) + (self.constraint, self.testbench) + ((self.strategy,) if self.strategy else ()) + self.manifests
+        return (tuple(s.path for s in self.sources) + (self.constraint, self.testbench) +
+                ((self.strategy,) if self.strategy else ()) + self.manifests +
+                ((self.foss_equivalence_blacklist,) if self.foss_equivalence_blacklist else ()))
 
 
 def catalog(root: Path) -> list[str]:
@@ -144,9 +147,10 @@ def load_build(root: Path, name: str, target: str | None = None, backend: str | 
     pm = input_path(root, root, f'programs/{name}/{name}.toml')
     tm = input_path(root, root, f'toolchain/targets/{target}/target.toml')
     p, t = read_toml(pm), read_toml(tm)
-    pf = {'name', 'top', 'standard', 'sources', 'targets', 'backends', 'constraints', 'foss_constraints', 'testbench', 'generator'}
+    pf = {'name', 'top', 'standard', 'sources', 'targets', 'backends', 'constraints',
+          'foss_constraints', 'foss_equivalence_blacklist', 'testbench', 'generator'}
     tf = {'name', 'device', 'backend', 'diamond', 'foss'}
-    keys(p, pf, pf - {'foss_constraints', 'backends', 'generator'}, str(pm)); keys(t, tf, {'name', 'device', 'backend'}, str(tm))
+    keys(p, pf, pf - {'foss_constraints', 'foss_equivalence_blacklist', 'backends', 'generator'}, str(pm)); keys(t, tf, {'name', 'device', 'backend'}, str(tm))
     if p['name'] != name or t['name'] != target:
         raise BuildError('Manifest name must match its directory')
     if target not in declared_targets:
@@ -202,6 +206,8 @@ def load_build(root: Path, name: str, target: str | None = None, backend: str | 
             raise BuildError('FOSS constraint must be an LPF')
         if backend == 'foss':
             constraint = foss_constraint
+    equivalence_blacklist = (input_path(root, pm.parent, p['foss_equivalence_blacklist'])
+                             if 'foss_equivalence_blacklist' in p else None)
     testbench = input_path(root, pm.parent, p['testbench'])
     if testbench != pm.parent / f'{name}_tb.py':
         raise BuildError('Testbench must be named <program>_tb.py in the program directory')
@@ -216,7 +222,7 @@ def load_build(root: Path, name: str, target: str | None = None, backend: str | 
             raise BuildError('foss.seed must be a positive 32-bit integer')
         pin = input_path(root, root, 'toolchain/foss/toolchain.json')
         return Build(root, name, target, backend, p['top'], p['standard'], tuple(sources), constraint,
-                     t['device'], None, {'seed': f['seed']}, (pm, tm, pin, input_path(root, root, 'toolchain/foss/sources.json'), *generator_inputs), f['version'], testbench)
+                     t['device'], None, {'seed': f['seed']}, (pm, tm, pin, input_path(root, root, 'toolchain/foss/sources.json'), *generator_inputs), f['version'], testbench, equivalence_blacklist)
     d = t.get('diamond', {})
     keys(d, {'strategy', 'version', 'options'}, {'strategy', 'version', 'options'}, 'diamond')
     if not isinstance(d['options'], dict) or any(not isinstance(v, str) for v in d['options'].values()):

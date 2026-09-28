@@ -12,8 +12,9 @@ Up to ``jobs`` programs run concurrently (default: 4; ``jobs=1`` runs sequential
 For each program, RTL schematics, state diagrams, simulation, waveform assets and its page are generated in order.
 After every program succeeds, the complete page index is written and the main Sphinx build runs sequentially.
 Failed analysis or simulation stops the build; generated page sources are replaced before generation.
+A documentation lock rejects simultaneous asset generators and prevents ``clean-all`` or program creation from changing the workspace during asset generation.
 The same worker limit applies to ``make docs-assets-local`` and ``make docs-local``.
-Firmware builds, including Diamond ``make build-all``, remain sequential.
+Firmware builds, including Diamond ``make build-all``, run sequentially.
 ``make netlist`` exports diagrams for the firmware catalog without simulation; ``program`` selects one program.
 
 RTL netlists
@@ -25,7 +26,7 @@ The standalone HTML viewer, SVG and PDF are also available for download.
 This analysis excludes LPF constraints, device mapping, placement, routing and timing, so it does not represent Diamond's implemented netlist.
 Conditional routing appears as a mux at this stage; for example, choosing an FPGA input in normal state and ``0`` in safe state implements an AND for defined binary values.
 The firmware tools can map that function into device LUTs.
-Vendor attributes such as ``syn_keep`` can be ignored; sources in the manifest are compiled in their declared libraries, while unsupported primitives still require explicit models.
+Vendor attributes such as ``syn_keep`` can be ignored; sources in the manifest are compiled in their declared libraries, while unsupported primitives require explicit models.
 
 ``programs/<release_cycle>/<name>/build/netlist/`` contains ``netlist.svg``, ``netlist.pdf``, intermediates and diagnostic logs; ``metadata/`` contains netlist provenance and the Yosys JSON export.
 Netlist exports use the managed program/target lock and remove stale diagrams on failure.
@@ -37,7 +38,9 @@ For programs with an enumerated state signal and a ``case`` statement, documenta
 The diagram identifies the declared initial state and explicit transitions and labels each arrow with its source-level condition.
 For ``elsif`` and ``else`` branches, the label also includes the preceding guards being false.
 An unconditional assignment is labeled ``always``; the implicit hold when a branch does not assign a new state is omitted.
-It is a source navigation aid, not a proof that a transition is reachable or safe.
+The extractor supports simple named ``when`` branches and nested ``if``/``elsif``/``else`` guards within one state ``case`` statement.
+Reset assignments outside that statement, enclosing process guards, and implicit holds are omitted.
+The diagram is a source navigation aid and does not establish transition reachability or safety.
 Generated files and source hashes are under ``programs/<release_cycle>/<name>/build/state-diagrams/``.
 TerosHDL offers an interactive state-machine viewer in VS Code; Sphinx's headless export uses the repository's own extractor.
 

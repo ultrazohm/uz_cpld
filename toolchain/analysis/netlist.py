@@ -1,11 +1,12 @@
 """Export generic RTL schematics with GHDL, Yosys and Graphviz, without Diamond."""
 import argparse
+import json
 from pathlib import Path
 import shutil
 import subprocess
 import sys
 
-from toolchain.buildsystem.model import BuildError, catalog, load_build
+from toolchain.buildsystem.model import BuildError, catalog, load_build, resolve_release, program_targets
 from toolchain.buildsystem.workflow import digest, locked, safe_directory, write_json
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -38,7 +39,7 @@ def _export_netlist(build):
             subprocess.run(['ghdl', '--synth', f'--std={standard}', *library_args, '--out=verilog',
                             build.top],
                            cwd=output, stdout=net, stderr=log, check=True)
-        script = '\n'.join([f'read_verilog -lib "{primitive}"',
+        script = '\n'.join([f'read_verilog -lib {json.dumps(str(primitive))}',
                             'read_verilog rtl.v', f'hierarchy -check -top {build.top}',
                             'proc', 'flatten', 'opt_clean',
                             'write_json metadata/rtl.json', f'show -format dot -prefix netlist {build.top}'])
@@ -81,13 +82,16 @@ def main():
     parser.add_argument('--target')
     args = parser.parse_args()
     try:
-        for name in [args.program] if args.program else catalog(ROOT, args.release_cycle):
-            if args.target is None:
-                print(export_netlist(load_build(ROOT, name, release_cycle=args.release_cycle)))
-            else:
-                from toolchain.buildsystem.model import program_targets
-                if args.target in program_targets(ROOT, name, args.release_cycle):
-                    print(export_netlist(load_build(ROOT, name, args.target, release_cycle=args.release_cycle)))
+        cycle = resolve_release(ROOT, args.release_cycle)
+        if args.program:
+            print(export_netlist(load_build(ROOT, args.program, args.target, release_cycle=cycle)))
+        else:
+            names = [name for name in catalog(ROOT, cycle)
+                     if args.target is None or args.target in program_targets(ROOT, name, cycle)]
+            if args.target is not None and not names:
+                raise BuildError(f'No catalog programs support target {args.target}')
+            for name in names:
+                print(export_netlist(load_build(ROOT, name, args.target, release_cycle=cycle)))
     except (BuildError, OSError, ValueError) as exc:
         print(exc, file=sys.stderr)
         return 1

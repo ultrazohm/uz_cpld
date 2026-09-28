@@ -202,3 +202,17 @@ reqoe = [1, 0]
         routing.write_text(routing.read_text().replace('d_00,fpga_00,0', 'd_00,fpga_00,1'))
         with self.assertRaisesRegex(BuildError, 'Stale'):
             load_build(root, 'cvg_stateful_clone')
+
+    def test_clone_rejects_external_routing_input(self):
+        source = workflow.scaffold(self.root, 'external_routes', 'generator')
+        shared = self.root / 'routing.csv'
+        (source / 'routing.csv').rename(shared)
+        config = source / 'generator.toml'
+        config.write_text(config.read_text().replace('routing = "routing.csv"',
+                                                    'routing = "../../../routing.csv"'))
+        workflow.generate_program(self.root, source.name)
+        before = shared.read_bytes()
+        with self.assertRaisesRegex(BuildError, 'program-local inputs'):
+            workflow.scaffold(self.root, 'clone', source.name)
+        self.assertFalse((source.parent / 'cvg_clone').exists())
+        self.assertEqual(shared.read_bytes(), before)

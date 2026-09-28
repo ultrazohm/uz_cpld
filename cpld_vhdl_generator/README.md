@@ -24,7 +24,7 @@ flowchart LR
 ## Standalone use
 
 Run from the checkout, or install with `pip install .` to use `cpld-vhdl-generator`.
-Python 3.10 requires `tomli`; newer Python versions use the standard library.
+Requires Python 3.10 or later. Package installation includes the required TOML parser.
 Create the following two files in a directory.
 
 `routing.csv`:

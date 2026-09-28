@@ -87,6 +87,8 @@ def constraints(text):
         if words[0] == 'BLOCK' and words[1:] in (['RESETPATHS'], ['ASYNCPATHS']):
             notes.append('Timing exclusion recorded without a timing acceptance claim: ' + ' '.join(words))
         elif words[0] == 'TRACEID' and len(words) == 2 and re.fullmatch(r'[01]{8}', words[1]):
+            if 'TRACEID' in deferred and deferred['TRACEID'] != words[1]:
+                raise BuildError('Conflicting TRACEID settings')
             deferred['TRACEID'] = words[1]
         elif words[0] == 'SYSCONFIG':
             for word in words[1:]:
@@ -257,7 +259,7 @@ class FossBackend:
         (project / 'constraints.lpf').write_text(lpf)
         primitive = build.root / 'toolchain/hdl/machxo2_primitives.v'
         (project / 'synth.ys').write_text('\n'.join([
-            f'read_verilog -lib "{primitive}"',
+            f'read_verilog -lib {json.dumps(str(primitive))}',
             'read_verilog rtl.v', f'hierarchy -check -top {build.top}',
             f'synth_lattice -family xo2 -top {build.top} -json ../metadata/reports/synth.json',
             'check', 'stat']) + '\n')
@@ -271,7 +273,7 @@ class FossBackend:
     def build(self, project, log):
         from ..model import load_build
         plan = json.loads((project.parent / 'metadata/build-plan.json').read_text())
-        build = load_build(Path(plan['root']), plan['program'], plan['target'], 'foss')
+        build = load_build(Path(plan['root']), plan['program'], plan['target'], 'foss', plan['release_cycle'])
         record = tools(build)
         (project.parent / 'metadata/reports/tools.json').write_text(json.dumps(record, indent=2) + '\n')
         def run(argv, stdout=None):

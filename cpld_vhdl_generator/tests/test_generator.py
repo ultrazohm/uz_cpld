@@ -39,6 +39,20 @@ fpga_01,d_01,d_01
         self.assertNotIn('cvg_normal_state', sources[-1].read_text())
         check(self.config, self.output)
 
+    def test_malformed_receipts_do_not_modify_outputs(self):
+        generate(self.config, self.output)
+        record = self.output / 'generator-output.json'
+        before = (self.output / 'cvg_example.vhdl').read_bytes()
+        for value in ([], None, {'files': []}, {'files': {'../outside': '0' * 64}},
+                      {'files': {'cvg_example.vhdl': None}},
+                      {'files': {'generator-output.json': '0' * 64}}):
+            with self.subTest(value=value):
+                record.write_text(json.dumps(value))
+                with self.assertRaises(GeneratorError):
+                    generate(self.config, self.output)
+                self.assertEqual((self.output / 'cvg_example.vhdl').read_bytes(), before)
+                self.assertEqual(json.loads(record.read_text()), value)
+
     def profile(self, mode, ready='unused'):
         (self.root / 'profile.toml').write_text(f'''id = "test_contract"
 compatible_s3c = ["test_s3c"]

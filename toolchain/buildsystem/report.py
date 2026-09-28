@@ -4,27 +4,49 @@ from datetime import datetime, timezone
 import json
 from pathlib import Path
 
-from .model import Build
+from .model import Build, BuildError
 from .workflow import digest, hashes, write_json
 
 
 def _read_json(path: Path):
     try:
         return json.loads(path.read_text())
-    except (OSError, ValueError):
+    except FileNotFoundError:
         return None
 
 
-def _row(build: Build):
-    directory = build.directory
-    status = _read_json(directory / 'metadata/status.json')
-    record = _read_json(directory / 'metadata/build.json')
-    row = {'program': build.name, 'release_cycle': build.release_cycle, 'target': build.target, 'backend': build.backend,
+def _empty_row(build):
+    return {'program': build.name, 'release_cycle': build.release_cycle, 'target': build.target, 'backend': build.backend,
            'status': 'missing', 'changed_inputs': [], 'changed_outputs': [],
            'warnings': 0, 'timing': 'not evaluated', 'equivalence': None,
            'initial_alignment': None, 'undefined_rtl_outputs': []}
-    if not isinstance(status, dict):
+
+
+def _row(build: Build):
+    try:
+        row = _evidence_row(build)
+        if row['status'] not in ('missing', 'invalid', 'failed', 'running', 'success', 'stale'):
+            raise ValueError('Unknown build status in recorded evidence')
+        for key in ('timing', 'equivalence', 'initial_alignment'):
+            if not isinstance(row[key], str) and not (key != 'timing' and row[key] is None):
+                raise ValueError(f'Invalid {key} field in recorded evidence')
+        if (not isinstance(row['undefined_rtl_outputs'], list) or
+                any(not isinstance(name, str) for name in row['undefined_rtl_outputs'])):
+            raise ValueError('Invalid undefined_rtl_outputs in recorded evidence')
         return row
+    except (BuildError, OSError, ValueError, TypeError) as exc:
+        return dict(_empty_row(build), status='invalid', error=str(exc))
+
+
+def _evidence_row(build):
+    directory = build.directory
+    status = _read_json(directory / 'metadata/status.json')
+    record = _read_json(directory / 'metadata/build.json')
+    row = _empty_row(build)
+    if status is None:
+        return row
+    if not isinstance(status, dict):
+        raise ValueError('Invalid build status record')
     row['status'] = status.get('status', 'invalid')
     if row['status'] != 'success' or not isinstance(record, dict) or record.get('status') != 'success':
         row['error'] = status.get('error', 'Missing successful build record')
@@ -47,7 +69,10 @@ def _row(build: Build):
             row['changed_outputs'].append(name)
     if not outputs:
         row['changed_outputs'].append('No recorded outputs')
-    row['warnings'] = len(record.get('warnings', []))
+    warnings = record.get('warnings', [])
+    if not isinstance(warnings, list) or any(not isinstance(warning, str) for warning in warnings):
+        raise ValueError('Invalid warnings in recorded evidence')
+    row['warnings'] = len(warnings)
     row['timing'] = record.get('timing_acceptance', 'not evaluated')
     if build.backend == 'foss':
         proof = _read_json(directory / 'metadata/reports/equivalence.json')

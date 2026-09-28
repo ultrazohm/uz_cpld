@@ -17,7 +17,7 @@ The complete site is ``docs/_build/html/``; it includes SVGs, PDFs, VCD download
 Relative links support repository subpaths such as ``/uz_cpld/``.
 The Actions deployment serves prebuilt HTML directly, including underscore-prefixed assets.
 Sphinx also writes ``.nojekyll`` for manual branch-based publishing; the preview artifact preserves this marker, while the Pages upload action excludes dotfiles.
-Each build clears the HTML output to prevent removed pages or archived transcripts from remaining in a published site.
+Each build clears the HTML output to ensure the published site contains only the generated pages and assets.
 The build checks local page, image, iframe and download links for missing files and paths that escape the project site.
 
 GitHub Pages

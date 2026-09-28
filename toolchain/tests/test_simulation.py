@@ -79,3 +79,15 @@ testbench = "probe_tb.py"
                 manifest.write_text(original)
                 recovered = simulate()
                 self.assertEqual(recovered.returncode, 0, recovered.stdout + recovered.stderr)
+
+                # A passing HDL test must not publish success if its authored input changes mid-run.
+                testbench = program / 'probe_tb.py'
+                testbench.write_text(testbench.read_text() +
+                    '    from pathlib import Path\n'
+                    '    source = Path(__file__).with_name("helper.vhdl")\n'
+                    '    source.write_text(source.read_text() + "\\n-- changed during simulation\\n")\n')
+                changed = simulate()
+                self.assertNotEqual(changed.returncode, 0, changed.stdout + changed.stderr)
+                self.assertIn('Simulation inputs changed', changed.stdout + changed.stderr)
+                run = json.loads((output / 'metadata/run.json').read_text())
+                self.assertNotIn('simulation_duration_ns', run)

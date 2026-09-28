@@ -129,3 +129,31 @@ class AnalysisTests(unittest.TestCase):
                       transitions)
         self.assertFalse(any(origin == 'Harderror' and target == 'Ready_State'
                              for origin, target, _ in transitions))
+
+    @unittest.skipUnless(shutil.which('ghdl'), 'GHDL required')
+    def test_grouped_vendor_library_clause_is_analyzed(self):
+        from toolchain.buildsystem.ghdl import analyze_sources
+        from toolchain.buildsystem.model import Source
+        source = self.root / 'grouped.vhdl'
+        source.write_text('library ieee, MACHXO2;\nuse ieee.std_logic_1164.all;\n'
+                          'entity grouped is port (i: in std_logic; o: out std_logic); end;\n'
+                          'architecture rtl of grouped is begin o <= i; end;\n')
+        analyze_sources(ROOT, [Source(source, 'work')], self.root, '93')
+        self.assertTrue((self.root / 'machxo2-obj93.cf').is_file())
+
+    def test_netlist_rejects_explicit_program_with_wrong_target(self):
+        from toolchain.analysis.netlist import main
+        with patch('sys.argv', ['netlist', '--program', 'tx30', '--release-cycle', 'original',
+                                '--target', 'uz_s3c_xo2']), \
+             patch('toolchain.analysis.netlist.export_netlist') as export:
+            self.assertEqual(main(), 1)
+        export.assert_not_called()
+
+    def test_ghdl_rejects_double_quoted_paths_before_running_tools(self):
+        from toolchain.buildsystem.ghdl import analyze_sources
+        from toolchain.buildsystem.model import Source
+        source = self.root / 'quoted"source.vhdl'
+        with patch('toolchain.buildsystem.ghdl.subprocess.run') as run:
+            with self.assertRaisesRegex(BuildError, 'double quotes'):
+                analyze_sources(ROOT, [Source(source, 'work')], self.root, '93')
+        run.assert_not_called()

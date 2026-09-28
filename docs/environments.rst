@@ -19,13 +19,14 @@ Build the image with ``make image``.
 ``container_engine`` selects Docker or Podman, ``container_platform`` defaults to ``linux/amd64``, ``toolchain_image`` selects the image tag and ``sim_workspace`` selects the host bind source.
 Rootless Podman runs use ``--userns=keep-id`` to preserve workspace ownership.
 The daemon must be able to access the checkout; ARM hosts require amd64 emulation.
+GHDL library paths cannot contain double quotes; use checkout and source paths without them.
+Spaces and apostrophes in checkout paths are supported.
 
 Dev Container
 -------------
 
 Open the repository in VS Code and select **Dev Containers: Reopen in Container**.
-Both configurations build the same ``toolchain`` image and use bridge networking with
-``eth0`` assigned the MAC address ``10:91:d1:3d:14:ae``.
+Both configurations build the same ``toolchain`` image and use bridge networking with ``eth0`` assigned the MAC address ``10:91:d1:3d:14:ae``.
 Rebuild the container to apply these network settings to an existing container.
 The default configuration needs no Diamond mount or host networking; choose **Diamond** to mount a Linux Diamond installation, expose its license settings and check startup.
 Before launching VS Code for that configuration, export the installation root, which is the parent of ``bin``::
@@ -59,8 +60,7 @@ Diamond and licensing
 The vendor ``diamondc`` wrapper configures libraries and includes its installation's ``license/license.dat`` in the license search path.
 Additional license files need their own mount and a container-visible path.
 The Diamond configuration exposes the fixed container MAC for node-locked license detection.
-Floating-license configurations can use a server address reachable from the container;
-``localhost`` refers to the container itself with bridge networking.
+Floating-license configurations can use a server address reachable from the container; ``localhost`` refers to the container itself with bridge networking.
 
 ``check-diamond`` tests Tcl startup; ``check-diamond --synthesis`` also synthesizes a one-gate design.
 These shell helpers use ``DIAMOND_ROOT`` rather than ``DIAMOND_CLI``.

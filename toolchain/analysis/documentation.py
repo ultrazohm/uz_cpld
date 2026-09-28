@@ -13,13 +13,24 @@ from toolchain.analysis.rtl_viewer import write_rtl_viewer
 from toolchain.analysis.state_diagram import export_state_diagrams
 from toolchain.analysis.waveform import waveform_frame, write_waveform
 from toolchain.buildsystem.model import BuildError, discover_programs, load_build, release_cycles, resolve_release
-from toolchain.buildsystem.workflow import digest, write_json
+from toolchain.buildsystem.workflow import digest, write_json, workspace_lock, locked
 
 
 def generate(root=ROOT, jobs=4, release_cycle=None):
     """Build each program independently, then publish the complete page index."""
     if jobs < 1:
         raise BuildError('jobs must be a positive integer')
+    root = Path(root).resolve()
+    with workspace_lock(root):
+        docs = root / 'docs'
+        if docs.is_symlink():
+            raise BuildError('Documentation directory must not be a symlink')
+        docs.mkdir(exist_ok=True)
+        with workspace_lock(docs, exclusive=True):
+            return _generate(root, jobs, release_cycle)
+
+
+def _generate(root, jobs, release_cycle):
     cycles = [resolve_release(root, release_cycle)] if release_cycle is not None else release_cycles(root)
     names = [f'{cycle}/{name}' for cycle in cycles for name in discover_programs(root, cycle)]
     generated = root / 'docs/_generated'
@@ -71,59 +82,60 @@ def generate_program(root, generated, name):
         subprocess.run([sys.executable, '-m', 'pytest', 'toolchain/simulation/test_simulation.py',
                         '--program', build.name, '--release-cycle', build.release_cycle, '--wave-format', 'vcd', '--seed', '1', '-q', '-p', 'no:cacheprovider'],
                        cwd=root, check=True, capture_output=True, text=True)
-        if before != {str(p.relative_to(root)): digest(p) for p in (*[s.path for s in build.sources], build.testbench)}:
-            raise BuildError(f'{name}: sources changed while generating documentation')
-        net_inputs = json.loads((netlist / 'metadata/netlist.json').read_text())['inputs']
-        if any((before[path] if path in before else digest(root / path)) != value
-               for path, value in net_inputs.items()):
-            raise BuildError(f'{name}: netlist and simulation use different HDL')
-        state_info = None
-        if state_diagrams:
-            state_info = json.loads((state_diagrams / 'metadata/state-diagrams.json').read_text())
-            if any(before[path] != value for path, value in state_info['inputs'].items()):
-                raise BuildError(f'{name}: state diagrams and simulation use different HDL')
-        simulation = build.build_root / 'simulation'
-        run = json.loads((simulation / 'metadata/run.json').read_text())
-        info = write_waveform(simulation / 'waves.vcd', simulation / 'waveform.html',
-                              f'{name} — RTL waveform', run['simulation_duration_ns'])
-        write_json(simulation / 'metadata/waveform.json', {**info, 'inputs': before,
-                   'vcd_sha256': digest(simulation / 'waves.vcd'), 'seed': 1})
-        assets = generated / 'static/program-assets' / name
-        assets.mkdir(parents=True)
-        write_rtl_viewer(netlist / 'netlist.svg', assets / 'netlist-viewer.html',
-                         f'{name} — RTL schematic')
-        for src in [netlist / 'netlist.svg', netlist / 'netlist.pdf', netlist / 'metadata/netlist.json',
-                    simulation / 'waveform.html', simulation / 'waves.vcd',
-                    simulation / 'metadata/waveform.json', simulation / 'metadata/run.json']:
-            destination = assets / 'metadata' if src.suffix == '.json' else assets
-            destination.mkdir(exist_ok=True)
-            shutil.copy2(src, destination / src.name)
-        state_section = ''
-        if state_info:
-            shutil.copy2(state_diagrams / 'metadata/state-diagrams.json',
-                         assets / 'metadata/state-diagrams.json')
-            state_section = ('State diagrams\n--------------\n\n'
-                             'These diagrams show possible state assignments and their conditions extracted from the VHDL. '
-                             'Conditions on ``elsif`` and ``else`` paths include the earlier guards being false. '
-                             'Implicit state holds are omitted.\n\n')
-            for diagram in state_info['diagrams']:
-                stem = diagram['stem']
-                for fmt in ('svg', 'pdf'):
-                    shutil.copy2(state_diagrams / f'{stem}.{fmt}', assets / f'{stem}.{fmt}')
-                state_section += (f'``{diagram["name"]}`` from ``{diagram["source"]}``\n\n'
-                                  f'.. image:: ../static/program-assets/{name}/{stem}.svg\n'
-                                  f'   :alt: Possible state transitions for {diagram["name"]}\n'
-                                  '   :width: 100%\n\n'
-                                  f'Download :download:`SVG <../static/program-assets/{name}/{stem}.svg>` '
-                                  f'or :download:`PDF <../static/program-assets/{name}/{stem}.pdf>`.\n\n')
-            state_section += (f'Download :download:`state diagram provenance '
-                              f'<../static/program-assets/{name}/metadata/state-diagrams.json>`.\n\n')
-        intro = root / 'programs' / name / 'description.rst'
-        description = (f'.. include:: ../../../programs/{name}/description.rst\n\n' if intro.is_file()
-                       else 'This page is generated from the program manifest, HDL and cocotb testbench.\n\n')
-        waveform_embed = waveform_frame(f'../../program-assets/{name}/waveform.html',
-                                        f'{name} simulation waveform').replace('\n', '\n      ')
-        page = f'''{name}
+        with locked(build):
+            if before != {str(p.relative_to(root)): digest(p) for p in (*[s.path for s in build.sources], build.testbench)}:
+                raise BuildError(f'{name}: sources changed while generating documentation')
+            net_inputs = json.loads((netlist / 'metadata/netlist.json').read_text())['inputs']
+            if any((before[path] if path in before else digest(root / path)) != value
+                   for path, value in net_inputs.items()):
+                raise BuildError(f'{name}: netlist and simulation use different HDL')
+            state_info = None
+            if state_diagrams:
+                state_info = json.loads((state_diagrams / 'metadata/state-diagrams.json').read_text())
+                if any(before[path] != value for path, value in state_info['inputs'].items()):
+                    raise BuildError(f'{name}: state diagrams and simulation use different HDL')
+            simulation = build.build_root / 'simulation'
+            run = json.loads((simulation / 'metadata/run.json').read_text())
+            info = write_waveform(simulation / 'waves.vcd', simulation / 'waveform.html',
+                                  f'{name} — RTL waveform', run['simulation_duration_ns'])
+            write_json(simulation / 'metadata/waveform.json', {**info, 'inputs': before,
+                       'vcd_sha256': digest(simulation / 'waves.vcd'), 'seed': 1})
+            assets = generated / 'static/program-assets' / name
+            assets.mkdir(parents=True)
+            write_rtl_viewer(netlist / 'netlist.svg', assets / 'netlist-viewer.html',
+                             f'{name} — RTL schematic')
+            for src in [netlist / 'netlist.svg', netlist / 'netlist.pdf', netlist / 'metadata/netlist.json',
+                        simulation / 'waveform.html', simulation / 'waves.vcd',
+                        simulation / 'metadata/waveform.json', simulation / 'metadata/run.json']:
+                destination = assets / 'metadata' if src.suffix == '.json' else assets
+                destination.mkdir(exist_ok=True)
+                shutil.copy2(src, destination / src.name)
+            state_section = ''
+            if state_info:
+                shutil.copy2(state_diagrams / 'metadata/state-diagrams.json',
+                             assets / 'metadata/state-diagrams.json')
+                state_section = ('State diagrams\n--------------\n\n'
+                                 'These diagrams show possible state assignments and their conditions extracted from the VHDL. '
+                                 'Conditions on ``elsif`` and ``else`` paths include the earlier guards being false. '
+                                 'Implicit state holds are omitted.\n\n')
+                for diagram in state_info['diagrams']:
+                    stem = diagram['stem']
+                    for fmt in ('svg', 'pdf'):
+                        shutil.copy2(state_diagrams / f'{stem}.{fmt}', assets / f'{stem}.{fmt}')
+                    state_section += (f'``{diagram["name"]}`` from ``{diagram["source"]}``\n\n'
+                                      f'.. image:: ../static/program-assets/{name}/{stem}.svg\n'
+                                      f'   :alt: Possible state transitions for {diagram["name"]}\n'
+                                      '   :width: 100%\n\n'
+                                      f'Download :download:`SVG <../static/program-assets/{name}/{stem}.svg>` '
+                                      f'or :download:`PDF <../static/program-assets/{name}/{stem}.pdf>`.\n\n')
+                state_section += (f'Download :download:`state diagram provenance '
+                                  f'<../static/program-assets/{name}/metadata/state-diagrams.json>`.\n\n')
+            intro = root / 'programs' / name / 'description.rst'
+            description = (f'.. include:: ../../../programs/{name}/description.rst\n\n' if intro.is_file()
+                           else 'This page is generated from the program manifest, HDL and cocotb testbench.\n\n')
+            waveform_embed = waveform_frame(f'../../program-assets/{name}/waveform.html',
+                                            f'{name} simulation waveform').replace('\n', '\n      ')
+            page = f'''{name}
 {'=' * len(name)}
 
 {description}Target: ``{build.target}``; top entity: ``{build.top}``.
@@ -172,7 +184,7 @@ Testbench
 
 Download the :download:`cocotb testbench <../../../programs/{name}/{build.name}_tb.py>`.
 '''
-        (pages / f'program-{page_name}.rst').write_text(page)
+            (pages / f'program-{page_name}.rst').write_text(page)
     except (BuildError, OSError, ValueError, subprocess.CalledProcessError) as exc:
         detail = ((exc.stdout or '') + (exc.stderr or '')
                   if isinstance(exc, subprocess.CalledProcessError) else '')

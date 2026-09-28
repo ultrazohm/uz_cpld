@@ -16,6 +16,7 @@ Firmware commands
    make build program=tx30 backend=foss
 
 ``check`` validates manifests and files; ``doctor`` also checks the selected tools.
+The FOSS doctor requires a selected cycle containing at least one FOSS program so it can check the declared device and tool version.
 ``build-all`` processes the explicit ``programs/<release_cycle>/catalog.toml`` list and fails if any entry fails.
 It also writes ``toolchain/build/validation/<release_cycle>/<backend>-catalog/report.md`` and ``report.json`` after attempting every valid selected build, even if a tool fails. Invalid program manifests appear as failed report rows and do not prevent other programs from building.
 ``make report backend=diamond|foss`` refreshes the selected catalog report from existing build records without invoking firmware tools.
@@ -36,7 +37,7 @@ Create a program
 Use :ref:`generator-quickstart` to create a D-slot project from CSV routing.
 See :doc:`vhdl-generator` for routing, configuration and generated-file ownership.
 
-To clone a program whose logic and testbench you will maintain manually::
+To clone a program for manual logic and testbench editing::
 
    make new name=my_adapter template=tx30
 
@@ -44,11 +45,14 @@ Edit the cloned VHDL, LPF, cocotb testbench and optional ``description.rst``, th
 ``template`` defaults to ``tx30``.
 For an S3C program, use ``template=s3c_toolchain_test_program``; its starter logic holds carrier power and slot output enables inactive.
 Cloning copies the selected program's current files, preserves entity names and libraries, and excludes generated ``build/`` directories and Python caches.
-It requires a listed ``<template>.vhdl`` primary source, program-local inputs and no authored symlinks, and refuses an existing destination.
-Generated templates also require a program-local generator configuration; copy a shared configuration into the template and update its manifest before cloning.
+The source declaring the top entity in library ``work`` becomes ``<name>.vhdl``; its original filename can differ from the template name.
+Cloning requires program-local inputs and no authored symlinks, and refuses an existing destination.
+Generated templates require program-local generator configuration and routing CSV files.
+The shared S3C HDL and selected contract retain their configured locations.
 A clone is independent of its source and is added to ``programs/<release_cycle>/catalog.toml`` after its manifest validates.
-Catalog registration makes it part of ``build-all``, catalog simulation, netlist export and CI, so review its copied logic, constraints and testbench before running those commands.
-Documentation discovers all program manifests, including programs created outside ``make new``.
+Catalog registration includes the program in ``build-all``, netlist export and firmware CI for the selected cycle.
+Simulation and documentation discover complete program manifests independently of catalog membership.
+Documentation groups program manifests by release cycle, including programs created outside ``make new``.
 
 Outputs and failures
 --------------------

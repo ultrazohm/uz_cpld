@@ -16,6 +16,8 @@ def identifier(value: str) -> str:
     """Validate a filesystem-safe program, target, or backend name."""
     if not isinstance(value, str) or not re.fullmatch(r"[a-z][a-z0-9_]*", value):
         raise BuildError(f"Invalid name: {value!r}; use lowercase letters, digits and underscores")
+    if value == 'build':
+        raise BuildError("Name 'build' is reserved for generated output directories")
     return value
 
 
@@ -85,6 +87,8 @@ def release_directory(root: Path, release_cycle: str | None = None) -> Path:
 
 def resolve_program(root: Path, name: str, release_cycle: str | None = None):
     """Accept a name or an explicit cycle/name for internal multi-cycle consumers."""
+    if not isinstance(name, str):
+        raise BuildError(f'Invalid program name: {name!r}')
     if '/' in name:
         cycle, name = name.split('/', 1)
         if release_cycle is not None and cycle != release_cycle:
@@ -202,6 +206,8 @@ def load_build(root: Path, name: str, target: str | None = None, backend: str | 
     root = root.resolve()
     name, release_cycle = resolve_program(root, name, release_cycle)
     pm = input_path(root, root, f'programs/{release_cycle}/{name}/{name}.toml')
+    if pm != root / 'programs' / release_cycle / name / f'{name}.toml':
+        raise BuildError('Program manifests and directories must not be symlinks')
     p = read_toml(pm)
     declared_targets = _declared_targets(p, name)
     if target is None:
@@ -275,7 +281,7 @@ def load_build(root: Path, name: str, target: str | None = None, backend: str | 
     testbench = input_path(root, pm.parent, p['testbench'])
     if testbench != pm.parent / f'{name}_tb.py':
         raise BuildError('Testbench must be named <program>_tb.py in the program directory')
-    if t['device'] not in SUPPORTED_DEVICES:
+    if not isinstance(t['device'], str) or t['device'] not in SUPPORTED_DEVICES:
         raise BuildError(f'Unsupported device: {t["device"]}')
     if backend == 'foss':
         f = t.get('foss', {})

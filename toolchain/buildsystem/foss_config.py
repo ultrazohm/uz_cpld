@@ -61,13 +61,16 @@ def package_lpf(lpf, ports, suite, device, settings):
             raise BuildError(f'Unexpected interior package IO: {pin}')
         sites[site] = pin
     lines, ignored, assigned, io_types = [], [], {}, {}
+    port_pins, attributes = {}, {}
     def active_port(name):
         if name in ports:
             return True
         match = re.fullmatch(r'(.+)\[(\d+)\]', name)
         if not match or not isinstance(ports, dict) or match[1] not in ports:
             return False
-        return int(match[2]) < len(ports[match[1]]['bits'])
+        bus = ports[match[1]]
+        offset = bus.get('offset', 0)
+        return offset <= int(match[2]) < offset + len(bus['bits'])
 
     for command in lpf.split(';'):
         words = shlex.split(command)
@@ -84,12 +87,19 @@ def package_lpf(lpf, ports, suite, device, settings):
                 raise BuildError(f'Unknown or unbonded {package_name} IO site: {site}')
             if pin in assigned and assigned[pin] != port:
                 raise BuildError(f'Conflicting package pin {pin}: {assigned[pin]} and {port}')
+            if port in port_pins and port_pins[port] != pin:
+                raise BuildError(f'Conflicting locations for port {port}: {port_pins[port]} and {pin}')
+            port_pins[port] = pin
             assigned[pin] = port
             lines.append(f'LOCATE COMP "{port}" SITE "{pin}";')
         else:
             for attr in words[3:]:
-                if attr.startswith('IO_TYPE='):
-                    io_types[port] = attr.split('=', 1)[1]
+                key, value = attr.split('=', 1)
+                if (port, key) in attributes and attributes[port, key] != value:
+                    raise BuildError(f'Conflicting IOBUF setting for {port}: {key}')
+                attributes[port, key] = value
+                if key == 'IO_TYPE':
+                    io_types[port] = value
             lines.append(command.strip() + ';')
     if device == 'LCMXO2-4000HC-4TG144C':
         for pin, port in assigned.items():

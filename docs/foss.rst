@@ -79,7 +79,7 @@ Unknown RTL values remain unspecified for synthesis and do not establish physica
 Outputs live under ``programs/<release_cycle>/<name>/build/<target>_foss/`` with ``<name>_<target>_foss.bit``, ``reports/``, ``metadata/``, project files and logs under the same directory.
 The FOSS build plan and generated JSON reports live in ``metadata/``.
 Reports include synthesized/routed JSON, timing, completed/unpacked configuration, equivalence evidence and method, tool versions/hashes and the constraint translation record.
-``make build-all backend=foss`` writes a catalog report under ``toolchain/build/validation/foss-catalog/``; ``make report backend=foss`` refreshes that report from existing evidence without rebuilding.
+``make build-all backend=foss`` writes a catalog report under ``toolchain/build/validation/<release_cycle>/foss-catalog/``; ``make report backend=foss`` refreshes that report from existing evidence without rebuilding.
 ``project backend=foss`` prepares the synthesis script and build plan; the equivalence script is generated during a build after mapped cells are known.
 ``gui`` requires ``backend=diamond``.
 Cleanup affects only the selected backend, so Diamond and FOSS results can coexist.
@@ -93,11 +93,13 @@ For the S3C target, the LPF must declare the Rev05 board's six bank voltages. Th
 Unloaded input ports are removed before routing; remaining IO must have explicit pin constraints, with automatic unconstrained placement disabled.
 Constraints for absent ports are listed in the report, including the inherited ``CPLD_DIGOUT_01`` entries.
 IO type, slew, pull mode and drive directives pass through; unsupported LPF commands or attributes fail the build.
+Conflicting pin locations and IOBUF settings are rejected.
+Vector bit constraints use the synthesized port index range, including nonzero offsets.
 
 ``SDM_PORT``, ``SLAVE_SPI_PORT`` and ``I2C_PORT`` are applied as database-validated CFG tile enums before packing.
 ``MCCLK_FREQ`` accepts only ``2.08``, using the default MachXO2 encoding checked against a Diamond reference.
 The backend converts the oscillator's packed ASCII ``NOM_FREQ`` parameter to the string expected by nextpnr and checks it against ``MCCLK_FREQ``.
-``USERCODE HEX`` is passed to the packer.
+``USERCODE HEX`` and ``USERCODE BIN`` set the value passed to the packer.
 ``TRACEID`` is retained in provenance but is not encoded by this backend.
 The LPF reset/asynchronous-path exclusions are recorded without establishing a timing acceptance budget.
 

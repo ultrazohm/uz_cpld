@@ -17,7 +17,11 @@ Source layout
    │   ├── analysis/           RTL export, VCD viewer and Sphinx page generation
    │   ├── targets/            board manifests and strategy inputs
    │   └── tests/              tooling regressions and licensed integration check
-   ├── programs/<release_cycle>/<name>/        TOML, VHDL, LPF, testbench and description.rst
+   ├── programs/
+   │   ├── releases.toml      current release cycle
+   │   └── <release_cycle>/
+   │       ├── catalog.toml   firmware catalog
+   │       └── <name>/        TOML, VHDL, LPF, testbench and description.rst
    ├── docs/                  shared Sphinx source
    └── archive/               vendor reference projects and material
 
@@ -38,7 +42,7 @@ Cloning editable files keeps authoring simple but deliberately duplicates code a
 Generated Diamond metadata keeps builds scriptable while retaining GUI access; useful GUI settings require manual transfer to authored configuration.
 Board and backend settings are separate; device-specific HDL requires matching program inputs.
 
-The workflow validates inputs, acquires a lock, protects edited generated settings and creates a fresh project.
+The workflow validates inputs, acquires a lock, rechecks the loaded build configuration, protects edited generated settings and creates a fresh project.
 The Diamond backend runs synthesis, translation, mapping, place-and-route, timing reporting and both firmware exports without a display or interactive stdin.
 The :doc:`FOSS backend <foss>` shares the build lifecycle and adds synthesis equivalence, LPF translation and bitstream packing.
 Because Diamond's Tcl interface treats ``def_top`` as internal, preparation sets it in the saved LDF XML.

@@ -3,7 +3,7 @@ Quick start
 
 This guide follows a D-slot program from authored files through RTL simulation to a firmware export.
 Run every command from the repository root.
-Examples use the initial current cycle, ``original``. Set ``release_cycle=NAME`` on a command to override the current cycle; see :doc:`releases`.
+Examples use ``original`` as the current cycle. Set ``release_cycle=NAME`` on a command to override the current cycle; see :doc:`releases`.
 
 Choose CSV generation or clone a program for manual VHDL editing.
 Simulation checks the behavior exercised by the testbench; a firmware build implements the design for the device.
@@ -79,7 +79,7 @@ Clone an existing program, replacing ``my_adapter`` with your program name::
    make build program=my_adapter backend=diamond
 
 ``template`` defaults to ``tx30`` and can name another program to clone.
-The clone is added to ``programs/<release_cycle>/catalog.toml``, so catalog-wide commands and CI will include it.
+The clone is added to ``programs/<release_cycle>/catalog.toml``, so catalog-wide commands and CI include it.
 ``make list`` shows the current catalog.
 Edit these files in ``programs/original/my_adapter/``:
 

@@ -27,6 +27,56 @@ class FrontendTests(unittest.TestCase):
         (self.root / 'programs/releases.toml').write_text('current = "original"\n')
         self.build = load_build(self.root, 'tx30')
 
+    def test_scaffold_respects_workspace_lock(self):
+        with workflow.locked(self.build):
+            with self.assertRaisesRegex(BuildError, 'already active'):
+                workflow.scaffold(self.root, 'custom', 'tx30')
+        self.assertNotIn('custom', catalog(self.root))
+        self.assertFalse((self.root / 'programs/original/custom').exists())
+
+    def test_clone_finds_top_source_when_filename_differs(self):
+        for template in ('template_dslots', 'uz_d_voltage_003_5v_tx30', 'uz_d_voltage_013_tx30'):
+            with self.subTest(template=template):
+                original = load_build(self.root, template)
+                name = template + '_copy'
+                destination = workflow.scaffold(self.root, name, template)
+                clone = load_build(self.root, name)
+                self.assertEqual(clone.top, original.top)
+                self.assertEqual(clone.sources[-1].path, destination / (name + '.vhdl'))
+                self.assertEqual(clone.sources[-1].path.read_bytes(), original.sources[-1].path.read_bytes())
+
+    def test_changed_manifest_cannot_be_built_with_stale_model(self):
+        path = self.build.manifests[0]
+        path.write_text(path.read_text().replace('standard = "1993"', 'standard = "2008"'))
+        with self.assertRaisesRegex(BuildError, 'configuration changed'):
+            self.run_build()
+        self.assertFalse(self.build.directory.exists())
+
+    def test_manifest_symlink_cannot_redirect_build_outputs(self):
+        path = self.build.manifests[0]
+        copy = self.root / 'elsewhere'
+        copy.mkdir()
+        destination = copy / path.name
+        path.rename(destination)
+        path.symlink_to(destination)
+        with self.assertRaisesRegex(BuildError, 'must not be symlinks'):
+            load_build(self.root, 'tx30')
+
+    def test_corrupt_build_record_does_not_abort_other_report_rows(self):
+        self.run_build()
+        path = self.build.directory / 'metadata/build.json'
+        record = json.loads(path.read_text())
+        record['warnings'] = None
+        path.write_text(json.dumps(record))
+        report = catalog_report([self.build, load_build(self.root, 'rx30')])
+        rows = json.loads(report.with_suffix('.json').read_text())['builds']
+        self.assertEqual([row['status'] for row in rows], ['invalid', 'missing'])
+
+    def test_cloning_cannot_create_an_ignored_build_program(self):
+        with self.assertRaisesRegex(BuildError, 'reserved'):
+            workflow.scaffold(self.root, 'build', 'tx30')
+        self.assertFalse((self.root / 'programs/original/build').exists())
+
     def fake_prepare(self, build, project, log):
         project.mkdir(parents=True)
         (project / 'firmware.ldf').write_text('<project/>')

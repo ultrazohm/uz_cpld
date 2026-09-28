@@ -92,3 +92,21 @@ class DocumentationSchedulingTests(unittest.TestCase):
             pages = generate(self.root, jobs=1, release_cycle='next')
         self.assertEqual([call.args[2] for call in worker.call_args_list], ['next/alpha'])
         self.assertNotIn('program-original-alpha', (pages / 'index.rst').read_text())
+
+    def test_documentation_lock_prevents_cleanup_and_other_generators(self):
+        from toolchain.buildsystem.workflow import clean_all, workspace_lock
+        docs = self.root / 'docs'
+        docs.mkdir()
+        sentinel = docs / '_generated/sentinel'
+        sentinel.parent.mkdir()
+        sentinel.touch()
+        with workspace_lock(docs, exclusive=True):
+            with self.assertRaisesRegex(BuildError, 'already active'):
+                generate(self.root, jobs=1)
+        self.assertTrue(sentinel.is_file())
+
+        def worker(root, generated, name):
+            with self.assertRaisesRegex(BuildError, 'already active'):
+                clean_all(root)
+        with patch('toolchain.analysis.documentation.generate_program', worker):
+            generate(self.root, jobs=1)

@@ -79,7 +79,9 @@ def main(argv: list[str] | None = None) -> int:
         elif args.command == 'doctor':
             builds = selected_builds()
             print(f'Python: {sys.version.split()[0]}')
-            if builds and builds[0].backend == 'foss':
+            if args.backend == 'foss' or (builds and builds[0].backend == 'foss'):
+                if not builds:
+                    raise BuildError('No FOSS programs selected; choose a release cycle with a FOSS program for doctor')
                 from .backends.foss import doctor
                 for device, build in {build.device: build for build in builds}.items():
                     print(f'{device}: {doctor(build)}')

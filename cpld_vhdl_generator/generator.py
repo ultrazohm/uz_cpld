@@ -331,10 +331,11 @@ def check(config_path, output):
 
 
 def write_atomic(path, value):
-    with tempfile.NamedTemporaryFile(mode='w', dir=path.parent, delete=False) as stream:
-        temporary = Path(stream.name)
-        stream.write(value)
+    fd, filename = tempfile.mkstemp(dir=path.parent)
+    temporary = Path(filename)
     try:
+        with os.fdopen(fd, 'w') as stream:
+            stream.write(value)
         temporary.replace(path)
     finally:
         temporary.unlink(missing_ok=True)
@@ -355,10 +356,13 @@ def generate(config_path, output):
     if record.exists():
         try:
             old_files = json.loads(record.read_text())['files']
-        except (OSError, ValueError, KeyError) as exc:
+        except (OSError, ValueError, KeyError, TypeError) as exc:
             raise GeneratorError(f'Invalid generation receipt: {exc}') from exc
-        if not isinstance(old_files, dict) or any(Path(n).name != n for n in old_files):
-            raise GeneratorError('Invalid generated filenames in receipt')
+        if (not isinstance(old_files, dict) or
+                any(not isinstance(n, str) or n in ('.', '..', RECEIPT) or Path(n).name != n
+                    or not isinstance(value, str) or re.fullmatch(r'[0-9a-f]{64}', value) is None
+                    for n, value in old_files.items())):
+            raise GeneratorError('Invalid generated filenames or hashes in receipt')
     if {output / name for name in old_files} & protected:
         raise GeneratorError('A specification or shared source conflicts with a previously generated file')
     for name in set(files) | set(old_files):

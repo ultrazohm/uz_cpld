@@ -7,16 +7,19 @@ Program
 .. literalinclude:: ../programs/original/tx30/tx30.toml
    :language: toml
 
-All shown fields are required.
+The shown ``name``, ``top``, ``standard``, ``sources``, ``targets``, ``constraints`` and ``testbench`` fields are required.
 ``name`` matches its directory and uses lowercase letters, digits and underscores, starting with a letter.
+``build`` is reserved for generated output directories.
 ``top`` and source libraries are VHDL basic identifiers; ``standard`` is ``1993`` or ``2008``.
 ``sources`` is a nonempty ordered list with no duplicate paths, and ``targets`` explicitly lists compatible board targets.
 Input paths are relative to the manifest, must exist and must stay within the workspace.
+The program manifest and its directory must be regular paths, not symlinks.
 ``constraints`` names the program's Diamond LPF.
 An optional ``foss_constraints`` names a separate FOSS LPF when vendor settings cannot be reproduced by Trellis; each backend reads exactly one LPF.
-An optional ``foss_equivalence_blacklist`` names a program-local file of distinct mapped internal signals that should not be matched as proof cutpoints.
+An optional ``foss_equivalence_blacklist`` names a file of distinct mapped internal signals that should not be matched as proof cutpoints.
 Top-level ports cannot be blacklisted, and the file is included in firmware provenance.
-An optional ``backends`` list limits firmware exports to ``diamond`` and/or ``foss``. Omitted lists permit both.
+An optional ``backends`` list limits firmware exports to ``diamond`` and/or ``foss``.
+Omitted lists permit both.
 ``testbench`` must name the program-local ``<name>_tb.py`` file; manifest validation checks its existence but does not run it.
 An optional ``generator`` path selects a standalone generator configuration and requires fresh emitted VHDL and provenance before builds, simulation, or documentation.
 Configurations with ``target = "uz_dslot_xo2"`` also generate the program manifest, testbench and constraints, and freshness checks cover all these files.
@@ -38,10 +41,9 @@ The S3C target is ``uz_s3c_xo2`` (``LCMXO2-4000HC-4TG144C``)::
    make build program=s3c_toolchain_test_program backend=diamond
    make build program=s3c_toolchain_test_program backend=foss
 
-Each catalog program declares its compatible target in ``targets``. Commands
-for one program infer that target when it is unique. ``target=...`` selects a
-target explicitly; catalog commands process both targets by default and can be
-filtered with the same option.
+Each catalog program declares its compatible target in ``targets``.
+Commands for one program infer that target when it is unique.
+``target=...`` selects a target explicitly; catalog commands process both targets by default and can be filtered with the same option.
 A board target is separate from the backend, program mapping and eventual JTAG chain position.
 ``diamond.strategy`` selects the captured strategy input; the empty ``diamond.options`` table is required and accepts string-valued vendor overrides.
 Set VHDL standard through the program manifest rather than ``lse_vhdl2008``.

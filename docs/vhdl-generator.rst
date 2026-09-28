@@ -60,7 +60,7 @@ Configuration and states
    :language: toml
 
 ``name`` must be a lowercase VHDL identifier.
-VHDL keywords, the ``s3c_`` prefix, and names used by generated declarations (``ieee``, ``std``, ``work``, ``s3c``, ``s3c_logic``, ``std_logic``, ``natural``, ``string``, ``rising_edge``, ``true``, ``false`` and ``osch``) are reserved.
+VHDL keywords, ``generator``, the ``s3c_`` prefix, and names used by generated declarations (``ieee``, ``std``, ``work``, ``s3c``, ``s3c_logic``, ``std_logic``, ``natural``, ``string``, ``rising_edge``, ``true``, ``false`` and ``osch``) are reserved.
 ``clock`` selects ``machxo2`` for an internal nominal 2.08 MHz oscillator or ``external`` for ``clk`` and active-high ``reset`` ports.
 The optional ``enable`` table specifies required data input levels, for example ``enable = {fpga_29 = 1}``.
 ``pilot_policy = "required"`` requires a high synchronized pilot input for normal operation; ``unused`` ignores it.
@@ -119,4 +119,4 @@ Generated programs use a ``cvg_`` prefix for their directory, manifest, top enti
 ``make new name=my_slot template=generator`` creates ``cvg_my_slot``; supplying ``name=cvg_my_slot`` gives the same name.
 Internal signals use ``s3c_``: ``s3c_normal_state``, ``s3c_card_enable``, ``s3c_clk``, ``s3c_reset`` and ``s3c_startup``.
 Pass ``release_cycle=NAME`` to ``make new`` and ``make generate`` to select a cycle explicitly.
-The standalone generator continues to take explicit configuration and output paths.
+The standalone generator takes explicit configuration and output paths.

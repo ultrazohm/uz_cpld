@@ -103,7 +103,7 @@ class ReleaseTests(unittest.TestCase):
         self.assertEqual(resolve_release(self.root), 'next')
 
     def test_failed_creation_and_invalid_selection_preserve_current(self):
-        for name in ('../escape', 'bad/name', 'original'):
+        for name in ('../escape', 'bad/name', 'original', 'build'):
             with self.subTest(name=name), self.assertRaises(BuildError):
                 releases.create(self.root, name)
         with self.assertRaises(BuildError):

@@ -10,7 +10,7 @@ import xml.etree.ElementTree as ET
 
 from cocotb_tools.runner import get_runner
 
-from toolchain.buildsystem.model import load_build
+from toolchain.buildsystem.model import BuildError, load_build
 from toolchain.buildsystem.ghdl import analyze_sources
 from toolchain.buildsystem.workflow import locked, safe_directory
 
@@ -43,11 +43,14 @@ def run_simulation(build, request):
     seed = request.config.getoption("--seed")
     wave_format = request.config.getoption("--wave-format")
     standard = {"1993": "93", "2008": "08"}[build.standard]
+    inputs = tuple(dict.fromkeys((*build.inputs, build.root / 'toolchain/hdl/machxo2_empty.vhdl')))
+    before = {str(path.relative_to(build.root)): hashlib.sha256(path.read_bytes()).hexdigest()
+              for path in inputs}
     provenance = {
         "program": program, "release_cycle": build.release_cycle, "seed": seed, "standard": build.standard,
         "python": sys.version,
         "cocotb": version("cocotb"), "pytest": version("pytest"),
-        "wave_format": wave_format,
+        "wave_format": wave_format, "inputs": before,
         "testbench": {str(build.testbench.relative_to(ROOT)):
                       hashlib.sha256(build.testbench.read_bytes()).hexdigest()},
         "ghdl": subprocess.check_output(["ghdl", "--version"], text=True),
@@ -59,7 +62,8 @@ def run_simulation(build, request):
     runner = get_runner("ghdl")
     library_args = analyze_sources(ROOT, build.sources, output, standard)
     runner.build(
-        sources=[s.path for s in build.sources if s.library.lower() == "work"], hdl_library="work",
+        # analyze_sources has already compiled every library in manifest order.
+        sources=[], hdl_library="work",
         hdl_toplevel=build.top.lower(), build_args=[f"--std={standard}", *library_args],
         build_dir=output, always=True, log_file=output / "compile.log",
     )
@@ -80,5 +84,8 @@ def run_simulation(build, request):
     cases = [case for result in output.glob('*.result.xml')
              for case in ET.parse(result).iter('testcase')]
     assert cases, 'Cocotb produced no test result metadata'
+    if before != {str(path.relative_to(build.root)): hashlib.sha256(path.read_bytes()).hexdigest()
+                  for path in inputs}:
+        raise BuildError('Simulation inputs changed during the run; rerun simulation')
     provenance['simulation_duration_ns'] = sum(float(case.attrib['sim_time_ns']) for case in cases)
     (metadata / 'run.json').write_text(json.dumps(provenance, indent=2) + '\n')

@@ -27,6 +27,44 @@ class FossTests(unittest.TestCase):
         (self.root / 'programs/releases.toml').write_text('current = "original"\n')
         self.build = load_build(self.root, 'tx30', backend='foss')
 
+    def test_build_uses_plan_release_instead_of_current_cycle(self):
+        from toolchain.buildsystem.backends.foss import FossBackend
+        from toolchain.buildsystem.releases import create
+        project = self.build.directory / 'project'
+        project.mkdir(parents=True)
+        metadata = project.parent / 'metadata'
+        metadata.mkdir()
+        (metadata / 'build-plan.json').write_text(json.dumps({
+            'root': str(self.root), 'program': 'tx30', 'release_cycle': 'original',
+            'target': 'uz_dslot_xo2'}))
+        create(self.root, 'empty')
+        with patch('toolchain.buildsystem.backends.foss.tools', side_effect=RuntimeError('reached tool check')) as tools:
+            with self.assertRaisesRegex(RuntimeError, 'reached tool check'):
+                FossBackend().build(project, project / 'log')
+        self.assertEqual(tools.call_args.args[0].release_cycle, 'original')
+
+    def test_empty_foss_doctor_never_invokes_diamond(self):
+        from toolchain.buildsystem.releases import create
+        from toolchain.buildsystem.cli import main
+        create(self.root, 'empty')
+        with patch('toolchain.buildsystem.cli.launcher') as launcher:
+            self.assertEqual(main(['doctor', '--root', str(self.root), '--backend', 'foss']), 1)
+        launcher.assert_not_called()
+
+    def test_nonzero_vector_offsets_and_conflicting_pin_settings(self):
+        self.fake_database()
+        ports = {'bus': {'bits': [10, 11], 'offset': 8}}
+        lpf, report = package_lpf('LOCATE COMP "bus[8]" SITE "78"; LOCATE COMP "bus[0]" SITE "1";',
+                                  ports, self.root, self.build.device, {})
+        self.assertEqual(report['pins'], {'78': 'bus[8]'})
+        self.assertEqual(len(report['ignored']), 1)
+        for constraint in ('LOCATE COMP "a" SITE "78"; LOCATE COMP "a" SITE "1";',
+                           'IOBUF PORT "a" IO_TYPE=LVCMOS18; IOBUF PORT "a" IO_TYPE=LVCMOS33;'):
+            with self.subTest(constraint=constraint), self.assertRaisesRegex(BuildError, 'Conflicting'):
+                package_lpf(constraint, {'a'}, self.root, self.build.device, {})
+        with self.assertRaisesRegex(BuildError, 'Conflicting TRACEID'):
+            constraints('TRACEID "00000001"; TRACEID "00000010";')
+
     def test_backend_has_independent_outputs_and_inputs(self):
         diamond = load_build(self.root, 'tx30')
         self.assertEqual(diamond.backend, 'diamond')
@@ -127,7 +165,7 @@ endmodule
         self.assertEqual(module['cells']['clock']['parameters']['NOM_FREQ'], '2.08')
 
     def test_make_backend_selection_and_invalid_value(self):
-        result = subprocess.run(['make', 'list', 'backend=foss'], cwd=ROOT, capture_output=True, text=True)
+        result = subprocess.run(['make', 'list', 'backend=foss', 'release_cycle=original'], cwd=ROOT, capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(result.stdout.count('\tfoss'),
                          sum('foss' in program_backends(ROOT, name, 'original') for name in catalog(ROOT, 'original')))

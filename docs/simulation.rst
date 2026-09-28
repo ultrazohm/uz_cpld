@@ -53,7 +53,8 @@ VCD is a portable text waveform; optional GHW preserves GHDL/VHDL type informati
 Selecting GHW or FST emits that file alongside VCD.
 ``toolchain/build/simulation/<release_cycle>/junit.xml`` is the aggregate pytest report.
 Reruns replace program results, and concurrent managed operations on the same program/target are rejected.
-Each run recreates its simulation directory and GHDL libraries, so sources removed from the manifest cannot remain available through a previous compilation.
+Each run recreates its simulation directory and GHDL libraries from the declared sources.
+Changes to authored inputs during compilation or simulation fail the run; successful provenance describes the inputs used by that run.
 
 Open VCD with GTKWave or use the interactive :doc:`program pages <program-documentation>`::
 

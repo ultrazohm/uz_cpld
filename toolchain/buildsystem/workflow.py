@@ -170,6 +170,9 @@ def build_program(build: Build) -> Path:
     before invoking the selected backend so they cannot be mistaken for the current result.
     """
     with locked(build) as directory:
+        current = load_build(build.root, build.name, build.target, build.backend, build.release_cycle)
+        if current != build:
+            raise BuildError('Build configuration changed since it was loaded; reload before building')
         guard(directory)
         clear_publication(build, directory)
         directory.mkdir(parents=True, exist_ok=True)
@@ -399,10 +402,17 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
     files are copied, excluding Python caches. External inputs must be localized
     before cloning so the new program is independently editable.
     """
-    from cpld_vhdl_generator.toml import dumps
-
     if template == 'generator':
         return generator_template(root, name, target, backend, release_cycle)
+    root = root.resolve()
+    with workspace_lock(root, exclusive=True):
+        return _scaffold(root, name, template, target, backend, release_cycle, template_release_cycle)
+
+
+def _scaffold(root, name, template, target, backend, release_cycle, template_release_cycle):
+    """Clone while the caller holds the exclusive workspace lock."""
+    from cpld_vhdl_generator.toml import dumps
+
     root = root.resolve()
     name = identifier(name)
     release_cycle = resolve_release(root, release_cycle)
@@ -433,7 +443,9 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
         from cpld_vhdl_generator import load_config
         config_path = input_path(root, source, meta['generator'])
         local_inputs.append(config_path)
-        generated_project = load_config(config_path).target is not None
+        generator_config = load_config(config_path)
+        local_inputs.append(generator_config.routing)
+        generated_project = generator_config.target is not None
     if 'foss_constraints' in meta:
         local_inputs.append(input_path(root, source, meta['foss_constraints'][0]))
     if 'foss_equivalence_blacklist' in meta:
@@ -448,9 +460,16 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
     if any(path.is_symlink() for path in source.rglob('*')
            if path.relative_to(source).parts[0] != 'build'):
         raise BuildError('Cloning requires regular files, not symlinks, in the source program')
-    primary = original.sources[-1].path if 'generator' in meta else source / f'{template}.vhdl'
-    if primary not in [s.path for s in original.sources]:
-        raise BuildError(f'Cloning requires the primary source {primary.name}')
+    if 'generator' in meta:
+        primary = original.sources[-1].path
+    else:
+        declaration = re.compile(r'\bentity\s+' + re.escape(original.top) + r'\s+is\b', re.I)
+        candidates = [entry.path for entry in original.sources
+                      if entry.library.lower() == 'work' and
+                      declaration.search(re.sub(r'--[^\n]*', '', entry.path.read_text()))]
+        if len(candidates) != 1:
+            raise BuildError('Cloning requires exactly one work-library source declaring the top entity')
+        primary = candidates[0]
     renames = {Path(f'{template}.toml'): Path(f'{name}.toml'),
                primary.relative_to(source): Path(f'{name}.vhdl'),
                primary_constraint.relative_to(source): Path(f'{name}_constraints.lpf'),
@@ -459,9 +478,9 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
         # The generator renames its owned HDL using the receipt and preserves the routing specification.
         del renames[primary.relative_to(source)]
     if 'foss_constraints' in meta:
-        renames[Path(meta['foss_constraints'][0])] = Path(f'{name}_foss_constraints.lpf')
+        renames[input_path(root, source, meta['foss_constraints'][0]).relative_to(source)] = Path(f'{name}_foss_constraints.lpf')
     if 'foss_equivalence_blacklist' in meta:
-        renames[Path(meta['foss_equivalence_blacklist'])] = Path(f'{name}_foss_equivalence_blacklist.txt')
+        renames[input_path(root, source, meta['foss_equivalence_blacklist']).relative_to(source)] = Path(f'{name}_foss_equivalence_blacklist.txt')
     if generated_project:
         # All four project files belong to the generator receipt. Let generation
         # rename them together, preserving ownership and protection of edits.

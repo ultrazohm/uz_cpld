@@ -65,6 +65,9 @@ VHDL keywords, ``generator``, the ``s3c_`` prefix, and names used by generated d
 The optional ``enable`` table specifies required data input levels, for example ``enable = {fpga_29 = 1}``.
 ``pilot_policy = "required"`` requires a high synchronized pilot input for normal operation; ``unused`` ignores it.
 The controller starts in ``safe_state`` and enters ``normal_state`` when synchronized S3C controls, the pilot policy, and the enable pattern permit operation.
+The shared controller owns startup: initialized registers and a three-edge warmup keep outputs in their safe state, with normal operation possible on the fourth rising edge.
+With ``clock = "machxo2"``, the controller's reset input is tied low; synthesis must preserve the HDL register initial values.
+With ``clock = "external"``, asserting ``reset`` forces safe outputs immediately and resets the controller on a rising edge; the warmup repeats after reset is released.
 It returns to ``safe_state`` when any condition fails and resumes ``normal_state`` automatically when all conditions are satisfied.
 After startup, control changes reach the state on the third clock edge counting their first sampling edge.
 Data forwarding is combinational.
@@ -117,6 +120,6 @@ Program naming
 
 Generated programs use a ``cvg_`` prefix for their directory, manifest, top entity and emitted filenames.
 ``make new name=my_slot template=generator`` creates ``cvg_my_slot``; supplying ``name=cvg_my_slot`` gives the same name.
-Internal signals use ``s3c_``: ``s3c_normal_state``, ``s3c_card_enable``, ``s3c_clk``, ``s3c_reset`` and ``s3c_startup``.
+Internal signals use ``s3c_``: ``s3c_normal_state``, ``s3c_card_enable`` and ``s3c_clk``.
 Pass ``release_cycle=NAME`` to ``make new`` and ``make generate`` to select a cycle explicitly.
 The standalone generator takes explicit configuration and output paths.

@@ -70,6 +70,8 @@ Standalone generation does not update the repository catalog.
 ## Controls and shared HDL
 
 The controller starts in `safe_state` and enters `normal_state` when synchronized S3C controls, the pilot policy and any `enable` input pattern permit operation.
+The shared controller initializes its registers and holds safe state through the first three rising edges; normal operation is possible on the fourth edge.
+Internal-clock programs tie the controller reset low and rely on synthesis preserving register initial values. External-clock programs expose a reset input that restarts the controller and its warmup when sampled high.
 It returns to safe state when a condition fails and resumes automatically when all conditions hold.
 The built-in contract uses active-high ReqSafeState, ignores CarrierReady, asserts SlotOK only in normal state and keeps ReqOE high.
 Set `pilot_policy = "required"` to require a high pilot input, or add an enable pattern such as `enable = {fpga_29 = 1}`.
@@ -82,4 +84,4 @@ Edit the CSV or TOML and regenerate to update outputs.
 The receipt records input and output hashes; `--check` verifies freshness without writing files.
 Changing shared HDL requires regeneration, and manually edited or unowned output files are protected from overwriting.
 
-Generated internal control signals use `s3c_`, including `s3c_normal_state`, `s3c_card_enable`, `s3c_clk`, `s3c_reset`, and `s3c_startup`. Repository commands accept `release_cycle=NAME`; the standalone command uses the explicit configuration and output paths.
+Generated internal control signals use `s3c_`, including `s3c_normal_state`, `s3c_card_enable`, and `s3c_clk`. Repository commands accept `release_cycle=NAME`; the standalone command uses the explicit configuration and output paths.

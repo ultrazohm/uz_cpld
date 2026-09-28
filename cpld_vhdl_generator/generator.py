@@ -216,8 +216,6 @@ def render(config, output=None):
     text += '    signal s3c_normal_state, s3c_card_enable : std_logic;\n'
     if not external:
         text += '''    signal s3c_clk : std_logic;
-    signal s3c_reset : std_logic := '1';
-    signal s3c_startup : natural range 0 to 3 := 0;
     component OSCH
         generic (NOM_FREQ : string := "2.08");
         port (STDBY : in std_logic; OSC, SEDSTDBY : out std_logic);
@@ -227,21 +225,10 @@ def render(config, output=None):
     if not external:
         text += '''    oscillator: OSCH generic map (NOM_FREQ => "2.08")
         port map (STDBY => '0', OSC => s3c_clk, SEDSTDBY => open);
-    process(s3c_clk)
-    begin
-        if rising_edge(s3c_clk) then
-            if s3c_startup < 3 then
-                s3c_startup <= s3c_startup + 1;
-                s3c_reset <= '1';
-            else
-                s3c_reset <= '0';
-            end if;
-        end if;
-    end process;
 '''
     condition = ' and '.join(f"{pin} = '{value}'" for pin, value in sorted(config.enable.items()))
     text += f"    s3c_card_enable <= '1' when {condition} else '0';\n" if condition else "    s3c_card_enable <= '1';\n"
-    pairs = [('clk', 'clk' if external else 's3c_clk'), ('reset', 'reset' if external else 's3c_reset')]
+    pairs = [('clk', 'clk' if external else 's3c_clk'), ('reset', 'reset' if external else "'0'")]
     pairs += [(name, name) for name in ('pilot_in', 'reqsafestate', 'carrierrdy', 'slotok', 'reqoe')]
     pairs += [('card_enable', 's3c_card_enable'), ('state_normal', 's3c_normal_state'),
               ('state_safe', 'open')]

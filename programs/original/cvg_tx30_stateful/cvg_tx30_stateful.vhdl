@@ -79,8 +79,6 @@ end entity;
 architecture rtl of cvg_tx30_stateful is
     signal s3c_normal_state, s3c_card_enable : std_logic;
     signal s3c_clk : std_logic;
-    signal s3c_reset : std_logic := '1';
-    signal s3c_startup : natural range 0 to 3 := 0;
     component OSCH
         generic (NOM_FREQ : string := "2.08");
         port (STDBY : in std_logic; OSC, SEDSTDBY : out std_logic);
@@ -88,17 +86,6 @@ architecture rtl of cvg_tx30_stateful is
 begin
     oscillator: OSCH generic map (NOM_FREQ => "2.08")
         port map (STDBY => '0', OSC => s3c_clk, SEDSTDBY => open);
-    process(s3c_clk)
-    begin
-        if rising_edge(s3c_clk) then
-            if s3c_startup < 3 then
-                s3c_startup <= s3c_startup + 1;
-                s3c_reset <= '1';
-            else
-                s3c_reset <= '0';
-            end if;
-        end if;
-    end process;
     s3c_card_enable <= '1';
     controller: entity s3c.s3c_logic(level_signals)
         generic map (
@@ -113,7 +100,7 @@ begin
         )
         port map (
             clk => s3c_clk,
-            reset => s3c_reset,
+            reset => '0',
             pilot_in => pilot_in,
             reqsafestate => reqsafestate,
             carrierrdy => carrierrdy,

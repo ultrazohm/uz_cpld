@@ -17,15 +17,15 @@
     ]
   },
   "files": {
-    "cvg_tx30_stateful.vhdl": "ce146599e09c5ad866c32caef9efea08b553c9aac0bfec1631b899f9f58b0a2c"
+    "cvg_tx30_stateful.vhdl": "14951151d20d0295537ef103255a3bef60665b95b22052b802e04b5110df0e96"
   },
   "generator_version": "0.4.0",
   "inputs": {
     "generator/__init__.py": "9aa6665b32248e8d5f86bf6bd92da4fcdef7ee8fa5e2bef2f0eae9e8c51882d4",
     "generator/__main__.py": "47d0a830e20065dbcbd55789103a034578b993010c1daf5e2a2d0d25d2f15bbe",
     "generator/contracts/s3c_power_on_debounce_v1.toml": "7e1a07f4a126de45196943eb92a6511d6ce6daba1bc37fe2446b2bf8c1541046",
-    "generator/generator.py": "be9c0e94c460b2ffdb4f0832dfc33ff9ef4a9d75ab05a336698d6f06e66a93c7",
-    "generator/project.py": "0b9cad674c712c53e4370d9d843aa1ba3b46f038c48e483ea2548f234058fee5",
+    "generator/generator.py": "bb642be80abbb5fc30b37cc5f36672a7c946d04b7ec9af9affe27ebc5d1ab730",
+    "generator/project.py": "6bfed5226e6d28bf87e4ac5f036a7b0eb0835854e6135400aba496681eedfb36",
     "generator/toml.py": "9c10ad01d8036edfe0aa0a653f312218c6cc1b2ecb2d56e0a77ec6f078e70c1c",
     "s3c_library/level_signals.vhdl": "c3fbe92cf94f38cb498a5123027dfe5794edd02c6106dc4de4d6b675bc3b1969",
     "s3c_library/s3c_logic.vhdl": "65bd059babdc1668fc7c8e3e47d561dc6eb455c5e3c67840635025f41fa91b0f",

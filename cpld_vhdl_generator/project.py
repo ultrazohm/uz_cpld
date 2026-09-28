@@ -51,7 +51,7 @@ async def generated_routing(dut):
     # OSCH is unbound in RTL simulation; drive its internal clock net.
     clock = dut.s3c_clk
     clock.value = 0
-    dut.reqsafestate.value = REQUEST_SAFE
+    dut.reqsafestate.value = 1 - REQUEST_SAFE
     dut.carrierrdy.value = READY_LEVEL
     dut.pilot_in.value = int(REQUIRE_PILOT)
     dut.i2c_scl.value = 0
@@ -95,7 +95,15 @@ async def generated_routing(dut):
                 getattr(dut, pin).value = values[pin]
             await check(normal)
 
-    await tick(12)
+    # Even with all controls permitting operation, startup stays safe for three edges.
+    await check(False)
+    for _ in range(3):
+        await tick(1)
+        await check(False)
+    await tick(1)
+    await check(True)
+    dut.reqsafestate.value = REQUEST_SAFE
+    await tick()
     await patterns(False)
     dut.reqsafestate.value = 1 - REQUEST_SAFE
     await tick()

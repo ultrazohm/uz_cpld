@@ -4,6 +4,23 @@ Generates VHDL-1993 slot programs from CSV routing and TOML configuration, indep
 For a repository project, follow the [quickstart](../docs/quick-start.rst#generate-a-program-from-csv): create a starter with `make new name=my_slot template=generator`, edit its routing, then generate, simulate and build it.
 The [generator reference](../docs/vhdl-generator.rst) documents configuration, custom S3C contracts, shared HDL and file ownership.
 
+## Generation flow
+
+```mermaid
+flowchart LR
+    csv[routing.csv: normal and safe routes] --> generator[cpld-vhdl-generator]
+    config[generator.toml: clock, controls and target] --> generator
+    contract[S3C contract and shared HDL] --> generator
+    generator --> vhdl[Program VHDL]
+    generator --> receipt[generator-output.json: input and output hashes]
+    generator --> target{Target configured?}
+    target -- Yes --> project[Build manifest, cocotb testbench and LPF constraints]
+    target -- No --> standalone[Standalone VHDL and receipt]
+    vhdl --> check[--check: verify generated files are current]
+    receipt --> check
+    project --> check
+```
+
 ## Standalone use
 
 Run from the checkout, or install with `pip install .` to use `cpld-vhdl-generator`.

@@ -42,6 +42,28 @@ Native nextpnr resides in ``$FOSS_ROOT/native/``, while the bundle's other execu
 Build stages and outputs
 ------------------------
 
+.. mermaid::
+
+   flowchart LR
+      host[Host Make] --> docker[Docker toolchain image]
+      docker --> cli[Python build CLI]
+      dev[Dev Container Make] --> cli
+      inputs[Program VHDL, LPF, target] --> cli
+      cli --> ghdl[GHDL: VHDL to Verilog]
+      ghdl --> synth[Yosys: XO2 synthesis]
+      ghdl --> proof[Yosys: RTL equivalence and startup checks]
+      synth --> proof
+      synth --> pins[Python: LPF and package translation]
+      inputs --> pins
+      pins --> pnr[nextpnr-machxo2: place and route]
+      synth --> pnr
+      pnr --> config[Python: complete device configuration]
+      config --> pack[Project Trellis ecppack: bitstream]
+      pack --> unpack[Project Trellis ecpunpack: format and CRC check]
+      unpack --> artifacts[BIT file, reports, metadata and logs]
+      proof --> artifacts
+      artifacts -. separate manual step .-> loader[openFPGALoader: optional device programming]
+
 GHDL elaborates VHDL to Verilog, Yosys maps logic with ``synth_lattice -family xo2``, nextpnr places/routes the selected device, and Trellis packs the configuration into a bitstream.
 Yosys checks mapped logic against the GHDL-generated Verilog before routing, and Trellis unpacks the resulting bitstream as a format/CRC check.
 Sequential programs use the MachXO2 flip-flop and carry-cell simulation models with temporal induction; an internal oscillator is represented as the same arbitrary clock on both sides of the proof.

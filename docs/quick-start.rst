@@ -8,6 +8,28 @@ Choose CSV generation or clone a program for manual VHDL editing.
 Simulation checks the behavior exercised by the testbench; a firmware build implements the design for the device.
 Neither step programs hardware.
 
+Project flow
+------------
+
+.. mermaid::
+
+   flowchart LR
+      csv[CSV routing and generator TOML] --> gen[cpld_vhdl_generator]
+      gen --> files[Program VHDL, LPF, manifest and cocotb testbench]
+      manual[Cloned program files edited by hand] --> files
+      description[Authored description.rst] --> docs
+      files --> check[make check: validate inputs]
+      files --> sim[make sim: pytest, cocotb and GHDL]
+      sim --> waves[Simulation results and VCD waveform]
+      files --> build[make build: Diamond or FOSS backend]
+      build --> firmware[Firmware export, reports and metadata]
+      files --> docs[make docs: pytest, cocotb, GHDL, Yosys, Graphviz, Plotly and Sphinx]
+      docs --> waves
+      docs --> site[Program pages, RTL diagrams and interactive waveforms]
+
+The same authored program can be simulated, exported as firmware, and included in the generated documentation.
+See :doc:`program-documentation` for the documentation stages and :doc:`foss` for the open-source firmware path.
+
 .. _generator-quickstart:
 
 Generate a program from CSV

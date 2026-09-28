@@ -96,7 +96,7 @@ Populate the target's TOML entries and choose one chain per command. For example
 
 ``make programmer scan`` reads IDs and ``make programmer program`` writes Flash; both execute by default. Use ``dry_run=1`` for a preview. FOSS uses openFPGALoader ``--detect`` and reports the ID codes it sees, including unexpected devices. Diamond makes a temporary XCF containing only ``FLASH Display ID`` operations and runs ``pgrcmd``; its output and the exact XCF are retained under ``toolchain/build/programmer/scans/``. Diamond uses the archived expected chain positions, so its result is an ID check against that chain rather than unrestricted chain discovery. Neither scan command needs firmware builds or a selection file. For programming, the FOSS path first scans and checks the entire JTAG chain: five 2000HC devices at indices 0–4 for D-slots, or one 4000HC at index 0 for S3C. It stops before writing if the scan does not match. The Diamond path generates an XCF for only the selected chain under ``toolchain/build/programmer/<cycle>/<chain>/`` and applies ``probe_index`` to its USB2 port. It uses the device and position checks built into that XCF. The separate ``make programmer lattice_xcf`` command generates both XCFs and requires all six assignments.
 
-The FOSS cable defaults to ``ft2232`` and selects USB probe index 1 for D-slots and index 0 for S3C. These openFPGALoader probe indices do not necessarily match Diamond's ``FTUSB-N`` ports, which can enumerate interfaces of a single FTDI chip. Confirm with the scan on your station; for FOSS, use ``probe_index=N`` or ``usb_serial=SERIAL`` to select a probe and ``cable=NAME`` to select the cable type and channel. Diamond defaults to ``FTUSB-1`` for both chains; ``probe_index=N`` overrides the port for scans and programming. A past cycle can be chosen with ``release_cycle=NAME``. The relevant backend must have successful, current builds for the selected programs. Programming writes logs and a ``result.json`` receipt under ``toolchain/build/programmer/<cycle>/runs/`` for FOSS and ``toolchain/build/programmer/<cycle>/<chain>/runs/`` for Diamond.
+The FOSS cable defaults to ``ft2232`` and selects USB probe index 1 for D-slots and index 0 for S3C. These openFPGALoader probe indices do not necessarily match Diamond's ``FTUSB-N`` ports, which can enumerate interfaces of a single FTDI chip. Confirm with the scan on your station; for FOSS, use ``probe_index=N`` or ``usb_serial=SERIAL`` to select a probe and ``cable=NAME`` to select the cable type and channel. Diamond uses ``FTUSB-1`` for both chains. The automatic detach mapping is fixed to that port and USB interface 1; a different ``probe_index`` requires updating the mapping constants described below. A past cycle can be chosen with ``release_cycle=NAME``. The relevant backend must have successful, current builds for the selected programs. Programming writes logs and a ``result.json`` receipt under ``toolchain/build/programmer/<cycle>/runs/`` for FOSS and ``toolchain/build/programmer/<cycle>/<chain>/runs/`` for Diamond.
 
 On the UltraZohm FT4232 with serial ``0100206000050``, both commands below read the S3C ``LCMXO2-4000HC`` ID ``0x012BC043`` in a live container check::
 
@@ -105,4 +105,30 @@ On the UltraZohm FT4232 with serial ``0100206000050``, both commands below read 
 
 Here, FOSS uses FT4232 channel B and Diamond uses ``FTUSB-1``. The old archived S3C port ``FTUSB-0`` returned an all-zero ID on this setup, so generated XCFs and scans now default to ``FTUSB-1``. ``FLASH Display ID`` is the MachXO2 operation name; the generic ``Display ID`` is rejected by Diamond. Despite its name, ``FLASH Display ID`` only reads the ID and does not program Flash.
 
-The container needs access to the USB device and its user must have permission to open it; see :doc:`environments`. Diamond additionally needs the mounted Linux installation and license. The host's ``ftdi_sio`` serial driver can also claim the FTDI interfaces and interfere with programmer access. If this causes a cable-access failure, close applications using those serial ports and run ``sudo rmmod ftdi_sio`` on the host before retrying. Unloading it affects all FTDI serial ports on that host; ``sudo modprobe ftdi_sio`` restores the driver. The live scan above succeeded with ``ftdi_sio`` unloaded; the helper does not change host kernel modules. Successful build evidence and a completed tool command do not establish hardware qualification. The imported ``s3c_power_on_debounce`` program has unresolved startup validation and requires ``allow_unqualified_s3c=1`` for programming.
+The container needs access to the USB device and its user must have permission to open it; see :doc:`environments`. Diamond additionally needs the mounted Linux installation and license.
+
+Automatic FTDI driver handling
+------------------------------
+
+Diamond scans and programming temporarily detach ``ftdi_sio`` from the UltraZohm
+FT4232 JTAG interface through libusb. The driver is restored after Diamond exits,
+including after a command failure or interruption. An interface that was already
+unbound is left unbound. Channels A, C, and D are not detached. No host module
+unloading, added container capabilities, writable sysfs, or container rebuild is
+needed. The container image already includes ``libusb-1.0``.
+
+The fixed wiring is ``FTUSB-1`` on USB interface ``1`` (channel B). For future
+hardware changes, edit ``DEFAULT_DIAMOND_PORT`` in ``programmer_helper/helper.py``
+and ``JTAG_INTERFACE`` in ``programmer_helper/usb.py``. That module also defines
+the FT4232 vendor/product IDs (``0403:6011``). The helper requires a single matching
+FT4232 device and refuses ambiguous device selection. Concurrent helper operations
+on the same interface are rejected. ``dry_run=1`` and ``lattice_xcf`` never detach
+a driver. Running an exported XCF directly in the Diamond GUI does not use this
+Python wrapper.
+
+Restoration is attempted after normal errors, Ctrl-C, and SIGTERM. A forced kill
+or USB disconnection can prevent cleanup; reconnect the device if the driver
+cannot be restored. The live integrated D-slot scan detected all five
+``LCMXO2-2000HC`` devices while ``ftdi_sio`` stayed loaded, then restored channel B.
+
+Successful build evidence and a completed tool command do not establish hardware qualification. The imported ``s3c_power_on_debounce`` program has unresolved startup validation and requires ``allow_unqualified_s3c=1`` for programming.

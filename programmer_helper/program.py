@@ -17,6 +17,7 @@ from toolchain.buildsystem.model import BuildError, load_build, resolve_release
 from toolchain.buildsystem.workflow import digest, locked, write_json
 from .helper import (DEFAULT_DIAMOND_PORT, SLOT_TEMPLATE, S3C_TEMPLATE, generate,
                      read_selection, verified_firmware)
+from .usb import diamond_usb
 
 
 @dataclass(frozen=True)
@@ -149,22 +150,36 @@ def run_command(command: tuple[str, ...], log: Path) -> str:
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                                    text=True, errors='replace')
         lines = []
-        for line in process.stdout:
-            print(line, end='')
-            stream.write(line)
-            lines.append(line)
-        result = process.wait()
+        try:
+            for line in process.stdout:
+                print(line, end='')
+                stream.write(line)
+                lines.append(line)
+            result = process.wait()
+        except BaseException:
+            # Stop Diamond before releasing the USB context and restoring its driver.
+            process.terminate()
+            try:
+                process.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                process.kill()
+                process.wait()
+            raise
+        finally:
+            process.stdout.close()
     if result:
-        if any('Failed to Open FTDI USB port' in line for line in lines):
-            interfaces = sorted(path.name for path in Path('/sys/bus/usb/drivers/ftdi_sio').glob('*:*'))
-            if interfaces:
-                print('Host ftdi_sio is attached to USB interfaces: ' + ', '.join(interfaces),
-                      file=sys.stderr)
-                print('Close applications using FTDI serial ports, then run sudo rmmod ftdi_sio '
-                      'on the host and retry. This unloads the driver for all host FTDI serial ports; '
-                      'sudo modprobe ftdi_sio restores it.', file=sys.stderr)
         raise BuildError(f'Programmer failed with exit code {result}; see {log}')
     return ''.join(lines)
+
+
+def run_diamond(command: tuple[str, ...], log: Path, xcf: Path) -> str:
+    """Use the XCF's actual cable port for both scanning and programming."""
+    project = ET.parse(xcf).getroot()
+    port = re.fullmatch(r'FTUSB-(\d+)', project.findtext('./CableOptions/PortAdd', ''))
+    if project.findtext('./CableOptions/CableName') != 'USB2' or port is None:
+        raise BuildError(f'{xcf}: expected a USB2 FTUSB port')
+    with diamond_usb(int(port[1])):
+        return run_command(command, log)
 
 
 def selected_chain_builds(root: Path, cycle: str, slots: dict[int, str], s3c: str,
@@ -237,13 +252,16 @@ def execute(root: Path, cycle: str, chain: str, backend: str, output: Path,
                 log = run_dir / f'{step.label}.log'
                 command = (step.command[:-1] + (str(run_dir / f'{step.label}-pgrcmd.log'),)
                            if backend == 'diamond' else step.command)
-                run_command(command, log)
+                if backend == 'diamond':
+                    run_diamond(command, log, step.artifact)
+                else:
+                    run_command(command, log)
                 record['steps'].append({'label': step.label, 'artifact': str(step.artifact),
                                         'sha256': step.sha256, 'command': list(command),
                                         'log': str(log)})
                 write_json(run_dir / 'result.json', record)
             record['status'] = 'success'
-        except Exception as exc:
+        except BaseException as exc:
             record['status'] = 'failed'
             record['error'] = str(exc)
             raise
@@ -310,7 +328,7 @@ def main(argv=None) -> int:
                 command = ('bash', str(args.root.resolve() / 'programmer_helper/diamond_program.sh'),
                            str(xcf), str(vendor_log))
                 try:
-                    output = run_command(command, run_dir / 'stdout.log')
+                    output = run_diamond(command, run_dir / 'stdout.log', xcf)
                 finally:
                     if vendor_log.exists():
                         print(vendor_log.read_text(errors='replace'))
@@ -332,6 +350,8 @@ def main(argv=None) -> int:
                               allow_unqualified_s3c=args.allow_unqualified_s3c)
             print(f'Programming record: {run_dir / "result.json"}')
         return 0
+    except KeyboardInterrupt:
+        parser.exit(130, 'programmer_helper: interrupted\n')
     except (BuildError, ET.ParseError, OSError, ValueError, KeyError, subprocess.SubprocessError) as exc:
         parser.exit(2, f'programmer_helper: {exc}\n')
 

@@ -56,8 +56,8 @@ An environment variable alone does not mount the host installation.
 VS Code
 -------
 
-After ``make image``, open the repository in VS Code and select **Dev Containers: Reopen in Container**.
-The single configuration uses the local ``uz-cpld-toolchain`` image and bridge networking with ``eth0`` assigned the MAC address ``10:91:d1:3d:14:ae``.
+Open the repository in VS Code and select **Dev Containers: Reopen in Container**. VS Code builds the toolchain image from ``.devcontainer/Dockerfile`` automatically; no separate ``make image`` step is required.
+The single configuration uses bridge networking with ``eth0`` assigned the MAC address ``10:91:d1:3d:14:ae``.
 For Diamond, export the absolute host installation root, which is the parent of ``bin``, before launching VS Code::
 
    export DIAMOND_HOST_ROOT="$HOME/lscc/diamond/3.14"

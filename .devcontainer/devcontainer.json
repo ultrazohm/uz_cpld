@@ -1,6 +1,13 @@
 {
   "name": "UltraZohm CPLD",
-  "image": "uz-cpld-toolchain",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "..",
+    "options": [
+      "--platform=linux/amd64"
+    ],
+    "target": "toolchain"
+  },
   "overrideCommand": false,
   "containerEnv": {
     "LM_LICENSE_FILE": "${localEnv:LM_LICENSE_FILE}"

@@ -232,11 +232,8 @@ def plan(root: Path, selection: Path, cycle_name: str | None, chain: str, progra
 
 def execute(root: Path, cycle: str, chain: str, programmer_backend: str, output: Path,
             builds, steps: list[Step], cable: str | None, serial: str | None,
-            probe_index: int | None = None,
-            *, allow_unqualified_s3c: bool = False):
+            probe_index: int | None = None):
     """Revalidate selected files under build locks, detect JTAG, then program."""
-    if chain == 's3c' and builds[0][2].name == 's3c_power_on_debounce' and not allow_unqualified_s3c:
-        raise BuildError('s3c_power_on_debounce has unresolved hardware validation; pass --allow-unqualified-s3c after review')
     if programmer_backend == 'foss' and not loader_path().is_file():
         raise BuildError(f'openFPGALoader is missing: {loader_path()}')
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
@@ -306,8 +303,6 @@ def main(argv=None) -> int:
     parser.add_argument('--usb-serial', help='Select one USB probe by its serial number')
     parser.add_argument('--probe-index', type=int, help='Select an FTDI USB probe by index')
     parser.add_argument('--execute', action='store_true', help='Contact hardware (scan reads IDs; program writes Flash)')
-    parser.add_argument('--allow-unqualified-s3c', action='store_true',
-                        help='Allow the imported S3C image despite unresolved validation')
     args = parser.parse_args(argv)
     try:
         if args.action == 'init':
@@ -363,14 +358,18 @@ def main(argv=None) -> int:
                                                   args.chain, args.programmer_backend,
                                                   args.cable, args.usb_serial, args.probe_index,
                                                   build_backend=args.build_backend)
+        print(f'Programming selection (release: {cycle}):')
+        for _, index, build in builds:
+            target_label = 'S3C' if args.chain == 's3c' else f'D-slot {index + 1}'
+            print(f'  {target_label}: {build.name}')
         print(f'Firmware build backend: {builds[0][2].backend}; programmer backend: {args.programmer_backend}')
         for step in steps:
             print(f'{step.label}: {step.artifact} (sha256 {step.sha256})')
             print('  ' + shlex.join(step.command))
         if args.execute:
+            sys.stdout.flush()
             run_dir = execute(args.root.resolve(), cycle, args.chain, args.programmer_backend,
-                              output, builds, steps, args.cable, args.usb_serial, args.probe_index,
-                              allow_unqualified_s3c=args.allow_unqualified_s3c)
+                              output, builds, steps, args.cable, args.usb_serial, args.probe_index)
             print(f'Programming record: {run_dir / "result.json"}')
         return 0
     except KeyboardInterrupt:

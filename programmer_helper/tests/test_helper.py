@@ -196,6 +196,30 @@ class ProgrammerHelperTests(unittest.TestCase):
                 self.assertEqual(receipt['build_backend'], backend)
                 self.assertEqual(receipt['steps'][0]['sha256'], digest(steps[0].artifact))
 
+    def test_s3c_programs_without_qualification_override(self):
+        self.publish('old', 's3c_power_on_debounce', 'foss')
+        for build_backend, programmer_backend in [('diamond', 'diamond'),
+                                                   ('diamond', 'foss'), ('foss', 'foss')]:
+            with self.subTest(build=build_backend, programmer=programmer_backend):
+                selection = self.write_backend_selection(build_backend, 's3c')
+                with patch.object(programmer, 'loader_path', return_value=Path(__file__)), \
+                        patch.object(programmer, 'run_command',
+                                     return_value='index 0:\n  idcode 0x012bc043\n') as run, \
+                        patch.object(programmer, 'run_diamond', return_value='success') as diamond:
+                    self.assertEqual(programmer.main([
+                        'program', '--root', str(self.root), '--selection', str(selection),
+                        '--target', 's3c', '--programmer-backend', programmer_backend, '--execute',
+                    ]), 0)
+                if programmer_backend == 'diamond':
+                    diamond.assert_called_once()
+                    run.assert_not_called()
+                else:
+                    diamond.assert_not_called()
+                    self.assertEqual(run.call_count, 2)
+                    self.assertIn('--detect', run.call_args_list[0].args[0])
+                    self.assertIn('--write-flash', run.call_args_list[1].args[0])
+                    self.assertIn('--verify', run.call_args_list[1].args[0])
+
     def test_foss_refuses_stale_diamond_build_and_changed_plan_before_usb(self):
         selection = self.write_backend_selection('diamond')
         cycle, output, builds, steps = plan(self.root, selection, None, 'dslots', 'foss', None, None)

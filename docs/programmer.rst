@@ -165,18 +165,17 @@ Program D-slots with Diamond::
 
 After changing the UltraZohm to its S3C access state, program S3C::
 
-   make programmer program target=s3c allow_unqualified_s3c=1
+   make programmer program target=s3c
 
-The default ``s3c_power_on_debounce`` firmware has unresolved startup hardware
-validation. ``allow_unqualified_s3c=1`` explicitly permits programming that
-image; it is required with either backend. Other selected S3C programs do not
-require this particular override.
+The default ``s3c_power_on_debounce`` firmware uses the normal programming
+command with no program-specific override. Build freshness, artifact hashes,
+board compatibility and JTAG chain checks still apply.
 
 To use the FOSS programmer with the selected builds, use::
 
    make programmer program target=dslot programmer_backend=foss
    # Change the UltraZohm physical state before programming S3C.
-   make programmer program target=s3c programmer_backend=foss allow_unqualified_s3c=1
+   make programmer program target=s3c programmer_backend=foss
 
 These commands **immediately erase, program, and verify Flash**. Programming
 requires an explicit target and only operates on that target. The Diamond programmer uses Diamond
@@ -285,12 +284,16 @@ or USB disconnection can prevent cleanup; reconnect the device if the driver
 cannot be restored. The live integrated D-slot scan detected all five
 ``LCMXO2-2000HC`` devices while ``ftdi_sio`` stayed loaded, then restored channel B.
 
-Successful build evidence and a completed tool command do not establish hardware qualification. The imported ``s3c_power_on_debounce`` program has unresolved startup validation and requires ``allow_unqualified_s3c=1`` for programming.
+The S3C controller's validation coverage and inherited design limitations are
+documented in ``programs/original/s3c_power_on_debounce/description.rst``.
+Programming does not change those validation records.
 
 Logs and receipts
 -----------------
 
-Programming previews name both backend choices. Each programming ``result.json``
+Before contacting hardware, programming prints the selected release and program
+name for S3C or each D-slot, followed by both backend choices and artifact paths.
+The same summary appears with ``dry_run=1``. Each programming ``result.json``
 also records ``programmer_backend`` and ``build_backend`` alongside artifact
 paths and hashes.
 

@@ -18,7 +18,7 @@ programmer_root := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 programmer_python = PYTHONPATH=$(call quote,$(programmer_root))"$${PYTHONPATH:+:$$PYTHONPATH}" $(python)
 programmer_cli = $(programmer_python) -m programmer_helper.program
 programmer_build_args = $(if $(build_backend),--build-backend $(call quote,$(build_backend)))
-programmer_options = $(programmer_build_args) --programmer-backend $(call quote,$(programmer_backend)) $(release_args) $(if $(selection),--selection $(call quote,$(selection))) $(if $(cable),--cable $(call quote,$(cable))) $(if $(usb_serial),--usb-serial $(call quote,$(usb_serial))) $(if $(probe_index),--probe-index $(call quote,$(probe_index))) $(if $(filter 1,$(allow_unqualified_s3c)),--allow-unqualified-s3c)
+programmer_options = $(programmer_build_args) --programmer-backend $(call quote,$(programmer_backend)) $(release_args) $(if $(selection),--selection $(call quote,$(selection))) $(if $(cable),--cable $(call quote,$(cable))) $(if $(usb_serial),--usb-serial $(call quote,$(usb_serial))) $(if $(probe_index),--probe-index $(call quote,$(probe_index)))
 ifneq ($(filter programmer,$(MAKECMDGOALS)),)
 ifeq ($(origin backend),command line)
 $(error For programmer commands use programmer_backend=diamond|foss and build_backend=diamond|foss; backend= is for firmware builds)

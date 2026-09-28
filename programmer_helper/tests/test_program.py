@@ -23,7 +23,7 @@ class ProgramTests(unittest.TestCase):
     @patch.object(program, 'read_selection')
     @patch.object(program, 'resolve_release', return_value='original')
     def test_foss_plan_uses_flash_verify_for_all_positions(self, _, selection, builds, firmware):
-        selection.return_value = ({i: 'tx30' for i in range(1, 6)}, 's3c_power_on_debounce')
+        selection.return_value = ({i: 'tx30' for i in range(1, 6)}, 's3c_power_on_debounce', None)
         builds.return_value = [(f'slot{i}', i - 1, object()) for i in range(1, 6)]
         firmware.return_value = (Path('/tmp/firmware.bit'), 'abc')
         with tempfile.TemporaryDirectory() as directory:
@@ -41,6 +41,19 @@ class ProgramTests(unittest.TestCase):
         with patch.object(program, 'run_command') as run:
             self.assertEqual(program.main(['scan', '--chain', 's3c', '--backend', 'foss']), 0)
             run.assert_not_called()
+
+    def test_blank_selection_cannot_reach_hardware(self):
+        with tempfile.TemporaryDirectory() as directory:
+            selection = Path(directory) / 'selection.toml'
+            selection.write_text('release = ""\ns3c = ""\n[slots]\n' +
+                                 ''.join(f'"{i}" = ""\n' for i in range(1, 6)))
+            for target in ('s3c', 'dslot'):
+                with self.subTest(target=target), patch.object(program, 'run_command') as run:
+                    with self.assertRaises(SystemExit) as error:
+                        program.main(['program', '--target', target, '--selection', str(selection),
+                                      '--execute'])
+                    self.assertEqual(error.exception.code, 2)
+                    run.assert_not_called()
 
     def test_diamond_scan_xcf_contains_only_read_operations(self):
         root = Path(__file__).resolve().parents[2]

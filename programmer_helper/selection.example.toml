@@ -1,10 +1,14 @@
-# Copy this file, then replace every value with a program from the selected release.
-# All six assignments are required. Slot numbers are JTAG chain positions.
-s3c = ""
+# Created by make programmer. Edit these defaults for your hardware.
+# Empty release uses programs/releases.toml; release_cycle=NAME overrides this field.
+# Use make release-list and make list release_cycle=NAME to see available choices.
+# Slot numbers are JTAG chain positions.
+# S3C and D-slots require different UltraZohm physical states; program separately.
+release = ""
+s3c = "s3c_power_on_debounce"
 
 [slots]
-"1" = ""
-"2" = ""
-"3" = ""
-"4" = ""
-"5" = ""
+"1" = "tx30"
+"2" = "tx30"
+"3" = "tx30"
+"4" = "tx30"
+"5" = "tx30"

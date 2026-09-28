@@ -36,27 +36,42 @@ def slot_assignments(values: list[str]) -> dict[int, str]:
     return assignments
 
 
-def read_selection(path: Path) -> tuple[dict[int, str], str]:
-    """Read an operator-supplied TOML selection with all six assignments."""
+def read_selection(path: Path, chain: str | None = None) -> tuple[dict[int, str], str, str | None]:
+    """Read assignments and an optional release; validate the requested chain."""
     data = read_toml(path)
-    if set(data) != {'slots', 's3c'} or not isinstance(data['slots'], dict):
-        raise BuildError(f'{path}: expected only [slots] and s3c')
-    if any(not isinstance(position, str) or not isinstance(program, str)
-           for position, program in data['slots'].items()):
-        raise BuildError(f'{path}: slot positions and program names must be strings')
-    try:
-        slots = slot_assignments([f'{position}={program}' for position, program in data['slots'].items()])
-    except BuildError as exc:
-        raise BuildError(f'{path}: {exc}') from exc
-    return slots, identifier(data['s3c'])
+    required = {'s3c'} if chain == 's3c' else {'slots'} if chain == 'dslots' else {'slots', 's3c'}
+    if set(data) - {'slots', 's3c', 'release'} or not required <= set(data):
+        raise BuildError(f'{path}: expected [slots] and s3c for the selected target, plus optional release')
+    release = data.get('release', '')
+    if not isinstance(release, str):
+        raise BuildError(f'{path}: release must be a string; use "" for the current release')
+    release = identifier(release) if release else None
+    slots, s3c = {}, ''
+    if chain != 's3c':
+        if not isinstance(data['slots'], dict) or any(
+                not isinstance(position, str) or not isinstance(program, str)
+                for position, program in data['slots'].items()):
+            raise BuildError(f'{path}: slot positions and program names must be strings')
+        try:
+            slots = slot_assignments([f'{position}={program}' for position, program in data['slots'].items()])
+        except BuildError as exc:
+            raise BuildError(f'{path}: {exc}') from exc
+    if chain != 'dslots':
+        if not isinstance(data['s3c'], str) or not data['s3c']:
+            raise BuildError(f'{path}: set s3c to a program name')
+        s3c = identifier(data['s3c'])
+    return slots, s3c, release
 
 
-def selected_builds(root: Path, cycle: str, slots: dict[int, str], s3c: str):
+def selected_builds(root: Path, cycle: str, slots: dict[int, str], s3c: str,
+                    chain: str | None = None):
     """Resolve user selections within one release, checking board compatibility."""
     builds = {}
-    for position, program in slots.items():
-        builds[f'slot{position}'] = load_build(root, program, 'uz_dslot_xo2', 'diamond', cycle)
-    builds['s3c'] = load_build(root, identifier(s3c), 'uz_s3c_xo2', 'diamond', cycle)
+    if chain != 's3c':
+        for position, program in slots.items():
+            builds[f'slot{position}'] = load_build(root, program, 'uz_dslot_xo2', 'diamond', cycle)
+    if chain != 'dslots':
+        builds['s3c'] = load_build(root, identifier(s3c), 'uz_s3c_xo2', 'diamond', cycle)
     return builds
 
 
@@ -94,7 +109,8 @@ def jedec_metadata(jed: Path) -> tuple[str, str]:
     return checksums[0].decode().upper(), usercodes[0].decode().upper()
 
 
-def render_xcf(template: Path, entries: dict[int, Path], *, device_name: str, idcode: str) -> bytes:
+def render_xcf(template: Path, entries: dict[int, Path], *, device_name: str, idcode: str,
+               port: int | None = None) -> bytes:
     """Keep the known chain definition and replace its machine-specific data."""
     if template.is_symlink() or not template.is_file():
         raise BuildError(f'Missing regular XCF template: {template}')
@@ -128,6 +144,11 @@ def render_xcf(template: Path, entries: dict[int, Path], *, device_name: str, id
     if cable is not None:
         for item in cable.findall('USBID'):
             cable.remove(item)
+    if port is not None:
+        port_address = root.find('./CableOptions/PortAdd')
+        if port < 0 or port_address is None or root.findtext('./CableOptions/CableName') != 'USB2':
+            raise BuildError(f'{template}: cannot select USB2 port {port}')
+        port_address.text = f'FTUSB-{port}'
     ET.indent(tree, space='\t')
     return (b"<?xml version='1.0' encoding='utf-8' ?>\n"
             b'<!DOCTYPE ispXCF SYSTEM "IspXCF.dtd" >\n' +
@@ -146,13 +167,16 @@ def _atomic_bytes(path: Path, payload: bytes):
 
 
 def generate(root: Path, slots: dict[int, str], s3c: str,
-             release_cycle: str | None = None, *, rebuild: bool = False) -> Path:
-    """Generate both XCFs, optionally rebuilding the selected Diamond firmware."""
+             release_cycle: str | None = None, *, rebuild: bool = False,
+             chain: str | None = None, port: int | None = None) -> Path:
+    """Generate selected XCFs, optionally rebuilding the Diamond firmware."""
     root = root.resolve()
     cycle = resolve_release(root, release_cycle)
-    if set(slots) != set(range(1, 6)):
+    if chain not in (None, 's3c', 'dslots'):
+        raise BuildError(f'Unknown programmer chain: {chain}')
+    if chain != 's3c' and set(slots) != set(range(1, 6)):
         raise BuildError('Exactly D-slot positions 1 through 5 are required')
-    builds = selected_builds(root, cycle, slots, s3c)
+    builds = selected_builds(root, cycle, slots, s3c, chain)
     unique = {build.directory: build for build in builds.values()}
     if rebuild:
         for build in sorted(unique.values(), key=lambda item: str(item.directory)):
@@ -166,28 +190,35 @@ def generate(root: Path, slots: dict[int, str], s3c: str,
             jed, sha256 = verified_jed(build)
             jed_paths[label] = jed
             hashes[label] = sha256
-        slot_xcf = render_xcf(root / SLOT_TEMPLATE,
+        xcfs, templates = {}, {}
+        if chain != 's3c':
+            templates['dslots'] = digest(root / SLOT_TEMPLATE)
+            xcfs['dslots.xcf'] = render_xcf(root / SLOT_TEMPLATE,
                               {position: jed_paths[f'slot{position}'] for position in range(1, 6)},
-                              device_name='LCMXO2-2000HC', idcode='0x012bb043')
-        s3c_xcf = render_xcf(root / S3C_TEMPLATE, {1: jed_paths['s3c']},
-                             device_name='LCMXO2-4000HC', idcode='0x012bc043')
+                              device_name='LCMXO2-2000HC', idcode='0x012bb043', port=port)
+        if chain != 'dslots':
+            templates['s3c'] = digest(root / S3C_TEMPLATE)
+            xcfs['s3c.xcf'] = render_xcf(root / S3C_TEMPLATE, {1: jed_paths['s3c']},
+                             device_name='LCMXO2-4000HC', idcode='0x012bc043', port=port)
         output = root / 'toolchain/build/programmer' / cycle
-        for parent in (root / 'toolchain', root / 'toolchain/build', root / 'toolchain/build/programmer', output):
+        if chain:
+            output /= chain
+        for parent in (output, *output.parents):
+            if parent == root:
+                break
             if parent.is_symlink():
                 raise BuildError(f'Programmer output path must not be a symlink: {parent}')
         output.mkdir(parents=True, exist_ok=True)
-        _atomic_bytes(output / 'dslots.xcf', slot_xcf)
-        _atomic_bytes(output / 's3c.xcf', s3c_xcf)
+        for name, payload in xcfs.items():
+            _atomic_bytes(output / name, payload)
         write_json(output / 'selection.json', {
             'release_cycle': cycle,
             'backend': 'diamond',
-            'slots': {str(position): slots[position] for position in range(1, 6)},
+            'slots': {str(position): name for position, name in slots.items()},
             's3c': s3c,
             'firmware_sha256': hashes,
-            'template_sha256': {'dslots': digest(root / SLOT_TEMPLATE),
-                                's3c': digest(root / S3C_TEMPLATE)},
-            'xcf_sha256': {'dslots.xcf': hashlib.sha256(slot_xcf).hexdigest(),
-                           's3c.xcf': hashlib.sha256(s3c_xcf).hexdigest()},
+            'template_sha256': templates,
+            'xcf_sha256': {name: hashlib.sha256(payload).hexdigest() for name, payload in xcfs.items()},
         })
     return output
 
@@ -195,7 +226,7 @@ def generate(root: Path, slots: dict[int, str], s3c: str,
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description='Generate separate D-slot and S3C Lattice Programmer XCF files.')
     parser.add_argument('--root', type=Path, default=Path(__file__).resolve().parents[1])
-    parser.add_argument('--release-cycle', help='Defaults to programs/releases.toml current cycle')
+    parser.add_argument('--release-cycle', help='Override selection release; otherwise use the current cycle')
     parser.add_argument('--selection', type=Path, help='TOML file containing all five slot programs and S3C')
     parser.add_argument('--slot', action='append', metavar='POSITION=PROGRAM',
                         help='Repeat once for each D-slot position 1 through 5')
@@ -206,7 +237,9 @@ def main(argv=None) -> int:
         if args.selection:
             if args.slot or args.s3c:
                 raise BuildError('Use either --selection or all --slot/--s3c arguments')
-            slots, s3c = read_selection(args.selection)
+            slots, s3c, selection_release = read_selection(args.selection)
+            if args.release_cycle is None:
+                args.release_cycle = selection_release
         else:
             if not args.s3c:
                 raise BuildError('Provide --s3c and all five --slot assignments, or --selection')

@@ -27,6 +27,19 @@ class Step:
     command: tuple[str, ...]
 
 
+def create_selection(destination: Path):
+    """Create an editable selection in the caller's directory without overwriting."""
+    template = Path(__file__).with_name('selection.example.toml').read_text()
+    try:
+        with destination.open('x') as stream:
+            stream.write(template)
+    except FileExistsError:
+        print(f'{destination} already exists; kept your selection.')
+        return
+    print(f'Created {destination} with default programs. Edit the programs and release as needed.')
+    print('Use make list to see program names, then make programmer program target=s3c or target=dslot.')
+
+
 def loader_path() -> Path:
     override = os.environ.get('CPLD_OPENFPGALOADER')
     if override:
@@ -158,11 +171,11 @@ def plan(root: Path, selection: Path, cycle_name: str | None, chain: str, backen
          cable: str | None, serial: str | None, probe_index: int | None = None):
     """Validate authored selection and existing build evidence; touch no hardware."""
     root = root.resolve()
-    cycle = resolve_release(root, cycle_name)
-    slots, s3c = read_selection(selection)
+    slots, s3c, selection_release = read_selection(selection, chain=chain)
+    cycle = resolve_release(root, cycle_name if cycle_name is not None else selection_release)
     builds = selected_chain_builds(root, cycle, slots, s3c, chain, backend)
     if backend == 'diamond':
-        output = generate(root, slots, s3c, cycle)
+        output = generate(root, slots, s3c, cycle, chain=chain, port=probe_index)
         xcf = output / ('dslots.xcf' if chain == 'dslots' else 's3c.xcf')
         receipt = json.loads((output / 'selection.json').read_text())
         if digest(xcf) != receipt['xcf_sha256'][xcf.name]:
@@ -232,11 +245,14 @@ def execute(root: Path, cycle: str, chain: str, backend: str, output: Path,
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description='Inspect and program the selected CPLD JTAG chain.')
-    parser.add_argument('action', choices=('scan', 'program'))
+    parser.add_argument('action', choices=('init', 'scan', 'program'))
     parser.add_argument('--root', type=Path, default=Path(__file__).resolve().parents[1])
-    parser.add_argument('--chain', choices=('dslots', 's3c'), required=True)
-    parser.add_argument('--selection', type=Path, help='Complete six-program TOML selection (program action)')
-    parser.add_argument('--release-cycle')
+    targets = parser.add_mutually_exclusive_group()
+    targets.add_argument('--chain', choices=('dslots', 's3c'))
+    targets.add_argument('--target', choices=('dslot', 's3c'), help='Physical target; scans default to dslot')
+    parser.add_argument('--selection', type=Path, default=Path('selection.toml'),
+                        help='Program selection file (default: selection.toml in the current directory)')
+    parser.add_argument('--release-cycle', help='Override the release in the selection file')
     parser.add_argument('--backend', choices=('diamond', 'foss'), default='diamond')
     parser.add_argument('--cable', help='openFPGALoader cable name; defaults to archived FTDI interface')
     parser.add_argument('--usb-serial', help='Select one USB probe by its serial number')
@@ -246,10 +262,20 @@ def main(argv=None) -> int:
                         help='Allow the imported S3C image despite unresolved validation')
     args = parser.parse_args(argv)
     try:
+        if args.action == 'init':
+            create_selection(args.selection)
+            return 0
+        args.chain = args.chain or {'dslot': 'dslots', 's3c': 's3c'}.get(args.target)
+        if not args.chain:
+            if args.action == 'program':
+                raise BuildError('Choose target=s3c or target=dslot; program one physical chain at a time')
+            args.chain = 'dslots'
         if args.probe_index is not None and args.probe_index < 0:
             raise BuildError('--probe-index must be nonnegative')
         if args.probe_index is not None and args.usb_serial:
             raise BuildError('Select a probe using either --probe-index or --usb-serial')
+        if args.backend == 'diamond' and (args.cable or args.usb_serial):
+            raise BuildError('Diamond uses the USB2 cable; select its port with --probe-index')
         if args.action == 'scan':
             if args.backend == 'foss':
                 command = scan_command(args.chain, args.cable, args.usb_serial, args.probe_index)
@@ -261,8 +287,6 @@ def main(argv=None) -> int:
                 output = run_command(command, args.root.resolve() / 'toolchain/build/programmer/scan.log')
                 print('Detected:', parse_scan(output))
             else:
-                if args.cable or args.usb_serial:
-                    raise BuildError('Diamond scan uses the USB2 cable; select its port with --probe-index')
                 port = args.probe_index if args.probe_index is not None else (1 if args.chain == 'dslots' else 0)
                 print(f'Diamond FLASH Display ID scan: {args.chain} on FTUSB-{port}')
                 if not args.execute:
@@ -285,8 +309,8 @@ def main(argv=None) -> int:
                 if not output.strip() and not vendor_log.exists():
                     raise BuildError('Diamond produced no scan output')
             return 0
-        if not args.selection:
-            raise BuildError('program requires --selection with all six program names')
+        if not args.selection.is_file():
+            raise BuildError(f'{args.selection} is missing; run make programmer, then fill in the target programs')
         cycle, output, builds, steps = plan(args.root, args.selection, args.release_cycle,
                                                   args.chain, args.backend,
                                                   args.cable, args.usb_serial, args.probe_index)
@@ -299,7 +323,7 @@ def main(argv=None) -> int:
                               allow_unqualified_s3c=args.allow_unqualified_s3c)
             print(f'Programming record: {run_dir / "result.json"}')
         return 0
-    except (BuildError, OSError, ValueError, KeyError, subprocess.SubprocessError) as exc:
+    except (BuildError, ET.ParseError, OSError, ValueError, KeyError, subprocess.SubprocessError) as exc:
         parser.exit(2, f'programmer_helper: {exc}\n')
 
 

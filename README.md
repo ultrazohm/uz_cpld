@@ -10,4 +10,4 @@ Use VS Code's **Dev Containers: Reopen in Container** to build and start the dev
 
 Build the full documentation with `make docs`, then open `docs/_build/html/index.html`. The [generator guide](docs/vhdl-generator.rst), [FOSS pipeline](docs/foss.rst), and [build reports](docs/builds.rst) describe the main workflows.
 
-After Diamond builds, use `make programmer-project selection=FILE` to generate separate D-slot and S3C Lattice Programmer XCF files from an explicit six-program selection. See [programmer projects](docs/programmer.rst).
+Use `make programmer` to create `selection.toml`, `make programmer scan` to read D-slot JTAG IDs, and `make programmer program target=s3c|dslot` to program the selected target. After Diamond builds, `make programmer lattice_xcf` generates both Lattice Programmer XCF files. See [programmer commands](docs/programmer.rst).

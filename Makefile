@@ -13,17 +13,37 @@ quote = '$(subst ','"'"',$(1))'
 release_args = $(if $(release_cycle),--release-cycle $(call quote,$(release_cycle)))
 release_make = $(if $(release_cycle),release_cycle=$(call quote,$(release_cycle)))
 args = $(release_args) $(if $(target),--target $(call quote,$(target))) $(if $(program),--program $(call quote,$(program))) --backend $(call quote,$(backend))
-.PHONY: release-list release-new release-current help build list doctor new generate check project gui build-all report programmer-project programmer-scan programmer-program clean clean-all test docs docs-local docs-assets-local netlist netlist-local sim image test-container _sim
+programmer_root := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
+programmer_python = PYTHONPATH=$(call quote,$(programmer_root))"$${PYTHONPATH:+:$$PYTHONPATH}" $(python)
+programmer_cli = $(programmer_python) -m programmer_helper.program
+programmer_options = --backend $(call quote,$(backend)) $(release_args) $(if $(selection),--selection $(call quote,$(selection))) $(if $(cable),--cable $(call quote,$(cable))) $(if $(usb_serial),--usb-serial $(call quote,$(usb_serial))) $(if $(probe_index),--probe-index $(call quote,$(probe_index))) $(if $(filter 1,$(allow_unqualified_s3c)),--allow-unqualified-s3c)
+ifneq ($(filter programmer,$(MAKECMDGOALS)),)
+programmer_action := $(filter scan lattice_xcf program,$(MAKECMDGOALS))
+ifneq ($(word 2,$(programmer_action)),)
+$(error Choose one programmer action: scan, lattice_xcf, or program)
+endif
+ifneq ($(filter-out programmer scan lattice_xcf program,$(MAKECMDGOALS)),)
+$(error Use make programmer [scan|lattice_xcf|program] with no other goals)
+endif
+ifeq ($(programmer_action),lattice_xcf)
+ifneq ($(backend),diamond)
+$(error Programmer projects are Diamond XCF files; use backend=diamond)
+endif
+endif
+endif
+firmware_goals := build doctor project gui build-all
+.PHONY: release-list release-new release-current help build list doctor new generate check project gui build-all report programmer program scan lattice_xcf clean clean-all test docs docs-local docs-assets-local netlist netlist-local sim image test-container _sim
 help:
-	@printf '%-31s %s\n' \
+	@printf '%-48s %s\n' \
 	  'make [help]' 'Show all commands (default without program)' \
 	  'make program=NAME' 'Build one program (default with program)' \
 	  'make build program=NAME' 'Build one program' \
 	  'make build-all' 'Build the program catalog' \
 	  'make report' 'Summarize existing catalog build evidence' \
-	  'make programmer-project selection=FILE' 'Generate D-slot and S3C XCF files' \
-	  'make programmer-scan chain=dslots backend=foss|diamond execute=1' 'Read and report a JTAG chain' \
-	  'make programmer-program selection=FILE chain=dslots [execute=1]' 'Erase, program and verify Flash' \
+	  'make programmer' 'Create selection.toml here (preserve an existing file)' \
+	  'make programmer program target=s3c|dslot' 'Program selected target from selection.toml; dry_run=1 previews' \
+	  'make programmer scan [target=dslot|s3c]' 'Read JTAG IDs; defaults to D-slots' \
+	  'make programmer lattice_xcf [selection=FILE]' 'Generate D-slot and S3C XCF files from selection.toml' \
 	  'make list' 'List catalog programs in the selected cycle' \
 	  'make release-list' 'List release cycles and the current selection' \
 	  'make release-new name=NAME [from=CYCLE]' 'Create a cycle and make it current' \
@@ -47,22 +67,35 @@ help:
 	  'make docs-assets-local' 'Generate program documentation assets' \
 	  'make docs-local' 'Build documentation with installed tools'
 	@printf '%s\n' '' 'Options: release_cycle=NAME template_release_cycle=NAME backend=diamond|foss target=uz_dslot_xo2|uz_s3c_xo2 template=tx30 selection=FILE rebuild=1 seed=1 wave_format=vcd|ghw|fst jobs=4'
+	@printf '%s\n' 'Programming: target=s3c|dslot selection=selection.toml backend=diamond|foss dry_run=1 probe_index=N cable=NAME usb_serial=SERIAL'
 release-list release-current:
 	$(python) -m toolchain.buildsystem $@ $(release_args)
 release-new:
 	$(python) -m toolchain.buildsystem $@ --name $(call quote,$(name)) $(if $(from),--from $(call quote,$(from)))
 list check report generate:
 	$(python) -m toolchain.buildsystem $@ $(args)
-programmer-project:
-	$(python) -m programmer_helper $(release_args) $(if $(selection),--selection $(call quote,$(selection)),--slot $(call quote,1=$(slot1)) --slot $(call quote,2=$(slot2)) --slot $(call quote,3=$(slot3)) --slot $(call quote,4=$(slot4)) --slot $(call quote,5=$(slot5)) --s3c $(call quote,$(s3c))) $(if $(filter 1,$(rebuild)),--build)
-programmer-scan programmer-program:
-	$(python) -m programmer_helper.program $(if $(filter programmer-scan,$@),scan,program) --chain $(call quote,$(chain)) --backend $(call quote,$(backend)) $(release_args) $(if $(selection),--selection $(call quote,$(selection))) $(if $(cable),--cable $(call quote,$(cable))) $(if $(usb_serial),--usb-serial $(call quote,$(usb_serial))) $(if $(probe_index),--probe-index $(call quote,$(probe_index))) $(if $(filter 1,$(execute)),--execute) $(if $(filter 1,$(allow_unqualified_s3c)),--allow-unqualified-s3c)
+programmer:
+ifeq ($(programmer_action),lattice_xcf)
+	$(programmer_python) -m programmer_helper $(release_args) --selection $(call quote,$(if $(selection),$(selection),selection.toml)) $(if $(filter 1,$(rebuild)),--build)
+else ifneq ($(programmer_action),)
+	$(programmer_cli) $(programmer_action) $(if $(target),--target $(call quote,$(target))) $(programmer_options) $(if $(filter 1,$(dry_run)),,$(if $(filter 0,$(execute)),,--execute))
+else
+	$(programmer_cli) init $(if $(selection),--selection $(call quote,$(selection)))
+endif
+# Subcommands are consumed above; never run a second action, even under make -j.
+ifneq ($(filter programmer,$(MAKECMDGOALS)),)
+scan program lattice_xcf:
+	@:
+else
+scan program lattice_xcf:
+	@echo 'Use make programmer $@ [target=dslot|s3c]' >&2; exit 2
+endif
 # FOSS firmware commands use the same container dispatch as simulation on hosts.
 ifeq ($(backend)$(filter 1,$(CPLD_TOOLCHAIN_CONTAINER)),foss)
-build doctor project gui build-all: image
+$(firmware_goals): image
 	$(container_run) make $@ $(release_make) backend=foss $(if $(program),program=$(call quote,$(program))) target=$(call quote,$(target))
 else
-build doctor project gui build-all:
+$(firmware_goals):
 	$(python) -m toolchain.buildsystem $@ $(args)
 endif
 new:

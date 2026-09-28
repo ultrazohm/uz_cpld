@@ -6,7 +6,8 @@ import tempfile
 import unittest
 import xml.etree.ElementTree as ET
 
-from programmer_helper.helper import generate, read_selection, slot_assignments
+from programmer_helper.helper import generate, main as project_main, read_selection, slot_assignments
+from programmer_helper.program import plan
 from toolchain.buildsystem.model import BuildError, load_build
 from toolchain.buildsystem.workflow import digest, hashes
 
@@ -73,7 +74,42 @@ class ProgrammerHelperTests(unittest.TestCase):
         selection.write_text('s3c = "s3c_power_on_debounce"\n[slots]\n' +
                              ''.join(f'"{position}" = "{program}"\n'
                                      for position, program in SLOTS.items()))
-        self.assertEqual(read_selection(selection), (SLOTS, 's3c_power_on_debounce'))
+        self.assertEqual(read_selection(selection), (SLOTS, 's3c_power_on_debounce', None))
+
+    def test_programming_uses_selection_release_with_cli_override(self):
+        selection = self.root / 'selection.toml'
+        for value, override, expected in [('old', None, 'old'), ('', None, 'original'),
+                                           ('old', 'original', 'original')]:
+            with self.subTest(value=value, override=override):
+                selection.write_text(f'release = "{value}"\ns3c = "s3c_power_on_debounce"\n')
+                cycle, _, builds, _ = plan(self.root, selection, override, 's3c', 'diamond', None, None)
+                self.assertEqual(cycle, expected)
+                self.assertEqual(builds[0][2].release_cycle, expected)
+        selection.write_text('release = "missing"\ns3c = "s3c_power_on_debounce"\n')
+        with self.assertRaisesRegex(BuildError, 'Unknown release cycle'):
+            plan(self.root, selection, None, 's3c', 'diamond', None, None)
+
+    def test_project_uses_selection_release_with_cli_override(self):
+        selection = self.root / 'selection.toml'
+        selection.write_text('release = "old"\ns3c = "s3c_power_on_debounce"\n[slots]\n' +
+                             ''.join(f'"{i}" = "tx30"\n' for i in range(1, 6)))
+        for extra, expected in [([], 'old'), (['--release-cycle', 'original'], 'original')]:
+            with self.subTest(expected=expected):
+                self.assertEqual(project_main(['--root', str(self.root), '--selection', str(selection),
+                                               *extra]), 0)
+                output = self.root / 'toolchain/build/programmer' / expected
+                receipt = json.loads((output / 'selection.json').read_text())
+                self.assertEqual(receipt['release_cycle'], expected)
+                self.assertTrue((output / 'dslots.xcf').is_file())
+                self.assertTrue((output / 's3c.xcf').is_file())
+
+    def test_selection_rejects_invalid_release(self):
+        selection = self.root / 'selection.toml'
+        for value in ['123', 'false', '[]', '"../old"']:
+            with self.subTest(value=value):
+                selection.write_text(f'release = {value}\ns3c = "s3c_power_on_debounce"\n')
+                with self.assertRaises(BuildError):
+                    read_selection(selection, chain='s3c')
 
     def test_selected_release_populates_both_chains(self):
         output = generate(self.root, SLOTS, 's3c_power_on_debounce', 'old')
@@ -106,6 +142,38 @@ class ProgrammerHelperTests(unittest.TestCase):
     def test_wrong_target_is_rejected(self):
         with self.assertRaisesRegex(BuildError, 'does not support'):
             generate(self.root, {**SLOTS, 1: 's3c_power_on_debounce'}, 's3c_power_on_debounce')
+
+    def test_s3c_plan_needs_no_slot_builds_and_honors_usb_port(self):
+        selection = self.root / 'selection.toml'
+        selection.write_text('s3c = "s3c_power_on_debounce"\n[slots]\n"1" = ""\n')
+        # Unrelated D-slot firmware is stale and must not prevent an S3C plan.
+        source = self.root / 'programs/original/tx30/tx30.vhdl'
+        source.write_text(source.read_text() + '\n-- changed\n')
+        _, output, builds, steps = plan(self.root, selection, None, 's3c', 'diamond',
+                                        None, None, 1)
+        self.assertEqual([label for label, _, _ in builds], ['s3c'])
+        self.assertFalse((output / 'dslots.xcf').exists())
+        project = ET.parse(steps[0].artifact)
+        self.assertEqual(project.findtext('./CableOptions/PortAdd'), 'FTUSB-1')
+        self.assertEqual(project.findtext('./Chain/Device/Operation'), 'FLASH Erase,Program,Verify')
+        receipt = json.loads((output / 'selection.json').read_text())
+        self.assertEqual(set(receipt['firmware_sha256']), {'s3c'})
+        self.assertEqual(receipt['xcf_sha256']['s3c.xcf'], steps[0].sha256)
+
+    def test_dslot_plan_needs_all_slots_but_no_s3c(self):
+        selection = self.root / 'selection.toml'
+        selection.write_text('s3c = ""\n[slots]\n' + ''.join(
+            f'"{position}" = "{name}"\n' for position, name in SLOTS.items()))
+        _, output, builds, steps = plan(self.root, selection, None, 'dslots', 'diamond',
+                                        None, None, 0)
+        self.assertEqual(len(builds), 5)
+        self.assertFalse((output / 's3c.xcf').exists())
+        project = ET.parse(steps[0].artifact)
+        self.assertEqual(project.findtext('./CableOptions/PortAdd'), 'FTUSB-0')
+        self.assertEqual(len(project.findall('./Chain/Device')), 5)
+        selection.write_text('s3c = ""\n[slots]\n"1" = "tx30"\n')
+        with self.assertRaisesRegex(BuildError, 'missing: 2, 3, 4, 5'):
+            plan(self.root, selection, None, 'dslots', 'diamond', None, None)
 
 
 if __name__ == '__main__':

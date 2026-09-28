@@ -9,7 +9,7 @@ Source layout
    repository root/
    ├── Makefile
    ├── cpld_vhdl_generator/    standalone generator, contracts, shared HDL and board profiles
-   ├── .devcontainer/          image stages and optional Diamond configuration
+   ├── .devcontainer/          shared image and Dev Container configuration
    ├── toolchain/
    │   ├── buildsystem/        validated model, CLI, lifecycle and firmware backends
    │   ├── foss/               pinned tool installers and device-specific source build
@@ -31,7 +31,7 @@ Generator-managed projects use editable CSV/TOML inputs to produce the VHDL, tes
 Generated VHDL references the shared S3C entity and selected architecture in ``cpld_vhdl_generator/hdl``.
 The build system validates generated files through the standalone package, while the generator itself has no build-system dependency.
 Firmware build artifacts live under each program's ignored ``build/`` directory, while aggregate reports use ``toolchain/build/`` and documentation uses ``docs/_generated/`` and ``docs/_build/``.
-The repository root has one Makefile and one pair of Dev Container configurations.
+The repository has one Makefile, one Dockerfile and one Dev Container configuration.
 
 Design decisions
 ----------------

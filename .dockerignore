@@ -4,6 +4,7 @@
 !.devcontainer/Dockerfile
 !.devcontainer/diamond-cli
 !.devcontainer/check-diamond
+!.devcontainer/container-entrypoint
 !.devcontainer/smoke.tcl
 !toolchain/
 !toolchain/simulation/

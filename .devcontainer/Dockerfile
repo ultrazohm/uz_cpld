@@ -48,12 +48,14 @@ RUN python3 -m pip install --no-cache-dir -r /tmp/dependencies/docs/requirements
 COPY --from=foss-builder /opt/oss-cad-suite /opt/oss-cad-suite
 COPY .devcontainer/diamond-cli /usr/local/bin/diamond-cli
 COPY .devcontainer/check-diamond /usr/local/bin/check-diamond
+COPY .devcontainer/container-entrypoint /usr/local/bin/toolchain-entrypoint
 COPY .devcontainer/smoke.tcl /usr/local/share/diamond/smoke.tcl
-RUN chmod 0755 /usr/local/bin/diamond-cli /usr/local/bin/check-diamond
+RUN chmod 0755 /usr/local/bin/diamond-cli /usr/local/bin/check-diamond /usr/local/bin/toolchain-entrypoint
 ARG USER_UID=1000
 ARG USER_GID=1000
 RUN groupadd --gid ${USER_GID} vscode \
     && useradd --uid ${USER_UID} --gid ${USER_GID} -m -s /bin/bash vscode
 USER vscode
 WORKDIR /work
+ENTRYPOINT ["/usr/local/bin/toolchain-entrypoint"]
 CMD ["sleep", "infinity"]

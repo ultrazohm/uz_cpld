@@ -4,13 +4,20 @@ Environment setup
 Containers
 ----------
 
-The Dockerfile has one Linux amd64 runtime image, ``toolchain``, used by Make, CI and both Dev Container configurations.
+The Dockerfile has one Linux amd64 runtime image, ``toolchain``, used by Make, CI and the Dev Container.
 An intermediate ``foss-builder`` stage compiles the pinned XO2 tools; it is not a separate runtime image.
 The runtime image includes GHDL, Yosys, nextpnr-machxo2, Trellis, openFPGALoader, Graphviz, Python, Sphinx, GTKWave, development utilities and Diamond runtime libraries.
 The Dev Container setup installs the developer CLI for its user after creation.
 Diamond itself and its license remain external.
-The shared image is larger because development utilities and Diamond runtime libraries are present in the same runtime.
-Build the image with ``make image``.
+Build the image explicitly before starting it manually or from VS Code::
+
+   make image
+
+This creates the local image ``uz-cpld-toolchain``. Re-run the command after changing image dependencies.
+At startup the container prints whether the Diamond launcher was found, then runs the requested command.
+This reports installation availability, not license validity; missing Diamond does not prevent container startup or FOSS use.
+Backend selection is unchanged: ``backend`` defaults to ``diamond``; use ``backend=foss`` for FOSS firmware builds.
+Requesting Diamond without an installation fails with a setup error.
 
 ``make sim``, ``make netlist`` and ``make docs`` build the cached ``toolchain`` image on the host and run directly inside a toolchain container.
 ``make test-container`` follows the same rule; ``make test``, ``make netlist-local`` and ``make docs-local`` always use installed tools.
@@ -22,21 +29,46 @@ The daemon must be able to access the checkout; ARM hosts require amd64 emulatio
 GHDL library paths cannot contain double quotes; use checkout and source paths without them.
 Spaces and apostrophes in checkout paths are supported.
 
-Dev Container
--------------
+Manual startup
+--------------
 
-Open the repository in VS Code and select **Dev Containers: Reopen in Container**.
-Both configurations build the same ``toolchain`` image and use bridge networking with ``eth0`` assigned the MAC address ``10:91:d1:3d:14:ae``.
-Rebuild the container to apply these network settings to an existing container.
-The default configuration needs no Diamond mount or host networking; choose **Diamond** to mount a Linux Diamond installation, expose its license settings and check startup.
-Before launching VS Code for that configuration, export the installation root, which is the parent of ``bin``::
+Start an interactive shell from the repository directory::
+
+   docker run --rm -it --init --platform=linux/amd64 \
+     --user "$(id -u):$(id -g)" \
+     --mount "type=bind,source=$PWD,target=/work" \
+     uz-cpld-toolchain bash
+
+To use Diamond, mount a Linux installation read-only at the image's default ``DIAMOND_ROOT``, ``/opt/diamond``::
+
+   export DIAMOND_HOST_ROOT="$HOME/lscc/diamond/3.14"
+   docker run --rm -it --init --platform=linux/amd64 \
+     --user "$(id -u):$(id -g)" \
+     --network=bridge --mac-address=10:91:d1:3d:14:ae \
+     --mount "type=bind,source=$PWD,target=/work" \
+     --mount "type=bind,source=$DIAMOND_HOST_ROOT,target=/opt/diamond,readonly" \
+     --env LM_LICENSE_FILE \
+     uz-cpld-toolchain bash
+
+For a different container mount location, also pass ``--env DIAMOND_ROOT=/that/location``.
+An environment variable alone does not mount the host installation.
+
+VS Code
+-------
+
+After ``make image``, open the repository in VS Code and select **Dev Containers: Reopen in Container**.
+The single configuration uses the local ``uz-cpld-toolchain`` image and bridge networking with ``eth0`` assigned the MAC address ``10:91:d1:3d:14:ae``.
+For Diamond, export the absolute host installation root, which is the parent of ``bin``, before launching VS Code::
 
    export DIAMOND_HOST_ROOT="$HOME/lscc/diamond/3.14"
    code .
 
-The Diamond configuration mounts that directory read-only at ``/opt/diamond`` and checks Tcl startup after creation.
+The configuration mounts that directory read-only at ``/opt/diamond`` and forwards ``LM_LICENSE_FILE``.
+For FOSS-only use, leave ``DIAMOND_HOST_ROOT`` unset (``unset DIAMOND_HOST_ROOT``); the mount uses an empty Docker volume named ``uz-cpld-no-diamond``.
+Do not set the variable to an empty string.
+The startup availability message appears in the container log; Diamond checks are run explicitly with ``check-diamond``.
 If VS Code was started without the variable, close it fully and relaunch it from this shell.
-Use **Rebuild Container** after changing image dependencies; repository files persist, while unmounted container state can be replaced.
+After rebuilding the image or changing mount or license settings, use **Rebuild Container** to recreate the container from the image; repository files persist, while unmounted container state can be replaced.
 The default user is ``vscode``; VS Code adjusts its UID/GID to the host user.
 ``USER_UID`` and ``USER_GID`` are build arguments for direct container use.
 
@@ -49,7 +81,7 @@ Diamond and licensing
    * - Variable
      - Meaning
    * - ``DIAMOND_HOST_ROOT``
-     - Host installation mounted by the Diamond Dev Container configuration.
+     - Optional absolute host installation path mounted by the Dev Container.
    * - ``DIAMOND_ROOT``
      - Runtime installation root, defaulting to ``/opt/diamond``.
    * - ``DIAMOND_CLI`` / ``DIAMOND_GUI``
@@ -59,7 +91,7 @@ Diamond and licensing
 
 The vendor ``diamondc`` wrapper configures libraries and includes its installation's ``license/license.dat`` in the license search path.
 Additional license files need their own mount and a container-visible path.
-The Diamond configuration exposes the fixed container MAC for node-locked license detection.
+The Dev Container and manual Diamond example expose the fixed container MAC for node-locked license detection.
 Floating-license configurations can use a server address reachable from the container; ``localhost`` refers to the container itself with bridge networking.
 
 ``check-diamond`` tests Tcl startup; ``check-diamond --synthesis`` also synthesizes a one-gate design.

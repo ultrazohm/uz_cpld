@@ -1,12 +1,9 @@
 {
-  "name": "UltraZohm CPLD — documentation and simulation",
-  "build": {
-    "dockerfile": "Dockerfile",
-    "context": "..",
-    "options": [
-      "--platform=linux/amd64"
-    ],
-    "target": "toolchain"
+  "name": "UltraZohm CPLD",
+  "image": "uz-cpld-toolchain",
+  "overrideCommand": false,
+  "containerEnv": {
+    "LM_LICENSE_FILE": "${localEnv:LM_LICENSE_FILE}"
   },
   "remoteUser": "vscode",
   "updateRemoteUserUID": true,
@@ -24,7 +21,10 @@
   "init": true,
   "postCreateCommand": "bash .devcontainer/setup.sh",
   "runArgs": [
+    "--platform=linux/amd64",
     "--network=bridge",
-    "--mac-address=10:91:d1:3d:14:ae"
+    "--mac-address=10:91:d1:3d:14:ae",
+    "--volume",
+    "${localEnv:DIAMOND_HOST_ROOT:uz-cpld-no-diamond}:/opt/diamond:ro"
   ]
 }

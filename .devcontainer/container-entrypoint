@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+diamond_launcher=${DIAMOND_CLI:-${DIAMOND_ROOT:-/opt/diamond}/bin/lin64/diamondc}
+if command -v -- "$diamond_launcher" >/dev/null 2>&1; then
+    echo "Diamond found: $diamond_launcher (license not checked)." >&2
+else
+    echo "Diamond not found: $diamond_launcher. FOSS tools are available; Diamond commands require an installation." >&2
+fi
+exec "$@"

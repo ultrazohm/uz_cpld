@@ -68,6 +68,15 @@ def create(root: Path, name: str, source: str | None = None) -> Path:
                 shutil.copytree(origin, destination,
                                 ignore=shutil.ignore_patterns(*ignored, '*.pyc'))
                 _validate(root, name)
+            description = destination / 'description.rst'
+            if not description.exists():
+                description.write_text(
+                    '.. rubric:: Scope\n\n'
+                    'TODO: Describe the purpose and intended hardware of this release cycle.\n\n'
+                    '.. rubric:: Firmware and compatibility\n\n'
+                    'TODO: Record source revisions, the S3C/D-slot protocol, and compatible program combinations.\n\n'
+                    '.. rubric:: Validation\n\n'
+                    'TODO: Record validation evidence and remaining limitations.\n')
             _select(root, name)
         except Exception:
             if destination.exists():

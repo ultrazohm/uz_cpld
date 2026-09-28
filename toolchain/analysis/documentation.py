@@ -60,6 +60,9 @@ def _generate(root, jobs, release_cycle):
              'Each page combines the authored description with freshly generated netlist and simulation evidence.\n\n')
     for cycle in cycles:
         index += f'{cycle}\n{"-" * len(cycle)}\n\n'
+        description = root / 'programs' / cycle / 'description.rst'
+        if description.is_file():
+            index += f'.. include:: ../../../programs/{cycle}/description.rst\n\n'
         entries = [name.replace('/', '-') for name in names if name.startswith(cycle + '/')]
         if entries:
             index += '.. toctree::\n   :maxdepth: 1\n\n' + ''.join(f'   program-{name}\n' for name in entries) + '\n'

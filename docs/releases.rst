@@ -2,9 +2,20 @@ Release cycles
 ==============
 
 Programs are grouped as ``programs/<release_cycle>/<program>/``.
-Each release directory has its own ``catalog.toml``.
+Each release directory has its own ``catalog.toml`` and an authored ``description.rst``.
 The ``original`` cycle contains the reference programs, including ``cvg_tx30_stateful``.
 The same program name may occur in multiple cycles, with independent source files and build outputs.
+
+Document a cycle
+----------------
+
+Write release-wide documentation in ``programs/<release_cycle>/description.rst``; for example, ``programs/original/description.rst``.
+Describe the cycle's purpose, intended hardware, source commits, S3C/D-slot protocol compatibility, and validation limits.
+Keep program-specific routing and behavior in ``programs/<release_cycle>/<program>/description.rst``.
+The generated program index includes the release description above that cycle's program list, including for empty cycles.
+Use paragraphs and ``.. rubric::`` headings without a top-level title; the index supplies the cycle heading.
+Use absolute Sphinx document paths, such as ``/s3c``, for links to shared guides.
+Existing cycles without a description remain supported.
 
 Select and create cycles
 ------------------------
@@ -20,8 +31,10 @@ Select and create cycles
 Cycle and program names use lowercase letters, digits and underscores, starting with a letter.
 The directory name ``build`` is reserved for generated outputs.
 Creating a cycle selects it as current; an existing cycle is never overwritten.
-Without ``from``, a new cycle has an empty catalog.
+Without ``from``, a new cycle has an empty catalog and a starter ``description.rst``.
 With ``from``, authored files and the catalog are copied, including unfinished generator starters, while ``build/`` directories and Python caches are excluded.
+The release description is copied too; review it for the new cycle, especially source revisions, compatibility, and validation claims.
+If the source cycle has no description, a starter is created.
 Complete programs are validated before and after copying.
 Shared HDL and board targets remain shared across cycles; a cycle is not a frozen snapshot of the whole toolchain.
 Git records the corresponding toolchain version.

@@ -77,9 +77,11 @@ class DocumentationSchedulingTests(unittest.TestCase):
         (cycle / 'alpha').mkdir(parents=True)
         (cycle / 'catalog.toml').write_text('programs = ["alpha"]\n')
         (cycle / 'alpha/alpha.toml').write_text('')
+        (cycle / 'description.rst').write_text('Next cycle protocol and compatibility.\n')
         empty = self.root / 'programs/empty'
         empty.mkdir()
         (empty / 'catalog.toml').write_text('programs = []\n')
+        (empty / 'description.rst').write_text('Planned cycle without firmware yet.\n')
         with patch('toolchain.analysis.documentation.generate_program') as worker:
             pages = generate(self.root, jobs=1)
         self.assertEqual([call.args[2] for call in worker.call_args_list],
@@ -88,10 +90,17 @@ class DocumentationSchedulingTests(unittest.TestCase):
         self.assertIn('program-next-alpha', index)
         self.assertIn('program-original-alpha', index)
         self.assertIn('No complete program manifests', index)
+        self.assertIn('.. include:: ../../../programs/empty/description.rst', index)
+        self.assertIn('.. include:: ../../../programs/next/description.rst', index)
+        self.assertLess(index.index('programs/next/description.rst'), index.index('program-next-alpha'))
+        self.assertNotIn('programs/original/description.rst', index)
         with patch('toolchain.analysis.documentation.generate_program') as worker:
             pages = generate(self.root, jobs=1, release_cycle='next')
         self.assertEqual([call.args[2] for call in worker.call_args_list], ['next/alpha'])
-        self.assertNotIn('program-original-alpha', (pages / 'index.rst').read_text())
+        index = (pages / 'index.rst').read_text()
+        self.assertNotIn('program-original-alpha', index)
+        self.assertNotIn('programs/empty/description.rst', index)
+        self.assertIn('programs/next/description.rst', index)
 
     def test_documentation_lock_prevents_cleanup_and_other_generators(self):
         from toolchain.buildsystem.workflow import clean_all, workspace_lock

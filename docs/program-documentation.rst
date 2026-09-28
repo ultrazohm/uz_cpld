@@ -65,7 +65,7 @@ Each viewer embeds Plotly.js for offline use, trading larger HTML files for inde
 Authoring and publishing
 ------------------------
 
-Write program-specific prose in ``description.rst`` and shared guides in ``docs/*.rst``.
+Write release-wide prose in ``programs/<release_cycle>/description.rst``, program-specific prose in ``programs/<release_cycle>/<name>/description.rst``, and shared guides in ``docs/*.rst``.
 Use one sentence per source line without manual wrapping or a line-length limit; preserve the required layout of directives, tables and code blocks.
 Generated pages follow the same prose rule.
 ``make docs-local`` uses installed tools; ``make docs-assets-local`` generates pages/assets without Sphinx.

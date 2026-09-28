@@ -40,6 +40,7 @@ class ReleaseTests(unittest.TestCase):
         self.make('release-new', 'name=a_new')
         self.assertEqual(resolve_release(self.root), 'a_new')
         self.assertEqual(catalog(self.root), [])
+        self.assertTrue((self.root / 'programs/a_new/description.rst').is_file())
         self.assertIn('original/tx30', self.make('list', 'release_cycle=original'))
         self.assertEqual(resolve_release(self.root), 'a_new')
         self.make('release-current', 'release_cycle=original')
@@ -74,6 +75,11 @@ class ReleaseTests(unittest.TestCase):
         (cache / 'old.pyc').touch()
         self.make('release-new', 'name=next', 'from=original')
         self.assertEqual(catalog(self.root), catalog(self.root, 'original'))
+        original_description = self.root / 'programs/original/description.rst'
+        copied_description = self.root / 'programs/next/description.rst'
+        self.assertEqual(copied_description.read_bytes(), original_description.read_bytes())
+        copied_description.write_text('Description for the new cycle.\n')
+        self.assertNotEqual(copied_description.read_bytes(), original_description.read_bytes())
         copied = load_build(self.root, 'tx30')
         self.assertEqual(copied.sources[-1].path.read_bytes(), original.sources[-1].path.read_bytes())
         self.assertFalse(copied.build_root.exists())
@@ -83,6 +89,12 @@ class ReleaseTests(unittest.TestCase):
         copied.sources[-1].path.write_text('-- independent edit\n')
         self.assertNotEqual(copied.sources[-1].path.read_bytes(), original.sources[-1].path.read_bytes())
         workflow.generate_program(self.root, 'cvg_unfinished')
+
+    def test_copy_of_cycle_without_description_creates_starter(self):
+        (self.root / 'programs/original/description.rst').unlink()
+        releases.create(self.root, 'next', 'original')
+        self.assertTrue((self.root / 'programs/next/description.rst').is_file())
+        self.assertFalse((self.root / 'programs/original/description.rst').exists())
 
     def test_same_program_names_have_independent_locks_and_reports(self):
         releases.create(self.root, 'next', 'original')

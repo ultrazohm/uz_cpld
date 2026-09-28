@@ -126,7 +126,7 @@ class USBTests(unittest.TestCase):
     def test_programming_also_uses_detach_wrapper_without_real_flash_write(self):
         xcf = self.root / 'program.xcf'
         program.diamond_scan_xcf(ROOT, 'dslots', xcf)
-        build = SimpleNamespace(directory=self.root / 'build', name='tx30')
+        build = SimpleNamespace(directory=self.root / 'build', name='tx30', backend='diamond')
         step = program.Step('dslots', build, xcf, program.digest(xcf),
                             ('fake-diamond', str(xcf), '<run-log>'))
         with patch.object(program, 'locked', return_value=nullcontext()), \

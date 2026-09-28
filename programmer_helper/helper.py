@@ -37,16 +37,19 @@ def slot_assignments(values: list[str]) -> dict[int, str]:
     return assignments
 
 
-def read_selection(path: Path, chain: str | None = None) -> tuple[dict[int, str], str, str | None]:
-    """Read assignments and an optional release; validate the requested chain."""
+def read_selection(path: Path, chain: str | None = None) -> tuple[dict[int, str], str, str | None, str]:
+    """Read assignments, release and build backend; validate the requested chain."""
     data = read_toml(path)
     required = {'s3c'} if chain == 's3c' else {'slots'} if chain == 'dslots' else {'slots', 's3c'}
-    if set(data) - {'slots', 's3c', 'release'} or not required <= set(data):
-        raise BuildError(f'{path}: expected [slots] and s3c for the selected target, plus optional release')
+    if set(data) - {'slots', 's3c', 'release', 'build_backend'} or not required <= set(data):
+        raise BuildError(f'{path}: expected [slots] and s3c for the selected target, plus optional release and build_backend')
     release = data.get('release', '')
     if not isinstance(release, str):
         raise BuildError(f'{path}: release must be a string; use "" for the current release')
     release = identifier(release) if release else None
+    build_backend = data.get('build_backend', 'diamond')
+    if build_backend not in ('diamond', 'foss'):
+        raise BuildError(f'{path}: build_backend must be diamond or foss')
     slots, s3c = {}, ''
     if chain != 's3c':
         if not isinstance(data['slots'], dict) or any(
@@ -61,7 +64,7 @@ def read_selection(path: Path, chain: str | None = None) -> tuple[dict[int, str]
         if not isinstance(data['s3c'], str) or not data['s3c']:
             raise BuildError(f'{path}: set s3c to a program name')
         s3c = identifier(data['s3c'])
-    return slots, s3c, release
+    return slots, s3c, release, build_backend
 
 
 def selected_builds(root: Path, cycle: str, slots: dict[int, str], s3c: str,
@@ -169,8 +172,12 @@ def _atomic_bytes(path: Path, payload: bytes):
 
 def generate(root: Path, slots: dict[int, str], s3c: str,
              release_cycle: str | None = None, *, rebuild: bool = False,
-             chain: str | None = None, port: int | None = None) -> Path:
+             chain: str | None = None, port: int | None = None,
+             build_backend: str = 'diamond') -> Path:
     """Generate selected XCFs, optionally rebuilding the Diamond firmware."""
+    if build_backend != 'diamond':
+        raise BuildError('Diamond programming and lattice_xcf require Diamond JEDEC builds; '
+                         'use programmer_backend=foss to program FOSS builds, or select build_backend=diamond')
     root = root.resolve()
     cycle = resolve_release(root, release_cycle)
     if chain not in (None, 's3c', 'dslots'):
@@ -214,7 +221,8 @@ def generate(root: Path, slots: dict[int, str], s3c: str,
             _atomic_bytes(output / name, payload)
         write_json(output / 'selection.json', {
             'release_cycle': cycle,
-            'backend': 'diamond',
+            'programmer_backend': 'diamond',
+            'build_backend': build_backend,
             'slots': {str(position): name for position, name in slots.items()},
             's3c': s3c,
             'firmware_sha256': hashes,
@@ -228,6 +236,8 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description='Generate separate D-slot and S3C Lattice Programmer XCF files.')
     parser.add_argument('--root', type=Path, default=Path(__file__).resolve().parents[1])
     parser.add_argument('--release-cycle', help='Override selection release; otherwise use the current cycle')
+    parser.add_argument('--build-backend', choices=('diamond', 'foss'),
+                        help='Override selection build_backend (XCF export requires diamond)')
     parser.add_argument('--selection', type=Path, help='TOML file containing all five slot programs and S3C')
     parser.add_argument('--slot', action='append', metavar='POSITION=PROGRAM',
                         help='Repeat once for each D-slot position 1 through 5')
@@ -238,14 +248,17 @@ def main(argv=None) -> int:
         if args.selection:
             if args.slot or args.s3c:
                 raise BuildError('Use either --selection or all --slot/--s3c arguments')
-            slots, s3c, selection_release = read_selection(args.selection)
+            slots, s3c, selection_release, selection_backend = read_selection(args.selection)
+            if args.build_backend is None:
+                args.build_backend = selection_backend
             if args.release_cycle is None:
                 args.release_cycle = selection_release
         else:
             if not args.s3c:
                 raise BuildError('Provide --s3c and all five --slot assignments, or --selection')
             slots, s3c = slot_assignments(args.slot or []), identifier(args.s3c)
-        output = generate(args.root, slots, s3c, args.release_cycle, rebuild=args.build)
+        output = generate(args.root, slots, s3c, args.release_cycle, rebuild=args.build,
+                          build_backend=args.build_backend or 'diamond')
     except (BuildError, ET.ParseError, OSError) as exc:
         parser.exit(2, f'programmer_helper: {exc}\n')
     print(output / 'dslots.xcf')

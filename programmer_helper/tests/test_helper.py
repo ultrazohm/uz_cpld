@@ -4,9 +4,11 @@ from pathlib import Path
 import shutil
 import tempfile
 import unittest
+from unittest.mock import patch
 import xml.etree.ElementTree as ET
 
 from programmer_helper.helper import generate, main as project_main, read_selection, slot_assignments
+from programmer_helper import program as programmer
 from programmer_helper.program import plan
 from toolchain.buildsystem.model import BuildError, load_build
 from toolchain.buildsystem.workflow import digest, hashes
@@ -25,7 +27,7 @@ class ProgrammerHelperTests(unittest.TestCase):
         temporary = tempfile.TemporaryDirectory(prefix='cpld programmer ')
         self.addCleanup(temporary.cleanup)
         self.root = Path(temporary.name)
-        for folder in ('toolchain/buildsystem', 'toolchain/targets'):
+        for folder in ('toolchain/buildsystem', 'toolchain/targets', 'toolchain/foss'):
             shutil.copytree(ROOT / folder, self.root / folder,
                             ignore=shutil.ignore_patterns('__pycache__'))
         for template in (
@@ -46,14 +48,14 @@ class ProgrammerHelperTests(unittest.TestCase):
                                 ignore=shutil.ignore_patterns('build', '__pycache__'))
                 self.publish(cycle, name)
 
-    def publish(self, cycle, name):
-        build = load_build(self.root, name, backend='diamond', release_cycle=cycle)
-        jed = build.firmware_path('jed')
+    def publish(self, cycle, name, backend='diamond'):
+        build = load_build(self.root, name, backend=backend, release_cycle=cycle)
+        jed = build.firmware_path('jed' if backend == 'diamond' else 'bit')
         jed.parent.mkdir(parents=True, exist_ok=True)
         checksum = '1234' if cycle == 'original' else '5678'
         jed.write_bytes(f'\x02\nC{checksum}*\nUH00000000*\n\x03'.encode())
         metadata = jed.parent / 'metadata'
-        metadata.mkdir()
+        metadata.mkdir(exist_ok=True)
         (metadata / 'status.json').write_text('{"status":"success"}\n')
         (metadata / 'build.json').write_text(json.dumps({
             'status': 'success', 'inputs': hashes(build),
@@ -74,7 +76,7 @@ class ProgrammerHelperTests(unittest.TestCase):
         selection.write_text('s3c = "s3c_power_on_debounce"\n[slots]\n' +
                              ''.join(f'"{position}" = "{program}"\n'
                                      for position, program in SLOTS.items()))
-        self.assertEqual(read_selection(selection), (SLOTS, 's3c_power_on_debounce', None))
+        self.assertEqual(read_selection(selection), (SLOTS, 's3c_power_on_debounce', None, 'diamond'))
 
     def test_programming_uses_selection_release_with_cli_override(self):
         selection = self.root / 'selection.toml'
@@ -110,6 +112,109 @@ class ProgrammerHelperTests(unittest.TestCase):
                 selection.write_text(f'release = {value}\ns3c = "s3c_power_on_debounce"\n')
                 with self.assertRaises(BuildError):
                     read_selection(selection, chain='s3c')
+
+    def write_backend_selection(self, backend, chain='dslots'):
+        selection = self.root / 'selection.toml'
+        selection.write_text(f'build_backend = "{backend}"\nrelease = "old"\n' +
+                             ('s3c = "s3c_power_on_debounce"\n' if chain == 's3c' else
+                              '[slots]\n' + ''.join(f'"{i}" = "tx30"\n' for i in range(1, 6))))
+        return selection
+
+    def test_foss_programmer_uses_selected_build_backend_for_either_chain(self):
+        for name in ('tx30', 's3c_power_on_debounce'):
+            self.publish('old', name, 'foss')
+        for backend, extension in [('diamond', '.jed'), ('foss', '.bit')]:
+            for chain in ('s3c', 'dslots'):
+                with self.subTest(backend=backend, chain=chain):
+                    selection = self.write_backend_selection(backend, chain)
+                    cycle, _, builds, steps = plan(self.root, selection, None, chain, 'foss', None, None)
+                    self.assertEqual(cycle, 'old')
+                    self.assertEqual(len(steps), 1 if chain == 's3c' else 5)
+                    for step, (_, index, build) in zip(steps, builds):
+                        self.assertEqual(build.backend, backend)
+                        self.assertEqual(step.artifact.suffix, extension)
+                        self.assertEqual(step.artifact.parent, build.directory)
+                        self.assertEqual(step.command[-1], str(step.artifact))
+                        self.assertEqual(step.command[step.command.index('--index-chain') + 1], str(index))
+                        self.assertIn('--write-flash', step.command)
+                        self.assertIn('--verify', step.command)
+
+    def test_build_backend_override_and_missing_field_default(self):
+        selection = self.write_backend_selection('foss')
+        _, _, builds, _ = plan(self.root, selection, None, 'dslots', 'foss', None, None,
+                                build_backend='diamond')
+        self.assertTrue(all(build.backend == 'diamond' for _, _, build in builds))
+        selection.write_text(selection.read_text().replace('build_backend = "foss"\n', ''))
+        _, _, builds, _ = plan(self.root, selection, None, 'dslots', 'foss', None, None)
+        self.assertTrue(all(build.backend == 'diamond' for _, _, build in builds))
+        self.publish('old', 'tx30', 'foss')
+        _, _, builds, _ = plan(self.root, selection, None, 'dslots', 'foss', None, None,
+                                build_backend='foss')
+        self.assertTrue(all(build.backend == 'foss' for _, _, build in builds))
+
+    def test_invalid_build_backend_is_rejected(self):
+        selection = self.root / 'selection.toml'
+        for value in ('"other"', '""', '123', 'true', '[]', '{}'):
+            selection.write_text(f'build_backend = {value}\ns3c = "s3c_power_on_debounce"\n')
+            with self.subTest(value=value), self.assertRaisesRegex(BuildError, 'build_backend'):
+                read_selection(selection, chain='s3c')
+
+    def test_diamond_rejects_foss_builds_and_xcf_honors_override(self):
+        selection = self.write_backend_selection('foss')
+        with self.assertRaisesRegex(BuildError, 'requires Diamond JEDEC'):
+            plan(self.root, selection, None, 'dslots', 'diamond', None, None)
+        selection.write_text(selection.read_text().replace('[slots]',
+                             's3c = "s3c_power_on_debounce"\n[slots]'))
+        with self.assertRaises(SystemExit) as error:
+            project_main(['--root', str(self.root), '--selection', str(selection)])
+        self.assertEqual(error.exception.code, 2)
+        self.assertFalse((self.root / 'toolchain/build/programmer').exists())
+        self.assertEqual(project_main(['--root', str(self.root), '--selection', str(selection),
+                                       '--build-backend', 'diamond']), 0)
+        receipt = json.loads((self.root / 'toolchain/build/programmer/old/selection.json').read_text())
+        self.assertEqual(receipt['build_backend'], 'diamond')
+
+    def test_foss_execution_revalidates_selected_build_and_records_both_backends(self):
+        scan = '\n'.join(f'index {i}:\n  idcode 0x012bb043' for i in range(5))
+        for backend in ('diamond', 'foss'):
+            with self.subTest(backend=backend):
+                if backend == 'foss':
+                    self.publish('old', 'tx30', backend)
+                selection = self.write_backend_selection(backend)
+                cycle, output, builds, steps = plan(self.root, selection, None, 'dslots', 'foss', None, None)
+                with patch.object(programmer, 'loader_path', return_value=Path(__file__)), \
+                        patch.object(programmer, 'run_command', return_value=scan) as run:
+                    result = programmer.execute(self.root, cycle, 'dslots', 'foss', output,
+                                                builds, steps, None, None)
+                self.assertEqual(run.call_count, 6)
+                self.assertIn('--detect', run.call_args_list[0].args[0])
+                self.assertEqual([call.args[0] for call in run.call_args_list[1:]],
+                                 [step.command for step in steps])
+                receipt = json.loads((result / 'result.json').read_text())
+                self.assertEqual(receipt['status'], 'success')
+                self.assertEqual(receipt['programmer_backend'], 'foss')
+                self.assertEqual(receipt['build_backend'], backend)
+                self.assertEqual(receipt['steps'][0]['sha256'], digest(steps[0].artifact))
+
+    def test_foss_refuses_stale_diamond_build_and_changed_plan_before_usb(self):
+        selection = self.write_backend_selection('diamond')
+        cycle, output, builds, steps = plan(self.root, selection, None, 'dslots', 'foss', None, None)
+        # Simulate a new valid publication after planning. The planned hash must still match.
+        build = builds[0][2]
+        steps[0].artifact.write_bytes(steps[0].artifact.read_bytes() + b'changed')
+        record_path = build.directory / 'metadata/build.json'
+        record = json.loads(record_path.read_text())
+        record['outputs'][steps[0].artifact.name] = digest(steps[0].artifact)
+        record_path.write_text(json.dumps(record))
+        with patch.object(programmer, 'loader_path', return_value=Path(__file__)), \
+                patch.object(programmer, 'run_command') as run:
+            with self.assertRaisesRegex(BuildError, 'changed since planning'):
+                programmer.execute(self.root, cycle, 'dslots', 'foss', output, builds, steps, None, None)
+            run.assert_not_called()
+        source = self.root / 'programs/old/tx30/tx30.vhdl'
+        source.write_text(source.read_text() + '\n-- changed\n')
+        with self.assertRaisesRegex(BuildError, 'stale'):
+            plan(self.root, selection, None, 'dslots', 'foss', None, None)
 
     def test_selected_release_populates_both_chains(self):
         output = generate(self.root, SLOTS, 's3c_power_on_debounce', 'old')

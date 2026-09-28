@@ -6,6 +6,6 @@ __pycache__/
 *.pyc
 .pytest_cache/
 docs/_generated/
-
+selection.toml
 # Standalone Python package metadata.
 *.egg-info/

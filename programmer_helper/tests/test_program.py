@@ -23,7 +23,7 @@ class ProgramTests(unittest.TestCase):
     @patch.object(program, 'read_selection')
     @patch.object(program, 'resolve_release', return_value='original')
     def test_foss_plan_uses_flash_verify_for_all_positions(self, _, selection, builds, firmware):
-        selection.return_value = ({i: 'tx30' for i in range(1, 6)}, 's3c_power_on_debounce', None)
+        selection.return_value = ({i: 'tx30' for i in range(1, 6)}, 's3c_power_on_debounce', None, 'foss')
         builds.return_value = [(f'slot{i}', i - 1, object()) for i in range(1, 6)]
         firmware.return_value = (Path('/tmp/firmware.bit'), 'abc')
         with tempfile.TemporaryDirectory() as directory:
@@ -31,6 +31,8 @@ class ProgramTests(unittest.TestCase):
                                            'dslots', 'foss', None, None)
         self.assertEqual(len(steps), 5)
         for index, step in enumerate(steps):
+            self.assertEqual(step.command[step.command.index('--cable') + 1], 'ft4232_b')
+            self.assertEqual(step.command[step.command.index('--cable-index') + 1], '0')
             self.assertEqual(step.command[step.command.index('--index-chain') + 1], str(index))
             self.assertIn('--write-flash', step.command)
             self.assertIn('--verify', step.command)
@@ -39,7 +41,7 @@ class ProgramTests(unittest.TestCase):
 
     def test_scan_plan_does_not_access_hardware(self):
         with patch.object(program, 'run_command') as run:
-            self.assertEqual(program.main(['scan', '--chain', 's3c', '--backend', 'foss']), 0)
+            self.assertEqual(program.main(['scan', '--chain', 's3c', '--programmer-backend', 'foss']), 0)
             run.assert_not_called()
 
     def test_blank_selection_cannot_reach_hardware(self):
@@ -78,13 +80,18 @@ class ProgramTests(unittest.TestCase):
     def test_foss_scan_reports_unexpected_id_without_programming(self):
         output = 'index 0:\n  idcode 0x12345678\n'
         with patch.object(program, 'require_usb_bus'), patch.object(program, 'run_command', return_value=output):
-            self.assertEqual(program.main(['scan', '--chain', 's3c', '--backend', 'foss', '--execute']), 0)
+            self.assertEqual(program.main(['scan', '--chain', 's3c', '--programmer-backend', 'foss', '--execute']), 0)
 
-    def test_archived_usb_ports_select_probe_indices(self):
-        self.assertEqual(program.cable_args('dslots', None, None, None)[-2:],
-                         ['--cable-index', '1'])
-        self.assertEqual(program.cable_args('s3c', None, None, None)[-2:],
-                         ['--cable-index', '0'])
+    def test_foss_targets_use_same_ft4232_channel_and_first_probe(self):
+        for chain in ('s3c', 'dslots'):
+            command = program.scan_command(chain, None, None)
+            self.assertEqual(command[command.index('--cable') + 1], 'ft4232_b')
+            self.assertEqual(command[command.index('--cable-index') + 1], '0')
+            self.assertIn('--detect', command)
+
+    def test_foss_probe_overrides_are_preserved(self):
+        self.assertEqual(program.cable_args('dslots', 'ft2232', None, 2),
+                         ['--cable', 'ft2232', '--freq', '1000000', '--cable-index', '2'])
         self.assertEqual(program.cable_args('dslots', None, 'probe123', None)[-2:],
                          ['--usb-serial-num', 'probe123'])
 

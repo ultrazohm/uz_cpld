@@ -4,6 +4,9 @@
 # Slot numbers are JTAG chain positions.
 # S3C and D-slots require different UltraZohm physical states; program separately.
 release = ""
+# Firmware build to use; independent of programmer_backend=diamond|foss on the command line.
+# build_backend=NAME on the command line overrides this field.
+build_backend = "diamond"
 s3c = "s3c_power_on_debounce"
 
 [slots]

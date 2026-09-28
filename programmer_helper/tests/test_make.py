@@ -42,8 +42,9 @@ class ProgrammerMakeTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         selection = self.cwd / 'selection.toml'
         self.assertEqual(read_selection(selection),
-                         ({i: 'tx30' for i in range(1, 6)}, 's3c_power_on_debounce', None))
+                         ({i: 'tx30' for i in range(1, 6)}, 's3c_power_on_debounce', None, 'diamond'))
         self.assertIn('release = ""', selection.read_text())
+        self.assertIn('build_backend = "diamond"', selection.read_text())
         selection.write_text('s3c = "my_program"\n')
         result = self.make('programmer')
         self.assertEqual(result.returncode, 0, result.stderr)
@@ -55,7 +56,7 @@ class ProgrammerMakeTests(unittest.TestCase):
         self.assertTrue((self.cwd / 'my selection.toml').is_file())
 
     def test_scan_modifier_runs_only_scan_even_with_parallel_make(self):
-        args = self.recorded('-j2', 'programmer', 'scan', 'backend=foss', 'cable=ft4232_b',
+        args = self.recorded('-j2', 'programmer', 'scan', 'programmer_backend=foss', 'cable=ft4232_b',
                              'usb_serial=probe123')
         self.assertEqual(args[:3], ['-m', 'programmer_helper.program', 'scan'])
         self.assertIn('--execute', args)
@@ -73,6 +74,21 @@ class ProgrammerMakeTests(unittest.TestCase):
                 self.assertEqual(args[args.index('--selection') + 1], 'my selection.toml')
                 self.assertEqual(args[args.index('--probe-index') + 1], '1')
                 self.assertIn('--execute', args)
+
+    def test_programmer_and_build_backends_are_forwarded_independently(self):
+        args = self.recorded('programmer', 'program', 'target=dslot',
+                             'programmer_backend=foss', 'build_backend=diamond', 'dry_run=1')
+        self.assertEqual(args[args.index('--programmer-backend') + 1], 'foss')
+        self.assertEqual(args[args.index('--build-backend') + 1], 'diamond')
+        args = self.recorded('programmer', 'lattice_xcf', 'build_backend=diamond')
+        self.assertEqual(args[args.index('--build-backend') + 1], 'diamond')
+
+    def test_scan_ignores_selection_and_build_backend(self):
+        (self.cwd / 'selection.toml').write_text('invalid TOML')
+        result = self.make('programmer', 'scan', 'programmer_backend=foss',
+                           'build_backend=diamond', 'dry_run=1')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('--detect', result.stdout)
 
     def test_dry_run_and_execute_zero_do_not_execute(self):
         for option in ('dry_run=1', 'execute=0'):
@@ -134,10 +150,22 @@ class ProgrammerMakeTests(unittest.TestCase):
                 self.assertNotEqual(result.returncode, 0)
                 self.assertNotIn('programmer_helper', result.stdout)
 
-    def test_lattice_xcf_rejects_foss_backend(self):
-        result = self.make('programmer', 'lattice_xcf', 'backend=foss', recorder=True)
+    def test_ambiguous_old_backend_option_is_rejected(self):
+        result = self.make('programmer', 'program', 'target=dslot', 'backend=foss', recorder=True)
         self.assertNotEqual(result.returncode, 0)
-        self.assertIn('use backend=diamond', result.stderr)
+        self.assertIn('use programmer_backend=', result.stderr)
+        self.assertFalse(result.stdout.strip(), result.stdout)
+
+    def test_invalid_programmer_backend_is_rejected(self):
+        result = self.make('programmer', 'scan', 'programmer_backend=typo', recorder=True)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('programmer_backend must be', result.stderr)
+        self.assertFalse(result.stdout.strip(), result.stdout)
+
+    def test_lattice_xcf_rejects_foss_backend(self):
+        result = self.make('programmer', 'lattice_xcf', 'programmer_backend=foss', recorder=True)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('use programmer_backend=diamond', result.stderr)
         self.assertFalse(result.stdout.strip(), result.stdout)
 
 

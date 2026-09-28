@@ -3,6 +3,7 @@ python ?= python3
 target ?=
 template ?= tx30
 backend ?= diamond
+programmer_backend ?= diamond
 ifneq ($(backend),diamond)
 ifneq ($(backend),foss)
 $(error backend must be diamond or foss)
@@ -16,8 +17,17 @@ args = $(release_args) $(if $(target),--target $(call quote,$(target))) $(if $(p
 programmer_root := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 programmer_python = PYTHONPATH=$(call quote,$(programmer_root))"$${PYTHONPATH:+:$$PYTHONPATH}" $(python)
 programmer_cli = $(programmer_python) -m programmer_helper.program
-programmer_options = --backend $(call quote,$(backend)) $(release_args) $(if $(selection),--selection $(call quote,$(selection))) $(if $(cable),--cable $(call quote,$(cable))) $(if $(usb_serial),--usb-serial $(call quote,$(usb_serial))) $(if $(probe_index),--probe-index $(call quote,$(probe_index))) $(if $(filter 1,$(allow_unqualified_s3c)),--allow-unqualified-s3c)
+programmer_build_args = $(if $(build_backend),--build-backend $(call quote,$(build_backend)))
+programmer_options = $(programmer_build_args) --programmer-backend $(call quote,$(programmer_backend)) $(release_args) $(if $(selection),--selection $(call quote,$(selection))) $(if $(cable),--cable $(call quote,$(cable))) $(if $(usb_serial),--usb-serial $(call quote,$(usb_serial))) $(if $(probe_index),--probe-index $(call quote,$(probe_index))) $(if $(filter 1,$(allow_unqualified_s3c)),--allow-unqualified-s3c)
 ifneq ($(filter programmer,$(MAKECMDGOALS)),)
+ifeq ($(origin backend),command line)
+$(error For programmer commands use programmer_backend=diamond|foss and build_backend=diamond|foss; backend= is for firmware builds)
+endif
+ifneq ($(programmer_backend),diamond)
+ifneq ($(programmer_backend),foss)
+$(error programmer_backend must be diamond or foss)
+endif
+endif
 programmer_action := $(filter scan lattice_xcf program,$(MAKECMDGOALS))
 ifneq ($(word 2,$(programmer_action)),)
 $(error Choose one programmer action: scan, lattice_xcf, or program)
@@ -26,8 +36,8 @@ ifneq ($(filter-out programmer scan lattice_xcf program,$(MAKECMDGOALS)),)
 $(error Use make programmer [scan|lattice_xcf|program] with no other goals)
 endif
 ifeq ($(programmer_action),lattice_xcf)
-ifneq ($(backend),diamond)
-$(error Programmer projects are Diamond XCF files; use backend=diamond)
+ifneq ($(programmer_backend),diamond)
+$(error Programmer projects are Diamond XCF files; use programmer_backend=diamond)
 endif
 endif
 endif
@@ -67,7 +77,7 @@ help:
 	  'make docs-assets-local' 'Generate program documentation assets' \
 	  'make docs-local' 'Build documentation with installed tools'
 	@printf '%s\n' '' 'Options: release_cycle=NAME template_release_cycle=NAME backend=diamond|foss target=uz_dslot_xo2|uz_s3c_xo2 template=tx30 selection=FILE rebuild=1 seed=1 wave_format=vcd|ghw|fst jobs=4'
-	@printf '%s\n' 'Programming: target=s3c|dslot selection=selection.toml backend=diamond|foss dry_run=1 probe_index=N cable=NAME usb_serial=SERIAL'
+	@printf '%s\n' 'Programming: target=s3c|dslot selection=selection.toml programmer_backend=diamond|foss build_backend=diamond|foss dry_run=1 probe_index=N cable=NAME usb_serial=SERIAL'
 release-list release-current:
 	$(python) -m toolchain.buildsystem $@ $(release_args)
 release-new:
@@ -76,7 +86,7 @@ list check report generate:
 	$(python) -m toolchain.buildsystem $@ $(args)
 programmer:
 ifeq ($(programmer_action),lattice_xcf)
-	$(programmer_python) -m programmer_helper $(release_args) --selection $(call quote,$(if $(selection),$(selection),selection.toml)) $(if $(filter 1,$(rebuild)),--build)
+	$(programmer_python) -m programmer_helper $(release_args) $(programmer_build_args) --selection $(call quote,$(if $(selection),$(selection),selection.toml)) $(if $(filter 1,$(rebuild)),--build)
 else ifneq ($(programmer_action),)
 	$(programmer_cli) $(programmer_action) $(if $(target),--target $(call quote,$(target))) $(programmer_options) $(if $(filter 1,$(dry_run)),,$(if $(filter 0,$(execute)),,--execute))
 else

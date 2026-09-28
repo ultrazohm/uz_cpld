@@ -19,7 +19,7 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>/home/ts/Documents/uz_cpld/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30/uz_d_slots_tx30.jed</File>
+			<File>/home/ts/Documents/uz_cpld/archive/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30/uz_d_slots_tx30.jed</File>
 			<FileTime>09/17/26 13:00:47</FileTime>
 			<JedecChecksum>0x7692</JedecChecksum>
 			<Operation>FLASH Erase,Program,Verify</Operation>
@@ -49,7 +49,7 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>/home/ts/Documents/uz_cpld/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30/uz_d_slots_tx30.jed</File>
+			<File>/home/ts/Documents/uz_cpld/archive/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30/uz_d_slots_tx30.jed</File>
 			<FileTime>09/17/26 13:00:47</FileTime>
 			<JedecChecksum>0x7692</JedecChecksum>
 			<Operation>FLASH Erase,Program,Verify</Operation>
@@ -79,9 +79,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>/home/ts/Documents/uz_cpld/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/rx30/uz_d_slots_rx30.jed</File>
+			<File>/home/ts/Documents/uz_cpld/archive/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30/uz_d_slots_tx30.jed</File>
 			<FileTime>09/17/26 13:00:47</FileTime>
-			<JedecChecksum>0xFDDD</JedecChecksum>
+			<JedecChecksum>0x7692</JedecChecksum>
 			<Operation>FLASH Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -109,9 +109,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>/home/ts/Documents/uz_cpld/new_approach/programs/uz_d_resolver_d4_4inverter_sdifix/build/uz_dslot_xo2/diamond/artifacts/firmware.jed</File>
-			<FileTime>09/21/26 13:04:31</FileTime>
-			<JedecChecksum>0xF802</JedecChecksum>
+			<File>/home/ts/Documents/uz_cpld/archive/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30/uz_d_slots_tx30.jed</File>
+			<FileTime>09/17/26 13:00:47</FileTime>
+			<JedecChecksum>0x7692</JedecChecksum>
 			<Operation>FLASH Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -139,9 +139,9 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>/home/ts/Documents/uz_cpld/new_approach/programs/uz_d_resolver_d5_4inverter_sdifix/build/uz_dslot_xo2/diamond/artifacts/firmware.jed</File>
-			<FileTime>09/21/26 13:04:42</FileTime>
-			<JedecChecksum>0xED41</JedecChecksum>
+			<File>/home/ts/Documents/uz_cpld/archive/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30/uz_d_slots_tx30.jed</File>
+			<FileTime>09/17/26 13:00:47</FileTime>
+			<JedecChecksum>0x7692</JedecChecksum>
 			<Operation>FLASH Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>

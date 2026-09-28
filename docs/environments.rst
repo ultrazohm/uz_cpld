@@ -53,6 +53,28 @@ To use Diamond, mount a Linux installation read-only at the image's default ``DI
 For a different container mount location, also pass ``--env DIAMOND_ROOT=/that/location``.
 An environment variable alone does not mount the host installation.
 
+USB programming from a Linux host also requires exposing the USB bus to the container. Add these arguments to the manual ``docker run`` command above::
+
+   --mount type=bind,source=/dev/bus/usb,target=/dev/bus/usb \
+   --device-cgroup-rule='c 189:* rwm' \
+   --group-add "$(stat -c %g /dev/bus/usb/BBB/DDD)"
+
+Replace ``BBB/DDD`` with the bus/device path for the connected programmer. The USB node must grant group read and write access on the host (normally through a host udev rule for the probe); ``--group-add`` gives the container user that numeric group. If the node has no group write permission, correct its host udev rule before programming. When a probe is replugged, its bus/device number can change; the cgroup rule allows the new USB node, while the host udev rule must assign it the same group.
+
+The default Dev Container omits this host-specific mount. On a Linux host with ``/dev/bus/usb``, choose the ``.devcontainer/usb/devcontainer.json`` configuration when reopening in VS Code. Before launching VS Code, set ``USB_DEVICE_GID`` to the programmer node's numeric group ID, for example::
+
+   export USB_DEVICE_GID="$(stat -c %g /dev/bus/usb/BBB/DDD)"
+   code .
+
+The USB configuration defaults to group 46 (the usual ``plugdev`` GID on Ubuntu) if the variable is unset; check the actual node instead of relying on that default. Rebuild the container after changing the group. Inside the container, ``id`` should show that group and ``ls -l /dev/bus/usb/BBB/DDD`` should show group read/write permission. On non-Linux Docker hosts, USB forwarding depends on the Docker VM or host configuration.
+
+Before a JTAG scan, check that the container can see the USB bus and the probe::
+
+   ls -l /dev/bus/usb/*/*
+   /opt/oss-cad-suite/bin/openFPGALoader --scan-usb
+
+If ``/dev/bus/usb`` is absent or empty, the container has no USB device nodes; reopen it with the USB profile and check that the Docker host sees the probe. If the node appears but the scanner cannot open it, compare its group and permissions with ``id``. ``--scan-usb`` lists USB probes, not the JTAG devices behind them.
+
 VS Code
 -------
 

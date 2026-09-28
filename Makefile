@@ -13,7 +13,7 @@ quote = '$(subst ','"'"',$(1))'
 release_args = $(if $(release_cycle),--release-cycle $(call quote,$(release_cycle)))
 release_make = $(if $(release_cycle),release_cycle=$(call quote,$(release_cycle)))
 args = $(release_args) $(if $(target),--target $(call quote,$(target))) $(if $(program),--program $(call quote,$(program))) --backend $(call quote,$(backend))
-.PHONY: release-list release-new release-current help build list doctor new generate check project gui build-all report programmer-project clean clean-all test docs docs-local docs-assets-local netlist netlist-local sim image test-container _sim
+.PHONY: release-list release-new release-current help build list doctor new generate check project gui build-all report programmer-project programmer-scan programmer-program clean clean-all test docs docs-local docs-assets-local netlist netlist-local sim image test-container _sim
 help:
 	@printf '%-31s %s\n' \
 	  'make [help]' 'Show all commands (default without program)' \
@@ -22,6 +22,8 @@ help:
 	  'make build-all' 'Build the program catalog' \
 	  'make report' 'Summarize existing catalog build evidence' \
 	  'make programmer-project selection=FILE' 'Generate D-slot and S3C XCF files' \
+	  'make programmer-scan chain=dslots backend=foss|diamond execute=1' 'Read and report a JTAG chain' \
+	  'make programmer-program selection=FILE chain=dslots [execute=1]' 'Erase, program and verify Flash' \
 	  'make list' 'List catalog programs in the selected cycle' \
 	  'make release-list' 'List release cycles and the current selection' \
 	  'make release-new name=NAME [from=CYCLE]' 'Create a cycle and make it current' \
@@ -53,6 +55,8 @@ list check report generate:
 	$(python) -m toolchain.buildsystem $@ $(args)
 programmer-project:
 	$(python) -m programmer_helper $(release_args) $(if $(selection),--selection $(call quote,$(selection)),--slot $(call quote,1=$(slot1)) --slot $(call quote,2=$(slot2)) --slot $(call quote,3=$(slot3)) --slot $(call quote,4=$(slot4)) --slot $(call quote,5=$(slot5)) --s3c $(call quote,$(s3c))) $(if $(filter 1,$(rebuild)),--build)
+programmer-scan programmer-program:
+	$(python) -m programmer_helper.program $(if $(filter programmer-scan,$@),scan,program) --chain $(call quote,$(chain)) --backend $(call quote,$(backend)) $(release_args) $(if $(selection),--selection $(call quote,$(selection))) $(if $(cable),--cable $(call quote,$(cable))) $(if $(usb_serial),--usb-serial $(call quote,$(usb_serial))) $(if $(probe_index),--probe-index $(call quote,$(probe_index))) $(if $(filter 1,$(execute)),--execute) $(if $(filter 1,$(allow_unqualified_s3c)),--allow-unqualified-s3c)
 # FOSS firmware commands use the same container dispatch as simulation on hosts.
 ifeq ($(backend)$(filter 1,$(CPLD_TOOLCHAIN_CONTAINER)),foss)
 build doctor project gui build-all: image

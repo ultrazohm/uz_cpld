@@ -60,24 +60,28 @@ def selected_builds(root: Path, cycle: str, slots: dict[int, str], s3c: str):
     return builds
 
 
-def verified_jed(build) -> tuple[Path, str]:
-    """Accept only a published JEDEC recorded by a fresh successful build."""
+def verified_firmware(build, extension: str) -> tuple[Path, str]:
+    """Accept only a published firmware file recorded by a fresh successful build."""
     row = _row(build)
     if row['status'] != 'success':
         detail = row.get('error') or ', '.join(row['changed_inputs'] + row['changed_outputs'])
-        raise BuildError(f'{build.qualified_name}: Diamond build is {row["status"]}' +
+        raise BuildError(f'{build.qualified_name}: {build.backend} build is {row["status"]}' +
                          (f' ({detail})' if detail else '') +
-                         f'; run make build program={build.name} release_cycle={build.release_cycle}')
-    jed = build.firmware_path('jed')
+                         f'; run make build program={build.name} backend={build.backend} release_cycle={build.release_cycle}')
+    firmware = build.firmware_path(extension)
     record_path = build.directory / 'metadata/build.json'
     try:
         record = json.loads(record_path.read_text())
-        expected = record['outputs'][jed.name]
+        expected = record['outputs'][firmware.name]
     except (OSError, ValueError, KeyError, TypeError) as exc:
-        raise BuildError(f'{build.qualified_name}: JEDEC is absent from successful build provenance') from exc
-    if not jed.is_file() or jed.is_symlink() or digest(jed) != expected:
-        raise BuildError(f'{build.qualified_name}: published JEDEC is missing or changed: {jed}')
-    return jed, expected
+        raise BuildError(f'{build.qualified_name}: {extension.upper()} is absent from successful build provenance') from exc
+    if not firmware.is_file() or firmware.is_symlink() or digest(firmware) != expected:
+        raise BuildError(f'{build.qualified_name}: published {extension.upper()} is missing or changed: {firmware}')
+    return firmware, expected
+
+
+def verified_jed(build) -> tuple[Path, str]:
+    return verified_firmware(build, 'jed')
 
 
 def jedec_metadata(jed: Path) -> tuple[str, str]:

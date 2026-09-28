@@ -2,6 +2,9 @@ Purpose
 -------
 
 ``s3c_power_on_debounce`` ports the ``Power_on_debounce.vhd`` controller selected by the archive's default ``S3C_171224`` Diamond implementation.
+This is the only implemented S3C power and safety controller in the active catalog.
+The archived source is from commit ``6794ce263a7c2b099001e429ce03a2d9b91d9b1d`` (17 December 2024, ``rev05 00``).
+See :doc:`/s3c` for the pinned source link, port adaptations, and scope.
 The older root-level archive file with the same name belongs to a different implementation and is not the source of this program.
 
 Behavior
@@ -28,4 +31,6 @@ Verification
 ------------
 
 The cocotb test drives the internal clock and checks only startup power, safe-state, slot-enable, and passthrough outputs.
-It does not verify the ready, stop, error, or shutdown transitions, and it does not establish hardware safety.
+That test does not verify the ready, stop, error, or shutdown transitions.
+A separate GHDL integration test checks startup, ready operation, soft stop, and re-enable with the generated D-slot controller and an accelerated oscillator model.
+Neither test establishes hardware safety.

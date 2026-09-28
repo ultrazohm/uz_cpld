@@ -51,14 +51,14 @@ jobs:
           include-hidden-files: true
           retention-days: 14
       - name: Upload the Pages site
-        if: ${{ success() && github.event_name != 'pull_request' && github.ref == 'refs/heads/develop' }}
+        if: ${{ success() && github.event_name != 'pull_request' && github.ref == 'refs/heads/master' }}
         uses: actions/upload-pages-artifact@v4
         with:
           path: docs/_build/html/
 
   deploy:
     needs: checks
-    if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/develop' }}
+    if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/master' }}
     runs-on: ubuntu-22.04
     timeout-minutes: 10
     permissions:

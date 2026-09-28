@@ -25,11 +25,11 @@ GitHub Pages
 
 The repository workflow ``.github/workflows/toolchain.yml`` builds the image, runs tooling tests, compiles the FOSS firmware catalog and generates documentation in separate steps.
 Pull requests and pushes to other branches produce review artifacts without publishing.
-Successful pushes or manual runs on ``develop`` upload a Pages artifact and deploy through the ``github-pages`` environment.
+Successful pushes or manual runs on ``master`` upload a Pages artifact and deploy through the ``github-pages`` environment.
 Both the artifact upload and deployment conditions select this branch explicitly.
 
 Enable **Settings → Pages → Build and deployment → Source: GitHub Actions** once in the GitHub repository.
-Allow ``develop`` in the ``github-pages`` environment deployment branch rules and satisfy any repository approval rules.
+Allow ``master`` in the ``github-pages`` environment deployment branch rules and satisfy any repository approval rules.
 The deployment job uses ``pages: write`` and ``id-token: write``; the build job needs only read access to repository contents.
 The deployment URL appears in the workflow's environment result, with ``https://ultrazohm.github.io/uz_cpld/`` as the standard project-site address unless repository settings specify a custom domain.
 

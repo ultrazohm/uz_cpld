@@ -1,4 +1,6 @@
 -- Ported from archive/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_171224/source/Power_on_debounce.vhd
+-- Source revision: 6794ce263a7c2b099001e429ce03a2d9b91d9b1d (2024-12-17, rev05 00).
+-- Port adaptations and scope: docs/s3c.rst.
 -- Removed unused duplicate-driven tristate_signals and nonstandard unused imports.
 
 library IEEE;

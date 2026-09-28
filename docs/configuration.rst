@@ -4,7 +4,7 @@ Manifest reference
 Program
 -------
 
-.. literalinclude:: ../programs/tx30/tx30.toml
+.. literalinclude:: ../programs/original/tx30/tx30.toml
    :language: toml
 
 All shown fields are required.

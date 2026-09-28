@@ -15,8 +15,8 @@ HDL = Path(__file__).parent / 'hdl'
 class S3CInteractionTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which('ghdl'), 'GHDL required')
     def test_actual_s3c_startup_soft_stop_and_enable(self):
-        s3c = load_build(ROOT, 's3c_power_on_debounce')
-        slot = load_build(ROOT, 'tx30_stateful')
+        s3c = load_build(ROOT, 's3c_power_on_debounce', release_cycle='original')
+        slot = load_build(ROOT, 'cvg_tx30_stateful', release_cycle='original')
         with tempfile.TemporaryDirectory(prefix='s3c slot pair ') as temp:
             output = Path(temp)
             sources = [Source(HDL / 'osch_simulation.vhdl', 'work'), *s3c.sources,

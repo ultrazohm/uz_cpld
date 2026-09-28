@@ -29,6 +29,16 @@ d_00,fpga_00,0
 fpga_01,d_01,d_01
 ''')
 
+    def test_program_prefix_is_added_once_and_internal_signals_use_s3c(self):
+        generate(self.config, self.output)
+        self.assertEqual(load_config(self.config).name, 'cvg_example')
+        self.config.write_text(self.config.read_text().replace('name = "example"', 'name = "cvg_example"'))
+        sources = generate(self.config, self.output)
+        self.assertEqual(sources[-1].name, 'cvg_example.vhdl')
+        self.assertIn('signal s3c_normal_state, s3c_card_enable', sources[-1].read_text())
+        self.assertNotIn('cvg_normal_state', sources[-1].read_text())
+        check(self.config, self.output)
+
     def profile(self, mode, ready='unused'):
         (self.root / 'profile.toml').write_text(f'''id = "test_contract"
 compatible_s3c = ["test_s3c"]
@@ -107,9 +117,9 @@ reqoe = [1, 1]
         check(self.config, output)
         record = json.loads((output / 'generator-output.json').read_text())
         self.assertIn('generator/targets/uz_dslot_xo2.lpf', record['inputs'])
-        self.assertEqual(set(record['files']), {'example.vhdl', 'example.toml',
-                                              'example_tb.py', 'example_constraints.lpf'})
-        manifest = (output / 'example.toml').read_text()
+        self.assertEqual(set(record['files']), {'cvg_example.vhdl', 'cvg_example.toml',
+                                              'cvg_example_tb.py', 'cvg_example_constraints.lpf'})
+        manifest = (output / 'cvg_example.toml').read_text()
         self.assertIn('generator = "../generator.toml"', manifest)
         self.assertIn('path = "../shared/s3c_logic.vhdl"', manifest)
         before = {path.name: path.read_bytes() for path in output.iterdir()}
@@ -135,7 +145,7 @@ reqoe = [1, 1]
         with self.assertRaisesRegex(GeneratorError, 'inputs changed'):
             check(self.config, self.output)
         generate(self.config, self.output)
-        top = self.output / 'example.vhdl'
+        top = self.output / 'cvg_example.vhdl'
         top.write_text(top.read_text() + '\n-- manual edit\n')
         with self.assertRaisesRegex(GeneratorError, 'Stale'):
             check(self.config, self.output)
@@ -326,7 +336,7 @@ architecture test of bench is
     signal src, enablepin : std_logic := '0';
     signal outp, rx, slotok, reqoe, always_out, constant_out : std_logic;
 begin
-    dut: entity work.example port map (
+    dut: entity work.cvg_example port map (
         clk => clk, reset => reset, pilot_in => pilot_in, reqsafestate => reqsafestate,
         carrierrdy => carrierrdy, slotok => slotok, reqoe => reqoe,
         i2c_scl => '0', i2c_sda => '0',

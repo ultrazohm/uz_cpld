@@ -19,7 +19,7 @@ def _row(build: Build):
     directory = build.directory
     status = _read_json(directory / 'metadata/status.json')
     record = _read_json(directory / 'metadata/build.json')
-    row = {'program': build.name, 'target': build.target, 'backend': build.backend,
+    row = {'program': build.name, 'release_cycle': build.release_cycle, 'target': build.target, 'backend': build.backend,
            'status': 'missing', 'changed_inputs': [], 'changed_outputs': [],
            'warnings': 0, 'timing': 'not evaluated', 'equivalence': None,
            'initial_alignment': None, 'undefined_rtl_outputs': []}
@@ -65,38 +65,39 @@ def _row(build: Build):
 
 def catalog_report(builds: list[Build], target_filter: str | None = None,
                    selection_errors: list[tuple[str, str, str]] | None = None,
-                   *, root: Path | None = None, backend: str | None = None,
+                   *, root: Path | None = None, backend: str | None = None, release_cycle: str | None = None,
                    build_errors: list[tuple[str, str, str]] | None = None) -> Path:
     """Write a backend/target-specific Markdown and JSON catalog report."""
     selection_errors = selection_errors or []
-    if not builds and not selection_errors:
-        raise ValueError('Cannot report an empty build selection')
     if builds:
         root, backend = builds[0].root, builds[0].backend
+        release_cycle = builds[0].release_cycle
     if root is None or backend is None:
         raise ValueError('Catalog report requires a checkout and backend')
-    if any(build.root != root or build.backend != backend for build in builds):
+    if any(build.root != root or build.backend != backend or build.release_cycle != release_cycle for build in builds):
         raise ValueError('Catalog report requires one checkout and backend')
     targets = {build.target for build in builds} | {target for _, target, _ in selection_errors if target != '—'}
     name = backend + ('-' + target_filter if target_filter else '') + '-catalog'
-    directory = root / 'toolchain/build/validation' / name
+    from .model import resolve_release
+    release_cycle = resolve_release(root, release_cycle)
+    directory = root / 'toolchain/build/validation' / release_cycle / name
     directory.mkdir(parents=True, exist_ok=True)
     rows = [_row(build) for build in builds]
     for program, target, error in build_errors or []:
         row = next(row for row in rows if row['program'] == program and row['target'] == target)
         row['status'] = 'failed'
         row['error'] = error
-    rows.extend({'program': program, 'target': target, 'backend': backend,
+    rows.extend({'program': program, 'release_cycle': release_cycle, 'target': target, 'backend': backend,
                  'status': 'failed', 'error': error, 'changed_inputs': [],
                  'changed_outputs': [], 'warnings': 0, 'timing': 'not evaluated',
                  'equivalence': None, 'initial_alignment': None,
                  'undefined_rtl_outputs': []}
                 for program, target, error in selection_errors)
     summary = dict(Counter(row['status'] for row in rows))
-    payload = {'generated_at': datetime.now(timezone.utc).isoformat(), 'backend': backend,
+    payload = {'generated_at': datetime.now(timezone.utc).isoformat(), 'backend': backend, 'release_cycle': release_cycle,
                'targets': sorted(targets), 'summary': summary, 'builds': rows}
     write_json(directory / 'report.json', payload)
-    lines = [f'# {backend.upper()} catalog build report', '',
+    lines = [f'# {release_cycle}: {backend.upper()} catalog build report', '',
              f"Generated: {payload['generated_at']}", '',
              'This report reads existing build evidence. A successful status is **fresh** only when '
              'recorded inputs and outputs still match the checkout.', '',

@@ -33,10 +33,10 @@ jobs:
         with:
           name: program-diagnostics
           path: |
-            programs/*/build/simulation/
-            programs/*/build/netlist/
-            programs/*/build/uz_dslot_xo2_foss/
-            programs/*/build/uz_s3c_xo2_foss/
+            programs/*/*/build/simulation/
+            programs/*/*/build/netlist/
+            programs/*/*/build/uz_dslot_xo2_foss/
+            programs/*/*/build/uz_s3c_xo2_foss/
             toolchain/build/simulation/
             toolchain/build/validation/
           if-no-files-found: warn

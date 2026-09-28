@@ -12,7 +12,7 @@ Generation and file ownership
 
 The standalone command generates the same project files without changing the repository catalog::
 
-   python3 -m cpld_vhdl_generator programs/my_slot/generator.toml --output programs/my_slot
+   python3 -m cpld_vhdl_generator programs/original/cvg_my_slot/generator.toml --output programs/original/cvg_my_slot
 
 Add ``--check`` to that command to verify freshness without writing files.
 All four generated project files are tracked by the receipt.
@@ -56,11 +56,11 @@ The fixed S3C signals and unused I2C inputs are provided separately and cannot a
 Configuration and states
 ------------------------
 
-.. literalinclude:: ../programs/tx30_stateful/generator.toml
+.. literalinclude:: ../programs/original/cvg_tx30_stateful/generator.toml
    :language: toml
 
 ``name`` must be a lowercase VHDL identifier.
-VHDL keywords, the ``cvg_`` prefix, and names used by generated declarations (``ieee``, ``std``, ``work``, ``s3c``, ``s3c_logic``, ``std_logic``, ``natural``, ``string``, ``rising_edge``, ``true``, ``false`` and ``osch``) are reserved.
+VHDL keywords, the ``s3c_`` prefix, and names used by generated declarations (``ieee``, ``std``, ``work``, ``s3c``, ``s3c_logic``, ``std_logic``, ``natural``, ``string``, ``rising_edge``, ``true``, ``false`` and ``osch``) are reserved.
 ``clock`` selects ``machxo2`` for an internal nominal 2.08 MHz oscillator or ``external`` for ``clk`` and active-high ``reset`` ports.
 The optional ``enable`` table specifies required data input levels, for example ``enable = {fpga_29 = 1}``.
 ``pilot_policy = "required"`` requires a high synchronized pilot input for normal operation; ``unused`` ignores it.
@@ -111,3 +111,12 @@ The interaction testbench connects the generated slot to the actual S3C sources 
 
 It uses an accelerated simulation oscillator while retaining the S3C's original counters.
 Both testbenches require GHDL and run under ``make test``.
+
+Program naming
+--------------
+
+Generated programs use a ``cvg_`` prefix for their directory, manifest, top entity and emitted filenames.
+``make new name=my_slot template=generator`` creates ``cvg_my_slot``; supplying ``name=cvg_my_slot`` gives the same name.
+Internal signals use ``s3c_``: ``s3c_normal_state``, ``s3c_card_enable``, ``s3c_clk``, ``s3c_reset`` and ``s3c_startup``.
+Pass ``release_cycle=NAME`` to ``make new`` and ``make generate`` to select a cycle explicitly.
+The standalone generator continues to take explicit configuration and output paths.

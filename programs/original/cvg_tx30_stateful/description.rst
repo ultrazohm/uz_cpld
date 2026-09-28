@@ -1,7 +1,7 @@
 Purpose
 -------
 
-``tx30_stateful`` routes 30 FPGA signals to the D-slot adapter using ``normal_state`` and ``safe_state``.
+``cvg_tx30_stateful`` routes 30 FPGA signals to the D-slot adapter using ``normal_state`` and ``safe_state``.
 
 Behavior
 --------
@@ -22,7 +22,7 @@ The CSV header is ``output,normal_state,safe_state``.
 Only ``d_00``–``d_29`` and ``fpga_00``–``fpga_29`` are accepted as pin names.
 All 60 data pins remain in the interface; pins not declared as outputs remain inputs without HDL drivers.
 The shared ``s3c.s3c_logic(level_signals)`` controller is compiled from ``cpld_vhdl_generator/hdl``.
-``tx30_stateful.vhdl`` contains clock setup and routing; the program has no local controller copy.
+``cvg_tx30_stateful.vhdl`` contains clock setup and routing; the program has no local controller copy.
 
 Verification
 ------------

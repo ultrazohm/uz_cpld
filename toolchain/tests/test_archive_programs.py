@@ -32,14 +32,14 @@ class ArchiveProgramTests(unittest.TestCase):
         self.assertEqual(archived, represented)
 
     def test_migrated_program_inputs_match_archive(self):
-        names = catalog(ROOT)
+        names = catalog(ROOT, 'original')
         for program, archive_name in MIGRATED.items():
             with self.subTest(program=program):
                 self.assertIn(program, names)
                 source_dir = ARCHIVE / archive_name / 'source'
                 archived_sources = list(source_dir.glob('*.vhdl'))
                 self.assertEqual(len(archived_sources), 1)
-                build = load_build(ROOT, program)
+                build = load_build(ROOT, program, release_cycle='original')
                 self.assertEqual(len(build.sources), 1)
                 self.assertEqual(build.sources[0].path.read_bytes(), archived_sources[0].read_bytes())
                 self.assertEqual(build.constraint.read_bytes(), (source_dir / 'uz_d_slots.lpf').read_bytes())

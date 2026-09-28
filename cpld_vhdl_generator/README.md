@@ -62,7 +62,7 @@ cpld-vhdl-generator generator.toml --output . --check
 ```
 
 `python3 -m cpld_vhdl_generator` is equivalent to the installed command.
-Generation writes `my_slot.vhdl` and `generator-output.json`.
+Generation prefixes program names with `cvg_` (without doubling an existing prefix) and writes `cvg_my_slot.vhdl` and `generator-output.json`.
 Add `target = "uz_dslot_xo2"` to also generate the build manifest, cocotb testbench and D-slot board constraints for Diamond.
 This mode requires `clock = "machxo2"`; without a target, `clock = "external"` provides `clk` and active-high `reset` ports.
 Standalone generation does not update the repository catalog.
@@ -81,3 +81,5 @@ Shared HDL defaults to the package's `hdl` directory; `s3c_library` selects a re
 Edit the CSV or TOML and regenerate to update outputs.
 The receipt records input and output hashes; `--check` verifies freshness without writing files.
 Changing shared HDL requires regeneration, and manually edited or unowned output files are protected from overwriting.
+
+Generated internal control signals use `s3c_`, including `s3c_normal_state`, `s3c_card_enable`, `s3c_clk`, `s3c_reset`, and `s3c_startup`. Repository commands accept `release_cycle=NAME`; the standalone command uses the explicit configuration and output paths.

@@ -22,7 +22,7 @@ def test_routing(program, request):
 
     ``program`` is selected by the pytest fixture in ``toolchain.simulation.conftest``;
     ``request`` supplies the seed and waveform format from command-line options.
-    Results are written beneath ``programs/<program>/build/simulation``.
+    Results are written beneath ``programs/<release_cycle>/<program>/build/simulation``.
     """
     build = load_build(ROOT, program)
     with locked(build):
@@ -44,7 +44,7 @@ def run_simulation(build, request):
     wave_format = request.config.getoption("--wave-format")
     standard = {"1993": "93", "2008": "08"}[build.standard]
     provenance = {
-        "program": program, "seed": seed, "standard": build.standard,
+        "program": program, "release_cycle": build.release_cycle, "seed": seed, "standard": build.standard,
         "python": sys.version,
         "cocotb": version("cocotb"), "pytest": version("pytest"),
         "wave_format": wave_format,
@@ -69,7 +69,7 @@ def run_simulation(build, request):
         trace_args.append(f"--{'wave' if wave_format == 'ghw' else 'fst'}={wave}")
     runner.test(
         hdl_toplevel=build.top.lower(), hdl_toplevel_library="work",
-        hdl_toplevel_lang="vhdl", test_module=f"programs.{program}.{build.testbench.stem}",
+        hdl_toplevel_lang="vhdl", test_module=".".join(build.testbench.relative_to(ROOT).with_suffix('').parts),
         test_args=[f"--std={standard}", *library_args],
         plusargs=trace_args + ["--assert-level=error"],
         seed=seed,

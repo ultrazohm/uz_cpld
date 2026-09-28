@@ -3,22 +3,31 @@ Program diagrams and waveforms
 
 ::
 
-   make docs
+   make docs jobs=4
    make netlist program=tx26_w_enable
 
 ``make docs`` discovers every program manifest, generates RTL schematics, runs its testbench with seed 1 and builds a Sphinx page.
-Each page includes ``programs/<name>/description.rst`` when present, SVG/PDF diagrams, an interactive waveform and downloads.
+Each page includes ``programs/<release_cycle>/<name>/description.rst`` when present, SVG/PDF diagrams, an interactive waveform and downloads.
+Up to ``jobs`` programs run concurrently (default: 4; ``jobs=1`` runs sequentially).
+For each program, RTL schematics, state diagrams, simulation, waveform assets and its page are generated in order.
+After every program succeeds, the complete page index is written and the main Sphinx build runs sequentially.
 Failed analysis or simulation stops the build; generated page sources are replaced before generation.
+The same worker limit applies to ``make docs-assets-local`` and ``make docs-local``.
+Firmware builds, including Diamond ``make build-all``, remain sequential.
 ``make netlist`` exports diagrams for the firmware catalog without simulation; ``program`` selects one program.
 
 RTL netlists
 ------------
 
 GHDL synthesizes the manifest's VHDL to Verilog, Yosys lowers processes and flattens/cleans the generic netlist, and Graphviz renders SVG and PDF.
+The program page embeds a searchable schematic viewer with mouse-wheel zoom, drag-to-pan, a fit button and full-screen mode.
+The standalone HTML viewer, SVG and PDF are also available for download.
 This analysis excludes LPF constraints, device mapping, placement, routing and timing, so it does not represent Diamond's implemented netlist.
+Conditional routing appears as a mux at this stage; for example, choosing an FPGA input in normal state and ``0`` in safe state implements an AND for defined binary values.
+The firmware tools can map that function into device LUTs.
 Vendor attributes such as ``syn_keep`` can be ignored; sources in the manifest are compiled in their declared libraries, while unsupported primitives still require explicit models.
 
-``programs/<name>/build/netlist/`` contains ``netlist.svg``, ``netlist.pdf``, intermediates and diagnostic logs; ``metadata/`` contains netlist provenance and the Yosys JSON export.
+``programs/<release_cycle>/<name>/build/netlist/`` contains ``netlist.svg``, ``netlist.pdf``, intermediates and diagnostic logs; ``metadata/`` contains netlist provenance and the Yosys JSON export.
 Netlist exports use the managed program/target lock and remove stale diagrams on failure.
 
 State diagrams
@@ -29,14 +38,19 @@ The diagram identifies the declared initial state and explicit transitions and l
 For ``elsif`` and ``else`` branches, the label also includes the preceding guards being false.
 An unconditional assignment is labeled ``always``; the implicit hold when a branch does not assign a new state is omitted.
 It is a source navigation aid, not a proof that a transition is reachable or safe.
-Generated files and source hashes are under ``programs/<name>/build/state-diagrams/``.
+Generated files and source hashes are under ``programs/<release_cycle>/<name>/build/state-diagrams/``.
 TerosHDL offers an interactive state-machine viewer in VS Code; Sphinx's headless export uses the repository's own extractor.
 
 Interactive waveforms
 ---------------------
 
 Plotly renders the actual VCD transitions as step traces with nanosecond units, channel selection, zoom and value tooltips.
-The initial view covers 150 ns; **Full trace** shows the complete test.
+Choose a channel preset, search the signal list, add matching signals, or toggle individual signals to compare them.
+The plot width fits the viewer frame; its height grows with the selected signals so each trace has at least 32 pixels of vertical space.
+The signal selector shows every available signal without pagination; use the search field to narrow the list.
+The embedded viewer starts at 1,200 pixels high and grows to fit the signal list while reserving at least 600 pixels for the plot.
+Long views scroll with the documentation page rather than inside the embedded viewer, and every selected signal keeps its axis label.
+The initial view covers the full simulation; drag to zoom and use Plotly's **Reset axes** to restore the full trace.
 Unknown/uninitialized values (X/U), high impedance (Z) and other nonbinary states retain their labels and use a middle display level.
 Bus values are normalized to their width, with binary values in tooltips.
 VCD has no delta-cycle axis, so the viewer shows the final value at each timestamp and extends it to the end time reported by cocotb.
@@ -54,6 +68,18 @@ Generated pages follow the same prose rule.
 ``make docs-local`` uses installed tools; ``make docs-assets-local`` generates pages/assets without Sphinx.
 Direct Sphinx invocation renders existing assets without refreshing simulation or netlists.
 See :doc:`publishing` for GitHub Pages deployment and :doc:`architecture` for source/output ownership.
+
+Browser checks
+--------------
+
+The optional browser tests exercise schematic navigation and full-screen mode, waveform selection, keyboard focus and Plotly zoom/reset in Chromium::
+
+   python3 -m pip install playwright
+   python3 -m playwright install chromium
+   CPLD_BROWSER_TESTS=1 python3 -m unittest toolchain.tests.test_viewers_browser -v
+
+Set ``CPLD_CHROMIUM_EXECUTABLE`` to use an existing Chromium executable.
+These tests are skipped during normal tooling tests unless ``CPLD_BROWSER_TESTS=1`` is set.
 
 References
 ----------

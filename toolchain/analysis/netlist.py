@@ -60,7 +60,7 @@ def _export_netlist(build):
                     for name, args in [('ghdl', ['ghdl', '--version']),
                                        ('yosys', ['yosys', '-V']), ('graphviz', ['dot', '-V'])]}
         write_json(output / 'metadata/netlist.json', {
-            'program': build.name, 'top': build.top, 'standard': build.standard,
+            'program': build.name, 'release_cycle': build.release_cycle, 'top': build.top, 'standard': build.standard,
             'stage': 'generic RTL: GHDL synthesis; Yosys proc, flatten, opt_clean',
             'limitations': 'No Diamond mapping, LPF application, placement, routing or timing analysis.',
             'inputs': inputs, 'tools': versions,
@@ -77,16 +77,17 @@ def _export_netlist(build):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--program')
+    parser.add_argument('--release-cycle', '--release_cycle', dest='release_cycle')
     parser.add_argument('--target')
     args = parser.parse_args()
     try:
-        for name in [args.program] if args.program else catalog(ROOT):
+        for name in [args.program] if args.program else catalog(ROOT, args.release_cycle):
             if args.target is None:
-                print(export_netlist(load_build(ROOT, name)))
+                print(export_netlist(load_build(ROOT, name, release_cycle=args.release_cycle)))
             else:
                 from toolchain.buildsystem.model import program_targets
-                if args.target in program_targets(ROOT, name):
-                    print(export_netlist(load_build(ROOT, name, args.target)))
+                if args.target in program_targets(ROOT, name, args.release_cycle):
+                    print(export_netlist(load_build(ROOT, name, args.target, release_cycle=args.release_cycle)))
     except (BuildError, OSError, ValueError) as exc:
         print(exc, file=sys.stderr)
         return 1

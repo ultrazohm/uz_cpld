@@ -7,6 +7,7 @@ import unittest
 from unittest.mock import patch
 
 from toolchain.analysis.netlist import export_netlist
+from toolchain.analysis.rtl_viewer import write_rtl_viewer
 from toolchain.analysis.state_diagram import extract_state_machines
 from toolchain.analysis.waveform import read_vcd, write_waveform
 from toolchain.buildsystem.model import BuildError, load_build
@@ -74,11 +75,25 @@ class AnalysisTests(unittest.TestCase):
         self.assertIn('&lt;test&gt;', text)
         self.assertIn('"U", "Z", "Z"', text)
         self.assertIn("shape:'hv'", text)
+        self.assertIn('id="channels"', text)
+
+    def test_rtl_viewer_embeds_svg_and_controls(self):
+        svg = self.root / 'netlist.svg'
+        svg.write_text('<?xml version="1.0"?><svg viewBox="0 0 100 50">'
+                       '<g class="node"><text>signal</text></g></svg>')
+        output = self.root / 'netlist-viewer.html'
+        write_rtl_viewer(svg, output, '<test>')
+        page = output.read_text()
+        self.assertIn('&lt;test&gt;', page)
+        self.assertIn('id="search"', page)
+        self.assertIn('svg.setAttribute(\'viewBox\'', page)
+        self.assertIn('<text>signal</text>', page)
 
     def test_failed_netlist_does_not_leave_previous_exports(self):
         for folder in ('programs', 'toolchain'):
             shutil.copytree(ROOT / folder, self.root / folder,
                             ignore=shutil.ignore_patterns('build', '__pycache__'))
+        (self.root / 'programs/releases.toml').write_text('current = "original"\n')
         build = load_build(self.root, 'tx30')
         output = build.build_root / 'netlist'
         output.mkdir(parents=True)
@@ -96,7 +111,7 @@ class AnalysisTests(unittest.TestCase):
         self.assertFalse((output / 'metadata/netlist.json').exists())
 
     def test_s3c_state_diagram_tracks_vhdl_transitions(self):
-        source = (ROOT / 'programs/s3c_power_on_debounce/s3c_power_on_debounce.vhdl').read_text()
+        source = (ROOT / 'programs/original/s3c_power_on_debounce/s3c_power_on_debounce.vhdl').read_text()
         machines = extract_state_machines(source)
         self.assertEqual(len(machines), 1)
         name, states, initial, transitions = machines[0]

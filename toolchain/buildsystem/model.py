@@ -53,6 +53,46 @@ def strings(value, label):
     return value
 
 
+def release_cycles(root: Path) -> list[str]:
+    """List explicit release catalogs, independent of directory timestamps."""
+    base = root.resolve() / 'programs'
+    if base.is_symlink():
+        raise BuildError('Programs directory must not be a symlink')
+    names = []
+    for path in sorted(base.glob('*/catalog.toml')):
+        name = identifier(path.parent.name)
+        if path.is_symlink() or path.parent.is_symlink():
+            raise BuildError(f'Release catalog must not be a symlink: {path}')
+        names.append(name)
+    return names
+
+
+def resolve_release(root: Path, release_cycle: str | None = None) -> str:
+    """Resolve an explicit cycle or the tracked current cycle."""
+    if release_cycle is None:
+        data = read_toml(root / 'programs/releases.toml')
+        keys(data, {'current'}, {'current'}, 'releases')
+        release_cycle = data['current']
+    release_cycle = identifier(release_cycle)
+    if release_cycle not in release_cycles(root):
+        raise BuildError(f'Unknown release cycle: {release_cycle}')
+    return release_cycle
+
+
+def release_directory(root: Path, release_cycle: str | None = None) -> Path:
+    return root.resolve() / 'programs' / resolve_release(root, release_cycle)
+
+
+def resolve_program(root: Path, name: str, release_cycle: str | None = None):
+    """Accept a name or an explicit cycle/name for internal multi-cycle consumers."""
+    if '/' in name:
+        cycle, name = name.split('/', 1)
+        if release_cycle is not None and cycle != release_cycle:
+            raise BuildError('Program and release_cycle select different cycles')
+        release_cycle = cycle
+    return identifier(name), resolve_release(root, release_cycle)
+
+
 @dataclass(frozen=True)
 class Source:
     """An ordered VHDL input and its compilation library."""
@@ -82,7 +122,15 @@ class Build:
     @property
     def build_root(self) -> Path:
         """Program-local generated outputs, separate from authored inputs."""
-        return self.root / 'programs' / self.name / 'build'
+        return self.manifests[0].parent / 'build'
+
+    @property
+    def release_cycle(self) -> str:
+        return self.manifests[0].parent.parent.name
+
+    @property
+    def qualified_name(self) -> str:
+        return f'{self.release_cycle}/{self.name}'
 
     @property
     def directory(self) -> Path:
@@ -101,9 +149,16 @@ class Build:
                 ((self.foss_equivalence_blacklist,) if self.foss_equivalence_blacklist else ()))
 
 
-def catalog(root: Path) -> list[str]:
+def discover_programs(root: Path, release_cycle: str | None = None) -> list[str]:
+    """Find complete program manifests, including programs outside the firmware catalog."""
+    names = sorted(p.parent.name for p in release_directory(root, release_cycle).glob('*/*.toml')
+                   if p.stem == p.parent.name)
+    return names
+
+
+def catalog(root: Path, release_cycle: str | None = None) -> list[str]:
     """Return the explicitly supported catalog, excluding uncatalogued programs and archives."""
-    data = read_toml(root / 'programs/catalog.toml')
+    data = read_toml(release_directory(root, release_cycle) / 'catalog.toml')
     keys(data, {'programs'}, {'programs'}, 'catalog')
     return [identifier(n) for n in strings(data['programs'], 'catalog.programs')]
 
@@ -114,10 +169,10 @@ SUPPORTED_DEVICES = {
 }
 
 
-def program_targets(root: Path, name: str) -> list[str]:
+def program_targets(root: Path, name: str, release_cycle: str | None = None) -> list[str]:
     """Read the targets declared by one catalog program."""
-    name = identifier(name)
-    path = input_path(root.resolve(), root.resolve(), f'programs/{name}/{name}.toml')
+    name, release_cycle = resolve_program(root, name, release_cycle)
+    path = input_path(root.resolve(), root.resolve(), f'programs/{release_cycle}/{name}/{name}.toml')
     return _declared_targets(read_toml(path), name)
 
 
@@ -128,10 +183,10 @@ def _declared_targets(data: dict, name: str) -> list[str]:
     return [identifier(target) for target in targets]
 
 
-def program_backends(root: Path, name: str) -> list[str]:
+def program_backends(root: Path, name: str, release_cycle: str | None = None) -> list[str]:
     """Return the firmware backends declared by one catalog program."""
-    name = identifier(name)
-    path = input_path(root.resolve(), root.resolve(), f'programs/{name}/{name}.toml')
+    name, release_cycle = resolve_program(root, name, release_cycle)
+    path = input_path(root.resolve(), root.resolve(), f'programs/{release_cycle}/{name}/{name}.toml')
     return _declared_backends(read_toml(path), name)
 
 
@@ -142,11 +197,11 @@ def _declared_backends(data: dict, name: str) -> list[str]:
     return backends
 
 
-def load_build(root: Path, name: str, target: str | None = None, backend: str | None = None) -> Build:
+def load_build(root: Path, name: str, target: str | None = None, backend: str | None = None, release_cycle: str | None = None) -> Build:
     """Validate manifests and return a build model; no vendor tools are needed."""
     root = root.resolve()
-    name = identifier(name)
-    pm = input_path(root, root, f'programs/{name}/{name}.toml')
+    name, release_cycle = resolve_program(root, name, release_cycle)
+    pm = input_path(root, root, f'programs/{release_cycle}/{name}/{name}.toml')
     p = read_toml(pm)
     declared_targets = _declared_targets(p, name)
     if target is None:

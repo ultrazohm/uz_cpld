@@ -17,7 +17,7 @@ Source layout
    │   ├── analysis/           RTL export, VCD viewer and Sphinx page generation
    │   ├── targets/            board manifests and strategy inputs
    │   └── tests/              tooling regressions and licensed integration check
-   ├── programs/<name>/        TOML, VHDL, LPF, testbench and description.rst
+   ├── programs/<release_cycle>/<name>/        TOML, VHDL, LPF, testbench and description.rst
    ├── docs/                  shared Sphinx source
    └── archive/               vendor reference projects and material
 

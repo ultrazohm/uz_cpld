@@ -5,7 +5,7 @@ configuration simulated_s3c of Waiting_for_Powerbutton_pressed_V0 is
         end for;
     end for;
 end configuration;
-configuration simulated_slot of tx30_stateful is
+configuration simulated_slot of cvg_tx30_stateful is
     for rtl
         for oscillator : OSCH
             use entity work.OSCH(simulation);

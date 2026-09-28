@@ -9,7 +9,7 @@ Run the tooling tests, HDL simulations, FOSS firmware builds and documentation c
    make docs
 
 ``make test`` runs the Python tooling tests with installed dependencies.
-Catalog-wide commands select programs from ``programs/catalog.toml``.
+Catalog-wide commands select programs from ``programs/<release_cycle>/catalog.toml``.
 ``target=uz_dslot_xo2`` or ``target=uz_s3c_xo2`` filters firmware builds, and backend selection respects each program's ``backends`` list.
 ``make generate`` registers completed generator projects in the catalog; unfinished starters are excluded.
 ``make check program=tx30`` validates a manifest and its input files, while ``make doctor backend=foss`` checks the FOSS tool installation.
@@ -18,7 +18,7 @@ Generated firmware provenance, tool identity, input hashes and output hashes are
 A passing simulation checks the behavior exercised by its testbench.
 A successful firmware build verifies fresh exports and unchanged authored inputs; the FOSS build also checks synthesis equivalence and bitstream format.
 The sequential FOSS induction check alone does not prove startup alignment.
-The initialized-state miter passes for ``tx30_stateful`` and records a counterexample for ``s3c_power_on_debounce``; a successful export does not establish initial-state equivalence for that program.
+The initialized-state miter passes for ``cvg_tx30_stateful`` and records a counterexample for ``s3c_power_on_debounce``; a successful export does not establish initial-state equivalence for that program.
 ``make report backend=foss`` or ``make report backend=diamond`` checks existing build evidence for stale inputs and outputs without rebuilding.
 Neither command establishes hardware behavior or a timing acceptance limit.
 The authored LPFs contain no timing budget, so inspect the reports and board-specific electrical settings before using firmware on hardware.

@@ -2,7 +2,7 @@ UltraZohm CPLD
 ==============
 
 This workspace builds firmware for the Rev05+ D-slot ``LCMXO2-2000HC-4TG100C`` and S3C ``LCMXO2-4000HC-4TG144C`` with Diamond or the FOSS pipeline, and verifies VHDL with GHDL/cocotb.
-``programs/catalog.toml`` lists the supported D-slot and S3C programs.
+``programs/<release_cycle>/catalog.toml`` lists the supported D-slot and S3C programs.
 The VHDL generator creates D-slot projects from CSV routing and TOML configuration.
 
 Quick start
@@ -32,6 +32,7 @@ Run commands from the repository root; paths in this documentation are relative 
    quick-start
    environments
    builds
+   releases
    foss
    simulation
    program-documentation

@@ -10,7 +10,7 @@ import re
 import shutil
 import subprocess
 import tempfile
-from .model import Build, BuildError, catalog, identifier, input_path, load_build, read_toml
+from .model import Build, BuildError, catalog, identifier, input_path, load_build, read_toml, release_directory, resolve_release, resolve_program
 from .backends.diamond import DiamondBackend, launcher
 
 
@@ -78,7 +78,7 @@ def locked(build: Build):
         directory = safe_directory(build)
         lockdir = safe_directory(build, build.root / 'toolchain/build/locks')
         lockdir.mkdir(parents=True, exist_ok=True)
-        lockpath = lockdir / f'{build.name}.{build.target}.{build.backend}.lock'
+        lockpath = lockdir / f'{build.release_cycle}.{build.name}.{build.target}.{build.backend}.lock'
         fd = os.open(lockpath, os.O_CREAT | os.O_RDWR | os.O_NOFOLLOW, 0o600)
         with os.fdopen(fd, 'w') as stream:
             try:
@@ -205,7 +205,7 @@ def build_program(build: Build) -> Path:
             def git(*args):
                 result = subprocess.run(['git', '-C', str(build.root), *args], capture_output=True, text=True)
                 return result.stdout.strip() if result.returncode == 0 else None
-            record = {'schema_version': 1, 'status': 'success', 'program': build.name,
+            record = {'schema_version': 1, 'status': 'success', 'program': build.name, 'release_cycle': build.release_cycle,
                       'target': build.target, 'backend': build.backend, 'device': build.device,
                       'top': build.top, 'standard': build.standard,
                       'tool_version': build.expected_version,
@@ -261,11 +261,15 @@ def _clean_all(root: Path):
     outputs = [root / 'toolchain/build', root / 'docs/_build',
                root / 'docs/_generated', root / '.venv']
     if programs.is_dir():
-        for program in programs.iterdir():
-            if program.is_symlink():
-                raise BuildError(f'Program directory must not be a symlink: {program}')
-            if program.is_dir():
-                outputs.append(program / 'build')
+        for cycle in programs.iterdir():
+            if cycle.is_symlink():
+                raise BuildError(f'Release directory must not be a symlink: {cycle}')
+            if cycle.is_dir():
+                for program in cycle.iterdir():
+                    if program.is_symlink():
+                        raise BuildError(f'Program directory must not be a symlink: {program}')
+                    if program.is_dir():
+                        outputs.append(program / 'build')
     for path in outputs:
         if path.is_symlink():
             raise BuildError(f'Generated path must not be a symlink: {path}')
@@ -308,21 +312,20 @@ def gui(build: Build):
 
 
 def generator_template(root: Path, name: str, target: str | None = None,
-                       backend: str | None = None) -> Path:
+                       backend: str | None = None, release_cycle: str | None = None) -> Path:
     """Create editable generator inputs; catalog registration follows generation."""
     from cpld_vhdl_generator import load_config
-    from cpld_vhdl_generator.generator import identifier as vhdl_identifier, RESERVED_PROGRAM_NAMES
+    from cpld_vhdl_generator.generator import program_name
     root = root.resolve()
-    name = vhdl_identifier(name)
-    if name in RESERVED_PROGRAM_NAMES or name == 'generator':
-        raise BuildError(f'Reserved generated program name: {name}')
+    name = program_name(name)
+    release_cycle = resolve_release(root, release_cycle)
     if target not in (None, 'uz_dslot_xo2') or backend not in (None, 'diamond'):
         raise BuildError('The generator template supports target=uz_dslot_xo2 backend=diamond')
     with workspace_lock(root, exclusive=True):
         if (root / 'programs').is_symlink():
             raise BuildError('Programs directory must not be a symlink')
-        destination = root / 'programs' / name
-        if destination.exists() or destination.is_symlink() or name in catalog(root):
+        destination = release_directory(root, release_cycle) / name
+        if destination.exists() or destination.is_symlink() or name in catalog(root, release_cycle):
             raise BuildError(f'Program already exists: {destination}')
         destination.mkdir()
         try:
@@ -332,7 +335,7 @@ routing = "routing.csv"
 contract = "s3c_power_on_debounce_v1"
 clock = "machxo2"
 pilot_policy = "unused"
-s3c_library = "../../cpld_vhdl_generator/hdl"
+s3c_library = "../../../cpld_vhdl_generator/hdl"
 target = "uz_dslot_xo2"
 ''')
             (destination / 'routing.csv').write_text('output,normal_state,safe_state\n' +
@@ -346,12 +349,12 @@ target = "uz_dslot_xo2"
         return destination
 
 
-def register_program(root: Path, name: str):
+def register_program(root: Path, name: str, release_cycle: str | None = None):
     """Atomically add a validated program to the catalog without duplicates."""
-    path = root / 'programs/catalog.toml'
+    path = release_directory(root, release_cycle) / 'catalog.toml'
     if path.is_symlink():
         raise BuildError('Program catalog must not be a symlink')
-    programs = catalog(root)
+    programs = catalog(root, release_cycle)
     if name in programs:
         return
     fd, temporary = tempfile.mkstemp(prefix='.catalog-', suffix='.tmp', dir=path.parent)
@@ -366,14 +369,14 @@ def register_program(root: Path, name: str):
 
 
 def generate_program(root: Path, name: str, target: str | None = None,
-                     backend: str | None = None) -> Path:
+                     backend: str | None = None, release_cycle: str | None = None) -> Path:
     """Generate project artifacts, validate them, and register the finished program."""
     from cpld_vhdl_generator import generate, load_config
     root = root.resolve()
-    name = identifier(name)
+    name, release_cycle = resolve_program(root, name, release_cycle)
     with workspace_lock(root, exclusive=True):
-        config_path = input_path(root, root, f'programs/{name}/generator.toml')
-        if config_path != root / 'programs' / name / 'generator.toml':
+        config_path = input_path(root, root, f'programs/{release_cycle}/{name}/generator.toml')
+        if config_path != release_directory(root, release_cycle) / name / 'generator.toml':
             raise BuildError('Generation requires a regular program-local generator.toml')
         config = load_config(config_path)
         if config.name != name:
@@ -383,12 +386,12 @@ def generate_program(root: Path, name: str, target: str | None = None,
         if config.target and backend not in (None, 'diamond'):
             raise BuildError('Generated projects support backend=diamond')
         generate(config_path, config_path.parent)
-        load_build(root, name, target, backend)
-        register_program(root, name)
+        load_build(root, name, target, backend, release_cycle)
+        register_program(root, name, release_cycle)
         return config_path.parent
 
 
-def scaffold(root: Path, name: str, template: str, target: str | None = None, backend: str | None = None) -> Path:
+def scaffold(root: Path, name: str, template: str, target: str | None = None, backend: str | None = None, release_cycle: str | None = None, template_release_cycle: str | None = None) -> Path:
     """Clone an existing program and register it in the catalog.
 
     ``template`` names a program under ``programs/``; no template directory is
@@ -399,23 +402,28 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
     from cpld_vhdl_generator.toml import dumps
 
     if template == 'generator':
-        return generator_template(root, name, target, backend)
+        return generator_template(root, name, target, backend, release_cycle)
     root = root.resolve()
-    name, template = map(identifier, (name, template))
+    name = identifier(name)
+    release_cycle = resolve_release(root, release_cycle)
+    template, template_release_cycle = resolve_program(root, template, template_release_cycle or release_cycle)
+    original = load_build(root, template, target, backend, template_release_cycle)
+    if 'generator' in read_toml(original.manifests[0]):
+        from cpld_vhdl_generator.generator import program_name
+        name = program_name(name)
     if target is not None:
         target = identifier(target)
     if (root / 'programs').is_symlink():
         raise BuildError('Programs directory must not be a symlink')
-    destination = root / 'programs' / name
+    destination = release_directory(root, release_cycle) / name
     if destination.exists() or destination.is_symlink():
         raise BuildError(f'Program already exists: {destination}')
-    catalog_path = root / 'programs/catalog.toml'
+    catalog_path = release_directory(root, release_cycle) / 'catalog.toml'
     if catalog_path.is_symlink():
         raise BuildError('Program catalog must not be a symlink')
-    programs = catalog(root)
+    programs = catalog(root, release_cycle)
     if name in programs:
         raise BuildError(f'Program already listed in catalog: {name}')
-    original = load_build(root, template, target, backend)
     source = original.manifests[0].parent
     meta = read_toml(original.manifests[0])
     primary_constraint = input_path(root, source, meta['constraints'][0])
@@ -483,6 +491,13 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
             generator_path = destination / meta['generator']
             generator_config = read_toml(generator_path)
             generator_config['name'] = name
+            source_config = source / meta['generator']
+            for field in ('s3c_library', 'routing', 'contract'):
+                value = generator_config.get(field)
+                if value and (source_config.parent / value).exists():
+                    resolved = (source_config.parent / value).resolve()
+                    if not resolved.is_relative_to(source):
+                        generator_config[field] = os.path.relpath(resolved, generator_path.parent)
             generator_path.write_text(dumps(generator_config))
             generation_output = destination / primary.parent.relative_to(source)
             generate(generator_path, generation_output)
@@ -492,8 +507,8 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
                                for s in generated_sources]
         if not generated_project:
             (destination / f'{name}.toml').write_text(dumps(meta))
-        load_build(root, name, target, backend)
-        register_program(root, name)
+        load_build(root, name, target, backend, release_cycle)
+        register_program(root, name, release_cycle)
     except Exception:
         shutil.rmtree(destination)
         raise

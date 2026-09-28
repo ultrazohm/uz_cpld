@@ -16,8 +16,8 @@ Firmware commands
    make build program=tx30 backend=foss
 
 ``check`` validates manifests and files; ``doctor`` also checks the selected tools.
-``build-all`` processes the explicit ``programs/catalog.toml`` list and fails if any entry fails.
-It also writes ``toolchain/build/validation/<backend>-catalog/report.md`` and ``report.json`` after attempting every valid selected build, even if a tool fails. Invalid program manifests appear as failed report rows and do not prevent other programs from building.
+``build-all`` processes the explicit ``programs/<release_cycle>/catalog.toml`` list and fails if any entry fails.
+It also writes ``toolchain/build/validation/<release_cycle>/<backend>-catalog/report.md`` and ``report.json`` after attempting every valid selected build, even if a tool fails. Invalid program manifests appear as failed report rows and do not prevent other programs from building.
 ``make report backend=diamond|foss`` refreshes the selected catalog report from existing build records without invoking firmware tools.
 Invalid manifests and stale generator outputs appear as failed rows; the report includes the other programs, and the command exits with a failure status after writing the report.
 The report checks recorded input and output hashes, lists missing or failed builds, proof and startup results, warning counts, and the recorded timing acceptance status.
@@ -46,14 +46,14 @@ For an S3C program, use ``template=s3c_toolchain_test_program``; its starter log
 Cloning copies the selected program's current files, preserves entity names and libraries, and excludes generated ``build/`` directories and Python caches.
 It requires a listed ``<template>.vhdl`` primary source, program-local inputs and no authored symlinks, and refuses an existing destination.
 Generated templates also require a program-local generator configuration; copy a shared configuration into the template and update its manifest before cloning.
-A clone is independent of its source and is added to ``programs/catalog.toml`` after its manifest validates.
+A clone is independent of its source and is added to ``programs/<release_cycle>/catalog.toml`` after its manifest validates.
 Catalog registration makes it part of ``build-all``, catalog simulation, netlist export and CI, so review its copied logic, constraints and testbench before running those commands.
 Documentation discovers all program manifests, including programs created outside ``make new``.
 
 Outputs and failures
 --------------------
 
-``programs/<name>/build/<target>_<backend>/`` contains the generated ``project/``, retained ``logs/``, published ``reports/`` and ``metadata/`` directories.
+``programs/<release_cycle>/<name>/build/<target>_<backend>/`` contains the generated ``project/``, retained ``logs/``, published ``reports/`` and ``metadata/`` directories.
 Diamond publishes ``<name>_<target>_diamond.jed`` and ``<name>_<target>_diamond.bit`` at this directory level; FOSS publishes ``<name>_<target>_foss.bit``.
 ``metadata/`` contains ``build.json``, ``configuration.json``, ``status.json``, the FOSS build plan and generated JSON reports.
 The backend directory itself contains only the named firmware files; ``project/`` retains other tool inputs and intermediates.

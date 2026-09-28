@@ -24,6 +24,7 @@ class FossTests(unittest.TestCase):
         self.root = Path(self.tmp.name)
         for folder in ('programs', 'toolchain'):
             shutil.copytree(ROOT / folder, self.root / folder, ignore=shutil.ignore_patterns('build', '__pycache__'))
+        (self.root / 'programs/releases.toml').write_text('current = "original"\n')
         self.build = load_build(self.root, 'tx30', backend='foss')
 
     def test_backend_has_independent_outputs_and_inputs(self):
@@ -39,11 +40,11 @@ class FossTests(unittest.TestCase):
 
     def test_stateful_and_s3c_foss_proofs_are_required(self):
         for program, top, instance, clock in (
-            ('tx30_stateful', 'tx30_stateful', 'oscillator', 'oscillator_OSC'),
+            ('cvg_tx30_stateful', 'cvg_tx30_stateful', 'oscillator', 'oscillator_OSC'),
             ('s3c_power_on_debounce', 'Waiting_for_Powerbutton_pressed_V0', 'oscinst0', 'oscinst0_OSC'),
         ):
             with self.subTest(program=program):
-                build = load_build(ROOT, program, backend='foss')
+                build = load_build(ROOT, program, backend='foss', release_cycle='original')
                 names = (build.foss_equivalence_blacklist.read_text().splitlines()
                          if build.foss_equivalence_blacklist else [])
                 mapped = {'modules': {top: {
@@ -129,7 +130,7 @@ endmodule
         result = subprocess.run(['make', 'list', 'backend=foss'], cwd=ROOT, capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(result.stdout.count('\tfoss'),
-                         sum('foss' in program_backends(ROOT, name) for name in catalog(ROOT)))
+                         sum('foss' in program_backends(ROOT, name, 'original') for name in catalog(ROOT, 'original')))
         result = subprocess.run(['make', 'list', 'backend=unknown'], cwd=ROOT, capture_output=True, text=True)
         self.assertNotEqual(result.returncode, 0)
 

@@ -261,7 +261,7 @@ class FossBackend:
             'read_verilog rtl.v', f'hierarchy -check -top {build.top}',
             f'synth_lattice -family xo2 -top {build.top} -json ../metadata/reports/synth.json',
             'check', 'stat']) + '\n')
-        plan = {'root': str(build.root), 'program': build.name, 'target': build.target,
+        plan = {'root': str(build.root), 'program': build.name, 'release_cycle': build.release_cycle, 'target': build.target,
                 'device': build.device, 'top': build.top, 'standard': build.standard,
                 'sources': [str(s.path) for s in build.sources], 'seed': build.options['seed'],
                 'deferred': deferred, 'constraint_notes': notes}

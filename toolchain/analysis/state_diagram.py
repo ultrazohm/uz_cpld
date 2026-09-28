@@ -140,7 +140,7 @@ def export_state_diagrams(build):
         if sources != {str(src.path.relative_to(build.root)): digest(src.path) for src in build.sources}:
             raise BuildError(f'{build.name}: VHDL changed during state diagram generation')
         write_json(output / 'metadata/state-diagrams.json', {
-            'program': build.name, 'inputs': sources, 'diagrams': diagrams,
+            'program': build.name, 'release_cycle': build.release_cycle, 'inputs': sources, 'diagrams': diagrams,
             'meaning': 'Edges show source-level guards, including prior false elsif/else branches. '
                        'They are not reachability proofs; implicit holds are omitted.',
             'tool': subprocess.check_output(['dot', '-V'], stderr=subprocess.STDOUT, text=True).strip(),

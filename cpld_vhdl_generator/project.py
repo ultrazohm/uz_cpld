@@ -49,7 +49,7 @@ from cocotb.triggers import Timer
 async def generated_routing(dut):
     """Check data directions, both routing states, and configured controls."""
     # OSCH is unbound in RTL simulation; drive its internal clock net.
-    clock = dut.cvg_clk
+    clock = dut.s3c_clk
     clock.value = 0
     dut.reqsafestate.value = REQUEST_SAFE
     dut.carrierrdy.value = READY_LEVEL

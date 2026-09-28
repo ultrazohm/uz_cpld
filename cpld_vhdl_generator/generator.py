@@ -31,9 +31,17 @@ class GeneratorError(ValueError):
 
 def identifier(value):
     if (not isinstance(value, str) or not re.fullmatch(r'[a-z][a-z0-9]*(?:_[a-z0-9]+)*', value)
-            or value in KEYWORDS or value.startswith('cvg_')):
+            or value in KEYWORDS):
         raise GeneratorError(f'Invalid or reserved identifier: {value!r}')
     return value
+
+
+def program_name(value):
+    """Canonical generated program name; applying the prefix twice is harmless."""
+    value = identifier(value)
+    if value in RESERVED_PROGRAM_NAMES or value == 'generator' or value.startswith('s3c_'):
+        raise GeneratorError(f'Program name {value} is reserved by the generated VHDL')
+    return value if value.startswith('cvg_') else 'cvg_' + value
 
 
 def keys(data, allowed, required, label):
@@ -143,9 +151,7 @@ def load_config(path):
     keys(data, required | {'enable', 's3c_library', 'target'}, required, 'configuration')
     if type(data['schema_version']) is not int or data['schema_version'] != 3:
         raise GeneratorError('Only schema_version = 3 is supported')
-    name = identifier(data['name'])
-    if name in RESERVED_PROGRAM_NAMES:
-        raise GeneratorError(f'Program name {name} is reserved by the generated VHDL')
+    name = program_name(data['name'])
     for field, choices in [('clock', ('external', 'machxo2')), ('pilot_policy', ('unused', 'required'))]:
         if data[field] not in choices:
             raise GeneratorError(f'{field} must be one of {choices}')
@@ -207,11 +213,11 @@ def render(config, output=None):
     external = config.clock == 'external'
     text = HEADER + 'library s3c;\n\n' + entity(config.name, ports(config, external))
     text += f'\narchitecture rtl of {config.name} is\n'
-    text += '    signal cvg_normal_state, cvg_card_enable : std_logic;\n'
+    text += '    signal s3c_normal_state, s3c_card_enable : std_logic;\n'
     if not external:
-        text += '''    signal cvg_clk : std_logic;
-    signal cvg_reset : std_logic := '1';
-    signal cvg_startup : natural range 0 to 3 := 0;
+        text += '''    signal s3c_clk : std_logic;
+    signal s3c_reset : std_logic := '1';
+    signal s3c_startup : natural range 0 to 3 := 0;
     component OSCH
         generic (NOM_FREQ : string := "2.08");
         port (STDBY : in std_logic; OSC, SEDSTDBY : out std_logic);
@@ -220,24 +226,24 @@ def render(config, output=None):
     text += 'begin\n'
     if not external:
         text += '''    oscillator: OSCH generic map (NOM_FREQ => "2.08")
-        port map (STDBY => '0', OSC => cvg_clk, SEDSTDBY => open);
-    process(cvg_clk)
+        port map (STDBY => '0', OSC => s3c_clk, SEDSTDBY => open);
+    process(s3c_clk)
     begin
-        if rising_edge(cvg_clk) then
-            if cvg_startup < 3 then
-                cvg_startup <= cvg_startup + 1;
-                cvg_reset <= '1';
+        if rising_edge(s3c_clk) then
+            if s3c_startup < 3 then
+                s3c_startup <= s3c_startup + 1;
+                s3c_reset <= '1';
             else
-                cvg_reset <= '0';
+                s3c_reset <= '0';
             end if;
         end if;
     end process;
 '''
     condition = ' and '.join(f"{pin} = '{value}'" for pin, value in sorted(config.enable.items()))
-    text += f"    cvg_card_enable <= '1' when {condition} else '0';\n" if condition else "    cvg_card_enable <= '1';\n"
-    pairs = [('clk', 'clk' if external else 'cvg_clk'), ('reset', 'reset' if external else 'cvg_reset')]
+    text += f"    s3c_card_enable <= '1' when {condition} else '0';\n" if condition else "    s3c_card_enable <= '1';\n"
+    pairs = [('clk', 'clk' if external else 's3c_clk'), ('reset', 'reset' if external else 's3c_reset')]
     pairs += [(name, name) for name in ('pilot_in', 'reqsafestate', 'carrierrdy', 'slotok', 'reqoe')]
-    pairs += [('card_enable', 'cvg_card_enable'), ('state_normal', 'cvg_normal_state'),
+    pairs += [('card_enable', 's3c_card_enable'), ('state_normal', 's3c_normal_state'),
               ('state_safe', 'open')]
     generics = [('REQUIRE_PILOT', str(config.pilot_policy == 'required').lower()),
                 ('REQUEST_SAFE_LEVEL', "'1'" if c['request_mode'] == 'active_high' else "'0'"),
@@ -252,7 +258,7 @@ def render(config, output=None):
     for p in config.pins:
         if p.direction == 'out':
             normal, safe = map(action, p.actions)
-            text += f"    {p.name} <= {normal} when cvg_normal_state = '1' else {safe};\n"
+            text += f"    {p.name} <= {normal} when s3c_normal_state = '1' else {safe};\n"
     text += 'end architecture;\n'
     files = {config.name + '.vhdl': text}
     if config.target:

@@ -20,8 +20,10 @@ class SimulationTests(unittest.TestCase):
                 root = Path(temporary)
                 shutil.copytree(ROOT / 'toolchain', root / 'toolchain',
                                 ignore=shutil.ignore_patterns('build', '__pycache__'))
-                program = root / 'programs/probe'
+                program = root / 'programs/original/probe'
                 program.mkdir(parents=True)
+                (root / 'programs/releases.toml').write_text('current = "original"\n')
+                (program.parent / 'catalog.toml').write_text('programs = ["probe"]\n')
                 (program / 'probe_constraints.lpf').write_text('# Simulation only\n')
                 (program / 'helper.vhdl').write_text('''library ieee;
 use ieee.std_logic_1164.all;

@@ -4,16 +4,25 @@ Simulation and tests
 ::
 
    make test-container
-   make sim
+   make sim jobs=4
    make sim program=tx26_w_enable seed=42
    make sim program=tx30 wave_format=ghw
    make sim program=rx30 wave_format=fst
 
 ``make test`` runs Python tooling regressions, including mocked vendor failures and VCD interpretation; it does not establish synthesis success.
-``make sim`` runs the catalog, or the single selected program, using the actual manifest HDL and its cocotb testbench.
+``make sim`` discovers every program manifest in the selected release cycle, or runs the single selected program, using the actual manifest HDL and its cocotb testbench.
 The runner selects each program's declared target, compiles sources in their declared libraries and elaborates the top entity in ``work``.
 Make target/backend overrides are not simulation parameters.
 A missing program or failed assertion produces a failing command.
+
+Parallel execution
+------------------
+
+``jobs`` limits the number of programs simulated concurrently (default: 4).
+Use ``make sim jobs=1`` for one worker. Pytest-xdist assigns each program to a separate worker process;
+each cocotb testbench and its GHDL simulation run normally within that worker.
+Programs keep separate build directories, waveforms and logs; pytest combines their results into one JUnit report.
+Generator configurations without a generated program manifest are skipped.
 
 Behavior
 --------
@@ -39,13 +48,13 @@ These waits allow combinational logic to settle and are not device timing requir
 Results
 -------
 
-``programs/<name>/build/simulation/`` contains compiler/simulation logs, cocotb result XML and ``waves.vcd``; ``metadata/run.json`` records provenance.
+``programs/<release_cycle>/<name>/build/simulation/`` contains compiler/simulation logs, cocotb result XML and ``waves.vcd``; ``metadata/run.json`` records provenance.
 VCD is a portable text waveform; optional GHW preserves GHDL/VHDL type information and optional FST is more compact.
 Selecting GHW or FST emits that file alongside VCD.
-``toolchain/build/simulation/junit.xml`` is the aggregate pytest report.
+``toolchain/build/simulation/<release_cycle>/junit.xml`` is the aggregate pytest report.
 Reruns replace program results, and concurrent managed operations on the same program/target are rejected.
 Each run recreates its simulation directory and GHDL libraries, so sources removed from the manifest cannot remain available through a previous compilation.
 
 Open VCD with GTKWave or use the interactive :doc:`program pages <program-documentation>`::
 
-   gtkwave programs/tx26_w_enable/build/simulation/waves.vcd
+   gtkwave programs/original/tx26_w_enable/build/simulation/waves.vcd

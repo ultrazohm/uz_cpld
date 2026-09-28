@@ -1,0 +1,25 @@
+{
+  "commit": "2107cd5900ed2ebfa43226d5f6f8b7229bbd6bae",
+  "source_directory": "MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_Rev06_beta/source",
+  "sha256": {
+    "s3c_rev6_beta_lib.vhdl": "8b66d6a3494d63a28c4ea1ec24c99de33e0638fba5b20af9f0b1be865a8a2e1c",
+    "s3c_rev6_beta_fsm.vhdl": "68d69897da4edb35eca7a3f9ee557275bc3ea6b75e7cfd000f169af06c157788",
+    "s3c_rev6_beta.vhdl": "2d3b93e1313ac5ff44166d6f7ebf23f5da3d38b48ec6420c852363d4510c6c97",
+    "s3c_rev6_beta_constraints.lpf": "d66988fecf955c54f8ee84be5a6a64f0608722a1c2ef892de9b82441acab1ec6"
+  },
+  "original_files": {
+    "s3c_rev6_beta_lib.vhdl": "lib_sXc.vhd",
+    "s3c_rev6_beta_fsm.vhdl": "s3c_fsm.vhd",
+    "s3c_rev6_beta.vhdl": "UZ_S3C_toplevel.vhd",
+    "s3c_rev6_beta_constraints.lpf": "UZ_S3C.lpf"
+  },
+  "original_sha256": {
+    "s3c_rev6_beta_lib.vhdl": "8b66d6a3494d63a28c4ea1ec24c99de33e0638fba5b20af9f0b1be865a8a2e1c",
+    "s3c_rev6_beta_fsm.vhdl": "68d69897da4edb35eca7a3f9ee557275bc3ea6b75e7cfd000f169af06c157788",
+    "s3c_rev6_beta.vhdl": "463f0117e4bf565e5cd865d75932e736eaab02cd19a2889092878c8e6d42af51",
+    "s3c_rev6_beta_constraints.lpf": "d66988fecf955c54f8ee84be5a6a64f0608722a1c2ef892de9b82441acab1ec6"
+  },
+  "modifications": {
+    "s3c_rev6_beta.vhdl": "Commented out tristate_signals <= (others => 'Z'); to remove the second driver of an unused internal vector for GHDL synthesis. All other bytes are unchanged."
+  }
+}

@@ -4,7 +4,7 @@ This repository contains the active CPLD program catalog, the standalone `cpld_v
 
 Programs live under `programs/<release_cycle>/<program>/`; `programs/releases.toml` selects the current cycle. Use `make release-new name=r2026_10 from=original` to copy a cycle and select it, or omit `from` for an empty cycle. See [release cycles](docs/releases.rst) for selection and cloning.
 
-**S3C scope:** `s3c_power_on_debounce` is the only implemented S3C controller, based on the archived `S3C_171224/source/Power_on_debounce.vhd` from commit [`6794ce263a7c2b099001e429ce03a2d9b91d9b1d`](https://github.com/ultrazohm/uz_cpld/commit/6794ce263a7c2b099001e429ce03a2d9b91d9b1d) (17 December 2024, “rev05 00”). See [S3C provenance and scope](docs/s3c.rst) for port changes and the distinction from the fixed-output toolchain example.
+**S3C controllers:** `s3c_power_on_debounce` is based on the December 2024 source (`6794ce2`); `s3c_rev6_beta` uses the October 2025 Rev06 sources and constraints from `2107cd5`, with one unused driver commented out for GHDL synthesis. Both use static safe-state signaling without a heartbeat. See [S3C provenance and scope](docs/s3c.rst) for exact revisions, differences, and validation limits.
 
 Run `make` for available commands. Start with [the quick start](docs/quick-start.rst) for creating, simulating, and building a program; see [verification and limits](docs/validation.rst) before using a firmware export.
 

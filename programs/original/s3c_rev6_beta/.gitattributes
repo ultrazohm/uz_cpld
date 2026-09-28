@@ -1,0 +1,3 @@
+# Preserve the historical source bytes, including mixed line endings.
+*.vhdl -text
+*.lpf -text

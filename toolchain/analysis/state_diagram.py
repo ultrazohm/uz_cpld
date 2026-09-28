@@ -5,6 +5,7 @@ import shutil
 import subprocess
 
 from toolchain.buildsystem.model import BuildError
+from toolchain.buildsystem.ghdl import read_vhdl
 from toolchain.buildsystem.workflow import digest, locked, safe_directory, write_json
 
 
@@ -91,6 +92,11 @@ def extract_state_machines(source):
                     edges.add((lookup[origin], lookup[target.lower()], condition))
             if not branches:
                 raise BuildError(f'No state branches found in FSM {name}')
+            # Calls to procedures that assign the state are not expanded by
+            # this source-level extractor. Do not publish an empty graph as
+            # if it described such a controller's transitions.
+            if not edges:
+                continue
             if initial and initial.lower() not in lookup:
                 raise BuildError(f'Unknown initial state {initial} in FSM {name}')
             machines.append((name, states, lookup[initial.lower()] if initial else None,
@@ -109,7 +115,7 @@ def export_state_diagrams(build):
         (output / 'metadata').mkdir()
         sources = {str(src.path.relative_to(build.root)): digest(src.path) for src in build.sources}
         machines = [(path, machine) for path, src in zip(sources, build.sources)
-                    for machine in extract_state_machines(src.path.read_text())]
+                    for machine in extract_state_machines(read_vhdl(src.path))]
         if not machines:
             return None
         if not shutil.which('dot'):

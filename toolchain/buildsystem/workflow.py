@@ -12,6 +12,7 @@ import subprocess
 import tempfile
 from .model import Build, BuildError, catalog, identifier, input_path, load_build, read_toml, release_directory, resolve_release, resolve_program
 from .backends.diamond import DiamondBackend, launcher
+from .ghdl import read_vhdl
 
 
 def backend_for(build):
@@ -466,7 +467,7 @@ def _scaffold(root, name, template, target, backend, release_cycle, template_rel
         declaration = re.compile(r'\bentity\s+' + re.escape(original.top) + r'\s+is\b', re.I)
         candidates = [entry.path for entry in original.sources
                       if entry.library.lower() == 'work' and
-                      declaration.search(re.sub(r'--[^\n]*', '', entry.path.read_text()))]
+                      declaration.search(re.sub(r'--[^\n]*', '', read_vhdl(entry.path)))]
         if len(candidates) != 1:
             raise BuildError('Cloning requires exactly one work-library source declaring the top entity')
         primary = candidates[0]

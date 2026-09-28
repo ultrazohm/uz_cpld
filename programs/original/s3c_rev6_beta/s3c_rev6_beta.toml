@@ -1,0 +1,12 @@
+name = "s3c_rev6_beta"
+top = "S3C"
+standard = "2008"
+targets = ["uz_s3c_xo2"]
+backends = ["diamond"]
+constraints = ["s3c_rev6_beta_constraints.lpf"]
+sources = [
+    {path = "s3c_rev6_beta_lib.vhdl", library = "work"},
+    {path = "s3c_rev6_beta_fsm.vhdl", library = "work"},
+    {path = "s3c_rev6_beta.vhdl", library = "work"},
+]
+testbench = "s3c_rev6_beta_tb.py"

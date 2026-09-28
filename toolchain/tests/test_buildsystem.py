@@ -159,6 +159,16 @@ class FrontendTests(unittest.TestCase):
         self.assertEqual(build.foss_equivalence_blacklist.read_bytes(),
                          (ROOT / 'programs/original/s3c_power_on_debounce/s3c_power_on_debounce_foss_equivalence_blacklist.txt').read_bytes())
 
+    def test_clone_preserves_legacy_encoded_multifile_program(self):
+        original = load_build(self.root, 's3c_rev6_beta')
+        workflow.scaffold(self.root, 'rev6_copy', 's3c_rev6_beta')
+        clone = load_build(self.root, 'rev6_copy')
+        self.assertEqual(clone.top, original.top)
+        self.assertEqual(clone.netlist_skip_reason, original.netlist_skip_reason)
+        for old, new in zip(original.sources, clone.sources):
+            self.assertEqual(old.path.read_bytes(), new.path.read_bytes())
+        self.assertEqual(original.constraint.read_bytes(), clone.constraint.read_bytes())
+
     def test_build_all_selects_each_program_target(self):
         selected = []
         def capture(build):
@@ -173,7 +183,8 @@ class FrontendTests(unittest.TestCase):
         with patch('toolchain.buildsystem.cli.workflow.build_program', side_effect=capture), redirect_stdout(io.StringIO()):
             self.assertEqual(cli_main(['build-all', '--root', str(self.root), '--target', 'uz_s3c_xo2']), 0)
         self.assertEqual(selected, [('s3c_toolchain_test_program', 'uz_s3c_xo2'),
-                                    ('s3c_power_on_debounce', 'uz_s3c_xo2')])
+                                    ('s3c_power_on_debounce', 'uz_s3c_xo2'),
+                                    ('s3c_rev6_beta', 'uz_s3c_xo2')])
         self.assertTrue((self.root / 'toolchain/build/validation/original/diamond-uz_s3c_xo2-catalog/report.json').is_file())
         selected.clear()
         with patch('toolchain.buildsystem.cli.workflow.build_program', side_effect=capture), redirect_stdout(io.StringIO()):

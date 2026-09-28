@@ -2,10 +2,21 @@ Purpose
 -------
 
 ``s3c_power_on_debounce`` ports the ``Power_on_debounce.vhd`` controller selected by the archive's default ``S3C_171224`` Diamond implementation.
-This is the only implemented S3C power and safety controller in the active catalog.
+This is the December 2024 reference controller; ``s3c_rev6_beta`` provides a separate snapshot of the newer October 2025 controller, with one unused driver commented out for GHDL synthesis.
 The archived source is from commit ``6794ce263a7c2b099001e429ce03a2d9b91d9b1d`` (17 December 2024, ``rev05 00``).
 See :doc:`/s3c` for the pinned source link, port adaptations, and scope.
 The older root-level archive file with the same name belongs to a different implementation and is not the source of this program.
+
+Relationship to Rev06
+---------------------
+
+``s3c_rev6_beta`` is imported from commit ``2107cd5900ed2ebfa43226d5f6f8b7229bbd6bae`` (31 October 2025, ``cleanup``).
+That revision already contains the modular Rev06 FSM later retained in ``develop`` at ``886271c``, before heartbeat signaling was introduced by ``f399720`` and ``524df52``.
+This December 2024 program does not incorporate that FSM: it removes carrier power immediately on hard error, lacks the newer supply-failure handling and error-history acknowledgement states, and leaves front-panel user LEDs undriven.
+Rev06 instead allows a five-second shutdown interval, indicates error categories, and requires STOP to be released before ENABLE can resume operation.
+Both programs retain static, active-high ``ReqSafeState`` and generate no heartbeat.
+The later FlexLIO pin correction is absent from both programs' historical Diamond LPFs.
+See :doc:`/s3c` for the side-by-side scope and validation limits.
 
 Behavior
 --------

@@ -57,7 +57,7 @@ def _generate(root, jobs, release_cycle):
                     future.cancel()
                 raise
     index = ('Programs\n========\n\n'
-             'Each page combines the authored description with freshly generated netlist and simulation evidence.\n\n')
+             'Each page combines the authored description with simulation evidence and RTL schematics where supported.\n\n')
     for cycle in cycles:
         index += f'{cycle}\n{"-" * len(cycle)}\n\n'
         description = root / 'programs' / cycle / 'description.rst'
@@ -79,7 +79,7 @@ def generate_program(root, generated, name):
         build = load_build(root, name)
         name = build.qualified_name
         page_name = name.replace('/', '-')
-        netlist = export_netlist(build)
+        netlist = None if build.netlist_skip_reason else export_netlist(build)
         state_diagrams = export_state_diagrams(build)
         before = {str(p.relative_to(root)): digest(p) for p in (*[s.path for s in build.sources], build.testbench)}
         subprocess.run([sys.executable, '-m', 'pytest', 'toolchain/simulation/test_simulation.py',
@@ -88,10 +88,11 @@ def generate_program(root, generated, name):
         with locked(build):
             if before != {str(p.relative_to(root)): digest(p) for p in (*[s.path for s in build.sources], build.testbench)}:
                 raise BuildError(f'{name}: sources changed while generating documentation')
-            net_inputs = json.loads((netlist / 'metadata/netlist.json').read_text())['inputs']
-            if any((before[path] if path in before else digest(root / path)) != value
-                   for path, value in net_inputs.items()):
-                raise BuildError(f'{name}: netlist and simulation use different HDL')
+            if netlist:
+                net_inputs = json.loads((netlist / 'metadata/netlist.json').read_text())['inputs']
+                if any((before[path] if path in before else digest(root / path)) != value
+                       for path, value in net_inputs.items()):
+                    raise BuildError(f'{name}: netlist and simulation use different HDL')
             state_info = None
             if state_diagrams:
                 state_info = json.loads((state_diagrams / 'metadata/state-diagrams.json').read_text())
@@ -105,10 +106,12 @@ def generate_program(root, generated, name):
                        'vcd_sha256': digest(simulation / 'waves.vcd'), 'seed': 1})
             assets = generated / 'static/program-assets' / name
             assets.mkdir(parents=True)
-            write_rtl_viewer(netlist / 'netlist.svg', assets / 'netlist-viewer.html',
-                             f'{name} — RTL schematic')
-            for src in [netlist / 'netlist.svg', netlist / 'netlist.pdf', netlist / 'metadata/netlist.json',
-                        simulation / 'waveform.html', simulation / 'waves.vcd',
+            net_assets = []
+            if netlist:
+                write_rtl_viewer(netlist / 'netlist.svg', assets / 'netlist-viewer.html',
+                                 f'{name} — RTL schematic')
+                net_assets = [netlist / 'netlist.svg', netlist / 'netlist.pdf', netlist / 'metadata/netlist.json']
+            for src in [*net_assets, simulation / 'waveform.html', simulation / 'waves.vcd',
                         simulation / 'metadata/waveform.json', simulation / 'metadata/run.json']:
                 destination = assets / 'metadata' if src.suffix == '.json' else assets
                 destination.mkdir(exist_ok=True)
@@ -138,12 +141,7 @@ def generate_program(root, generated, name):
                            else 'This page is generated from the program manifest, HDL and cocotb testbench.\n\n')
             waveform_embed = waveform_frame(f'../../program-assets/{name}/waveform.html',
                                             f'{name} simulation waveform').replace('\n', '\n      ')
-            page = f'''{name}
-{'=' * len(name)}
-
-{description}Target: ``{build.target}``; top entity: ``{build.top}``.
-
-RTL netlist
+            netlist_section = f'''RTL netlist
 -----------
 
 The schematic shows generic RTL before device mapping, placement and routing; see :doc:`/program-documentation` for interpretation and limitations.
@@ -164,7 +162,13 @@ Search for a signal or cell, use the mouse wheel to zoom, drag to pan, or open t
 
 Open the :download:`standalone RTL viewer <../static/program-assets/{name}/netlist-viewer.html>` or download :download:`SVG <../static/program-assets/{name}/netlist.svg>`, :download:`PDF <../static/program-assets/{name}/netlist.pdf>` or :download:`netlist provenance <../static/program-assets/{name}/metadata/netlist.json>`.
 
-{state_section}Simulation waveform
+''' if netlist else f'RTL netlist\n-----------\n\n{build.netlist_skip_reason}\n\n'
+            page = f'''{name}
+{'=' * len(name)}
+
+{description}Target: ``{build.target}``; top entity: ``{build.top}``.
+
+{netlist_section}{state_section}Simulation waveform
 -------------------
 
 The passing cocotb regression produces **{info['duration_ns']:g} ns** of simulated time across **{info['signal_count']} signals**.

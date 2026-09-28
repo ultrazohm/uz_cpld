@@ -122,6 +122,7 @@ class Build:
     expected_version: str
     testbench: Path
     foss_equivalence_blacklist: Path | None = None
+    netlist_skip_reason: str | None = None
 
     @property
     def build_root(self) -> Path:
@@ -218,9 +219,12 @@ def load_build(root: Path, name: str, target: str | None = None, backend: str | 
     tm = input_path(root, root, f'toolchain/targets/{target}/target.toml')
     t = read_toml(tm)
     pf = {'name', 'top', 'standard', 'sources', 'targets', 'backends', 'constraints',
-          'foss_constraints', 'foss_equivalence_blacklist', 'testbench', 'generator'}
+          'foss_constraints', 'foss_equivalence_blacklist', 'testbench', 'generator', 'netlist_skip_reason'}
     tf = {'name', 'device', 'backend', 'diamond', 'foss'}
-    keys(p, pf, pf - {'foss_constraints', 'foss_equivalence_blacklist', 'backends', 'generator'}, str(pm)); keys(t, tf, {'name', 'device', 'backend'}, str(tm))
+    keys(p, pf, pf - {'foss_constraints', 'foss_equivalence_blacklist', 'backends', 'generator', 'netlist_skip_reason'}, str(pm)); keys(t, tf, {'name', 'device', 'backend'}, str(tm))
+    netlist_skip_reason = p.get('netlist_skip_reason')
+    if 'netlist_skip_reason' in p and (not isinstance(netlist_skip_reason, str) or not netlist_skip_reason.strip()):
+        raise BuildError('netlist_skip_reason must be a nonempty explanation')
     if p['name'] != name or t['name'] != target:
         raise BuildError('Manifest name must match its directory')
     if target not in declared_targets:
@@ -292,7 +296,7 @@ def load_build(root: Path, name: str, target: str | None = None, backend: str | 
             raise BuildError('foss.seed must be a positive 32-bit integer')
         pin = input_path(root, root, 'toolchain/foss/toolchain.json')
         return Build(root, name, target, backend, p['top'], p['standard'], tuple(sources), constraint,
-                     t['device'], None, {'seed': f['seed']}, (pm, tm, pin, input_path(root, root, 'toolchain/foss/sources.json'), *generator_inputs), f['version'], testbench, equivalence_blacklist)
+                     t['device'], None, {'seed': f['seed']}, (pm, tm, pin, input_path(root, root, 'toolchain/foss/sources.json'), *generator_inputs), f['version'], testbench, equivalence_blacklist, netlist_skip_reason)
     d = t.get('diamond', {})
     keys(d, {'strategy', 'version', 'options'}, {'strategy', 'version', 'options'}, 'diamond')
     if not isinstance(d['options'], dict) or any(not isinstance(v, str) for v in d['options'].values()):
@@ -304,4 +308,4 @@ def load_build(root: Path, name: str, target: str | None = None, backend: str | 
     if not isinstance(d['version'], str) or not d['version']:
         raise BuildError('diamond.version must specify the required tool version')
     return Build(root, name, target, backend, p['top'], p['standard'], tuple(sources), constraint,
-                 t['device'], input_path(root, tm.parent, d['strategy']), d['options'], (pm, tm, *generator_inputs), d['version'], testbench)
+                 t['device'], input_path(root, tm.parent, d['strategy']), d['options'], (pm, tm, *generator_inputs), d['version'], testbench, netlist_skip_reason=netlist_skip_reason)

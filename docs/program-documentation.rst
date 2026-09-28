@@ -91,3 +91,12 @@ References
 * `Yosys schematic export <https://yosyshq.readthedocs.io/projects/yosys/en/0.47/cmd/show.html>`_
 * `Plotly HTML export <https://plotly.com/python/interactive-html-export/>`_
 * `UltraZohm documentation dependencies <https://github.com/ultrazohm/ultrazohm_sw/blob/main/docs/requirements.txt>`_
+
+Preserved historical HDL
+------------------------
+
+A program can declare ``netlist_skip_reason`` in its manifest when unchanged historical HDL cannot be synthesized by GHDL.
+The value must be a nonempty explanation and is displayed in place of the RTL schematic on the program page.
+Simulation remains mandatory, and unexpected netlist failures for other programs still fail documentation generation.
+Catalog netlist export reports the declared omission; explicitly requesting that program's netlist fails with the explanation.
+The FSM extractor omits graphs with no directly extractable transitions, including controllers whose transitions are implemented through procedures.

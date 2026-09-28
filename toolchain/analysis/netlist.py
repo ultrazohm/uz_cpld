@@ -14,6 +14,8 @@ ROOT = Path(__file__).resolve().parents[2]
 
 def export_netlist(build):
     """Generate fresh SVG/PDF schematics and retain intermediate files and logs."""
+    if build.netlist_skip_reason:
+        raise BuildError(f'{build.name}: RTL netlist unavailable: {build.netlist_skip_reason}')
     with locked(build):
         return _export_netlist(build)
 
@@ -91,7 +93,11 @@ def main():
             if args.target is not None and not names:
                 raise BuildError(f'No catalog programs support target {args.target}')
             for name in names:
-                print(export_netlist(load_build(ROOT, name, args.target, release_cycle=cycle)))
+                build = load_build(ROOT, name, args.target, release_cycle=cycle)
+                if build.netlist_skip_reason:
+                    print(f'{name}: RTL netlist unavailable: {build.netlist_skip_reason}')
+                else:
+                    print(export_netlist(build))
     except (BuildError, OSError, ValueError) as exc:
         print(exc, file=sys.stderr)
         return 1

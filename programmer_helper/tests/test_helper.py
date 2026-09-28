@@ -122,6 +122,8 @@ class ProgrammerHelperTests(unittest.TestCase):
                          ['old'] * 5)
         self.assertTrue(all(item.findtext('JedecChecksum') == '0x5678' for item in devices))
         self.assertIsNone(slot_tree.find('./CableOptions/USBID'))
+        self.assertEqual(slot_tree.findtext('./CableOptions/PortAdd'), 'FTUSB-1')
+        self.assertEqual(ET.parse(output / 's3c.xcf').findtext('./CableOptions/PortAdd'), 'FTUSB-1')
         s3c = ET.parse(output / 's3c.xcf').find('./Chain/Device')
         self.assertEqual(s3c.findtext('Name'), 'LCMXO2-4000HC')
         self.assertEqual(s3c.findtext('JedecChecksum'), '0x5678')

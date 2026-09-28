@@ -17,6 +17,7 @@ from toolchain.buildsystem.workflow import build_program, digest, locked, write_
 
 SLOT_TEMPLATE = Path('archive/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/Programm_All_5_Slots.xcf')
 S3C_TEMPLATE = Path('archive/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/s3c_programmer.xcf')
+DEFAULT_DIAMOND_PORT = 1
 
 
 def slot_assignments(values: list[str]) -> dict[int, str]:
@@ -144,11 +145,11 @@ def render_xcf(template: Path, entries: dict[int, Path], *, device_name: str, id
     if cable is not None:
         for item in cable.findall('USBID'):
             cable.remove(item)
-    if port is not None:
-        port_address = root.find('./CableOptions/PortAdd')
-        if port < 0 or port_address is None or root.findtext('./CableOptions/CableName') != 'USB2':
-            raise BuildError(f'{template}: cannot select USB2 port {port}')
-        port_address.text = f'FTUSB-{port}'
+    port = DEFAULT_DIAMOND_PORT if port is None else port
+    port_address = root.find('./CableOptions/PortAdd')
+    if port < 0 or port_address is None or root.findtext('./CableOptions/CableName') != 'USB2':
+        raise BuildError(f'{template}: cannot select USB2 port {port}')
+    port_address.text = f'FTUSB-{port}'
     ET.indent(tree, space='\t')
     return (b"<?xml version='1.0' encoding='utf-8' ?>\n"
             b'<!DOCTYPE ispXCF SYSTEM "IspXCF.dtd" >\n' +

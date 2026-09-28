@@ -85,6 +85,14 @@ class ProgrammerMakeTests(unittest.TestCase):
         self.assertIn('scan: dslots', result.stdout)
         self.assertNotIn('scan: s3c', result.stdout)
 
+    def test_s3c_scan_defaults_to_working_diamond_port(self):
+        result = self.make('programmer', 'scan', 'target=s3c', 'dry_run=1')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('s3c on FTUSB-1', result.stdout)
+        result = self.make('programmer', 'scan', 'target=s3c', 'probe_index=0', 'dry_run=1')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('s3c on FTUSB-0', result.stdout)
+
     def test_program_requires_target_and_scan_alone_is_rejected(self):
         result = self.make('programmer', 'program')
         self.assertNotEqual(result.returncode, 0)

@@ -15,7 +15,8 @@ import xml.etree.ElementTree as ET
 
 from toolchain.buildsystem.model import BuildError, load_build, resolve_release
 from toolchain.buildsystem.workflow import digest, locked, write_json
-from .helper import SLOT_TEMPLATE, S3C_TEMPLATE, generate, read_selection, verified_firmware
+from .helper import (DEFAULT_DIAMOND_PORT, SLOT_TEMPLATE, S3C_TEMPLATE, generate,
+                     read_selection, verified_firmware)
 
 
 @dataclass(frozen=True)
@@ -122,11 +123,11 @@ def diamond_scan_xcf(root: Path, chain: str, destination: Path, port: int | None
         raise BuildError(f'{template}: expected a USB2 cable')
     for item in cable.findall('USBID'):
         cable.remove(item)
-    if port is not None:
-        port_address = cable.find('PortAdd')
-        if port_address is None:
-            raise BuildError(f'{template}: missing USB2 port address')
-        port_address.text = f'FTUSB-{port}'
+    port = DEFAULT_DIAMOND_PORT if port is None else port
+    port_address = cable.find('PortAdd')
+    if port < 0 or port_address is None:
+        raise BuildError(f'{template}: invalid USB2 port {port}')
+    port_address.text = f'FTUSB-{port}'
     ET.indent(tree, space='\t')
     destination.write_bytes(b'<?xml version="1.0" encoding="utf-8"?>\n'
                             b'<!DOCTYPE ispXCF SYSTEM "IspXCF.dtd" >\n' +
@@ -154,6 +155,14 @@ def run_command(command: tuple[str, ...], log: Path) -> str:
             lines.append(line)
         result = process.wait()
     if result:
+        if any('Failed to Open FTDI USB port' in line for line in lines):
+            interfaces = sorted(path.name for path in Path('/sys/bus/usb/drivers/ftdi_sio').glob('*:*'))
+            if interfaces:
+                print('Host ftdi_sio is attached to USB interfaces: ' + ', '.join(interfaces),
+                      file=sys.stderr)
+                print('Close applications using FTDI serial ports, then run sudo rmmod ftdi_sio '
+                      'on the host and retry. This unloads the driver for all host FTDI serial ports; '
+                      'sudo modprobe ftdi_sio restores it.', file=sys.stderr)
         raise BuildError(f'Programmer failed with exit code {result}; see {log}')
     return ''.join(lines)
 
@@ -287,7 +296,7 @@ def main(argv=None) -> int:
                 output = run_command(command, args.root.resolve() / 'toolchain/build/programmer/scan.log')
                 print('Detected:', parse_scan(output))
             else:
-                port = args.probe_index if args.probe_index is not None else (1 if args.chain == 'dslots' else 0)
+                port = args.probe_index if args.probe_index is not None else DEFAULT_DIAMOND_PORT
                 print(f'Diamond FLASH Display ID scan: {args.chain} on FTUSB-{port}')
                 if not args.execute:
                     return 0

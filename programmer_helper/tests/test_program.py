@@ -72,6 +72,8 @@ class ProgramTests(unittest.TestCase):
                 self.assertTrue(all(not device.findtext('File') for device in devices))
                 self.assertEqual(project.findtext('./CableOptions/PortAdd'), 'FTUSB-3')
                 self.assertIsNone(project.find('./CableOptions/USBID'))
+                program.diamond_scan_xcf(root, chain, xcf)
+                self.assertEqual(ET.parse(xcf).findtext('./CableOptions/PortAdd'), 'FTUSB-1')
 
     def test_foss_scan_reports_unexpected_id_without_programming(self):
         output = 'index 0:\n  idcode 0x12345678\n'

@@ -32,6 +32,7 @@ Run commands from the repository root; paths in this documentation are relative 
    quick-start
    environments
    builds
+   programmer
    releases
    foss
    simulation

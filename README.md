@@ -9,3 +9,5 @@ Run `make` for available commands. Start with [the quick start](docs/quick-start
 Use VS Code's **Dev Containers: Reopen in Container** to build and start the development environment, or run `make image` to build the same image for manual use. Diamond is optional; startup reports whether it is found. See [environment setup](docs/environments.rst) for run commands and the optional Diamond mount.
 
 Build the full documentation with `make docs`, then open `docs/_build/html/index.html`. The [generator guide](docs/vhdl-generator.rst), [FOSS pipeline](docs/foss.rst), and [build reports](docs/builds.rst) describe the main workflows.
+
+After Diamond builds, use `make programmer-project selection=FILE` to generate separate D-slot and S3C Lattice Programmer XCF files from an explicit six-program selection. See [programmer projects](docs/programmer.rst).

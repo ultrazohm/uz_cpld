@@ -13,7 +13,7 @@ quote = '$(subst ','"'"',$(1))'
 release_args = $(if $(release_cycle),--release-cycle $(call quote,$(release_cycle)))
 release_make = $(if $(release_cycle),release_cycle=$(call quote,$(release_cycle)))
 args = $(release_args) $(if $(target),--target $(call quote,$(target))) $(if $(program),--program $(call quote,$(program))) --backend $(call quote,$(backend))
-.PHONY: release-list release-new release-current help build list doctor new generate check project gui build-all report clean clean-all test docs docs-local docs-assets-local netlist netlist-local sim image test-container _sim
+.PHONY: release-list release-new release-current help build list doctor new generate check project gui build-all report programmer-project clean clean-all test docs docs-local docs-assets-local netlist netlist-local sim image test-container _sim
 help:
 	@printf '%-31s %s\n' \
 	  'make [help]' 'Show all commands (default without program)' \
@@ -21,6 +21,7 @@ help:
 	  'make build program=NAME' 'Build one program' \
 	  'make build-all' 'Build the program catalog' \
 	  'make report' 'Summarize existing catalog build evidence' \
+	  'make programmer-project selection=FILE' 'Generate D-slot and S3C XCF files' \
 	  'make list' 'List catalog programs in the selected cycle' \
 	  'make release-list' 'List release cycles and the current selection' \
 	  'make release-new name=NAME [from=CYCLE]' 'Create a cycle and make it current' \
@@ -43,13 +44,15 @@ help:
 	  'make netlist-local' 'Export diagrams with installed tools' \
 	  'make docs-assets-local' 'Generate program documentation assets' \
 	  'make docs-local' 'Build documentation with installed tools'
-	@printf '%s\n' '' 'Options: release_cycle=NAME template_release_cycle=NAME backend=diamond|foss target=uz_dslot_xo2|uz_s3c_xo2 template=tx30 seed=1 wave_format=vcd|ghw|fst jobs=4'
+	@printf '%s\n' '' 'Options: release_cycle=NAME template_release_cycle=NAME backend=diamond|foss target=uz_dslot_xo2|uz_s3c_xo2 template=tx30 selection=FILE rebuild=1 seed=1 wave_format=vcd|ghw|fst jobs=4'
 release-list release-current:
 	$(python) -m toolchain.buildsystem $@ $(release_args)
 release-new:
 	$(python) -m toolchain.buildsystem $@ --name $(call quote,$(name)) $(if $(from),--from $(call quote,$(from)))
 list check report generate:
 	$(python) -m toolchain.buildsystem $@ $(args)
+programmer-project:
+	$(python) -m programmer_helper $(release_args) $(if $(selection),--selection $(call quote,$(selection)),--slot $(call quote,1=$(slot1)) --slot $(call quote,2=$(slot2)) --slot $(call quote,3=$(slot3)) --slot $(call quote,4=$(slot4)) --slot $(call quote,5=$(slot5)) --s3c $(call quote,$(s3c))) $(if $(filter 1,$(rebuild)),--build)
 # FOSS firmware commands use the same container dispatch as simulation on hosts.
 ifeq ($(backend)$(filter 1,$(CPLD_TOOLCHAIN_CONTAINER)),foss)
 build doctor project gui build-all: image
@@ -67,6 +70,7 @@ clean-all:
 test:
 	$(python) -m unittest discover -s cpld_vhdl_generator/tests -v
 	$(python) -m unittest discover -s toolchain/tests -v
+	$(python) -m unittest discover -s programmer_helper/tests -v
 container_engine ?= docker
 container_platform ?= linux/amd64
 container_userns = $(if $(filter podman,$(notdir $(container_engine))),--userns=keep-id)

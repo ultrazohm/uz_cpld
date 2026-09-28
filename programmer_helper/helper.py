@@ -1,0 +1,215 @@
+"""Create separate D-slot and S3C XCFs from current Diamond JEDEC exports."""
+import argparse
+from contextlib import ExitStack
+from datetime import datetime
+import hashlib
+import json
+import os
+from pathlib import Path
+import re
+import tempfile
+import xml.etree.ElementTree as ET
+
+from toolchain.buildsystem.model import BuildError, identifier, load_build, read_toml, resolve_release
+from toolchain.buildsystem.report import _row
+from toolchain.buildsystem.workflow import build_program, digest, locked, write_json
+
+
+SLOT_TEMPLATE = Path('archive/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/Programm_All_5_Slots.xcf')
+S3C_TEMPLATE = Path('archive/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/s3c_programmer.xcf')
+
+
+def slot_assignments(values: list[str]) -> dict[int, str]:
+    """Require one explicit program for every physical D-slot chain position."""
+    assignments = {}
+    for value in values:
+        match = re.fullmatch(r'([1-5])=([a-z][a-z0-9_]*)', value)
+        if not match:
+            raise BuildError(f'Invalid --slot {value!r}; expected POSITION=program, with position 1..5')
+        position, program = int(match[1]), identifier(match[2])
+        if position in assignments:
+            raise BuildError(f'D-slot position {position} was assigned more than once')
+        assignments[position] = program
+    missing = sorted(set(range(1, 6)) - assignments.keys())
+    if missing:
+        raise BuildError(f'Assign every D-slot position; missing: {", ".join(map(str, missing))}')
+    return assignments
+
+
+def read_selection(path: Path) -> tuple[dict[int, str], str]:
+    """Read an operator-supplied TOML selection with all six assignments."""
+    data = read_toml(path)
+    if set(data) != {'slots', 's3c'} or not isinstance(data['slots'], dict):
+        raise BuildError(f'{path}: expected only [slots] and s3c')
+    if any(not isinstance(position, str) or not isinstance(program, str)
+           for position, program in data['slots'].items()):
+        raise BuildError(f'{path}: slot positions and program names must be strings')
+    try:
+        slots = slot_assignments([f'{position}={program}' for position, program in data['slots'].items()])
+    except BuildError as exc:
+        raise BuildError(f'{path}: {exc}') from exc
+    return slots, identifier(data['s3c'])
+
+
+def selected_builds(root: Path, cycle: str, slots: dict[int, str], s3c: str):
+    """Resolve user selections within one release, checking board compatibility."""
+    builds = {}
+    for position, program in slots.items():
+        builds[f'slot{position}'] = load_build(root, program, 'uz_dslot_xo2', 'diamond', cycle)
+    builds['s3c'] = load_build(root, identifier(s3c), 'uz_s3c_xo2', 'diamond', cycle)
+    return builds
+
+
+def verified_jed(build) -> tuple[Path, str]:
+    """Accept only a published JEDEC recorded by a fresh successful build."""
+    row = _row(build)
+    if row['status'] != 'success':
+        detail = row.get('error') or ', '.join(row['changed_inputs'] + row['changed_outputs'])
+        raise BuildError(f'{build.qualified_name}: Diamond build is {row["status"]}' +
+                         (f' ({detail})' if detail else '') +
+                         f'; run make build program={build.name} release_cycle={build.release_cycle}')
+    jed = build.firmware_path('jed')
+    record_path = build.directory / 'metadata/build.json'
+    try:
+        record = json.loads(record_path.read_text())
+        expected = record['outputs'][jed.name]
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        raise BuildError(f'{build.qualified_name}: JEDEC is absent from successful build provenance') from exc
+    if not jed.is_file() or jed.is_symlink() or digest(jed) != expected:
+        raise BuildError(f'{build.qualified_name}: published JEDEC is missing or changed: {jed}')
+    return jed, expected
+
+
+def jedec_metadata(jed: Path) -> tuple[str, str]:
+    """Read the fuse checksum and usercode embedded in a Diamond JEDEC file."""
+    data = jed.read_bytes()
+    checksums = re.findall(rb'(?m)^C([0-9A-Fa-f]{4})\*\r?$', data)
+    usercodes = re.findall(rb'(?m)^UH([0-9A-Fa-f]{8})\*\r?$', data)
+    if len(checksums) != 1 or len(usercodes) != 1:
+        raise BuildError(f'{jed}: expected one JEDEC fuse checksum and one usercode')
+    return checksums[0].decode().upper(), usercodes[0].decode().upper()
+
+
+def render_xcf(template: Path, entries: dict[int, Path], *, device_name: str, idcode: str) -> bytes:
+    """Keep the known chain definition and replace its machine-specific data."""
+    if template.is_symlink() or not template.is_file():
+        raise BuildError(f'Missing regular XCF template: {template}')
+    tree = ET.parse(template)
+    root = tree.getroot()
+    devices = root.findall('./Chain/Device')
+    found = {}
+    for device in devices:
+        position = int(device.findtext('Pos', '0'))
+        if position in found:
+            raise BuildError(f'{template}: duplicate JTAG position {position}')
+        found[position] = device
+    if set(found) != set(entries):
+        raise BuildError(f'{template}: expected chain positions {sorted(entries)}, found {sorted(found)}')
+    for position, jed in entries.items():
+        device = found[position]
+        selected = device.find('SelectedProg')
+        if (device.findtext('Name') != device_name or
+                device.findtext('IDCode', '').lower() != idcode.lower() or
+                selected is None or selected.get('value') != 'TRUE'):
+            raise BuildError(f'{template}: unexpected device or disabled position {position}')
+        checksum, usercode = jedec_metadata(jed)
+        device.find('File').text = str(jed.resolve())
+        device.find('FileTime').text = datetime.fromtimestamp(jed.stat().st_mtime).strftime('%m/%d/%y %H:%M:%S')
+        device.find('JedecChecksum').text = f'0x{checksum}'
+        device.find('./Option/Usercode').text = f'0x{usercode}'
+        if device.findtext('Operation') != 'FLASH Erase,Program,Verify':
+            raise BuildError(f'{template}: position {position} does not use verified Flash programming')
+    # Cable serial numbers belong to a programming station, not the source tree.
+    cable = root.find('CableOptions')
+    if cable is not None:
+        for item in cable.findall('USBID'):
+            cable.remove(item)
+    ET.indent(tree, space='\t')
+    return (b"<?xml version='1.0' encoding='utf-8' ?>\n"
+            b'<!DOCTYPE ispXCF SYSTEM "IspXCF.dtd" >\n' +
+            ET.tostring(root, encoding='utf-8') + b'\n')
+
+
+def _atomic_bytes(path: Path, payload: bytes):
+    fd, temporary = tempfile.mkstemp(prefix=f'.{path.name}-', dir=path.parent)
+    try:
+        with os.fdopen(fd, 'wb') as stream:
+            stream.write(payload)
+        os.replace(temporary, path)
+    finally:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
+
+
+def generate(root: Path, slots: dict[int, str], s3c: str,
+             release_cycle: str | None = None, *, rebuild: bool = False) -> Path:
+    """Generate both XCFs, optionally rebuilding the selected Diamond firmware."""
+    root = root.resolve()
+    cycle = resolve_release(root, release_cycle)
+    if set(slots) != set(range(1, 6)):
+        raise BuildError('Exactly D-slot positions 1 through 5 are required')
+    builds = selected_builds(root, cycle, slots, s3c)
+    unique = {build.directory: build for build in builds.values()}
+    if rebuild:
+        for build in sorted(unique.values(), key=lambda item: str(item.directory)):
+            build_program(build)
+    with ExitStack() as stack:
+        for build in sorted(unique.values(), key=lambda item: str(item.directory)):
+            stack.enter_context(locked(build))
+        jed_paths = {}
+        hashes = {}
+        for label, build in builds.items():
+            jed, sha256 = verified_jed(build)
+            jed_paths[label] = jed
+            hashes[label] = sha256
+        slot_xcf = render_xcf(root / SLOT_TEMPLATE,
+                              {position: jed_paths[f'slot{position}'] for position in range(1, 6)},
+                              device_name='LCMXO2-2000HC', idcode='0x012bb043')
+        s3c_xcf = render_xcf(root / S3C_TEMPLATE, {1: jed_paths['s3c']},
+                             device_name='LCMXO2-4000HC', idcode='0x012bc043')
+        output = root / 'toolchain/build/programmer' / cycle
+        for parent in (root / 'toolchain', root / 'toolchain/build', root / 'toolchain/build/programmer', output):
+            if parent.is_symlink():
+                raise BuildError(f'Programmer output path must not be a symlink: {parent}')
+        output.mkdir(parents=True, exist_ok=True)
+        _atomic_bytes(output / 'dslots.xcf', slot_xcf)
+        _atomic_bytes(output / 's3c.xcf', s3c_xcf)
+        write_json(output / 'selection.json', {
+            'release_cycle': cycle,
+            'backend': 'diamond',
+            'slots': {str(position): slots[position] for position in range(1, 6)},
+            's3c': s3c,
+            'firmware_sha256': hashes,
+            'template_sha256': {'dslots': digest(root / SLOT_TEMPLATE),
+                                's3c': digest(root / S3C_TEMPLATE)},
+            'xcf_sha256': {'dslots.xcf': hashlib.sha256(slot_xcf).hexdigest(),
+                           's3c.xcf': hashlib.sha256(s3c_xcf).hexdigest()},
+        })
+    return output
+
+
+def main(argv=None) -> int:
+    parser = argparse.ArgumentParser(description='Generate separate D-slot and S3C Lattice Programmer XCF files.')
+    parser.add_argument('--root', type=Path, default=Path(__file__).resolve().parents[1])
+    parser.add_argument('--release-cycle', help='Defaults to programs/releases.toml current cycle')
+    parser.add_argument('--selection', type=Path, help='TOML file containing all five slot programs and S3C')
+    parser.add_argument('--slot', action='append', metavar='POSITION=PROGRAM',
+                        help='Repeat once for each D-slot position 1 through 5')
+    parser.add_argument('--s3c', help='Program for the separate S3C chain')
+    parser.add_argument('--build', action='store_true', help='Rebuild selected Diamond programs before generating XCFs')
+    args = parser.parse_args(argv)
+    try:
+        if args.selection:
+            if args.slot or args.s3c:
+                raise BuildError('Use either --selection or all --slot/--s3c arguments')
+            slots, s3c = read_selection(args.selection)
+        else:
+            if not args.s3c:
+                raise BuildError('Provide --s3c and all five --slot assignments, or --selection')
+            slots, s3c = slot_assignments(args.slot or []), identifier(args.s3c)
+        output = generate(args.root, slots, s3c, args.release_cycle, rebuild=args.build)
+    except (BuildError, ET.ParseError, OSError) as exc:
+        parser.exit(2, f'programmer_helper: {exc}\n')
+    print(output / 'dslots.xcf')
+    print(output / 's3c.xcf')
+    return 0

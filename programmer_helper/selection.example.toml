@@ -1,0 +1,10 @@
+# Copy this file, then replace every value with a program from the selected release.
+# All six assignments are required. Slot numbers are JTAG chain positions.
+s3c = ""
+
+[slots]
+"1" = ""
+"2" = ""
+"3" = ""
+"4" = ""
+"5" = ""

@@ -1,2 +1,0 @@
-- Why is state normal high when carrier ready is not high?
-- Re-introduce the error state?

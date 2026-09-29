@@ -1,6 +1,6 @@
-# FOSS translation of the archived S3C_171224 LPF.
-# JTAG_PORT=DISABLE is unavailable in Trellis; explicitly preserve Diamond's bank-2 open-drain outputs.
-# One-based VHDL vector pin indices are translated to zero-based GHDL/Verilog indices.
+# FOSS adaptation of the pinned Rev06 LPF; original Diamond constraints are preserved.
+# Keep JTAG enabled and explicitly preserve Diamond's two bank-2 open-drain outputs.
+# Translate one-based VHDL vector indices to GHDL/Verilog zero-based indices.
 LOCATE COMP "SysSW_Pwr_NC" SITE "121" ;
 IOBUF PORT "SysSW_Pwr_NC" IO_TYPE=LVCMOS33 ;
 LOCATE COMP "FPIO_FlexMIO52" SITE "109" ;
@@ -43,7 +43,7 @@ BANK 2 VCCIO 1.8 V;
 BANK 3 VCCIO 1.8 V;
 BANK 4 VCCIO 3.3 V;
 BANK 5 VCCIO 3.3 V;
-USERCODE HEX "abad1dea" ; 
+USERCODE HEX "BADC0DED" ; 
 LOCATE COMP "FPIO_isoCtrlRSTn" SITE "119" ;
 IOBUF PORT "FPIO_isoCtrlRSTn" IO_TYPE=LVCMOS33 ;
 LOCATE COMP "FP_SysLEDs" SITE "104" ;

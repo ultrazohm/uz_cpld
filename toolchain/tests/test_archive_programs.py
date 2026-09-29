@@ -77,9 +77,24 @@ class Rev6SnapshotTests(unittest.TestCase):
                          ['s3c_rev6_beta_lib.vhdl', 's3c_rev6_beta_fsm.vhdl', 's3c_rev6_beta.vhdl'])
         self.assertEqual(build.constraint.name, 's3c_rev6_beta_constraints.lpf')
         self.assertIsNone(build.netlist_skip_reason)
-        from toolchain.buildsystem.model import BuildError
-        with self.assertRaisesRegex(BuildError, 'does not support the foss'):
-            load_build(ROOT, 's3c_rev6_beta', backend='foss', release_cycle='original')
+        foss = load_build(ROOT, 's3c_rev6_beta', backend='foss', release_cycle='original')
+        self.assertEqual(foss.sources, build.sources)
+        self.assertEqual(foss.constraint.name, 's3c_rev6_beta_foss_constraints.lpf')
+
+    def test_foss_constraints_preserve_physical_vector_pins(self):
+        from toolchain.buildsystem.backends.foss import constraints
+        build = load_build(ROOT, 's3c_rev6_beta', backend='foss', release_cycle='original')
+        lpf, settings, _ = constraints(build.constraint.read_text())
+        self.assertNotIn('JTAG_PORT', settings)
+        self.assertEqual([settings[f'BANK_{bank}'] for bank in range(6)],
+                         ['3.3', '1.8', '1.8', '1.8', '3.3', '3.3'])
+        for port, pin in (('DIGS3C_SlotD_ReqOE[0]', '92'), ('DIGS3C_SlotD_ReqOE[4]', '82'),
+                          ('DIGS3C_SlotD_SlotOE[0]', '20'), ('DIGS3C_SlotD_SlotOE[4]', '14'),
+                          ('FP_UsrLED[0]', '95'), ('FP_UsrLED[3]', '98'),
+                          ('FlexLIO[2]', '75'), ('FlexLIO[3]', '76')):
+            self.assertIn(f'LOCATE COMP "{port}" SITE "{pin}"', lpf)
+        for port in ('FlexMio61ExternalStop', 'SD_SEL'):
+            self.assertIn(f'IOBUF PORT "{port}" IO_TYPE=LVCMOS33 OPENDRAIN=ON PULLMODE=NONE DRIVE=12 SLEWRATE=SLOW', lpf)
 
     def test_procedure_fsm_does_not_publish_an_empty_transition_graph(self):
         from toolchain.analysis.state_diagram import extract_state_machines

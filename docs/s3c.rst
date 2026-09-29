@@ -39,7 +39,7 @@ The port retains the archived state machine, debounce logic, and output assignme
 * Normalize text encoding, line endings, and trailing whitespace, and add provenance comments.
 
 Diamond uses the selected archived implementation's constraints.
-FOSS uses a separate constraint file that omits ``JTAG_PORT=DISABLE`` and corrects two bank-2 ``IO_TYPE`` settings.
+FOSS uses a separate constraint file that omits ``JTAG_PORT=DISABLE`` and explicitly preserves Diamond's two bank-2 open-drain outputs.
 Source provenance does not establish identical Diamond and FOSS bitstreams or electrical behavior.
 
 December 2024 validation limits
@@ -93,11 +93,16 @@ The local library predates its export to the ``xo2_libraries`` submodule in ``ac
      - Static ``ReqSafeState``; no heartbeat
    * - Firmware build
      - Diamond or FOSS
-     - Diamond with the unchanged archived LPF
+     - Diamond or FOSS, with separate LPFs
 
 The Rev06 snapshot retains the historical FlexLIO mapping (``FlexLIO[2]`` on pin 75 and ``FlexLIO[3]`` on pin 76); the later correction in ``ab25b4f`` is intentionally not applied.
 Its manifest uses VHDL-2008 and the tooling's Diamond LSE strategy, rather than the historical Synplify project.
 Diamond JEDEC programming is supported through either programmer backend.
+FOSS bitstream generation and programming use a separate LPF that retains JTAG access, explicitly preserves Diamond's two bank-2 open-drain outputs, and translates one-based vector indices for GHDL's Verilog output.
+The packed electrical configuration of those two outputs is checked against Diamond before export; see :doc:`/foss`.
+The shared FOSS backend supports its hierarchical oscillator and uses the primitive's default 2.08 MHz frequency when the historical synthesis directives hide the generic.
+Sequential induction with undefined-value modeling passes, excluding two truncated internal subtraction results from signal matching while retaining all top-level output checks.
+The strict eight-step startup comparison records an output counterexample, as it does for the December 2024 controller; see :doc:`validation` for the diagnostic result and proof limits.
 GHDL simulation covers startup, ready operation, soft stop, STOP/ENABLE priority, and supply-failure shutdown with an accelerated timebase.
 Commenting out the unused high-impedance driver enables GHDL RTL schematic generation; the remaining assignment only reads pins into an unused internal vector and does not drive physical pins.
 No automatic FSM diagram is generated because the transition extractor does not expand procedures.

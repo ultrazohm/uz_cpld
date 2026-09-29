@@ -1,5 +1,0 @@
-- Executing make new NAME=uz_d_resolver_d4_4inverter_sdifix does not add the new program to the catalog
-- Build directory is too nested?
-- .bit / .jed should be named like the program
-- Use FOSS programmer
-- Use cli to program with a table, also enable readback

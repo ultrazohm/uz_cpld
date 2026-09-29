@@ -116,8 +116,10 @@ def constraints(text):
             deferred['USERCODE'] = value
         elif words[0] == 'IOBUF' and len(words) >= 4 and words[1] == 'PORT':
             for attr in words[3:]:
-                if '=' not in attr or attr.split('=', 1)[0] not in ('IO_TYPE', 'SLEWRATE', 'PULLMODE', 'DRIVE'):
+                if '=' not in attr or attr.split('=', 1)[0] not in ('IO_TYPE', 'SLEWRATE', 'PULLMODE', 'DRIVE', 'OPENDRAIN'):
                     raise BuildError(f'Unsupported FOSS IOBUF attribute: {attr}')
+                if attr.startswith('OPENDRAIN=') and attr != 'OPENDRAIN=ON':
+                    raise BuildError('FOSS supports explicit OPENDRAIN=ON; omit it for ordinary outputs')
             lines.append(command.strip() + ';')
         else:
             raise BuildError(f'Unsupported FOSS LPF command: {command.strip()}')
@@ -135,18 +137,23 @@ def equivalence_script(build, mapped):
     clock_cut = None
     if oscillators:
         instance, cell = oscillators[0]
+        # Flattening can discard the generated *_OSC alias (Rev06 retains clk).
+        # All candidates are aliases of the actual oscillator output; prefer
+        # its generated name, then the shallowest remaining named wire.
         nets = [name for name, net in module['netnames'].items()
-                if name.endswith('_OSC') and net['bits'] == cell['connections']['OSC']]
-        if len(nets) != 1 or not all(re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*', value)
-                                      for value in (instance, nets[0], build.top)):
-            raise BuildError('Cannot identify a unique internal oscillator clock for FOSS equivalence')
-        clock_cut = (instance, nets[0])
+                if net['bits'] == cell['connections']['OSC'] and
+                re.fullmatch(r'[A-Za-z_][A-Za-z0-9_.]*', name)]
+        if not nets or not all(re.fullmatch(r'[A-Za-z_][A-Za-z0-9_.]*', value)
+                               for value in (instance, build.top)):
+            raise BuildError('Cannot identify an internal oscillator clock for FOSS equivalence')
+        net = min(nets, key=lambda name: (not name.endswith('_OSC'), name.count('.'), name))
+        clock_cut = (instance, net)
     if build.foss_equivalence_blacklist and not sequential:
         raise BuildError('FOSS equivalence blacklist requires a sequential mapped design')
     if build.foss_equivalence_blacklist:
         lines = build.foss_equivalence_blacklist.read_text().splitlines()
         if (not lines or len(set(lines)) != len(lines) or
-                any(not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*', line) or
+                any(not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_.]*', line) or
                     line not in module['netnames'] or line in module['ports'] for line in lines)):
             raise BuildError('FOSS equivalence blacklist must contain distinct mapped internal signal names')
     commands = ['read_json ../metadata/reports/synth.json']
@@ -164,8 +171,10 @@ def equivalence_script(build, mapped):
             instance, net = clock_cut
             # Both proof copies receive the same arbitrary clock. The real
             # oscillator remains present in the synthesized firmware netlist.
-            commands += [f'expose -input {build.top}/w:{net}',
-                         f'delete {build.top}/c:{instance}']
+            commands += [f'connect -assert -port {instance} OSC {net} {build.top}',
+                         f'delete {build.top}/c:{instance}',
+                         f'add -input __foss_clock 1 {build.top}',
+                         f'connect -nounset -set {net} __foss_clock {build.top}']
         commands += ['opt_clean', f'rename {build.top} {name}', f'design -stash {name}']
     commands += ['design -copy-from gate -as gate gate',
                  'design -copy-from gold -as gold gold']
@@ -174,12 +183,13 @@ def equivalence_script(build, mapped):
         match += ' -blacklist equivalence-blacklist.txt'
     # Keep both flattened copies for a separate initial-state/output miter.
     commands += ['write_json impl/proof-copies.json', match + ' gold gate equiv',
-                 'hierarchy -top equiv', 'equiv_simple']
+                 'hierarchy -top equiv', 'equiv_simple -undef' if sequential else 'equiv_simple']
     if sequential:
-        commands.append('equiv_induct -seq 8')
+        commands.append('equiv_induct -undef -seq 8')
     commands.append('equiv_status -assert')
     return '\n'.join(commands) + '\n', {
         'method': 'mapped sequential induction' if sequential else 'mapped combinational SAT',
+        'undefined_value_modeling': sequential,
         'clock_abstraction': dict(zip(('instance', 'net'), clock_cut)) if clock_cut else None,
         'blacklist': (build.foss_equivalence_blacklist.read_text().splitlines()
                       if build.foss_equivalence_blacklist else []),
@@ -229,7 +239,9 @@ def normalize_oscillator_frequency(module, expected):
     for cell in module['cells'].values():
         if cell['type'] != 'OSCH':
             continue
-        bits = cell['parameters'].get('NOM_FREQ')
+        # An omitted generic uses the OSCH 2.08 MHz default in the XO2 cell
+        # declaration, including historical HDL with translate_off generics.
+        bits = cell['parameters'].get('NOM_FREQ', ''.join(f'{byte:08b}' for byte in b'2.08'))
         if not isinstance(bits, str) or len(bits) % 8 or re.fullmatch(r'[01]+', bits) is None:
             raise BuildError('Unsupported OSCH NOM_FREQ encoding in mapped netlist')
         try:
@@ -353,14 +365,18 @@ class FossBackend:
              '--lpf', 'routed.lpf', '--seed', str(plan['seed']), '--textcfg', 'impl/routed.config',
              '--write', '../metadata/reports/routed.json', '--report', '../metadata/reports/timing.json'])
         # Device-specific configuration is completed before packing, never dropped.
-        from ..foss_config import complete_config
-        complete_config(project / 'impl/routed.config', plan['deferred'], suite_root(), build.device)
+        from ..foss_config import complete_config, verify_open_drain
+        complete_config(project / 'impl/routed.config', plan['deferred'], suite_root(), build.device,
+                        pin_report['open_drain'])
         pack = [tool('ecppack'), 'impl/routed.config', 'impl/firmware_impl.bit']
         if 'USERCODE' in plan['deferred']:
             pack += ['--usercode', str(int(plan['deferred']['USERCODE'], 16))]
         run(pack)
         run([tool('ecpunpack'), 'impl/firmware_impl.bit', 'impl/unpacked.config'])
+        pin_report['open_drain_verification'] = verify_open_drain(
+            project / 'impl/unpacked.config', pin_report['open_drain'], suite_root())
         (project.parent / 'metadata/reports/constraints.json').write_text(json.dumps({
             'deferred_settings': plan['deferred'], 'notes': plan['constraint_notes'], 'package': pin_report,
             'lpf': (project / 'routed.lpf').read_text()}, indent=2) + '\n')
-        return log.read_text()
+        # GHDL diagnostics can quote preserved Latin-1 vendor source lines.
+        return log.read_text(errors='replace')

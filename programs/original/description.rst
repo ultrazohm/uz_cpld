@@ -23,7 +23,8 @@ Individual program descriptions define routing, output gating, and card-specific
 .. rubric:: Build and programming support
 
 Firmware builds support the backends declared by each program.
-``s3c_rev6_beta`` supports Diamond firmware builds with its original LPF; the other current catalog programs support Diamond and FOSS.
+All 22 catalog programs support Diamond and FOSS firmware builds.
+Both S3C controllers preserve their Diamond LPFs and use separate FOSS constraints.
 Diamond firmware can be programmed using Diamond or FOSS; FOSS firmware uses the FOSS programmer.
 The selected firmware build and programmer backend are independent choices; see :doc:`/programmer`.
 S3C and D-slots require different UltraZohm physical states and are programmed separately.
@@ -32,5 +33,5 @@ S3C and D-slots require different UltraZohm physical states and are programmed s
 
 The cycle includes program-level simulations and a GHDL integration test of the S3C controller with ``cvg_tx30_stateful``.
 The tests do not cover every S3C error and shutdown sequence or establish hardware qualification.
-The ``s3c_power_on_debounce`` FOSS build has an unresolved initialized-state equivalence counterexample; successful compilation does not establish identical startup or electrical behavior between firmware backends.
+Both S3C controllers have strict initialized-state equivalence counterexamples associated with unspecified RTL startup values; successful compilation does not establish identical startup or electrical behavior between firmware backends.
 See :doc:`/validation` for evidence scope and use ``make report release_cycle=original backend=diamond|foss`` to inspect current local build evidence.

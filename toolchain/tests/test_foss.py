@@ -1,5 +1,6 @@
 """FOSS backend boundaries, electrical constraint translation and Make selection."""
 import json
+from dataclasses import replace
 from pathlib import Path
 import shutil
 import subprocess
@@ -10,8 +11,8 @@ from unittest.mock import patch
 from toolchain.buildsystem import workflow
 from toolchain.buildsystem.report import catalog_report
 from toolchain.buildsystem.model import catalog, program_backends, BuildError, load_build
-from toolchain.buildsystem.backends.foss import constraints, equivalence_script, normalize_oscillator_frequency, startup_script, startup_points_script, tool
-from toolchain.buildsystem.foss_config import complete_config, package_lpf
+from toolchain.buildsystem.backends.foss import constraints, equivalence_script, normalize_oscillator_frequency, startup_script, startup_points_script, tool, suite_root
+from toolchain.buildsystem.foss_config import complete_config, package_lpf, verify_open_drain
 from toolchain.foss.install import install
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -80,6 +81,7 @@ class FossTests(unittest.TestCase):
         for program, top, instance, clock in (
             ('cvg_tx30_stateful', 'cvg_tx30_stateful', 'oscillator', 'oscillator_OSC'),
             ('s3c_power_on_debounce', 'Waiting_for_Powerbutton_pressed_V0', 'oscinst0', 'oscinst0_OSC'),
+            ('s3c_rev6_beta', 'S3C', 's3c_clkrst.oscinst0', 'clk'),
         ):
             with self.subTest(program=program):
                 build = load_build(ROOT, program, backend='foss', release_cycle='original')
@@ -92,16 +94,55 @@ class FossTests(unittest.TestCase):
                     'ports': {},
                 }}}
                 script, record = equivalence_script(build, mapped)
-                self.assertIn('equiv_induct -seq 8', script)
+                self.assertIn('equiv_simple -undef', script)
+                self.assertIn('equiv_induct -undef -seq 8', script)
+                self.assertTrue(record['undefined_value_modeling'])
                 self.assertIn('write_json impl/proof-copies.json', script)
                 self.assertIn('equiv_status -assert', script)
-                self.assertIn(f'expose -input {top}/w:{clock}', script)
+                self.assertIn(f'connect -assert -port {instance} OSC {clock} {top}', script)
+                self.assertIn(f'connect -nounset -set {clock} __foss_clock {top}', script)
                 self.assertIn(f'delete {top}/c:{instance}', script)
                 self.assertEqual(record['blacklist'], names)
+                mapped['modules'][top]['netnames']['nested.clock_alias'] = {'bits': [1]}
+                self.assertEqual(equivalence_script(build, mapped)[1]['clock_abstraction']['net'], clock)
                 if names:
                     mapped['modules'][top]['ports'][names[0]] = {}
                     with self.assertRaisesRegex(BuildError, 'internal signal names'):
                         equivalence_script(build, mapped)
+
+    def test_hierarchical_oscillator_keeps_clock_dependent_outputs_connected(self):
+        try:
+            yosys = tool('yosys')
+        except BuildError:
+            self.skipTest('Pinned Yosys is unavailable')
+        project = self.root / 'clock-proof/project'
+        (project / 'impl').mkdir(parents=True)
+        (project.parent / 'metadata/reports').mkdir(parents=True)
+        rtl = '''module clockgen(output clk);
+OSCH oscillator(.STDBY(1'b0), .OSC(clk));
+endmodule
+module clock_test(input d, output probe, output reg q = 0);
+wire clk;
+clockgen clocks(.clk(clk));
+assign probe = clk & d;
+always @(posedge clk) q <= d;
+endmodule
+'''
+        (project / 'rtl.v').write_text(rtl)
+        synth = subprocess.run([yosys, '-Q', '-T', '-p',
+                                f'read_verilog -lib {json.dumps(str(ROOT / "toolchain/hdl/machxo2_primitives.v"))}; '
+                                'read_verilog rtl.v; synth_lattice -family xo2 -top clock_test '
+                                '-json ../metadata/reports/synth.json'],
+                               cwd=project, capture_output=True, text=True)
+        self.assertEqual(synth.returncode, 0, synth.stderr)
+        mapped = json.loads((project.parent / 'metadata/reports/synth.json').read_text())
+        script, _ = equivalence_script(replace(self.build, top='clock_test'), mapped)
+        (project / 'equivalence.ys').write_text(script)
+        for source, expected in ((rtl, 0), (rtl.replace('clk & d', 'clk & ~d'), 1)):
+            (project / 'rtl.v').write_text(source)
+            proof = subprocess.run([yosys, '-Q', '-T', '-s', 'equivalence.ys'],
+                                   cwd=project, capture_output=True, text=True)
+            self.assertEqual(proof.returncode != 0, bool(expected), proof.stdout[-1500:] + proof.stderr)
 
     def test_startup_miter_rejects_mutated_initial_state(self):
         try:
@@ -163,6 +204,11 @@ endmodule
             normalize_oscillator_frequency(module, '4.16')
         normalize_oscillator_frequency(module, '2.08')
         self.assertEqual(module['cells']['clock']['parameters']['NOM_FREQ'], '2.08')
+        module['cells']['clock']['parameters'] = {}
+        with self.assertRaisesRegex(BuildError, 'conflicts'):
+            normalize_oscillator_frequency(module, '4.16')
+        normalize_oscillator_frequency(module, '2.08')
+        self.assertEqual(module['cells']['clock']['parameters']['NOM_FREQ'], '2.08')
 
     def test_make_backend_selection_and_invalid_value(self):
         result = subprocess.run(['make', 'list', 'backend=foss', 'release_cycle=original'], cwd=ROOT, capture_output=True, text=True)
@@ -192,6 +238,78 @@ endmodule
         self.assertEqual(binary_deferred['USERCODE'], 'BADEAFFE')
         _, deferred, _ = constraints('BANK 1 VCCIO 1.8 V;')
         self.assertEqual(deferred['BANK_1'], '1.8')
+
+    def test_open_drain_does_not_silently_accept_unsupported_modes(self):
+        for mode in ('OFF', 'PLUS', 'TRUE'):
+            with self.subTest(mode=mode), self.assertRaisesRegex(BuildError, 'OPENDRAIN=ON'):
+                constraints(f'IOBUF PORT "pin" IO_TYPE=LVCMOS33 OPENDRAIN={mode};')
+
+    def test_s3c_open_drain_voltage_exception_is_explicit_and_output_only(self):
+        suite = suite_root()
+        if not (suite / 'share/trellis/database/MachXO2/LCMXO2-4000/iodb.json').is_file():
+            self.skipTest('Pinned Trellis database is unavailable')
+        for program in ('s3c_power_on_debounce', 's3c_rev6_beta'):
+            build = load_build(ROOT, program, backend='foss', release_cycle='original')
+            lpf, settings, _ = constraints(build.constraint.read_text())
+            ports = {name: {'direction': 'output', 'bits': [i]}
+                     for i, name in enumerate(('SD_SEL', 'FlexMio61ExternalStop'))}
+            _, report = package_lpf(lpf, ports, suite, build.device, settings)
+            self.assertEqual({entry['pin'] for entry in report['open_drain']}, {'41', '50'})
+            with self.assertRaisesRegex(BuildError, 'IO_TYPE=LVCMOS18'):
+                package_lpf(lpf.replace(' OPENDRAIN=ON', ''), ports, suite, build.device, settings)
+            for bad_lpf, bad_ports in (
+                (lpf.replace('DRIVE=12', 'DRIVE=8'), ports),
+                (lpf.replace('PULLMODE=NONE', 'PULLMODE=UP'), ports),
+                (lpf.replace('SITE "41"', 'SITE "40"'), ports),
+                (lpf, {name: {**port, 'direction': 'input'} for name, port in ports.items()}),
+            ):
+                with self.subTest(program=program, lpf=bad_lpf), self.assertRaisesRegex(BuildError, 'Unsupported open-drain'):
+                    package_lpf(bad_lpf, bad_ports, suite, build.device, settings)
+
+    def test_packed_open_drain_matches_diamond_and_detects_drive_overwrite(self):
+        try:
+            pack, unpack = tool('ecppack'), tool('ecpunpack')
+        except BuildError:
+            self.skipTest('Pinned Trellis tools are unavailable')
+        from toolchain.buildsystem.foss_config import S3C_BANKS
+        suite = suite_root()
+        outputs = [{'port': 'SD_SEL', 'pin': '41', 'tile': 'PB4:PIC_B0'},
+                   {'port': 'FlexMio61ExternalStop', 'pin': '50', 'tile': 'PB13:PIC_B0'}]
+        # These enum names and unknown bits are the decoder output of Diamond
+        # 3.14's original LPF. INPUT_LVCMOS18 is a decoding alias: F0B18 enables
+        # the output. The neighboring PIOA settings are intentionally irrelevant.
+        reference = '.device LCMXO2-4000HC\n\n'
+        routed = '.device LCMXO2-4000HC\n\n'
+        for output in outputs:
+            header = f'.tile {output["tile"]}\n'
+            reference += (header + 'enum: PIOB.BASE_TYPE INPUT_LVCMOS18\n'
+                          'enum: PIOB.OPENDRAIN ON\nenum: PIOB.PULLMODE NONE\n'
+                          'unknown: F0B18\nunknown: F5B10\n\n')
+            # nextpnr emits DRIVE after OPENDRAIN; their database fields overlap.
+            routed += (header + 'enum: PIOB.BASE_TYPE OUTPUT_LVCMOS33\n'
+                       'enum: PIOB.OPENDRAIN ON\nenum: PIOB.SLEWRATE SLOW\n'
+                       'enum: PIOB.DRIVE 12\n\n')
+        config = self.root / 'output.config'
+        config.write_text(reference)
+        self.assertEqual(len(verify_open_drain(config, outputs, suite)), 2)
+
+        def roundtrip():
+            for args in ([pack, str(config), str(self.root / 'output.bit')],
+                         [unpack, str(self.root / 'output.bit'), str(self.root / 'unpacked.config')]):
+                result = subprocess.run(args, capture_output=True, text=True)
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            return self.root / 'unpacked.config'
+
+        config.write_text(routed)
+        with self.assertRaisesRegex(BuildError, 'Packed open-drain settings differ'):
+            verify_open_drain(roundtrip(), outputs, suite)
+        complete_config(config, {f'BANK_{bank}': voltage for bank, voltage in S3C_BANKS.items()},
+                        suite, 'LCMXO2-4000HC-4TG144C', outputs)
+        self.assertEqual(len(verify_open_drain(roundtrip(), outputs, suite)), 2)
+        # An open-drain mode check alone would miss a changed drive encoding.
+        config.write_text(config.read_text().replace('unknown: F5B12', 'unknown: F5B18'))
+        with self.assertRaisesRegex(BuildError, 'Packed open-drain settings differ'):
+            verify_open_drain(roundtrip(), outputs, suite)
 
     def fake_database(self):
         db = self.root / 'share/trellis/database/MachXO2'

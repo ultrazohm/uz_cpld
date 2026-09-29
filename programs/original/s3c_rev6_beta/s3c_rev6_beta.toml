@@ -2,8 +2,10 @@ name = "s3c_rev6_beta"
 top = "S3C"
 standard = "2008"
 targets = ["uz_s3c_xo2"]
-backends = ["diamond"]
+backends = ["diamond", "foss"]
 constraints = ["s3c_rev6_beta_constraints.lpf"]
+foss_constraints = ["s3c_rev6_beta_foss_constraints.lpf"]
+foss_equivalence_blacklist = "s3c_rev6_beta_foss_equivalence_blacklist.txt"
 sources = [
     {path = "s3c_rev6_beta_lib.vhdl", library = "work"},
     {path = "s3c_rev6_beta_fsm.vhdl", library = "work"},

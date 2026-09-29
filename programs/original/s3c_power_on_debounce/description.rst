@@ -34,7 +34,8 @@ The archived controller declares both ``CarrierReady`` outputs and the front-pan
 Its source comment reports that ``ReqSafeState`` did not work while the 1.8 V bank was unpowered.
 The state named ``Waiting_for_Powerbutton_released`` checks for the button being pressed again, so the name does not describe its actual transition condition.
 Diamond uses constraints copied from the selected archive implementation, including its pin and bank settings.
-The FOSS constraints omit ``JTAG_PORT=DISABLE`` and correct the two bank-2 ``IO_TYPE`` settings.
+The FOSS constraints omit ``JTAG_PORT=DISABLE`` and explicitly preserve Diamond's two bank-2 open-drain outputs.
+``FlexMio61ExternalStop`` and ``SD_SEL`` retain ``LVCMOS33`` with explicit open-drain, no pull, 12 mA drive and slow slew. Their packed electrical fields are checked against Diamond before firmware export; see :doc:`/foss`.
 The FOSS build proves mapped sequential equivalence with a shared abstract clock and excludes seven optimized internal signals from proof cutpoint matching.
 Both firmware backends build this program; their bitstreams and electrical behavior have not been shown equivalent.
 

@@ -190,7 +190,8 @@ class FrontendTests(unittest.TestCase):
         with patch('toolchain.buildsystem.cli.workflow.build_program', side_effect=capture), redirect_stdout(io.StringIO()):
             self.assertEqual(cli_main(['build-all', '--root', str(self.root), '--target', 'uz_s3c_xo2', '--backend', 'foss']), 0)
         self.assertEqual(selected, [('s3c_toolchain_test_program', 'uz_s3c_xo2'),
-                                    ('s3c_power_on_debounce', 'uz_s3c_xo2')])
+                                    ('s3c_power_on_debounce', 'uz_s3c_xo2'),
+                                    ('s3c_rev6_beta', 'uz_s3c_xo2')])
 
     def test_build_all_continues_after_tool_failure_and_reports_it(self):
         attempted = []

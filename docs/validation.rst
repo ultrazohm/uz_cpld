@@ -17,8 +17,14 @@ For Diamond, run ``make doctor backend=diamond`` and ``make build-all backend=di
 Generated firmware provenance, tool identity, input hashes and output hashes are in each backend directory's ``metadata/build.json``; simulation provenance is in ``build/simulation/metadata/run.json``.
 A passing simulation checks the behavior exercised by its testbench.
 A successful firmware build verifies fresh exports and unchanged authored inputs; the FOSS build also checks synthesis equivalence and bitstream format.
+For both S3C controllers, FOSS also verifies the packed electrical fields of the two bank-2 open-drain outputs against Diamond before export.
+This check covers pins 41 and 50; it does not compare all electrical settings. Details and per-pin results are in :doc:`/foss` and ``metadata/reports/constraints.json``.
 The sequential FOSS induction check alone does not prove startup alignment.
-The initialized-state miter passes for ``cvg_tx30_stateful`` and records a counterexample for ``s3c_power_on_debounce``; a successful export does not establish initial-state equivalence for that program.
+The initialized-state miter passes for ``cvg_tx30_stateful`` and records output counterexamples for both ``s3c_power_on_debounce`` and ``s3c_rev6_beta``; a successful export does not establish initial-state equivalence for either controller.
+Both controllers leave some output registers unspecified before their startup assignments execute.
+The strict startup comparison allows arbitrary binary values for uninitialized reference registers, while mapped flip-flop models supply definite initial values.
+An eight-step diagnostic comparison that marks unspecified initial registers unknown and ignores undefined reference outputs passes for both controllers; it does not replace the strict check or establish hardware startup behavior.
+The other 18 D-slot programs use combinational equivalence checks and have no sequential startup check.
 ``make report backend=foss`` or ``make report backend=diamond`` checks existing build evidence for stale inputs and outputs without rebuilding.
 Neither command establishes hardware behavior or a timing acceptance limit.
 The authored LPFs contain no timing budget, so inspect the reports and board-specific electrical settings before using firmware on hardware.

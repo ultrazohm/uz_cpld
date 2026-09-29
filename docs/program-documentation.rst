@@ -12,7 +12,9 @@ Up to ``jobs`` programs run concurrently (default: 4; ``jobs=1`` runs sequential
 For each program, RTL schematics, state diagrams, simulation, waveform assets and its page are generated in order.
 After every program succeeds, the complete page index is written and the main Sphinx build runs sequentially.
 Failed analysis or simulation stops the build; generated page sources are replaced before generation.
-A documentation lock rejects simultaneous asset generators and prevents ``clean-all`` or program creation from changing the workspace during asset generation.
+A documentation lock covers asset generation, HTML cleanup, Sphinx rendering and site validation for ``make docs`` and ``make docs-local``.
+It rejects concurrent managed documentation builds and prevents ``clean-all`` or program creation throughout those stages.
+The assets-only command holds the same lock for its generation stage.
 The same worker limit applies to ``make docs-assets-local`` and ``make docs-local``.
 Firmware builds, including Diamond ``make build-all``, run sequentially.
 ``make netlist`` exports diagrams for the firmware catalog without simulation; ``program`` selects one program.
@@ -38,7 +40,8 @@ For programs with an enumerated state signal and a ``case`` statement, documenta
 The diagram identifies the declared initial state and explicit transitions and labels each arrow with its source-level condition.
 For ``elsif`` and ``else`` branches, the label also includes the preceding guards being false.
 An unconditional assignment is labeled ``always``; the implicit hold when a branch does not assign a new state is omitted.
-The extractor supports simple named ``when`` branches and nested ``if``/``elsif``/``else`` guards within one state ``case`` statement.
+The extractor supports named ``when`` branches, grouped choices such as ``when run | wait_mode =>``, ``others``, and nested ``if``/``elsif``/``else`` guards within one state ``case`` statement.
+Unsupported or duplicate state choices fail diagram generation instead of publishing a partial graph.
 Reset assignments outside that statement, enclosing process guards, and implicit holds are omitted.
 The diagram is a source navigation aid and does not establish transition reachability or safety.
 Generated files and source hashes are under ``programs/<release_cycle>/<name>/build/state-diagrams/``.

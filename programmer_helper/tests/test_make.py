@@ -83,6 +83,10 @@ class ProgrammerMakeTests(unittest.TestCase):
         args = self.recorded('programmer', 'lattice_xcf', 'build_backend=diamond')
         self.assertEqual(args[args.index('--build-backend') + 1], 'diamond')
 
+    def test_xcf_probe_index_is_forwarded(self):
+        args = self.recorded('programmer', 'lattice_xcf', 'probe_index=3')
+        self.assertEqual(args[args.index('--probe-index') + 1], '3')
+
     def test_scan_ignores_selection_and_build_backend(self):
         (self.cwd / 'selection.toml').write_text('invalid TOML')
         result = self.make('programmer', 'scan', 'programmer_backend=foss',

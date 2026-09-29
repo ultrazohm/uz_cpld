@@ -9,11 +9,12 @@ An intermediate ``foss-builder`` stage compiles the pinned XO2 tools; it is not 
 The runtime image includes GHDL, Yosys, nextpnr-machxo2, Trellis, openFPGALoader, Graphviz, Python, Sphinx, GTKWave, development utilities and Diamond runtime libraries.
 The Dev Container setup installs the developer CLI for its user after creation.
 Diamond itself and its license remain external.
-Build the image explicitly before starting it manually or from VS Code::
+Build the image explicitly before starting a container manually::
 
    make image
 
 This creates the local image ``uz-cpld-toolchain``. Re-run the command after changing image dependencies.
+VS Code Dev Containers builds the image automatically when reopening the workspace.
 At startup the container prints whether the Diamond launcher was found, then runs the requested command.
 This reports installation availability, not license validity; missing Diamond does not prevent container startup or FOSS use.
 Backend selection is unchanged: ``backend`` defaults to ``diamond``; use ``backend=foss`` for FOSS firmware builds.
@@ -104,9 +105,8 @@ is mounted. To distinguish a missing mount from a shell path problem, run::
    check-diamond
 
 If the files are missing, check ``DIAMOND_HOST_ROOT`` on the host and recreate
-the container. For an existing container built before the PATH setting was
-added, run ``export PATH="$DIAMOND_ROOT/bin/lin64:$PATH"`` in the current shell,
-then rebuild the container to apply the permanent fix.
+the container.
+If the mounted files exist but the launchers are absent from ``PATH``, rebuild the Dev Container to apply its configured environment.
 
 Diamond and licensing
 ---------------------

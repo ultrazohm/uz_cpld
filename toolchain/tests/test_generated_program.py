@@ -145,39 +145,32 @@ reqoe = [1, 0]
                                         cwd=self.root, capture_output=True, text=True, timeout=30)
                 self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
-    def test_clone_rejects_shared_generator_without_modifying_original(self):
+    def test_repository_rejects_noncanonical_generator_paths(self):
         source = self.root / 'programs/original/cvg_tx30_stateful'
-        shared = self.root / 'shared'
-        shared.mkdir()
-        config = shared / 'generator.toml'
-        config.write_text((source / 'generator.toml').read_text().replace(
-            '../../../xo2_library/s3c', '../xo2_library/s3c'))
-        shutil.copy2(source / 'routing.csv', shared / 'routing.csv')
         manifest = source / 'cvg_tx30_stateful.toml'
-        manifest.write_text(manifest.read_text().replace('generator = "generator.toml"',
-                                                       'generator = "../../../shared/generator.toml"'))
-        generate(config, source)
-        build = load_build(self.root, 'cvg_tx30_stateful')
-        paths = [*build.inputs, self.root / 'programs/original/catalog.toml']
-        before = {path: path.read_bytes() for path in paths}
-        with self.assertRaisesRegex(BuildError, 'program-local inputs'):
-            workflow.scaffold(self.root, 'cvg_stateful_clone', 'cvg_tx30_stateful')
-        self.assertEqual(before, {path: path.read_bytes() for path in paths})
-        self.assertFalse((self.root / 'programs/original/cvg_stateful_clone').exists())
+        original = manifest.read_text()
+        for path in ('custom.toml', '../cvg_tx30_stateful/generator.toml',
+                     '../../../shared/generator.toml'):
+            with self.subTest(path=path):
+                manifest.write_text(original.replace('generator = "generator.toml"',
+                                                     f'generator = "{path}"'))
+                for action in (lambda: load_build(self.root, 'cvg_tx30_stateful'),
+                               lambda: workflow.generate_program(self.root, 'cvg_tx30_stateful'),
+                               lambda: workflow.scaffold(self.root, 'copy', 'cvg_tx30_stateful')):
+                    with self.assertRaisesRegex(BuildError, 'program-local generator.toml'):
+                        action()
+        manifest.write_text(original)
         load_build(self.root, 'cvg_tx30_stateful')
 
-    def test_clone_normalizes_generator_path_that_mentions_template(self):
+    def test_repository_rejects_generated_outputs_outside_program_root(self):
         source = self.root / 'programs/original/cvg_tx30_stateful'
+        output = source / 'generated'
+        generate(source / 'generator.toml', output)
         manifest = source / 'cvg_tx30_stateful.toml'
-        manifest.write_text(manifest.read_text().replace('generator = "generator.toml"',
-                                                       'generator = "../cvg_tx30_stateful/generator.toml"'))
-        config = source / 'generator.toml'
-        original = config.read_bytes()
-        new = workflow.scaffold(self.root, 'cvg_stateful_clone', 'cvg_tx30_stateful')
-        self.assertEqual(config.read_bytes(), original)
-        self.assertTrue((new / 'cvg_stateful_clone.vhdl').is_file())
-        load_build(self.root, 'cvg_tx30_stateful')
-        load_build(self.root, 'cvg_stateful_clone')
+        manifest.write_text(manifest.read_text().replace('path = "cvg_tx30_stateful.vhdl"',
+                                                        'path = "generated/cvg_tx30_stateful.vhdl"'))
+        with self.assertRaisesRegex(BuildError, 'outputs must be program-local'):
+            load_build(self.root, 'cvg_tx30_stateful')
 
     def test_clone_regenerates_names_and_checks_sources(self):
         root = self.root

@@ -15,6 +15,8 @@ The standalone command generates the same project files without changing the rep
    python3 -m cpld_vhdl_generator programs/original/cvg_my_slot/generator.toml --output programs/original/cvg_my_slot
 
 Add ``--check`` to that command to verify freshness without writing files.
+Repository projects use program-local ``generator.toml`` and emit their top-level VHDL and receipt into that program directory.
+The standalone command accepts other input/output locations.
 All four generated project files are tracked by the receipt.
 Manually edited or unowned files are protected from overwriting.
 Shared sources live in ``xo2_library/s3c`` and are referenced by each program's manifest.

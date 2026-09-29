@@ -4,7 +4,7 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
-from .model import BuildError, catalog, load_build, program_backends, program_targets, release_cycles, resolve_release
+from .model import BuildError, catalog, load_build, load_output, program_backends, program_targets, release_cycles, resolve_release
 from . import workflow
 from .backends.diamond import launcher, run, wrap
 
@@ -132,7 +132,8 @@ def main(argv: list[str] | None = None) -> int:
         else:
             if not args.program:
                 raise BuildError(f'{args.command} requires --program (Make: program=...)')
-            build = load_build(root, args.program, args.target, args.backend, cycle)
+            loader = load_output if args.command == 'clean' else load_build
+            build = loader(root, args.program, args.target, args.backend, cycle)
             if args.command == 'check':
                 print(f'{build.name}: manifest and inputs valid')
             elif args.command == 'clean':

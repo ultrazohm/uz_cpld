@@ -389,6 +389,9 @@ def generate_program(root: Path, name: str, target: str | None = None,
             raise BuildError(f'{name} does not support target {target}')
         if config.target and backend not in (None, 'diamond'):
             raise BuildError('Generated projects support backend=diamond')
+        manifest = config_path.parent / f'{name}.toml'
+        if manifest.exists() and read_toml(manifest).get('generator') != 'generator.toml':
+            raise BuildError('Repository generator must be program-local generator.toml')
         generate(config_path, config_path.parent)
         load_build(root, name, target, backend, release_cycle)
         register_program(root, name, release_cycle)
@@ -400,8 +403,8 @@ def scaffold(root: Path, name: str, template: str, target: str | None = None, ba
 
     ``template`` names a program under ``programs/``; no template directory is
     used. HDL entities and testbench behavior are preserved. Additional local
-    files are copied, excluding Python caches. External inputs must be localized
-    before cloning so the new program is independently editable.
+    files are copied, excluding Python caches. Shared HDL stays shared; the
+    top-level source, constraints and testbench remain program-owned.
     """
     if template == 'generator':
         return generator_template(root, name, target, backend, release_cycle)
@@ -438,7 +441,7 @@ def _scaffold(root, name, template, target, backend, release_cycle, template_rel
     source = original.manifests[0].parent
     meta = read_toml(original.manifests[0])
     primary_constraint = input_path(root, source, meta['constraints'][0])
-    local_inputs = [s.path for s in original.sources if 'generator' not in meta or s.path.is_relative_to(source)] + [primary_constraint, original.testbench]
+    local_inputs = [s.path for s in original.sources if s.path.is_relative_to(source)] + [primary_constraint, original.testbench]
     generated_project = False
     if 'generator' in meta:
         from cpld_vhdl_generator import load_config
@@ -454,7 +457,7 @@ def _scaffold(root, name, template, target, backend, release_cycle, template_rel
     if any(path.is_relative_to(source / 'build') for path in local_inputs):
         raise BuildError('Cloning requires authored inputs outside the generated build directory')
     if any(not path.is_relative_to(source) for path in local_inputs):
-        raise BuildError('Cloning requires program-local inputs; copy shared inputs into the source program first')
+        raise BuildError('Cloning requires program-local inputs for constraints, testbench and generator configuration/routing')
     if 'generator' in meta:
         # Normalize aliases such as ../<template>/generator.toml before copying.
         meta['generator'] = str(input_path(root, source, meta['generator']).relative_to(source))
@@ -471,6 +474,8 @@ def _scaffold(root, name, template, target, backend, release_cycle, template_rel
         if len(candidates) != 1:
             raise BuildError('Cloning requires exactly one work-library source declaring the top entity')
         primary = candidates[0]
+    if not primary.is_relative_to(source):
+        raise BuildError('Cloning requires a program-local source declaring the top entity')
     renames = {Path(f'{template}.toml'): Path(f'{name}.toml'),
                primary.relative_to(source): Path(f'{name}.vhdl'),
                primary_constraint.relative_to(source): Path(f'{name}_constraints.lpf'),

@@ -9,7 +9,8 @@ Run the tooling tests, HDL simulations, FOSS firmware builds and documentation c
    make docs
 
 ``make test`` runs the Python tooling tests with installed dependencies.
-Catalog-wide commands select programs from ``programs/<release_cycle>/catalog.toml``.
+Firmware catalog commands (``list``, ``build-all``, ``report`` and catalog netlist export) select programs from ``programs/<release_cycle>/catalog.toml``.
+Simulation and documentation discover all complete program manifests, including programs outside that catalog.
 ``target=uz_dslot_xo2`` or ``target=uz_s3c_xo2`` filters firmware builds, and backend selection respects each program's ``backends`` list.
 ``make generate`` registers completed generator projects in the catalog; unfinished starters are excluded.
 ``make check program=tx30`` validates a manifest and its input files, while ``make doctor backend=foss`` checks the FOSS tool installation.

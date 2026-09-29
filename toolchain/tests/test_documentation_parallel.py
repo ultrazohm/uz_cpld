@@ -6,7 +6,7 @@ import time
 import unittest
 from unittest.mock import patch
 
-from toolchain.analysis.documentation import generate
+from toolchain.analysis.documentation import generate, build_site
 from toolchain.buildsystem.model import BuildError, discover_programs
 
 
@@ -119,3 +119,35 @@ class DocumentationSchedulingTests(unittest.TestCase):
                 clean_all(root)
         with patch('toolchain.analysis.documentation.generate_program', worker):
             generate(self.root, jobs=1)
+
+    def test_site_lock_covers_rendering_and_validation(self):
+        from toolchain.buildsystem.workflow import clean_all
+
+        def assert_locked(*args, **kwargs):
+            for action in (lambda: clean_all(self.root),
+                           lambda: generate(self.root, jobs=1),
+                           lambda: build_site(self.root, jobs=1)):
+                with self.assertRaisesRegex(BuildError, 'already active'):
+                    action()
+            return 1
+
+        with patch('toolchain.analysis.documentation.generate_program'), \
+                patch('toolchain.analysis.documentation.subprocess.run', side_effect=assert_locked) as render, \
+                patch('toolchain.analysis.sitecheck.check', side_effect=assert_locked) as check:
+            output = build_site(self.root, jobs=1)
+        render.assert_called_once()
+        check.assert_called_once_with(output)
+        # Locks are released on completion, so cleanup is usable again.
+        clean_all(self.root)
+
+    def test_render_failure_releases_locks_without_site_validation(self):
+        import subprocess
+        from toolchain.buildsystem.workflow import clean_all
+        with patch('toolchain.analysis.documentation.generate_program'), \
+                patch('toolchain.analysis.documentation.subprocess.run',
+                      side_effect=subprocess.CalledProcessError(1, 'sphinx')), \
+                patch('toolchain.analysis.sitecheck.check') as check:
+            with self.assertRaises(subprocess.CalledProcessError):
+                build_site(self.root, jobs=1)
+            check.assert_not_called()
+        clean_all(self.root)

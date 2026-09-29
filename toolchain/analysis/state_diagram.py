@@ -10,7 +10,7 @@ from toolchain.buildsystem.workflow import digest, locked, safe_directory, write
 
 
 _TYPE = re.compile(r'\btype\s+(\w+)\s+is\s*\(([^()]*)\)\s*;', re.I)
-_BRANCH = re.compile(r'\bwhen\s+(\w+)\s*=>', re.I)
+_BRANCH = re.compile(r'\bwhen\s+([^;]*?)\s*=>', re.I | re.S)
 
 
 def _transitions(section, signal):
@@ -77,19 +77,37 @@ def extract_state_machines(source):
                 raise BuildError(f'Nested case statement in FSM {name} is unsupported')
             branches = list(_BRANCH.finditer(body))
             lookup = {state.lower(): state for state in states}
+            if len(branches) != len(re.findall(r'\bwhen\b', body, re.I)):
+                raise BuildError(f'Unsupported when expression in FSM {name}')
+            choices = []
+            named = set()
+            for index, branch in enumerate(branches):
+                origins = [value.strip().lower() for value in branch.group(1).split('|')]
+                if origins == ['others']:
+                    if index != len(branches) - 1:
+                        raise BuildError(f'others must be the last branch in FSM {name}')
+                else:
+                    for origin in origins:
+                        if origin not in lookup:
+                            raise BuildError(f'Unsupported state choice {origin!r} in FSM {name}')
+                        if origin in named:
+                            raise BuildError(f'Duplicate state {origin} in FSM {name}')
+                        named.add(origin)
+                choices.append(origins)
             edges = set()
             for index, branch in enumerate(branches):
-                origin = branch.group(1).lower()
-                if origin == 'others':
+                origins = choices[index]
+                if origins == ['others']:
+                    origins = [state for state in lookup if state not in named]
+                if not origins:
                     continue
-                if origin not in lookup:
-                    raise BuildError(f'Unknown state {branch.group(1)} in FSM {name}')
                 stop = branches[index + 1].start() if index + 1 < len(branches) else len(body)
                 section = body[branch.end():stop]
                 for target, condition in _transitions(section, name):
                     if target.lower() not in lookup:
                         raise BuildError(f'Unknown transition target {target} in FSM {name}')
-                    edges.add((lookup[origin], lookup[target.lower()], condition))
+                    for origin in origins:
+                        edges.add((lookup[origin], lookup[target.lower()], condition))
             if not branches:
                 raise BuildError(f'No state branches found in FSM {name}')
             # Calls to procedures that assign the state are not expanded by

@@ -37,6 +37,22 @@ Z#
 
 
 class AnalysisTests(unittest.TestCase):
+    def test_fsm_grouped_choices_and_others_have_correct_origins(self):
+        from toolchain.analysis.state_diagram import extract_state_machines
+        source = '''type state_type is (idle, run, wait_mode, done);
+signal state : state_type := idle;
+case state is
+when idle => state <= run;
+when run | wait_mode => state <= done;
+when others => state <= idle;
+end case;'''
+        edges = extract_state_machines(source)[0][3]
+        self.assertEqual(set(edges), {('idle', 'run', 'always'), ('run', 'done', 'always'),
+                                    ('wait_mode', 'done', 'always'), ('done', 'idle', 'always')})
+        for choice in ('run to wait_mode', 'run | others', 'run | run'):
+            with self.subTest(choice=choice), self.assertRaises(BuildError):
+                extract_state_machines(source.replace('run | wait_mode', choice))
+
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)

@@ -243,8 +243,11 @@ def main(argv=None) -> int:
                         help='Repeat once for each D-slot position 1 through 5')
     parser.add_argument('--s3c', help='Program for the separate S3C chain')
     parser.add_argument('--build', action='store_true', help='Rebuild selected Diamond programs before generating XCFs')
+    parser.add_argument('--probe-index', type=int, help='Diamond USB2 port number (FTUSB-N) for both exported chains')
     args = parser.parse_args(argv)
     try:
+        if args.probe_index is not None and args.probe_index < 0:
+            raise BuildError('--probe-index must be nonnegative')
         if args.selection:
             if args.slot or args.s3c:
                 raise BuildError('Use either --selection or all --slot/--s3c arguments')
@@ -258,7 +261,7 @@ def main(argv=None) -> int:
                 raise BuildError('Provide --s3c and all five --slot assignments, or --selection')
             slots, s3c = slot_assignments(args.slot or []), identifier(args.s3c)
         output = generate(args.root, slots, s3c, args.release_cycle, rebuild=args.build,
-                          build_backend=args.build_backend or 'diamond')
+                          build_backend=args.build_backend or 'diamond', port=args.probe_index)
     except (BuildError, ET.ParseError, OSError) as exc:
         parser.exit(2, f'programmer_helper: {exc}\n')
     print(output / 'dslots.xcf')

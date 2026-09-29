@@ -195,6 +195,44 @@ def program_backends(root: Path, name: str, release_cycle: str | None = None) ->
     return _declared_backends(read_toml(path), name)
 
 
+@dataclass(frozen=True)
+class OutputIdentity:
+    """A confined output location, independent of source/build readiness."""
+    root: Path
+    name: str
+    target: str
+    backend: str
+    release_cycle: str
+
+    @property
+    def directory(self) -> Path:
+        return self.root / 'programs' / self.release_cycle / self.name / 'build' / f'{self.target}_{self.backend}'
+
+
+def load_output(root: Path, name: str, target=None, backend=None, release_cycle=None) -> OutputIdentity:
+    """Resolve cleanup without requiring present sources or fresh generated files."""
+    root = root.resolve()
+    name, cycle = resolve_program(root, name, release_cycle)
+    expected = root / 'programs' / cycle / name / f'{name}.toml'
+    manifest = input_path(root, root, str(expected.relative_to(root)))
+    if manifest != expected:
+        raise BuildError('Program manifests and directories must not be symlinks')
+    data = read_toml(manifest)
+    if data.get('name') != name:
+        raise BuildError('Manifest name must match its directory')
+    targets = _declared_targets(data, name)
+    if target is None:
+        if len(targets) != 1:
+            raise BuildError(f'{name} has multiple targets; select one explicitly')
+        target = targets[0]
+    target = identifier(target)
+    target_data = read_toml(input_path(root, root, f'toolchain/targets/{target}/target.toml'))
+    backend = backend or target_data.get('backend')
+    if backend not in ('diamond', 'foss'):
+        raise BuildError(f'Unimplemented backend: {backend}')
+    return OutputIdentity(root, name, target, backend, cycle)
+
+
 def _declared_backends(data: dict, name: str) -> list[str]:
     backends = strings(data.get('backends', ['diamond', 'foss']), f'{name}.backends')
     if not backends or any(value not in ('diamond', 'foss') for value in backends):
@@ -252,8 +290,12 @@ def load_build(root: Path, name: str, target: str | None = None, backend: str | 
     generator_inputs = ()
     if 'generator' in p:
         from cpld_vhdl_generator.generator import check, dependencies, source_entries, GeneratorError, RECEIPT, PACKAGE
+        if p['generator'] != 'generator.toml':
+            raise BuildError('Repository generator must be program-local generator.toml')
         config_path = input_path(root, pm.parent, p['generator'])
         generation_output = sources[-1].path.parent
+        if config_path != pm.parent / 'generator.toml' or generation_output != pm.parent:
+            raise BuildError('Repository generator configuration and outputs must be program-local')
         try:
             generated = check(config_path, generation_output)
         except (GeneratorError, OSError) as exc:

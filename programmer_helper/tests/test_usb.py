@@ -131,6 +131,7 @@ class USBTests(unittest.TestCase):
                             ('fake-diamond', str(xcf), '<run-log>'))
         with patch.object(program, 'locked', return_value=nullcontext()), \
                 patch.object(program, 'verified_firmware'), \
+                patch.object(program, 'verify_diamond_plan'), \
                 patch.object(program, 'run_command', return_value='success') as run:
             result = program.execute(self.root, 'original', 'dslots', 'diamond', self.root,
                                      [('slot1', 0, build)], [step], None, None)

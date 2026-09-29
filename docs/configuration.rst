@@ -21,7 +21,10 @@ Top-level ports cannot be blacklisted, and the file is included in firmware prov
 An optional ``backends`` list limits firmware exports to ``diamond`` and/or ``foss``.
 Omitted lists permit both.
 ``testbench`` must name the program-local ``<name>_tb.py`` file; manifest validation checks its existence but does not run it.
-An optional ``generator`` path selects a standalone generator configuration and requires fresh emitted VHDL and provenance before builds, simulation, or documentation.
+Set the optional field ``generator = "generator.toml"`` for a repository-managed generated program.
+Its configuration, generated top-level VHDL and generation receipt must live directly in the program directory.
+Builds, simulation and documentation require fresh generated files.
+The standalone generator accepts explicit configuration and output paths independently of this repository layout.
 Configurations with ``target = "uz_dslot_xo2"`` also generate the program manifest, testbench and constraints, and freshness checks cover all these files.
 Generated programs use VHDL-1993 and list sources in the order and libraries recorded by ``generator-output.json``.
 The shared S3C entity and selected architecture use library ``s3c``; the generated top level uses library ``work``.

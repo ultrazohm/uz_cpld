@@ -86,7 +86,7 @@ list check report generate:
 	$(python) -m toolchain.buildsystem $@ $(args)
 programmer:
 ifeq ($(programmer_action),lattice_xcf)
-	$(programmer_python) -m programmer_helper $(release_args) $(programmer_build_args) --selection $(call quote,$(if $(selection),$(selection),selection.toml)) $(if $(filter 1,$(rebuild)),--build)
+	$(programmer_python) -m programmer_helper $(release_args) $(programmer_build_args) --selection $(call quote,$(if $(selection),$(selection),selection.toml)) $(if $(probe_index),--probe-index $(call quote,$(probe_index))) $(if $(filter 1,$(rebuild)),--build)
 else ifneq ($(programmer_action),)
 	$(programmer_cli) $(programmer_action) $(if $(target),--target $(call quote,$(target))) $(programmer_options) $(if $(filter 1,$(dry_run)),,$(if $(filter 0,$(execute)),,--execute))
 else
@@ -157,7 +157,5 @@ netlist-local:
 	$(python) -m toolchain.analysis.netlist $(release_args) $(if $(target),--target $(call quote,$(target))) $(if $(program),--program $(call quote,$(program)))
 docs-assets-local:
 	$(python) -m toolchain.analysis.documentation $(release_args) --jobs $(call quote,$(jobs))
-docs-local: docs-assets-local
-	$(python) -m toolchain.analysis.sitecheck --clean docs/_build/html
-	LC_ALL=C.UTF-8 $(python) -m sphinx -W --keep-going -b html docs docs/_build/html
-	$(python) -m toolchain.analysis.sitecheck docs/_build/html
+docs-local:
+	$(python) -m toolchain.analysis.documentation $(release_args) --jobs $(call quote,$(jobs)) --build-site

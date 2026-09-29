@@ -27,6 +27,48 @@ class FrontendTests(unittest.TestCase):
         (self.root / 'programs/releases.toml').write_text('current = "original"\n')
         self.build = load_build(self.root, 'tx30')
 
+    def test_clean_works_with_stale_generator_and_missing_sources(self):
+        generated = load_build(self.root, 'cvg_tx30_stateful')
+        generated.directory.mkdir(parents=True)
+        other = generated.build_root / 'simulation'
+        other.mkdir()
+        routing = generated.manifests[0].parent / 'routing.csv'
+        routing.write_text(routing.read_text().replace('d_00,fpga_00,0', 'd_00,fpga_01,0'))
+        self.assertEqual(cli_main(['clean', '--root', str(self.root), '--program', generated.name]), 0)
+        self.assertFalse(generated.directory.exists())
+        self.assertTrue(other.is_dir())
+        self.build.directory.mkdir(parents=True)
+        project = self.build.directory / 'project'
+        project.mkdir()
+        (project / 'edited.sty').write_text('unrecorded GUI change')
+        self.build.sources[0].path.unlink()
+        args = ['clean', '--root', str(self.root), '--program', 'tx30']
+        self.assertEqual(cli_main(args), 1)
+        self.assertTrue(project.is_dir())
+        self.assertEqual(cli_main(args + ['--discard-project-changes']), 0)
+        self.assertFalse(self.build.directory.exists())
+
+    def test_handwritten_clone_keeps_shared_sources_in_both_cycles(self):
+        from toolchain.buildsystem.releases import create
+        source = self.root / 'programs/original/cvg_tx30_stateful'
+        manifest = source / 'cvg_tx30_stateful.toml'
+        manifest.write_text(manifest.read_text().replace('generator = "generator.toml"\n', ''))
+        create(self.root, 'next')
+        for cycle in ('original', 'next'):
+            clone = workflow.scaffold(self.root, 'manual_copy', 'cvg_tx30_stateful',
+                                      release_cycle=cycle, template_release_cycle='original')
+            build = load_build(self.root, 'manual_copy', release_cycle=cycle)
+            self.assertEqual([s.library for s in build.sources], ['s3c', 's3c', 'work'])
+            self.assertEqual([s.path for s in build.sources[:2]],
+                             [self.root / 'xo2_library/s3c/s3c_logic.vhdl',
+                              self.root / 'xo2_library/s3c/level_signals.vhdl'])
+            self.assertEqual(build.sources[-1].path, clone / 'manual_copy.vhdl')
+            self.assertFalse((clone / 's3c_logic.vhdl').exists())
+            shared = build.sources[0].path
+            before = workflow.hashes(build)
+            shared.write_text(shared.read_text() + '\n-- shared change\n')
+            self.assertNotEqual(before, workflow.hashes(build))
+
     def test_scaffold_respects_workspace_lock(self):
         with workflow.locked(self.build):
             with self.assertRaisesRegex(BuildError, 'already active'):

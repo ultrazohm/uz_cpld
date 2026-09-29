@@ -28,6 +28,7 @@ For a handwritten program under ``programs/<cycle>/<name>/``, include these entr
 Use the normal manifest fields for your top level, target, constraints and testbench.
 A handwritten program needs no ``generator`` field, routing CSV, generator configuration or generation receipt.
 The build system hashes shared sources like other HDL inputs, so changes invalidate existing firmware evidence.
+``make new name=my_copy template=my_program`` preserves these shared references when cloning a handwritten program, including across release cycles.
 
 In the handwritten top level, declare ``library s3c;`` and instantiate the controller:
 

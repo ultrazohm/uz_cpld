@@ -46,10 +46,12 @@ Edit the cloned VHDL, LPF, cocotb testbench and optional ``description.rst``, th
 For an S3C program, use ``template=s3c_toolchain_test_program``; its starter logic holds carrier power and slot output enables inactive.
 Cloning copies the selected program's current files, preserves entity names and libraries, and excludes generated ``build/`` directories and Python caches.
 The source declaring the top entity in library ``work`` becomes ``<name>.vhdl``; its original filename can differ from the template name.
-Cloning requires program-local inputs and no authored symlinks, and refuses an existing destination.
-Generated templates require program-local generator configuration and routing CSV files.
+Cloning requires a program-local top-level source, constraints and testbench, and no authored symlinks, and refuses an existing destination.
+Shared HDL references, including ``xo2_library``, remain shared for both handwritten and generated programs; they are resolved relative to the clone without copying the library.
+Generated templates require program-local ``generator.toml`` and routing CSV files.
 The shared S3C HDL and selected contract retain their configured locations.
-A clone is independent of its source and is added to ``programs/<release_cycle>/catalog.toml`` after its manifest validates.
+A clone owns its local files and continues to use the shared dependencies declared by the template.
+It is added to ``programs/<release_cycle>/catalog.toml`` after its manifest validates.
 Catalog registration includes the program in ``build-all``, netlist export and firmware CI for the selected cycle.
 Simulation and documentation discover complete program manifests independently of catalog membership.
 Documentation groups program manifests by release cycle, including programs created outside ``make new``.
@@ -84,6 +86,7 @@ Transfer useful project/strategy changes into manifests or the target strategy b
 ``gui`` preserves an existing project, while ``project``, ``build`` and ordinary ``clean`` reject edited generated settings.
 After preserving useful changes, ``make clean program=tx30 discard_project_changes=1`` explicitly discards them.
 ``clean`` removes only the selected backend firmware directory and preserves simulation, netlist and shared lock files in ``toolchain/build/locks/``.
+Cleanup does not require fresh generated VHDL or present HDL input files; it still validates the output location, obtains the build lock and protects edited generated project settings.
 Build, GUI, simulation and netlist operations use advisory locks in ``toolchain/build/locks/`` to prevent concurrent changes to one program; independently launched GUI sessions cannot honor them and must be closed before a build.
 
 Remove all generated files

@@ -23,6 +23,65 @@ SLOTS = {1: 'rx30', 2: 'tx30', 3: 'tx30',
 
 
 class ProgrammerHelperTests(unittest.TestCase):
+    def test_xcf_export_honors_probe_index_for_both_chains(self):
+        selection = self.root / 'selection.toml'
+        selection.write_text('s3c="s3c_power_on_debounce"\n[slots]\n' +
+                             ''.join(f'"{i}"="tx30"\n' for i in range(1, 6)))
+        self.assertEqual(project_main(['--root', str(self.root), '--selection', str(selection),
+                                       '--probe-index', '3']), 0)
+        for chain in ('s3c', 'dslots'):
+            xcf = self.root / 'toolchain/build/programmer/original' / f'{chain}.xcf'
+            self.assertEqual(ET.parse(xcf).findtext('./CableOptions/PortAdd'), 'FTUSB-3')
+
+    def test_diamond_plans_are_private_and_preserve_each_selection(self):
+        selection = self.root / 'selection.toml'
+        plans = []
+        for name in ('tx30', 'rx30'):
+            selection.write_text('[slots]\n' + ''.join(f'"{i}"="{name}"\n' for i in range(1, 6)))
+            plans.append(plan(self.root, selection, None, 'dslots', 'diamond', None, None))
+        self.assertNotEqual(plans[0][1], plans[1][1])
+        # Stable exports must not overwrite either execution plan.
+        generate(self.root, {i: 'rx30' for i in range(1, 6)}, '', chain='dslots')
+        for expected, (cycle, output, builds, steps) in zip(('tx30', 'rx30'), plans):
+            step = steps[0]
+            self.assertEqual([b.name for _, _, b in builds], [expected] * 5)
+            self.assertEqual([f.source for f in step.firmware], [b.firmware_path('jed') for _, _, b in builds])
+            self.assertEqual([Path(d.findtext('File')) for d in ET.parse(step.artifact).findall('./Chain/Device')],
+                             [f.artifact for f in step.firmware])
+            with patch.object(programmer, 'run_diamond', return_value='mock') as run:
+                programmer.execute(self.root, cycle, 'dslots', 'diamond', output, builds, steps, None, None)
+                run.assert_called_once()
+
+    def test_diamond_rejects_rebuild_and_snapshot_changes_before_hardware(self):
+        selection = self.root / 'selection.toml'
+        selection.write_text('s3c="s3c_power_on_debounce"\n')
+        for changed in ('publication', 'snapshot'):
+            cycle, output, builds, steps = plan(self.root, selection, None, 's3c', 'diamond', None, None)
+            build = builds[0][2]
+            path = build.firmware_path('jed') if changed == 'publication' else steps[0].firmware[0].artifact
+            path.write_bytes(path.read_bytes().replace(b'C1234', b'C4321'))
+            if changed == 'publication':
+                record_path = build.directory / 'metadata/build.json'
+                record = json.loads(record_path.read_text())
+                record['outputs'][path.name] = digest(path)
+                record_path.write_text(json.dumps(record))
+            with patch.object(programmer, 'run_diamond') as run:
+                with self.assertRaisesRegex(BuildError, 'changed since planning'):
+                    programmer.execute(self.root, cycle, 's3c', 'diamond', output, builds, steps, None, None)
+                run.assert_not_called()
+            self.publish('original', 's3c_power_on_debounce')
+
+    def test_diamond_rejects_other_selections_plan_before_hardware(self):
+        selection = self.root / 'selection.toml'
+        selection.write_text('[slots]\n' + ''.join(f'"{i}"="tx30"\n' for i in range(1, 6)))
+        cycle, output, builds, _ = plan(self.root, selection, None, 'dslots', 'diamond', None, None)
+        selection.write_text(selection.read_text().replace('tx30', 'rx30'))
+        _, _, _, other_steps = plan(self.root, selection, None, 'dslots', 'diamond', None, None)
+        with patch.object(programmer, 'run_diamond') as run:
+            with self.assertRaisesRegex(BuildError, 'does not match the requested selection'):
+                programmer.execute(self.root, cycle, 'dslots', 'diamond', output, builds, other_steps, None, None)
+            run.assert_not_called()
+
     def setUp(self):
         temporary = tempfile.TemporaryDirectory(prefix='cpld programmer ')
         self.addCleanup(temporary.cleanup)

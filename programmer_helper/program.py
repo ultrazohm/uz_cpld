@@ -11,12 +11,13 @@ import shlex
 import shutil
 import subprocess
 import sys
+import tempfile
 import xml.etree.ElementTree as ET
 
 from toolchain.buildsystem.model import BuildError, load_build, resolve_release
-from toolchain.buildsystem.workflow import digest, locked, write_json
-from .helper import (DEFAULT_DIAMOND_PORT, SLOT_TEMPLATE, S3C_TEMPLATE, generate,
-                     read_selection, verified_firmware)
+from toolchain.buildsystem.workflow import digest, locked, safe_directory, write_json
+from .helper import (DEFAULT_DIAMOND_PORT, SLOT_TEMPLATE, S3C_TEMPLATE, render_xcf,
+                     jedec_metadata, read_selection, verified_firmware)
 from .usb import diamond_usb
 
 
@@ -26,12 +27,23 @@ DEFAULT_FOSS_PROBE_INDEX = 0
 
 
 @dataclass(frozen=True)
+class FirmwareSnapshot:
+    label: str
+    index: int
+    source: Path
+    artifact: Path
+    sha256: str
+
+
+@dataclass(frozen=True)
 class Step:
     label: str
     build: object
     artifact: Path
     sha256: str
     command: tuple[str, ...]
+    firmware: tuple[FirmwareSnapshot, ...] = ()
+    port: int | None = None
 
 
 def create_selection(destination: Path):
@@ -196,6 +208,79 @@ def selected_chain_builds(root: Path, cycle: str, slots: dict[int, str], s3c: st
     return [('s3c', 0, load_build(root, s3c, 'uz_s3c_xo2', backend, cycle))]
 
 
+def verify_diamond_plan(step, builds, current):
+    """Bind the XCF, snapshot bytes and fresh builds to the requested positions."""
+    expected = [(label, index, build.firmware_path('jed')) for label, index, build in builds]
+    if [(f.label, f.index, f.source) for f in step.firmware] != expected:
+        raise BuildError('Programming plan does not match the requested selection')
+    if step.artifact.is_symlink() or not step.artifact.is_file() or digest(step.artifact) != step.sha256:
+        raise BuildError('Generated XCF changed before programming')
+    tree = ET.parse(step.artifact)
+    devices = tree.findall('./Chain/Device')
+    if len(devices) != len(expected) or tree.findtext('./CableOptions/PortAdd') != f'FTUSB-{step.port}':
+        raise BuildError('Programming plan has a different chain or USB port')
+    for device, firmware in zip(devices, step.firmware):
+        if current[firmware.label] != (firmware.source, firmware.sha256):
+            raise BuildError(f'{firmware.label}: firmware changed since planning; create a new plan')
+        snapshot = step.artifact.parent / 'firmware' / f'{firmware.label}.jed'
+        if (firmware.artifact != snapshot or snapshot.is_symlink() or
+                snapshot.resolve() != snapshot or not snapshot.is_file() or digest(snapshot) != firmware.sha256):
+            raise BuildError(f'{firmware.label}: firmware snapshot changed since planning')
+        checksum, usercode = jedec_metadata(snapshot)
+        device_name, idcode = (('LCMXO2-4000HC', '0x012bc043') if firmware.label == 's3c'
+                              else ('LCMXO2-2000HC', '0x012bb043'))
+        fields = {'Pos': str(firmware.index + 1), 'File': str(snapshot),
+                  'Name': device_name, 'IDCode': idcode,
+                  'JedecChecksum': f'0x{checksum}', 'Option/Usercode': f'0x{usercode}',
+                  'Operation': 'FLASH Erase,Program,Verify'}
+        if (any(device.findtext(key, '').lower() != value.lower() if key == 'IDCode'
+                else device.findtext(key) != value for key, value in fields.items()) or
+                device.find('SelectedProg') is None or device.find('SelectedProg').get('value') != 'TRUE'):
+            raise BuildError(f'{firmware.label}: XCF does not match the planned firmware and position')
+
+
+def diamond_plan(root, cycle, chain, builds, probe_index):
+    """Create private execution inputs while holding all selected build locks."""
+    port = DEFAULT_DIAMOND_PORT if probe_index is None else probe_index
+    unique = {build.directory: build for _, _, build in builds}
+    with ExitStack() as stack:
+        for build in sorted(unique.values(), key=lambda item: str(item.directory)):
+            stack.enter_context(locked(build))
+        current = {label: verified_firmware(build, 'jed') for label, _, build in builds}
+        base = safe_directory(builds[0][2], root / 'toolchain/build/programmer' / cycle / chain / 'plans')
+        base.mkdir(parents=True, exist_ok=True)
+        output = Path(tempfile.mkdtemp(prefix='plan-', dir=base))
+        try:
+            (output / 'firmware').mkdir()
+            firmware = []
+            for label, index, _ in builds:
+                source, sha256 = current[label]
+                snapshot = output / 'firmware' / f'{label}.jed'
+                shutil.copy2(source, snapshot)
+                firmware.append(FirmwareSnapshot(label, index, source, snapshot, sha256))
+            template = root / (S3C_TEMPLATE if chain == 's3c' else SLOT_TEMPLATE)
+            device, idcode = (('LCMXO2-4000HC', '0x012bc043') if chain == 's3c'
+                              else ('LCMXO2-2000HC', '0x012bb043'))
+            xcf = output / f'{chain}.xcf'
+            xcf.write_bytes(render_xcf(template, {f.index + 1: f.artifact for f in firmware},
+                                      device_name=device, idcode=idcode, port=port))
+            command = ('bash', str(root / 'programmer_helper/diamond_program.sh'), str(xcf), '<run-log>')
+            step = Step(chain, builds[0][2], xcf, digest(xcf), command, tuple(firmware), port)
+            verify_diamond_plan(step, builds, current)
+            write_json(output / 'selection.json', {
+                'release_cycle': cycle, 'programmer_backend': 'diamond', 'build_backend': 'diamond',
+                'programs': {label: build.name for label, _, build in builds}, 'port': port,
+                'firmware_sha256': {f.label: f.sha256 for f in firmware},
+                'firmware': [{'label': f.label, 'index': f.index, 'source': str(f.source),
+                              'snapshot': str(f.artifact), 'sha256': f.sha256} for f in firmware],
+                'xcf_sha256': {xcf.name: step.sha256}, 'template_sha256': digest(template),
+            })
+        except BaseException:
+            shutil.rmtree(output)
+            raise
+    return output, [step]
+
+
 def plan(root: Path, selection: Path, cycle_name: str | None, chain: str, programmer_backend: str,
          cable: str | None, serial: str | None, probe_index: int | None = None,
          *, build_backend: str | None = None):
@@ -211,14 +296,7 @@ def plan(root: Path, selection: Path, cycle_name: str | None, chain: str, progra
     cycle = resolve_release(root, cycle_name if cycle_name is not None else selection_release)
     builds = selected_chain_builds(root, cycle, slots, s3c, chain, build_backend)
     if programmer_backend == 'diamond':
-        output = generate(root, slots, s3c, cycle, chain=chain, port=probe_index,
-                          build_backend=build_backend)
-        xcf = output / ('dslots.xcf' if chain == 'dslots' else 's3c.xcf')
-        receipt = json.loads((output / 'selection.json').read_text())
-        if digest(xcf) != receipt['xcf_sha256'][xcf.name]:
-            raise BuildError(f'Generated XCF changed: {xcf}')
-        command = ('bash', str(root / 'programmer_helper/diamond_program.sh'), str(xcf), '<run-log>')
-        steps = [Step(chain, builds[0][2], xcf, digest(xcf), command)]
+        output, steps = diamond_plan(root, cycle, chain, builds, probe_index)
     else:
         output = root / 'toolchain/build/programmer' / cycle
         steps = []
@@ -242,16 +320,18 @@ def execute(root: Path, cycle: str, chain: str, programmer_backend: str, output:
     with ExitStack() as stack:
         for build in sorted(unique.values(), key=lambda item: str(item.directory)):
             stack.enter_context(locked(build))
+        current = {}
         for label, _, build in builds:
             extension = 'jed' if build.backend == 'diamond' else 'bit'
-            verified_firmware(build, extension)
+            current[label] = verified_firmware(build, extension)
         if programmer_backend == 'foss':
             for step in steps:
                 if not step.artifact.is_file() or digest(step.artifact) != step.sha256:
                     raise BuildError(f'Firmware changed since planning: {step.artifact}')
         if programmer_backend == 'diamond':
-            if not steps[0].artifact.is_file() or digest(steps[0].artifact) != steps[0].sha256:
-                raise BuildError('Generated XCF changed before programming')
+            if len(steps) != 1:
+                raise BuildError('Diamond programming requires exactly one chain plan')
+            verify_diamond_plan(steps[0], builds, current)
         run_dir.mkdir(parents=True)
         record = {'release_cycle': cycle, 'chain': chain, 'programmer_backend': programmer_backend, 'mode': 'flash',
                   'build_backend': builds[0][2].backend,
@@ -273,6 +353,8 @@ def execute(root: Path, cycle: str, chain: str, programmer_backend: str, output:
                     run_command(command, log)
                 record['steps'].append({'label': step.label, 'artifact': str(step.artifact),
                                         'sha256': step.sha256, 'command': list(command),
+                                        'firmware': [{'label': f.label, 'snapshot': str(f.artifact),
+                                                      'sha256': f.sha256} for f in step.firmware],
                                         'log': str(log)})
                 write_json(run_dir / 'result.json', record)
             record['status'] = 'success'

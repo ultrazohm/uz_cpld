@@ -1,8 +1,10 @@
 """Generate program pages from fresh RTL schematics and passing simulations."""
 import argparse
+from contextlib import contextmanager
 from concurrent.futures import ProcessPoolExecutor, as_completed
 import multiprocessing
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -21,13 +23,37 @@ def generate(root=ROOT, jobs=4, release_cycle=None):
     if jobs < 1:
         raise BuildError('jobs must be a positive integer')
     root = Path(root).resolve()
+    with documentation_lock(root):
+        return _generate(root, jobs, release_cycle)
+
+
+@contextmanager
+def documentation_lock(root):
+    """Protect documentation inputs and outputs through the entire operation."""
     with workspace_lock(root):
         docs = root / 'docs'
         if docs.is_symlink():
             raise BuildError('Documentation directory must not be a symlink')
         docs.mkdir(exist_ok=True)
         with workspace_lock(docs, exclusive=True):
-            return _generate(root, jobs, release_cycle)
+            yield
+
+
+def build_site(root=ROOT, jobs=4, release_cycle=None):
+    """Generate, render and validate a site under one documentation lock."""
+    from . import sitecheck
+    if jobs < 1:
+        raise BuildError('jobs must be a positive integer')
+    root = Path(root).resolve()
+    with documentation_lock(root):
+        _generate(root, jobs, release_cycle)
+        output = root / 'docs/_build/html'
+        sitecheck.clean(output)
+        subprocess.run([sys.executable, '-m', 'sphinx', '-W', '--keep-going',
+                        '-b', 'html', 'docs', 'docs/_build/html'],
+                       cwd=root, env={**os.environ, 'LC_ALL': 'C.UTF-8'}, check=True)
+        print(f'Pages site verified: {sitecheck.check(output)} HTML files')
+        return output
 
 
 def _generate(root, jobs, release_cycle):
@@ -202,9 +228,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--jobs", type=int, default=4, help="Concurrent programs (default: 4; 1 for sequential)")
     parser.add_argument("--release-cycle", "--release_cycle", dest="release_cycle", help="Limit documentation to one cycle; default: all cycles")
+    parser.add_argument('--build-site', action='store_true', help='Also render and validate HTML under the same lock')
     args = parser.parse_args()
     try:
-        print(generate(jobs=args.jobs, release_cycle=args.release_cycle))
+        action = build_site if args.build_site else generate
+        print(action(jobs=args.jobs, release_cycle=args.release_cycle))
     except (BuildError, OSError, ValueError, subprocess.CalledProcessError) as exc:
         print(f'Program documentation failed: {exc}', file=sys.stderr)
         return 1

@@ -12,6 +12,27 @@ from xo2_library import S3C_DIRECTORY
 
 
 class GeneratorTests(unittest.TestCase):
+    def test_toml_roundtrip_unicode_and_quoted_keys(self):
+        data = {'key with spaces': 'shared_🚀/logic.vhdl', 'nested': {'a.b': True},
+                'list': [3, 1.25, 'line\n"quoted"\\path\x7f']}
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'roundtrip.toml'
+            path.write_text(dumps(data))
+            self.assertEqual(read_toml(path), data)
+        for value in (None, float('nan'), float('inf'), object()):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                dumps({'value': value})
+
+    def test_project_generation_accepts_unicode_shared_source_paths(self):
+        library = self.root / 'shared_🚀'
+        shutil.copytree(S3C_DIRECTORY, library)
+        self.config.write_text(self.config.read_text().replace('clock = "external"', 'clock = "machxo2"') +
+                               'target = "uz_dslot_xo2"\ns3c_library = "shared_🚀"\n')
+        generate(self.config, self.output)
+        manifest = read_toml(self.output / 'cvg_example.toml')
+        self.assertEqual(manifest['sources'][0]['path'], 'shared_🚀/s3c_logic.vhdl')
+        check(self.config, self.output)
+
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory(prefix='generator test ')
         self.addCleanup(self.tmp.cleanup)

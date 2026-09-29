@@ -6,11 +6,12 @@ Local build
 
 ::
 
-   make docs
+   make image  # On a host; the configured Dev Container already has its tools.
+   make docs release_cycle=all
 
-The host command builds the ``toolchain`` image and runs simulation, netlist analysis and Sphinx inside it without a Diamond installation, license mount or host networking.
+The host command uses the image created by ``make image`` and runs simulation, netlist analysis and Sphinx inside it without a Diamond installation, license mount or host networking.
 Inside a Dev Container, the command uses installed tools directly.
-``make docs-local`` uses installed tools directly.
+``make docs runner=local`` uses installed tools directly.
 Dependencies come from ``docs/requirements.txt`` and its referenced files in both the image and native setup.
 
 The complete site is ``docs/_build/html/``; it includes SVGs, PDFs, VCD downloads and self-contained waveform HTML.

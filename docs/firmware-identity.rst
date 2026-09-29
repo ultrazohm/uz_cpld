@@ -3,8 +3,8 @@ Firmware identity and USERCODE
 
 Read the firmware currently reported by each device without erasing or programming it::
 
-   make programmer identify target=dslot
-   make programmer identify target=s3c
+   make identify target=dslot
+   make identify target=s3c
 
 These commands read the device IDCODE, 32-bit USERCODE and 64-bit TraceID over JTAG.
 They resolve the USERCODE through the tracked ``programs/usercodes.json`` registry and print the program, release cycle and build revision.
@@ -89,7 +89,7 @@ The supported reader wiring is the UltraZohm FT4232 channel B at 1 MHz: Diamond 
 For multiple probes, the FOSS interface accepts ``usb_serial=SERIAL``; an ambiguous unselected probe is rejected.
 Other cable types or probe-index mappings require extending the reader and are rejected before managed programming starts.
 Managed FOSS programming requires the pinned USERCODE-capable openFPGALoader build included in the toolchain image.
-On a native host, ``make flasher`` builds it under ``toolchain/build/openfpgaloader/`` (requires a C++ compiler, CMake, pkg-config, patch, libftdi1/libusb development headers and zlib).
+On a native host, ``make flasher-build`` builds it under ``toolchain/build/openfpgaloader/`` (requires a C++ compiler, CMake, pkg-config, patch, libftdi1/libusb development headers and zlib).
 This command builds the programming executable only; it does not build CPLD firmware, access USB or program a device.
 The managed loader selection prefers that local build, then the image's ``FOSS_ROOT/native/openfpgaloader/`` installation; ``CPLD_OPENFPGALOADER`` can select another verified installation.
 The wrapper checks the binary and patch provenance and parses every selected input before accessing USB.
@@ -110,7 +110,7 @@ Concurrent installers serialize publication of the binary and receipt.
 
 The Docker builder stage runs this automatically and copies the installation into the runtime image.
 Rebuilding the image reapplies the patch and recompiles when the source pin or patch changes; unchanged inputs can reuse Docker's cached layer.
-No manual ``make flasher`` step is needed in a fresh container.
+No manual ``make flasher-build`` step is needed in a fresh container.
 The runtime lacks the compiler/development headers from the builder stage; use a container rebuild to update its bundled loader.
 
 The selection order is ``CPLD_OPENFPGALOADER``, then the workspace installation, then the container installation.

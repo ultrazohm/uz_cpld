@@ -67,6 +67,26 @@ class DocumentationSchedulingTests(unittest.TestCase):
             generate(self.root, jobs=0)
         self.assertTrue(sentinel.exists())
 
+    def test_program_and_target_filters_reach_workers(self):
+        for name, target in [('alpha', 'uz_dslot_xo2'), ('zeta', 'uz_s3c_xo2')]:
+            (self.root / f'programs/original/{name}/{name}.toml').write_text(f'targets = ["{target}"]\n')
+        with patch('toolchain.analysis.documentation.generate_program') as worker:
+            generate(self.root, jobs=1, target='uz_dslot_xo2')
+        self.assertEqual([call.args[2] for call in worker.call_args_list], ['original/alpha'])
+        self.assertEqual(worker.call_args.kwargs, {'target': 'uz_dslot_xo2'})
+        with patch('toolchain.analysis.documentation.generate_program') as worker:
+            generate(self.root, jobs=1, program='zeta')
+        self.assertEqual([call.args[2] for call in worker.call_args_list], ['original/zeta'])
+
+    def test_empty_explicit_filter_preserves_assets(self):
+        generated = self.root / 'docs/_generated'
+        generated.mkdir(parents=True)
+        sentinel = generated / 'sentinel'
+        sentinel.touch()
+        with self.assertRaisesRegex(BuildError, 'No complete programs'):
+            generate(self.root, jobs=1, program='missing')
+        self.assertTrue(sentinel.exists())
+
     def test_one_worker_runs_programs_in_order(self):
         with patch('toolchain.analysis.documentation.generate_program') as worker:
             generate(self.root, jobs=1)
@@ -83,7 +103,7 @@ class DocumentationSchedulingTests(unittest.TestCase):
         (empty / 'catalog.toml').write_text('programs = []\n')
         (empty / 'description.rst').write_text('Planned cycle without firmware yet.\n')
         with patch('toolchain.analysis.documentation.generate_program') as worker:
-            pages = generate(self.root, jobs=1)
+            pages = generate(self.root, jobs=1, release_cycle='all')
         self.assertEqual([call.args[2] for call in worker.call_args_list],
                          ['next/alpha', 'original/alpha', 'original/zeta'])
         index = (pages / 'index.rst').read_text()

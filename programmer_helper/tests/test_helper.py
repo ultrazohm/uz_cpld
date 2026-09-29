@@ -233,7 +233,7 @@ class ProgrammerHelperTests(unittest.TestCase):
             for chain in ('s3c', 'dslots'):
                 with self.subTest(backend=backend, chain=chain):
                     selection = self.write_backend_selection(backend, chain)
-                    cycle, _, builds, steps = plan(self.root, selection, None, chain, 'foss', None, None)
+                    cycle, _, builds, steps = plan(self.root, selection, None, chain, 'foss', None, None, build_backend=backend)
                     self.assertEqual(cycle, 'old')
                     self.assertEqual(len(steps), 1 if chain == 's3c' else 5)
                     for step, (_, index, build) in zip(steps, builds):
@@ -249,6 +249,8 @@ class ProgrammerHelperTests(unittest.TestCase):
         selection = self.write_backend_selection('foss')
         _, _, builds, _ = plan(self.root, selection, None, 'dslots', 'foss', None, None,
                                 build_backend='diamond')
+        self.assertTrue(all(build.backend == 'diamond' for _, _, build in builds))
+        _, _, builds, _ = plan(self.root, selection, None, 'dslots', 'foss', None, None)
         self.assertTrue(all(build.backend == 'diamond' for _, _, build in builds))
         selection.write_text(selection.read_text().replace('build_backend = "foss"\n', ''))
         _, _, builds, _ = plan(self.root, selection, None, 'dslots', 'foss', None, None)
@@ -268,11 +270,11 @@ class ProgrammerHelperTests(unittest.TestCase):
     def test_diamond_rejects_foss_builds_and_xcf_honors_override(self):
         selection = self.write_backend_selection('foss')
         with self.assertRaisesRegex(BuildError, 'requires Diamond JEDEC'):
-            plan(self.root, selection, None, 'dslots', 'diamond', None, None)
+            plan(self.root, selection, None, 'dslots', 'diamond', None, None, build_backend='foss')
         selection.write_text(selection.read_text().replace('[slots]',
                              's3c = "s3c_power_on_debounce"\n[slots]'))
         with self.assertRaises(SystemExit) as error:
-            project_main(['--root', str(self.root), '--selection', str(selection)])
+            project_main(['--root', str(self.root), '--selection', str(selection), '--build-backend', 'foss'])
         self.assertEqual(error.exception.code, 2)
         self.assertFalse((self.root / 'toolchain/build/programmer').exists())
         self.assertEqual(project_main(['--root', str(self.root), '--selection', str(selection),
@@ -289,7 +291,7 @@ class ProgrammerHelperTests(unittest.TestCase):
                 selection = self.write_backend_selection(backend)
                 with patch.object(programmer, 'loader_path', return_value=Path(__file__)), \
                         patch.object(programmer, 'run_command', return_value=scan) as run:
-                    cycle, output, builds, steps = plan(self.root, selection, None, 'dslots', 'foss', None, None)
+                    cycle, output, builds, steps = plan(self.root, selection, None, 'dslots', 'foss', None, None, build_backend=backend)
                     result = programmer.execute(self.root, cycle, 'dslots', 'foss', output,
                                                 builds, steps, None, None)
                 self.assertEqual(run.call_count, 6)
@@ -314,7 +316,7 @@ class ProgrammerHelperTests(unittest.TestCase):
                         patch.object(programmer, 'run_diamond', return_value='success') as diamond:
                     self.assertEqual(programmer.main([
                         'program', '--root', str(self.root), '--selection', str(selection),
-                        '--target', 's3c', '--programmer-backend', programmer_backend, '--execute',
+                        '--target', 's3c', '--programmer-backend', programmer_backend, '--build-backend', build_backend, '--execute',
                     ]), 0)
                 if programmer_backend == 'diamond':
                     diamond.assert_called_once()

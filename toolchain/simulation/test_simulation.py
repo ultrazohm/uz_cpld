@@ -24,7 +24,7 @@ def test_routing(program, request):
     ``request`` supplies the seed and waveform format from command-line options.
     Results are written beneath ``programs/<release_cycle>/<program>/build/simulation``.
     """
-    build = load_build(ROOT, program)
+    build = load_build(ROOT, program, request.config.getoption('--target'))
     with locked(build):
         run_simulation(build, request)
 

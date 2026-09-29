@@ -6,16 +6,18 @@ Program diagrams and waveforms
    make docs jobs=4
    make netlist program=tx26_w_enable
 
-``make docs`` discovers every program manifest, generates RTL schematics, runs its testbench with seed 1 and builds a Sphinx page.
+``make docs`` discovers complete program manifests in the current release, generates RTL schematics, runs its testbench with seed 1 and builds a Sphinx page.
+Use ``release_cycle=all`` for all releases, or ``program=NAME`` and ``target=dslot|s3c`` to filter.
+An explicit filter matching no programs fails before replacing existing assets.
 Each page includes ``programs/<release_cycle>/<name>/description.rst`` when present, SVG/PDF diagrams, an interactive waveform and downloads.
 Up to ``jobs`` programs run concurrently (default: 4; ``jobs=1`` runs sequentially).
 For each program, RTL schematics, state diagrams, simulation, waveform assets and its page are generated in order.
 After every program succeeds, the complete page index is written and the main Sphinx build runs sequentially.
 Failed analysis or simulation stops the build; generated page sources are replaced before generation.
-A documentation lock covers asset generation, HTML cleanup, Sphinx rendering and site validation for ``make docs`` and ``make docs-local``.
+A documentation lock covers asset generation, HTML cleanup, Sphinx rendering and site validation for ``make docs`` and ``make docs runner=local``.
 It rejects concurrent managed documentation builds and prevents ``clean-all`` or program creation throughout those stages.
 The assets-only command holds the same lock for its generation stage.
-The same worker limit applies to ``make docs-assets-local`` and ``make docs-local``.
+The same worker limit applies to ``make docs-assets runner=local`` and ``make docs runner=local``.
 Firmware builds, including Diamond ``make build-all``, run sequentially.
 ``make netlist`` exports diagrams for the firmware catalog without simulation; ``program`` selects one program.
 
@@ -71,7 +73,7 @@ Authoring and publishing
 Write release-wide prose in ``programs/<release_cycle>/description.rst``, program-specific prose in ``programs/<release_cycle>/<name>/description.rst``, and shared guides in ``docs/*.rst``.
 Use one sentence per source line without manual wrapping or a line-length limit; preserve the required layout of directives, tables and code blocks.
 Generated pages follow the same prose rule.
-``make docs-local`` uses installed tools; ``make docs-assets-local`` generates pages/assets without Sphinx.
+``make docs runner=local`` uses installed tools; ``make docs-assets runner=local`` generates pages/assets without Sphinx.
 Direct Sphinx invocation renders existing assets without refreshing simulation or netlists.
 See :doc:`publishing` for GitHub Pages deployment and :doc:`architecture` for source/output ownership.
 

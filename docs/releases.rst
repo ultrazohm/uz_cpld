@@ -24,7 +24,7 @@ Select and create cycles
 
    make release-list
    make release-new name=r2026_10
-   make release-current release_cycle=original
+   make release-select release_cycle=original
    make release-new name=r2026_11 from=original
 
 ``programs/releases.toml`` records the current cycle and is tracked in Git.
@@ -71,5 +71,6 @@ Builds, simulations and netlists write under the selected program's ``build/`` d
 Catalog reports are under ``toolchain/build/validation/<release_cycle>/``.
 Locks and provenance include the cycle so matching program names remain independent.
 ``list``, ``build-all``, ``report``, ``sim`` and ``netlist`` operate on the selected cycle.
-``make docs`` includes all cycles and groups program pages by cycle; ``make docs release_cycle=NAME`` generates documentation for one cycle.
+``make docs`` documents the current cycle; ``make docs release_cycle=NAME`` selects another cycle.
+``make docs release_cycle=all`` includes every cycle and groups program pages by cycle.
 ``make clean`` affects one selected program/backend; ``make clean-all`` removes generated outputs across all cycles.

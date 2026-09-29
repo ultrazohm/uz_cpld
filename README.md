@@ -12,6 +12,24 @@ Use VS Code's **Dev Containers: Reopen in Container** to build and start the dev
 
 Build the full documentation with `make docs`, then open `docs/_build/html/index.html`. The [generator guide](docs/vhdl-generator.rst), [FOSS pipeline](docs/foss.rst), and [build reports](docs/builds.rst) describe the main workflows.
 
-Use `make programmer` to create `selection.toml`, `make programmer scan` to read D-slot JTAG IDs, and `make programmer program target=s3c|dslot` to program the selected target. After Diamond builds, `make programmer lattice_xcf` generates both Lattice Programmer XCF files. See [programmer commands](docs/programmer.rst).
+Use `make init` to create `selection.toml`, `make scan` to read D-slot JTAG IDs, and `make program target=s3c|dslot` to program the selected target. After Diamond builds, `make programmer-project` generates both Lattice Programmer XCF files. See [programmer commands](docs/programmer.rst).
 
-`make usercodes` lists permanent program numbers; new programs and clones receive numbers automatically. `make programmer identify target=s3c|dslot` reads the programmed firmware identity and silicon TraceID. Keep `programs/usercodes.json` with your source changes. FOSS programming uses the patched openFPGALoader included in the image; see [firmware identity](docs/firmware-identity.rst) for allocation, readback and native flasher setup.
+`make usercodes` lists permanent program numbers; new programs and clones receive numbers automatically. `make identify target=s3c|dslot` reads the programmed firmware identity and silicon TraceID. Keep `programs/usercodes.json` with your source changes. FOSS programming uses the patched openFPGALoader included in the image; see [firmware identity](docs/firmware-identity.rst) for allocation, readback and native flasher setup.
+
+Start with `make help` for commands in clean-clone workflow order:
+
+```sh
+make doctor
+make build-all
+make init
+# Edit selection.toml for your programs and release.
+make programmer-project
+make scan target=dslot
+make identify target=dslot
+make program target=dslot dry_run=1
+# After reviewing the selection: make program target=dslot
+```
+
+Diamond is the default. `backend=foss` opts into FOSS for both firmware and
+programming; `build_backend` and `programmer_backend` override each part.
+See [the command reference](docs/commands.rst) for scope, previews, and runners.

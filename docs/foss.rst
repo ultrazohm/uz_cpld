@@ -32,16 +32,16 @@ For native Linux amd64 setup, install GHDL and the shared Python requirements, t
    python3 toolchain/foss/install.py --prefix /your/writable/path/oss-cad-suite
    python3 toolchain/foss/build_nextpnr.py --suite /your/writable/path/oss-cad-suite
    export FOSS_ROOT=/your/writable/path/oss-cad-suite
-   make flasher
+   make flasher-build
    python3 -m toolchain.buildsystem doctor --backend foss
    python3 -m toolchain.buildsystem build --program tx30 --backend foss
 
 The suite and nextpnr installers refuse existing destinations and verify archive checksums before extraction.
-``make flasher`` verifies its source and patch checksums and replaces its local installation after compilation and tests pass.
+``make flasher-build`` verifies its source and patch checksums and replaces its local installation after compilation and tests pass.
 Release and source pins are in ``toolchain/foss/toolchain.json``, ``toolchain/foss/sources.json`` and ``toolchain/foss/openfpgaloader.json``.
 ``FOSS_ROOT`` defaults to ``/opt/oss-cad-suite``; tools are selected by absolute paths without replacing the system Python environment.
 Native nextpnr resides in ``$FOSS_ROOT/native/``, while the bundle's executables reside in ``$FOSS_ROOT/bin/``.
-The image's patched loader resides in ``$FOSS_ROOT/native/openfpgaloader/``; ``make flasher`` installs a workspace override in ``toolchain/build/openfpgaloader/``.
+The image's patched loader resides in ``$FOSS_ROOT/native/openfpgaloader/``; ``make flasher-build`` installs a workspace override in ``toolchain/build/openfpgaloader/``.
 See :doc:`firmware-identity` for loader selection and rebuilding.
 
 Build stages and outputs

@@ -99,4 +99,4 @@ It removes every program ``build/`` directory, ``toolchain/build/``, ``docs/_bui
 It refuses to run while a managed build, project, GUI, simulation, netlist or clean operation is active. A lock on the checkout directory also prevents new operations from starting during cleanup, even while generated lock files are removed.
 It discards generated project edits and validation evidence; authored HDL, constraints, manifests and testbenches remain.
 The tracked identity registry remains, including allocated numbers and recorded build revisions.
-Cleanup removes a local ``make flasher`` installation under ``toolchain/build/``; the container's installed patched loader is unaffected.
+Cleanup removes a local ``make flasher-build`` installation under ``toolchain/build/``; the container's installed patched loader is unaffected.

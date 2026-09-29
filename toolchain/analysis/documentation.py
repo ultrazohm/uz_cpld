@@ -3,6 +3,7 @@ import argparse
 from contextlib import contextmanager
 from concurrent.futures import ProcessPoolExecutor, as_completed
 import multiprocessing
+from functools import partial
 import json
 import os
 from pathlib import Path
@@ -14,17 +15,17 @@ from toolchain.analysis.netlist import ROOT, export_netlist
 from toolchain.analysis.rtl_viewer import write_rtl_viewer
 from toolchain.analysis.state_diagram import export_state_diagrams
 from toolchain.analysis.waveform import waveform_frame, write_waveform
-from toolchain.buildsystem.model import BuildError, discover_programs, load_build, release_cycles, resolve_release
+from toolchain.buildsystem.model import BuildError, discover_programs, load_build, release_cycles, resolve_release, program_targets
 from toolchain.buildsystem.workflow import digest, write_json, workspace_lock, locked
 
 
-def generate(root=ROOT, jobs=4, release_cycle=None):
+def generate(root=ROOT, jobs=4, release_cycle=None, program=None, target=None):
     """Build each program independently, then publish the complete page index."""
     if jobs < 1:
         raise BuildError('jobs must be a positive integer')
     root = Path(root).resolve()
     with documentation_lock(root):
-        return _generate(root, jobs, release_cycle)
+        return _generate(root, jobs, release_cycle, program, target)
 
 
 @contextmanager
@@ -39,14 +40,14 @@ def documentation_lock(root):
             yield
 
 
-def build_site(root=ROOT, jobs=4, release_cycle=None):
+def build_site(root=ROOT, jobs=4, release_cycle=None, program=None, target=None):
     """Generate, render and validate a site under one documentation lock."""
     from . import sitecheck
     if jobs < 1:
         raise BuildError('jobs must be a positive integer')
     root = Path(root).resolve()
     with documentation_lock(root):
-        _generate(root, jobs, release_cycle)
+        _generate(root, jobs, release_cycle, program, target)
         output = root / 'docs/_build/html'
         sitecheck.clean(output)
         subprocess.run([sys.executable, '-m', 'sphinx', '-W', '--keep-going',
@@ -56,9 +57,14 @@ def build_site(root=ROOT, jobs=4, release_cycle=None):
         return output
 
 
-def _generate(root, jobs, release_cycle):
-    cycles = [resolve_release(root, release_cycle)] if release_cycle is not None else release_cycles(root)
-    names = [f'{cycle}/{name}' for cycle in cycles for name in discover_programs(root, cycle)]
+def _generate(root, jobs, release_cycle, program=None, target=None):
+    cycles = release_cycles(root) if release_cycle == 'all' else [resolve_release(root, release_cycle)]
+    names = [f'{cycle}/{name}' for cycle in cycles for name in discover_programs(root, cycle)
+             if (program is None or program in (name, f'{cycle}/{name}'))
+             and (target is None or target in program_targets(root, name, cycle))]
+    if not names and (program is not None or target is not None):
+        raise BuildError('No complete programs match the requested program, target and release')
+    worker = partial(generate_program, target=target) if target else generate_program
     generated = root / 'docs/_generated'
     if generated.is_symlink():
         raise BuildError('Generated documentation directory must not be a symlink')
@@ -68,12 +74,12 @@ def _generate(root, jobs, release_cycle):
     pages.mkdir(parents=True)
     if jobs == 1:
         for name in names:
-            generate_program(root, generated, name)
+            worker(root, generated, name)
             print(f'Documentation ready: {name}', flush=True)
     elif names:
         with ProcessPoolExecutor(max_workers=min(jobs, len(names)),
                                  mp_context=multiprocessing.get_context('spawn')) as pool:
-            pending = {pool.submit(generate_program, root, generated, name): name for name in names}
+            pending = {pool.submit(worker, root, generated, name): name for name in names}
             try:
                 for future in as_completed(pending):
                     future.result()
@@ -98,18 +104,18 @@ def _generate(root, jobs, release_cycle):
     return pages
 
 
-def generate_program(root, generated, name):
+def generate_program(root, generated, name, target=None):
     """Run one program's analysis, simulation and page generation in order."""
     pages = generated / 'programs'
     try:
-        build = load_build(root, name)
+        build = load_build(root, name, target)
         name = build.qualified_name
         page_name = name.replace('/', '-')
         netlist = None if build.netlist_skip_reason else export_netlist(build)
         state_diagrams = export_state_diagrams(build)
         before = {str(p.relative_to(root)): digest(p) for p in (*[s.path for s in build.sources], build.testbench)}
         subprocess.run([sys.executable, '-m', 'pytest', 'toolchain/simulation/test_simulation.py',
-                        '--program', build.name, '--release-cycle', build.release_cycle, '--wave-format', 'vcd', '--seed', '1', '-q', '-p', 'no:cacheprovider'],
+                        '--program', build.name, '--target', build.target, '--release-cycle', build.release_cycle, '--wave-format', 'vcd', '--seed', '1', '-q', '-p', 'no:cacheprovider'],
                        cwd=root, check=True, capture_output=True, text=True)
         with locked(build):
             if before != {str(p.relative_to(root)): digest(p) for p in (*[s.path for s in build.sources], build.testbench)}:
@@ -227,12 +233,14 @@ Download the :download:`cocotb testbench <../../../programs/{name}/{build.name}_
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--jobs", type=int, default=4, help="Concurrent programs (default: 4; 1 for sequential)")
-    parser.add_argument("--release-cycle", "--release_cycle", dest="release_cycle", help="Limit documentation to one cycle; default: all cycles")
+    parser.add_argument("--release-cycle", "--release_cycle", dest="release_cycle", help="Release to document; default: current; use all for every release")
+    parser.add_argument('--program', help='Limit documentation to one program')
+    parser.add_argument('--target', help='Limit documentation to one board target')
     parser.add_argument('--build-site', action='store_true', help='Also render and validate HTML under the same lock')
     args = parser.parse_args()
     try:
         action = build_site if args.build_site else generate
-        print(action(jobs=args.jobs, release_cycle=args.release_cycle))
+        print(action(jobs=args.jobs, release_cycle=args.release_cycle, program=args.program, target=args.target))
     except (BuildError, OSError, ValueError, subprocess.CalledProcessError) as exc:
         print(f'Program documentation failed: {exc}', file=sys.stderr)
         return 1

@@ -178,7 +178,7 @@ def generate(root: Path, slots: dict[int, str], s3c: str,
              build_backend: str = 'diamond') -> Path:
     """Generate selected XCFs, optionally rebuilding the Diamond firmware."""
     if build_backend != 'diamond':
-        raise BuildError('Diamond programming and lattice_xcf require Diamond JEDEC builds; '
+        raise BuildError('Diamond programming and programmer-project require Diamond JEDEC builds; '
                          'use programmer_backend=foss to program FOSS builds, or select build_backend=diamond')
     root = root.resolve()
     cycle = resolve_release(root, release_cycle)
@@ -240,7 +240,7 @@ def main(argv=None) -> int:
     parser.add_argument('--root', type=Path, default=Path(__file__).resolve().parents[1])
     parser.add_argument('--release-cycle', help='Override selection release; otherwise use the current cycle')
     parser.add_argument('--build-backend', choices=('diamond', 'foss'),
-                        help='Override selection build_backend (XCF export requires diamond)')
+                        help='Firmware build backend (default: diamond; XCF export requires diamond)')
     parser.add_argument('--selection', type=Path, help='TOML file containing all five slot programs and S3C')
     parser.add_argument('--slot', action='append', metavar='POSITION=PROGRAM',
                         help='Repeat once for each D-slot position 1 through 5')
@@ -254,9 +254,7 @@ def main(argv=None) -> int:
         if args.selection:
             if args.slot or args.s3c:
                 raise BuildError('Use either --selection or all --slot/--s3c arguments')
-            slots, s3c, selection_release, selection_backend = read_selection(args.selection)
-            if args.build_backend is None:
-                args.build_backend = selection_backend
+            slots, s3c, selection_release, _ = read_selection(args.selection)
             if args.release_cycle is None:
                 args.release_cycle = selection_release
         else:

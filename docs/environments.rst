@@ -9,7 +9,7 @@ An intermediate ``foss-builder`` stage compiles the pinned XO2 tools; it is not 
 The runtime image includes GHDL, Yosys, nextpnr-machxo2, Trellis, openFPGALoader, OpenOCD, Graphviz, Python, Sphinx, GTKWave, development utilities and Diamond runtime libraries.
 The Dev Container setup installs the developer CLI for its user after creation.
 Diamond itself and its license remain external.
-Build the image explicitly before starting a container manually::
+Build the image explicitly before using container execution::
 
    make image
 
@@ -20,11 +20,16 @@ This reports installation availability, not license validity; missing Diamond do
 Backend selection is unchanged: ``backend`` defaults to ``diamond``; use ``backend=foss`` for FOSS firmware builds.
 Requesting Diamond without an installation fails with a setup error.
 
-``make sim``, ``make netlist`` and ``make docs`` build the cached ``toolchain`` image on the host and run directly inside a toolchain container.
-``make test-container`` follows the same rule; ``make test``, ``make netlist-local`` and ``make docs-local`` always use installed tools.
+``runner=auto`` is the default. On a host, FOSS firmware builds, ``sim``,
+``netlist``, ``docs`` and ``docs-assets`` run in the image created by ``make image``.
+They do not rebuild the image implicitly. Inside a configured Dev Container they run locally.
+``runner=local`` uses installed tools; ``runner=container`` explicitly selects the image.
+``make test`` defaults to local execution; ``make test runner=container`` uses the image.
+Diamond and USB commands require local execution or an already configured Dev Container;
+the generic container runner does not mount a Diamond license or expose USB devices.
 ``CPLD_TOOLCHAIN_CONTAINER=1`` identifies the installed environment and avoids nested Docker.
 
-``container_engine`` selects Docker or Podman, ``container_platform`` defaults to ``linux/amd64``, ``toolchain_image`` selects the image tag and ``sim_workspace`` selects the host bind source.
+``container_engine`` selects Docker or Podman, ``container_platform`` defaults to ``linux/amd64``, ``toolchain_image`` selects the image tag. The repository root is the host bind source.
 Rootless Podman runs use ``--userns=keep-id`` to preserve workspace ownership.
 The daemon must be able to access the checkout; ARM hosts require amd64 emulation.
 GHDL library paths cannot contain double quotes; use checkout and source paths without them.
@@ -143,5 +148,5 @@ The tooling tests also require Tcl support through ``python3-tk`` on Ubuntu.
 The image and native requirements select the same Sphinx version; OS packages and the Ubuntu image tag remain mutable inputs.
 Firmware and documentation commands use dependencies already installed in the image.
 The C++ compiler and development headers used to build nextpnr and the patched flasher remain in the intermediate builder stage.
-The runtime includes the compiled tools; ``make flasher`` is a separate native source build and requires those development dependencies if run there.
+The runtime includes the compiled tools; ``make flasher-build`` is a separate native source build and requires those development dependencies if run there.
 See :doc:`foss` for the pinned tool bundle and native source-build prerequisites.

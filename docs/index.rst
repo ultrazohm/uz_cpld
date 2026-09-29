@@ -13,7 +13,8 @@ The :ref:`generator-quickstart` covers creating a starter, editing its routing, 
 
 Run ``make`` to see all commands. With Docker installed, run these commands from the repository root::
 
-   make test-container
+   make image
+   make test runner=container
    make sim
    make docs
 
@@ -29,6 +30,7 @@ Run commands from the repository root; paths in this documentation are relative 
 .. toctree::
    :maxdepth: 1
 
+   commands
    quick-start
    environments
    builds

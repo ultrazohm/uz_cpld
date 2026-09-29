@@ -3,7 +3,7 @@ Simulation and tests
 
 ::
 
-   make test-container
+   make test runner=container
    make sim jobs=4
    make sim program=tx26_w_enable seed=42
    make sim program=tx30 wave_format=ghw

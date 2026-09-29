@@ -1,7 +1,7 @@
-"""Exercise Make goal routing without issuing hardware writes."""
-import json
+"""Public Make routing and first-use behavior without hardware access."""
 import os
 from pathlib import Path
+import shlex
 import subprocess
 import sys
 import tempfile
@@ -9,185 +9,114 @@ import unittest
 
 from programmer_helper.helper import read_selection
 
-
 ROOT = Path(__file__).resolve().parents[2]
 
 
 class ProgrammerMakeTests(unittest.TestCase):
     def setUp(self):
-        directory = tempfile.TemporaryDirectory()
-        self.addCleanup(directory.cleanup)
-        self.cwd = Path(directory.name)
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        self.cwd = Path(temporary.name)
 
-    def make(self, *args, recorder=False):
-        command = ['make', '--no-print-directory', '-f', str(ROOT / 'Makefile'), *args]
-        if recorder:
-            script = self.cwd / 'record.py'
-            script.write_text('import json, sys\nprint(json.dumps(sys.argv[1:]))\n')
-            command.append(f'python={sys.executable} {script}')
-        else:
-            command.append(f'python={sys.executable}')
-        return subprocess.run(command, cwd=self.cwd, capture_output=True, text=True,
-                              env={**os.environ, 'CPLD_TOOLCHAIN_CONTAINER': '1'})
+    def make(self, *args):
+        return subprocess.run(['make', '--no-print-directory', '-f', str(ROOT / 'Makefile'),
+                               *args, f'python={sys.executable}'], cwd=self.cwd,
+                              env={**os.environ, 'CPLD_TOOLCHAIN_CONTAINER': '1'},
+                              text=True, capture_output=True, timeout=15)
 
-    def recorded(self, *args):
-        result = self.make(*args, recorder=True)
+    def preview(self, *args):
+        result = self.make(*args, 'dry_run=1')
         self.assertEqual(result.returncode, 0, result.stderr)
-        calls = [json.loads(line) for line in result.stdout.splitlines() if line.startswith('[')]
-        self.assertEqual(len(calls), 1, result.stdout)
-        return calls[0]
+        commands = [shlex.split(line.split('] ', 1)[1]) for line in result.stdout.splitlines()
+                    if line.startswith('[')]
+        self.assertEqual(len(commands), 1, result.stdout)
+        return commands[0]
 
-    def test_template_is_created_in_cwd_and_never_overwritten(self):
-        result = self.make('programmer')
+    def test_initialization_creates_selection_in_callers_directory_without_overwriting(self):
+        result = self.make('init')
         self.assertEqual(result.returncode, 0, result.stderr)
         selection = self.cwd / 'selection.toml'
         self.assertEqual(read_selection(selection),
                          ({i: 'tx30' for i in range(1, 6)}, 's3c_power_on_debounce', None, 'diamond'))
-        self.assertIn('release = ""', selection.read_text())
-        self.assertIn('build_backend = "diamond"', selection.read_text())
-        selection.write_text('s3c = "my_program"\n')
-        result = self.make('programmer')
+        self.assertNotIn('build_backend =', selection.read_text())
+        selection.write_text('s3c = "custom"\n')
+        self.assertEqual(self.make('init').returncode, 0)
+        self.assertEqual(selection.read_text(), 's3c = "custom"\n')
+
+    def test_initialization_with_spaces_and_shell_characters(self):
+        name = "my ' selection `touch UNEXPECTED`.toml"
+        result = self.make('init', f'selection={name}')
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(selection.read_text(), 's3c = "my_program"\n')
+        self.assertTrue((self.cwd / name).exists())
+        self.assertFalse((self.cwd / 'UNEXPECTED').exists())
 
-    def test_template_supports_custom_path_with_spaces(self):
-        result = self.make('programmer', 'selection=my selection.toml')
-        self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertTrue((self.cwd / 'my selection.toml').is_file())
+    def test_preview_does_not_create_selection(self):
+        self.preview('init')
+        self.assertFalse((self.cwd / 'selection.toml').exists())
+        self.preview('program', 'target=s3c')
+        self.assertFalse((self.cwd / 'selection.toml').exists())
 
-    def test_scan_modifier_runs_only_scan_even_with_parallel_make(self):
-        args = self.recorded('-j2', 'programmer', 'scan', 'programmer_backend=foss', 'cable=ft4232_b',
-                             'usb_serial=probe123')
-        self.assertEqual(args[:3], ['-m', 'programmer_helper.program', 'scan'])
-        self.assertIn('--execute', args)
-        self.assertEqual(args[args.index('--cable') + 1], 'ft4232_b')
-        self.assertEqual(args[args.index('--usb-serial') + 1], 'probe123')
-        self.assertNotIn('program', args)
+    def test_hardware_actions_default_to_diamond(self):
+        for action in ('scan', 'identify', 'program'):
+            args = self.preview(action, 'target=dslot')
+            self.assertIn('programmer_helper.program', args)
+            self.assertEqual(args[args.index('--programmer-backend') + 1], 'diamond')
+            self.assertEqual(args[args.index('--target') + 1], 'dslot')
 
-    def test_identify_runs_once_and_supports_preview(self):
-        for preview in (False, True):
-            args = self.recorded('-j2', 'programmer', 'identify', 'target=s3c',
-                                 f'dry_run={int(preview)}')
-            self.assertEqual(args[:3], ['-m', 'programmer_helper.program', 'identify'])
-            self.assertEqual('--execute' in args, not preview)
-
-    def test_program_executes_one_explicit_target(self):
-        for target in ('s3c', 'dslot'):
-            with self.subTest(target=target):
-                args = self.recorded('programmer', 'program', f'target={target}', 'probe_index=1',
-                                     'selection=my selection.toml')
-                self.assertEqual(args[:3], ['-m', 'programmer_helper.program', 'program'])
-                self.assertEqual(args[args.index('--target') + 1], target)
-                self.assertEqual(args[args.index('--selection') + 1], 'my selection.toml')
-                self.assertEqual(args[args.index('--probe-index') + 1], '1')
-                self.assertIn('--execute', args)
-
-    def test_programmer_and_build_backends_are_forwarded_independently(self):
-        args = self.recorded('programmer', 'program', 'target=dslot',
-                             'programmer_backend=foss', 'build_backend=diamond', 'dry_run=1')
-        self.assertEqual(args[args.index('--programmer-backend') + 1], 'foss')
+    def test_backend_defaults_and_independent_overrides(self):
+        args = self.preview('program', 'target=s3c', 'backend=foss')
+        for flag in ('--build-backend', '--programmer-backend'):
+            self.assertEqual(args[args.index(flag) + 1], 'foss')
+        args = self.preview('program', 'target=s3c', 'programmer_backend=foss')
         self.assertEqual(args[args.index('--build-backend') + 1], 'diamond')
-        args = self.recorded('programmer', 'lattice_xcf', 'build_backend=diamond')
+        args = self.preview('program', 'target=s3c', 'backend=foss', 'build_backend=diamond')
         self.assertEqual(args[args.index('--build-backend') + 1], 'diamond')
 
-    def test_xcf_probe_index_is_forwarded(self):
-        args = self.recorded('programmer', 'lattice_xcf', 'probe_index=3')
+    def test_build_and_programmer_project_are_distinct(self):
+        args = self.preview('project', 'program=tx30', 'target=dslot')
+        self.assertIn('toolchain.buildsystem', args)
+        self.assertIn('uz_dslot_xo2', args)
+        args = self.preview('programmer-project', 'selection=custom.toml', 'probe_index=3')
+        self.assertIn('programmer_helper', args)
+        self.assertNotIn('--execute', args)
+        self.assertIn(str(self.cwd / 'custom.toml'), args)
         self.assertEqual(args[args.index('--probe-index') + 1], '3')
 
-    def test_scan_ignores_selection_and_build_backend(self):
-        (self.cwd / 'selection.toml').write_text('invalid TOML')
-        result = self.make('programmer', 'scan', 'programmer_backend=foss',
-                           'build_backend=diamond', 'dry_run=1')
-        self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn('--detect', result.stdout)
-
-    def test_dry_run_and_execute_zero_do_not_execute(self):
-        for option in ('dry_run=1', 'execute=0'):
-            args = self.recorded('programmer', 'program', 'target=s3c', option)
-            self.assertNotIn('--execute', args)
-
-    def test_untargeted_scan_defaults_to_dslots(self):
-        result = self.make('programmer', 'scan', 'dry_run=1')
-        self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn('scan: dslots', result.stdout)
-        self.assertNotIn('scan: s3c', result.stdout)
-
-    def test_s3c_scan_defaults_to_working_diamond_port(self):
-        result = self.make('programmer', 'scan', 'target=s3c', 'dry_run=1')
-        self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn('s3c on FTUSB-1', result.stdout)
-        result = self.make('programmer', 'scan', 'target=s3c', 'probe_index=0', 'dry_run=1')
-        self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn('s3c on FTUSB-0', result.stdout)
-
-    def test_program_requires_target_and_scan_alone_is_rejected(self):
-        self.make('programmer')
-        result = self.make('programmer', 'program')
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn('Choose target=s3c or target=dslot', result.stderr)
-        result = self.make('scan')
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn('Use make programmer scan', result.stderr)
-
-    def test_build_shorthand_is_still_a_build(self):
-        args = self.recorded('program=tx30')
-        self.assertEqual(args[:3], ['-m', 'toolchain.buildsystem', 'build'])
-
-    def test_lattice_xcf_generates_xcfs_only(self):
-        args = self.recorded('-j2', 'programmer', 'lattice_xcf')
-        self.assertEqual(args, ['-m', 'programmer_helper', '--selection', 'selection.toml'])
-        args = self.recorded('programmer', 'lattice_xcf', 'selection=my selection.toml',
-                             'release_cycle=old', 'rebuild=1')
-        self.assertEqual(args, ['-m', 'programmer_helper', '--release-cycle', 'old',
-                                '--selection', 'my selection.toml', '--build'])
-
-    def test_standalone_project_remains_firmware_project(self):
-        args = self.recorded('project', 'program=tx30')
-        self.assertEqual(args[:3], ['-m', 'toolchain.buildsystem', 'project'])
-
-    def test_mixed_actions_are_rejected_before_any_command(self):
-        for goals in [('programmer', 'scan', 'program'),
-                      ('programmer', 'lattice_xcf', 'program'),
-                      ('programmer', 'build'), ('programmer', 'typo')]:
-            with self.subTest(goals=goals):
-                result = self.make('-j2', *goals, recorder=True)
+    def test_invalid_or_inapplicable_options_fail_before_any_command(self):
+        for args in [('build-all', 'program=tx30'), ('build', 'program=tx30', 'bakend=foss'),
+                     ('scan', 'selection=missing.toml'), ('identify', 'build_backend=foss'),
+                     ('scan', 'programmer_backend=typo'), ('programmer-project', 'backend=foss'),
+                     ('program',), ('build', 'program=tx30', 'execute=0'),
+                     ('sim', 'jobs=0'), ('scan', 'dry_run=yes')]:
+            with self.subTest(args=args):
+                result = self.make(*args)
                 self.assertNotEqual(result.returncode, 0)
                 self.assertFalse(result.stdout.strip(), result.stdout)
 
-    def test_retired_commands_do_not_access_hardware(self):
-        for goals in [('program',), ('program', 'scan'), ('programmer-scan',),
-                      ('programmer-project',), ('programmer-program',), ('programmer', 'project')]:
-            with self.subTest(goals=goals):
-                result = self.make(*goals, recorder=True)
-                self.assertNotEqual(result.returncode, 0)
-                self.assertNotIn('programmer_helper', result.stdout)
+    def test_parallel_make_cannot_mix_workflow_actions(self):
+        for actions in [('init', 'program'), ('build-all', 'program'), ('programmer', 'scan')]:
+            result = self.make('-j2', *actions)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn('one action', result.stderr)
+            self.assertFalse(result.stdout.strip())
 
-    def test_backend_shorthand_and_explicit_programmer_override(self):
-        args = self.recorded('programmer', 'identify', 'backend=foss')
-        self.assertEqual(args[args.index('--programmer-backend') + 1], 'foss')
-        args = self.recorded('programmer', 'identify', 'backend=foss', 'programmer_backend=diamond')
-        self.assertEqual(args[args.index('--programmer-backend') + 1], 'diamond')
+    def test_help_follows_clone_build_selection_hardware_sequence(self):
+        result = self.make('help')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        help_text = result.stdout
+        positions = [help_text.index('make ' + action) for action in
+                     ('build-all', 'init', 'programmer-project', 'scan target', 'identify target', 'program target')]
+        self.assertEqual(positions, sorted(positions))
+        self.assertIn('backend=diamond', help_text)
+        result = self.make('help', 'command=program')
+        self.assertIn('programmer_backend', result.stdout)
+        self.assertNotIn('seed', result.stdout)
 
-    def test_program_first_use_creates_selection_without_hardware(self):
-        for target in ([], ['target=s3c']):
-            selection = self.cwd / 'selection.toml'
-            selection.unlink(missing_ok=True)
-            result = self.make('programmer', 'program', *target)
-            self.assertEqual(result.returncode, 0, result.stderr)
-            self.assertTrue(selection.is_file())
-            self.assertIn('no hardware was accessed', result.stdout)
-
-    def test_invalid_programmer_backend_is_rejected(self):
-        result = self.make('programmer', 'scan', 'programmer_backend=typo', recorder=True)
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn('programmer_backend must be', result.stderr)
-        self.assertFalse(result.stdout.strip(), result.stdout)
-
-    def test_lattice_xcf_rejects_foss_backend(self):
-        result = self.make('programmer', 'lattice_xcf', 'programmer_backend=foss', recorder=True)
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn('use programmer_backend=diamond', result.stderr)
-        self.assertFalse(result.stdout.strip(), result.stdout)
+    def test_build_shorthand_and_single_action_aliases(self):
+        self.assertIn('build', self.preview('program=tx30'))
+        self.assertEqual(self.make('programmer').returncode, 0)
+        self.assertTrue((self.cwd / 'selection.toml').exists())
+        self.assertIn('programmer_helper', self.preview('lattice_xcf'))
 
 
 if __name__ == '__main__':

@@ -26,7 +26,7 @@ jobs:
         run: docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make build-all backend=foss
       - name: Build program documentation and run HDL simulations
         if: ${{ !cancelled() && steps.image.outcome == 'success' }}
-        run: docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make docs-local
+        run: docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make docs release_cycle=all runner=local
       - name: Retain program diagnostics
         if: always()
         uses: actions/upload-artifact@v4

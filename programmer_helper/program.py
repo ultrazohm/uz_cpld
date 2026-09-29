@@ -55,8 +55,8 @@ def create_selection(destination: Path):
     except FileExistsError:
         print(f'{destination} already exists; kept your selection.')
         return
-    print(f'Created {destination} with default programs. Edit the programs, release and build_backend as needed.')
-    print('Use make list to see program names, then make programmer program target=s3c or target=dslot.')
+    print(f'Created {destination} with default programs. Edit the programs and release as needed.')
+    print('Use make list to see program names, then make program target=s3c or target=dslot.')
 
 
 def loader_path() -> Path:
@@ -292,8 +292,8 @@ def plan(root: Path, selection: Path, cycle_name: str | None, chain: str, progra
          *, build_backend: str | None = None):
     """Validate authored selection and existing build evidence; touch no hardware."""
     root = root.resolve()
-    slots, s3c, selection_release, selection_backend = read_selection(selection, chain=chain)
-    build_backend = selection_backend if build_backend is None else build_backend
+    slots, s3c, selection_release, _ = read_selection(selection, chain=chain)
+    build_backend = build_backend or 'diamond'
     if build_backend not in ('diamond', 'foss'):
         raise BuildError('build_backend must be diamond or foss')
     if programmer_backend == 'diamond' and build_backend != 'diamond':
@@ -408,7 +408,7 @@ def main(argv=None) -> int:
     parser.add_argument('--programmer-backend', '--backend', choices=('diamond', 'foss'), default='diamond',
                         help='Programming/scan tool, independent of the firmware build backend')
     parser.add_argument('--build-backend', choices=('diamond', 'foss'),
-                        help='Override selection build_backend (default: diamond); ignored for scans')
+                        help='Firmware build backend (default: diamond); ignored for scans')
     parser.add_argument('--cable', help=f'openFPGALoader cable name; default: {DEFAULT_FOSS_CABLE}')
     parser.add_argument('--usb-serial', help='Select one USB probe by its serial number')
     parser.add_argument('--probe-index', type=int, help='Select an FTDI USB probe by index')
@@ -480,7 +480,7 @@ def main(argv=None) -> int:
                     raise BuildError('Diamond produced no scan output')
             return 0
         if not args.selection.is_file():
-            raise BuildError(f'{args.selection} is missing; run make programmer, then fill in the target programs')
+            raise BuildError(f'{args.selection} is missing; run make init, then fill in the target programs')
         cycle, output, builds, steps = plan(args.root, args.selection, args.release_cycle,
                                                   args.chain, args.programmer_backend,
                                                   args.cable, args.usb_serial, args.probe_index,

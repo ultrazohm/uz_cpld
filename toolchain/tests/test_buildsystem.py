@@ -295,7 +295,7 @@ class FrontendTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn('make build program=NAME', result.stdout)
         self.assertIn('make clean-all', result.stdout)
-        explicit = subprocess.run(['make', 'help', 'program=tx30'], cwd=ROOT,
+        explicit = subprocess.run(['make', 'help'], cwd=ROOT,
                                   capture_output=True, text=True)
         self.assertEqual(explicit.returncode, 0, explicit.stderr)
         self.assertEqual(explicit.stdout, result.stdout)
@@ -304,11 +304,12 @@ class FrontendTests(unittest.TestCase):
         result = subprocess.run(['make', '-n', 'program=tx30'], cwd=ROOT,
                                 capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn("--program 'tx30'", result.stdout)
+        self.assertIn("--option 'program=tx30'", result.stdout)
         result = subprocess.run(['make', '-n', 'new', 'name=custom', 'template=tx30'],
                                 cwd=ROOT, capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn("--name 'custom' --template 'tx30'", result.stdout)
+        self.assertIn("--option 'name=custom'", result.stdout)
+        self.assertIn("--option 'template=tx30'", result.stdout)
 
     def test_invalid_manifests(self):
         path = self.build.manifests[0]

@@ -1,6 +1,10 @@
 Programming CPLDs
 =================
 
+Managed flash programming verifies registered USERCODE identities after writing.
+The FOSS programmer requires the pinned patched loader supplied by the toolchain image or ``make flasher``; stock loaders are rejected before flash writes.
+See :doc:`firmware-identity`.
+
 Run these commands from the repository inside the USB-enabled devcontainer.
 ``programmer_backend=diamond`` is the default programming and scan tool. The container user needs permission to open
 the USB device; see :doc:`environments`. Diamond also requires the mounted Linux
@@ -313,3 +317,12 @@ All programmer outputs are under ``toolchain/build/programmer/``:
 
 Use ``make help`` for the command summary. The programmer subcommands are
 ``scan``, ``program`` and ``lattice_xcf``; run one per invocation.
+
+Firmware identification
+-----------------------
+
+Use ``make programmer identify target=dslot`` or ``target=s3c`` to read USERCODE and TraceID and resolve the program and build revision.
+See :doc:`firmware-identity` for the registry, automatic allocation, reader dependencies and supported probe selection.
+Managed programming now requires this reader and verifies the observed USERCODE after programming, recording each physical device in ``result.json``.
+The general FOSS cable options above remain available for scans; identification requires the documented FT4232 channel-B reader wiring.
+Managed FOSS programming requires the verified patched openFPGALoader, which writes and checks USERCODE for both JEDEC and compressed bitstream inputs.

@@ -1,5 +1,6 @@
 """Generate and execute Diamond Tcl using the vendor environment wrapper."""
 import os
+import json
 from pathlib import Path
 import shutil
 import subprocess
@@ -40,11 +41,14 @@ class DiamondBackend:
     """Prepare relocatable projects and request both firmware export tasks."""
 
     def prepare(self, build: Build, project: Path, log: Path):
-        """Generate a project whose HDL and LPF references point to authored inputs."""
+        """Reference authored HDL and a generated LPF containing the build identity."""
         project.mkdir(parents=True, exist_ok=True)
         shutil.copy2(build.strategy, project / 'baseline.sty')
+        from ..identity import constraint_text, validate_identity
+        identity = validate_identity(build, json.loads((project.parent / 'metadata/identity.json').read_text()))
+        (project / 'constraints.lpf').write_text(constraint_text(build, identity))
         relative = lambda p: tcl(os.path.relpath(p, project))
-        lines = [f'prj_project new -name firmware -impl impl -impl_dir impl -dev {tcl(build.device)} -lpf {relative(build.constraint)}',
+        lines = [f'prj_project new -name firmware -impl impl -impl_dir impl -dev {tcl(build.device)} -lpf constraints.lpf',
                  'prj_syn set lse',
                  'prj_strgy import -name baseline -file baseline.sty', 'prj_strgy set baseline']
         for source in build.sources:

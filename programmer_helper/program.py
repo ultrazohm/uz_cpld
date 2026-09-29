@@ -63,6 +63,11 @@ def loader_path() -> Path:
     override = os.environ.get('CPLD_OPENFPGALOADER')
     if override:
         return Path(override)
+    suite = Path(os.environ.get('FOSS_ROOT', '/opt/oss-cad-suite'))
+    for candidate in (Path(__file__).resolve().parents[1] / 'toolchain/build/openfpgaloader/openFPGALoader',
+                      suite / 'native/openfpgaloader/openFPGALoader'):
+        if candidate.is_file():
+            return candidate
     found = shutil.which('openFPGALoader')
     return Path(found) if found else Path(os.environ.get('FOSS_ROOT', '/opt/oss-cad-suite')) / 'bin/openFPGALoader'
 
@@ -271,6 +276,7 @@ def diamond_plan(root, cycle, chain, builds, probe_index):
                 'release_cycle': cycle, 'programmer_backend': 'diamond', 'build_backend': 'diamond',
                 'programs': {label: build.name for label, _, build in builds}, 'port': port,
                 'firmware_sha256': {f.label: f.sha256 for f in firmware},
+                'usercodes': {f.label: jedec_metadata(f.artifact)[1] for f in firmware},
                 'firmware': [{'label': f.label, 'index': f.index, 'source': str(f.source),
                               'snapshot': str(f.artifact), 'sha256': f.sha256} for f in firmware],
                 'xcf_sha256': {xcf.name: step.sha256}, 'template_sha256': digest(template),
@@ -302,8 +308,10 @@ def plan(root: Path, selection: Path, cycle_name: str | None, chain: str, progra
         steps = []
         for label, index, build in builds:
             firmware, sha256 = verified_firmware(build, 'jed' if build_backend == 'diamond' else 'bit')
+            identity = json.loads((build.directory / 'metadata/build.json').read_text())['identity']
             command = (str(loader_path()), *cable_args(chain, cable, serial, probe_index),
-                       '--index-chain', str(index), '--write-flash', '--verify', str(firmware))
+                       '--index-chain', str(index), '--write-flash', '--verify',
+                       '--usercode', identity['usercode'], str(firmware))
             steps.append(Step(label, build, firmware, sha256, command))
     return cycle, output, builds, steps
 
@@ -314,20 +322,33 @@ def execute(root: Path, cycle: str, chain: str, programmer_backend: str, output:
     """Revalidate selected files under build locks, detect JTAG, then program."""
     if programmer_backend == 'foss' and not loader_path().is_file():
         raise BuildError(f'openFPGALoader is missing: {loader_path()}')
+    from .identify import programming_preflight, identify
+    from toolchain.buildsystem.identity import validate_identity
+    programmer_provenance = programming_preflight(programmer_backend, cable, serial, probe_index)
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     run_dir = output / 'runs' / stamp
     unique = {build.directory: build for _, _, build in builds}
     with ExitStack() as stack:
         for build in sorted(unique.values(), key=lambda item: str(item.directory)):
             stack.enter_context(locked(build))
-        current = {}
+        current, identities = {}, {}
         for label, _, build in builds:
             extension = 'jed' if build.backend == 'diamond' else 'bit'
             current[label] = verified_firmware(build, extension)
+            identities[label] = validate_identity(build, json.loads((build.directory / 'metadata/build.json').read_text()).get('identity'))
         if programmer_backend == 'foss':
-            for step in steps:
+            from toolchain.foss.flasher import check_file
+            if [(step.label, step.build) for step in steps] != [(label, build) for label, _, build in builds]:
+                raise BuildError('FOSS plan does not match the requested selection')
+            for step, (label, index, build) in zip(steps, builds):
                 if not step.artifact.is_file() or digest(step.artifact) != step.sha256:
                     raise BuildError(f'Firmware changed since planning: {step.artifact}')
+                expected = (str(loader_path()), *cable_args(chain, cable, serial, probe_index),
+                            '--index-chain', str(index), '--write-flash', '--verify',
+                            '--usercode', identities[label]['usercode'], str(current[label][0]))
+                if step.command != expected or (step.artifact, step.sha256) != current[label]:
+                    raise BuildError('FOSS plan command or firmware does not match its registered identity')
+                check_file(loader_path(), step.artifact, identities[label]['usercode'])
         if programmer_backend == 'diamond':
             if len(steps) != 1:
                 raise BuildError('Diamond programming requires exactly one chain plan')
@@ -335,6 +356,7 @@ def execute(root: Path, cycle: str, chain: str, programmer_backend: str, output:
         run_dir.mkdir(parents=True)
         record = {'release_cycle': cycle, 'chain': chain, 'programmer_backend': programmer_backend, 'mode': 'flash',
                   'build_backend': builds[0][2].backend,
+                  'expected_identities': identities, 'programmer_provenance': programmer_provenance,
                   'steps': [], 'status': 'running'}
         write_json(run_dir / 'result.json', record)
         try:
@@ -357,6 +379,12 @@ def execute(root: Path, cycle: str, chain: str, programmer_backend: str, output:
                                                       'sha256': f.sha256} for f in step.firmware],
                                         'log': str(log)})
                 write_json(run_dir / 'result.json', record)
+            record['devices'] = identify(root, chain, programmer_backend, cable, serial, probe_index,
+                                         output=run_dir / 'readback')
+            write_json(run_dir / 'result.json', record)
+            for device in record['devices']:
+                if device['usercode'] != identities[device['label']]['usercode']:
+                    raise BuildError(f'{device["label"]}: readback USERCODE does not match the programmed firmware')
             record['status'] = 'success'
         except BaseException as exc:
             record['status'] = 'failed'
@@ -369,7 +397,7 @@ def execute(root: Path, cycle: str, chain: str, programmer_backend: str, output:
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description='Inspect and program the selected CPLD JTAG chain.')
-    parser.add_argument('action', choices=('init', 'scan', 'program'))
+    parser.add_argument('action', choices=('init', 'scan', 'identify', 'program'))
     parser.add_argument('--root', type=Path, default=Path(__file__).resolve().parents[1])
     targets = parser.add_mutually_exclusive_group()
     targets.add_argument('--chain', choices=('dslots', 's3c'))
@@ -401,6 +429,13 @@ def main(argv=None) -> int:
             raise BuildError('Select a probe using either --probe-index or --usb-serial')
         if args.programmer_backend == 'diamond' and (args.cable or args.usb_serial):
             raise BuildError('Diamond uses the USB2 cable; select its port with --probe-index')
+        if args.action == 'identify':
+            from .identify import identify, script
+            if not args.execute:
+                print(script(args.chain, args.usb_serial))
+            else:
+                identify(args.root, args.chain, args.programmer_backend, args.cable, args.usb_serial, args.probe_index)
+            return 0
         if args.action == 'scan':
             if args.programmer_backend == 'foss':
                 command = scan_command(args.chain, args.cable, args.usb_serial, args.probe_index)
@@ -443,7 +478,8 @@ def main(argv=None) -> int:
         print(f'Programming selection (release: {cycle}):')
         for _, index, build in builds:
             target_label = 'S3C' if args.chain == 's3c' else f'D-slot {index + 1}'
-            print(f'  {target_label}: {build.name}')
+            identity = json.loads((build.directory / 'metadata/build.json').read_text())['identity']
+            print(f'  {target_label}: {build.name}, revision {identity["revision"]}, USERCODE 0x{identity["usercode"]}')
         print(f'Firmware build backend: {builds[0][2].backend}; programmer backend: {args.programmer_backend}')
         for step in steps:
             print(f'{step.label}: {step.artifact} (sha256 {step.sha256})')

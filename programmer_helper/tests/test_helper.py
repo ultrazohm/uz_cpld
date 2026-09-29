@@ -82,6 +82,35 @@ class ProgrammerHelperTests(unittest.TestCase):
                 programmer.execute(self.root, cycle, 'dslots', 'diamond', output, builds, other_steps, None, None)
             run.assert_not_called()
 
+    def test_wrong_embedded_usercode_is_rejected_before_planning(self):
+        build = load_build(self.root, 'tx30')
+        jed = build.firmware_path('jed')
+        import re
+        jed.write_bytes(re.sub(rb'UH[0-9A-F]{8}', b'UH00000000', jed.read_bytes()))
+        record_path = build.directory / 'metadata/build.json'
+        record = json.loads(record_path.read_text())
+        record['outputs'][jed.name] = digest(jed)
+        record_path.write_text(json.dumps(record))
+        selection = self.root / 'selection.toml'
+        selection.write_text('[slots]\n' + ''.join(f'"{i}"="tx30"\n' for i in range(1, 6)))
+        with self.assertRaisesRegex(BuildError, 'JEDEC USERCODE differs'):
+            plan(self.root, selection, None, 'dslots', 'diamond', None, None)
+
+    def test_readback_mismatch_records_failure_after_programming(self):
+        selection = self.root / 'selection.toml'
+        selection.write_text('s3c="s3c_power_on_debounce"\n')
+        cycle, output, builds, steps = plan(self.root, selection, None, 's3c', 'diamond', None, None)
+        with patch.object(programmer, 'run_diamond', return_value='success') as run, \
+                patch('programmer_helper.identify.identify', return_value=[
+                    {'label': 's3c', 'usercode': '00000000', 'traceid': '0100000000000001'}]):
+            with self.assertRaisesRegex(BuildError, 'readback USERCODE'):
+                programmer.execute(self.root, cycle, 's3c', 'diamond', output, builds, steps, None, None)
+        run.assert_called_once()
+        record = json.loads(next((output / 'runs').glob('*/result.json')).read_text())
+        self.assertEqual(record['status'], 'failed')
+        self.assertEqual(record['devices'][0]['usercode'], '00000000')
+        self.assertIn('s3c', record['expected_identities'])
+
     def setUp(self):
         temporary = tempfile.TemporaryDirectory(prefix='cpld programmer ')
         self.addCleanup(temporary.cleanup)
@@ -97,6 +126,22 @@ class ProgrammerHelperTests(unittest.TestCase):
             destination.parent.mkdir(parents=True)
             shutil.copy2(ROOT / template, destination)
         (self.root / 'programs').mkdir()
+        shutil.copy2(ROOT / 'programs/usercodes.json', self.root / 'programs/usercodes.json')
+        def mock_readback(root, chain, backend, cable, serial, probe_index, *, output):
+            expected = json.loads((output.parent / 'result.json').read_text())['expected_identities']
+            return [{'label': label, 'usercode': identity['usercode'], 'traceid': '0100000000000001'}
+                    for label, identity in expected.items()]
+        reader = patch('programmer_helper.identify.identify', side_effect=mock_readback)
+        reader.start()
+        self.addCleanup(reader.stop)
+        # These orchestration fixtures contain synthetic firmware; real parser
+        # and binary provenance checks have separate integration regressions.
+        checker = patch('toolchain.foss.flasher.check_file')
+        checker.start()
+        self.addCleanup(checker.stop)
+        gate = patch('programmer_helper.identify.programming_preflight', return_value=None)
+        gate.start()
+        self.addCleanup(gate.stop)
         (self.root / 'programs/releases.toml').write_text('current = "original"\n')
         for cycle in ('original', 'old'):
             directory = self.root / 'programs' / cycle
@@ -111,13 +156,15 @@ class ProgrammerHelperTests(unittest.TestCase):
         build = load_build(self.root, name, backend=backend, release_cycle=cycle)
         jed = build.firmware_path('jed' if backend == 'diamond' else 'bit')
         jed.parent.mkdir(parents=True, exist_ok=True)
+        from toolchain.buildsystem.identity import reserve_build
+        identity = reserve_build(build)
         checksum = '1234' if cycle == 'original' else '5678'
-        jed.write_bytes(f'\x02\nC{checksum}*\nUH00000000*\n\x03'.encode())
+        jed.write_bytes(f'\x02\nC{checksum}*\nUH{identity["usercode"]}*\n\x03'.encode())
         metadata = jed.parent / 'metadata'
         metadata.mkdir(exist_ok=True)
         (metadata / 'status.json').write_text('{"status":"success"}\n')
         (metadata / 'build.json').write_text(json.dumps({
-            'status': 'success', 'inputs': hashes(build),
+            'status': 'success', 'identity': identity, 'inputs': hashes(build),
             'outputs': {jed.name: digest(jed)}, 'warnings': [],
         }))
 
@@ -240,9 +287,9 @@ class ProgrammerHelperTests(unittest.TestCase):
                 if backend == 'foss':
                     self.publish('old', 'tx30', backend)
                 selection = self.write_backend_selection(backend)
-                cycle, output, builds, steps = plan(self.root, selection, None, 'dslots', 'foss', None, None)
                 with patch.object(programmer, 'loader_path', return_value=Path(__file__)), \
                         patch.object(programmer, 'run_command', return_value=scan) as run:
+                    cycle, output, builds, steps = plan(self.root, selection, None, 'dslots', 'foss', None, None)
                     result = programmer.execute(self.root, cycle, 'dslots', 'foss', output,
                                                 builds, steps, None, None)
                 self.assertEqual(run.call_count, 6)

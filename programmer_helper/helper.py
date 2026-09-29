@@ -96,6 +96,8 @@ def verified_firmware(build, extension: str) -> tuple[Path, str]:
         raise BuildError(f'{build.qualified_name}: {extension.upper()} is absent from successful build provenance') from exc
     if not firmware.is_file() or firmware.is_symlink() or digest(firmware) != expected:
         raise BuildError(f'{build.qualified_name}: published {extension.upper()} is missing or changed: {firmware}')
+    if extension == 'jed' and jedec_metadata(firmware)[1] != record['identity']['usercode']:
+        raise BuildError(f'{build.qualified_name}: JEDEC USERCODE differs from its registered build identity')
     return firmware, expected
 
 
@@ -226,6 +228,7 @@ def generate(root: Path, slots: dict[int, str], s3c: str,
             'slots': {str(position): name for position, name in slots.items()},
             's3c': s3c,
             'firmware_sha256': hashes,
+            'usercodes': {label: jedec_metadata(path)[1] for label, path in jed_paths.items()},
             'template_sha256': templates,
             'xcf_sha256': {name: hashlib.sha256(payload).hexdigest() for name, payload in xcfs.items()},
         })

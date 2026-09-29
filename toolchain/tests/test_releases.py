@@ -26,6 +26,7 @@ class ReleaseTests(unittest.TestCase):
                             ignore=shutil.ignore_patterns('build', '__pycache__', '.pytest_cache'))
         shutil.copytree(ROOT / 'programs/original', self.root / 'programs/original',
                         ignore=shutil.ignore_patterns('build', '__pycache__', '.pytest_cache'))
+        shutil.copy2(ROOT / 'programs/usercodes.json', self.root / 'programs/usercodes.json')
         (self.root / 'programs/releases.toml').write_text('current = "original"\n')
         shutil.copy2(ROOT / 'Makefile', self.root / 'Makefile')
 

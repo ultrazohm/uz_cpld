@@ -5,17 +5,19 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates curl python3 python3-pip python3-dev build-essential \
     libboost-filesystem-dev libboost-program-options-dev libboost-iostreams-dev libboost-thread-dev \
-    libeigen3-dev pybind11-dev \
+    libeigen3-dev pybind11-dev pkg-config patch libftdi1-dev libusb-1.0-0-dev zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
 RUN python3 -m pip install --no-cache-dir cmake==3.31.6
 COPY toolchain/foss/ /tmp/foss-setup/
 ARG FOSS_BUILD_JOBS=2
 RUN python3 /tmp/foss-setup/install.py --prefix /opt/oss-cad-suite \
     && python3 /tmp/foss-setup/build_nextpnr.py --suite /opt/oss-cad-suite --jobs ${FOSS_BUILD_JOBS} \
+    && python3 /tmp/foss-setup/flasher.py --output /opt/oss-cad-suite/native/openfpgaloader --jobs ${FOSS_BUILD_JOBS} \
     && /opt/oss-cad-suite/bin/yosys -V \
     && /opt/oss-cad-suite/native/nextpnr-machxo2 --version \
     && /opt/oss-cad-suite/bin/ecppack --version \
-    && /opt/oss-cad-suite/bin/openFPGALoader --Version
+    && /opt/oss-cad-suite/bin/openFPGALoader --Version \
+    && /opt/oss-cad-suite/bin/openocd --version
 
 FROM ubuntu:${UBUNTU_VERSION} AS toolchain
 ARG DEBIAN_FRONTEND=noninteractive
@@ -25,7 +27,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gtkwave ripgrep sudo iproute2 net-tools file procps \
     libfontconfig1 libfreetype6 libglib2.0-0 libice6 libsm6 \
     libx11-6 libxext6 libxft2 libxi6 libxrandr2 libxrender1 libxt6 libxtst6 \
-    libncurses5 libtinfo5 libusb-0.1-4 libusb-1.0-0 libuuid1 zlib1g \
+    libncurses5 libtinfo5 libusb-0.1-4 libusb-1.0-0 libftdi1-2 libuuid1 zlib1g \
     && rm -rf /var/lib/apt/lists/* \
     && echo 'vscode ALL=(root) NOPASSWD:ALL' > /etc/sudoers.d/vscode \
     && chmod 0440 /etc/sudoers.d/vscode

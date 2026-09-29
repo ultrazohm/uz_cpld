@@ -64,7 +64,7 @@ Build stages and outputs
       proof --> artifacts
       artifacts -. separate manual step .-> loader[openFPGALoader: optional device programming]
 
-GHDL elaborates VHDL to Verilog, Yosys maps logic with ``synth_lattice -family xo2``, nextpnr places/routes the selected device, and Trellis packs the configuration into a bitstream.
+GHDL elaborates VHDL to Verilog, Yosys maps logic with ``synth_lattice -family xo2``, nextpnr places/routes the selected device, and Trellis packs the configuration into a compressed bitstream suitable for the MachXO2 internal-flash loader.
 Yosys checks mapped logic against the GHDL-generated Verilog before routing, and Trellis unpacks the resulting bitstream as a format/CRC check.
 Sequential programs use the MachXO2 flip-flop and carry-cell simulation models with temporal induction and explicit undefined-value modeling (``equiv_simple -undef`` and ``equiv_induct -undef -seq 8``).
 An internal oscillator, including one inside a flattened submodule, is replaced in the proof copies by the same arbitrary input while preserving its clock aliases and clock-dependent data outputs.
@@ -105,7 +105,7 @@ Vector bit constraints use the synthesized port index range, including nonzero o
 ``MCCLK_FREQ`` accepts only ``2.08``, using the default MachXO2 encoding checked against a Diamond reference.
 The backend converts the oscillator's packed ASCII ``NOM_FREQ`` parameter to the string expected by nextpnr and checks it against ``MCCLK_FREQ``.
 An omitted ``NOM_FREQ`` uses the MachXO2 primitive's 2.08 MHz default, including the preserved Rev06 source whose synthesis directives hide its generic.
-``USERCODE HEX`` and ``USERCODE BIN`` set the value passed to the packer.
+The managed build replaces authored ``USERCODE`` values with the code allocated by ``programs/usercodes.json`` and passes it to the packer; see :doc:`firmware-identity`.
 ``TRACEID`` is retained in provenance but is not encoded by this backend.
 The LPF reset/asynchronous-path exclusions are recorded without establishing a timing acceptance budget.
 

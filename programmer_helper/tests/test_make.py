@@ -64,6 +64,13 @@ class ProgrammerMakeTests(unittest.TestCase):
         self.assertEqual(args[args.index('--usb-serial') + 1], 'probe123')
         self.assertNotIn('program', args)
 
+    def test_identify_runs_once_and_supports_preview(self):
+        for preview in (False, True):
+            args = self.recorded('-j2', 'programmer', 'identify', 'target=s3c',
+                                 f'dry_run={int(preview)}')
+            self.assertEqual(args[:3], ['-m', 'programmer_helper.program', 'identify'])
+            self.assertEqual('--execute' in args, not preview)
+
     def test_program_executes_one_explicit_target(self):
         for target in ('s3c', 'dslot'):
             with self.subTest(target=target):

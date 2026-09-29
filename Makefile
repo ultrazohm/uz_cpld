@@ -28,12 +28,12 @@ ifneq ($(programmer_backend),foss)
 $(error programmer_backend must be diamond or foss)
 endif
 endif
-programmer_action := $(filter scan lattice_xcf program,$(MAKECMDGOALS))
+programmer_action := $(filter scan identify lattice_xcf program,$(MAKECMDGOALS))
 ifneq ($(word 2,$(programmer_action)),)
-$(error Choose one programmer action: scan, lattice_xcf, or program)
+$(error Choose one programmer action: scan, identify, lattice_xcf, or program)
 endif
-ifneq ($(filter-out programmer scan lattice_xcf program,$(MAKECMDGOALS)),)
-$(error Use make programmer [scan|lattice_xcf|program] with no other goals)
+ifneq ($(filter-out programmer scan identify lattice_xcf program,$(MAKECMDGOALS)),)
+$(error Use make programmer [scan|identify|lattice_xcf|program] with no other goals)
 endif
 ifeq ($(programmer_action),lattice_xcf)
 ifneq ($(programmer_backend),diamond)
@@ -42,7 +42,7 @@ endif
 endif
 endif
 firmware_goals := build doctor project gui build-all
-.PHONY: release-list release-new release-current help build list doctor new generate check project gui build-all report programmer program scan lattice_xcf clean clean-all test docs docs-local docs-assets-local netlist netlist-local sim image test-container _sim
+.PHONY: flasher identify usercodes usercodes-assign release-list release-new release-current help build list doctor new generate check project gui build-all report programmer program scan lattice_xcf clean clean-all test docs docs-local docs-assets-local netlist netlist-local sim image test-container _sim
 help:
 	@printf '%-48s %s\n' \
 	  'make [help]' 'Show all commands (default without program)' \
@@ -54,6 +54,10 @@ help:
 	  'make programmer program target=s3c|dslot' 'Program selected target from selection.toml; dry_run=1 previews' \
 	  'make programmer scan [target=dslot|s3c]' 'Read JTAG IDs; defaults to D-slots' \
 	  'make programmer lattice_xcf [selection=FILE]' 'Generate D-slot and S3C XCF files from selection.toml' \
+	  'make programmer identify [target=dslot|s3c]' 'Read USERCODE/TraceID and resolve firmware identity' \
+	  'make usercodes' 'List permanent program numbers and registered revisions' \
+	  'make usercodes-assign' 'Register manually added programs without reusing numbers' \
+	  'make flasher' 'Build the pinned USERCODE-capable openFPGALoader locally' \
 	  'make list' 'List catalog programs in the selected cycle' \
 	  'make release-list' 'List release cycles and the current selection' \
 	  'make release-new name=NAME [from=CYCLE]' 'Create a cycle and make it current' \
@@ -82,7 +86,7 @@ release-list release-current:
 	$(python) -m toolchain.buildsystem $@ $(release_args)
 release-new:
 	$(python) -m toolchain.buildsystem $@ --name $(call quote,$(name)) $(if $(from),--from $(call quote,$(from)))
-list check report generate:
+list check report generate usercodes usercodes-assign:
 	$(python) -m toolchain.buildsystem $@ $(args)
 programmer:
 ifeq ($(programmer_action),lattice_xcf)
@@ -94,10 +98,10 @@ else
 endif
 # Subcommands are consumed above; never run a second action, even under make -j.
 ifneq ($(filter programmer,$(MAKECMDGOALS)),)
-scan program lattice_xcf:
+scan identify program lattice_xcf:
 	@:
 else
-scan program lattice_xcf:
+scan identify program lattice_xcf:
 	@echo 'Use make programmer $@ [target=dslot|s3c]' >&2; exit 2
 endif
 # FOSS firmware commands use the same container dispatch as simulation on hosts.
@@ -119,6 +123,8 @@ test:
 	$(python) -m unittest discover -s cpld_vhdl_generator/tests -v
 	$(python) -m unittest discover -s toolchain/tests -v
 	$(python) -m unittest discover -s programmer_helper/tests -v
+flasher:
+	$(python) -m toolchain.foss.flasher --jobs $(call quote,$(jobs))
 container_engine ?= docker
 container_platform ?= linux/amd64
 container_userns = $(if $(filter podman,$(notdir $(container_engine))),--userns=keep-id)

@@ -263,7 +263,9 @@ class FossBackend:
         (project / 'impl').mkdir()
         metadata = project.parent / 'metadata'
         (metadata / 'reports').mkdir(parents=True, exist_ok=True)
-        lpf, deferred, notes = constraints(build.constraint.read_text())
+        from ..identity import constraint_text, validate_identity
+        identity = validate_identity(build, json.loads((metadata / 'identity.json').read_text()))
+        lpf, deferred, notes = constraints(constraint_text(build, identity))
         from ..foss_config import validate_s3c_banks
         validate_s3c_banks(deferred, build.device)
         if 'TRACEID' in deferred:
@@ -368,7 +370,8 @@ class FossBackend:
         from ..foss_config import complete_config, verify_open_drain
         complete_config(project / 'impl/routed.config', plan['deferred'], suite_root(), build.device,
                         pin_report['open_drain'])
-        pack = [tool('ecppack'), 'impl/routed.config', 'impl/firmware_impl.bit']
+        # MachXO2's internal-flash bitstream path requires compressed framing.
+        pack = [tool('ecppack'), 'impl/routed.config', 'impl/firmware_impl.bit', '--compress']
         if 'USERCODE' in plan['deferred']:
             pack += ['--usercode', str(int(plan['deferred']['USERCODE'], 16))]
         run(pack)

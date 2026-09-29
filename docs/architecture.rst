@@ -20,6 +20,7 @@ Source layout
    │   └── tests/              tooling regressions and licensed integration check
    ├── programs/
    │   ├── releases.toml      current release cycle
+   │   ├── usercodes.json     permanent program numbers and build identities
    │   └── <release_cycle>/
    │       ├── catalog.toml   firmware catalog
    │       └── <name>/        TOML, VHDL, LPF, testbench and description.rst

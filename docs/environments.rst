@@ -6,7 +6,7 @@ Containers
 
 The Dockerfile has one Linux amd64 runtime image, ``toolchain``, used by Make, CI and the Dev Container.
 An intermediate ``foss-builder`` stage compiles the pinned XO2 tools; it is not a separate runtime image.
-The runtime image includes GHDL, Yosys, nextpnr-machxo2, Trellis, openFPGALoader, Graphviz, Python, Sphinx, GTKWave, development utilities and Diamond runtime libraries.
+The runtime image includes GHDL, Yosys, nextpnr-machxo2, Trellis, openFPGALoader, OpenOCD, Graphviz, Python, Sphinx, GTKWave, development utilities and Diamond runtime libraries.
 The Dev Container setup installs the developer CLI for its user after creation.
 Diamond itself and its license remain external.
 Build the image explicitly before starting a container manually::

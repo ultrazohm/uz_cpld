@@ -127,7 +127,9 @@ class FrontendTests(unittest.TestCase):
 
     def fake_build(self, project, log):
         for suffix in ('jed', 'bit'):
-            (project / 'impl' / f'firmware_impl.{suffix}').write_text('new firmware')
+            identity = json.loads((project.parent / 'metadata/identity.json').read_text())
+            (project / 'impl' / f'firmware_impl.{suffix}').write_text(
+                f'UH{identity["usercode"]}*\n' if suffix == 'jed' else 'new firmware')
         log.write_text('Diamond 3.14.0.75.2')
         return log.read_text()
 
@@ -173,7 +175,10 @@ class FrontendTests(unittest.TestCase):
 
     def test_diamond_s3c_project_requests_4000hc(self):
         build = load_build(self.root, 's3c_toolchain_test_program')
-        project = self.root / 'diamond_s3c_project'
+        project = build.directory / 'project'
+        from toolchain.buildsystem.identity import reserve_build
+        (project.parent / 'metadata').mkdir(parents=True)
+        workflow.write_json(project.parent / 'metadata/identity.json', reserve_build(build))
         def fake_run(script, log):
             (project / 'firmware.ldf').write_text('<BaliProject><Implementation><Options/></Implementation></BaliProject>')
             return 'prepared'
@@ -181,7 +186,8 @@ class FrontendTests(unittest.TestCase):
             DiamondBackend().prepare(build, project, project / 'prepare.log')
         script = (project / 'prepare.tcl').read_text()
         self.assertIn('-dev "LCMXO2-4000HC-4TG144C"', script)
-        self.assertIn('s3c_toolchain_test_program_constraints.lpf', script)
+        self.assertIn('-lpf constraints.lpf', script)
+        self.assertIn('USERCODE HEX', (project / 'constraints.lpf').read_text())
         self.assertIn('s3c_toolchain_test_program.vhdl', script)
         self.assertIn('def_top="S3CToolchainTestProgram"', (project / 'firmware.ldf').read_text())
 

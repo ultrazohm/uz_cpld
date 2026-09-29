@@ -1,6 +1,7 @@
 """Keep physical programming behind explicit execution and Flash verification."""
 from pathlib import Path
 import tempfile
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 import xml.etree.ElementTree as ET
@@ -24,9 +25,14 @@ class ProgramTests(unittest.TestCase):
     @patch.object(program, 'resolve_release', return_value='original')
     def test_foss_plan_uses_flash_verify_for_all_positions(self, _, selection, builds, firmware):
         selection.return_value = ({i: 'tx30' for i in range(1, 6)}, 's3c_power_on_debounce', None, 'foss')
-        builds.return_value = [(f'slot{i}', i - 1, object()) for i in range(1, 6)]
+        # Each mocked build still supplies the identity used by the plan.
+        builds.return_value = []
         firmware.return_value = (Path('/tmp/firmware.bit'), 'abc')
         with tempfile.TemporaryDirectory() as directory:
+            metadata = Path(directory) / 'metadata'
+            metadata.mkdir()
+            (metadata / 'build.json').write_text('{"identity": {"usercode": "000B0001"}}')
+            builds.return_value = [(f'slot{i}', i - 1, SimpleNamespace(directory=Path(directory))) for i in range(1, 6)]
             _, _, _, steps = program.plan(Path(directory), Path('selection.toml'), None,
                                            'dslots', 'foss', None, None)
         self.assertEqual(len(steps), 5)

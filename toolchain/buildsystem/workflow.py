@@ -31,7 +31,7 @@ def hashes(build: Build) -> dict:
     """Hash authored inputs and the Python implementation used for this build."""
     code = build.root / 'toolchain/buildsystem'
     paths = set(build.inputs) | {code / name for name in
-                                 ('model.py', 'workflow.py', 'cli.py', 'backends/' + build.backend + '.py')}
+                                 ('model.py', 'workflow.py', 'cli.py', 'identity.py', 'backends/' + build.backend + '.py')}
     if build.backend == 'foss':
         paths |= {code / 'ghdl.py', code / 'foss_config.py'}
         paths |= set((build.root / 'toolchain/hdl').rglob('*.v'))
@@ -125,6 +125,12 @@ def prepare(build: Build, directory: Path):
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     log = logs / f'{stamp}-prepare.log'
     try:
+        from .identity import reserve_build
+        metadata = directory / 'metadata'
+        if metadata.is_symlink():
+            raise BuildError('Metadata directory must not be a symlink')
+        metadata.mkdir(exist_ok=True)
+        write_json(metadata / 'identity.json', reserve_build(build))
         backend_for(build).prepare(build, project, log)
     finally:
         # Even a failed generation can be safely retried if it remains unchanged.
@@ -195,6 +201,12 @@ def build_program(build: Build) -> Path:
                 if not path.is_file() or not path.stat().st_size:
                     raise BuildError(f'Missing fresh export: {path}; see {log}')
                 exports[ext] = path
+            from .identity import validate_identity, record_artifacts
+            identity = validate_identity(build, json.loads((metadata / 'identity.json').read_text()))
+            if build.backend == 'diamond':
+                values = re.findall(rb'(?m)^UH([0-9A-Fa-f]{8})\*\r?$', exports['jed'].read_bytes())
+                if values != [identity['usercode'].encode()]:
+                    raise BuildError('Exported JEDEC USERCODE does not match the registered build identity')
             published = []
             for ext, path in exports.items():
                 destination = build.firmware_path(ext)
@@ -211,7 +223,7 @@ def build_program(build: Build) -> Path:
                 return result.stdout.strip() if result.returncode == 0 else None
             record = {'schema_version': 1, 'status': 'success', 'program': build.name, 'release_cycle': build.release_cycle,
                       'target': build.target, 'backend': build.backend, 'device': build.device,
-                      'top': build.top, 'standard': build.standard,
+                      'top': build.top, 'standard': build.standard, 'identity': identity,
                       'tool_version': build.expected_version,
                       'options': build.options,
                       'generated_configuration': configuration(proj),
@@ -228,6 +240,7 @@ def build_program(build: Build) -> Path:
             else:
                 record['tools'] = json.loads((directory / 'metadata/reports/tools.json').read_text())
                 record['limitations'] = 'Experimental MachXO2 flow; no hardware or Diamond bitstream equivalence established; no JEDEC export.'
+            record_artifacts(build, record)
             write_json(metadata / 'build.json', record)
             write_json(metadata / 'status.json', {'status': 'success'})
         except Exception as exc:
@@ -347,6 +360,8 @@ target = "uz_dslot_xo2"
             (destination / 'description.rst').write_text(
                 'Purpose\n-------\n\nDescribe the adapter and its routing here.\n')
             load_config(destination / 'generator.toml')
+            from .identity import reserve_program
+            reserve_program(root, name, release_cycle)
         except Exception:
             shutil.rmtree(destination)
             raise
@@ -355,6 +370,8 @@ target = "uz_dslot_xo2"
 
 def register_program(root: Path, name: str, release_cycle: str | None = None):
     """Atomically add a validated program to the catalog without duplicates."""
+    from .identity import reserve_program
+    reserve_program(root, name, resolve_release(root, release_cycle))
     path = release_directory(root, release_cycle) / 'catalog.toml'
     if path.is_symlink():
         raise BuildError('Program catalog must not be a symlink')

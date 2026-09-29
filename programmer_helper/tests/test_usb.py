@@ -129,7 +129,12 @@ class USBTests(unittest.TestCase):
         build = SimpleNamespace(directory=self.root / 'build', name='tx30', backend='diamond')
         step = program.Step('dslots', build, xcf, program.digest(xcf),
                             ('fake-diamond', str(xcf), '<run-log>'))
-        with patch.object(program, 'locked', return_value=nullcontext()), \
+        (build.directory / 'metadata').mkdir(parents=True)
+        (build.directory / 'metadata/build.json').write_text('{"identity": {"usercode": "00010001"}}')
+        with patch('toolchain.buildsystem.identity.validate_identity', return_value={'usercode': '00010001'}), \
+                patch('programmer_helper.identify.programming_preflight', return_value=None), \
+                patch('programmer_helper.identify.identify', return_value=[{'label': 'slot1', 'usercode': '00010001'}]), \
+                patch.object(program, 'locked', return_value=nullcontext()), \
                 patch.object(program, 'verified_firmware'), \
                 patch.object(program, 'verify_diamond_plan'), \
                 patch.object(program, 'run_command', return_value='success') as run:
@@ -152,6 +157,23 @@ class DiscoveryTests(unittest.TestCase):
                 (device / 'idProduct').write_text('6011')
             with self.assertRaisesRegex(BuildError, 'one matching FT4232'):
                 usb.diamond_interface(root)
+
+    def test_serial_selects_exactly_one_matching_probe(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for index, serial in enumerate(('first', 'second'), start=1):
+                device = root / f'3-{index}'
+                device.mkdir()
+                for name, value in {'idVendor': '0403', 'idProduct': '6011', 'serial': serial,
+                                    'busnum': '3', 'devnum': str(index)}.items():
+                    (device / name).write_text(value)
+                interface = root / f'3-{index}:1.1'
+                interface.mkdir()
+                (interface / 'bInterfaceNumber').write_text('01')
+            selected = usb.diamond_interface(root, serial='second')
+            self.assertEqual(selected.address, 2)
+            self.assertEqual(selected.serial, 'second')
+            self.assertIsNone(usb.diamond_interface(root, serial='missing'))
 
     def test_absent_device_defers_to_diamond(self):
         with tempfile.TemporaryDirectory() as directory:

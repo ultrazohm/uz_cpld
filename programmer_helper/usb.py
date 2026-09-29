@@ -35,11 +35,12 @@ class Interface:
         return driver.resolve().name if driver.exists() else None
 
 
-def diamond_interface(sysfs: Path = Path('/sys/bus/usb/devices')):
+def diamond_interface(sysfs: Path = Path('/sys/bus/usb/devices'), serial=None):
     """Find the configured JTAG interface on one UltraZohm FT4232."""
     devices = [p for p in sysfs.iterdir() if (p / 'idVendor').is_file()
                and (p / 'idVendor').read_text().strip() == FTDI_VENDOR_ID
-               and (p / 'idProduct').read_text().strip() == FTDI_PRODUCT_ID]
+               and (p / 'idProduct').read_text().strip() == FTDI_PRODUCT_ID
+               and (serial is None or ((p / 'serial').is_file() and (p / 'serial').read_text().strip() == serial))]
     if not devices:
         return None  # Let Diamond diagnose a missing or non-FTDI cable.
     if len(devices) != 1:
@@ -130,12 +131,12 @@ def _interrupt(signum, frame):
 
 
 @contextmanager
-def diamond_usb(port: int):
+def diamond_usb(port: int, *, serial=None):
     """Restore only the driver we detached, after the Diamond process has exited."""
     if not sys.platform.startswith('linux'):
         yield
         return
-    interface = diamond_interface()
+    interface = diamond_interface(serial=serial) if serial is not None else diamond_interface()
     if interface is None:
         yield
         return

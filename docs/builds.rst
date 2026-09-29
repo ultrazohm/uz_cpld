@@ -78,8 +78,9 @@ With a native Diamond installation and display::
    make gui program=tx30
    make clean program=tx30
 
-Diamond projects reference the program's HDL and LPFs.
-For manually maintained programs, edit those files directly.
+Diamond projects reference authored HDL and a generated copy of the LPF containing the allocated USERCODE.
+For manually maintained programs, edit the authored HDL and LPF, then regenerate the project.
+See :doc:`firmware-identity` for program numbers and automatic build revisions.
 For generator-managed programs, edit the CSV or generator configuration and run ``make generate program=NAME``.
 Check the destination when saving from Spreadsheet View, because an exported LPF does not replace the authored input automatically.
 Transfer useful project/strategy changes into manifests or the target strategy before regenerating.

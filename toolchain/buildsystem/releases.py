@@ -68,6 +68,11 @@ def create(root: Path, name: str, source: str | None = None) -> Path:
                 shutil.copytree(origin, destination,
                                 ignore=shutil.ignore_patterns(*ignored, '*.pyc'))
                 _validate(root, name)
+                from .identity import reserve_program
+                for program in sorted(destination.iterdir()):
+                    if program.is_dir() and ((program / f'{program.name}.toml').is_file() or
+                                             (program / 'generator.toml').is_file()):
+                        reserve_program(root, program.name, name)
             description = destination / 'description.rst'
             if not description.exists():
                 description.write_text(

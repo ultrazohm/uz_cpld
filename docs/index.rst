@@ -33,6 +33,7 @@ Run commands from the repository root; paths in this documentation are relative 
    environments
    builds
    programmer
+   firmware-identity
    s3c
    releases
    foss

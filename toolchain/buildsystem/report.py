@@ -59,6 +59,9 @@ def _evidence_row(build):
         saved = {}
     row['changed_inputs'] = sorted(key for key in current.keys() | saved.keys()
                                    if current.get(key) != saved.get(key))
+    if not row['changed_inputs']:
+        from .identity import validate_identity
+        row['identity'] = validate_identity(build, record.get('identity'))
     outputs = record.get('outputs', {})
     if not isinstance(outputs, dict):
         outputs = {}

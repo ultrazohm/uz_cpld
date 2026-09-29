@@ -12,7 +12,7 @@ from .backends.diamond import launcher, run, wrap
 def main(argv: list[str] | None = None) -> int:
     """Execute a command and return a shell-compatible status code."""
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command', choices=['list', 'doctor', 'new', 'generate', 'check', 'project', 'build', 'gui', 'build-all', 'report', 'clean', 'clean-all', 'release-list', 'release-new', 'release-current'])
+    parser.add_argument('command', choices=['list', 'usercodes', 'usercodes-assign', 'doctor', 'new', 'generate', 'check', 'project', 'build', 'gui', 'build-all', 'report', 'clean', 'clean-all', 'release-list', 'release-new', 'release-current'])
     parser.add_argument('--root', type=Path, default=Path(__file__).resolve().parents[2])
     parser.add_argument('--program')
     parser.add_argument('--release-cycle', '--release_cycle', dest='release_cycle')
@@ -26,6 +26,13 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     root = args.root.resolve()
     try:
+        if args.command in ('usercodes', 'usercodes-assign'):
+            from .identity import read_registry, assign_programs
+            if args.command == 'usercodes-assign':
+                assign_programs(root)
+            for name, entry in sorted(read_registry(root)['programs'].items(), key=lambda item: item[1]['number']):
+                print(f'{entry["number"]:5d}  0x{entry["number"]:04X}rrrr  {name}  ({len(entry["builds"])} registered builds)')
+            return 0
         if args.discard_project_changes and args.command != 'clean':
             raise BuildError('--discard-project-changes is only valid for clean')
         if args.command.startswith('release-'):

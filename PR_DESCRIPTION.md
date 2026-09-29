@@ -14,6 +14,8 @@ The repository now provides one command-line workflow for creating, simulating, 
 - Generate program documentation, waveforms and RTL/state diagrams. Grouped FSM branches are handled explicitly; unsupported state choices fail rather than producing misleading transitions. The documentation lock covers asset generation, Sphinx and site validation.
 - Add selection-based JTAG scanning, programming previews, verified flash programming and XCF export. Diamond execution uses private plans containing XCFs and verified JEDEC snapshots, checks the selected positions and firmware hashes, and rejects changed firmware before accessing hardware. XCF export supports `probe_index` for both chains.
 - Allow per-program cleanup with stale generated files or missing HDL inputs while retaining output-path checks, locking and protection of edited project settings.
+- Assign all 22 programs permanent numbers in `programs/usercodes.json`. Automatically allocate numbers for new programs and clones, and encode the program number plus input-specific build revision in USERCODE for both build backends. Locked allocation rejects collisions and exhausted counters; independent checkouts must coordinate the tracked registry.
+- Add read-only firmware identification using USERCODE and silicon TraceID, and require matching identity readback before declaring programming successful. Build a pinned, patched openFPGALoader that writes and verifies MachXO2 USERCODE for JEDEC and compressed FOSS bitstreams; verify its provenance and parse selected files before USB access.
 
 ## Controller scope
 
@@ -23,10 +25,12 @@ FOSS builds retain their documented startup-equivalence limitations. Their two b
 
 ## Validation
 
-- `make test`: 207 tests run, 203 passed and four optional browser tests skipped.
-- `make docs-local`: all 22 program simulations passed; Sphinx completed with warnings treated as errors, and 140 HTML files passed site validation.
-- `make build program=cvg_tx30_stateful backend=diamond`: passed, exercising generated HDL and the shared library together.
+- `make test`: 231 tests run, 227 passed and four optional browser tests skipped.
+- `make docs-local`: all 22 program documentation assets validated; Sphinx completed with warnings treated as errors, and 141 HTML files passed site validation. All 22 program simulations passed during this change.
+- Diamond builds for all 22 programs passed, with unique embedded USERCODEs matching the registry.
+- FOSS builds of `tx30` and `s3c_rev6_beta` passed, covering both device sizes and compressed bitstream output.
+- The pinned openFPGALoader patch compiled successfully and passed native mocked USERCODE write/readback tests. Its real parsers accepted Diamond JEDEC and FOSS bitstreams for both device sizes, and rejected wrong JEDEC identities and malformed codes without accessing USB.
 
-Regression coverage includes shared-library cloning within and across release cycles, independent programming plans, changed firmware rejection before the hardware runner, stale-input cleanup, grouped FSM branches, Unicode TOML paths, XCF probe selection and locks during documentation rendering/validation. Hardware programming, FOSS firmware rebuilds, a fresh container-image build and hosted Actions/Pages deployment are outside this local validation.
+Regression coverage includes concurrent identity allocation, revision reuse, automatic clone/release numbering, shared-library cloning, independent programming plans, changed firmware rejection before the hardware runner, identity readback failures, stale-input cleanup, grouped FSM branches, Unicode TOML paths, XCF probe selection and documentation locking. Hardware programming and live identity readback, a fresh container-image build and hosted Actions/Pages deployment remain outside this local validation.
 
 The workflow targets Pages deployment from `master`; repository Pages/environment settings and live PR mergeability still need verification on GitHub. This branch does not integrate the later heartbeat development history.

@@ -8,7 +8,8 @@ Source layout
 
    repository root/
    ├── Makefile
-   ├── cpld_vhdl_generator/    standalone generator, contracts, shared HDL and board profiles
+   ├── cpld_vhdl_generator/    standalone generator, contracts and board profiles
+   ├── xo2_library/            standalone shared HDL components and behavioral tests
    ├── .devcontainer/          shared image and Dev Container configuration
    ├── toolchain/
    │   ├── buildsystem/        validated model, CLI, lifecycle and firmware backends
@@ -28,7 +29,7 @@ Source layout
 The workspace can be copied or renamed.
 Manually maintained programs contain editable HDL, constraints, manifests and testbenches.
 Generator-managed projects use editable CSV/TOML inputs to produce the VHDL, testbench, board constraints, manifest and generation receipt.
-Generated VHDL references the shared S3C entity and selected architecture in ``cpld_vhdl_generator/hdl``.
+Generated VHDL references the shared S3C entity and selected architecture in ``xo2_library/s3c``.
 The build system validates generated files through the standalone package, while the generator itself has no build-system dependency.
 Firmware build artifacts live under each program's ignored ``build/`` directory, while aggregate reports use ``toolchain/build/`` and documentation uses ``docs/_generated/`` and ``docs/_build/``.
 The repository has one Makefile, one Dockerfile and one Dev Container configuration.

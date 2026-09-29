@@ -8,6 +8,7 @@ import unittest
 from cpld_vhdl_generator import GeneratorError, check, generate, load_config, source_entries
 from cpld_vhdl_generator.generator import read_toml
 from cpld_vhdl_generator.toml import dumps
+from xo2_library import S3C_DIRECTORY
 
 
 class GeneratorTests(unittest.TestCase):
@@ -68,6 +69,7 @@ reqoe = [1, 1]
         sources = generate(self.config, self.output)
         entries = source_entries(load_config(self.config), self.output)
         self.assertEqual([s.library for s in entries], ['s3c', 's3c', 'work'])
+        self.assertEqual(entries[0].path, S3C_DIRECTORY / 's3c_logic.vhdl')
         self.assertEqual([s.path for s in entries], sources)
         self.assertFalse((self.output / 's3c_logic.vhdl').exists())
         top = sources[-1].read_text()

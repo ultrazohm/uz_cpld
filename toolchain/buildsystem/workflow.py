@@ -339,7 +339,7 @@ routing = "routing.csv"
 contract = "s3c_power_on_debounce_v1"
 clock = "machxo2"
 pilot_policy = "unused"
-s3c_library = "../../../cpld_vhdl_generator/hdl"
+s3c_library = "../../../xo2_library/s3c"
 target = "uz_dslot_xo2"
 ''')
             (destination / 'routing.csv').write_text('output,normal_state,safe_state\n' +

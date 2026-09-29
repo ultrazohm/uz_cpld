@@ -19,7 +19,7 @@ class GeneratedProgramTests(unittest.TestCase):
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)
         self.root = Path(temporary.name)
-        for folder in ('programs', 'toolchain', 'cpld_vhdl_generator'):
+        for folder in ('programs', 'toolchain', 'cpld_vhdl_generator', 'xo2_library'):
             shutil.copytree(ROOT / folder, self.root / folder,
                             ignore=shutil.ignore_patterns('build', '__pycache__'))
         (self.root / 'programs/releases.toml').write_text('current = "original"\n')
@@ -151,7 +151,7 @@ reqoe = [1, 0]
         shared.mkdir()
         config = shared / 'generator.toml'
         config.write_text((source / 'generator.toml').read_text().replace(
-            '../../../cpld_vhdl_generator/hdl', '../cpld_vhdl_generator/hdl'))
+            '../../../xo2_library/s3c', '../xo2_library/s3c'))
         shutil.copy2(source / 'routing.csv', shared / 'routing.csv')
         manifest = source / 'cvg_tx30_stateful.toml'
         manifest.write_text(manifest.read_text().replace('generator = "generator.toml"',
@@ -187,8 +187,8 @@ reqoe = [1, 0]
         self.assertFalse((new / 'cvg_tx30_stateful.vhdl').exists())
         self.assertFalse((new / 'generated').exists())
         self.assertEqual([s.path for s in build.sources],
-                         [root / 'cpld_vhdl_generator/hdl/s3c_logic.vhdl',
-                          root / 'cpld_vhdl_generator/hdl/level_signals.vhdl', new / 'cvg_stateful_clone.vhdl'])
+                         [root / 'xo2_library/s3c/s3c_logic.vhdl',
+                          root / 'xo2_library/s3c/level_signals.vhdl', new / 'cvg_stateful_clone.vhdl'])
         self.assertFalse((new / 's3c_logic.vhdl').exists())
         self.assertEqual([s.library for s in build.sources], ['s3c', 's3c', 'work'])
         shared = build.sources[1].path

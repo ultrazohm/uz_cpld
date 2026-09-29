@@ -77,7 +77,8 @@ The built-in contract uses active-high ReqSafeState, ignores CarrierReady, asser
 Set `pilot_policy = "required"` to require a high pilot input, or add an enable pattern such as `enable = {fpga_29 = 1}`.
 
 Compile the shared `s3c_logic.vhdl` entity and contract-selected architecture into library `s3c`, then the generated top into library `work`.
-Shared HDL defaults to the package's `hdl` directory; `s3c_library` selects a relative directory instead.
+Shared HDL belongs to the standalone [`xo2_library`](../xo2_library/README.md), also included in the Python distribution.
+The default is `xo2_library/s3c`; `s3c_library` selects a relative directory instead.
 `source_entries(load_config(config_path), output_directory)` returns the ordered paths and libraries for build tools.
 
 Edit the CSV or TOML and regenerate to update outputs.

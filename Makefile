@@ -115,6 +115,7 @@ clean:
 clean-all:
 	$(python) -m toolchain.buildsystem clean-all
 test:
+	$(python) -m unittest discover -s xo2_library/tests -v
 	$(python) -m unittest discover -s cpld_vhdl_generator/tests -v
 	$(python) -m unittest discover -s toolchain/tests -v
 	$(python) -m unittest discover -s programmer_helper/tests -v

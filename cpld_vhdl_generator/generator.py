@@ -14,6 +14,7 @@ except ModuleNotFoundError:
     import tomli as tomllib
 
 from . import __version__
+from xo2_library import S3C_DIRECTORY
 
 PACKAGE = Path(__file__).resolve().parent
 DATA_PINS = tuple(f'{bank}_{i:02d}' for bank in ('fpga', 'd') for i in range(30))
@@ -167,7 +168,7 @@ def load_config(path):
     builtin = PACKAGE / 'contracts' / (contract_ref + '.toml')
     contract_path = builtin if re.fullmatch(r'[a-z0-9_]+', contract_ref) and builtin.is_file() else relative(path.parent, contract_ref)
     contract = load_contract(contract_path)
-    s3c_library = relative(path.parent, data['s3c_library']) if 's3c_library' in data else PACKAGE / 'hdl'
+    s3c_library = relative(path.parent, data['s3c_library']) if 's3c_library' in data else S3C_DIRECTORY
     for filename in ('s3c_logic.vhdl', contract['implementation'] + '.vhdl'):
         if not (s3c_library / filename).is_file():
             raise GeneratorError(f'Missing shared S3C source: {s3c_library / filename}')

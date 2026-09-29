@@ -1,6 +1,6 @@
 # UltraZohm CPLD
 
-This repository contains the active CPLD program catalog, the standalone `cpld_vhdl_generator`, and Diamond and FOSS firmware toolchains. Vendor reference projects are under `archive/`.
+This repository contains the active CPLD program catalog, the standalone `cpld_vhdl_generator`, the shared [`xo2_library`](xo2_library/README.md), and Diamond and FOSS firmware toolchains. Vendor reference projects are under `archive/`.
 
 Programs live under `programs/<release_cycle>/<program>/`; `programs/releases.toml` selects the current cycle. Use `make release-new name=r2026_10 from=original` to copy a cycle and select it, or omit `from` for an empty cycle. See [release cycles](docs/releases.rst) for selection and cloning.
 

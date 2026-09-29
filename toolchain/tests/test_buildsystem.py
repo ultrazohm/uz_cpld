@@ -22,7 +22,7 @@ class FrontendTests(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory(prefix="cpld space ' $[test]-")
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
-        for folder in ('programs', 'toolchain', 'cpld_vhdl_generator'):
+        for folder in ('programs', 'toolchain', 'cpld_vhdl_generator', 'xo2_library'):
             shutil.copytree(ROOT / folder, self.root / folder, ignore=shutil.ignore_patterns('build', '__pycache__'))
         (self.root / 'programs/releases.toml').write_text('current = "original"\n')
         self.build = load_build(self.root, 'tx30')

@@ -17,7 +17,8 @@ The standalone command generates the same project files without changing the rep
 Add ``--check`` to that command to verify freshness without writing files.
 All four generated project files are tracked by the receipt.
 Manually edited or unowned files are protected from overwriting.
-Shared sources live in ``cpld_vhdl_generator/hdl`` and are referenced by each program's manifest.
+Shared sources live in ``xo2_library/s3c`` and are referenced by each program's manifest.
+See :doc:`xo2-library` for using these components from handwritten VHDL without the generator.
 The shared entity ``s3c_logic.vhdl`` and selected architecture ``level_signals.vhdl`` compile into library ``s3c`` before the top level in library ``work``.
 The top level contains clock setup and routing and instantiates ``s3c.s3c_logic(level_signals)``.
 The contract selects the architecture; its levels and the program's pilot policy are passed as generics.
@@ -72,7 +73,7 @@ It returns to ``safe_state`` when any condition fails and resumes ``normal_state
 After startup, control changes reach the state on the third clock edge counting their first sampling edge.
 Data forwarding is combinational.
 
-``s3c_library`` selects the shared HDL directory and defaults to the standalone package's ``hdl`` directory.
+``s3c_library`` selects the shared HDL directory and defaults to ``xo2_library/s3c`` (also included when installing the generator).
 ``target = "uz_dslot_xo2"`` selects generation of the manifest, testbench and constraints along with the VHDL.
 This project mode requires ``clock = "machxo2"`` and uses the packaged D-slot board pin map, electrical settings and Diamond backend.
 Configurations without ``target`` generate VHDL and provenance and may use an external clock.
@@ -106,7 +107,7 @@ See :doc:`simulation` for the generated cocotb testbench's routing patterns and 
 
 The direct shared-controller testbench checks startup/reset, state/status outputs, control latency, polarity, readiness, pilot, and enable behavior::
 
-   python3 -m unittest cpld_vhdl_generator.tests.test_s3c_logic -v
+   python3 -m unittest discover -s xo2_library/tests -v
 
 The interaction testbench connects the generated slot to the actual S3C sources and checks startup, soft stop, and re-enable::
 

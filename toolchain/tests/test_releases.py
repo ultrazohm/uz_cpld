@@ -21,7 +21,7 @@ class ReleaseTests(unittest.TestCase):
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)
         self.root = Path(temporary.name)
-        for folder in ('toolchain', 'cpld_vhdl_generator'):
+        for folder in ('toolchain', 'cpld_vhdl_generator', 'xo2_library'):
             shutil.copytree(ROOT / folder, self.root / folder,
                             ignore=shutil.ignore_patterns('build', '__pycache__', '.pytest_cache'))
         shutil.copytree(ROOT / 'programs/original', self.root / 'programs/original',

@@ -41,6 +41,7 @@ Run commands from the repository root; paths in this documentation are relative 
    _generated/programs/index
    configuration
    vhdl-generator
+   xo2-library
    architecture
    validation
    publishing

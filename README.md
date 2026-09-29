@@ -16,7 +16,9 @@ Use `make init` to create `selection.toml`, `make scan` to read D-slot JTAG IDs,
 
 `make usercodes` lists permanent program numbers; new programs and clones receive numbers automatically. `make identify target=s3c|dslot` reads the programmed firmware identity and silicon TraceID. Keep `programs/usercodes.json` with your source changes. FOSS programming uses the patched openFPGALoader included in the image; see [firmware identity](docs/firmware-identity.rst) for allocation, readback and native flasher setup.
 
-Start with `make help` for commands in clean-clone workflow order:
+Use `make help` for a compact list of all commands grouped by tool.
+Use `make help command=ACTION` for required and optional arguments.
+For a clean clone, the usual workflow is:
 
 ```sh
 make doctor

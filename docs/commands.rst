@@ -2,7 +2,10 @@ Command reference
 =================
 
 Use one action per invocation: ``make ACTION key=value``. ``make help`` lists
-actions in workflow order; ``make help command=ACTION`` lists that action's options.
+actions grouped by environment, documentation, simulation, toolchain,
+``cpld_vhdl_generator`` and programmer, with one compact line per command.
+``make help command=ACTION`` shows required and optional arguments with value
+choices, defaults and conditional container arguments for detailed reference.
 The shared definitions in ``toolchain/commands.py`` drive help, validation,
 backend resolution and execution. Make is a thin entry point to that dispatcher.
 The equivalent Python entry point is ``python3 -m toolchain.commands ACTION``

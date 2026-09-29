@@ -6,6 +6,7 @@ from pathlib import Path
 import shlex
 import subprocess
 import sys
+import textwrap
 
 from toolchain.buildsystem.model import BuildError, resolve_release
 
@@ -30,37 +31,37 @@ def spec(group, example, description, options=(), required=()):
     return Command(group, example, description, frozenset(options) | COMMON, frozenset(required))
 
 
-# Insertion order is the clean-clone workflow, and is also the help order.
+# Tool groups and command order are shared by overview and focused help.
 COMMANDS = {
-    'image': spec('1. Set up tools and build firmware', 'image', 'Build the container tools (optional for native Diamond)', CONTAINER),
-    'doctor': spec('1. Set up tools and build firmware', 'doctor', 'Check Diamond and catalog inputs; backend=foss checks FOSS', FIRMWARE),
-    'list': spec('1. Set up tools and build firmware', 'list', 'List programs in the current release catalog', FIRMWARE),
-    'build-all': spec('1. Set up tools and build firmware', 'build-all', 'Build every catalog program for the selected backend', FIRMWARE),
-    'report': spec('1. Set up tools and build firmware', 'report', 'Summarize existing catalog build evidence', FIRMWARE),
-    'init': spec('2. Create the programmer selection and project', 'init', 'Create selection.toml; preserve an existing file', {'selection'}),
-    'programmer-project': spec('2. Create the programmer selection and project', 'programmer-project', 'Export both Diamond XCFs from the edited selection', {'selection', 'release_cycle', 'backend', 'build_backend', 'programmer_backend', 'probe_index', 'rebuild'}),
-    'scan': spec('3. Connect, inspect, and program hardware', 'scan target=dslot', 'Check JTAG IDs (target defaults to dslot)', PROBE),
-    'identify': spec('3. Connect, inspect, and program hardware', 'identify target=dslot', 'Read firmware identity and silicon TraceID', PROBE),
-    'program': spec('3. Connect, inspect, and program hardware', 'program target=dslot', 'Program one physical chain from selection.toml', PROBE | {'selection', 'release_cycle', 'build_backend'}, {'target'}),
-    'new': spec('4. Create or modify a program', 'new name=NAME template=tx30', 'Clone a program; template=generator creates CSV inputs', FIRMWARE | {'name', 'template', 'template_release_cycle'}, {'name'}),
-    'generate': spec('4. Create or modify a program', 'generate program=NAME', 'Generate VHDL and register a CSV-based program', FIRMWARE | {'program'}, {'program'}),
-    'check': spec('4. Create or modify a program', 'check program=NAME', 'Validate a program manifest and inputs', FIRMWARE | {'program'}, {'program'}),
-    'build': spec('4. Create or modify a program', 'build program=NAME', 'Build one program; target is inferred when unambiguous', FIRMWARE | {'program'}, {'program'}),
-    'project': spec('4. Create or modify a program', 'project program=NAME', 'Prepare one firmware project without compiling it', FIRMWARE | {'program'}, {'program'}),
-    'gui': spec('4. Create or modify a program', 'gui program=NAME', 'Open the Diamond firmware project', FIRMWARE | {'program'}, {'program'}),
-    'sim': spec('5. Validate and document', 'sim [program=NAME]', 'Simulate complete manifests in the current release', {'program', 'target', 'release_cycle', 'jobs', 'seed', 'wave_format'}),
-    'netlist': spec('5. Validate and document', 'netlist [program=NAME]', 'Export RTL diagrams; defaults to the current catalog', {'program', 'target', 'release_cycle'}),
-    'docs': spec('5. Validate and document', 'docs [release_cycle=all]', 'Generate assets and HTML; defaults to the current release', {'program', 'target', 'release_cycle', 'jobs'}),
-    'docs-assets': spec('5. Validate and document', 'docs-assets [program=NAME]', 'Generate documentation assets without rendering HTML', {'program', 'target', 'release_cycle', 'jobs'}),
-    'test': spec('5. Validate and document', 'test', 'Run Python utility tests; sim runs HDL tests'),
-    'release-list': spec('6. Manage releases and maintenance', 'release-list', 'List releases and the current selection'),
-    'release-new': spec('6. Manage releases and maintenance', 'release-new name=NAME [from=CYCLE]', 'Create a release and make it current', {'name', 'from'}, {'name'}),
-    'release-select': spec('6. Manage releases and maintenance', 'release-select release_cycle=NAME', 'Select the default release', {'release_cycle'}, {'release_cycle'}),
-    'usercodes': spec('6. Manage releases and maintenance', 'usercodes', 'List permanent program numbers and build revisions'),
-    'usercodes-assign': spec('6. Manage releases and maintenance', 'usercodes-assign', 'Register manually added programs'),
-    'flasher-build': spec('6. Manage releases and maintenance', 'flasher-build', 'Compile the optional FOSS programmer utility locally', {'jobs'}),
-    'clean': spec('6. Manage releases and maintenance', 'clean program=NAME', 'Remove one backend build; preserve simulation and diagrams', FIRMWARE | {'program', 'discard_project_changes'}, {'program'}),
-    'clean-all': spec('6. Manage releases and maintenance', 'clean-all', 'Remove all generated builds, assets, and caches'),
+    'image': spec('Environment', 'image', 'Build the container tools (optional for native Diamond)', CONTAINER),
+    'doctor': spec('Environment', 'doctor', 'Check Diamond and catalog inputs; backend=foss checks FOSS', FIRMWARE),
+    'docs': spec('Documentation', 'docs [release_cycle=all]', 'Generate assets and HTML; defaults to the current release', {'program', 'target', 'release_cycle', 'jobs'}),
+    'docs-assets': spec('Documentation', 'docs-assets [program=NAME]', 'Generate documentation assets without rendering HTML', {'program', 'target', 'release_cycle', 'jobs'}),
+    'netlist': spec('Documentation', 'netlist [program=NAME]', 'Export RTL diagrams; defaults to the current catalog', {'program', 'target', 'release_cycle'}),
+    'sim': spec('Simulation', 'sim [program=NAME]', 'Simulate complete manifests in the current release', {'program', 'target', 'release_cycle', 'jobs', 'seed', 'wave_format'}),
+    'list': spec('Toolchain', 'list', 'List programs in the current release catalog', FIRMWARE),
+    'new': spec('Toolchain', 'new name=NAME template=tx30', 'Clone a program; template=generator creates CSV inputs', FIRMWARE | {'name', 'template', 'template_release_cycle'}, {'name'}),
+    'check': spec('Toolchain', 'check program=NAME', 'Validate a program manifest and inputs', FIRMWARE | {'program'}, {'program'}),
+    'project': spec('Toolchain', 'project program=NAME', 'Prepare one firmware project without compiling it', FIRMWARE | {'program'}, {'program'}),
+    'build': spec('Toolchain', 'build program=NAME', 'Build one program; target is inferred when unambiguous', FIRMWARE | {'program'}, {'program'}),
+    'build-all': spec('Toolchain', 'build-all', 'Build every catalog program for the selected backend', FIRMWARE),
+    'gui': spec('Toolchain', 'gui program=NAME', 'Open the Diamond firmware project', FIRMWARE | {'program'}, {'program'}),
+    'report': spec('Toolchain', 'report', 'Summarize existing catalog build evidence', FIRMWARE),
+    'test': spec('Toolchain', 'test', 'Run Python utility tests; sim runs HDL tests'),
+    'release-list': spec('Toolchain', 'release-list', 'List releases and the current selection'),
+    'release-new': spec('Toolchain', 'release-new name=NAME [from=CYCLE]', 'Create a release and make it current', {'name', 'from'}, {'name'}),
+    'release-select': spec('Toolchain', 'release-select release_cycle=NAME', 'Select the default release', {'release_cycle'}, {'release_cycle'}),
+    'usercodes': spec('Toolchain', 'usercodes', 'List permanent program numbers and build revisions'),
+    'usercodes-assign': spec('Toolchain', 'usercodes-assign', 'Register manually added programs'),
+    'clean': spec('Toolchain', 'clean program=NAME', 'Remove one backend build; preserve simulation and diagrams', FIRMWARE | {'program', 'discard_project_changes'}, {'program'}),
+    'clean-all': spec('Toolchain', 'clean-all', 'Remove all generated builds, assets, and caches'),
+    'generate': spec('cpld_vhdl_generator', 'generate program=NAME', 'Generate VHDL and register a CSV-based program', FIRMWARE | {'program'}, {'program'}),
+    'init': spec('Programmer', 'init', 'Create selection.toml; preserve an existing file', {'selection'}),
+    'programmer-project': spec('Programmer', 'programmer-project', 'Export both Diamond XCFs from the edited selection', {'selection', 'release_cycle', 'backend', 'build_backend', 'programmer_backend', 'probe_index', 'rebuild'}),
+    'scan': spec('Programmer', 'scan target=dslot', 'Check JTAG IDs (target defaults to dslot)', PROBE),
+    'identify': spec('Programmer', 'identify target=dslot', 'Read firmware identity and silicon TraceID', PROBE),
+    'program': spec('Programmer', 'program target=dslot', 'Program one physical chain from selection.toml', PROBE | {'selection', 'release_cycle', 'build_backend'}, {'target'}),
+    'flasher-build': spec('Programmer', 'flasher-build', 'Compile the optional FOSS programmer utility locally', {'jobs'}),
 }
 ALIASES = {
     'programmer': ('init', {}), 'lattice_xcf': ('programmer-project', {}),
@@ -72,28 +73,80 @@ ALIASES = {
 }
 
 
+# Argument spellings are shared by overview and focused help; applicability and
+# required/optional status always come from the command's validated option sets.
+ARGUMENT_VALUES = {
+    'program': 'NAME', 'name': 'NAME', 'template': 'NAME|generator',
+    'target': 'dslot|s3c', 'release_cycle': 'NAME', 'template_release_cycle': 'NAME',
+    'from': 'CYCLE', 'backend': 'diamond|foss', 'build_backend': 'diamond|foss',
+    'programmer_backend': 'diamond|foss', 'selection': 'FILE', 'probe_index': 'N',
+    'cable': 'NAME', 'usb_serial': 'SERIAL', 'rebuild': '0|1',
+    'jobs': 'N', 'seed': 'N', 'wave_format': 'vcd|ghw|fst',
+    'discard_project_changes': '0|1', 'runner': 'auto|local|container', 'dry_run': '0|1',
+    'container_engine': 'docker|podman', 'container_platform': 'OS/ARCH',
+    'toolchain_image': 'NAME',
+}
+
+
+def argument_text(action, keys):
+    return ' '.join(f'{key}=' + ('NAME|all' if key == 'release_cycle' and
+                        action in ('docs', 'docs-assets') else values)
+                    for key, values in ARGUMENT_VALUES.items() if key in keys) or 'none'
+
+
+def command_help(action):
+    command = COMMANDS[action]
+    lines = [f'  make {command.example}', f'    {command.description}']
+    for label, keys in [('Required', command.required), ('Optional', command.options - command.required)]:
+        lines += textwrap.wrap(f'{label}: {argument_text(action, keys)}', width=100,
+                               initial_indent='    ', subsequent_indent='      ',
+                               break_long_words=False, break_on_hyphens=False)
+    return '\n'.join(lines)
+
+
+def shared_help():
+    return '\n'.join([
+        'Argument defaults and rules:',
+        '  backend=diamond; build_backend and programmer_backend inherit backend.',
+        '  release_cycle defaults to the current release; programmer actions first consult',
+        '  the selection file. selection=selection.toml; template=tx30.',
+        '  jobs=4; seed=1; wave_format=vcd; runner=auto; dry_run=0; rebuild=0;',
+        '  discard_project_changes=0. Omit an option to use its default.',
+        '  Build targets are inferred when unambiguous; scan/identify default to dslot.',
+        '  program requires target. probe_index: Diamond defaults to 1, FOSS to 0.',
+        '  jobs must be positive; seed and probe_index must be nonnegative.',
+        '  gui requires Diamond builds; programmer-project requires both backends to be Diamond.',
+        '  Diamond programming requires Diamond builds. cable and usb_serial are FOSS-only.',
+        '  FOSS cable defaults to ft4232_b; usb_serial selects a probe instead of probe_index.',
+        '  Long target names remain accepted aliases. Selection files do not select backends.',
+        '  docs/docs-assets accept release_cycle=all; other actions use one release.',
+        '  dry_run=1 previews without writes, tool startup, or hardware access.',
+        '  Auto runner: configured Dev Container stays local; host FOSS builds/sim/netlist/docs',
+        '  use the image. Run make image first. Diamond and USB commands run locally.',
+        '',
+        'Host-container arguments (image, or supported commands with runner=container):',
+        '  ' + argument_text('image', CONTAINER),
+        '  Defaults: container_engine=docker; container_platform=linux/amd64;',
+        '  toolchain_image=uz-cpld-toolchain. Container execution supports sim, netlist,',
+        '  docs, docs-assets, test, and FOSS build/build-all/project/doctor.',
+        '',
+        'Use make help command=ACTION to focus on one command. Unsupported options are errors.',
+        'Run one action per invocation; make -j is not a workflow scheduler.',
+    ])
+
+
 def help_text():
     lines = ['Usage: make ACTION [key=value ...]',
-             'Defaults: backend=diamond; current release; selection=selection.toml.',
-             'From a clean clone: configure Diamond, build-all, init, edit selection.toml,',
-             'then programmer-project and the hardware commands. XCF export is optional',
-             'for command-line programming, which creates its own verified project.', '']
+             'All commands below; make help command=ACTION shows arguments and defaults.']
     group = None
-    for name, command in COMMANDS.items():
+    for command in COMMANDS.values():
         if command.group != group:
             group = command.group
-            lines += [group]
+            lines += ['', group]
         lines.append(f'  make {command.example:<43} {command.description}')
-    lines += ['', 'Shared rules:',
-              '  target=dslot|s3c everywhere; long target names remain accepted aliases.',
-              '  backend=diamond|foss sets both defaults; build_backend and programmer_backend override each part.',
-              '  Selection files hold assignments and release, not backend defaults.',
-              '  dry_run=1 prints the resolved commands without writes or tool/hardware execution.',
-              '  runner=auto|local|container selects the environment independently of the backend.',
-              '  Auto: configured Dev Container stays local; host FOSS builds/sim/netlist/docs use the image.',
-              '  Run make image first for container execution. Diamond and USB actions run locally.',
-              '  Unsupported options are errors. Use make help command=ACTION for allowed options.',
-              '  Run actions separately and in order; make -j is not a workflow scheduler.']
+    lines += ['', 'Common options: backend=diamond|foss (default: diamond), target=dslot|s3c,',
+              '  release_cycle=NAME, runner=auto|local|container, dry_run=1 (preview).',
+              'Options vary by command; use make help command=ACTION for the complete list.']
     return '\n'.join(lines)
 
 
@@ -291,11 +344,9 @@ def main(argv=None):
                 action = ALIASES.get(options['command'], (options['command'], {}))[0]
                 if action not in COMMANDS:
                     raise BuildError(f'Unknown action {action}')
-                spec = COMMANDS[action]
-                print(f'make {spec.example}\n{spec.description}\nOptions: ' + ', '.join(sorted(spec.options)))
-                print('Required: ' + (', '.join(sorted(spec.required)) or 'none'))
-                if action != 'image':
-                    print('Container options (when using a host runner=container): ' + ', '.join(sorted(CONTAINER)))
+                print(COMMANDS[action].group)
+                print(command_help(action))
+                print('\n' + shared_help())
             else:
                 print(help_text())
             return 0

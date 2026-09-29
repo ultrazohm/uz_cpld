@@ -100,17 +100,30 @@ class ProgrammerMakeTests(unittest.TestCase):
             self.assertIn('one action', result.stderr)
             self.assertFalse(result.stdout.strip())
 
-    def test_help_follows_clone_build_selection_hardware_sequence(self):
+    def test_help_lists_all_commands_compactly_and_keeps_focused_arguments(self):
+        from toolchain.commands import COMMANDS, ARGUMENT_VALUES, command_help
         result = self.make('help')
         self.assertEqual(result.returncode, 0, result.stderr)
         help_text = result.stdout
-        positions = [help_text.index('make ' + action) for action in
-                     ('build-all', 'init', 'programmer-project', 'scan target', 'identify target', 'program target')]
+        groups = ('Environment', 'Documentation', 'Simulation', 'Toolchain',
+                  'cpld_vhdl_generator', 'Programmer')
+        positions = [help_text.index('\n' + group + '\n') for group in groups]
         self.assertEqual(positions, sorted(positions))
-        self.assertIn('backend=diamond', help_text)
+        for action, command in COMMANDS.items():
+            self.assertEqual(sum(line.startswith('  make ' + command.example + ' ')
+                                 for line in help_text.splitlines()), 1)
+            block = command_help(action)
+            self.assertIn('Required:', block)
+            self.assertIn('Optional:', block)
+            self.assertTrue(command.options <= ARGUMENT_VALUES.keys())
+            for key in command.options:
+                self.assertIn(key + '=', block)
+        self.assertLessEqual(len(help_text.splitlines()), len(COMMANDS) + 20)
+        self.assertNotIn('Required:', help_text)
         result = self.make('help', 'command=program')
-        self.assertIn('programmer_backend', result.stdout)
-        self.assertNotIn('seed', result.stdout)
+        self.assertIn('Required: target=dslot|s3c', result.stdout)
+        self.assertIn('programmer_backend=diamond|foss', result.stdout)
+        self.assertNotIn('make sim', result.stdout)
 
     def test_build_shorthand_and_single_action_aliases(self):
         self.assertIn('build', self.preview('program=tx30'))

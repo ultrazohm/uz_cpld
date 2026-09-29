@@ -326,7 +326,7 @@ All programmer outputs are under ``toolchain/build/programmer/``:
 * XCF export: ``<release>/dslots.xcf``, ``<release>/s3c.xcf`` and
   ``<release>/selection.json``.
 
-Use ``make help`` for the workflow-ordered command summary. Hardware commands are
+Use ``make help`` for the command summary grouped by tool. Hardware commands are
 ``scan``, ``identify`` and ``program``; ``programmer-project`` exports XCFs.
 Run one action per invocation.
 

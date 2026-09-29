@@ -86,6 +86,8 @@ For Diamond, export the absolute host installation root, which is the parent of 
    code .
 
 The configuration mounts that directory read-only at ``/opt/diamond`` and forwards ``LM_LICENSE_FILE``.
+The image adds ``/opt/diamond/bin/lin64`` to ``PATH``, making the mounted
+``diamond`` and ``diamondc`` launchers available in terminals.
 For FOSS-only use, leave ``DIAMOND_HOST_ROOT`` unset (``unset DIAMOND_HOST_ROOT``); the mount uses an empty Docker volume named ``uz-cpld-no-diamond``.
 Do not set the variable to an empty string.
 The startup availability message appears in the container log; Diamond checks are run explicitly with ``check-diamond``.
@@ -93,6 +95,18 @@ If VS Code was started without the variable, close it fully and relaunch it from
 After rebuilding the image or changing mount or license settings, use **Rebuild Container** to recreate the container from the image; repository files persist, while unmounted container state can be replaced.
 The default user is ``vscode``; VS Code adjusts its UID/GID to the host user.
 ``USER_UID`` and ``USER_GID`` are build arguments for direct container use.
+
+``echo "$DIAMOND_ROOT"`` reports the configured path even when no installation
+is mounted. To distinguish a missing mount from a shell path problem, run::
+
+   ls -l "$DIAMOND_ROOT/bin/lin64/diamond" "$DIAMOND_ROOT/bin/lin64/diamondc"
+   command -v diamond diamondc
+   check-diamond
+
+If the files are missing, check ``DIAMOND_HOST_ROOT`` on the host and recreate
+the container. For an existing container built before the PATH setting was
+added, run ``export PATH="$DIAMOND_ROOT/bin/lin64:$PATH"`` in the current shell,
+then rebuild the container to apply the permanent fix.
 
 Diamond and licensing
 ---------------------

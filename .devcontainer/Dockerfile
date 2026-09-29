@@ -33,7 +33,7 @@ RUN curl -fsSL https://github.com/ghdl/ghdl/releases/download/v4.1.0/ghdl-gha-ub
     && echo '1ffa567ad50f54529140108ab45b974829ca134d47d095b0ed704d35cd2ff1d6  /tmp/ghdl.tgz' | sha256sum -c - \
     && mkdir -p /opt/ghdl && tar -xzf /tmp/ghdl.tgz -C /opt/ghdl \
     && rm /tmp/ghdl.tgz
-ENV PATH="/opt/ghdl/bin:/home/vscode/.local/bin:${PATH}" \
+ENV PATH="/opt/diamond/bin/lin64:/opt/ghdl/bin:/home/vscode/.local/bin:${PATH}" \
     CPLD_TOOLCHAIN_CONTAINER=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \

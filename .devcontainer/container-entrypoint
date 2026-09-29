@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
+# Honor a custom runtime mount for commands started through this entrypoint.
+# The image PATH also covers VS Code terminals and container exec sessions.
+export PATH="${DIAMOND_ROOT:-/opt/diamond}/bin/lin64:$PATH"
 diamond_launcher=${DIAMOND_CLI:-${DIAMOND_ROOT:-/opt/diamond}/bin/lin64/diamondc}
 if command -v -- "$diamond_launcher" >/dev/null 2>&1; then
     echo "Diamond found: $diamond_launcher (license not checked)." >&2

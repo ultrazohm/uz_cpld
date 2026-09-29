@@ -52,6 +52,7 @@ Generated templates require program-local ``generator.toml`` and routing CSV fil
 The shared S3C HDL and selected contract retain their configured locations.
 A clone owns its local files and continues to use the shared dependencies declared by the template.
 It is added to ``programs/<release_cycle>/catalog.toml`` after its manifest validates.
+It also receives a new permanent program number in ``programs/usercodes.json``; commit that registry with the new program.
 Catalog registration includes the program in ``build-all``, netlist export and firmware CI for the selected cycle.
 Simulation and documentation discover complete program manifests independently of catalog membership.
 Documentation groups program manifests by release cycle, including programs created outside ``make new``.
@@ -61,7 +62,7 @@ Outputs and failures
 
 ``programs/<release_cycle>/<name>/build/<target>_<backend>/`` contains the generated ``project/``, retained ``logs/``, published ``reports/`` and ``metadata/`` directories.
 Diamond publishes ``<name>_<target>_diamond.jed`` and ``<name>_<target>_diamond.bit`` at this directory level; FOSS publishes ``<name>_<target>_foss.bit``.
-``metadata/`` contains ``build.json``, ``configuration.json``, ``status.json``, the FOSS build plan and generated JSON reports.
+``metadata/`` contains ``build.json``, ``identity.json``, ``configuration.json``, ``status.json``, the FOSS build plan and generated JSON reports.
 The backend directory itself contains only the named firmware files; ``project/`` retains other tool inputs and intermediates.
 
 A build that passes the lock/configuration guards removes previous firmware, reports and provenance before invoking the selected backend.
@@ -97,3 +98,5 @@ Run ``make clean-all`` from the repository root.
 It removes every program ``build/`` directory, ``toolchain/build/``, ``docs/_build/``, ``docs/_generated/``, ``.venv/`` and Python caches within the repository.
 It refuses to run while a managed build, project, GUI, simulation, netlist or clean operation is active. A lock on the checkout directory also prevents new operations from starting during cleanup, even while generated lock files are removed.
 It discards generated project edits and validation evidence; authored HDL, constraints, manifests and testbenches remain.
+The tracked identity registry remains, including allocated numbers and recorded build revisions.
+Cleanup removes a local ``make flasher`` installation under ``toolchain/build/``; the container's installed patched loader is unaffected.

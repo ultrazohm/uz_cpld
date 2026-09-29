@@ -10,6 +10,21 @@ ENTRYPOINT = Path(__file__).resolve().parents[2] / '.devcontainer/container-entr
 
 
 class ContainerStartupTests(unittest.TestCase):
+    def test_flasher_build_inputs_are_in_docker_context_allowlist(self):
+        root = ENTRYPOINT.parents[1]
+        rules = (root / '.dockerignore').read_text().splitlines()
+        self.assertIn('*', rules)
+        # This context excludes everything except explicit paths. Both files
+        # and their parent directories must be allowed for COPY to see them.
+        for name in ('flasher.py', 'openfpgaloader.json', 'openfpgaloader-usercode.patch',
+                     'tests/usercode.cpp'):
+            path = Path('toolchain/foss') / name
+            self.assertTrue((root / path).is_file())
+            self.assertIn('!' + path.as_posix(), rules)
+            for parent in path.parents:
+                if parent != Path('.'):
+                    self.assertIn('!' + parent.as_posix() + '/', rules)
+
     def run_entrypoint(self, root, *command, override=None):
         env = dict(os.environ, DIAMOND_ROOT=str(root))
         env.pop('DIAMOND_CLI', None)

@@ -1,5 +1,6 @@
 """Pinned flasher provenance and parser checks without USB access."""
 import json
+import os
 from pathlib import Path
 import subprocess
 import tempfile
@@ -10,6 +11,30 @@ from toolchain.foss import flasher
 
 
 class FlasherTests(unittest.TestCase):
+    def test_installation_is_readable_and_executable_by_container_runtime_user(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            binary, license_file = root / 'built-loader', root / 'license'
+            binary.write_bytes(b'compiled loader')
+            license_file.write_text('license')
+            output = root / 'installed'
+            old_mask = os.umask(0o077)
+            try:
+                flasher.publish(binary, license_file, output, flasher.pin())
+            finally:
+                os.umask(old_mask)
+            self.assertEqual((output / 'openFPGALoader').stat().st_mode & 0o777, 0o755)
+            self.assertEqual((output / flasher.RECEIPT).stat().st_mode & 0o777, 0o644)
+            self.assertEqual(output.stat().st_mode & 0o777, 0o755)
+            self.assertEqual(flasher.verify(output / 'openFPGALoader')['binary_sha256'], flasher.digest(binary))
+
+    def test_explicit_missing_archive_does_not_download(self):
+        with tempfile.TemporaryDirectory() as directory, patch.object(flasher.subprocess, 'run') as run:
+            root = Path(directory)
+            with self.assertRaises(FileNotFoundError):
+                flasher.build(root / 'output', archive=root / 'missing.tar.gz')
+            run.assert_not_called()
+
     def test_tracked_patch_matches_pin(self):
         self.assertEqual(flasher.pin()['capability'], 'v1.1.1-uz-usercode1')
 

@@ -17,27 +17,32 @@ Simulation and generic RTL documentation use the shared GHDL flow independently 
 Tools and installation
 ----------------------
 
-The container installs checksum-pinned OSS CAD Suite 2026-09-16 for Yosys, Project Trellis and openFPGALoader, alongside GHDL 4.1.0.
+The container installs checksum-pinned OSS CAD Suite 2026-09-16 for Yosys, Project Trellis, OpenOCD and the stock openFPGALoader, alongside GHDL 4.1.0.
 The stock nextpnr binary omits the two board devices, so the ``foss-builder`` Docker stage builds a pinned nextpnr revision with XO2-2000 and XO2-4000 support.
 That stage builds the Trellis Python module to generate the device database, links Boost statically into nextpnr and excludes its GUI/Python integration.
+It also compiles a separately pinned openFPGALoader v1.1.1 with the repository's MachXO2 USERCODE patch for managed programming.
 Compiler dependencies remain in the builder stage; the single runtime image receives the resulting tools.
 ``FOSS_BUILD_JOBS`` controls build parallelism and defaults to 2.
 The bundle is large and the first image build includes C++ compilation; subsequent image builds reuse Docker layers.
 
 For native Linux amd64 setup, install GHDL and the shared Python requirements, then install the source-build prerequisites::
 
-   sudo apt-get install build-essential python3-dev libboost-filesystem-dev libboost-program-options-dev libboost-iostreams-dev libboost-thread-dev libeigen3-dev pybind11-dev curl
+   sudo apt-get install build-essential python3-dev libboost-filesystem-dev libboost-program-options-dev libboost-iostreams-dev libboost-thread-dev libeigen3-dev pybind11-dev curl pkg-config patch libftdi1-dev libusb-1.0-0-dev zlib1g-dev
    python3 -m pip install cmake==3.31.6
    python3 toolchain/foss/install.py --prefix /your/writable/path/oss-cad-suite
    python3 toolchain/foss/build_nextpnr.py --suite /your/writable/path/oss-cad-suite
    export FOSS_ROOT=/your/writable/path/oss-cad-suite
+   make flasher
    python3 -m toolchain.buildsystem doctor --backend foss
    python3 -m toolchain.buildsystem build --program tx30 --backend foss
 
-The installers refuse existing destinations and verify archive checksums before extraction.
-Release and source pins are in ``toolchain/foss/toolchain.json`` and ``toolchain/foss/sources.json``.
+The suite and nextpnr installers refuse existing destinations and verify archive checksums before extraction.
+``make flasher`` verifies its source and patch checksums and replaces its local installation after compilation and tests pass.
+Release and source pins are in ``toolchain/foss/toolchain.json``, ``toolchain/foss/sources.json`` and ``toolchain/foss/openfpgaloader.json``.
 ``FOSS_ROOT`` defaults to ``/opt/oss-cad-suite``; tools are selected by absolute paths without replacing the system Python environment.
-Native nextpnr resides in ``$FOSS_ROOT/native/``, while the bundle's other executables reside in ``$FOSS_ROOT/bin/``.
+Native nextpnr resides in ``$FOSS_ROOT/native/``, while the bundle's executables reside in ``$FOSS_ROOT/bin/``.
+The image's patched loader resides in ``$FOSS_ROOT/native/openfpgaloader/``; ``make flasher`` installs a workspace override in ``toolchain/build/openfpgaloader/``.
+See :doc:`firmware-identity` for loader selection and rebuilding.
 
 Build stages and outputs
 ------------------------
@@ -126,7 +131,6 @@ An isolated Diamond build rejects the same combination with ``OPENDRAIN=OFF``; c
 The original author's intent is not established by those constraints alone. The FOSS port preserves the observed Diamond behavior.
 
 The FOSS LPFs therefore retain ``LVCMOS33`` and explicitly request ``OPENDRAIN=ON PULLMODE=NONE DRIVE=12 SLEWRATE=SLOW`` on these two outputs.
-An earlier FOSS adaptation changed them to ``LVCMOS18`` and did not preserve open-drain behavior; rebuild both S3C images to replace those artifacts.
 The original Diamond LPFs remain unchanged.
 
 The pinned Trellis ``DRIVE`` encoding was characterized with LVCMOS33 at its normal bank voltage and overlaps the open-drain field.
@@ -145,7 +149,9 @@ The regression test packs and decodes this configuration, rejects the uncorrecte
 Programming and CI
 ------------------
 
-openFPGALoader is installed, but firmware builds do not access a device or select a cable, JTAG chain or programming mode.
+Firmware builds do not access a device or select a cable, JTAG chain or programming mode.
+Managed FOSS programming uses the patched loader to write and verify USERCODE and then checks device identities using OpenOCD.
+The stock loader remains usable for scans but is rejected by managed flash programming; see :doc:`programmer`.
 The CI workflow builds catalog programs that support ``backend=foss`` and retains their artifacts alongside simulation and documentation diagnostics.
 GitHub Pages publishes documentation after successful checks; firmware is retained as a workflow artifact rather than published to Pages.
 

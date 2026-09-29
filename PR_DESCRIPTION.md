@@ -16,6 +16,7 @@ The repository now provides one command-line workflow for creating, simulating, 
 - Allow per-program cleanup with stale generated files or missing HDL inputs while retaining output-path checks, locking and protection of edited project settings.
 - Assign all 22 programs permanent numbers in `programs/usercodes.json`. Automatically allocate numbers for new programs and clones, and encode the program number plus input-specific build revision in USERCODE for both build backends. Locked allocation rejects collisions and exhausted counters; independent checkouts must coordinate the tracked registry.
 - Add read-only firmware identification using USERCODE and silicon TraceID, and require matching identity readback before declaring programming successful. Build a pinned, patched openFPGALoader that writes and verifies MachXO2 USERCODE for JEDEC and compressed FOSS bitstreams; verify its provenance and parse selected files before USB access.
+- Include all flasher inputs in the Docker build context, install its receipt with runtime-readable permissions and check the patched loader as the non-root image user. Serialize local flasher installation and retain the identity registry with CI firmware artifacts. Document native prerequisites, loader precedence, container rebuilds and current probe restrictions.
 
 ## Controller scope
 
@@ -25,7 +26,7 @@ FOSS builds retain their documented startup-equivalence limitations. Their two b
 
 ## Validation
 
-- `make test`: 231 tests run, 227 passed and four optional browser tests skipped.
+- `make test`: 234 tests run, 230 passed and four optional browser tests skipped.
 - `make docs-local`: all 22 program documentation assets validated; Sphinx completed with warnings treated as errors, and 141 HTML files passed site validation. All 22 program simulations passed during this change.
 - Diamond builds for all 22 programs passed, with unique embedded USERCODEs matching the registry.
 - FOSS builds of `tx30` and `s3c_rev6_beta` passed, covering both device sizes and compressed bitstream output.

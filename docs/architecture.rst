@@ -33,7 +33,7 @@ Generator-managed projects use editable CSV/TOML inputs to produce the VHDL, tes
 Generated VHDL references the shared S3C entity and selected architecture in ``xo2_library/s3c``.
 The build system validates generated files through the standalone package, while the generator itself has no build-system dependency.
 Firmware build artifacts live under each program's ignored ``build/`` directory, while aggregate reports use ``toolchain/build/`` and documentation uses ``docs/_generated/`` and ``docs/_build/``.
-The repository has one Makefile, one Dockerfile and one Dev Container configuration.
+The repository has one Makefile and one Dockerfile, with a default Dev Container configuration and an optional Linux USB configuration.
 
 Design decisions
 ----------------

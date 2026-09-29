@@ -229,7 +229,7 @@ Backend execution details
 -------------------------
 
 Diamond runs ``pgrcmd`` on a generated XCF. FOSS runs openFPGALoader with
-``--write-flash --verify`` on the selected builds. It accepts Diamond JEDEC files
+``--write-flash --verify --usercode XXXXXXXX`` on the selected builds. It accepts Diamond JEDEC files
 as supported by the `openFPGALoader Lattice implementation
 <https://github.com/trabucayre/openFPGALoader/blob/master/src/lattice.cpp>`_,
 and continues to use bitstreams for FOSS builds.
@@ -255,7 +255,15 @@ Connection defaults and overrides
      - ``TCKDelay=3``; observed 7.5 MHz on this station
      - 1 MHz
 
-FOSS defaults to ``ft4232_b`` (FT4232 channel B) and USB probe index 0 for both targets. Both physical CPLD chains use the same programmer; change the UltraZohm physical state between targets. The defaults are ``DEFAULT_FOSS_CABLE`` and ``DEFAULT_FOSS_PROBE_INDEX`` in ``programmer_helper/program.py``. These openFPGALoader probe indices do not necessarily match Diamond's ``FTUSB-N`` ports, which can enumerate interfaces of a single FTDI chip. Confirm with the scan on your station; for FOSS, use ``probe_index=N`` or ``usb_serial=SERIAL`` to select a probe and ``cable=NAME`` to select the cable type and channel. Diamond uses ``FTUSB-1`` for both chains. The automatic detach mapping is fixed to that port and USB interface 1; a different ``probe_index`` requires updating the mapping constants described below. A past cycle can be chosen with ``release_cycle=NAME``. The selected build backend must have successful, current builds for the selected programs. Programming writes logs and a ``result.json`` receipt under ``toolchain/build/programmer/<cycle>/runs/`` for FOSS and ``toolchain/build/programmer/<cycle>/<chain>/plans/plan-*/runs/`` for Diamond.
+FOSS defaults to ``ft4232_b`` (FT4232 channel B) and USB probe index 0 for both targets.
+Both physical CPLD chains use the same programmer; change the UltraZohm physical state between targets.
+These openFPGALoader probe indices do not necessarily match Diamond's ``FTUSB-N`` ports, which can enumerate interfaces of a single FTDI chip.
+FOSS scans accept ``probe_index=N``, ``usb_serial=SERIAL`` and ``cable=NAME`` overrides.
+Managed programming and identity reads support only ``ft4232_b`` with FOSS probe index 0 or an explicit serial, and Diamond ``FTUSB-1``.
+The OpenOCD reader and automatic detach mapping must be extended before another wiring or probe-index mapping can be used for managed programming.
+A past cycle can be chosen with ``release_cycle=NAME``.
+The selected build backend must have successful, current builds for the selected programs.
+Programming writes logs and a ``result.json`` receipt under ``toolchain/build/programmer/<cycle>/runs/`` for FOSS and ``toolchain/build/programmer/<cycle>/<chain>/plans/plan-*/runs/`` for Diamond.
 
 On the UltraZohm FT4232 with serial ``0100206000050``, both commands below read the S3C ``LCMXO2-4000HC`` ID ``0x012BC043`` in a live container check::
 

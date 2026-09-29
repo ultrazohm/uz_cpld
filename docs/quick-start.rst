@@ -90,6 +90,8 @@ Edit these files in ``programs/original/my_adapter/``:
 * ``description.rst``: describe the program on its generated documentation page.
 
 The clone retains the template's VHDL entity name.
+Both clones and generator starters automatically receive a fresh program number in ``programs/usercodes.json``.
+Commit that registry with the program; builds also record their USERCODE revisions there, as described in :doc:`firmware-identity`.
 If you rename the entity, update ``top`` in the manifest as well.
 See :doc:`configuration` for the manifest and target fields.
 

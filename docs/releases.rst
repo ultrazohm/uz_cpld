@@ -38,6 +38,8 @@ If the source cycle has no description, a starter is created.
 Complete programs are validated before and after copying.
 Shared HDL and board targets remain shared across cycles; a cycle is not a frozen snapshot of the whole toolchain.
 Git records the corresponding toolchain version.
+Copied programs and generator starters receive new permanent program numbers in the shared ``programs/usercodes.json`` registry.
+Commit the registry with the new release; see :doc:`firmware-identity` for allocation across independent checkouts.
 
 Every program command accepts ``release_cycle=NAME``.
 Omitting it selects the current cycle, independently of directory timestamps or alphabetical ordering.

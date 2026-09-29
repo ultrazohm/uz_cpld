@@ -33,6 +33,7 @@ jobs:
         with:
           name: program-diagnostics
           path: |
+            programs/usercodes.json
             programs/*/*/build/simulation/
             programs/*/*/build/netlist/
             programs/*/*/build/uz_dslot_xo2_foss/

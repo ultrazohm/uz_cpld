@@ -35,6 +35,9 @@ The deployment URL appears in the workflow's environment result, with ``https://
 
 The workflow uploads only the generated HTML site for deployment, retaining build diagnostics separately.
 FOSS firmware and reports are retained as workflow artifacts and excluded from the Pages site.
+The diagnostics artifact includes the updated ``programs/usercodes.json`` registry so CI-allocated identities can be resolved alongside the firmware.
+CI does not commit allocations back to Git or coordinate counters between independent runs.
+Before publishing or programming CI firmware, reconcile its registry with the shared branch; artifact retention alone does not guarantee globally unique revisions.
 A configured workflow is not evidence of a successful hosted deployment; verify the GitHub Actions run after pushing the workflow to the deployment branch.
 
 Maintenance

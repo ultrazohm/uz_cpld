@@ -11,7 +11,7 @@ The older root-level ``Power_on_debounce.vhd`` and other S3C implementations in 
 The separate ``s3c_rev6_beta`` program includes the newer pre-heartbeat FSM; later heartbeat signaling from ``develop`` and the CarrierReady heartbeat branch is not included.
 
 ``s3c_toolchain_test_program`` is a fixed-output build and simulation example with no power sequencing, debounce, or shutdown controller.
-The generator's ``s3c_logic.vhdl`` implements the D-slot side of the S3C interface; it is not an additional S3C controller.
+The shared ``xo2_library/s3c/s3c_logic.vhdl`` component used by generated and handwritten programs implements the D-slot side of the S3C interface; it is not an additional S3C controller.
 
 December 2024 source revision
 -----------------------------

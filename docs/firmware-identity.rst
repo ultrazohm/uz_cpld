@@ -84,6 +84,7 @@ For multiple probes, the FOSS interface accepts ``usb_serial=SERIAL``; an ambigu
 Other cable types or probe-index mappings require extending the reader and are rejected before managed programming starts.
 Managed FOSS programming requires the pinned USERCODE-capable openFPGALoader build included in the toolchain image.
 On a native host, ``make flasher`` builds it under ``toolchain/build/openfpgaloader/`` (requires a C++ compiler, CMake, pkg-config, patch, libftdi1/libusb development headers and zlib).
+This command builds the programming executable only; it does not build CPLD firmware, access USB or program a device.
 The managed loader selection prefers that local build, then the image's ``FOSS_ROOT/native/openfpgaloader/`` installation; ``CPLD_OPENFPGALOADER`` can select another verified installation.
 The wrapper checks the binary and patch provenance and parses every selected input before accessing USB.
 Stock or modified loaders are rejected before flash writes.
@@ -92,6 +93,29 @@ JEDEC input must contain the same code; bitstream input uses the code from verif
 FOSS builds now emit compressed bitstreams, as required by the MachXO2 internal-flash parser.
 Plain ``scan`` retains its existing cable options.
 The Linux FTDI interface lock and driver restoration also cover identity reads.
+
+Flasher builds and container rebuilds
+-------------------------------------
+
+``toolchain/foss/openfpgaloader.json`` pins upstream v1.1.1 and the SHA-256 hashes of its source archive and ``openfpgaloader-usercode.patch``.
+``flasher.py`` verifies both, applies the patch to a fresh source tree, runs the mocked USERCODE write/readback tests and compiles Lattice/FTDI support.
+It installs a binary reporting ``v1.1.1-uz-usercode1``, its license and a readable ``usercode-support.json`` receipt containing the pin and binary checksum.
+Concurrent installers serialize publication of the binary and receipt.
+
+The Docker builder stage runs this automatically and copies the installation into the runtime image.
+Rebuilding the image reapplies the patch and recompiles when the source pin or patch changes; unchanged inputs can reuse Docker's cached layer.
+No manual ``make flasher`` step is needed in a fresh container.
+The runtime lacks the compiler/development headers from the builder stage; use a container rebuild to update its bundled loader.
+
+The selection order is ``CPLD_OPENFPGALOADER``, then the workspace installation, then the container installation.
+Stock PATH/bundle fallback is available for scans only.
+A stale workspace installation takes precedence even after a container rebuild and is rejected during programming.
+Rebuild that installation with native prerequisites, or remove only ``toolchain/build/openfpgaloader/`` to select the bundled loader.
+``make clean-all`` also removes the workspace installation along with other generated outputs.
+Calling the stock executable directly bypasses these checks and does not provide the managed workflow's identity guarantee.
+
+Device readback
+---------------
 
 The reader checks the expected chain and issues only IDCODE, USERCODE, TraceID and BYPASS instructions after JTAG initialization.
 It does not issue erase, program, configuration-refresh or device-reset commands.

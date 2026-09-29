@@ -19,3 +19,8 @@
 !toolchain/foss/toolchain.json
 !toolchain/foss/build_nextpnr.py
 !toolchain/foss/sources.json
+!toolchain/foss/flasher.py
+!toolchain/foss/openfpgaloader.json
+!toolchain/foss/openfpgaloader-usercode.patch
+!toolchain/foss/tests/
+!toolchain/foss/tests/usercode.cpp

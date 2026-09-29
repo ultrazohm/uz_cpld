@@ -18,6 +18,9 @@ For Diamond, run ``make doctor backend=diamond`` and ``make build-all backend=di
 Generated firmware provenance, tool identity, input hashes and output hashes are in each backend directory's ``metadata/build.json``; simulation provenance is in ``build/simulation/metadata/run.json``.
 A passing simulation checks the behavior exercised by its testbench.
 A successful firmware build verifies fresh exports and unchanged authored inputs; the FOSS build also checks synthesis equivalence and bitstream format.
+Both firmware backends embed the registry-assigned USERCODE; managed programming checks the selected identities against post-write device readback.
+The flasher's native tests mock JTAG operations, and parser-only checks do not access hardware.
+These software checks do not establish live programming or identity-readback behavior; see :doc:`firmware-identity`.
 For both S3C controllers, FOSS also verifies the packed electrical fields of the two bank-2 open-drain outputs against Diamond before export.
 This check covers pins 41 and 50; it does not compare all electrical settings. Details and per-pin results are in :doc:`/foss` and ``metadata/reports/constraints.json``.
 The sequential FOSS induction check alone does not prove startup alignment.

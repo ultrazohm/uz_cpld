@@ -17,6 +17,7 @@ RUN python3 /tmp/foss-setup/install.py --prefix /opt/oss-cad-suite \
     && /opt/oss-cad-suite/native/nextpnr-machxo2 --version \
     && /opt/oss-cad-suite/bin/ecppack --version \
     && /opt/oss-cad-suite/bin/openFPGALoader --Version \
+    && /opt/oss-cad-suite/native/openfpgaloader/openFPGALoader --Version \
     && /opt/oss-cad-suite/bin/openocd --version
 
 FROM ubuntu:${UBUNTU_VERSION} AS toolchain
@@ -58,6 +59,8 @@ ARG USER_GID=1000
 RUN groupadd --gid ${USER_GID} vscode \
     && useradd --uid ${USER_UID} --gid ${USER_GID} -m -s /bin/bash vscode
 USER vscode
+RUN python3 -c 'import json; from pathlib import Path; p = Path("/opt/oss-cad-suite/native/openfpgaloader/usercode-support.json"); json.loads(p.read_text())' \
+    && /opt/oss-cad-suite/native/openfpgaloader/openFPGALoader --Version
 WORKDIR /work
 ENTRYPOINT ["/usr/local/bin/toolchain-entrypoint"]
 CMD ["sleep", "infinity"]

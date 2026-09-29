@@ -80,7 +80,7 @@ VS Code
 -------
 
 Open the repository in VS Code and select **Dev Containers: Reopen in Container**. VS Code builds the toolchain image from ``.devcontainer/Dockerfile`` automatically; no separate ``make image`` step is required.
-The single configuration uses bridge networking with ``eth0`` assigned the MAC address ``10:91:d1:3d:14:ae``.
+Both Dev Container configurations use bridge networking with ``eth0`` assigned the MAC address ``10:91:d1:3d:14:ae``.
 For Diamond, export the absolute host installation root, which is the parent of ``bin``, before launching VS Code::
 
    export DIAMOND_HOST_ROOT="$HOME/lscc/diamond/3.14"
@@ -141,5 +141,7 @@ Native tools
 Native use requires Python 3.10+, GHDL, Yosys, Graphviz and the packages in ``docs/requirements.txt``.
 The tooling tests also require Tcl support through ``python3-tk`` on Ubuntu.
 The image and native requirements select the same Sphinx version; OS packages and the Ubuntu image tag remain mutable inputs.
-Build dependencies are installed in the image, not downloaded by firmware or documentation commands.
+Firmware and documentation commands use dependencies already installed in the image.
+The C++ compiler and development headers used to build nextpnr and the patched flasher remain in the intermediate builder stage.
+The runtime includes the compiled tools; ``make flasher`` is a separate native source build and requires those development dependencies if run there.
 See :doc:`foss` for the pinned tool bundle and native source-build prerequisites.

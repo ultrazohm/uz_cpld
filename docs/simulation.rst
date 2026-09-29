@@ -32,6 +32,8 @@ It requests safe state with all inputs high and checks that all outputs fall low
 D-slot routing testbenches exercise data patterns and safe-state transitions.
 ``s3c_toolchain_test_program`` checks its fixed safe-state outputs.
 ``s3c_power_on_debounce`` drives the archived controller's internal clock and checks its initial safe-state request, disabled slot outputs, and carrier power request. It does not cover the ready or shutdown transitions.
+``s3c_rev6_beta`` checks startup, ready operation, soft stop, STOP/ENABLE priority and supply-failure shutdown with an accelerated timebase.
+A separate GHDL integration test in ``make test`` couples ``s3c_power_on_debounce`` to ``cvg_tx30_stateful`` and exercises startup, ready operation, soft stop and re-enable.
 ``tx26_w_enable`` additionally tests all 16 combinations of its four enable pins.
 The D4 and D5 resolver tests check their adapter routes, physical wire-swap compensation and safe-state status without gating data.
 Testbenches produced by ``make generate`` follow the CSV input/output directions and check both routing states using all-zero, all-one, walking-one and walking-zero patterns.

@@ -5,6 +5,7 @@ from pathlib import Path
 import re
 import shutil
 import tempfile
+import xml.etree.ElementTree as ET
 
 from toolchain.buildsystem.identity import resolve_usercode
 from toolchain.buildsystem.model import BuildError
@@ -28,6 +29,10 @@ def preflight(backend, cable=None, serial=None, probe_index=None):
         raise BuildError('Identity readback supports UltraZohm FT4232 channel B: Diamond probe_index=1 or FOSS probe_index=0; use usb_serial for a particular FOSS probe')
     if serial is not None and (not serial or any(ord(c) < 32 for c in serial)):
         raise BuildError('Invalid USB serial number')
+    if backend == 'diamond':
+        if cable is not None or serial is not None:
+            raise BuildError('Diamond uses the USB2 cable; select its port with --probe-index')
+        return
     if not openocd_path().is_file():
         raise BuildError(f'Identity readback requires OpenOCD: {openocd_path()}; set CPLD_OPENOCD')
 
@@ -70,6 +75,75 @@ def script(chain, serial=None):
     return 'if {[catch {\n' + '\n'.join(lines) + '\n} message]} {\nputs stderr $message\nshutdown error\n}\nshutdown\n'
 
 
+# Transparent USERCODE access avoids FLASH Display USERCODE's SRAM erase.
+DIAMOND_READS = (
+    ('idcode', 'FLASH', 'FLASH Display ID', 'ID', 8),
+    ('usercode', 'XFLASH', 'XFLASH Display USERCODE', 'USERCODE', 8),
+    ('traceid', 'SECKEYS', 'Security Display TraceID', 'ID', 16),
+)
+
+
+def diamond_xcf(root, chain, destination, mode, operation, port=None):
+    from .program import diamond_scan_xcf
+    if (mode, operation) not in [(item[1], item[2]) for item in DIAMOND_READS]:
+        raise BuildError('Unsupported Diamond identity operation')
+    diamond_scan_xcf(root, chain, destination, port)
+    tree = ET.parse(destination)
+    for device in tree.findall('./Chain/Device'):
+        device.find('Operation').text = operation
+        option = device.find('Option')
+        if option is None:
+            option = ET.SubElement(device, 'Option')
+        for key, value in (('AccessMode', mode), ('TCKFrequency', '1.000000 MHz')):
+            item = option.find(key)
+            if item is None:
+                item = ET.SubElement(option, key)
+            item.text = value
+    ET.indent(tree, space='\t')
+    destination.write_bytes(b'<?xml version="1.0" encoding="utf-8"?>\n'
+                            b'<!DOCTYPE ispXCF SYSTEM "IspXCF.dtd" >\n' +
+                            ET.tostring(tree.getroot(), encoding='utf-8') + b'\n')
+
+
+def parse_diamond(chain, output, operation, field, width):
+    """Bind each value to its chain position; reject partial or duplicate reads."""
+    count = 5 if chain == 'dslots' else 1
+    name = 'LCMXO2-2000HC' if chain == 'dslots' else 'LCMXO2-4000HC'
+    headers = list(re.finditer(r'^Device(\d+) ([^:]+): ([^\r\n]+)\s*$', output, re.M))
+    if [(int(m[1]), m[2], m[3].strip()) for m in headers] != [
+            (i, name, operation) for i in range(1, count + 1)]:
+        raise BuildError('Incomplete or unexpected Diamond identity readback')
+    values = []
+    for i, header in enumerate(headers):
+        end = headers[i + 1].start() if i + 1 < len(headers) else len(output)
+        block = output[header.end():end]
+        matches = re.findall(r'^' + re.escape(field) + r'\s*:\s*(?:0x)?([0-9a-fA-F]{'
+                             + str(width) + r'})\.?\s*$', block, re.M)
+        if len(matches) != 1 or 'Operation Done. No errors.' not in block:
+            raise BuildError(f'Incomplete Diamond {field} readback at position {i + 1}')
+        values.append(matches[0])
+    return values
+
+
+def diamond_read(root, chain, directory, probe_index):
+    from .program import run_command
+    values = {}
+    port = DEFAULT_DIAMOND_PORT if probe_index is None else probe_index
+    with diamond_usb(port):
+        for key, mode, operation, field, width in DIAMOND_READS:
+            xcf = directory / f'{key}.xcf'
+            diamond_xcf(root, chain, xcf, mode, operation, port)
+            log = directory / f'{key}-pgrcmd.log'
+            command = ('bash', str(root / 'programmer_helper/diamond_program.sh'), str(xcf), str(log))
+            stdout = run_command(command, directory / f'{key}-stdout.log')
+            # pgrcmd duplicates messages on stdout and in its log: parse one only.
+            raw = log.read_text(errors='replace') if log.exists() else stdout
+            values[key] = parse_diamond(chain, raw, operation, field, width)
+    return ''.join(f'UZ_IDENTITY {i} {idcode} {usercode} {traceid}\n'
+                   for i, (idcode, usercode, traceid) in enumerate(zip(
+                       values['idcode'], values['usercode'], values['traceid'])))
+
+
 def parse(root, chain, output):
     count, expected = (5, 0x012BB043) if chain == 'dslots' else (1, 0x012BC043)
     found = re.findall(r'^UZ_IDENTITY (\d+) ([0-9a-fA-F]{8}) ([0-9a-fA-F]{8}) ([0-9a-fA-F]{16})\s*$', output, re.M)
@@ -100,15 +174,16 @@ def identify(root, chain, backend='diamond', cable=None, serial=None, probe_inde
         base.mkdir(parents=True, exist_ok=True)
         directory = Path(tempfile.mkdtemp(prefix='read-', dir=base)) if output is None else output
         directory.mkdir(parents=True, exist_ok=True)
-        config = directory / 'identify.cfg'
-        config.write_text(script(chain, serial))
-        command = (str(openocd_path()), '-f', str(config))
-        # The same interface lock and driver restoration used for Diamond also
-        # protect OpenOCD. With no serial, refuse ambiguous multiple probes.
-        with diamond_usb(DEFAULT_DIAMOND_PORT, serial=serial):
-            raw = run_command(command, directory / 'identify.log')
+        if backend == 'diamond':
+            raw = diamond_read(root, chain, directory, probe_index)
+        else:
+            config = directory / 'identify.cfg'
+            config.write_text(script(chain, serial))
+            command = (str(openocd_path()), '-f', str(config))
+            with diamond_usb(DEFAULT_DIAMOND_PORT, serial=serial):
+                raw = run_command(command, directory / 'identify.log')
         devices = parse(root, chain, raw)
-        write_json(directory / 'identity.json', {'chain': chain, 'devices': devices,
+        write_json(directory / 'identity.json', {'chain': chain, 'programmer_backend': backend, 'devices': devices,
                    'read_at': datetime.now(timezone.utc).isoformat()})
         for device in devices:
             identity = device['identity']

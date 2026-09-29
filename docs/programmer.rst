@@ -50,6 +50,10 @@ The unused target can remain blank or be omitted. Slot numbers are physical
 JTAG positions, not catalog order. XCF export requires all six assignments.
 
 Use ``make programmer selection=FILE`` to create a template at a custom path.
+If ``make programmer program`` finds no selection file, it creates the template
+and exits without accessing hardware. Review it, then run
+``make programmer program target=dslot`` or ``target=s3c``.
+Existing selection files are never overwritten by initialization.
 Pass ``selection=FILE`` to programming or XCF export to use that file.
 
 Choose the build and programmer independently
@@ -62,6 +66,11 @@ to all selected programs, independently of the programming tool.
 
 ``programmer_backend=diamond|foss`` on programmer commands selects the hardware
 tool: Lattice Programmer or openFPGALoader. Its default is ``diamond``.
+Identification and post-programming readback also honor this choice: Diamond uses
+native display operations, while explicit FOSS identification uses OpenOCD.
+``backend=foss`` is accepted as a shorthand on programmer commands; an explicit
+``programmer_backend`` takes precedence. The Python programmer CLI also accepts
+``--backend`` as an alias for ``--programmer-backend``.
 
 .. list-table:: Supported combinations
    :header-rows: 1
@@ -260,7 +269,7 @@ Both physical CPLD chains use the same programmer; change the UltraZohm physical
 These openFPGALoader probe indices do not necessarily match Diamond's ``FTUSB-N`` ports, which can enumerate interfaces of a single FTDI chip.
 FOSS scans accept ``probe_index=N``, ``usb_serial=SERIAL`` and ``cable=NAME`` overrides.
 Managed programming and identity reads support only ``ft4232_b`` with FOSS probe index 0 or an explicit serial, and Diamond ``FTUSB-1``.
-The OpenOCD reader and automatic detach mapping must be extended before another wiring or probe-index mapping can be used for managed programming.
+The identity readers and automatic detach mapping must be extended before another wiring or probe-index mapping can be used for managed programming.
 A past cycle can be chosen with ``release_cycle=NAME``.
 The selected build backend must have successful, current builds for the selected programs.
 Programming writes logs and a ``result.json`` receipt under ``toolchain/build/programmer/<cycle>/runs/`` for FOSS and ``toolchain/build/programmer/<cycle>/<chain>/plans/plan-*/runs/`` for Diamond.

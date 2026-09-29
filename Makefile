@@ -3,7 +3,7 @@ python ?= python3
 target ?=
 template ?= tx30
 backend ?= diamond
-programmer_backend ?= diamond
+programmer_backend ?= $(backend)
 ifneq ($(backend),diamond)
 ifneq ($(backend),foss)
 $(error backend must be diamond or foss)
@@ -20,9 +20,6 @@ programmer_cli = $(programmer_python) -m programmer_helper.program
 programmer_build_args = $(if $(build_backend),--build-backend $(call quote,$(build_backend)))
 programmer_options = $(programmer_build_args) --programmer-backend $(call quote,$(programmer_backend)) $(release_args) $(if $(selection),--selection $(call quote,$(selection))) $(if $(cable),--cable $(call quote,$(cable))) $(if $(usb_serial),--usb-serial $(call quote,$(usb_serial))) $(if $(probe_index),--probe-index $(call quote,$(probe_index)))
 ifneq ($(filter programmer,$(MAKECMDGOALS)),)
-ifeq ($(origin backend),command line)
-$(error For programmer commands use programmer_backend=diamond|foss and build_backend=diamond|foss; backend= is for firmware builds)
-endif
 ifneq ($(programmer_backend),diamond)
 ifneq ($(programmer_backend),foss)
 $(error programmer_backend must be diamond or foss)

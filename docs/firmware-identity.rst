@@ -10,7 +10,7 @@ These commands read the device IDCODE, 32-bit USERCODE and 64-bit TraceID over J
 They resolve the USERCODE through the tracked ``programs/usercodes.json`` registry and print the program, release cycle and build revision.
 No selection file or local firmware exports are required.
 Unknown codes and unregistered revisions are reported explicitly; historical hard-coded values are not guessed.
-``dry_run=1`` prints the identification script without accessing USB.
+``dry_run=1`` previews the selected backend’s read operations without accessing USB.
 The current physical UltraZohm chain must match the selected target, as for programming.
 
 USERCODE layout
@@ -77,8 +77,14 @@ A merged registry with duplicate numbers is rejected rather than silently identi
 Identity reads and programming records
 --------------------------------------
 
-Identification uses OpenOCD from the pinned OSS CAD Suite, independently of the firmware build backend.
-Native hosts need OpenOCD on ``PATH``, under ``FOSS_ROOT/bin``, or at ``CPLD_OPENOCD``.
+Identification defaults to Diamond Programmer, including readback after Diamond programming.
+It uses native ``FLASH Display ID``, ``XFLASH Display USERCODE`` and ``Security Display TraceID`` operations.
+The USERCODE read uses transparent background access; the nontransparent ``FLASH Display USERCODE`` operation is deliberately excluded because its vendor algorithm erases SRAM.
+Diamond identification does not require or invoke OpenOCD or openFPGALoader.
+Its slot labels follow the native Diamond XCF device positions; OpenOCD enumerates the JTAG taps in the opposite direction.
+
+Only explicit ``programmer_backend=foss`` (or ``backend=foss`` on a programmer command) selects OpenOCD from the pinned OSS CAD Suite for identification.
+For that backend, native hosts need OpenOCD on ``PATH``, under ``FOSS_ROOT/bin``, or at ``CPLD_OPENOCD``.
 The supported reader wiring is the UltraZohm FT4232 channel B at 1 MHz: Diamond ``probe_index=1`` or FOSS ``probe_index=0``.
 For multiple probes, the FOSS interface accepts ``usb_serial=SERIAL``; an ambiguous unselected probe is rejected.
 Other cable types or probe-index mappings require extending the reader and are rejected before managed programming starts.
@@ -117,8 +123,9 @@ Calling the stock executable directly bypasses these checks and does not provide
 Device readback
 ---------------
 
-The reader checks the expected chain and issues only IDCODE, USERCODE, TraceID and BYPASS instructions after JTAG initialization.
-It does not issue erase, program, configuration-refresh or device-reset commands.
+Both readers check the expected chain and read IDCODE, USERCODE and TraceID.
+Diamond additionally enters and leaves transparent FLASH access for USERCODE readback.
+Neither reader issues erase, program, configuration-refresh or device-reset commands.
 Identification receipts and logs are retained under ``toolchain/build/programmer/identification/read-*/``.
 TraceID's lower 56 bits are the immutable silicon identity; its upper eight bits are user configurable.
 The receipt stores both the full TraceID and its immutable part as ``silicon_id``.
@@ -132,4 +139,4 @@ The read commands and register semantics follow the `MachXO2 Programming and Con
 `Using TraceID <https://www.latticesemi.com/view_document?document_id=39093>`_ and
 `OpenOCD JTAG command reference <https://openocd.org/doc/html/JTAG-Commands.html>`_.
 Hardware-independent tests exercise allocation, generated scripts, parsing and programming readback decisions.
-Live identity readback on the UltraZohm hardware remains to be validated.
+Diamond identity readback has been validated on the five-device UltraZohm D-slot chain.

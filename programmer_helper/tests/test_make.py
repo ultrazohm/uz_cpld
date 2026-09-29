@@ -121,6 +121,7 @@ class ProgrammerMakeTests(unittest.TestCase):
         self.assertIn('s3c on FTUSB-0', result.stdout)
 
     def test_program_requires_target_and_scan_alone_is_rejected(self):
+        self.make('programmer')
         result = self.make('programmer', 'program')
         self.assertNotEqual(result.returncode, 0)
         self.assertIn('Choose target=s3c or target=dslot', result.stderr)
@@ -161,11 +162,20 @@ class ProgrammerMakeTests(unittest.TestCase):
                 self.assertNotEqual(result.returncode, 0)
                 self.assertNotIn('programmer_helper', result.stdout)
 
-    def test_ambiguous_old_backend_option_is_rejected(self):
-        result = self.make('programmer', 'program', 'target=dslot', 'backend=foss', recorder=True)
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn('use programmer_backend=', result.stderr)
-        self.assertFalse(result.stdout.strip(), result.stdout)
+    def test_backend_shorthand_and_explicit_programmer_override(self):
+        args = self.recorded('programmer', 'identify', 'backend=foss')
+        self.assertEqual(args[args.index('--programmer-backend') + 1], 'foss')
+        args = self.recorded('programmer', 'identify', 'backend=foss', 'programmer_backend=diamond')
+        self.assertEqual(args[args.index('--programmer-backend') + 1], 'diamond')
+
+    def test_program_first_use_creates_selection_without_hardware(self):
+        for target in ([], ['target=s3c']):
+            selection = self.cwd / 'selection.toml'
+            selection.unlink(missing_ok=True)
+            result = self.make('programmer', 'program', *target)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertTrue(selection.is_file())
+            self.assertIn('no hardware was accessed', result.stdout)
 
     def test_invalid_programmer_backend_is_rejected(self):
         result = self.make('programmer', 'scan', 'programmer_backend=typo', recorder=True)

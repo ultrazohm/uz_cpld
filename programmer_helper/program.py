@@ -405,7 +405,7 @@ def main(argv=None) -> int:
     parser.add_argument('--selection', type=Path, default=Path('selection.toml'),
                         help='Program selection file (default: selection.toml in the current directory)')
     parser.add_argument('--release-cycle', help='Override the release in the selection file')
-    parser.add_argument('--programmer-backend', choices=('diamond', 'foss'), default='diamond',
+    parser.add_argument('--programmer-backend', '--backend', choices=('diamond', 'foss'), default='diamond',
                         help='Programming/scan tool, independent of the firmware build backend')
     parser.add_argument('--build-backend', choices=('diamond', 'foss'),
                         help='Override selection build_backend (default: diamond); ignored for scans')
@@ -417,6 +417,10 @@ def main(argv=None) -> int:
     try:
         if args.action == 'init':
             create_selection(args.selection)
+            return 0
+        if args.action == 'program' and not args.selection.exists():
+            create_selection(args.selection)
+            print('Review the selection before programming; no hardware was accessed.')
             return 0
         args.chain = args.chain or {'dslot': 'dslots', 's3c': 's3c'}.get(args.target)
         if not args.chain:
@@ -430,9 +434,15 @@ def main(argv=None) -> int:
         if args.programmer_backend == 'diamond' and (args.cable or args.usb_serial):
             raise BuildError('Diamond uses the USB2 cable; select its port with --probe-index')
         if args.action == 'identify':
-            from .identify import identify, script
+            from .identify import identify, script, DIAMOND_READS
             if not args.execute:
-                print(script(args.chain, args.usb_serial))
+                if args.programmer_backend == 'foss':
+                    print(script(args.chain, args.usb_serial))
+                else:
+                    port = DEFAULT_DIAMOND_PORT if args.probe_index is None else args.probe_index
+                    print(f'Diamond identify: {args.chain} on FTUSB-{port}')
+                    for _, _, operation, _, _ in DIAMOND_READS:
+                        print(f'  {operation}')
             else:
                 identify(args.root, args.chain, args.programmer_backend, args.cable, args.usb_serial, args.probe_index)
             return 0

@@ -1,0 +1,9 @@
+id = "s3c_power_on_debounce_v1"
+implementation = "level_signals"
+compatible_s3c = ["s3c_power_on_debounce"]
+request_mode = "active_high"
+carrier_ready = "unused"
+# These are driven logic levels, not inferred electrical polarities.
+# Keeping ReqOE high lets the slot actively drive its CSV safe-state levels.
+slotok = [1, 0] # normal_state, safe_state
+reqoe = [1, 1]

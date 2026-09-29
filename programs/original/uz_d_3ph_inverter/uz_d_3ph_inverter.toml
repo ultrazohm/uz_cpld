@@ -1,0 +1,7 @@
+name = "uz_d_3ph_inverter"
+top = "SignalRouter"
+standard = "1993"
+targets = ["uz_dslot_xo2"]
+constraints = ["uz_d_3ph_inverter_constraints.lpf"]
+sources = [{path = "uz_d_3ph_inverter.vhdl", library = "work"}]
+testbench = "uz_d_3ph_inverter_tb.py"

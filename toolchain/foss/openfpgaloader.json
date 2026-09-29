@@ -1,0 +1,7 @@
+{
+  "version": "v1.1.1",
+  "url": "https://codeload.github.com/trabucayre/openFPGALoader/tar.gz/refs/tags/v1.1.1",
+  "sha256": "ca965f933c52a2a9dbb318df4d4de70fac5f095a8e64523f81036ab467a4b567",
+  "capability": "v1.1.1-uz-usercode1",
+  "patch_sha256": "97b06523f2bfe7fda7ac4f90a4b66643f8a87ab0cbc7a408d9e6b6ff48647e6f"
+}

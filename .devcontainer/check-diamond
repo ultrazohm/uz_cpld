@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+echo "Checking Diamond at ${DIAMOND_ROOT:-/opt/diamond}"
+case "${1:-}" in
+    "") ;;
+    --synthesis) export DIAMOND_SMOKE_SYNTHESIS=1 ;;
+    *) echo "Usage: check-diamond [--synthesis]" >&2; exit 2 ;;
+esac
+workdir=$(mktemp -d)
+trap 'rm -rf "$workdir"' EXIT
+cd "$workdir"
+unset DISPLAY WAYLAND_DISPLAY
+diamond-cli /usr/local/share/diamond/smoke.tcl
+if [[ ${DIAMOND_SMOKE_SYNTHESIS:-0} == 1 ]]; then
+    echo "Headless Tcl and LSE synthesis passed. No hardware was programmed."
+else
+    echo "Headless Tcl startup passed. Run check-diamond --synthesis to check LSE."
+fi

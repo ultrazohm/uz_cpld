@@ -1,0 +1,7 @@
+schema_version = 3
+name = "cvg_tx30_stateful"
+routing = "routing.csv"
+contract = "s3c_power_on_debounce_v1"
+clock = "machxo2"
+pilot_policy = "unused"
+s3c_library = "../../../xo2_library/s3c"

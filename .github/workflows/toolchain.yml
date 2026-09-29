@@ -1,0 +1,78 @@
+name: CPLD checks and documentation
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+    concurrency:
+      group: cpld-checks-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the license-free toolchain image
+        id: image
+        run: make image
+      - name: Run tooling tests
+        run: docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make test
+      - name: Build all FOSS firmware
+        if: ${{ !cancelled() && steps.image.outcome == 'success' }}
+        run: docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make build-all backend=foss
+      - name: Build program documentation and run HDL simulations
+        if: ${{ !cancelled() && steps.image.outcome == 'success' }}
+        run: docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make docs release_cycle=all runner=local
+      - name: Retain program diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: program-diagnostics
+          path: |
+            programs/usercodes.json
+            programs/*/*/build/simulation/
+            programs/*/*/build/netlist/
+            programs/*/*/build/uz_dslot_xo2_foss/
+            programs/*/*/build/uz_s3c_xo2_foss/
+            toolchain/build/simulation/
+            toolchain/build/validation/
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Retain the documentation preview
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cpld-documentation
+          path: docs/_build/html/
+          if-no-files-found: warn
+          include-hidden-files: true
+          retention-days: 14
+      - name: Upload the Pages site
+        if: ${{ success() && github.event_name != 'pull_request' && github.ref == 'refs/heads/master' }}
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: docs/_build/html/
+
+  deploy:
+    needs: checks
+    if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/master' }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/configure-pages@v5
+      - name: Deploy documentation
+        id: deployment
+        uses: actions/deploy-pages@v4

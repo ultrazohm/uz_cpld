@@ -1,0 +1,233 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -2,7 +2,7 @@
+ 
+ # set the project name
+ project(openFPGALoader VERSION "1.1.1" LANGUAGES CXX)
+-add_definitions(-DVERSION=\"v${PROJECT_VERSION}\")
++add_definitions(-DVERSION=\"v${PROJECT_VERSION}-uz-usercode1\")
+ 
+ #if(CMAKE_SYSTEM_NAME STREQUAL "Windows" AND NOT CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
+ #	set(WINDOWS_CROSSCOMPILE ON)
+--- a/src/main.cpp
++++ b/src/main.cpp
+@@ -127,6 +127,8 @@
+ 	bool read_xadc;
+ 	string read_register;
+ 	string user_flash;
++	string machxo2_usercode;
++	bool check_file;
+ };
+ 
+ int run_xvc_server(const struct arguments &args, const cable_t &cable,
+@@ -171,6 +173,32 @@
+ 	int ret = parse_opt(argc, argv, &args, &pins_config);
+ 	if (ret != 0)
+ 		return (ret == 1) ? EXIT_SUCCESS : EXIT_FAILURE;
++
++    if (args.check_file) {
++#ifdef ENABLE_LATTICE_SUPPORT
++        try {
++            const string extension = args.bit_file.substr(args.bit_file.find_last_of('.') + 1);
++            if (extension == "jed") {
++                JedParser parser(args.bit_file, false);
++                if (parser.parse() != EXIT_SUCCESS)
++                    return EXIT_FAILURE;
++                if (!args.machxo2_usercode.empty() && parser.usercode() != std::stoul(args.machxo2_usercode, nullptr, 16)) {
++                    printError("JEDEC USERCODE does not match --usercode");
++                    return EXIT_FAILURE;
++                }
++                printf("USERCODE %08x\n", parser.usercode());
++                return EXIT_SUCCESS;
++            } else if (extension == "bit") {
++                LatticeBitParser parser(args.bit_file, true, false, false);
++                return parser.parse();
++            }
++            printError("--check-file requires .jed or .bit input");
++        } catch (const std::exception &e) {
++            printError(e.what());
++        }
++#endif
++        return EXIT_FAILURE;
++    }
+ 
+ 	if (args.is_list_command) {
+ 		displaySupported(args);
+@@ -551,6 +579,8 @@
+ #ifdef ENABLE_LATTICE_SUPPORT
+ 			fpga = new Lattice(jtag, args.bit_file, args.file_type,
+ 				args.prg_type, args.flash_sector, args.verify, args.verbose, args.skip_load_bridge, args.skip_reset);
++            if (!args.machxo2_usercode.empty())
++                static_cast<Lattice *>(fpga)->set_usercode(std::stoul(args.machxo2_usercode, nullptr, 16));
+ #else
+ 			printError("Support for Lattice FPGAs was not enabled at compile time");
+ 			delete(jtag);
+@@ -1019,10 +1049,20 @@
+ 				cxxopts::value<string>(args->read_register))
+ 			("user-flash", "User flash file (Gowin LittleBee FPGA only)",
+ 				cxxopts::value<string>(args->user_flash))
++			("check-file", "Parse a MachXO2 firmware file without accessing hardware",
++				cxxopts::value<bool>(args->check_file))
++			("usercode", "MachXO2 Flash USERCODE: exactly eight hex digits",
++				cxxopts::value<string>(args->machxo2_usercode))
+ 			("V,Version", "Print program version");
+ 
+ 		options.parse_positional({"bitstream"});
+ 		auto result = options.parse(argc, argv);
++        if (!args->machxo2_usercode.empty() &&
++            (args->machxo2_usercode.size() != 8 ||
++             args->machxo2_usercode.find_first_not_of("0123456789abcdefABCDEF") != string::npos)) {
++            printError("--usercode requires exactly eight hexadecimal digits");
++            return -1;
++        }
+ 
+ 		if (result.count("help")) {
+ 			cout << options.help() << endl;
+--- a/src/lattice.hpp
++++ b/src/lattice.hpp
+@@ -27,6 +27,7 @@
+ 		uint32_t idCode() override;
+ 		int userCode();
+ 		bool write_userCode(uint32_t usercode);
++		void set_usercode(uint32_t value);
+ 		void reset() override;
+ 		void program(unsigned int offset, bool unprotect_flash) override;
+ 		bool program_mem();
+@@ -93,6 +94,8 @@
+ 
+ 		int get_statusreg_size();
+ 
++		bool _has_usercode = false;
++		uint32_t _requested_usercode = 0;
+ 		bool program_intFlash(ConfigBitstreamParser *_cbp);
+ 		bool program_extFlash(unsigned int offset, bool unprotect_flash);
+ 		bool wr_rd(uint8_t cmd, uint8_t *tx, int tx_len,
+--- a/src/jedParser.hpp
++++ b/src/jedParser.hpp
+@@ -38,6 +38,7 @@
+ 			return _data_list[id].data;
+ 		}
+ 		std::string noteForSection(int id) {return _data_list[id].associatedPrevNote;}
++		uint32_t usercode() const {return _userCode;}
+ 		uint32_t feabits() {return _feabits;}
+ 		uint64_t featuresRow() {return _featuresRow;}
+ 
+--- a/src/lattice.cpp
++++ b/src/lattice.cpp
+@@ -19,6 +19,7 @@
+ 
+ #include "jtag.hpp"
+ #include "lattice.hpp"
++#include "machxo2_usercode.hpp"
+ #include "latticeBitParser.hpp"
+ #include "mcsParser.hpp"
+ #include "progressBar.hpp"
+@@ -637,8 +638,30 @@
+ 	return true;
+ }
+ 
++void Lattice::set_usercode(uint32_t value)
++{
++    if (_fpga_family != MACHXO2_FAMILY || _mode != Device::FLASH_MODE)
++        throw std::runtime_error("--usercode requires MachXO2 internal-flash programming");
++    _requested_usercode = value;
++    _has_usercode = true;
++}
++
+ bool Lattice::program_intFlash(ConfigBitstreamParser *_cbp)
+ {
++    uint32_t code = _requested_usercode;
++    if (_fpga_family == MACHXO2_FAMILY) {
++        if (_file_extension == "jed") {
++            const uint32_t embedded = static_cast<JedParser *>(_cbp)->usercode();
++            if (_has_usercode && embedded != code) {
++                printError("JEDEC USERCODE does not match --usercode");
++                return false;
++            }
++            code = embedded;
++        } else if (!_has_usercode) {
++            printError("MachXO2 bitstream flash requires --usercode");
++            return false;
++        }
++    }
+ 	uint64_t featuresRow;
+ 	uint16_t ufm_start = 0;
+ 	uint16_t feabits;
+@@ -747,7 +770,24 @@
+ 			return false;
+ 	}
+ 
+-	/* missing usercode update */
++    if (_fpga_family == MACHXO2_FAMILY) {
++        printInfo("Program and verify USERCODE: ", false);
++        const bool ok = program_machxo2_usercode(code,
++            [this](uint8_t command, uint8_t *bytes, int size) {
++                return wr_rd(command, bytes, size, NULL, 0);
++            },
++            [this]() {
++                _jtag->set_state(Jtag::RUN_TEST_IDLE);
++                _jtag->toggleClk(1000);
++                return pollBusyFlag() && checkStatus(0, REG_STATUS_FAIL);
++            },
++            [this]() { return static_cast<uint32_t>(userCode()); });
++        if (!ok) {
++            printError("USERCODE write or verification failed");
++            return false;
++        }
++        printSuccess("DONE");
++    }
+ 
+ 	/* LSC_INIT_ADDRESS */
+ 	wr_rd(0x46, NULL, 0, NULL, 0);
+@@ -1025,6 +1065,12 @@
+ 		if (_verbose)
+ 			_jed.displayHeader();
+ 
++        if (_fpga_family == MACHXO2_FAMILY && _has_usercode &&
++            _jed.usercode() != _requested_usercode) {
++            printError("JEDEC USERCODE does not match --usercode");
++            return false;
++        }
++
+ 		/* clear current SRAM content */
+ 		clearSRAM();
+ 
+@@ -1054,8 +1100,9 @@
+ 		//  machox2 + bit
+ 		if (_file_extension == "bit" && _fpga_family == MACHXO2_FAMILY) {
+ 			try {
+-				LatticeBitParser _bit(_filename, true, _verbose);
+-				_bit.parse();
++				LatticeBitParser _bit(_filename, true, false, _verbose);
++                if (_bit.parse() != EXIT_SUCCESS)
++                    return false;
+ 				retval = program_intFlash(
+ 						reinterpret_cast<ConfigBitstreamParser *>(&_bit));
+ 			} catch (std::exception &e) {
+@@ -1166,7 +1213,7 @@
+ 	uint8_t usercode[4];
+ 	wr_rd((_fpga_family == ECP3_FAMILY) ? ECP3_READ_USERCODE : 0xC0,
+ 		NULL, 0, usercode, 4);
+-	return usercode[3] << 24 |
++	return static_cast<uint32_t>(usercode[3]) << 24 |
+ 					usercode[2] << 16 |
+ 					usercode[1] << 8  |
+ 					usercode[0];
+--- /dev/null
++++ b/src/machxo2_usercode.hpp
+@@ -0,0 +1,15 @@
++// SPDX-License-Identifier: Apache-2.0
++#ifndef UZ_MACHXO2_USERCODE_HPP
++#define UZ_MACHXO2_USERCODE_HPP
++#include <cstdint>
++
++// MachXO2 ISC_PROGRAM_USERCODE uses a 32-bit, least-significant-bit-first
++// JTAG data register. Poll completion and verify even without --verify.
++template<typename Write, typename Wait, typename Read>
++bool program_machxo2_usercode(uint32_t value, Write write, Wait wait, Read read)
++{
++    uint8_t bytes[4] = {static_cast<uint8_t>(value), static_cast<uint8_t>(value >> 8),
++                        static_cast<uint8_t>(value >> 16), static_cast<uint8_t>(value >> 24)};
++    return write(0xc2, bytes, 4) && wait() && read() == value;
++}
++#endif

@@ -1,0 +1,7 @@
+# Compatible with the container's Python 3.10.
+Sphinx==7.4.7
+furo==2025.12.19
+sphinxcontrib-mermaid==2.1.1
+-r ../requirements.txt
+-r ../toolchain/analysis/requirements.txt
+-r ../toolchain/simulation/requirements.txt

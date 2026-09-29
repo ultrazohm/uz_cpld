@@ -1,0 +1,2 @@
+s3c_tick1ms.n302_o
+s3c_fsm.n970_o

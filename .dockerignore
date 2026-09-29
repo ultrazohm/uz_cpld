@@ -1,0 +1,26 @@
+# Only image inputs enter the build context; workspace sources are mounted.
+*
+!.devcontainer/
+!.devcontainer/Dockerfile
+!.devcontainer/diamond-cli
+!.devcontainer/check-diamond
+!.devcontainer/container-entrypoint
+!.devcontainer/smoke.tcl
+!toolchain/
+!toolchain/simulation/
+!toolchain/simulation/requirements.txt
+!toolchain/analysis/
+!toolchain/analysis/requirements.txt
+!requirements.txt
+!docs/
+!docs/requirements.txt
+!toolchain/foss/
+!toolchain/foss/install.py
+!toolchain/foss/toolchain.json
+!toolchain/foss/build_nextpnr.py
+!toolchain/foss/sources.json
+!toolchain/foss/flasher.py
+!toolchain/foss/openfpgaloader.json
+!toolchain/foss/openfpgaloader-usercode.patch
+!toolchain/foss/tests/
+!toolchain/foss/tests/usercode.cpp

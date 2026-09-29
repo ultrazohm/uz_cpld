@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE		ispXCF	SYSTEM	"IspXCF.dtd" >
+<ispXCF version="3.14">
+	<Comment></Comment>
+	<Chain>
+		<Comm>JTAG</Comm>
+		<Device>
+			<SelectedProg value="TRUE"/>
+			<Pos>1</Pos>
+			<Vendor>Lattice</Vendor>
+			<Family>ispMACH4000</Family>
+			<Name>LA4128V</Name>
+			<IDCode>0x01811043</IDCode>
+			<Package>All</Package>
+			<PON>LA4128V</PON>
+			<Bypass>
+				<InstrLen>8</InstrLen>
+				<InstrVal>11111111</InstrVal>
+				<BScanLen>1</BScanLen>
+				<BScanVal>0</BScanVal>
+			</Bypass>
+			<File>/home/ts/Documents/uz_cpld/ispMACH/LA4128V/26tx_with_enable/uz_cpld_26tx_with_enable.jed</File>
+			<FileTime>09/17/26 12:59:53</FileTime>
+			<JedecChecksum>0x34FF</JedecChecksum>
+			<Operation>Erase,Program,Verify</Operation>
+			<Option>
+				<SVFVendor>JTAG STANDARD</SVFVendor>
+				<IOState>HighZ</IOState>
+				<PreloadLength>196</PreloadLength>
+				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
+				<DebugMode value="TRUE"/>
+				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<SVFProcessor>SVF Processor</SVFProcessor>
+				<Usercode>0xFFFFFFFF</Usercode>
+				<AccessMode>JTAG</AccessMode>
+			</Option>
+		</Device>
+		<Device>
+			<SelectedProg value="TRUE"/>
+			<Pos>2</Pos>
+			<Vendor>Lattice</Vendor>
+			<Family>ispMACH4000</Family>
+			<Name>LA4128V</Name>
+			<IDCode>0x01811043</IDCode>
+			<Package>All</Package>
+			<PON>LA4128V</PON>
+			<Bypass>
+				<InstrLen>8</InstrLen>
+				<InstrVal>11111111</InstrVal>
+				<BScanLen>1</BScanLen>
+				<BScanVal>0</BScanVal>
+			</Bypass>
+			<File>/home/ts/Documents/uz_cpld/ispMACH/LA4128V/26tx_with_enable/uz_cpld_26tx_with_enable.jed</File>
+			<FileTime>09/17/26 12:59:53</FileTime>
+			<JedecChecksum>0x34FF</JedecChecksum>
+			<Operation>Erase,Program,Verify</Operation>
+			<Option>
+				<SVFVendor>JTAG STANDARD</SVFVendor>
+				<IOState>HighZ</IOState>
+				<PreloadLength>196</PreloadLength>
+				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
+				<DebugMode value="TRUE"/>
+				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<SVFProcessor>SVF Processor</SVFProcessor>
+				<Usercode>0xFFFFFFFF</Usercode>
+				<AccessMode>JTAG</AccessMode>
+			</Option>
+		</Device>
+		<Device>
+			<SelectedProg value="TRUE"/>
+			<Pos>3</Pos>
+			<Vendor>Lattice</Vendor>
+			<Family>ispMACH4000</Family>
+			<Name>LA4128V</Name>
+			<IDCode>0x01811043</IDCode>
+			<Package>All</Package>
+			<PON>LA4128V</PON>
+			<Bypass>
+				<InstrLen>8</InstrLen>
+				<InstrVal>11111111</InstrVal>
+				<BScanLen>1</BScanLen>
+				<BScanVal>0</BScanVal>
+			</Bypass>
+			<File>/home/ts/Documents/uz_cpld/ispMACH/LA4128V/26tx_with_enable/uz_cpld_26tx_with_enable.jed</File>
+			<FileTime>09/17/26 12:59:53</FileTime>
+			<JedecChecksum>0x34FF</JedecChecksum>
+			<Operation>Erase,Program,Verify</Operation>
+			<Option>
+				<SVFVendor>JTAG STANDARD</SVFVendor>
+				<IOState>HighZ</IOState>
+				<PreloadLength>196</PreloadLength>
+				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
+				<DebugMode value="TRUE"/>
+				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<SVFProcessor>SVF Processor</SVFProcessor>
+				<Usercode>0xFFFFFFFF</Usercode>
+				<AccessMode>JTAG</AccessMode>
+			</Option>
+		</Device>
+		<Device>
+			<SelectedProg value="TRUE"/>
+			<Pos>4</Pos>
+			<Vendor>Lattice</Vendor>
+			<Family>ispMACH4000</Family>
+			<Name>LA4128V</Name>
+			<IDCode>0x01811043</IDCode>
+			<Package>All</Package>
+			<PON>LA4128V</PON>
+			<Bypass>
+				<InstrLen>8</InstrLen>
+				<InstrVal>11111111</InstrVal>
+				<BScanLen>1</BScanLen>
+				<BScanVal>0</BScanVal>
+			</Bypass>
+			<File>/home/ts/Documents/uz_cpld/ispMACH/LA4128V/uz_d_resolver/digital_D1_to_D4/uz_cpld_uz_d_resolver_d1_to_d4.jed</File>
+			<FileTime>09/17/26 12:59:53</FileTime>
+			<JedecChecksum>0x2BA1</JedecChecksum>
+			<Operation>Erase,Program,Verify</Operation>
+			<Option>
+				<SVFVendor>JTAG STANDARD</SVFVendor>
+				<IOState>HighZ</IOState>
+				<PreloadLength>196</PreloadLength>
+				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
+				<DebugMode value="TRUE"/>
+				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<SVFProcessor>SVF Processor</SVFProcessor>
+				<Usercode>0xFFFFFFFF</Usercode>
+				<AccessMode>JTAG</AccessMode>
+			</Option>
+		</Device>
+		<Device>
+			<SelectedProg value="TRUE"/>
+			<Pos>5</Pos>
+			<Vendor>Lattice</Vendor>
+			<Family>ispMACH4000</Family>
+			<Name>LA4128V</Name>
+			<IDCode>0x01811043</IDCode>
+			<Package>All</Package>
+			<PON>LA4128V</PON>
+			<Bypass>
+				<InstrLen>8</InstrLen>
+				<InstrVal>11111111</InstrVal>
+				<BScanLen>1</BScanLen>
+				<BScanVal>0</BScanVal>
+			</Bypass>
+			<File>/home/ts/Documents/uz_cpld/ispMACH/LA4128V/encoder_rev02/uz_encoder_rev02.jed</File>
+			<FileTime>09/17/26 12:59:53</FileTime>
+			<JedecChecksum>0x9A68</JedecChecksum>
+			<Operation>Erase,Program,Verify</Operation>
+			<Option>
+				<SVFVendor>JTAG STANDARD</SVFVendor>
+				<IOState>HighZ</IOState>
+				<PreloadLength>196</PreloadLength>
+				<IOVectorData>0x0000000000000000000000000000000000000000000000000</IOVectorData>
+				<DebugMode value="TRUE"/>
+				<TCKFrequency>1.000000 MHz</TCKFrequency>
+				<SVFProcessor>SVF Processor</SVFProcessor>
+				<Usercode>0xFFFFFFFF</Usercode>
+				<AccessMode>JTAG</AccessMode>
+			</Option>
+		</Device>
+	</Chain>
+	<ProjectOptions>
+		<Program>SEQUENTIAL</Program>
+		<Process>ENTIRED CHAIN</Process>
+		<OperationOverride>No Override</OperationOverride>
+		<StartTAP>TLR</StartTAP>
+		<EndTAP>TLR</EndTAP>
+		<VerifyUsercode value="TRUE"/>
+		<TCKDelay>3</TCKDelay>
+	</ProjectOptions>
+	<CableOptions>
+		<CableName>USB2</CableName>
+		<PortAdd>FTUSB-0</PortAdd>
+		<USBID>DIGILENT USB DEVICE A Location 0000 Serial DIGILENT USB DEVICE A</USBID>
+		<JTAGPinSetting>
+			TMS	LOW;
+			TCK	LOW;
+			TDI	LOW;
+			TDO	LOW;
+		</JTAGPinSetting>
+	</CableOptions>
+</ispXCF>

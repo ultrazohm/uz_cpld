@@ -81,8 +81,8 @@ The protocol comes from ``feature/add_dig3v35v_configs_heartbeat`` at
   interpreted as a static ready level.
 * ``reqsafestate`` remains an independent static request, active high by default.
   The S3C may keep sending heartbeat while requesting safe state.
-* Normal operation requires a qualified heartbeat, an inactive synchronized
-  request, synchronized ``card_enable='1'``, and the configured pilot condition.
+* Normal operation requires a qualified heartbeat, a released safety gate,
+  synchronized ``card_enable='1'``, and the configured pilot condition.
 * Reset, unqualified/lost/malformed heartbeat, active or unknown request, or an
   unmet enable/pilot condition selects safe state. Recovery is automatic.
 
@@ -127,20 +127,39 @@ contract/generic values. The receiver uses a two-register input synchronizer.
 
 An initial edge starts a sequence at count one. Sixteen edges with all fifteen
 intervening intervals in the inclusive 10--52-clock window qualify it. Normal
-operation also waits for the existing three-clock startup guard and the other
-controls. Unlike level-only mode, it cannot enter normal state merely on the
-fourth startup clock. Qualification does not stop during a static safe-state
-request, so releasing the request can restore normal operation without a new
-qualification delay if heartbeat is still valid.
+operation also requires the safety gate to be released and the other controls
+to permit forwarding. The release synchronizer and initial heartbeat
+qualification provide startup protection without a separate state register
+or warmup counter. Heartbeat monitoring continues during a static safe-state
+request, including initial qualification, malformed-edge rejection and timeout.
+
+Asserting ``ReqSafeState`` asynchronously clears both stages of the release
+synchronizer. All state/status outputs select their safe values without waiting
+for a clock edge. An unknown request also forces safe outputs in simulation.
+Deasserting the request releases the gate on the second rising clock edge,
+without requiring a new heartbeat qualification if the monitor is still valid.
+An assertion entirely between clock edges still closes the gate and requires
+two subsequent edges after deassertion to reopen it. Assertion therefore works
+with a stopped clock, while deassertion cannot resume forwarding until the
+clock runs again. Asynchronous assertion still has physical propagation delay.
 
 A missing edge revokes qualification on clock 208 after the last observed edge
 (approximately 100 microseconds), whether CarrierReady is stuck high or low.
 Out-of-window edges revoke qualification immediately when observed and start
 a new sequence at count one. Unknown heartbeat values clear qualification.
 Reset clears the history, and recovery from a heartbeat fault requires a fresh
-qualified sequence. Static request, enable and pilot changes take effect on
-the third clock edge counting their first sample, as in ``level_signals``.
-This differs from the branch router's combinational ReqSafeState gating.
+qualified sequence. Enable and pilot inputs retain their two-register
+synchronizers; their state/status effects now occur on the second sampling
+edge because output selection is combinational. ``level_signals`` retains its
+original three-edge control latency.
+
+Clock-dependent recovery does not detect a failure of the receiver's own clock.
+When that clock stops, qualification and timeout counters freeze. After the
+clock resumes, a previously qualified heartbeat can temporarily remain valid
+until the monitor observes a malformed edge or reaches its timeout. There is
+deliberately no fresh-qualification requirement on safe-state request release.
+The feature-branch router also permits request assertion without a clock, but
+its combinational gate permits request release without a clock as well.
 
 This is protocol-compatible with the imported sender, but deliberately does
 not copy two receiver defects from the branch: the original keeps its valid

@@ -68,12 +68,14 @@ VHDL keywords, ``generator``, the ``s3c_`` prefix, and names used by generated d
 The optional ``enable`` table specifies required data input levels, for example ``enable = {fpga_29 = 1}``.
 ``pilot_policy = "required"`` requires a high synchronized pilot input for normal operation; ``unused`` ignores it.
 The controller starts in ``safe_state`` and enters ``normal_state`` when synchronized S3C controls, the pilot policy, and the enable pattern permit operation.
-The shared controller owns startup: initialized registers and a three-edge warmup keep outputs in their safe state, with level-based normal operation possible on the fourth rising edge.
-Heartbeat mode additionally waits for a qualified edge sequence.
+The shared controller owns startup: ``level_signals`` uses initialized registers and a three-edge warmup, with normal operation possible on the fourth rising edge.
+Heartbeat mode instead requires its two-stage safety gate to release and a qualified edge sequence.
 With ``clock = "machxo2"``, the controller's reset input is tied low; synthesis must preserve the HDL register initial values.
-With ``clock = "external"``, asserting ``reset`` forces safe outputs immediately and resets the controller on a rising edge; the warmup repeats after reset is released.
+With ``clock = "external"``, asserting ``reset`` forces safe outputs immediately and resets the controller on a rising edge; startup protection repeats after reset is released.
 It returns to ``safe_state`` when any condition fails and resumes ``normal_state`` automatically when all conditions are satisfied.
-After startup, control changes reach the state on the third clock edge counting their first sampling edge.
+With ``level_signals``, control changes reach the state on the third clock edge counting their first sampling edge.
+With ``heartbeat``, ReqSafeState assertion forces safe outputs without a clock, and deassertion releases its gate after two rising edges; heartbeat monitoring continues throughout the request.
+Heartbeat-mode enable and pilot changes take effect on the second sampling edge.
 Data forwarding is combinational.
 
 ``s3c_library`` selects the shared HDL directory and defaults to ``xo2_library/s3c`` (also included when installing the generator).
@@ -124,6 +126,8 @@ qualification, timeout, recovery and differences from the original receiver.
 Generated heartbeat testbenches generate a pulse train and test qualification,
 independent static safe-state requests, heartbeat loss and recovery, as well
 as the configured routing, pilot and enable conditions.
+They also check clock-independent safe-state assertion and two-edge recovery
+without discarding an already qualified heartbeat.
 
 Testbenches
 -----------

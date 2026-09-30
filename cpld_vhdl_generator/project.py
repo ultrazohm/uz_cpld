@@ -124,10 +124,19 @@ async def generated_routing(dut):
         await tick(1)
     await check(True)
     dut.reqsafestate.value = REQUEST_SAFE
+    if HEARTBEAT:
+        # Request assertion is asynchronous, even with the clock held still.
+        await check(False)
     await tick()
     await patterns(False)
     dut.reqsafestate.value = 1 - REQUEST_SAFE
-    await tick()
+    if HEARTBEAT:
+        await check(False)
+        await tick(1)
+        await check(False)
+        await tick(1)
+    else:
+        await tick()
     await patterns(True)
     dut.reqsafestate.value = REQUEST_SAFE
     await tick()

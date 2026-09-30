@@ -62,17 +62,47 @@ begin
         edge_after; expect(true);
 
         -- A live heartbeat is not permission to ignore a static safety request.
-        request <= SAFE_LEVEL; cycles(2); expect(true); cycles(1); expect(false);
+        request <= SAFE_LEVEL; wait for 1 ns; expect(false);
         for i in 1 to 20 loop edge_after; expect(false); end loop;
-        request <= not SAFE_LEVEL; cycles(3); expect(true);
-        request <= 'X'; cycles(3); expect(false);
-        request <= not SAFE_LEVEL; cycles(3); expect(true);
-        enable <= '0'; cycles(3); expect(false);
+        request <= not SAFE_LEVEL; wait for 1 ns; expect(false);
+        cycles(1); expect(false); cycles(1); expect(true);
+        request <= 'X'; wait for 1 ns; expect(false);
+        request <= not SAFE_LEVEL; cycles(1); expect(false); cycles(1); expect(true);
+        request <= 'Z'; wait for 1 ns; expect(false);
+        request <= not SAFE_LEVEL; cycles(1); expect(false); cycles(1); expect(true);
+        enable <= '0'; cycles(1); expect(true); cycles(1); expect(false);
         enable <= 'X'; cycles(3); expect(false);
-        enable <= '1'; cycles(3); expect(true);
-        pilot <= '0'; cycles(3); expect(not PILOT_REQUIRED);
+        enable <= '1'; cycles(1); expect(false); cycles(1); expect(true);
+        pilot <= '0'; cycles(1); expect(true); cycles(1); expect(not PILOT_REQUIRED);
         pilot <= 'X'; cycles(3); expect(not PILOT_REQUIRED);
-        pilot <= '1'; cycles(3); expect(true);
+        pilot <= '1'; cycles(1); expect(not PILOT_REQUIRED); cycles(1); expect(true);
+
+        -- With no clock, assertion must still force every state/status output
+        -- safe, and deassertion must not reopen the gate. Qualification is kept.
+        restart; qualify;
+        request <= SAFE_LEVEL; wait for 2 us; expect(false);
+        request <= not SAFE_LEVEL; wait for 2 us; expect(false);
+        cycles(1); expect(false); cycles(1); expect(true);
+        -- Even a request entirely between edges must restart both release stages.
+        request <= SAFE_LEVEL; wait for 1 ns; expect(false);
+        request <= not SAFE_LEVEL; cycles(1); expect(false);
+        request <= SAFE_LEVEL; wait for 1 ns; expect(false);
+        request <= not SAFE_LEVEL; cycles(1); expect(false); cycles(1); expect(true);
+
+        -- The monitor can acquire qualification while the request is asserted.
+        restart; request <= SAFE_LEVEL;
+        for i in 1 to 16 loop edge_after; expect(false); end loop;
+        request <= not SAFE_LEVEL; cycles(1); expect(false); cycles(1); expect(true);
+
+        -- It also expires qualification while the request is asserted.
+        request <= SAFE_LEVEL; cycles(208); expect(false);
+        request <= not SAFE_LEVEL; cycles(2); expect(false);
+        for i in 1 to 15 loop edge_after; expect(false); end loop;
+        edge_after; expect(true);
+        -- A malformed train during a request cannot be hidden by the safety gate.
+        request <= SAFE_LEVEL; edge_after(9); expect(false);
+        request <= not SAFE_LEVEL; cycles(2); expect(false);
+        qualify;
 
         restart; qualify;
         cycles(207); expect(true);

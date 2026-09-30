@@ -1,6 +1,33 @@
 {
-  "next_program": 23,
+  "next_program": 24,
   "programs": {
+    "heartbeat/s3c_heartbeat": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "5c8c676a8accf29ea636931027e3dfad6f4216c7c3cfca25038bbb0694fb1325",
+          "target": "uz_s3c_xo2"
+        },
+        "2": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T12:58:47.094436+00:00",
+              "firmware_sha256": {
+                "bit": "b1ef6eb2de9b829ec48a7bf99239a8cbcf191c416be88b43db628cffa78155ed",
+                "jed": "81ec54eba5723ed28ad11e6fb7be876fcaa777824a3279a6cf8755f286255806"
+              },
+              "git_revision": "7d6ba1856db71158fdbebb1102e541be1525ff6c"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "34870433405fe2f33100e8d91df01bd65109e4cdb8e80fccdbb2d719de15e6d2",
+          "target": "uz_s3c_xo2"
+        }
+      },
+      "next_revision": 3,
+      "number": 23
+    },
     "original/cvg_tx30_stateful": {
       "builds": {
         "1": {

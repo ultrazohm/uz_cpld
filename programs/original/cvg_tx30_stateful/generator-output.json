@@ -25,7 +25,7 @@
     "generator/__main__.py": "47d0a830e20065dbcbd55789103a034578b993010c1daf5e2a2d0d25d2f15bbe",
     "generator/contracts/s3c_power_on_debounce_v1.toml": "7e1a07f4a126de45196943eb92a6511d6ce6daba1bc37fe2446b2bf8c1541046",
     "generator/generator.py": "6992fffcd44c2aa37e9154449682973f57c2068dd5e323db65f02e609f241598",
-    "generator/project.py": "2b0d042f3b979bf7f2a54629fe7cb90d33a458879f59e45f1a01db4ad2f001a2",
+    "generator/project.py": "9feafdd29a5c40fd43d1f0cd04ed0f1e08361526a7e245f04b45c0663aa912b9",
     "generator/toml.py": "4ca324c9b6ba5cb26a9b09adfe04b3e11d8aa6938ed8ecd50559fb82e860d29b",
     "s3c_library/level_signals.vhdl": "c3fbe92cf94f38cb498a5123027dfe5794edd02c6106dc4de4d6b675bc3b1969",
     "s3c_library/s3c_logic.vhdl": "83168ffa3369d1bd78123e4abefb928f2944435054135ad4f916b3e5fd3c9e3d",

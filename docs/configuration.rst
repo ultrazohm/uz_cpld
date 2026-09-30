@@ -15,7 +15,7 @@ The optional ``synthesis = "lse"`` or ``synthesis = "synplify"`` selects the Dia
 Omitting it retains LSE; the setting has no effect on FOSS builds.
 The ``heartbeat`` release selects Synplify throughout, matching its source branch.
 The ``original`` release uses LSE except for ``s3c_rev6_beta``, whose historical project selected Synplify.
-Generated programs without this field retain the LSE default.
+The generator writes an explicit ``synthesis = "lse"`` into generated program manifests.
 The engine and its effective VHDL-standard option are recorded in ``metadata/build.json``.
 ``sources`` is a nonempty ordered list with no duplicate paths, and ``targets`` explicitly lists compatible board targets.
 Input paths are relative to the manifest, must exist and must stay within the workspace.

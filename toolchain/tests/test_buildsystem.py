@@ -213,7 +213,9 @@ class FrontendTests(unittest.TestCase):
             for name in catalog(self.root, cycle):
                 expected = 'synplify' if cycle == 'heartbeat' or name == 's3c_rev6_beta' else 'lse'
                 with self.subTest(cycle=cycle, program=name):
-                    self.assertEqual(load_build(self.root, name, release_cycle=cycle).synthesis, expected)
+                    build = load_build(self.root, name, release_cycle=cycle)
+                    self.assertEqual(workflow.read_toml(build.manifests[0])['synthesis'], expected)
+                    self.assertEqual(build.synthesis, expected)
 
     def test_diamond_engine_and_vhdl_standard_are_selected_together(self):
         from toolchain.buildsystem.identity import reserve_build

@@ -30,6 +30,7 @@ class GeneratorTests(unittest.TestCase):
                                'target = "uz_dslot_xo2"\ns3c_library = "shared_🚀"\n')
         generate(self.config, self.output)
         manifest = read_toml(self.output / 'cvg_example.toml')
+        self.assertEqual(manifest['synthesis'], 'lse')
         self.assertEqual(manifest['sources'][0]['path'], 'shared_🚀/s3c_logic.vhdl')
         check(self.config, self.output)
 

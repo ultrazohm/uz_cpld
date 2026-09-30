@@ -1,6 +1,6 @@
 name = "tx30_hearbeattesting"
 top = "SignalRouter"
-standard = "1993"
+standard = "2008"
 synthesis = "synplify"
 targets = ["uz_dslot_xo2"]
 backends = ["diamond"]

@@ -1,6 +1,6 @@
 name = "uz_d_temperature_ltc2983"
 top = "SignalRouter"
-standard = "1993"
+standard = "2008"
 synthesis = "synplify"
 targets = ["uz_dslot_xo2"]
 backends = ["diamond"]

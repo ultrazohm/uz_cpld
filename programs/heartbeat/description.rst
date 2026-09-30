@@ -7,7 +7,7 @@ that instantiate the heartbeat receiver in
 The S3C targets the LCMXO2-4000HC-4TG144C; the D-slots target the
 LCMXO2-2000HC-4TG100C.
 
-All program manifests now select Synplify, matching the feature branch.
+All program manifests select Synplify and VHDL-2008, matching the feature branch.
 The previously built ``s3c_heartbeat`` Diamond LSE image has a reproduced startup
 failure: unsupported Gray encoding falls back to one-hot encoding without a
 working startup reset, leaving power off and the red LED asserted. See the

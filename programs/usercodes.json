@@ -40,9 +40,24 @@
           "backend": "diamond",
           "fingerprint": "b51a4e96905a19a6af39487c65ed29d1d2b6ad64e7734d492be98446b3ffb63b",
           "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:27:24.015714+00:00",
+              "firmware_sha256": {
+                "bit": "165ef882ac0995f0949fef74a0b8ae831de7a8c48caf232e7f67e6c41886b86b",
+                "jed": "f35cab2c95078628c8b56f3494c1dfdab0e2e66d3c8e2efd9c0903e24c754837"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "4d0d082e53541787dc2644d5ee8edaa5ec1b05025555881e729e5b670c500a92",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 3,
+      "next_revision": 4,
       "number": 24
     },
     "heartbeat/rx30": {
@@ -84,9 +99,24 @@
           "backend": "diamond",
           "fingerprint": "358e7ebc1207f461404d172c926c687e4527de6ddbbef24f3e1491ccc0477de2",
           "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:27:39.362311+00:00",
+              "firmware_sha256": {
+                "bit": "54c4de4787b20e6f7dcd1e6262396e68bbc4e6225c615f5985258909fe022d54",
+                "jed": "e96ac743b46f6c068ebd5a0f05f63ab1a564c260d4c434f09c9b32a8ed3426ae"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "ba518d524370e27797d65222e10e4dae7ea3a3c3e479a233482dac2aefde48fa",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 3,
+      "next_revision": 4,
       "number": 25
     },
     "heartbeat/s3c_heartbeat": {
@@ -137,6 +167,14 @@
                 "jed": "fc5f2a93f929e4eaac84fdae838f69f0a57611ad1d98f10d10bf201354d9f73b"
               },
               "git_revision": "b3860b21cc0b901142742e0d3ecbb167ad7e8175"
+            },
+            {
+              "completed_at": "2026-09-30T15:27:09.607165+00:00",
+              "firmware_sha256": {
+                "bit": "4ca2e6e6f81d5cbfb18e6b01eb75a5e0393b33de83b77ab8c40c5a94c3feda6c",
+                "jed": "ad106d169ed2c8e611ef844786f959d971083f339ceb2946210c0f7d228992b9"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
             }
           ],
           "backend": "diamond",
@@ -186,9 +224,24 @@
           "backend": "diamond",
           "fingerprint": "047efc96caf10b01257b1cb661b23ca73bb5299c5b8dedb06b3c09f6c7117a02",
           "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:27:59.128311+00:00",
+              "firmware_sha256": {
+                "bit": "7dead2301aafa6604c4c11afde8f07be39911627b8065aa5595408092c89bc0c",
+                "jed": "d4c76cbdbb1b87d92446f16cb684e180727069225fd549d7c974d52b75fb1b55"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "9f8ed91c5a6ae4738887db9ee97a4f3f117e0251a079d3838188566b1bcfc2b6",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 3,
+      "next_revision": 4,
       "number": 26
     },
     "heartbeat/tx16_14rx": {
@@ -230,9 +283,24 @@
           "backend": "diamond",
           "fingerprint": "7622ca5858235ac9e6cfd1795d3a579bbb6bcd815e64edf1c017f98eb52592a8",
           "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:28:18.570259+00:00",
+              "firmware_sha256": {
+                "bit": "67c49d2e6a86ceb5b75281dff8db836a325be2d0b765531c9e6d07d15bf179df",
+                "jed": "45148438e039c9d541d031d439c9cd5592090205980460c6a89e1b93ece5c0c4"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "a9ff7e36eef793c0dcc8142f821e6cad2b3958b31beedf418e08b67584e93ba5",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 3,
+      "next_revision": 4,
       "number": 27
     },
     "heartbeat/tx20_10rx": {
@@ -261,13 +329,37 @@
           "target": "uz_dslot_xo2"
         },
         "2": {
-          "artifacts": [],
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:13:54.914622+00:00",
+              "firmware_sha256": {
+                "bit": "7b6874a8abc5e3965db363bced145f64ec1b5b90c3409d9000d840e08a08fa13",
+                "jed": "2bf697dce7c23d8b2b250480754c5bb4988e700fe17c01c1dbe41e5f8678c34b"
+              },
+              "git_revision": "b3860b21cc0b901142742e0d3ecbb167ad7e8175"
+            }
+          ],
           "backend": "diamond",
           "fingerprint": "01efd6e70eae75614d2d7c2b4f61a21256bebdd374c5f1a760655d39881fafaa",
           "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:28:38.286074+00:00",
+              "firmware_sha256": {
+                "bit": "4390e1579f59c6633c28762570bbc512dc204614c08a0e709e7679a7fa390b40",
+                "jed": "c597e0ffe98b6a1671693e2bba84c3f38e1e4dccc1990b714cf08c04afec14f5"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "e9f46860a81b032077fbca4efb08cb5627444911770c962964e21eaab226177f",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 3,
+      "next_revision": 4,
       "number": 28
     },
     "heartbeat/tx26_w_enable": {
@@ -294,9 +386,39 @@
           "backend": "diamond",
           "fingerprint": "93c6d53cf71963ee4eca6cc9890c08c1c4662bdccdfc6885731e64c6ed2c4c3f",
           "target": "uz_dslot_xo2"
+        },
+        "2": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:14:13.217702+00:00",
+              "firmware_sha256": {
+                "bit": "5fc62bd87abc60858685d4b480e282b64bb107eafd512043a8c2809eddf5f757",
+                "jed": "565cdb39d400ece83b115f4e718174d1e382cf4327fe0aa8561a95d3d5602ac9"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "2d67cdab062ddc00556d1e83118fbfdb7ca9d4477f2823c3270642ffe73de223",
+          "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:28:58.210499+00:00",
+              "firmware_sha256": {
+                "bit": "f6716318f59196bc1754d9290c47d258658660fd8072d8c4fa45d359696ed205",
+                "jed": "0bc4f9eeed86710e5d2de0cd4e2ba57bb191802265a2ffbae50026ca31262b9e"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "a51610fd5812b190e196399c1224d70bf17038b99a473814de09e13211ecc824",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 2,
+      "next_revision": 4,
       "number": 29
     },
     "heartbeat/tx30": {
@@ -323,9 +445,39 @@
           "backend": "diamond",
           "fingerprint": "55e4bbd9e2d3a9af6341ef607cc2730e91bf2b08e3a9c9b0233914f7af6b108a",
           "target": "uz_dslot_xo2"
+        },
+        "2": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:14:28.655012+00:00",
+              "firmware_sha256": {
+                "bit": "b07d9433765246467583ebcc2a2bf302aba1f86223fe76a9f08ffe161bf8dbd7",
+                "jed": "d3930fedf28c6c924c246bd760c53f8640d66bee393559d2a4fd293f70d12c8f"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "d15d92b739e00ca1a50ae93f20e7f1cc1c5a5b7eed16582fe90873f555ac0d7a",
+          "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:29:18.374768+00:00",
+              "firmware_sha256": {
+                "bit": "71c30d2300a142df5f74567e9810b354bd1b1308e509ea1d527d95dda5c9db33",
+                "jed": "64f88c121faabc1c7c8b46a5dfca082015bd3d6c39daf2946e3454b70c3e26e7"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "f388d220d3cf9e4d9075d1559e0ec8d8b29b6a09dfc9299b377ee2bacac5e010",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 2,
+      "next_revision": 4,
       "number": 30
     },
     "heartbeat/tx30_hearbeattesting": {
@@ -352,9 +504,39 @@
           "backend": "diamond",
           "fingerprint": "cf1806526bbbb10b62994e7099cdd347b919eea1beac78d704a0bb6d02eec9a0",
           "target": "uz_dslot_xo2"
+        },
+        "2": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:14:43.596415+00:00",
+              "firmware_sha256": {
+                "bit": "6225eb6288ceab2cda095fecea0322202f493cb867579b8cdd7b9a4bdb40242b",
+                "jed": "66949cb8e98b2114755136c0aa425e80143267ab824408fd2ddd3687c6a7204b"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "d0dae0d7dbf9a98e2216270657b1246d872f575c9feedc768d729cc5836c5b14",
+          "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:29:38.255612+00:00",
+              "firmware_sha256": {
+                "bit": "afba4a2cec093eca165647f08978ecd30601ef3e50a2f67bfc5617041daadfc5",
+                "jed": "78191c7d298f8d6a6758de7c6ca5814df93493b671c786eb79fd7ff90bae8f46"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "d0ef6d6756f30578d05c929a6fb8c8b7faf9acd77329b4bf6dfdffe34fc3ea54",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 2,
+      "next_revision": 4,
       "number": 31
     },
     "heartbeat/uz_d_3ph_inverter": {
@@ -381,9 +563,39 @@
           "backend": "diamond",
           "fingerprint": "65d06fa374f9eda4c5982840fce735816b282f7b608133ee35a7c3277896b487",
           "target": "uz_dslot_xo2"
+        },
+        "2": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:14:59.782672+00:00",
+              "firmware_sha256": {
+                "bit": "aa6dec842abf24232d7a223c4efb1889d22fc5cc755c6a5c91509ad8a10bc231",
+                "jed": "2953394224c437e3630aeaaf8d93ba6b9bd40c210c747990da29411e0314d08b"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "2c2747eeea3cdc437955f9968694d3256220a5d5dd83781becd98c429b050d8d",
+          "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:29:57.821678+00:00",
+              "firmware_sha256": {
+                "bit": "147980f6d2690aeabcd12c6ac765f4616a85e73602adfdb87bdc8701e858a11e",
+                "jed": "80d2b29113348fe7769a2ee402644b0b3260cee8f1f19a47306e0f72f5cf56f1"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "e29c7f827ae7029a886d90fc287f57d679f0391408aad6ad19842ac4a8634d28",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 2,
+      "next_revision": 4,
       "number": 32
     },
     "heartbeat/uz_d_abs_encoder": {
@@ -410,9 +622,39 @@
           "backend": "diamond",
           "fingerprint": "f1dabb8a3a6def31f8e33e324cbdb791873edb6f40b89def23cd0d00c53c025a",
           "target": "uz_dslot_xo2"
+        },
+        "2": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:15:15.294254+00:00",
+              "firmware_sha256": {
+                "bit": "6463258a5d74630b019345fde7e441d69dde5a1f4e7db05f706d7e89ae53ef5a",
+                "jed": "7e92502cb1d35c32e4c8081df6b2e7e316ca433ab2d0ca0b9ec49cafa4e4b844"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "0dfb5060da2a79d9cc51b457b8af09bcd256f172b9ba20d639977fa2f09086dd",
+          "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:30:14.568540+00:00",
+              "firmware_sha256": {
+                "bit": "effe4d5d251995e3d21e85e99c932daf9223d5c63886c01cfa9319186c09bef9",
+                "jed": "89ef9d1e6094679f4e6f86fc59d9f568d98b8d1cbf452c018a6d60dfb7536d78"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "ba4d13c0f81a9118af7c83853cb2b74cf30e9ba151a066b755b9000241db1949",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 2,
+      "next_revision": 4,
       "number": 33
     },
     "heartbeat/uz_d_resolver_d1_to_d4": {
@@ -439,9 +681,39 @@
           "backend": "diamond",
           "fingerprint": "1c164263ade9bda49d2634582775079f8893ef8c227bd222482c4b6abef796ce",
           "target": "uz_dslot_xo2"
+        },
+        "2": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:15:29.889161+00:00",
+              "firmware_sha256": {
+                "bit": "1fae807fcae837b9edc35b78d2511e277935e0d8cd1830b46a0f62e952811032",
+                "jed": "f8b4d9575afbcdd9377ce120492c264debe9857882f27546cc157540bb13e769"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "0e0ba26d10d50b79898464ffabed357f3587a3eb252a5d6386e9795bf6374879",
+          "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:30:30.295774+00:00",
+              "firmware_sha256": {
+                "bit": "272e9a74fb8e405fa167212adac2feaeb883b989d25ca2099a2723425ae2e07a",
+                "jed": "40fc68916197c82c5342cd7dc42b0bcd4babe2751848c146b4db33c730f43f10"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "8be679bfe6de41c0152fa47222e3b7391aa77324d64efc699a3c92f88b7732a4",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 2,
+      "next_revision": 4,
       "number": 34
     },
     "heartbeat/uz_d_resolver_d5": {
@@ -468,9 +740,39 @@
           "backend": "diamond",
           "fingerprint": "3e3a55176a57450ae5f702656a70f436b2c3316e99bf1be961e12a75cf074bc8",
           "target": "uz_dslot_xo2"
+        },
+        "2": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:15:44.492644+00:00",
+              "firmware_sha256": {
+                "bit": "0189bc0cdbf46225129fbc53d1017c0c18564b2f8c45110e6aa1755cd6921a56",
+                "jed": "0a191ff65039fe7388604dfaa31b525aaf03fc39a3783f7eb3d6edc0231a3447"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "7674b6160d785237670079dbddcb5cdc18ba2166a0619886542bbc03812a8c71",
+          "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:30:45.457150+00:00",
+              "firmware_sha256": {
+                "bit": "32bd7669f21c14d230eb8672f761842879fdaf388f3006e474303da830f4f262",
+                "jed": "6c961fc263e6a03b2e6ae5a1194277a5e268893fd58bc7de656e30983e9b8315"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "7cd51576a6477d7ec5c80fed6e9e05255ba40a3a6e13bf13e691530f7e507f29",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 2,
+      "next_revision": 4,
       "number": 35
     },
     "heartbeat/uz_d_temperature_ltc2983": {
@@ -497,9 +799,39 @@
           "backend": "diamond",
           "fingerprint": "c99004ab3eacd625693be75c432823a923c54d7f30914b133eb131ed3e323882",
           "target": "uz_dslot_xo2"
+        },
+        "2": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:15:59.839695+00:00",
+              "firmware_sha256": {
+                "bit": "1d4110d24aa171703ca28307354060102d0417dfae169bedce5e73841e0ff1a8",
+                "jed": "7d721461429064a18ef0c2dc2706b16bd3b5c41d62443e0c3327eeba032ed305"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "ed70b204edc87a1548726e937e4f6af123d7271ac96e24047054db8db369986b",
+          "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:31:00.903340+00:00",
+              "firmware_sha256": {
+                "bit": "23f17b47211beca45db05332c1e628f8c9bc6b7245ebbd63062ff02ef5e3bc29",
+                "jed": "ec8aa76c76c107ed8a794e89d82dc0a8911a5cac2cc523e5577c5d33cdb2fcd0"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "16537cf6dfdb6ea2974a191e9de1520cc05a357fdd3189da5d8f645b7985e9ac",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 2,
+      "next_revision": 4,
       "number": 36
     },
     "heartbeat/voltage_8rx_8rx_8rx_6rx": {
@@ -526,9 +858,39 @@
           "backend": "diamond",
           "fingerprint": "20bffe285cdd26d79ec64a231d72ce83a7d48bc875fd15a9b733237f6831ac4f",
           "target": "uz_dslot_xo2"
+        },
+        "2": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:16:15.906209+00:00",
+              "firmware_sha256": {
+                "bit": "f9da7eff2046af52f090ccf274bcbe6e37d490c469a8eec2afee684da2242477",
+                "jed": "096f1311d8aecfc7bd2aa50e61be95839fce1f6e9b28289c0fe98e7092993eca"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "8c8ac40256235b75000c1c5a93f744c1717494021ab9a5b07a02a7070de978c5",
+          "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:31:16.583367+00:00",
+              "firmware_sha256": {
+                "bit": "e26e3c1a408f21bc79ec0f3bbfb3cbcbe6b0c45ae70fe539c6765dc194f058d5",
+                "jed": "602c3f6932a61fbffd85363f910aa579c85ad401413dbf2a2599be9dd63f34b4"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "4e6c08064bf33465bd620796c2ff1f4d6bf6ee7e7e681b1360001f099790e745",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 2,
+      "next_revision": 4,
       "number": 37
     },
     "heartbeat/voltage_8rx_8rx_8rx_6tx": {
@@ -555,9 +917,39 @@
           "backend": "diamond",
           "fingerprint": "4dd4cf4a440a6f4e01c853deae7eeea5758e4aa6bfa3e4bd1fb8c375f28783c3",
           "target": "uz_dslot_xo2"
+        },
+        "2": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:16:35.041860+00:00",
+              "firmware_sha256": {
+                "bit": "0e99fbd3a5c68c5bff6411408f7f03f2a980ec262ec90e494374ce21b95f8ce3",
+                "jed": "1da296b41808d7b7b91190c0ec0a279c8e4b7ceb183143c04b0ad806e9d6787e"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "1360c96fd91caacdd2f9f02f2bd0e3345f2438ae86fd5304aa43728b3c97af57",
+          "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:31:31.530345+00:00",
+              "firmware_sha256": {
+                "bit": "63cb7f95b3fac6ffc925842538c76c4d3fe9177619cad5cfe950bc05091a6911",
+                "jed": "47aa8a6cf1f57207ad614df1bd61b796ecca094869f07e0cfa05867db3d4e6f7"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "cb1950cfe4c9ed80b888c41b4890c44b60c2780a0b0ca1b0b2e208e01d896e2a",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 2,
+      "next_revision": 4,
       "number": 38
     },
     "heartbeat/voltage_8rx_8rx_8tx_6rx": {
@@ -584,9 +976,39 @@
           "backend": "diamond",
           "fingerprint": "fd8e6aaa0d3ecad93f1451fd82171c7b7bd7e6c7ea6499a3721a27416f9ce70f",
           "target": "uz_dslot_xo2"
+        },
+        "2": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:16:50.197479+00:00",
+              "firmware_sha256": {
+                "bit": "d4773acc355e9384564c77d0b6e59900fd088fa77a8eab09ca3a8526020dd714",
+                "jed": "656248eb8c6e44bb920a226d7d22d5ac5a50987c750636823e5e2e07700d8d92"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "a80ffda85ff757c8f6edf6aa1b5267de0ade327a71e1235d005e52e898cddaf6",
+          "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:31:50.499497+00:00",
+              "firmware_sha256": {
+                "bit": "9df08571e22719537016f8c40c43b6b4d50d8b7e7d3cb35b0611261d0b5aa3ff",
+                "jed": "02bb253093acc27d6bcc6aa10106983a1cd7ab78a0665343d397a3d4fddcccc9"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "9a4f4b0328379e9bc4cbdaaa27bfb2d7827246f1625d54b1d94b635d48ace97a",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 2,
+      "next_revision": 4,
       "number": 39
     },
     "heartbeat/voltage_8rx_8rx_8tx_6tx": {
@@ -613,9 +1035,39 @@
           "backend": "diamond",
           "fingerprint": "88d2179f59b5a0c6d79b790aa0537937bea66d6fc8b8d032e1b75b843c72059a",
           "target": "uz_dslot_xo2"
+        },
+        "2": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:17:05.249166+00:00",
+              "firmware_sha256": {
+                "bit": "5b69e149a8ec783a4aebe5ea99d31a5bb18bcda0120466c782651a08605a59c8",
+                "jed": "2c88152be05e27653e958b391a51c6dff31a42c6083740f6d6fd91beb14fcbe8"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "1a43f6adebec6c2fa061cc77a595f0e9b7890bbd7adab385cd4fcb35ba6d99ca",
+          "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:32:05.518001+00:00",
+              "firmware_sha256": {
+                "bit": "06a3f5458ba4087faf6894d40d2044f25b23a9ef8a403aa95e8963ad703b4eb5",
+                "jed": "3b54bc48eeccb1d11925df4f353514e5ed0cf880553fca957db9fc79b3c60e98"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "94efad94c843c326d7477547e6136ed042a420bcb02d8f35bde74de3353099c5",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 2,
+      "next_revision": 4,
       "number": 40
     },
     "heartbeat/voltage_8rx_8tx_8rx_6rx": {
@@ -642,9 +1094,39 @@
           "backend": "diamond",
           "fingerprint": "fdc31c309eb49f7ec0952fca88cc47bed367ad90f76bccd6eee30461ae45e15f",
           "target": "uz_dslot_xo2"
+        },
+        "2": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:17:20.531861+00:00",
+              "firmware_sha256": {
+                "bit": "5ffb306fd68989e24feb3bbacc93c182173ca344a5bcbd7933a3f0fde345ed9e",
+                "jed": "d223208d430329150e1d25d5b9d8c69ab8b381a87f9a949aaecfdeaa5bfe447f"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "475441c3d482b5d7962a1d97f6b82b49ccd22b233cb4c9b83caa8ae1eea040cd",
+          "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:32:20.753367+00:00",
+              "firmware_sha256": {
+                "bit": "d86d0087b7218992c4f3e592d31da97ab1beba274d34f3e8610438611fdd3082",
+                "jed": "24f3dfcc12ef351fbd6e739ebdee5649c3f405ada7c9145ce9eb8f4b6652e3e1"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "d7da3974fff314fd38acc60f94d5101a9da1d3abb55b2454ea5ac8d6a559e30c",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 2,
+      "next_revision": 4,
       "number": 41
     },
     "heartbeat/voltage_8rx_8tx_8rx_6tx": {
@@ -671,9 +1153,39 @@
           "backend": "diamond",
           "fingerprint": "bf7785fc86e98f2256a3473a19ecb9b6a25bb6507eac961a083b51d7754bd5e4",
           "target": "uz_dslot_xo2"
+        },
+        "2": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:17:39.243575+00:00",
+              "firmware_sha256": {
+                "bit": "103b76efd270763865a0031de0cea4242a42f221ffb2a397fef86d8b128f8adb",
+                "jed": "71d2fa04b6405144f7457d0ee661cac441680de40d88183792bc5de7e1f681e3"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "06b28ceba9b4dec12dd28f3dbf737774b35a91725b285eac5c2143072ffbe640",
+          "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:32:39.259825+00:00",
+              "firmware_sha256": {
+                "bit": "bf13a5c0938502d3c5473e4bc9979fb6e314d5c379d37b3a3383dda981d80f73",
+                "jed": "53ff983f82d25eb70f7c357481d47211f157d3fd39539fc5d14b38edfa09a653"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "e100de1fdf913b27c603f43d0e0d5c796ed280e80768d97b3b624c0641c04734",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 2,
+      "next_revision": 4,
       "number": 42
     },
     "heartbeat/voltage_8rx_8tx_8tx_6rx": {
@@ -700,9 +1212,39 @@
           "backend": "diamond",
           "fingerprint": "ee04b799991b10d1cf5ecf86ba6ba5f84cfa871c84f399fe40c88d09540d1f87",
           "target": "uz_dslot_xo2"
+        },
+        "2": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:17:53.977727+00:00",
+              "firmware_sha256": {
+                "bit": "a0dd236ebdc37c0400aac4597651b46ea35fb6335f0be8cdedbd103019e2b759",
+                "jed": "8faa372e2682b0c7d3491d3a09aeaf8d6cfadd81cbd88eea40f10ea977a33f0f"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "5967fb3998002e6c1ee1476f34e1e450ba59fdc2b4038217dc8315271363b3e1",
+          "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:32:54.379981+00:00",
+              "firmware_sha256": {
+                "bit": "364ff9d8a4b252ed2c04c773bf41c5675207c27e479e63dcd2b6a6db377abc9e",
+                "jed": "f4298a70e8ea22c29e48e211b0da98e74ef24bb47d7e1ddf03be15aeeef06304"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "478768dbee929686475bfb905af4336cce048974651b22bd99d73a0aba0df700",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 2,
+      "next_revision": 4,
       "number": 43
     },
     "heartbeat/voltage_8rx_8tx_8tx_6tx": {
@@ -729,9 +1271,39 @@
           "backend": "diamond",
           "fingerprint": "d25642c0203775ab487ce2ca13059fd156c9d73c9c7721c2691337bfcf91d157",
           "target": "uz_dslot_xo2"
+        },
+        "2": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:18:08.486208+00:00",
+              "firmware_sha256": {
+                "bit": "e792d0be09f60e9f4ffa911363416c45aa9a7846eae61dfea2781dca24edf093",
+                "jed": "65d286c2bd049e2130bd59d24849a8ad1677cbc21c4b2d0a483ccd729bd24069"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "20eb39a931c4fc390e20090592973774a660aadcb83140c1b73b8dcd5cc288c2",
+          "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:33:09.501414+00:00",
+              "firmware_sha256": {
+                "bit": "61969c6b6e18db31e303be8ef9fdfbca85bd982c90c0e29cb94763c551b4baea",
+                "jed": "5497e06a6886146f8a0fb0ebecac076f8bd6465f9918dcc5068cdbcdac5ab4fd"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "a389edc5c49e45cace55b35e65b6499995cadea4d3009c18ed8aa8a92dceaca1",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 2,
+      "next_revision": 4,
       "number": 44
     },
     "heartbeat/voltage_8tx_8rx_8rx_6rx": {
@@ -758,9 +1330,39 @@
           "backend": "diamond",
           "fingerprint": "96219433de05b322e278f31886719a83802d9cdce528924a8e1e6a489452e8d7",
           "target": "uz_dslot_xo2"
+        },
+        "2": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:18:23.060532+00:00",
+              "firmware_sha256": {
+                "bit": "8b0668350f5ef4eacdbfc1d04f3d1918ad0d4ea8be7288947e7520eac92c4b97",
+                "jed": "5f2fc5f6652d5ab8e8e6eb4f4957136e183cdfead04351f411372721c4acc8f8"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "dd276025318d9c73088868aa13c3b742c137cbbec4e4351fea8c94584d01911d",
+          "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:33:24.496824+00:00",
+              "firmware_sha256": {
+                "bit": "3c53e8b86169dbb27a7a4f1a70185aea85e2b62b4e9a8d62a27b75aa68c02804",
+                "jed": "79e7561bf9962dbcc59f1f79eb71ed8cba18852419f2c5f433a3d2fb41dc1a85"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "1636715e60650714d1f7328fd5a922143c1e0250855b66c4ecae4ed44a598649",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 2,
+      "next_revision": 4,
       "number": 45
     },
     "heartbeat/voltage_8tx_8rx_8rx_6tx": {
@@ -787,9 +1389,39 @@
           "backend": "diamond",
           "fingerprint": "fa7db9444a0e274ad9ac90c01131c4c4a39421b3c8576ecc4781707e41206795",
           "target": "uz_dslot_xo2"
+        },
+        "2": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:18:38.081608+00:00",
+              "firmware_sha256": {
+                "bit": "cfb9da0443a85b25f27278981414ccda15cc514de3a497627588ded3a4872c4b",
+                "jed": "f43351a41c204a1277e2a9bdc7768896f549046fdfd209d23399cf6b54cd8f83"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "9c75927223cea6c6ce7d94e38aed9d65dc1f405c2ddd4e2cb7434fb6fcc4ee23",
+          "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:33:39.255794+00:00",
+              "firmware_sha256": {
+                "bit": "98c19bc845d11b1ee11cc7989727fb25217385a57b51a2e30d4485240f0956c9",
+                "jed": "9919700d43d989f81d9217a5331151cbefcb0763df648e8983ee6f11ef025277"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "b515346a3cd803e5ceac314d491fd41531a4a00c499b4006f9d24f00eec7b8f7",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 2,
+      "next_revision": 4,
       "number": 46
     },
     "heartbeat/voltage_8tx_8rx_8tx_6rx": {
@@ -816,9 +1448,39 @@
           "backend": "diamond",
           "fingerprint": "3efa36969dd612bae035b2a29a025df62696981dce4e6d8a5cd22cb4e331618a",
           "target": "uz_dslot_xo2"
+        },
+        "2": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:18:58.204783+00:00",
+              "firmware_sha256": {
+                "bit": "b1e5c71ad7654f12dc2bbe893858586ed64260c4dab41e14671748f466a7c750",
+                "jed": "d249a9633e9f4939bbe1d87cf44f1034e8ec0dc44f7b425a7423feefdff690b9"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "82156f303382d57972648f0ace42cc310ecccbbc612020f7fc468e6869f304cc",
+          "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:33:57.465991+00:00",
+              "firmware_sha256": {
+                "bit": "5fdc49b4e4f3ba0e6fd9a7cbd12a510ba3ef0f423474e2df400d7a758f8d353f",
+                "jed": "d77c473061a3655dc4869b23d1b2bbdbcfb60e9f5a5e53e820784e063acf14cb"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "d1d20c2ade6110080d2a03e5dfde6f12714ca0cb61a0292b2a8a61e92615517d",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 2,
+      "next_revision": 4,
       "number": 47
     },
     "heartbeat/voltage_8tx_8rx_8tx_6tx": {
@@ -845,9 +1507,39 @@
           "backend": "diamond",
           "fingerprint": "e335f9dfa2318353787658f93eb5cff711587d7f913e2b6773cd00060930949e",
           "target": "uz_dslot_xo2"
+        },
+        "2": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:19:20.079945+00:00",
+              "firmware_sha256": {
+                "bit": "3ca7c162899484fd470cf98f022394e914912feba9e254f7f7ac3364236c72d0",
+                "jed": "d2ab01cc6285c953f9d7347a9fca0bc917d2322826714f940ebee9bdf391d80b"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "b65607a07f9e482a6998d150d93ef1b5a4fcd7981fc48f487966ebaa59bc7abc",
+          "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:34:12.485998+00:00",
+              "firmware_sha256": {
+                "bit": "8668805ed14a043e13bf125afc58ef2667acc196437805a543660802eb4831a6",
+                "jed": "ca4831db686d84d1057eb9c12670ea12c1be778f08fadc0c7442039c89e1c932"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "9405cfaccdb64f2d8bf4ec4a071248d1bd9310756cad6e9ee2073f444e372005",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 2,
+      "next_revision": 4,
       "number": 48
     },
     "heartbeat/voltage_8tx_8tx_8rx_6rx": {
@@ -874,9 +1566,39 @@
           "backend": "diamond",
           "fingerprint": "8638f388249b88fe16297290b846110303d7a5f3c999b3dbe5153aa1f560c04d",
           "target": "uz_dslot_xo2"
+        },
+        "2": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:19:40.921162+00:00",
+              "firmware_sha256": {
+                "bit": "97627bced63f94b5db52d9e34ea19d355f45f9524bb58a1d7f2c66b787156e5f",
+                "jed": "d0e9cc4552ec80cdf466c0f34cf0edeb77a2dcf1487feb2c855a8e354ee908a1"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "c401fe33c4948d58a61893d902035ca4a2744eecdf3a7a8574c4caf848a6161d",
+          "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:34:28.335912+00:00",
+              "firmware_sha256": {
+                "bit": "f6344c329671a3b347c70e5166155f23b710bdc27dc7855273ee200b1034af5a",
+                "jed": "7cb94e78631288c5ad08b0c7ab7b441c86c4f02cf2407bd2ab380e101053d222"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "1d914841661139104a22d7244bb1bb9fc7cd654b4ba78f5cfb6906f014f82661",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 2,
+      "next_revision": 4,
       "number": 49
     },
     "heartbeat/voltage_8tx_8tx_8rx_6tx": {
@@ -903,9 +1625,39 @@
           "backend": "diamond",
           "fingerprint": "93618b3e7a121b0f747b20944d41b961d1afbbcf7bf3e520300a1b4f84670931",
           "target": "uz_dslot_xo2"
+        },
+        "2": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:20:01.107966+00:00",
+              "firmware_sha256": {
+                "bit": "b9ea661143d8e62436629277a6c52f48ffe8d0b76dc18319afcbb9e9ccb5c9bf",
+                "jed": "3fce19721d590eebfec20a4fddbe5104a7bbe9f24ace636a35d9d56c4076ae9d"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "a664dfdc67f33b4d614e367fd3bff8ee65c3166b7dfaeac164bc9ea4d8ac02b6",
+          "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:34:46.846981+00:00",
+              "firmware_sha256": {
+                "bit": "b6d3e239e88e25b9a29c98ade937183aef9851770a4d5703a211854461536dd1",
+                "jed": "3619e91d02492b40a11154437d2c071caaab35f0812a03ec537f704bec43f828"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "8df537f3a6b9f8bc37380a37c8e39171f67bc87d6a82a4eb3ba75c0e0f4f3f7a",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 2,
+      "next_revision": 4,
       "number": 50
     },
     "heartbeat/voltage_8tx_8tx_8tx_6rx": {
@@ -932,9 +1684,39 @@
           "backend": "diamond",
           "fingerprint": "5dce5d5b25dd08d9d8f4ba67bf73aa19aaf45135ecc9263f88ccd744e0c4b3c1",
           "target": "uz_dslot_xo2"
+        },
+        "2": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:20:22.147492+00:00",
+              "firmware_sha256": {
+                "bit": "b640d1d751cc14ea8e8d676e3ffb3a47fff3eca8f4332c08820fa190544f4141",
+                "jed": "c2f7e3a9dd3b6b02cd4076f648e35e00d38c9d87b4212e5c9e95ff1ece1f06ff"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "eef92f4840adb925f03110e7af624799e837a7873233807a31cd57d4ee349d8b",
+          "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:35:05.462864+00:00",
+              "firmware_sha256": {
+                "bit": "fd92ce8f161deebc02da35a2531ae34221f01b9f00a62e4489cec63829c71702",
+                "jed": "20c502b6ca4271ced41b732ad4c56d8e251e071ffcfed9d4e12d58bce7048fa1"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "17bb44d4681c0ad3060fa3b7fecb96319068c1c4b38be6e9df87023c0708bb13",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 2,
+      "next_revision": 4,
       "number": 51
     },
     "heartbeat/voltage_8tx_8tx_8tx_6tx": {
@@ -961,9 +1743,39 @@
           "backend": "diamond",
           "fingerprint": "93ddab822ceb263a4373591327d9f1bf0924c21fb4c550b3a0329da6a1439b6b",
           "target": "uz_dslot_xo2"
+        },
+        "2": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:20:42.514220+00:00",
+              "firmware_sha256": {
+                "bit": "4970d1b5afd4e9a1e96f645f98a3c7a406bffdd14987d97e7eda43f12f6b9fec",
+                "jed": "1f5644f3838e46d69f3455fb207a9b94a504e7f00401dfed9170a059aa44876c"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "b3443e6f2bfc091398623b79638a5a4e91c54c7496ae35d6e92d9024cf1f357e",
+          "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-09-30T15:35:24.527080+00:00",
+              "firmware_sha256": {
+                "bit": "306c58114de9f9c1876413af6222b232b224ce97614e27c53b51343d839d4484",
+                "jed": "71d8b6c0fd14b7d027b91e737e9cea7dd06cd3afafccb5d74806a8ce77f6d141"
+              },
+              "git_revision": "50869095f26d994e7fd726082c20f1743aa78ea7"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "86529cbd113106e2d89513280aa4450fcef3278bc0e874117e355e441a8d6a67",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 2,
+      "next_revision": 4,
       "number": 52
     },
     "original/cvg_tx30_stateful": {

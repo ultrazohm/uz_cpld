@@ -1,6 +1,6 @@
 name = "tx20_10rx"
 top = "SignalRouter"
-standard = "1993"
+standard = "2008"
 synthesis = "synplify"
 targets = ["uz_dslot_xo2"]
 backends = ["diamond"]

@@ -38,8 +38,8 @@ class HeartbeatSnapshotTests(unittest.TestCase):
                         data = data.replace(current, original)
                 self.assertEqual(hashlib.sha256(data).hexdigest(), digest)
 
-    def test_release_contains_only_s3c_and_compiles_its_pinned_dependency(self):
-        self.assertEqual(list(catalog(ROOT, 'heartbeat')), ['s3c_heartbeat'])
+    def test_release_contains_s3c_and_compiles_its_pinned_dependency(self):
+        self.assertIn('s3c_heartbeat', catalog(ROOT, 'heartbeat'))
         build = load_build(ROOT, 's3c_heartbeat', release_cycle='heartbeat')
         self.assertEqual(build.top, 'S3C')
         self.assertEqual(build.target, 'uz_s3c_xo2')

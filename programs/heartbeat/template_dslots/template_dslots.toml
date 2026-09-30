@@ -1,0 +1,12 @@
+name = "template_dslots"
+top = "SignalRouter"
+standard = "1993"
+targets = ["uz_dslot_xo2"]
+backends = ["diamond"]
+constraints = ["template_dslots_constraints.lpf"]
+sources = [
+    {path = "../../../xo2_library/s3c/s3c_logic.vhdl", library = "s3c"},
+    {path = "../../../xo2_library/s3c/heartbeat.vhdl", library = "s3c"},
+    {path = "template_dslots.vhdl", library = "work"},
+]
+testbench = "template_dslots_tb.py"

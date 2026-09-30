@@ -1,0 +1,12 @@
+name = "tx30_hearbeattesting"
+top = "SignalRouter"
+standard = "1993"
+targets = ["uz_dslot_xo2"]
+backends = ["diamond"]
+constraints = ["tx30_hearbeattesting_constraints.lpf"]
+sources = [
+    {path = "../../../xo2_library/s3c/s3c_logic.vhdl", library = "s3c"},
+    {path = "../../../xo2_library/s3c/heartbeat.vhdl", library = "s3c"},
+    {path = "tx30_hearbeattesting.vhdl", library = "work"},
+]
+testbench = "tx30_hearbeattesting_tb.py"

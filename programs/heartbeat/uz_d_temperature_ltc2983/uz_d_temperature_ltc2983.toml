@@ -1,0 +1,12 @@
+name = "uz_d_temperature_ltc2983"
+top = "SignalRouter"
+standard = "1993"
+targets = ["uz_dslot_xo2"]
+backends = ["diamond"]
+constraints = ["uz_d_temperature_ltc2983_constraints.lpf"]
+sources = [
+    {path = "../../../xo2_library/s3c/s3c_logic.vhdl", library = "s3c"},
+    {path = "../../../xo2_library/s3c/heartbeat.vhdl", library = "s3c"},
+    {path = "uz_d_temperature_ltc2983.vhdl", library = "work"},
+]
+testbench = "uz_d_temperature_ltc2983_tb.py"

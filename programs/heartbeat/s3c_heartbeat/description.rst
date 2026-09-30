@@ -41,7 +41,7 @@ physical heartbeat output is held low.
 A soft stop can assert this request while the heartbeat continues.
 Physical D-slot output enables remain masked by ``forceoutputdisable``.
 Use D-slot firmware expecting heartbeat on ``CarrierReady`` and an independent
-static ``ReqSafeState``. This release currently supplies only the S3C program.
+static ``ReqSafeState``. This release also includes the 29 heartbeat D-slot ports listed in the release description.
 
 Build and validation
 --------------------

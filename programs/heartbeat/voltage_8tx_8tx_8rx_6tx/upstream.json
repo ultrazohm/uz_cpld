@@ -1,0 +1,243 @@
+{
+  "branch": "feature/add_dig3v35v_configs_heartbeat",
+  "commit": "bcfc7ee37d79eb2068b7d0dab166f0fa2e8833f7",
+  "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/Voltage_3v3_5v/voltage_8tx_8tx_8rx_6tx/source/voltage_8tx_8tx_8rx_6tx.vhdl",
+  "constraints": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_slots.lpf",
+  "original_sha256": {
+    "source": "9b765292f64585af82bf090f6f8d3b4c2f92bd8ae6c378f1e70257507f0992b1",
+    "constraints": "6332ac36a8eba09c1935688dbe2ebaf33306e2e619cf655a14f7ef1a4da8ae8c"
+  },
+  "ported_sha256": {
+    "source": "6526697aee7934ee2be65a287ac96551b9e7fd8aadd0ba991f46a316bbda85fe",
+    "constraints": "6332ac36a8eba09c1935688dbe2ebaf33306e2e619cf655a14f7ef1a4da8ae8c"
+  },
+  "source_patches": [
+    {
+      "original_start": 0,
+      "ported_start": 0,
+      "original": "bGlicmFyeSBJRUVFOw0K",
+      "ported": "bGlicmFyeSBJRUVFOwpsaWJyYXJ5IHMzYzsNCg=="
+    },
+    {
+      "original_start": 85,
+      "ported_start": 86,
+      "original": "ICAgIFNJR05BTCBoZWFydGJlYXRfaW52YWxpZCA6IFNURF9MT0dJQzsNCiAgICBTSUdOQUwgdHJpc3RhdGVfb3V0cHV0czogc3RkX2xvZ2ljOw0K",
+      "ported": ""
+    },
+    {
+      "original_start": 120,
+      "ported_start": 119,
+      "original": "ICAgIGRzbG90X2hlYXJ0YmVhdDogRU5USVRZIHdvcmsuZHNsb3RfaGVhcnRiZWF0X3JlY2VpdmVyDQogICAgICAgIFBPUlQgTUFQICgNCiAgICAgICAgICAgIGNsawkJCQkJPT4gY2xrLA0KICAgICAgICAgICAgaGVhcnRiZWF0X2luICAgICAgICA9PiBjYXJyaWVycmR5LA0KICAgICAgICAgICAgaGVhcnRiZWF0X2ludmFsaWQgID0+IGhlYXJ0YmVhdF9pbnZhbGlkDQo=",
+      "ported": "ICAgICAgICAtLSBTaGFyZWQgcmVjZWl2ZXI6IGFzeW5jaHJvbm91cyBzYWZlIGFzc2VydGlvbiwgdHdvLWNsb2NrIHJlY292ZXJ5LgogICAgZHNsb3RfaGVhcnRiZWF0OiBlbnRpdHkgczNjLnMzY19sb2dpYyhoZWFydGJlYXQpCiAgICAgICAgZ2VuZXJpYyBtYXAgKAogICAgICAgICAgICBSRVFVSVJFX1BJTE9UID0+IGZhbHNlLCBSRVFVRVNUX1NBRkVfTEVWRUwgPT4gJzEnLAogICAgICAgICAgICBTTE9UT0tfTk9STUFMID0+ICcxJywgU0xPVE9LX1NBRkUgPT4gJzAnLAogICAgICAgICAgICBSRVFPRV9OT1JNQUwgPT4gJzEnLCBSRVFPRV9TQUZFID0+ICcxJwogICAgICAgICkKICAgICAgICBwb3J0IG1hcCAoCiAgICAgICAgICAgIGNsayA9PiBjbGssIHJlc2V0ID0+ICcwJywKICAgICAgICAgICAgcmVxc2FmZXN0YXRlID0+IHJlcXNhZmVzdGF0ZSwgY2FycmllcnJkeSA9PiBjYXJyaWVycmR5LAogICAgICAgICAgICBwaWxvdF9pbiA9PiBwaWxvdF9pbiwgY2FyZF9lbmFibGUgPT4gdXNlcl9lbmFibGVfZm9yd2FyZGluZywKICAgICAgICAgICAgc3RhdGVfbm9ybWFsID0+IGVuYWJsZV9mb3J3YXJkaW5nLCBzdGF0ZV9zYWZlID0+IG9wZW4sCiAgICAgICAgICAgIHNsb3RvayA9PiBzbG90b2ssIHJlcW9lID0+IHJlcW9lCg=="
+    },
+    {
+      "original_start": 128,
+      "ported_start": 135,
+      "original": "ICAgIHJlcW9lIDw9IE5PVCB0cmlzdGF0ZV9vdXRwdXRzOw0KICAgIGVuYWJsZV9mb3J3YXJkaW5nIDw9IHVzZXJfZW5hYmxlX2ZvcndhcmRpbmcgQU5EIE5PVCBoZWFydGJlYXRfaW52YWxpZCBBTkQgTk9UIHJlcXNhZmVzdGF0ZTsNCg==",
+      "ported": ""
+    },
+    {
+      "original_start": 132,
+      "ported_start": 137,
+      "original": "ICAgIHNsb3RvayA8PSBlbmFibGVfZm9yd2FyZGluZzsNCg==",
+      "ported": ""
+    },
+    {
+      "original_start": 134,
+      "ported_start": 138,
+      "original": "ICAgIHRyaXN0YXRlX291dHB1dHMgPD0gJzAnOw0K",
+      "ported": ""
+    }
+  ],
+  "ports": {
+    "fpga_00": "in",
+    "fpga_01": "in",
+    "fpga_02": "in",
+    "fpga_03": "in",
+    "fpga_04": "in",
+    "fpga_05": "in",
+    "fpga_06": "in",
+    "fpga_07": "in",
+    "fpga_08": "in",
+    "fpga_09": "in",
+    "fpga_10": "in",
+    "fpga_11": "in",
+    "fpga_12": "in",
+    "fpga_13": "in",
+    "fpga_14": "in",
+    "fpga_15": "in",
+    "fpga_16": "out",
+    "fpga_17": "out",
+    "fpga_18": "out",
+    "fpga_19": "out",
+    "fpga_20": "out",
+    "fpga_21": "out",
+    "fpga_22": "out",
+    "fpga_23": "out",
+    "fpga_24": "in",
+    "fpga_25": "in",
+    "fpga_26": "in",
+    "fpga_27": "in",
+    "fpga_28": "in",
+    "fpga_29": "in",
+    "d_00": "out",
+    "d_01": "out",
+    "d_02": "out",
+    "d_03": "out",
+    "d_04": "out",
+    "d_05": "out",
+    "d_06": "out",
+    "d_07": "out",
+    "d_08": "out",
+    "d_09": "out",
+    "d_10": "out",
+    "d_11": "out",
+    "d_12": "out",
+    "d_13": "out",
+    "d_14": "out",
+    "d_15": "out",
+    "d_16": "in",
+    "d_17": "in",
+    "d_18": "in",
+    "d_19": "in",
+    "d_20": "in",
+    "d_21": "in",
+    "d_22": "in",
+    "d_23": "in",
+    "d_24": "out",
+    "d_25": "out",
+    "d_26": "out",
+    "d_27": "out",
+    "d_28": "out",
+    "d_29": "out"
+  },
+  "routes": {
+    "d_00": {
+      "source": "fpga_00",
+      "gated": true
+    },
+    "d_01": {
+      "source": "fpga_01",
+      "gated": true
+    },
+    "d_02": {
+      "source": "fpga_02",
+      "gated": true
+    },
+    "d_03": {
+      "source": "fpga_03",
+      "gated": true
+    },
+    "d_04": {
+      "source": "fpga_04",
+      "gated": true
+    },
+    "d_05": {
+      "source": "fpga_05",
+      "gated": true
+    },
+    "d_06": {
+      "source": "fpga_06",
+      "gated": true
+    },
+    "d_07": {
+      "source": "fpga_07",
+      "gated": true
+    },
+    "d_08": {
+      "source": "fpga_08",
+      "gated": true
+    },
+    "d_09": {
+      "source": "fpga_09",
+      "gated": true
+    },
+    "d_10": {
+      "source": "fpga_10",
+      "gated": true
+    },
+    "d_11": {
+      "source": "fpga_11",
+      "gated": true
+    },
+    "d_12": {
+      "source": "fpga_12",
+      "gated": true
+    },
+    "d_13": {
+      "source": "fpga_13",
+      "gated": true
+    },
+    "d_14": {
+      "source": "fpga_14",
+      "gated": true
+    },
+    "d_15": {
+      "source": "fpga_15",
+      "gated": true
+    },
+    "fpga_16": {
+      "source": "d_16",
+      "gated": false
+    },
+    "fpga_17": {
+      "source": "d_17",
+      "gated": false
+    },
+    "fpga_18": {
+      "source": "d_18",
+      "gated": false
+    },
+    "fpga_19": {
+      "source": "d_19",
+      "gated": false
+    },
+    "fpga_20": {
+      "source": "d_20",
+      "gated": false
+    },
+    "fpga_21": {
+      "source": "d_21",
+      "gated": false
+    },
+    "fpga_22": {
+      "source": "d_22",
+      "gated": false
+    },
+    "fpga_23": {
+      "source": "d_23",
+      "gated": false
+    },
+    "d_24": {
+      "source": "fpga_24",
+      "gated": true
+    },
+    "d_25": {
+      "source": "fpga_25",
+      "gated": true
+    },
+    "d_26": {
+      "source": "fpga_26",
+      "gated": true
+    },
+    "d_27": {
+      "source": "fpga_27",
+      "gated": true
+    },
+    "d_28": {
+      "source": "fpga_28",
+      "gated": true
+    },
+    "d_29": {
+      "source": "fpga_29",
+      "gated": true
+    }
+  },
+  "enable": {},
+  "undriven_outputs": [],
+  "modifications": [
+    "Use s3c.s3c_logic(heartbeat) from the shared xo2_library; remove old receiver and status/gate assignments.",
+    "Port declarations, routing expressions, card-enable decode, oscillator, and pin/electrical constraints are preserved.",
+    "No pilot requirement; ReqOE remains asserted in both states."
+  ]
+}

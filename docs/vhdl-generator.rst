@@ -21,8 +21,8 @@ All four generated project files are tracked by the receipt.
 Manually edited or unowned files are protected from overwriting.
 Shared sources live in ``xo2_library/s3c`` and are referenced by each program's manifest.
 See :doc:`xo2-library` for using these components from handwritten VHDL without the generator.
-The shared entity ``s3c_logic.vhdl`` and selected architecture ``level_signals.vhdl`` compile into library ``s3c`` before the top level in library ``work``.
-The top level contains clock setup and routing and instantiates ``s3c.s3c_logic(level_signals)``.
+The shared entity ``s3c_logic.vhdl`` and selected architecture (``level_signals.vhdl`` or ``heartbeat.vhdl``) compile into library ``s3c`` before the top level in library ``work``.
+The top level contains clock setup and routing and instantiates the contract-selected ``s3c.s3c_logic`` architecture.
 The contract selects the architecture; its levels and the program's pilot policy are passed as generics.
 Each implementation must provide the shared entity's interface in a same-named architecture file.
 ``source_entries(load_config(config_path), output_directory)`` returns ordered source paths and libraries for standalone build tools.
@@ -68,7 +68,8 @@ VHDL keywords, ``generator``, the ``s3c_`` prefix, and names used by generated d
 The optional ``enable`` table specifies required data input levels, for example ``enable = {fpga_29 = 1}``.
 ``pilot_policy = "required"`` requires a high synchronized pilot input for normal operation; ``unused`` ignores it.
 The controller starts in ``safe_state`` and enters ``normal_state`` when synchronized S3C controls, the pilot policy, and the enable pattern permit operation.
-The shared controller owns startup: initialized registers and a three-edge warmup keep outputs in their safe state, with normal operation possible on the fourth rising edge.
+The shared controller owns startup: initialized registers and a three-edge warmup keep outputs in their safe state, with level-based normal operation possible on the fourth rising edge.
+Heartbeat mode additionally waits for a qualified edge sequence.
 With ``clock = "machxo2"``, the controller's reset input is tied low; synthesis must preserve the HDL register initial values.
 With ``clock = "external"``, asserting ``reset`` forces safe outputs immediately and resets the controller on a rising edge; the warmup repeats after reset is released.
 It returns to ``safe_state`` when any condition fails and resumes ``normal_state`` automatically when all conditions are satisfied.
@@ -101,6 +102,28 @@ To select another level-based contract, set ``contract`` to a relative TOML path
 Status levels are listed in normal_state, safe_state order.
 Unknown request levels or inactive/unknown readiness request safe_state.
 Compatibility names declare the intended firmware pairing; they do not detect installed firmware.
+
+The built-in ``s3c_heartbeat_v1`` contract selects ``heartbeat`` and pairs with
+``s3c_heartbeat``. Set ``contract = "s3c_heartbeat_v1"`` in ``generator.toml``
+and regenerate. It requires heartbeat on CarrierReady and keeps ReqSafeState
+as a separate active-high static request. The existing CSV normal/safe columns,
+pilot policy and enable pattern work unchanged.
+
+To customize timing, use a relative contract file with these fields:
+
+.. literalinclude:: ../cpld_vhdl_generator/contracts/s3c_heartbeat_v1.toml
+   :language: toml
+
+Only the ``heartbeat`` implementation accepts ``carrier_ready = "heartbeat"``
+and the required ``[heartbeat]`` table. All four timing values must be positive
+VHDL integers, with ``min_edge_clks <= max_edge_clks < timeout_clks`` and at
+least two qualifying edges. They count receiver clocks; defaults target the
+nominal 2.08 MHz MachXO2 oscillator. For external clocks, adjust the contract.
+Heartbeat on ReqSafeState is unsupported. See :doc:`xo2-library` for exact
+qualification, timeout, recovery and differences from the original receiver.
+Generated heartbeat testbenches generate a pulse train and test qualification,
+independent static safe-state requests, heartbeat loss and recovery, as well
+as the configured routing, pilot and enable conditions.
 
 Testbenches
 -----------

@@ -73,7 +73,8 @@ The controller starts in `safe_state` and enters `normal_state` when synchronize
 The shared controller initializes its registers and holds safe state through the first three rising edges; normal operation is possible on the fourth edge.
 Internal-clock programs tie the controller reset low and rely on synthesis preserving register initial values. External-clock programs expose a reset input that restarts the controller and its warmup when sampled high.
 It returns to safe state when a condition fails and resumes automatically when all conditions hold.
-The built-in contract uses active-high ReqSafeState, ignores CarrierReady, asserts SlotOK only in normal state and keeps ReqOE high.
+The `s3c_power_on_debounce_v1` contract uses active-high ReqSafeState, ignores CarrierReady, asserts SlotOK only in normal state and keeps ReqOE high.
+Use `contract = "s3c_heartbeat_v1"` to select the shared `heartbeat` architecture for `s3c_heartbeat`: normal routing requires a qualified CarrierReady heartbeat and a deasserted static ReqSafeState. The same CSV safe-state actions, pilot policy and enable inputs apply.
 Set `pilot_policy = "required"` to require a high pilot input, or add an enable pattern such as `enable = {fpga_29 = 1}`.
 
 Compile the shared `s3c_logic.vhdl` entity and contract-selected architecture into library `s3c`, then the generated top into library `work`.

@@ -28,3 +28,27 @@ class S3CInteractionTests(unittest.TestCase):
                 result = subprocess.run(command, cwd=output, capture_output=True, text=True, timeout=60)
                 self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertIn('S3C PAIR PASSED', result.stdout + result.stderr)
+
+    @unittest.skipUnless(shutil.which('ghdl'), 'GHDL required')
+    def test_heartbeat_s3c_with_generated_slot(self):
+        from cpld_vhdl_generator import generate, load_config, source_entries
+        controller = load_build(ROOT, 's3c_heartbeat', release_cycle='heartbeat')
+        with tempfile.TemporaryDirectory(prefix='heartbeat slot pair ') as temp:
+            output = Path(temp)
+            config = output / 'generator.toml'
+            config.write_text('schema_version = 3\nname = "heartbeat_pair"\n'
+                              'routing = "routing.csv"\ncontract = "s3c_heartbeat_v1"\n'
+                              'clock = "machxo2"\npilot_policy = "unused"\n')
+            (output / 'routing.csv').write_text('output,normal_state,safe_state\n' +
+                ''.join(f'd_{i:02d},fpga_{i:02d},0\n' for i in range(30)))
+            generate(config, output)
+            sources = [Source(HDL / 'osch_simulation.vhdl', 'work'), *controller.sources,
+                       *[Source(s.path, s.library) for s in source_entries(load_config(config), output)],
+                       Source(HDL / 'heartbeat_interaction_tb.vhdl', 'work')]
+            search = analyze_sources(ROOT, sources, output, '08')
+            for command in (['ghdl', '-e', '--std=08', *search, 'heartbeat_pair'],
+                            ['ghdl', '-r', '--std=08', *search, 'heartbeat_pair',
+                             '--assert-level=error', '--stop-time=25ms']):
+                result = subprocess.run(command, cwd=output, capture_output=True, text=True, timeout=60)
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn('HEARTBEAT PAIR PASSED', result.stdout + result.stderr)

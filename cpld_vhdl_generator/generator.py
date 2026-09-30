@@ -90,10 +90,10 @@ class Config:
 
 
 def load_contract(path):
-    """Read and validate a level-based S3C contract."""
+    """Read and validate a level-based or heartbeat S3C contract."""
     contract = read_toml(path)
     fields = {'id', 'compatible_s3c', 'request_mode', 'carrier_ready', 'slotok', 'reqoe', 'implementation'}
-    keys(contract, fields, fields, 'contract')
+    keys(contract, fields | {'heartbeat'}, fields, 'contract')
     identifier(contract['id'])
     implementation = identifier(contract['implementation'])
     if implementation == 's3c_logic':
@@ -105,9 +105,23 @@ def load_contract(path):
     for program in compatible:
         identifier(program)
     if contract['request_mode'] not in ('active_high', 'active_low'):
-        raise GeneratorError('request_mode must be active_high or active_low; heartbeat is not implemented')
-    if contract['carrier_ready'] not in ('unused', 'active_high', 'active_low'):
+        raise GeneratorError('request_mode must be active_high or active_low; heartbeat belongs on carrier_ready')
+    if contract['carrier_ready'] not in ('unused', 'active_high', 'active_low', 'heartbeat'):
         raise GeneratorError('Invalid carrier_ready mode')
+    if implementation == 'heartbeat':
+        if contract['carrier_ready'] != 'heartbeat':
+            raise GeneratorError('heartbeat implementation requires carrier_ready = "heartbeat"')
+        timing = contract.get('heartbeat')
+        timing_fields = {'timeout_clks', 'min_edge_clks', 'max_edge_clks', 'valid_edges_required'}
+        keys(timing, timing_fields, timing_fields, 'heartbeat timing')
+        if any(type(value) is not int or not 1 <= value <= 2_147_483_647 for value in timing.values()):
+            raise GeneratorError('heartbeat timing values must be positive VHDL integers')
+        if not timing['min_edge_clks'] <= timing['max_edge_clks'] < timing['timeout_clks']:
+            raise GeneratorError('heartbeat requires min_edge_clks <= max_edge_clks < timeout_clks')
+        if timing['valid_edges_required'] < 2:
+            raise GeneratorError('heartbeat requires at least two qualifying edges')
+    elif contract['carrier_ready'] == 'heartbeat' or 'heartbeat' in contract:
+        raise GeneratorError('heartbeat timing and carrier_ready require implementation = "heartbeat"')
     for output in ('slotok', 'reqoe'):
         levels = contract[output]
         if not isinstance(levels, list) or len(levels) != 2 or any(type(x) is not int or x not in (0, 1) for x in levels):
@@ -237,6 +251,8 @@ def render(config, output=None):
                 ('REQUEST_SAFE_LEVEL', "'1'" if c['request_mode'] == 'active_high' else "'0'"),
                 ('USE_CARRIER_READY', str(c['carrier_ready'] != 'unused').lower()),
                 ('CARRIER_READY_LEVEL', "'0'" if c['carrier_ready'] == 'active_low' else "'1'")]
+    if c['implementation'] == 'heartbeat':
+        generics.extend(('HB_' + key.upper(), str(value)) for key, value in sorted(c['heartbeat'].items()))
     for pin in ('slotok', 'reqoe'):
         for state, level in zip(('NORMAL', 'SAFE'), c[pin]):
             generics.append((pin.upper() + '_' + state, f"'{level}'"))

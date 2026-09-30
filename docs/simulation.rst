@@ -38,6 +38,8 @@ A separate GHDL integration test in ``make test`` couples ``s3c_power_on_debounc
 The D4 and D5 resolver tests check their adapter routes, physical wire-swap compensation and safe-state status without gating data.
 Testbenches produced by ``make generate`` follow the CSV input/output directions and check both routing states using all-zero, all-one, walking-one and walking-zero patterns.
 They hold enable inputs at the configured pattern while testing data routes, then exercise enable failures, pilot policy and carrier readiness separately.
+Heartbeat contracts additionally exercise initial qualification, static safe-state requests while heartbeat continues, timeout and recovery.
+A separate integration test connects ``s3c_heartbeat`` to a generated heartbeat slot and checks startup, soft stop, re-enable and module-power heartbeat gating.
 Their I2C inputs are held low.
 Program-specific testbenches define their own auxiliary-input stimulus.
 The tests are deterministic, while ``seed`` is recorded for programs that use random stimulus.

@@ -26,6 +26,7 @@ def render_project(config, output):
         'REQUEST_SAFE': int(contract['request_mode'] == 'active_high'),
         'READY_LEVEL': int(contract['carrier_ready'] != 'active_low'),
         'USE_READY': contract['carrier_ready'] != 'unused',
+        'HEARTBEAT': contract.get('heartbeat'),
         'REQUIRE_PILOT': config.pilot_policy == 'required',
         'SLOTOK': contract['slotok'], 'REQOE': contract['reqoe'],
     }
@@ -52,7 +53,7 @@ async def generated_routing(dut):
     clock = dut.s3c_clk
     clock.value = 0
     dut.reqsafestate.value = 1 - REQUEST_SAFE
-    dut.carrierrdy.value = READY_LEVEL
+    dut.carrierrdy.value = 0 if HEARTBEAT else READY_LEVEL
     dut.pilot_in.value = int(REQUIRE_PILOT)
     dut.i2c_scl.value = 0
     dut.i2c_sda.value = 0
@@ -60,9 +61,22 @@ async def generated_routing(dut):
     for pin, value in values.items():
         getattr(dut, pin).value = value
 
+    hb_running = False
+    hb_count, hb_level = 0, 0
+    hb_period = ((HEARTBEAT['min_edge_clks'] + HEARTBEAT['max_edge_clks']) // 2
+                 if HEARTBEAT else 1)
+    qualify_cycles = (HEARTBEAT['valid_edges_required'] + 1) * hb_period + 3 if HEARTBEAT else 4
+
     async def tick(count=3):
+        nonlocal hb_count, hb_level
         for _ in range(count):
             clock.value = 0
+            if HEARTBEAT and hb_running:
+                hb_count += 1
+                if hb_count >= hb_period:
+                    hb_count = 0
+                    hb_level = 1 - hb_level
+                    dut.carrierrdy.value = hb_level
             await Timer(5, unit='ns')
             clock.value = 1
             await Timer(5, unit='ns')
@@ -100,7 +114,14 @@ async def generated_routing(dut):
     for _ in range(3):
         await tick(1)
         await check(False)
-    await tick(1)
+    if HEARTBEAT:
+        # Static CarrierReady cannot qualify, even after the startup guard.
+        await tick(HEARTBEAT['timeout_clks'] + 3)
+        await check(False)
+        hb_running = True
+        await tick(qualify_cycles)
+    else:
+        await tick(1)
     await check(True)
     dut.reqsafestate.value = REQUEST_SAFE
     await tick()
@@ -121,11 +142,18 @@ async def generated_routing(dut):
     dut.pilot_in.value = 1
     await tick()
     await check(True)
-    dut.carrierrdy.value = 1 - READY_LEVEL
-    await tick()
-    await check(not USE_READY)
-    dut.carrierrdy.value = READY_LEVEL
-    await tick()
+    if HEARTBEAT:
+        hb_running = False
+        await tick(HEARTBEAT['timeout_clks'] + 3)
+        await patterns(False)
+        hb_running = True
+        await tick(qualify_cycles)
+    else:
+        dut.carrierrdy.value = 1 - READY_LEVEL
+        await tick()
+        await check(not USE_READY)
+        dut.carrierrdy.value = READY_LEVEL
+        await tick()
     await check(True)
     for pin, required in ENABLE.items():
         values[pin] = 1 - required

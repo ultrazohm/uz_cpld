@@ -13,7 +13,8 @@ S3C slot controller
 Compile the entity first, then the architecture, both into VHDL library ``s3c``.
 Compile your top level afterward into ``work``.
 The directory name ``xo2_library`` is the shared source collection; ``s3c`` is the VHDL compilation library for this component.
-This component is not the S3C board's power sequencer and does not implement a heartbeat receiver.
+This component runs on the D-slot, not on the S3C power-sequencer board.
+The alternative ``heartbeat.vhdl`` architecture implements the heartbeat protocol described below.
 
 For a handwritten program under ``programs/<cycle>/<name>/``, include these entries in its manifest:
 
@@ -62,6 +63,93 @@ The default status outputs assert SlotOK only in normal state and keep ReqOE hig
 Generics configure request/readiness polarity, readiness and pilot requirements, and normal/safe status levels.
 Data routing and the electrical definition of a safe output remain the consuming program's responsibility.
 
+Heartbeat implementation
+------------------------
+
+Compile ``s3c_logic.vhdl`` followed by ``heartbeat.vhdl`` into library ``s3c``
+and instantiate ``entity s3c.s3c_logic(heartbeat)``. The ports and state/status
+outputs are identical to ``level_signals``; routing can use the same normal/safe
+selection. Neither architecture requires the historical ``xo2_libraries`` Git
+submodule. The heartbeat receiver is implemented in this shared library.
+
+The protocol comes from ``feature/add_dig3v35v_configs_heartbeat`` at
+``bcfc7ee37d79eb2068b7d0dab166f0fa2e8833f7`` and its ``xo2_libraries`` dependency
+``74c74460171527ff17ce074ae38ac34e14e3baec``. It pairs with
+``programs/heartbeat/s3c_heartbeat``:
+
+* ``carrierrdy`` receives the toggling digital CarrierReady signal. It is not
+  interpreted as a static ready level.
+* ``reqsafestate`` remains an independent static request, active high by default.
+  The S3C may keep sending heartbeat while requesting safe state.
+* Normal operation requires a qualified heartbeat, an inactive synchronized
+  request, synchronized ``card_enable='1'``, and the configured pilot condition.
+* Reset, unqualified/lost/malformed heartbeat, active or unknown request, or an
+  unmet enable/pilot condition selects safe state. Recovery is automatic.
+
+The default outputs are ``state_normal/SlotOK=1`` only in normal state,
+``state_safe=1`` otherwise, and ``ReqOE=1`` in both states. Keeping ReqOE high
+lets the program drive its selected safe values; safe state does not inherently
+mean high impedance. To retain an RX path in safe state, use the same source
+in both CSV columns. The default implementation does not latch faults.
+
+Example instantiation:
+
+.. code-block:: vhdl
+
+   controller: entity s3c.s3c_logic(heartbeat)
+       generic map (
+           REQUEST_SAFE_LEVEL => '1', REQUIRE_PILOT => false,
+           HB_TIMEOUT_CLKS => 208,
+           HB_MIN_EDGE_CLKS => 10, HB_MAX_EDGE_CLKS => 52,
+           HB_VALID_EDGES_REQUIRED => 16
+       )
+       port map (
+           clk => clk, reset => reset,
+           reqsafestate => request_safe, carrierrdy => carrier_ready,
+           pilot_in => pilot, card_enable => enable,
+           state_normal => normal_state, state_safe => safe_state,
+           slotok => slot_ok, reqoe => request_oe
+       );
+
+Heartbeat is always required by this architecture, regardless of the legacy
+``USE_CARRIER_READY`` generic; ``CARRIER_READY_LEVEL`` is also ignored because
+both rising and falling edges count. The other polarity, pilot and status
+configuration generics retain their meanings. ``level_signals`` ignores the
+new ``HB_*`` generics.
+
+Timing and qualification
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The defaults assume a 2.08 MHz receiver clock and the S3C's nominal 21-clock
+heartbeat half-period (approximately 10.1 microseconds). Timing parameters count
+receiver clocks; an external clock at another frequency requires corresponding
+contract/generic values. The receiver uses a two-register input synchronizer.
+
+An initial edge starts a sequence at count one. Sixteen edges with all fifteen
+intervening intervals in the inclusive 10--52-clock window qualify it. Normal
+operation also waits for the existing three-clock startup guard and the other
+controls. Unlike level-only mode, it cannot enter normal state merely on the
+fourth startup clock. Qualification does not stop during a static safe-state
+request, so releasing the request can restore normal operation without a new
+qualification delay if heartbeat is still valid.
+
+A missing edge revokes qualification on clock 208 after the last observed edge
+(approximately 100 microseconds), whether CarrierReady is stuck high or low.
+Out-of-window edges revoke qualification immediately when observed and start
+a new sequence at count one. Unknown heartbeat values clear qualification.
+Reset clears the history, and recovery from a heartbeat fault requires a fresh
+qualified sequence. Static request, enable and pilot changes take effect on
+the third clock edge counting their first sample, as in ``level_signals``.
+This differs from the branch router's combinational ReqSafeState gating.
+
+This is protocol-compatible with the imported sender, but deliberately does
+not copy two receiver defects from the branch: the original keeps its valid
+flag on malformed intervals and can qualify a malformed final edge using the
+previous edge count. The new receiver also measures actual edge-to-edge clock
+counts; the old counter comparison was shifted by one clock. Thresholds are
+inclusive and tested at the boundaries. These changes do not modify the
+imported ``s3c_heartbeat`` program or its local library snapshot.
+
 Standalone compilation and tests
 --------------------------------
 
@@ -75,6 +163,6 @@ With GHDL, run from the repository root:
    # Add -P/tmp/xo2-s3c-work when analyzing/elaborating your consuming top level.
    python3 -m unittest discover -s xo2_library/tests -v
 
-The handwritten testbench exercises startup, reset, state/status outputs, synchronization, polarity, readiness, pilot and enable behavior without invoking the generator.
+The handwritten testbenches exercise both architectures, including heartbeat qualification, exact interval and timeout boundaries, malformed pulses, reset, state/status outputs, synchronization, polarity, pilot and enable behavior without invoking the generator.
 ``make test`` includes these library tests.
 Generated programs use these same sources; ``s3c_library`` can select another source directory in their generator configuration.

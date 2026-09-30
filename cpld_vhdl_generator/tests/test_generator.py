@@ -221,10 +221,54 @@ reqoe = [1, 1]
                 with self.assertRaisesRegex(GeneratorError, 'two bits'):
                     load_config(self.config)
 
-    def test_heartbeat_is_not_implemented(self):
+    def test_heartbeat_cannot_replace_static_request(self):
         self.profile('heartbeat', 'active_high')
-        with self.assertRaisesRegex(GeneratorError, 'heartbeat is not implemented'):
+        with self.assertRaisesRegex(GeneratorError, 'heartbeat belongs on carrier_ready'):
             load_config(self.config)
+
+    def test_heartbeat_contract_validation_and_source_selection(self):
+        self.config.write_text(self.config.read_text().replace('s3c_power_on_debounce_v1', 's3c_heartbeat_v1'))
+        generate(self.config, self.output)
+        config = load_config(self.config)
+        self.assertEqual(source_entries(config, self.output)[1].path, S3C_DIRECTORY / 'heartbeat.vhdl')
+        top = (self.output / 'cvg_example.vhdl').read_text()
+        self.assertIn('s3c.s3c_logic(heartbeat)', top)
+        self.assertIn('HB_VALID_EDGES_REQUIRED => 16', top)
+        self.assertIn('HB_TIMEOUT_CLKS => 208', top)
+        check(self.config, self.output)
+        self.config.write_text(self.config.read_text().replace('s3c_heartbeat_v1', 'profile.toml'))
+        for change in (
+            {'carrier_ready': 'active_high'}, {'implementation': 'level_signals'},
+            {'heartbeat': None}, {'heartbeat': {'timeout_clks': 208}},
+            *({'heartbeat': dict(config.contract['heartbeat'], **{key: value})}
+              for key, value in [('timeout_clks', 52), ('min_edge_clks', 53),
+                                 ('min_edge_clks', 0), ('valid_edges_required', 1),
+                                 ('timeout_clks', True), ('max_edge_clks', 1.5),
+                                 ('timeout_clks', 2147483648)]),
+        ):
+            with self.subTest(change=change):
+                contract = dict(config.contract, **change)
+                if contract.get('heartbeat') is None:
+                    contract.pop('heartbeat')
+                (self.root / 'profile.toml').write_text(dumps(contract))
+                with self.assertRaises(GeneratorError):
+                    load_config(self.config)
+
+    @unittest.skipUnless(shutil.which('ghdl'), 'GHDL required')
+    def test_generated_heartbeat_routes_normal_safe_and_ungated_rx(self):
+        self.config.write_text(self.config.read_text().replace('s3c_power_on_debounce_v1', 's3c_heartbeat_v1'))
+        self.simulate('''
+        reqsafestate <= '0'; src <= '1'; cycles(210);
+        assert outp = '0' and rx = '1' and slotok = '0' severity failure;
+        for i in 1 to 16 loop
+            carrierrdy <= not carrierrdy; cycles(21);
+        end loop;
+        assert outp = '1' and rx = '1' and slotok = '1' and reqoe = '1' severity failure;
+        reqsafestate <= '1'; cycles(3);
+        assert outp = '0' and rx = '1' and slotok = '0' and reqoe = '1' severity failure;
+        reqsafestate <= '0'; cycles(3); assert outp = '1' severity failure;
+        cycles(210); assert outp = '0' and rx = '1' and slotok = '0' severity failure;
+        ''')
 
     def test_reject_removed_features_and_unknown_keys(self):
         original = self.config.read_text()

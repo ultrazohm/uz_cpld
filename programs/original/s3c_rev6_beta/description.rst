@@ -59,8 +59,8 @@ Build and programming
    make build program=s3c_rev6_beta release_cycle=original backend=diamond
    make build program=s3c_rev6_beta release_cycle=original backend=foss
 
-The manifest selects VHDL-2008 and the current tooling's Diamond LSE strategy.
-The historical project selected Synplify; the new tooling supplies its own project and strategy, so identical source does not imply identical historical bitstreams.
+The manifest selects VHDL-2008 and Synplify, matching the historical project's synthesis engine.
+The tooling supplies its own project and strategy, so identical source and engine selection do not imply identical historical bitstreams.
 GHDL uses Synopsys-package compatibility for the preserved imports and reads the original source encoding without rewriting it.
 
 Set ``s3c = "s3c_rev6_beta"`` and ``build_backend = "diamond"`` in ``selection.toml`` for release ``original``, then use ``make programmer program target=s3c``.

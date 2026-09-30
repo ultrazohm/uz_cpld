@@ -37,6 +37,12 @@ def run(script: Path, log: Path) -> str:
     return output
 
 
+def synthesis_options(build: Build) -> dict:
+    """Select the VHDL standard option for the chosen Diamond engine."""
+    key = "lse_vhdl2008" if build.synthesis == "lse" else "syn_vhdl2008"
+    return dict(build.options, **{key: "True" if build.standard == "2008" else "False"})
+
+
 class DiamondBackend:
     """Prepare relocatable projects and request both firmware export tasks."""
 
@@ -49,11 +55,11 @@ class DiamondBackend:
         (project / 'constraints.lpf').write_text(constraint_text(build, identity))
         relative = lambda p: tcl(os.path.relpath(p, project))
         lines = [f'prj_project new -name firmware -impl impl -impl_dir impl -dev {tcl(build.device)} -lpf constraints.lpf',
-                 'prj_syn set lse',
+                 f'prj_syn set {build.synthesis}',
                  'prj_strgy import -name baseline -file baseline.sty', 'prj_strgy set baseline']
         for source in build.sources:
             lines.append(f'prj_src add -format VHDL -work {tcl(source.library)} {relative(source.path)}')
-        options = dict(build.options, lse_vhdl2008='True' if build.standard == '2008' else 'False')
+        options = synthesis_options(build)
         for key, value in sorted(options.items()):
             lines.append(f'prj_strgy set_value {tcl(key + "=" + value)}')
         lines += ['prj_project save', 'prj_project close']

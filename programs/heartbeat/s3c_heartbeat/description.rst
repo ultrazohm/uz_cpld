@@ -43,6 +43,75 @@ Physical D-slot output enables remain masked by ``forceoutputdisable``.
 Use D-slot firmware expecting heartbeat on ``CarrierReady`` and an independent
 static ``ReqSafeState``. This release also includes the 29 heartbeat D-slot ports listed in the release description.
 
+Known Diamond LSE startup failure (30 September 2026)
+----------------------------------------------------
+
+The previously built Diamond LSE image has a reproduced startup defect matching the
+reported hardware symptom: the power LED is red immediately after power-up,
+Carrier_PwrOn stays low, and the power button has no effect. This finding
+applies to ``s3c_heartbeat``. The earlier investigation of the separate
+December 2024 ``s3c_power_on_debounce`` program does not explain this failure.
+
+The FSM source requests ``syn_encoding = "safe,gray"`` and explicitly warns
+against one-hot encoding with LSE because of register startup state. However,
+the retained Diamond 3.14 synthesis report states:
+
+* Gray encoding is unsupported for this FSM because it has more than four
+  states, and the requested encoding will not be honored.
+* The FSM is extracted with one-hot encoding instead.
+* ``s3c_fsm/fsm_state_FSM_i1`` is stuck at zero.
+
+The synthesized ``sXc_clkrst`` contains only the oscillator: its RTL startup
+reset has been optimized away, and the synthesized FSM has no reset input.
+The surviving one-hot state registers all power up at zero. No state becomes
+active and normal startup cannot proceed. The resulting LED outputs select
+red even though the controller has not entered the intended Harderror state.
+Thus the LED color alone must not be interpreted as evidence of a detected
+supply or external-stop fault.
+
+The failure was reproduced using the retained ``S3C_prim.v`` netlist and
+Lattice's installed MachXO2 Verilog primitive models, including OSCH and
+power-up reset. With released buttons and good supply inputs, followed by a
+12 ms power-button press, the original netlist produced:
+
+::
+
+   WAIT_SUPPLY: power=0 RGB=100 safe=1
+   STANDBY:     power=0 RGB=100 safe=1
+   PRESSED:    power=0 RGB=100 safe=1
+
+As a diagnostic experiment, a disposable copy was built with only
+``"safe,gray"`` changed to ``"safe,sequential"``. The identical testbench then
+produced:
+
+::
+
+   WAIT_SUPPLY: power=0 RGB=110 safe=1
+   STANDBY:     power=0 RGB=001 safe=1
+   PRESSED:    power=1 RGB=101 safe=1
+
+RGB lists red, green and blue in that order. The experiment confirms a
+candidate correction for startup; it is not a full test of the shutdown,
+error or heartbeat sequences. LSE still reports no reset state and ignores
+the ``safe`` part of the encoding request in that disposable build. A robust
+startup-reset implementation and any other ignored initialization values
+therefore deserve separate review. No diagnostic source change or test image
+was applied to this release or programmed onto hardware.
+
+The upstream project selects Synplify. The earlier toolchain hardcoded LSE;
+the program manifest now explicitly selects Synplify. The top-level source and FSM still match feature-branch commit
+``bcfc7ee37d79eb2068b7d0dab166f0fa2e8833f7`` byte-for-byte. The GitHub
+``ultrazohm/xo2_libraries`` HEAD was checked directly and remains
+``74c74460171527ff17ce074ae38ac34e14e3baec``; the imported library matches after
+undoing its two documented compiler compatibility edits. This is a
+reproduced failure of our LSE build of those sources, not evidence that the
+feature branch's historical Synplify bitstream has the same fault.
+
+The existing cocotb and GHDL interaction tests simulate VHDL before LSE FSM
+extraction, so they cannot detect this encoding/reset failure. Successful
+firmware export and USERCODE readback also do not test the startup behavior.
+Synthesis-netlist startup verification is needed alongside those checks.
+
 Build and validation
 --------------------
 
@@ -52,7 +121,8 @@ Build and validation
    make sim program=s3c_heartbeat release_cycle=heartbeat
    make build program=s3c_heartbeat release_cycle=heartbeat backend=diamond
 
-The current toolchain uses Diamond LSE; the upstream project used Synplify.
+The manifest now selects Synplify, matching the upstream project.
+The LSE failure documented here applies to the earlier LSE build; changing the engine does not establish hardware qualification.
 Preserving sources therefore does not imply identical historical bitstreams.
 The imported LPF is unchanged, including its original JTAG settings; managed
 builds insert the newly allocated firmware identity into a generated LPF copy.

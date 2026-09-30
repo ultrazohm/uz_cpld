@@ -1,6 +1,7 @@
 name = "voltage_8tx_8tx_8tx_6tx"
 top = "SignalRouter"
 standard = "1993"
+synthesis = "synplify"
 targets = ["uz_dslot_xo2"]
 backends = ["diamond"]
 constraints = ["voltage_8tx_8tx_8tx_6tx_constraints.lpf"]

@@ -11,6 +11,12 @@ The shown ``name``, ``top``, ``standard``, ``sources``, ``targets``, ``constrain
 ``name`` matches its directory and uses lowercase letters, digits and underscores, starting with a letter.
 ``build`` is reserved for generated output directories.
 ``top`` and source libraries are VHDL basic identifiers; ``standard`` is ``1993`` or ``2008``.
+The optional ``synthesis = "lse"`` or ``synthesis = "synplify"`` selects the Diamond synthesis engine.
+Omitting it retains LSE; the setting has no effect on FOSS builds.
+The ``heartbeat`` release selects Synplify throughout, matching its source branch.
+The ``original`` release uses LSE except for ``s3c_rev6_beta``, whose historical project selected Synplify.
+Generated programs without this field retain the LSE default.
+The engine and its effective VHDL-standard option are recorded in ``metadata/build.json``.
 ``sources`` is a nonempty ordered list with no duplicate paths, and ``targets`` explicitly lists compatible board targets.
 Input paths are relative to the manifest, must exist and must stay within the workspace.
 The program manifest and its directory must be regular paths, not symlinks.
@@ -49,7 +55,7 @@ Commands for one program infer that target when it is unique.
 ``target=...`` selects a target explicitly; catalog commands process both targets by default and can be filtered with the same option.
 A board target is separate from the backend, program mapping and eventual JTAG chain position.
 ``diamond.strategy`` selects the captured strategy input; the empty ``diamond.options`` table is required and accepts string-valued vendor overrides.
-Set VHDL standard through the program manifest rather than ``lse_vhdl2008``.
+Set VHDL standard through the program manifest rather than ``lse_vhdl2008`` or ``syn_vhdl2008``.
 Unknown vendor options fail during Diamond preparation.
 ``diamond.version`` must appear in the build log; the extractor recognizes the ``3.14.0.<number>.<number>`` release family.
 

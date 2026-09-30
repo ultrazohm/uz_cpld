@@ -1,6 +1,7 @@
 name = "optical_14tx_4rx"
 top = "SignalRouter"
 standard = "1993"
+synthesis = "synplify"
 targets = ["uz_dslot_xo2"]
 backends = ["diamond"]
 constraints = ["optical_14tx_4rx_constraints.lpf"]

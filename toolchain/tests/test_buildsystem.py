@@ -191,6 +191,66 @@ class FrontendTests(unittest.TestCase):
         self.assertIn('s3c_toolchain_test_program.vhdl', script)
         self.assertIn('def_top="S3CToolchainTestProgram"', (project / 'firmware.ldf').read_text())
 
+    def test_synthesis_selection_validation_and_default(self):
+        path = self.build.manifests[0]
+        original = path.read_text()
+        path.write_text(original.replace('synthesis = "lse"\n', ''))
+        self.assertEqual(load_build(self.root, 'tx30').synthesis, 'lse')
+        path.write_text(original.replace('synthesis = "lse"', 'synthesis = "synplify"'))
+        self.assertEqual(load_build(self.root, 'tx30').synthesis, 'synplify')
+        workflow.scaffold(self.root, 'synplify_clone', 'tx30')
+        self.assertEqual(load_build(self.root, 'synplify_clone').synthesis, 'synplify')
+        foss = load_build(self.root, 'tx30', backend='foss')
+        self.assertEqual(foss.options, {'seed': 1})
+        for value in ('"unknown"', 'true', '[]'):
+            with self.subTest(value=value):
+                path.write_text(original.replace('synthesis = "lse"', 'synthesis = ' + value))
+                with self.assertRaisesRegex(BuildError, 'synthesis must be'):
+                    load_build(self.root, 'tx30')
+
+    def test_release_synthesis_matches_historical_projects(self):
+        for cycle in ('original', 'heartbeat'):
+            for name in catalog(self.root, cycle):
+                expected = 'synplify' if cycle == 'heartbeat' or name == 's3c_rev6_beta' else 'lse'
+                with self.subTest(cycle=cycle, program=name):
+                    self.assertEqual(load_build(self.root, name, release_cycle=cycle).synthesis, expected)
+
+    def test_diamond_engine_and_vhdl_standard_are_selected_together(self):
+        from toolchain.buildsystem.identity import reserve_build
+        manifest = self.build.manifests[0]
+        original = manifest.read_text()
+        for engine, option in (('lse', 'lse_vhdl2008'), ('synplify', 'syn_vhdl2008')):
+            for standard in ('1993', '2008'):
+                with self.subTest(engine=engine, standard=standard):
+                    manifest.write_text(original.replace('synthesis = "lse"', f'synthesis = "{engine}"')
+                                        .replace('standard = "1993"', f'standard = "{standard}"'))
+                    build = load_build(self.root, 'tx30')
+                    project = build.directory / 'project'
+                    (project.parent / 'metadata').mkdir(parents=True, exist_ok=True)
+                    workflow.write_json(project.parent / 'metadata/identity.json', reserve_build(build))
+                    def fake_run(script, log):
+                        (project / 'firmware.ldf').write_text('<BaliProject><Implementation/></BaliProject>')
+                    with patch('toolchain.buildsystem.backends.diamond.run', side_effect=fake_run):
+                        DiamondBackend().prepare(build, project, project / 'prepare.log')
+                    script = (project / 'prepare.tcl').read_text()
+                    self.assertIn(f'prj_syn set {engine}', script)
+                    value = 'True' if standard == '2008' else 'False'
+                    self.assertIn(f'{option}={value}', script)
+                    other = 'syn_vhdl2008' if engine == 'lse' else 'lse_vhdl2008'
+                    self.assertNotIn(other, script)
+
+    def test_synthesis_change_invalidates_model_and_is_recorded(self):
+        path = self.build.manifests[0]
+        path.write_text(path.read_text().replace('synthesis = "lse"', 'synthesis = "synplify"'))
+        with self.assertRaisesRegex(BuildError, 'configuration changed'):
+            self.run_build()
+        self.build = load_build(self.root, 'tx30')
+        self.run_build()
+        record = json.loads((self.build.directory / 'metadata/build.json').read_text())
+        self.assertEqual(record['synthesis'], 'synplify')
+        self.assertEqual(record['options']['syn_vhdl2008'], 'False')
+        self.assertNotIn('lse_vhdl2008', record['options'])
+
     def test_imported_s3c_selects_backend_constraints(self):
         diamond = load_build(self.root, 's3c_power_on_debounce', backend='diamond')
         self.assertIn('JTAG_PORT=DISABLE', diamond.constraint.read_text())

@@ -1,6 +1,7 @@
 name = "s3c_toolchain_test_program"
 top = "S3CToolchainTestProgram"
 standard = "1993"
+synthesis = "lse"
 targets = ["uz_s3c_xo2"]
 constraints = ["s3c_toolchain_test_program_constraints.lpf"]
 sources = [{path = "s3c_toolchain_test_program.vhdl", library = "work"}]

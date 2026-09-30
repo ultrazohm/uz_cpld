@@ -11,7 +11,7 @@ import shutil
 import subprocess
 import tempfile
 from .model import Build, BuildError, catalog, identifier, input_path, load_build, read_toml, release_directory, resolve_release, resolve_program
-from .backends.diamond import DiamondBackend, launcher
+from .backends.diamond import DiamondBackend, launcher, synthesis_options
 from .ghdl import read_vhdl
 
 
@@ -236,7 +236,7 @@ def build_program(build: Build) -> Path:
                       'outputs': {str(p.relative_to(directory)): digest(p) for p in sorted([*published, *reports.rglob('*'), *(metadata / 'reports').rglob('*')]) if p.is_file()}}
             if build.backend == 'diamond':
                 record.update(launcher=str(launcher()), launcher_sha256=digest(launcher()),
-                              options=dict(build.options, lse_vhdl2008='True' if build.standard == '2008' else 'False'))
+                              synthesis=build.synthesis, options=synthesis_options(build))
             else:
                 record['tools'] = json.loads((directory / 'metadata/reports/tools.json').read_text())
                 record['limitations'] = 'Experimental MachXO2 flow; no hardware or Diamond bitstream equivalence established; no JEDEC export.'

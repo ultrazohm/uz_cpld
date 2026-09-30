@@ -1,6 +1,7 @@
 name = "tx26_w_enable"
 top = "SignalRouter"
 standard = "1993"
+synthesis = "synplify"
 targets = ["uz_dslot_xo2"]
 backends = ["diamond"]
 constraints = ["tx26_w_enable_constraints.lpf"]

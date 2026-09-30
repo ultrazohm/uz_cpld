@@ -7,6 +7,14 @@ that instantiate the heartbeat receiver in
 The S3C targets the LCMXO2-4000HC-4TG144C; the D-slots target the
 LCMXO2-2000HC-4TG100C.
 
+All program manifests now select Synplify, matching the feature branch.
+The previously built ``s3c_heartbeat`` Diamond LSE image has a reproduced startup
+failure: unsupported Gray encoding falls back to one-hot encoding without a
+working startup reset, leaving power off and the red LED asserted. See the
+S3C program description for the netlist reproduction and the disposable
+sequential-encoding experiment. The HDL sources remain unchanged;
+successful build/export results do not establish working hardware startup.
+
 The D-slot ports use ``s3c.s3c_logic(heartbeat)`` from ``xo2_library``.
 The branch's routing expressions, port directions, card-enable decoding,
 oscillator wiring and shared LPF are preserved. Each program records its
@@ -128,7 +136,7 @@ The original S3C snapshot and its existing validation remain in the release.
 
 Simulation drives the unbound oscillator and uses accelerated clock timing.
 Diamond builds verify compilation and firmware export, not board safety or
-physical fault-response times. The current toolchain uses LSE; the branch's
-project selected Synplify. FOSS firmware support and hardware programming are
+physical fault-response times. All manifests select Synplify, matching the
+branch's project settings. FOSS firmware support and hardware programming are
 outside this port. Refer to each retained build report for warnings and timing
 acceptance; a successful export is not a hardware qualification claim.

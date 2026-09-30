@@ -1,6 +1,7 @@
 name = "tx16_14rx"
 top = "SignalRouter"
 standard = "1993"
+synthesis = "synplify"
 targets = ["uz_dslot_xo2"]
 backends = ["diamond"]
 constraints = ["tx16_14rx_constraints.lpf"]

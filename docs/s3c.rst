@@ -96,7 +96,7 @@ The local library predates its export to the ``xo2_libraries`` submodule in ``ac
      - Diamond or FOSS, with separate LPFs
 
 The Rev06 snapshot retains the historical FlexLIO mapping (``FlexLIO[2]`` on pin 75 and ``FlexLIO[3]`` on pin 76); the later correction in ``ab25b4f`` is intentionally not applied.
-Its manifest uses VHDL-2008 and the tooling's Diamond LSE strategy, rather than the historical Synplify project.
+Its manifest uses VHDL-2008 and explicitly selects Synplify, matching the historical project.
 Diamond JEDEC programming is supported through either programmer backend.
 FOSS bitstream generation and programming use a separate LPF that retains JTAG access, explicitly preserves Diamond's two bank-2 open-drain outputs, and translates one-based vector indices for GHDL's Verilog output.
 The packed electrical configuration of those two outputs is checked against Diamond before export; see :doc:`/foss`.

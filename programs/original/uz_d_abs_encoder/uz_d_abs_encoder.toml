@@ -1,6 +1,7 @@
 name = "uz_d_abs_encoder"
 top = "SignalRouter"
 standard = "1993"
+synthesis = "lse"
 targets = ["uz_dslot_xo2"]
 constraints = ["uz_d_abs_encoder_constraints.lpf"]
 sources = [{path = "uz_d_abs_encoder.vhdl", library = "work"}]

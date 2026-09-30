@@ -1,6 +1,7 @@
 name = "tx30_hearbeattesting"
 top = "SignalRouter"
 standard = "1993"
+synthesis = "synplify"
 targets = ["uz_dslot_xo2"]
 backends = ["diamond"]
 constraints = ["tx30_hearbeattesting_constraints.lpf"]

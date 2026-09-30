@@ -1,6 +1,7 @@
 name = "s3c_rev6_beta"
 top = "S3C"
 standard = "2008"
+synthesis = "synplify"
 targets = ["uz_s3c_xo2"]
 backends = ["diamond", "foss"]
 constraints = ["s3c_rev6_beta_constraints.lpf"]

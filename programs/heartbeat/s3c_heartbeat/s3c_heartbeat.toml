@@ -1,6 +1,7 @@
 name = "s3c_heartbeat"
 top = "S3C"
 standard = "2008"
+synthesis = "synplify"
 targets = ["uz_s3c_xo2"]
 backends = ["diamond"]
 constraints = ["s3c_heartbeat_constraints.lpf"]

@@ -1,6 +1,7 @@
 name = "rx30"
 top = "SignalRouter"
 standard = "1993"
+synthesis = "synplify"
 targets = ["uz_dslot_xo2"]
 backends = ["diamond"]
 constraints = ["rx30_constraints.lpf"]

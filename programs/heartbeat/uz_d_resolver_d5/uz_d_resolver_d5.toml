@@ -1,6 +1,7 @@
 name = "uz_d_resolver_d5"
 top = "SignalRouter"
 standard = "1993"
+synthesis = "synplify"
 targets = ["uz_dslot_xo2"]
 backends = ["diamond"]
 constraints = ["uz_d_resolver_d5_constraints.lpf"]

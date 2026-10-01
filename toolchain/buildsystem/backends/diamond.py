@@ -117,7 +117,12 @@ class DiamondBackend:
         """Run synthesis through PAR, timing reporting and both export tasks."""
         lines = ['prj_project open firmware.ldf', 'prj_run Synthesis -impl impl',
                  'prj_run Translate -impl impl', 'prj_run Map -impl impl',
+                 'prj_run Map -impl impl -task MapVerilogSimFile',
+                 'set mapped_files [glob impl/*.vo]',
+                 'if {[llength $mapped_files] != 1} {error "Expected one mapped Verilog simulation netlist"}',
+                 'file copy -force [lindex $mapped_files 0] impl/comparison_mapped.v',
                  'prj_run PAR -impl impl', 'prj_run PAR -impl impl -task PARTrace',
+                 'prj_run Export -impl impl -task TimingSimFileVlg',
                  'prj_run Export -impl impl -task Bitgen',
                  'prj_run Export -impl impl -task Jedecgen', 'prj_project close']
         script = project / 'build.tcl'

@@ -131,6 +131,8 @@ def equivalence_script(build, mapped):
     module = mapped['modules'][build.top]
     cells = module['cells']
     sequential = any(cell['type'] == 'TRELLIS_FF' for cell in cells.values())
+    asynchronous = any(cell['type'] == 'TRELLIS_FF' and
+                       cell.get('parameters', {}).get('SRMODE') == 'ASYNC' for cell in cells.values())
     oscillators = [(name, cell) for name, cell in cells.items() if cell['type'] == 'OSCH']
     if len(oscillators) > 1:
         raise BuildError('FOSS equivalence supports at most one internal OSCH')
@@ -175,6 +177,10 @@ def equivalence_script(build, mapped):
                          f'delete {build.top}/c:{instance}',
                          f'add -input __foss_clock 1 {build.top}',
                          f'connect -nounset -set {net} __foss_clock {build.top}']
+        if asynchronous:
+            # Formal sampling model only. Event-driven netlist simulation keeps
+            # the actual asynchronous FFs and checks between-edge safe pulses.
+            commands.append('async2sync')
         commands += ['opt_clean', f'rename {build.top} {name}', f'design -stash {name}']
     commands += ['design -copy-from gate -as gate gate',
                  'design -copy-from gold -as gold gold']
@@ -190,6 +196,7 @@ def equivalence_script(build, mapped):
     return '\n'.join(commands) + '\n', {
         'method': 'mapped sequential induction' if sequential else 'mapped combinational SAT',
         'undefined_value_modeling': sequential,
+        'asynchronous_clock_modeling': ('async2sync: negative hold time assumption' if asynchronous else None),
         'clock_abstraction': dict(zip(('instance', 'net'), clock_cut)) if clock_cut else None,
         'blacklist': (build.foss_equivalence_blacklist.read_text().splitlines()
                       if build.foss_equivalence_blacklist else []),
@@ -305,6 +312,7 @@ class FossBackend:
             run([record['executables']['ghdl']['path'], '--synth', f'--std={standard}', *library_args, '--out=verilog',
                  plan['top']], stdout=rtl)
         run([tool('yosys'), '-s', 'synth.ys'])
+        shutil.copy2(project / 'rtl.v', project / 'impl/reference.v')
         mapped = json.loads((project.parent / 'metadata/reports/synth.json').read_text())
         proof, proof_record = equivalence_script(build, mapped)
         (project / 'equivalence.ys').write_text(proof)

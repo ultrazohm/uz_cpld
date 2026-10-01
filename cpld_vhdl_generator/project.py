@@ -11,13 +11,16 @@ def render_project(config, output):
     name = config.name
     manifest = {
         'name': name, 'top': name, 'standard': config.standard, 'synthesis': config.synthesis,
-        'targets': [config.target], 'backends': ['diamond'],
+        'targets': [config.target], 'backends': list(config.backends),
         'constraints': [name + '_constraints.lpf'],
         'generator': Path(os.path.relpath(config.path, output)).as_posix(),
         'sources': [{'path': Path(os.path.relpath(source.path, output)).as_posix(), 'library': source.library}
                     for source in source_entries(config, output)],
         'testbench': name + '_tb.py',
     }
+
+    if config.foss_equivalence_blacklist:
+        manifest['foss_equivalence_blacklist'] = Path(os.path.relpath(config.foss_equivalence_blacklist, output)).as_posix()
 
     contract = config.contract
     parameters = {

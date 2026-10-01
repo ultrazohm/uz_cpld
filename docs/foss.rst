@@ -116,7 +116,7 @@ The LPF reset/asynchronous-path exclusions are recorded without establishing a t
 
 Upstream MachXO2 support is experimental.
 Successful exports and synthesis equivalence do not establish matching Diamond bitstreams, electrical defaults, timing closure or hardware qualification.
-The S3C toolchain test program exercises the second device and package but does not implement the carrier's operating state machine.
+
 ``s3c_power_on_debounce`` extracts the archived ``S3C_171224`` controller for both firmware backends and simulation.
 Its FOSS LPF omits ``JTAG_PORT=DISABLE``, which Trellis cannot reproduce, explicitly preserves Diamond's two bank-2 open-drain outputs, and translates one-based VHDL vector indices to zero-based Verilog indices.
 ``s3c_rev6_beta`` uses the same adaptations in its separate FOSS LPF while retaining the original Diamond LPF and imported HDL bytes.
@@ -162,3 +162,79 @@ References
 * `Project Trellis <https://github.com/YosysHQ/prjtrellis>`_
 * `OSS CAD Suite releases <https://github.com/YosysHQ/oss-cad-suite-build/releases>`_
 * `openFPGALoader <https://github.com/trabucayre/openFPGALoader>`_
+
+Heartbeat comparison pilot
+--------------------------
+
+``heartbeat_cvg/cvg_tx30`` opts into FOSS. Other heartbeat slots and the S3C
+remain Diamond-only. Build and check the pilot with installed tools::
+
+   make build program=cvg_tx30 release_cycle=heartbeat_cvg backend=foss runner=local
+   make compare program=cvg_tx30 release_cycle=heartbeat_cvg backend=foss runner=local
+
+On a machine with Diamond and the FOSS tools, build the same source with Diamond
+and omit ``backend`` from the comparison command to check both implementations::
+
+   make build program=cvg_tx30 release_cycle=heartbeat_cvg backend=diamond runner=local
+   make compare program=cvg_tx30 release_cycle=heartbeat_cvg runner=local
+
+``compare`` consumes firmware builds and writes ``build/comparison/``; it never
+programs hardware. Both builds must have current input/output hashes. Missing or
+stale Diamond evidence leaves the combined comparison incomplete and returns a
+nonzero exit code. The FOSS-only command can pass without claiming Diamond
+equivalence. Each run replaces its comparison artifacts under the build locks.
+
+Diamond exports mapped Verilog using ``MapVerilogSimFile`` and routed Verilog/SDF
+using ``TimingSimFileVlg``. The mapped snapshot is retained as
+``reports/comparison_mapped.v``. FOSS retains ``reports/reference.v`` from GHDL
+alongside synthesized and routed JSON. These exports are hashed in build records.
+
+The command expands mapped cell models using the pinned Yosys MachXO2 library;
+unsupported primitives fail elaboration. It replaces the single always-enabled
+OSCH with a common ideal clock in comparison copies only. The firmware oscillator
+is unchanged. Each netlist runs six Icarus Verilog scenarios: timeout, too-fast
+and too-slow heartbeat, each introduced in normal and safe state. Tests cover
+unarmed startup, invalid startup traffic, qualification, inclusive 10/52-clock
+intervals, walking data patterns, safe pulses between clock edges, and error
+persistence after heartbeat recovery and control changes. Output traces must
+match the reference at every checkpoint. Each scenario starts a fresh process
+with declared initial values. This tests initialization, not physical power
+sequencing. The slot ties reset low; runtime reset remains covered by controller
+RTL tests.
+
+The FOSS proof checks all outputs and retained internal match points. Asynchronous
+FFs use Yosys ``async2sync`` in proof copies only, with its negative-hold-time
+assumption. Event-driven simulation retains the asynchronous FF semantics. The
+pilot blacklist removes only ``controller.n226_o`` as an internal matching point:
+GHDL emits this conditional edge-counter increment, whose unused intermediate
+value can change after optimization without changing the consuming registers.
+No output is excluded and no logic is removed. A changed compiled signal name
+fails blacklist validation and requires re-evaluation. Initialized-state checks
+must also pass for ``compare`` to pass.
+
+For Diamond, the command attempts output-only induction against the GHDL-derived
+reference and an eight-cycle initialized-output proof. Unproven obligations,
+timeouts and unsupported cells prevent a passing combined comparison, even if
+simulation passes. Actual Diamond exports still need validation on a machine
+with Diamond; primitive fixture tests do not establish that integration.
+
+``report.json`` records checks, tool/model hashes, build-record hashes, artifacts
+and FOSS clock timing. With both bitstreams, it also unpacks and lists decoded
+PIO, bank and global-setting differences. These require review: unused-pin
+defaults, decoder aliases and undecoded bits are not automatically qualified.
+USERCODE differs by build identity and is excluded.
+
+Remaining qualification steps are explicit in the report:
+
+* Review electrical settings, package pins and output-enable behavior.
+* Define board input/output and asynchronous-path timing budgets and check both
+  timing reports. The oscillator clock limit alone is insufficient.
+* If needed, simulate Diamond's routed netlist with its SDF and vendor timing
+  models in a supported simulator. Automated post-route timing simulation is not
+  implemented here; FOSS routed JSON is retained for further work.
+* Program each image on the same board and check heartbeat boundaries, data
+  outputs, SlotOK/ReqOE, startup, fault persistence and recovery after slot power
+  is removed and restored.
+
+Passing functional checks does not mark those remaining steps complete.
+The S3C toolchain test program exercises the second device and package but does not implement the carrier's operating state machine.

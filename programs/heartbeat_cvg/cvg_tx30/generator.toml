@@ -7,3 +7,5 @@ pilot_policy = "unused"
 target = "uz_dslot_xo2"
 standard = "2008"
 synthesis = "synplify"
+backends = ["diamond", "foss"]
+foss_equivalence_blacklist = "cvg_tx30_foss_equivalence_blacklist.txt"

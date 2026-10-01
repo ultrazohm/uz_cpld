@@ -56,6 +56,30 @@ class FossTests(unittest.TestCase):
             self.assertEqual(main(['doctor', '--root', str(self.root), '--backend', 'foss']), 0)
         self.assertIn('selection is empty', output.getvalue())
 
+    def test_empty_foss_build_selection_fails(self):
+        from toolchain.buildsystem.cli import main
+        from contextlib import redirect_stderr
+        import io
+        with redirect_stderr(io.StringIO()) as error:
+            result = main(['build-all', '--root', str(self.root), '--backend', 'foss',
+                           '--release-cycle', 'heartbeat'])
+        self.assertEqual(result, 1)
+        self.assertIn('No programs selected', error.getvalue())
+
+    def test_missing_build_cannot_pass_comparison(self):
+        from toolchain.buildsystem.comparison import compare
+        shutil.copytree(ROOT / 'xo2_library', self.root / 'xo2_library',
+                        ignore=shutil.ignore_patterns('build', '__pycache__'))
+        from cpld_vhdl_generator import generate
+        config = self.root / 'programs/heartbeat_cvg/cvg_tx30/generator.toml'
+        config.write_text(config.read_text() + 's3c_library = "../../../xo2_library/s3c"\n')
+        generate(config, config.parent)
+        path, passed = compare(self.root, 'cvg_tx30', release_cycle='heartbeat_cvg')
+        self.assertFalse(passed)
+        report = json.loads(path.read_text())
+        self.assertFalse(report['diamond_foss_equivalent'])
+        self.assertNotEqual(report['status'], 'passed')
+
     def test_nonzero_vector_offsets_and_conflicting_pin_settings(self):
         self.fake_database()
         ports = {'bus': {'bits': [10, 11], 'offset': 8}}

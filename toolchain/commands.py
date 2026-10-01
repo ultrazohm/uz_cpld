@@ -55,6 +55,7 @@ COMMANDS = {
     'check': spec('Toolchain', 'check program=NAME', 'Validate a program manifest and inputs', FIRMWARE | {'program'}, {'program'}),
     'project': spec('Toolchain', 'project program=NAME', 'Prepare one firmware project without compiling it', FIRMWARE | {'program'}, {'program'}),
     'build': spec('Toolchain', 'build program=NAME', 'Build one program; target is inferred when unambiguous', FIRMWARE | {'program'}, {'program'}),
+    'compare': spec('Toolchain', 'compare program=cvg_tx30 release_cycle=heartbeat_cvg', 'Compare fresh mapped netlists; omit backend to check both tools', {'program', 'target', 'release_cycle', 'backend'}, {'program'}),
     'build-all': spec('Toolchain', 'build-all', 'Build every catalog program for the selected backend', FIRMWARE),
     'gui': spec('Toolchain', 'gui program=NAME', 'Open the Diamond firmware project', FIRMWARE | {'program'}, {'program'}),
     'report': spec('Toolchain', 'report', 'Summarize existing catalog build evidence', FIRMWARE),
@@ -126,6 +127,7 @@ def shared_help(style='make'):
     return '\n'.join([
         'Argument defaults and rules:',
         '  backend=diamond; build_backend and programmer_backend inherit backend.',
+        '  compare defaults to both backends; backend selects a partial check.',
         '  release_cycle defaults to the current release; programmer actions first consult',
         '  the selection file. selection=selection.toml; template=tx30.',
         '  jobs=4; seed=1; wave_format=vcd; runner=auto; dry_run=0; rebuild=0;',
@@ -341,7 +343,9 @@ def plan(action, options, *, root=ROOT, cwd=None, environ=None):
             args += ['--build-site']
         return [invoke('toolchain.analysis.documentation', args)]
     args = flags('program', 'target', 'release_cycle', 'name', 'template', 'template_release_cycle', 'from')
-    if 'backend' in COMMANDS[action].options:
+    if action == 'compare':
+        args += flags('backend')
+    elif 'backend' in COMMANDS[action].options:
         args += ['--backend', build_backend]
     if options.get('discard_project_changes') == '1':
         args += ['--discard-project-changes']

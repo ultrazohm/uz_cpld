@@ -1,5 +1,7 @@
 # syntax=docker/dockerfile:1
 ARG UBUNTU_VERSION=22.04
+# Default: host-mounted Diamond. Override to inherit an image with Diamond installed.
+ARG TOOLCHAIN_BASE=ubuntu:${UBUNTU_VERSION}
 FROM ubuntu:${UBUNTU_VERSION} AS foss-builder
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -20,7 +22,7 @@ RUN python3 /tmp/foss-setup/install.py --prefix /opt/oss-cad-suite \
     && /opt/oss-cad-suite/native/openfpgaloader/openFPGALoader --Version \
     && /opt/oss-cad-suite/bin/openocd --version
 
-FROM ubuntu:${UBUNTU_VERSION} AS toolchain
+FROM ${TOOLCHAIN_BASE} AS toolchain
 ARG DEBIAN_FRONTEND=noninteractive
 RUN test "$(dpkg --print-architecture)" = amd64 || { echo 'This toolchain requires linux/amd64 (native or emulated).' >&2; exit 1; }
 # Synplify batch mode also loads Qt OpenGL and GStreamer runtime libraries.

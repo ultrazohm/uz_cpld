@@ -45,9 +45,14 @@ jobs:
         run: make image
       - name: Run tooling tests
         run: docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make test
-      - name: Build all FOSS firmware
+      - name: Build original FOSS firmware
         if: ${{ !cancelled() && steps.image.outcome == 'success' }}
-        run: docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make build-all backend=foss
+        run: docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make build-all backend=foss release_cycle=original
+      - name: Build and compare the heartbeat FOSS pilot
+        if: ${{ !cancelled() && steps.image.outcome == 'success' }}
+        run: |
+          docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make build program=cvg_tx30 release_cycle=heartbeat_cvg backend=foss
+          docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make compare program=cvg_tx30 release_cycle=heartbeat_cvg backend=foss runner=local
       - name: Build program documentation and run HDL simulations
         if: ${{ !cancelled() && steps.image.outcome == 'success' }}
         run: docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make docs release_cycle=all runner=local
@@ -62,6 +67,7 @@ jobs:
             programs/*/*/build/netlist/
             programs/*/*/build/uz_dslot_xo2_foss/
             programs/*/*/build/uz_s3c_xo2_foss/
+            programs/*/*/build/comparison/
             toolchain/build/simulation/
             toolchain/build/validation/
           if-no-files-found: warn
@@ -80,6 +86,91 @@ jobs:
         uses: actions/upload-pages-artifact@v4
         with:
           path: docs/_build/html/
+
+  diamond-releases:
+    name: Discover Diamond releases
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-22.04
+    outputs:
+      releases: ${{ steps.releases.outputs.releases }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Discover release catalogs
+        id: releases
+        run: |
+          python3 - <<'PYTHON'
+          import json
+          import os
+          from pathlib import Path
+          from toolchain.buildsystem.model import release_cycles
+
+          releases = release_cycles(Path.cwd())
+          if not releases:
+              raise SystemExit('No release catalogs found')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write('releases=' + json.dumps(releases) + '\n')
+          PYTHON
+
+  diamond-build:
+    name: Diamond firmware (${{ matrix.release_cycle }})
+    needs: diamond-releases
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        release_cycle: ${{ fromJSON(needs.diamond-releases.outputs.releases) }}
+    env:
+      # Override with a published tag or digest in repository Actions variables.
+      DIAMOND_IMAGE: ${{ vars.DIAMOND_IMAGE || 'ghcr.io/schindlerto/lattice-diamond:3.14.0.75.2' }}
+      RELEASE_CYCLE: ${{ matrix.release_cycle }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Authenticate to the private Diamond package
+        env:
+          # Classic PAT owned by SchindlerTo, with read:packages only.
+          GHCR_TOKEN: ${{ secrets.DIAMOND_GHCR_TOKEN }}
+        run: |
+          if [ -z "$GHCR_TOKEN" ]; then
+            echo 'Set the DIAMOND_GHCR_TOKEN repository secret to a classic PAT with read:packages.' >&2
+            exit 1
+          fi
+          printf '%s' "$GHCR_TOKEN" |
+            docker login ghcr.io -u SchindlerTo --password-stdin
+      - name: Build the Diamond toolchain image
+        run: |
+          docker build --platform linux/amd64 --target toolchain \
+            --build-arg "TOOLCHAIN_BASE=$DIAMOND_IMAGE" \
+            -f .devcontainer/Dockerfile -t uz-cpld-toolchain-diamond .
+      - name: Build every catalog program in the release
+        run: |
+          docker run --rm --init --platform linux/amd64 \
+            --network=bridge --mac-address=10:91:d1:3d:14:ae \
+            --user "$(id -u):$(id -g)" --env HOME=/tmp \
+            --env LM_LICENSE_FILE=/opt/diamond/license/license.dat \
+            --env RELEASE_CYCLE \
+            --mount "type=bind,source=$PWD,target=/work" -w /work \
+            uz-cpld-toolchain-diamond bash -e -c '
+              check-diamond --synthesis
+              make build-all backend=diamond release_cycle="$RELEASE_CYCLE" runner=local
+            '
+      - name: Retain Diamond firmware and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: diamond-${{ matrix.release_cycle }}-diagnostics
+          path: |
+            programs/usercodes.json
+            programs/${{ matrix.release_cycle }}/*/build/uz_dslot_xo2_diamond/
+            programs/${{ matrix.release_cycle }}/*/build/uz_s3c_xo2_diamond/
+            toolchain/build/validation/${{ matrix.release_cycle }}/diamond-catalog/
+          if-no-files-found: warn
+          retention-days: 14
 
   deploy:
     needs: checks

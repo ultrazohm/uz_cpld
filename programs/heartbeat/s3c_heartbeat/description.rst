@@ -44,7 +44,7 @@ Use D-slot firmware expecting heartbeat on ``CarrierReady`` and an independent
 static ``ReqSafeState``. This release also includes the 29 heartbeat D-slot ports listed in the release description.
 
 Known Diamond LSE startup failure (30 September 2026)
-----------------------------------------------------
+-----------------------------------------------------
 
 The previously built Diamond LSE image has a reproduced startup defect matching the
 reported hardware symptom: the power LED is red immediately after power-up,

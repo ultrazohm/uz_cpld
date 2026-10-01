@@ -135,9 +135,12 @@ class ReleaseTests(unittest.TestCase):
         self.assertFalse((self.root / 'programs/next').exists())
         self.assertEqual(resolve_release(self.root), 'original')
 
-    def test_empty_cycle_report_and_build_all_are_valid(self):
+    def test_empty_cycle_report_is_valid_but_build_all_requires_programs(self):
         releases.create(self.root, 'empty')
-        self.make('build-all')
+        for backend in ('diamond', 'foss'):
+            with self.subTest(backend=backend):
+                output = self.make('build-all', f'backend={backend}', 'runner=local', success=False)
+                self.assertIn('No programs selected for build-all', output)
         self.make('report')
         path = self.root / 'toolchain/build/validation/empty/diamond-catalog/report.json'
         report = json.loads(path.read_text())

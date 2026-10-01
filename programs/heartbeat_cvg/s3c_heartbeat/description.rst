@@ -49,7 +49,7 @@ static ``ReqSafeState``. The reference ``heartbeat`` release includes 29 D-slot 
 contains 28 generated counterparts, retaining the agreed cleanup choices.
 
 Known Diamond LSE startup failure (30 September 2026)
-----------------------------------------------------
+-----------------------------------------------------
 
 The previously built Diamond LSE image has a reproduced startup defect matching the
 reported hardware symptom: the power LED is red immediately after power-up,

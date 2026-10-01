@@ -186,12 +186,13 @@ d_29 => outputs(29));
         assert safe_request = '0' and slot_oe = "11111" and outputs = (outputs'range => '1')
             report "enable after soft stop" severity failure;
         module_good <= '0'; wait for 250 us;
-        assert safe_request = '0' and carrier_ready = '0' and slotok = '0'
+        assert safe_request = '0' and carrier_ready = '0' and slotok = '0' and reqoe = '0' and slot_oe = "00000"
                and outputs = (outputs'range => '0')
             report "module power loss must gate data via heartbeat, independently of ReqSafeState" severity failure;
         module_good <= '1'; wait for 250 us;
-        assert safe_request = '0' and slotok = '1' and outputs = (outputs'range => '1')
-            report "heartbeat recovery" severity failure;
+        assert safe_request = '0' and slotok = '0' and reqoe = '0' and slot_oe = "00000"
+               and outputs = (outputs'range => '0')
+            report "restored module power must not clear system_error" severity failure;
         report "HEARTBEAT PAIR PASSED";
         wait;
     end process;

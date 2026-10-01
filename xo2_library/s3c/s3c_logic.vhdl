@@ -22,6 +22,7 @@ entity s3c_logic is
         clk, reset : in std_logic;
         reqsafestate, carrierrdy, pilot_in, card_enable : in std_logic;
         state_normal, state_safe : out std_logic;
+        state_system_error : out std_logic;
         slotok, reqoe : out std_logic
     );
 end entity;

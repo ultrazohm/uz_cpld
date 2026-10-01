@@ -42,6 +42,9 @@ Routing
    d_29,0,0
 
 Each row defines one output in normal_state and safe_state.
+Every generated output also has a mandatory ``system_error`` override to zero.
+There is no CSV column or option to disable this override; it applies to RX,
+constant and high-impedance routes as well as TX.
 Only ``d_00``–``d_29`` and ``fpga_00``–``fpga_29`` are valid pin names, with exactly two digits and lowercase letters.
 State values accept input names, ``0``, ``1``, or uppercase ``Z``.
 Every output requires both state values and must appear only once.
@@ -71,8 +74,16 @@ The controller starts in ``safe_state`` and enters ``normal_state`` when synchro
 The shared controller owns startup: ``level_signals`` uses initialized registers and a three-edge warmup, with normal operation possible on the fourth rising edge.
 Heartbeat mode instead requires its two-stage safety gate to release and a qualified edge sequence.
 With ``clock = "machxo2"``, the controller's reset input is tied low; synthesis must preserve the HDL register initial values.
-With ``clock = "external"``, asserting ``reset`` forces safe outputs immediately and resets the controller on a rising edge; startup protection repeats after reset is released.
-It returns to ``safe_state`` when any condition fails and resumes ``normal_state`` automatically when all conditions are satisfied.
+With ``clock = "external"``, ``reset`` masks normal permission immediately.
+It resets the level-based controller and restarts its startup guard. In heartbeat
+mode it resets the monitor only before initial qualification; once armed, the
+monitor continues through reset and a latched system error takes priority.
+Control requests select ``safe_state`` and allow automatic recovery.
+With heartbeat, a fault after the first complete qualification instead latches
+``system_error``. All data outputs, SlotOK and ReqOE become zero. Reset and
+restored heartbeat cannot clear the fault; see :doc:`xo2-library` for power-on
+initialization and supply-domain limitations. Level-based contracts have no
+heartbeat fault source and hold ``state_system_error`` low.
 With ``level_signals``, control changes reach the state on the third clock edge counting their first sampling edge.
 With ``heartbeat``, ReqSafeState assertion forces safe outputs without a clock, and deassertion releases its gate after two rising edges; heartbeat monitoring continues throughout the request.
 Heartbeat-mode enable and pilot changes take effect on the second sampling edge.
@@ -106,7 +117,8 @@ To select another level-based contract, set ``contract`` to a relative TOML path
 
 ``request_mode`` accepts ``active_high`` or ``active_low``.
 ``carrier_ready`` accepts ``unused``, ``active_high`` or ``active_low``.
-Status levels are listed in normal_state, safe_state order.
+Status levels are listed in normal_state, safe_state order. System-error levels
+are fixed at zero and cannot be configured.
 Unknown request levels or inactive/unknown readiness request safe_state.
 Compatibility names declare the intended firmware pairing; they do not detect installed firmware.
 
@@ -129,7 +141,7 @@ nominal 2.08 MHz MachXO2 oscillator. For external clocks, adjust the contract.
 Heartbeat on ReqSafeState is unsupported. See :doc:`xo2-library` for exact
 qualification, timeout, recovery and differences from the original receiver.
 Generated heartbeat testbenches generate a pulse train and test qualification,
-independent static safe-state requests, heartbeat loss and recovery, as well
+independent static safe-state requests, heartbeat loss and fault persistence, as well
 as the configured routing, pilot and enable conditions.
 They also check clock-independent safe-state assertion and two-edge recovery
 without discarding an already qualified heartbeat.
@@ -155,6 +167,8 @@ Program naming
 
 Generated programs use a ``cvg_`` prefix for their directory, manifest, top entity and emitted filenames.
 ``make new name=my_slot template=generator`` creates ``cvg_my_slot``; supplying ``name=cvg_my_slot`` gives the same name.
-Internal signals use ``s3c_``: ``s3c_normal_state``, ``s3c_card_enable`` and ``s3c_clk``.
+Internal signals use ``s3c_``: ``s3c_normal_state``, ``s3c_system_error``,
+``s3c_card_enable`` and ``s3c_clk``. Normal and safe are no longer complements
+when a system error is active; generated routing gives the error priority.
 Pass ``release_cycle=NAME`` to ``make new`` and ``make generate`` to select a cycle explicitly.
 The standalone generator takes explicit configuration and output paths.

@@ -8,7 +8,7 @@
     "constraints": "6332ac36a8eba09c1935688dbe2ebaf33306e2e619cf655a14f7ef1a4da8ae8c"
   },
   "ported_sha256": {
-    "source": "713b7cabcaf8a6aa47f53c4a3d106e90e0fdec9cbea7f33c40f01242d6d42e7e",
+    "source": "d27f267afd31e738794bb1fcbe74ef69cfe0982a305cef254e99859f1614683e",
     "constraints": "6332ac36a8eba09c1935688dbe2ebaf33306e2e619cf655a14f7ef1a4da8ae8c"
   },
   "source_patches": [
@@ -25,34 +25,64 @@
       "ported": ""
     },
     {
-      "original_start": 93,
-      "ported_start": 93,
-      "original": "CVNJR05BTCBoZWFydGJlYXRfaW52YWxpZCA6IFNURF9MT0dJQzsK",
-      "ported": ""
+      "original_start": 92,
+      "ported_start": 92,
+      "original": "YXJjaGl0ZWN0dXJlIEJlaGF2aW9yYWwgb2YgU2lnbmFsUm91dGVyIGlzDQoJU0lHTkFMIGhlYXJ0YmVhdF9pbnZhbGlkIDogU1REX0xPR0lDOwo=",
+      "ported": "YXJjaGl0ZWN0dXJlIEJlaGF2aW9yYWwgb2YgU2lnbmFsUm91dGVyIGlzCiAgICBzaWduYWwgc3lzdGVtX2Vycm9yIDogc3RkX2xvZ2ljOw0K"
     },
     {
       "original_start": 120,
-      "ported_start": 119,
+      "ported_start": 120,
       "original": "CWRzbG90X2hlYXJ0YmVhdDogRU5USVRZIHdvcmsuZHNsb3RfaGVhcnRiZWF0X3JlY2VpdmVyCgkJUE9SVCBNQVAgKAoJCQljbGsJCQkJCT0+IGNsaywNCgkJCWhlYXJ0YmVhdF9pbgkJPT4gY2FycmllcnJkeSwKCQkJaGVhcnRiZWF0X2ludmFsaWQJPT4gaGVhcnRiZWF0X2ludmFsaWQKCQkpOwo=",
-      "ported": "CSAgICAtLSBTaGFyZWQgcmVjZWl2ZXI6IGFzeW5jaHJvbm91cyBzYWZlIGFzc2VydGlvbiwgdHdvLWNsb2NrIHJlY292ZXJ5LgogICAgZHNsb3RfaGVhcnRiZWF0OiBlbnRpdHkgczNjLnMzY19sb2dpYyhoZWFydGJlYXQpCiAgICAgICAgZ2VuZXJpYyBtYXAgKAogICAgICAgICAgICBSRVFVSVJFX1BJTE9UID0+IGZhbHNlLCBSRVFVRVNUX1NBRkVfTEVWRUwgPT4gJzEnLAogICAgICAgICAgICBTTE9UT0tfTk9STUFMID0+ICcxJywgU0xPVE9LX1NBRkUgPT4gJzAnLAogICAgICAgICAgICBSRVFPRV9OT1JNQUwgPT4gJzEnLCBSRVFPRV9TQUZFID0+ICcxJwogICAgICAgICkKICAgICAgICBwb3J0IG1hcCAoCiAgICAgICAgICAgIGNsayA9PiBjbGssIHJlc2V0ID0+ICcwJywKICAgICAgICAgICAgcmVxc2FmZXN0YXRlID0+IHJlcXNhZmVzdGF0ZSwgY2FycmllcnJkeSA9PiBjYXJyaWVycmR5LAogICAgICAgICAgICBwaWxvdF9pbiA9PiBwaWxvdF9pbiwgY2FyZF9lbmFibGUgPT4gdXNlcl9lbmFibGVfZm9yd2FyZGluZywKICAgICAgICAgICAgc3RhdGVfbm9ybWFsID0+IGVuYWJsZV9mb3J3YXJkaW5nLCBzdGF0ZV9zYWZlID0+IG9wZW4sCiAgICAgICAgICAgIHNsb3RvayA9PiBzbG90b2ssIHJlcW9lID0+IHJlcW9lCiAgICAgICAgKTsK"
+      "ported": "CSAgICAtLSBTaGFyZWQgcmVjZWl2ZXI6IGFzeW5jaHJvbm91cyBzYWZlIGFzc2VydGlvbiwgdHdvLWNsb2NrIHJlY292ZXJ5LgogICAgZHNsb3RfaGVhcnRiZWF0OiBlbnRpdHkgczNjLnMzY19sb2dpYyhoZWFydGJlYXQpCiAgICAgICAgZ2VuZXJpYyBtYXAgKAogICAgICAgICAgICBSRVFVSVJFX1BJTE9UID0+IGZhbHNlLCBSRVFVRVNUX1NBRkVfTEVWRUwgPT4gJzEnLAogICAgICAgICAgICBTTE9UT0tfTk9STUFMID0+ICcxJywgU0xPVE9LX1NBRkUgPT4gJzAnLAogICAgICAgICAgICBSRVFPRV9OT1JNQUwgPT4gJzEnLCBSRVFPRV9TQUZFID0+ICcxJwogICAgICAgICkKICAgICAgICBwb3J0IG1hcCAoCiAgICAgICAgICAgIGNsayA9PiBjbGssIHJlc2V0ID0+ICcwJywKICAgICAgICAgICAgcmVxc2FmZXN0YXRlID0+IHJlcXNhZmVzdGF0ZSwgY2FycmllcnJkeSA9PiBjYXJyaWVycmR5LAogICAgICAgICAgICBwaWxvdF9pbiA9PiBwaWxvdF9pbiwgY2FyZF9lbmFibGUgPT4gdXNlcl9lbmFibGVfZm9yd2FyZGluZywKICAgICAgICAgICAgc3RhdGVfbm9ybWFsID0+IGVuYWJsZV9mb3J3YXJkaW5nLCBzdGF0ZV9zYWZlID0+IG9wZW4sCiAgICAgICAgICAgIHN0YXRlX3N5c3RlbV9lcnJvciA9PiBzeXN0ZW1fZXJyb3IsCiAgICAgICAgICAgIHNsb3RvayA9PiBzbG90b2ssIHJlcW9lID0+IHJlcW9lCiAgICAgICAgKTsK"
     },
     {
       "original_start": 128,
-      "ported_start": 135,
+      "ported_start": 137,
       "original": "CXJlcW9lIDw9IE5PVCB0cmlzdGF0ZV9vdXRwdXRzOyAKCWVuYWJsZV9mb3J3YXJkaW5nIDw9IHVzZXJfZW5hYmxlX2ZvcndhcmRpbmcgQU5EIE5PVCBoZWFydGJlYXRfaW52YWxpZCBBTkQgTk9UIHJlcXNhZmVzdGF0ZTsK",
       "ported": ""
     },
     {
       "original_start": 132,
-      "ported_start": 137,
+      "ported_start": 139,
       "original": "CXNsb3RvayA8PSBlbmFibGVfZm9yd2FyZGluZzsK",
       "ported": ""
     },
     {
       "original_start": 134,
-      "ported_start": 138,
+      "ported_start": 140,
       "original": "CXRyaXN0YXRlX291dHB1dHMgPD0gJzAnOwo=",
       "ported": ""
+    },
+    {
+      "original_start": 139,
+      "ported_start": 144,
+      "original": "ICAgIGRfMDAgPD0gZnBnYV8wNjsKICAgIGRfMDEgPD0gZnBnYV8wNzsKICAgIGRfMDIgPD0gZnBnYV8wODsKICAgIGRfMDMgPD0gZnBnYV8wOTsKICAgIGRfMDQgPD0gZnBnYV8xMDsKICAgIGRfMDUgPD0gZnBnYV8xMTsKICAgIGRfMDYgPD0gZnBnYV8xMjsKICAgIGRfMDcgPD0gZnBnYV8xMzsK",
+      "ported": "ICAgIGRfMDAgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZnBnYV8wNjsKICAgIGRfMDEgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZnBnYV8wNzsKICAgIGRfMDIgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZnBnYV8wODsKICAgIGRfMDMgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZnBnYV8wOTsKICAgIGRfMDQgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZnBnYV8xMDsKICAgIGRfMDUgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZnBnYV8xMTsKICAgIGRfMDYgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZnBnYV8xMjsKICAgIGRfMDcgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZnBnYV8xMzsK"
+    },
+    {
+      "original_start": 148,
+      "ported_start": 153,
+      "original": "ICAgIGZwZ2FfMTQgPD0gZF8wODsK",
+      "ported": "ICAgIGZwZ2FfMTQgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZF8wODsK"
+    },
+    {
+      "original_start": 150,
+      "ported_start": 155,
+      "original": "ICAgIGRfMDkgPD0gZnBnYV8xNTsKICAgIGRfMTAgPD0gZnBnYV8xNjsKICAgIGRfMTEgPD0gZnBnYV8xNzsKICAgIGRfMTIgPD0gZnBnYV8xODsKICAgIGRfMTMgPD0gZnBnYV8xOTsKICAgIGRfMTQgPD0gZnBnYV8yMDsKICAgIGRfMTUgPD0gZnBnYV8yMTsKICAgIGRfMTYgPD0gZnBnYV8yMjsK",
+      "ported": "ICAgIGRfMDkgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZnBnYV8xNTsKICAgIGRfMTAgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZnBnYV8xNjsKICAgIGRfMTEgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZnBnYV8xNzsKICAgIGRfMTIgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZnBnYV8xODsKICAgIGRfMTMgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZnBnYV8xOTsKICAgIGRfMTQgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZnBnYV8yMDsKICAgIGRfMTUgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZnBnYV8yMTsKICAgIGRfMTYgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZnBnYV8yMjsK"
+    },
+    {
+      "original_start": 159,
+      "ported_start": 164,
+      "original": "ICAgIGZwZ2FfMjMgPD0gZF8xNzsNCg==",
+      "ported": "ICAgIGZwZ2FfMjMgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZF8xNzsNCg=="
+    },
+    {
+      "original_start": 163,
+      "ported_start": 168,
+      "original": "",
+      "ported": "CiAgICAtLSBQcmV2aW91c2x5IHVuZHJpdmVuIHBpbnMgYXJlIGhpZ2ggaW1wZWRhbmNlIG91dHNpZGUgc3lzdGVtX2Vycm9yLgogICAgZF8xOCA8PSAnMCcgd2hlbiBzeXN0ZW1fZXJyb3IgPSAnMScgZWxzZSAnWic7CiAgICBkXzE5IDw9ICcwJyB3aGVuIHN5c3RlbV9lcnJvciA9ICcxJyBlbHNlICdaJzsKICAgIGRfMjAgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgJ1onOwogICAgZF8yMSA8PSAnMCcgd2hlbiBzeXN0ZW1fZXJyb3IgPSAnMScgZWxzZSAnWic7CiAgICBkXzIyIDw9ICcwJyB3aGVuIHN5c3RlbV9lcnJvciA9ICcxJyBlbHNlICdaJzsKICAgIGRfMjMgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgJ1onOwogICAgZF8yNCA8PSAnMCcgd2hlbiBzeXN0ZW1fZXJyb3IgPSAnMScgZWxzZSAnWic7CiAgICBkXzI1IDw9ICcwJyB3aGVuIHN5c3RlbV9lcnJvciA9ICcxJyBlbHNlICdaJzsKICAgIGRfMjcgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgJ1onOwogICAgZF8yOCA8PSAnMCcgd2hlbiBzeXN0ZW1fZXJyb3IgPSAnMScgZWxzZSAnWic7CiAgICBkXzI5IDw9ICcwJyB3aGVuIHN5c3RlbV9lcnJvciA9ICcxJyBlbHNlICdaJzsKICAgIGZwZ2FfMDAgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgJ1onOwogICAgZnBnYV8wMSA8PSAnMCcgd2hlbiBzeXN0ZW1fZXJyb3IgPSAnMScgZWxzZSAnWic7CiAgICBmcGdhXzAyIDw9ICcwJyB3aGVuIHN5c3RlbV9lcnJvciA9ICcxJyBlbHNlICdaJzsKICAgIGZwZ2FfMDMgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgJ1onOwogICAgZnBnYV8wNCA8PSAnMCcgd2hlbiBzeXN0ZW1fZXJyb3IgPSAnMScgZWxzZSAnWic7CiAgICBmcGdhXzA1IDw9ICcwJyB3aGVuIHN5c3RlbV9lcnJvciA9ICcxJyBlbHNlICdaJzsKICAgIGZwZ2FfMjQgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgJ1onOwogICAgZnBnYV8yNSA8PSAnMCcgd2hlbiBzeXN0ZW1fZXJyb3IgPSAnMScgZWxzZSAnWic7CiAgICBmcGdhXzI2IDw9ICcwJyB3aGVuIHN5c3RlbV9lcnJvciA9ICcxJyBlbHNlICdaJzsKICAgIGZwZ2FfMjcgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgJ1onOwogICAgZnBnYV8yOCA8PSAnMCcgd2hlbiBzeXN0ZW1fZXJyb3IgPSAnMScgZWxzZSAnWic7CiAgICBmcGdhXzI5IDw9ICcwJyB3aGVuIHN5c3RlbV9lcnJvciA9ICcxJyBlbHNlICdaJzsK"
     }
   ],
   "ports": {
@@ -218,8 +248,9 @@
     "fpga_29"
   ],
   "modifications": [
-    "Use s3c.s3c_logic(heartbeat) from the shared xo2_library; remove old receiver and status/gate assignments.",
-    "Port declarations, routing expressions, card-enable decode, oscillator, and pin/electrical constraints are preserved.",
-    "No pilot requirement; ReqOE remains asserted in both states."
+    "Use s3c.s3c_logic(heartbeat), with a power-on-only latched system_error after the first qualified heartbeat.",
+    "Preserve original normal/safe routing, port declarations, enable decode, oscillator and constraints; system_error overrides every data output to zero.",
+    "SlotOK and ReqOE are zero in system_error. Pilot remains unused; ReqOE remains high in normal and safe states.",
+    "The undriven_outputs inventory records the upstream source. These outputs now drive Z in normal/safe and zero in system_error."
   ]
 }

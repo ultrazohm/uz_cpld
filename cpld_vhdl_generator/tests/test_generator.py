@@ -281,8 +281,10 @@ reqoe = [1, 1]
                     load_config(self.config)
 
     @unittest.skipUnless(shutil.which('ghdl'), 'GHDL required')
-    def test_generated_heartbeat_routes_normal_safe_and_ungated_rx(self):
+    def test_generated_heartbeat_routes_normal_safe_and_latched_error(self):
         self.config.write_text(self.config.read_text().replace('s3c_power_on_debounce_v1', 's3c_heartbeat_v1'))
+        with (self.root / 'routing.csv').open('a') as routing:
+            routing.write('d_02,1,1\nd_03,Z,Z\n')
         self.simulate('''
         reqsafestate <= '0'; src <= '1'; cycles(210);
         assert outp = '0' and rx = '1' and slotok = '0' severity failure;
@@ -293,7 +295,18 @@ reqoe = [1, 1]
         reqsafestate <= '1'; cycles(3);
         assert outp = '0' and rx = '1' and slotok = '0' and reqoe = '1' severity failure;
         reqsafestate <= '0'; cycles(3); assert outp = '1' severity failure;
-        cycles(210); assert outp = '0' and rx = '1' and slotok = '0' severity failure;
+        assert always_out = '1' and constant_out = 'Z' severity failure;
+        cycles(210);
+        assert outp = '0' and rx = '0' and slotok = '0' and reqoe = '0'
+               and always_out = '0' and constant_out = '0' severity failure;
+        reset <= '1'; cycles(3); reset <= '0';
+        for i in 1 to 20 loop
+            carrierrdy <= not carrierrdy; cycles(21);
+        end loop;
+        reqsafestate <= '1'; cycles(3); reqsafestate <= '0'; cycles(3);
+        assert outp = '0' and rx = '0' and slotok = '0' and reqoe = '0'
+               and always_out = '0' and constant_out = '0'
+            report "fault must survive runtime reset and restored heartbeat" severity failure;
         ''')
 
     def test_reject_removed_features_and_unknown_keys(self):

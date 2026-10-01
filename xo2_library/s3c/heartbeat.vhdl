@@ -13,6 +13,9 @@ architecture heartbeat of s3c_logic is
     signal age : natural range 0 to HB_TIMEOUT_CLKS := HB_TIMEOUT_CLKS;
     signal edges : natural range 0 to HB_VALID_EDGES_REQUIRED := 0;
     signal qualified : boolean := false;
+    -- Power-on initialization only: runtime reset must not clear these flags.
+    signal heartbeat_armed : boolean := false;
+    signal system_error : boolean := false;
 begin
     assert HB_MIN_EDGE_CLKS <= HB_MAX_EDGE_CLKS and HB_MAX_EDGE_CLKS < HB_TIMEOUT_CLKS
         report "heartbeat requires min edge <= max edge < timeout" severity failure;
@@ -37,7 +40,7 @@ begin
     process(clk)
     begin
         if rising_edge(clk) then
-            if reset = '1' then
+            if reset = '1' and not heartbeat_armed then
                 heartbeat_meta <= '0'; heartbeat_sync <= '0'; heartbeat_last <= '0';
                 pilot_meta <= '0'; pilot_sync <= '0';
                 enable_meta <= '0'; enable_sync <= '0';
@@ -49,6 +52,7 @@ begin
                 heartbeat_last <= heartbeat_sync;
                 if heartbeat_sync /= '0' and heartbeat_sync /= '1' then
                     qualified <= false; edges <= 0; age <= HB_TIMEOUT_CLKS;
+                    if heartbeat_armed then system_error <= true; end if;
                 elsif heartbeat_sync /= heartbeat_last then
                     -- age is the number of completed clocks since the last edge.
                     -- Compare age with bounds minus one to avoid integer overflow.
@@ -57,24 +61,31 @@ begin
                             edges <= edges + 1;
                         end if;
                         qualified <= edges >= HB_VALID_EDGES_REQUIRED-1;
+                        if edges >= HB_VALID_EDGES_REQUIRED-1 then
+                            heartbeat_armed <= true;
+                        end if;
                     else
                         -- This edge can start a fresh sequence, but cannot qualify it.
                         edges <= 1;
                         qualified <= false;
+                        if heartbeat_armed then system_error <= true; end if;
                     end if;
                     age <= 0;
                 elsif age >= HB_TIMEOUT_CLKS-1 then
                     age <= HB_TIMEOUT_CLKS; edges <= 0; qualified <= false;
+                    if heartbeat_armed then system_error <= true; end if;
                 else
                     age <= age + 1;
                 end if;
             end if;
         end if;
     end process;
-    normal <= release_sync = '1' and qualified and enable_sync = '1' and
+    -- Once armed, monitor heartbeat even during reset and static safe requests.
+    normal <= not system_error and release_sync = '1' and qualified and enable_sync = '1' and
               (not REQUIRE_PILOT or pilot_sync = '1');
     state_normal <= '1' when normal else '0';
-    state_safe <= '0' when normal else '1';
-    slotok <= SLOTOK_NORMAL when normal else SLOTOK_SAFE;
-    reqoe <= REQOE_NORMAL when normal else REQOE_SAFE;
+    state_safe <= '1' when not normal and not system_error else '0';
+    state_system_error <= '1' when system_error else '0';
+    slotok <= '0' when system_error else SLOTOK_NORMAL when normal else SLOTOK_SAFE;
+    reqoe <= '0' when system_error else REQOE_NORMAL when normal else REQOE_SAFE;
 end architecture;

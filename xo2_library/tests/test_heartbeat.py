@@ -23,8 +23,10 @@ class HeartbeatTests(unittest.TestCase):
                 run('-a', '--std=93', '--work=s3c', str(PACKAGE / 's3c' / name))
             run('-a', '--std=93', '-P.', str(PACKAGE / 'tests/hdl/heartbeat_tb.vhdl'))
             run('-e', '--std=93', '-P.', 'heartbeat_tb')
-            for level, pilot in product(('0', '1'), ('false', 'true')):
-                with self.subTest(level=level, pilot=pilot):
+            for level, pilot, fault in product(('0', '1'), ('false', 'true'),
+                                              ('low_timeout', 'high_timeout', 'safe_timeout',
+                                               'disabled_timeout', 'reset_timeout', 'short', 'long', 'unknown')):
+                with self.subTest(level=level, pilot=pilot, fault=fault):
                     self.assertIn('HEARTBEAT PASSED', run(
                         '-r', '--std=93', '-P.', 'heartbeat_tb',
-                        f"-gSAFE_LEVEL='{level}'", f'-gPILOT_REQUIRED={pilot}', '--assert-level=error'))
+                        f"-gSAFE_LEVEL='{level}'", f'-gPILOT_REQUIRED={pilot}', f'-gFAULT_KIND={fault}', '--assert-level=error'))

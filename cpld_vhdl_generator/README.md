@@ -71,11 +71,16 @@ Standalone generation does not update the repository catalog.
 ## Controls and shared HDL
 
 The controller starts in `safe_state` and enters `normal_state` when synchronized S3C controls, the pilot policy and any `enable` input pattern permit operation.
-The shared controller initializes its registers and holds safe state through the first three rising edges; normal operation is possible on the fourth edge.
-Internal-clock programs tie the controller reset low and rely on synthesis preserving register initial values. External-clock programs expose a reset input that restarts the controller and its warmup when sampled high.
-It returns to safe state when a condition fails and resumes automatically when all conditions hold.
+The level-based controller initializes its registers and holds safe state through the first three rising edges; normal operation is possible on the fourth edge. Heartbeat mode instead requires its initial qualification sequence.
+Internal-clock programs tie the controller reset low and rely on synthesis preserving register initial values. External-clock programs expose a reset input. It restarts the level-based controller; an armed heartbeat monitor stays active through reset.
+Ordinary control requests select safe state and allow automatic recovery; heartbeat faults after arming select the latched system-error state.
 The `s3c_power_on_debounce_v1` contract uses active-high ReqSafeState, ignores CarrierReady, asserts SlotOK only in normal state and keeps ReqOE high.
 Use `contract = "s3c_heartbeat_v1"` to select the shared `heartbeat` architecture for `s3c_heartbeat`: normal routing requires a qualified CarrierReady heartbeat and a deasserted static ReqSafeState. The same CSV safe-state actions, pilot policy and enable inputs apply.
+After its first complete qualification, a heartbeat fault latches `system_error`.
+Every generated data output, SlotOK and ReqOE is then zero, regardless of the CSV.
+Heartbeat recovery and runtime reset do not clear the fault. The generated
+`s3c_system_error` override is mandatory. Level-based contracts hold this signal
+low. See the library guide for power-on initialization and supply-domain limits.
 Set `pilot_policy = "required"` to require a high pilot input, or add an enable pattern such as `enable = {fpga_29 = 1}`.
 
 Compile the shared `s3c_logic.vhdl` entity and contract-selected architecture into library `s3c`, then the generated top into library `work`.

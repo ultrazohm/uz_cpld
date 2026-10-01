@@ -92,6 +92,7 @@ entity SignalRouter is
 end SignalRouter;
 
 architecture Behavioral of SignalRouter is
+    signal system_error : std_logic;
 
 	SIGNAL clk: STD_LOGIC;
 
@@ -130,6 +131,7 @@ begin
             reqsafestate => reqsafestate, carrierrdy => carrierrdy,
             pilot_in => pilot_in, card_enable => user_enable_forwarding,
             state_normal => enable_forwarding, state_safe => open,
+            state_system_error => system_error,
             slotok => slotok, reqoe => reqoe
         );
 
@@ -145,40 +147,40 @@ begin
 
     -- Map ports
 	-- LTC2983 - 1
-    d_00 <= fpga_00; --SCLK1
-    d_01 <= fpga_01; --MOSI1
-    fpga_02 <= d_02; --MISO1
-    d_03 <= fpga_03; --CS1
-    fpga_04 <= d_04; --VOB1 (Interrupt)
-    d_05 <= fpga_05; --DCLK1
+    d_00 <= '0' when system_error = '1' else fpga_00; --SCLK1
+    d_01 <= '0' when system_error = '1' else fpga_01; --MOSI1
+    fpga_02 <= '0' when system_error = '1' else d_02; --MISO1
+    d_03 <= '0' when system_error = '1' else fpga_03; --CS1
+    fpga_04 <= '0' when system_error = '1' else d_04; --VOB1 (Interrupt)
+    d_05 <= '0' when system_error = '1' else fpga_05; --DCLK1
 	-- LTC2983 - 3
-    d_06 <= fpga_06; --SCLK3
-    d_07 <= fpga_07; --MOSI3
-    fpga_08 <= d_08; --MISO3
-    d_09 <= fpga_09; --CS3
-    fpga_10 <= d_10; --VOB3 (Interrupt)
-    d_11 <= fpga_11; --DCLK3
+    d_06 <= '0' when system_error = '1' else fpga_06; --SCLK3
+    d_07 <= '0' when system_error = '1' else fpga_07; --MOSI3
+    fpga_08 <= '0' when system_error = '1' else d_08; --MISO3
+    d_09 <= '0' when system_error = '1' else fpga_09; --CS3
+    fpga_10 <= '0' when system_error = '1' else d_10; --VOB3 (Interrupt)
+    d_11 <= '0' when system_error = '1' else fpga_11; --DCLK3
 	-- LTC2983 - 2
-	d_12 <= fpga_12; --SCLK2
-    d_13 <= fpga_13; --MOSI2
-    fpga_14 <= d_14; --MISO2
-    d_15 <= fpga_15; --CS2
-    fpga_16 <= d_16; --VOB2 (Interrupt)
-    d_17 <= fpga_17; --DCLK2
+	d_12 <= '0' when system_error = '1' else fpga_12; --SCLK2
+    d_13 <= '0' when system_error = '1' else fpga_13; --MOSI2
+    fpga_14 <= '0' when system_error = '1' else d_14; --MISO2
+    d_15 <= '0' when system_error = '1' else fpga_15; --CS2
+    fpga_16 <= '0' when system_error = '1' else d_16; --VOB2 (Interrupt)
+    d_17 <= '0' when system_error = '1' else fpga_17; --DCLK2
 	-- global reset
-	d_18 <= fpga_18; --Reset
+	d_18 <= '0' when system_error = '1' else fpga_18; --Reset
 	-- unused pins
-    d_19 <= fpga_19 AND enable_forwarding;
-    d_20 <= fpga_20 AND enable_forwarding;
-    d_21 <= fpga_21 AND enable_forwarding;
-    d_22 <= fpga_22 AND enable_forwarding;
-    d_23 <= fpga_23 AND enable_forwarding;
-    d_24 <= fpga_24 AND enable_forwarding;
-    d_25 <= fpga_25 AND enable_forwarding;
-    d_26 <= fpga_26 AND enable_forwarding;
-    d_27 <= fpga_27 AND enable_forwarding;
-    d_28 <= fpga_28 AND enable_forwarding;
-    d_29 <= fpga_29 AND enable_forwarding;
+    d_19 <= '0' when system_error = '1' else fpga_19 AND enable_forwarding;
+    d_20 <= '0' when system_error = '1' else fpga_20 AND enable_forwarding;
+    d_21 <= '0' when system_error = '1' else fpga_21 AND enable_forwarding;
+    d_22 <= '0' when system_error = '1' else fpga_22 AND enable_forwarding;
+    d_23 <= '0' when system_error = '1' else fpga_23 AND enable_forwarding;
+    d_24 <= '0' when system_error = '1' else fpga_24 AND enable_forwarding;
+    d_25 <= '0' when system_error = '1' else fpga_25 AND enable_forwarding;
+    d_26 <= '0' when system_error = '1' else fpga_26 AND enable_forwarding;
+    d_27 <= '0' when system_error = '1' else fpga_27 AND enable_forwarding;
+    d_28 <= '0' when system_error = '1' else fpga_28 AND enable_forwarding;
+    d_29 <= '0' when system_error = '1' else fpga_29 AND enable_forwarding;
 	
 	-- Make sure ports are not optimized away
 	dummy_signal <= i2c_scl AND i2c_sda AND carrierrdy AND pilot_in;

@@ -91,6 +91,7 @@ entity SignalRouter is
 end SignalRouter;
 
 architecture Behavioral of SignalRouter is
+    signal system_error : std_logic;
 	SIGNAL clk: STD_LOGIC;
 
 	COMPONENT OSCH
@@ -130,6 +131,7 @@ begin
             reqsafestate => reqsafestate, carrierrdy => carrierrdy,
             pilot_in => pilot_in, card_enable => '1',
             state_normal => enable_forwarding, state_safe => open,
+            state_system_error => system_error,
             slotok => slotok, reqoe => reqoe
         );
 
@@ -140,38 +142,38 @@ begin
 
     -- Lab-only heartbeat visibility: DIG00 and DIG01 show the raw CarrierReady input.
     -- These two channels intentionally bypass ReqSafeState and the forwarding gate.
-	d_00 <= carrierrdy;
-    d_01 <= carrierrdy;
+	d_00 <= '0' when system_error = '1' else carrierrdy;
+    d_01 <= '0' when system_error = '1' else carrierrdy;
 
     -- DIG02..DIG29 use normal tx30 forwarding.
-    d_02 <= fpga_02 AND enable_forwarding;
-    d_03 <= fpga_03 AND enable_forwarding;
-    d_04 <= fpga_04 AND enable_forwarding;
-    d_05 <= fpga_05 AND enable_forwarding;
-    d_06 <= fpga_06 AND enable_forwarding;
-    d_07 <= fpga_07 AND enable_forwarding;
-    d_08 <= fpga_08 AND enable_forwarding;
-    d_09 <= fpga_09 AND enable_forwarding;
-    d_10 <= fpga_10 AND enable_forwarding;
-    d_11 <= fpga_11 AND enable_forwarding;
-    d_12 <= fpga_12 AND enable_forwarding;
-    d_13 <= fpga_13 AND enable_forwarding;
-    d_14 <= fpga_14 AND enable_forwarding;
-    d_15 <= fpga_15 AND enable_forwarding;
-    d_16 <= fpga_16 AND enable_forwarding;
-    d_17 <= fpga_17 AND enable_forwarding;
-    d_18 <= fpga_18 AND enable_forwarding;
-    d_19 <= fpga_19 AND enable_forwarding;
-    d_20 <= fpga_20 AND enable_forwarding;
-    d_21 <= fpga_21 AND enable_forwarding;
-    d_22 <= fpga_22 AND enable_forwarding;
-    d_23 <= fpga_23 AND enable_forwarding;
-    d_24 <= fpga_24 AND enable_forwarding;
-    d_25 <= fpga_25 AND enable_forwarding;
-    d_26 <= fpga_26 AND enable_forwarding;
-    d_27 <= fpga_27 AND enable_forwarding;
-    d_28 <= fpga_28 AND enable_forwarding;
-    d_29 <= fpga_29 AND enable_forwarding;
+    d_02 <= '0' when system_error = '1' else fpga_02 AND enable_forwarding;
+    d_03 <= '0' when system_error = '1' else fpga_03 AND enable_forwarding;
+    d_04 <= '0' when system_error = '1' else fpga_04 AND enable_forwarding;
+    d_05 <= '0' when system_error = '1' else fpga_05 AND enable_forwarding;
+    d_06 <= '0' when system_error = '1' else fpga_06 AND enable_forwarding;
+    d_07 <= '0' when system_error = '1' else fpga_07 AND enable_forwarding;
+    d_08 <= '0' when system_error = '1' else fpga_08 AND enable_forwarding;
+    d_09 <= '0' when system_error = '1' else fpga_09 AND enable_forwarding;
+    d_10 <= '0' when system_error = '1' else fpga_10 AND enable_forwarding;
+    d_11 <= '0' when system_error = '1' else fpga_11 AND enable_forwarding;
+    d_12 <= '0' when system_error = '1' else fpga_12 AND enable_forwarding;
+    d_13 <= '0' when system_error = '1' else fpga_13 AND enable_forwarding;
+    d_14 <= '0' when system_error = '1' else fpga_14 AND enable_forwarding;
+    d_15 <= '0' when system_error = '1' else fpga_15 AND enable_forwarding;
+    d_16 <= '0' when system_error = '1' else fpga_16 AND enable_forwarding;
+    d_17 <= '0' when system_error = '1' else fpga_17 AND enable_forwarding;
+    d_18 <= '0' when system_error = '1' else fpga_18 AND enable_forwarding;
+    d_19 <= '0' when system_error = '1' else fpga_19 AND enable_forwarding;
+    d_20 <= '0' when system_error = '1' else fpga_20 AND enable_forwarding;
+    d_21 <= '0' when system_error = '1' else fpga_21 AND enable_forwarding;
+    d_22 <= '0' when system_error = '1' else fpga_22 AND enable_forwarding;
+    d_23 <= '0' when system_error = '1' else fpga_23 AND enable_forwarding;
+    d_24 <= '0' when system_error = '1' else fpga_24 AND enable_forwarding;
+    d_25 <= '0' when system_error = '1' else fpga_25 AND enable_forwarding;
+    d_26 <= '0' when system_error = '1' else fpga_26 AND enable_forwarding;
+    d_27 <= '0' when system_error = '1' else fpga_27 AND enable_forwarding;
+    d_28 <= '0' when system_error = '1' else fpga_28 AND enable_forwarding;
+    d_29 <= '0' when system_error = '1' else fpga_29 AND enable_forwarding;
 
 	-- Make sure ports are not optimized away
 	dummy_signal <= i2c_scl AND i2c_sda AND pilot_in AND fpga_00 AND fpga_01;

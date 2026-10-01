@@ -12,13 +12,14 @@ The previously built ``s3c_heartbeat`` Diamond LSE image has a reproduced startu
 failure: unsupported Gray encoding falls back to one-hot encoding without a
 working startup reset, leaving power off and the red LED asserted. See the
 S3C program description for the netlist reproduction and the disposable
-sequential-encoding experiment. The HDL sources remain unchanged;
+sequential-encoding experiment. The S3C HDL sources remain unchanged;
 successful build/export results do not establish working hardware startup.
 
 The D-slot ports use ``s3c.s3c_logic(heartbeat)`` from ``xo2_library``.
-The branch's routing expressions, port directions, card-enable decoding,
-oscillator wiring and shared LPF are preserved. Each program records its
-original source paths and hashes, reversible controller-only edits, and routing
+The branch's normal/safe routing, port directions, card-enable decoding,
+oscillator wiring and shared LPF are preserved. A latched system-error override
+now forces every declared data output to zero. Each program records its
+original source paths and hashes, reversible controller and routing edits, and routing
 expectations in ``upstream.json``. ``dslot-ports.json`` inventories the 29 imports.
 Names remain unchanged, including the historical ``tx30_hearbeattesting`` spelling.
 These are handwritten imports; the receiver integration does not require a
@@ -29,7 +30,8 @@ CSV conversion or change the declared directions of unused pins.
 The 16 ``voltage_8rx_8rx_8rx_6rx`` through
 ``voltage_8tx_8tx_8tx_6tx`` variants cover all RX/TX combinations for channel
 groups 00--07, 08--15, 16--23 and 24--29. TX is FPGA to adapter, gated low in
-safe state. RX is adapter to FPGA and remains active in both states.
+safe state. RX is adapter to FPGA and remains active in normal and safe states;
+it is zero in system_error.
 
 The other 13 imports are ``optical_14tx_4rx``, ``rx30``, ``template_dslots``,
 ``tx16_14rx``, ``tx20_10rx``, ``tx26_w_enable``, ``tx30``,
@@ -49,7 +51,9 @@ the ``original`` cycle is not a declared compatible firmware set.
 
 The following differences from the branch receiver are intentional:
 
-* A malformed interval revokes qualification and restarts the edge count.
+* Before first qualification, a malformed interval restarts the edge count.
+  After first qualification, malformed intervals or timeout latch system_error.
+  Restored heartbeat and runtime reset cannot clear that fault.
   The branch can remain valid during malformed trains and can qualify a
   malformed final edge using the previous counter value.
 * The shared implementation measures actual edge intervals and times out at
@@ -66,29 +70,41 @@ The following differences from the branch receiver are intentional:
   satisfy each card's requirements remains a hardware/application review point.
 
 Pilot is ignored, matching every imported program, and ReqOE remains high in
-both states. Low SlotOK indicates denied normal-state permission; it does not
+normal and safe states. In system_error, all data outputs, SlotOK and ReqOE
+are zero. Low SlotOK alone indicates denied normal-state permission; it does not
 mean every data output has been disabled. See :doc:`/xo2-library` for the
 shared receiver's timing and clock-failure limitations.
+
+The fault monitor arms on the first complete 16-edge qualification, including
+qualification during a safe request. Before that, absent heartbeat keeps safe
+state without latching an error. Once armed, monitoring continues through safe
+requests and runtime reset. Only CPLD power-on initialization clears the fault;
+reconfiguration can also reinitialize it. Full-system-only recovery depends on
+power/retention arrangements, because local D-slot power loss also clears it.
+S3C shutdown intentionally stops heartbeat and faults any still-powered slot.
+ReqOE zero disables the external output drivers; RTL zero does not guarantee
+that a disabled external buffer drives a physical zero.
 
 .. rubric:: Preserved behaviors requiring review
 
 * ``uz_d_3ph_inverter``, ``uz_d_abs_encoder``, both resolver programs, ``rx30``
   and the all-RX voltage variant retain all their assigned data routes in safe
-  state. Heartbeat and ReqSafeState affect SlotOK but do not gate those routes.
+  state. A static ReqSafeState affects SlotOK but does not gate those routes.
+  A heartbeat fault after qualification now enters system_error and zeros them.
   In particular, the inverter's forwarded outputs continue when normal-state
   permission is denied. The S3C does not currently turn SlotOK into an FSM
   fault, so that status signal is not a substitute for route gating.
   These inherited policies require application review; this port does not
   change them.
 * ``uz_d_temperature_ltc2983`` intentionally keeps channels 00--18 active,
-  including the LTC2983 interfaces and reset. Only outputs 19--29 are gated.
+  including the LTC2983 interfaces and reset. Only outputs 19--29 are gated in safe state; all outputs are zero in system_error.
 * ``tx30_hearbeattesting`` exposes raw CarrierReady on adapter outputs 00 and
-  01 in both states. It is a lab diagnostic, not a normal tx30 replacement.
-* ``tx26_w_enable`` and ``template_dslots`` leave adapter outputs 26--29
-  undriven in RTL. ``uz_d_resolver_d5`` also declares 23 undriven outputs,
-  listed in its program description. The port preserves these declarations;
-  a simulation unknown does not establish a safe physical pin level. Review
-  fitted unused-pin behavior and the connected hardware before deployment.
+  01 in normal and safe states. Both are zero in system_error.
+  It is a lab diagnostic, not a normal tx30 replacement.
+* ``tx26_w_enable`` and ``template_dslots`` originally left outputs 26--29
+  undriven; ``uz_d_resolver_d5`` originally declared 23 undriven outputs.
+  They now explicitly drive Z in normal/safe and zero in system_error.
+  Their upstream declarations remain recorded in the provenance metadata.
 * The branch's names do not always describe all routes: ``optical_14tx_4rx``
   also forwards FPGA channels 18--29, for a total of 26 gated TX and four RX
   routes. All of those assignments are preserved.
@@ -120,11 +136,13 @@ that clock resumes. These are documented limits, not fixes in this migration.
 .. rubric:: Build and validation
 
 Each D-slot manifest supports Diamond and includes a cocotb test that checks
-all assigned routes against pinned upstream expectations, both routing states,
-heartbeat qualification/loss/malformed pulses/recovery, asynchronous safe
-assertion, two-edge recovery, and all 16 card-enable combinations where used.
+all normal/safe routes against pinned upstream expectations, the all-zero
+system-error override, persistence after heartbeat recovery, asynchronous safe
+assertion, two-edge request release, and all 16 card-enable combinations where used.
+Shared-controller tests cover malformed intervals and persistence through reset.
 Source-fidelity tests reconstruct the original source bytes from the recorded
-patches and check unchanged routing, port directions and constraints.
+patches and check preserved normal/safe routing, the mandatory error override,
+port directions and constraints.
 The original S3C snapshot and its existing validation remain in the release.
 
 ::

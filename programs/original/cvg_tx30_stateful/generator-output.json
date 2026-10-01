@@ -17,18 +17,18 @@
     ]
   },
   "files": {
-    "cvg_tx30_stateful.vhdl": "14951151d20d0295537ef103255a3bef60665b95b22052b802e04b5110df0e96"
+    "cvg_tx30_stateful.vhdl": "8afb69c5f96eb4cae8fc41350c17f66173ac7719d41aeba41b1274448daa71db"
   },
   "generator_version": "0.5.0",
   "inputs": {
     "generator/__init__.py": "4f49b7897f98199120193f278915b7811674cda42e9deacf967620eccb83d259",
     "generator/__main__.py": "47d0a830e20065dbcbd55789103a034578b993010c1daf5e2a2d0d25d2f15bbe",
     "generator/contracts/s3c_power_on_debounce_v1.toml": "7e1a07f4a126de45196943eb92a6511d6ce6daba1bc37fe2446b2bf8c1541046",
-    "generator/generator.py": "9402f8bbf9832c4a2ffed5f88a53490a3027d9795174b350b51175f172e3f027",
-    "generator/project.py": "4cfdf8c0c1956df5578af6354385dae498f8b72e469dc7f39070081bab959361",
+    "generator/generator.py": "96f4ea3371df0186c7a371f50c5812e541ed5da2335f5f3e624edab2e9da9bdb",
+    "generator/project.py": "9f7cba8ab6acfb9fe40d8793645313c307b2f12a5d02ec5a0835a5192647d37e",
     "generator/toml.py": "4ca324c9b6ba5cb26a9b09adfe04b3e11d8aa6938ed8ecd50559fb82e860d29b",
-    "s3c_library/level_signals.vhdl": "c3fbe92cf94f38cb498a5123027dfe5794edd02c6106dc4de4d6b675bc3b1969",
-    "s3c_library/s3c_logic.vhdl": "83168ffa3369d1bd78123e4abefb928f2944435054135ad4f916b3e5fd3c9e3d",
+    "s3c_library/level_signals.vhdl": "1598c5ce419d1accfe9b34b26968e9e3bb0e0c8e6b090f5c9884f21de6622913",
+    "s3c_library/s3c_logic.vhdl": "888b55f2d9b78f5f24b119a689dba6c065e0cf917a82471154f3cf9de17229b2",
     "spec/generator.toml": "fb8b11eb60e2ab805221d324096f694a60852ba5950554da9afa44b59e5798a5",
     "spec/routing.csv": "856f95037eb9b7538fd37aec42c8752a5589a2fda1f71eeaa36a25129b089021"
   },

@@ -49,7 +49,7 @@ from cocotb.triggers import Timer
 
 @cocotb.test()
 async def generated_routing(dut):
-    """Check data directions, both routing states, and configured controls."""
+    """Check normal/safe routing and the mandatory latched system-error override."""
     # OSCH is unbound in RTL simulation; drive its internal clock net.
     clock = dut.s3c_clk
     clock.value = 0
@@ -82,33 +82,34 @@ async def generated_routing(dut):
             clock.value = 1
             await Timer(5, unit='ns')
 
-    async def check(normal):
+    async def check(normal, system_error=False):
         await Timer(1, unit='ns')
         index = 0 if normal else 1
-        assert int(dut.slotok.value) == SLOTOK[index], 'slotok'
-        assert int(dut.reqoe.value) == REQOE[index], 'reqoe'
+        assert int(dut.slotok.value) == (0 if system_error else SLOTOK[index]), 'slotok'
+        assert int(dut.reqoe.value) == (0 if system_error else REQOE[index]), 'reqoe'
+        assert int(dut.s3c_system_error.value) == int(system_error), 'system_error'
         for pin, actions in ROUTES.items():
             action = actions[index]
-            expected = action if action in ('0', '1', 'Z') else str(values[action])
+            expected = '0' if system_error else (action if action in ('0', '1', 'Z') else str(values[action]))
             actual = str(getattr(dut, pin).value).upper()
             assert actual == expected, (pin, normal, action, expected, actual)
 
-    async def patterns(normal):
+    async def patterns(normal, system_error=False):
         # Hold enable inputs at their required levels while exercising routing.
         for background in (0, 1):
             for pin in INPUTS:
                 values[pin] = ENABLE.get(pin, background)
                 getattr(dut, pin).value = values[pin]
-            await check(normal)
+            await check(normal, system_error)
             for pin in INPUTS:
                 if pin in ENABLE:
                     continue
                 values[pin] = 1 - background
                 getattr(dut, pin).value = values[pin]
-                await check(normal)
+                await check(normal, system_error)
                 values[pin] = background
                 getattr(dut, pin).value = values[pin]
-            await check(normal)
+            await check(normal, system_error)
 
     # Even with all controls permitting operation, startup stays safe for three edges.
     await check(False)
@@ -152,13 +153,7 @@ async def generated_routing(dut):
     dut.pilot_in.value = 1
     await tick()
     await check(True)
-    if HEARTBEAT:
-        hb_running = False
-        await tick(HEARTBEAT['timeout_clks'] + 3)
-        await patterns(False)
-        hb_running = True
-        await tick(qualify_cycles)
-    else:
+    if not HEARTBEAT:
         dut.carrierrdy.value = 1 - READY_LEVEL
         await tick()
         await check(not USE_READY)
@@ -174,4 +169,22 @@ async def generated_routing(dut):
         getattr(dut, pin).value = required
         await tick()
         await check(True)
+
+    if HEARTBEAT:
+        # Loss is still fatal during a static safe request. Every output,
+        # including RX, constants and Z routes, must become zero.
+        dut.reqsafestate.value = REQUEST_SAFE
+        hb_running = False
+        await tick(HEARTBEAT['timeout_clks'] + 3)
+        await patterns(False, system_error=True)
+        hb_running = True
+        await tick(qualify_cycles)
+        for request in (1 - REQUEST_SAFE, REQUEST_SAFE, 1 - REQUEST_SAFE):
+            dut.reqsafestate.value = request
+            dut.pilot_in.value = 1 - int(dut.pilot_in.value)
+            for pin in ENABLE:
+                values[pin] ^= 1
+                getattr(dut, pin).value = values[pin]
+            await tick(qualify_cycles)
+            await patterns(False, system_error=True)
 '''

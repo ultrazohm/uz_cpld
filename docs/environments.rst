@@ -59,7 +59,7 @@ To use Diamond, mount a Linux installation read-only at the image's default ``DI
    export DIAMOND_HOST_ROOT="$HOME/lscc/diamond/3.14"
    docker run --rm -it --init --platform=linux/amd64 \
      --user "$(id -u):$(id -g)" \
-     --network=bridge --mac-address=10:91:d1:3d:14:ae \
+     --network=name=bridge,mac-address=10:91:d1:3d:14:ae \
      --mount "type=bind,source=$PWD,target=/work" \
      --mount "type=bind,source=$DIAMOND_HOST_ROOT,target=/opt/diamond,readonly" \
      --env LM_LICENSE_FILE \
@@ -94,32 +94,83 @@ VS Code
 -------
 
 Open the repository in VS Code and select **Dev Containers: Reopen in Container**. VS Code builds the toolchain image from ``.devcontainer/Dockerfile`` automatically; no separate ``make image`` step is required.
-All Dev Container configurations use bridge networking with ``eth0`` assigned the MAC address ``10:91:d1:3d:14:ae``.
-For Diamond, export the absolute host installation root, which is the parent of ``bin``, before launching VS Code::
+The host-mounted profiles run ``.devcontainer/prepare-host.sh`` on the host before
+startup. They detect a full Linux Diamond installation at
+``$HOME/lscc/diamond/3.14`` automatically. No export is needed for that layout.
+The selected directory is mounted read-only at ``/opt/diamond``; inside the
+container, ``DIAMOND_ROOT`` is always ``/opt/diamond``.
 
-   export DIAMOND_HOST_ROOT="$HOME/lscc/diamond/3.14"
-   code .
+For another installation, run this **in a host terminal**, from the repository::
 
-The configuration mounts that directory read-only at ``/opt/diamond`` and forwards ``LM_LICENSE_FILE``.
+   DIAMOND_HOST_ROOT=/absolute/path/to/diamond/3.14 bash .devcontainer/prepare-host.sh
+
+The host setup accepts ``DIAMOND_HOST_ROOT``, then ``DIAMOND_ROOT``, then the
+saved selection, then the standard location. Empty variables are treated as
+unset. It checks for an executable ``bin/lin64/diamondc``; a typo or a standalone
+Programmer path fails before container creation. The selected path is saved in
+the ignored ``.devcontainer/.local/diamond-root`` file and linked from
+``.devcontainer/.local/diamond``. Docker follows that host link for the bind mount.
+This preserves the selection even when an existing VS Code process has not
+inherited the terminal's environment. These host-mounted profiles need Bash and
+a Docker host that can access the checkout and Linux installation.
+
+For FOSS-only use, a missing standard installation automatically supplies an
+empty directory. To explicitly disable a saved installation, run on the host::
+
+   DIAMOND_HOST_ROOT=none bash .devcontainer/prepare-host.sh
+
+To enable Diamond again, run the same command with its installation path.
+The image profiles described below do not run this host setup or use its selection.
+
+All profiles use bridge networking and set ``eth0`` to
+``10:91:d1:3d:14:ae`` with Docker's per-network
+``--network=name=bridge,mac-address=10:91:d1:3d:14:ae`` option (Docker 25+).
+Docker 25.0.2 loses even per-network MAC settings after a restart; it can report
+the requested address in ``Config.MacAddress`` while ``eth0`` uses another one.
+The profiles therefore include ``NET_ADMIN`` in the container's own network
+namespace and run ``setup-network.sh`` after every Dev Container start. This
+checks the actual interface and, only when needed, uses ``sudo ip link`` to
+restore its address. VS Code waits for this check before attaching. The host's
+interfaces are not changed. Docker fixed the restart bug in 25.0.3; see the
+`Docker 25 release notes <https://docs.docker.com/engine/release-notes/25.0/>`_.
+The IP address remains dynamically assigned; Diamond's Ethernet host ID uses
+the MAC, not the IP.
+
+The host-mounted profiles forward ``LM_LICENSE_FILE``.
+When the license is in the installation's ``license/license.dat``, the mount
+already includes it and no additional variable is necessary. A host path
+outside the installation is not made accessible by forwarding an environment
+variable: mount that file separately and use its container path, or use a
+reachable ``port@server`` for a floating license.
 The image adds ``/opt/diamond/bin/lin64`` to ``PATH``, making the mounted
 ``diamond`` and ``diamondc`` launchers available in terminals.
-For FOSS-only use, leave ``DIAMOND_HOST_ROOT`` unset (``unset DIAMOND_HOST_ROOT``); the mount uses an empty Docker volume named ``uz-cpld-no-diamond``.
-Do not set the variable to an empty string.
 The startup availability message appears in the container log; Diamond checks are run explicitly with ``check-diamond``.
-If VS Code was started without the variable, close it fully and relaunch it from this shell.
-After rebuilding the image or changing mount or license settings, use **Rebuild Container** to recreate the container from the image; repository files persist, while unmounted container state can be replaced.
+After changing the selected installation, network settings or image, use
+**Dev Containers: Rebuild Container**. Reloading the window or opening another
+terminal does not change an existing container's mounts or network configuration.
+Repository files persist, while unmounted container state can be replaced.
+Changes to forwarded variables such as ``LM_LICENSE_FILE`` still require VS Code
+to inherit them: close it fully and relaunch it from the configured host shell.
 The default user is ``vscode``; VS Code adjusts its UID/GID to the host user.
 ``USER_UID`` and ``USER_GID`` are build arguments for direct container use.
 
 ``echo "$DIAMOND_ROOT"`` reports the configured path even when no installation
 is mounted. To distinguish a missing mount from a shell path problem, run::
 
+   cat /sys/class/net/eth0/address
    ls -l "$DIAMOND_ROOT/bin/lin64/diamond" "$DIAMOND_ROOT/bin/lin64/diamondc"
    command -v diamond diamondc
-   check-diamond
+   check-diamond --synthesis
+   make build-all
 
-If the files are missing, check ``DIAMOND_HOST_ROOT`` on the host and recreate
-the container.
+The first command must show ``10:91:d1:3d:14:ae``. If it shows ``02:42:...``
+or the launcher files are missing, run ``bash .devcontainer/prepare-host.sh``
+on the host and rebuild the container with the updated configuration.
+After a manual ``docker restart`` outside VS Code on an affected Docker version,
+run ``bash .devcontainer/setup-network.sh`` inside the container before building,
+or reconnect with Dev Containers to run its startup lifecycle.
+An old container mounted to the empty ``uz-cpld-no-diamond`` volume must be
+recreated; exporting a variable inside it cannot add the installation.
 If the mounted files exist but the launchers are absent from ``PATH``, rebuild the Dev Container to apply its configured environment.
 
 Using the Diamond image
@@ -169,7 +220,7 @@ For a manual build, the Dockerfile provides ``TOOLCHAIN_BASE``; its default is
      --build-arg TOOLCHAIN_BASE=lattice-diamond:3.14.0.75.2 \
      -f .devcontainer/Dockerfile -t uz-cpld-toolchain-diamond .
    docker run --rm -it --init --platform linux/amd64 \
-     --network=bridge --mac-address=10:91:d1:3d:14:ae \
+     --network=name=bridge,mac-address=10:91:d1:3d:14:ae \
      --user "$(id -u):$(id -g)" --env HOME=/tmp \
      --mount "type=bind,source=$PWD,target=/work" \
      uz-cpld-toolchain-diamond bash
@@ -190,13 +241,13 @@ Diamond and licensing
    * - Variable
      - Meaning
    * - ``DIAMOND_HOST_ROOT``
-     - Optional absolute host installation path mounted by the Dev Container.
+     - Host setup override for the Linux installation path; ``none`` disables the mount's installation.
    * - ``DIAMOND_IMAGE``
      - Optional Diamond image repository name without a tag for the image profiles.
    * - ``DIAMOND_TAG``
      - Diamond image tag for the image profiles, defaulting to ``3.14.0.75.2``.
    * - ``DIAMOND_ROOT``
-     - Runtime installation root, defaulting to ``/opt/diamond``.
+     - Runtime installation root, defaulting to ``/opt/diamond``. Also accepted as a host setup fallback.
    * - ``DIAMOND_CLI`` / ``DIAMOND_GUI``
      - Python frontend executable overrides; values are paths, not shell commands.
    * - ``LM_LICENSE_FILE``

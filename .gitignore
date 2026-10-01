@@ -12,3 +12,6 @@ selection.toml
 
 # Persistent Windows workspace and registry locks.
 .cpld.lock
+
+# Host-specific Diamond selection and mount link; never include the installation.
+.devcontainer/.local/

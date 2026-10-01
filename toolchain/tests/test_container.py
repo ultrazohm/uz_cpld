@@ -2,6 +2,7 @@
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import tempfile
 import unittest
@@ -50,8 +51,10 @@ class ContainerStartupTests(unittest.TestCase):
                 self.assertEqual(config['remoteUser'], 'vscode')
                 self.assertFalse(config['overrideCommand'])
                 args = config['runArgs']
-                self.assertIn('--mac-address=10:91:d1:3d:14:ae', args)
-                self.assertIn('--network=bridge', args)
+                self.assertIn('--network=name=bridge,mac-address=10:91:d1:3d:14:ae', args)
+                self.assertIn('--cap-add=NET_ADMIN', args)
+                self.assertEqual(config['postStartCommand'], 'bash .devcontainer/setup-network.sh')
+                self.assertEqual(config['waitFor'], 'postStartCommand')
                 self.assertEqual('type=bind,source=/dev/bus/usb,target=/dev/bus/usb' in args, usb)
                 if usb:
                     self.assertIn('--device-cgroup-rule=c 189:* rwm', args)
@@ -60,13 +63,16 @@ class ContainerStartupTests(unittest.TestCase):
                     self.assertEqual(build['args']['TOOLCHAIN_BASE'],
                                      '${localEnv:DIAMOND_IMAGE:lattice-diamond}:${localEnv:DIAMOND_TAG:3.14.0.75.2}')
                     self.assertFalse(any('/opt/diamond' in arg for arg in args))
+                    self.assertNotIn('initializeCommand', config)
                     self.assertEqual(config['containerEnv']['LM_LICENSE_FILE'],
                                      '/opt/diamond/license/license.dat')
                 else:
                     self.assertNotIn('TOOLCHAIN_BASE', build.get('args', {}))
-                    index = args.index('--volume')
+                    self.assertEqual(config['initializeCommand'],
+                                     ['bash', '${localWorkspaceFolder}/.devcontainer/prepare-host.sh'])
+                    index = args.index('--mount')
                     self.assertEqual(args[index + 1],
-                                     '${localEnv:DIAMOND_HOST_ROOT:uz-cpld-no-diamond}:/opt/diamond:ro')
+                                     'type=bind,source=${localWorkspaceFolder}/.devcontainer/.local/diamond,target=/opt/diamond,readonly')
                     self.assertEqual(config['containerEnv']['LM_LICENSE_FILE'],
                                      '${localEnv:LM_LICENSE_FILE}')
 
@@ -102,3 +108,77 @@ class ContainerStartupTests(unittest.TestCase):
             result = self.run_entrypoint(temp, 'true', override='true')
         self.assertEqual(result.returncode, 0)
         self.assertIn('Diamond found: true', result.stderr)
+
+
+class HostDiamondSetupTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory(prefix='diamond host ')
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name)
+        self.script = self.root / '.devcontainer/prepare-host.sh'
+        self.script.parent.mkdir()
+        shutil.copy2(ENTRYPOINT.with_name('prepare-host.sh'), self.script)
+        self.state = self.script.parent / '.local'
+        # This child process has an isolated home, like a different Docker host.
+        self.env = {key: value for key, value in os.environ.items()
+                    if key not in ('DIAMOND_ROOT', 'DIAMOND_HOST_ROOT', 'LM_LICENSE_FILE')}
+        self.env['HOME'] = str(self.root / 'home')
+
+    def install(self, path):
+        launcher = path / 'bin/lin64/diamondc'
+        launcher.parent.mkdir(parents=True)
+        launcher.write_text('#!/bin/sh\necho unexpected-launch >&2\nexit 1\n')
+        launcher.chmod(0o755)
+        return path
+
+    def prepare(self, **env):
+        return subprocess.run(['bash', str(self.script)], env={**self.env, **env},
+                              capture_output=True, text=True, timeout=10)
+
+    def test_default_installation_is_detected_and_saved_without_running_it(self):
+        path = self.install(Path(self.env['HOME']) / 'lscc/diamond/3.14')
+        result = self.prepare()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual((self.state / 'diamond').resolve(), path)
+        self.assertEqual((self.state / 'diamond-root').read_text().strip(), str(path))
+        self.assertNotIn('unexpected-launch', result.stderr)
+
+    def test_runtime_variable_is_accepted_and_selection_survives_lost_environment(self):
+        path = self.install(self.root / "custom Diamond ' $tools")
+        result = self.prepare(DIAMOND_ROOT=str(path), DIAMOND_HOST_ROOT='')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        result = self.prepare()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual((self.state / 'diamond').resolve(), path)
+
+    def test_host_override_takes_precedence_and_can_disable_diamond(self):
+        path = self.install(self.root / 'custom')
+        result = self.prepare(DIAMOND_HOST_ROOT=str(path), DIAMOND_ROOT='/not-present')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual((self.state / 'diamond').resolve(), path)
+        result = self.prepare(DIAMOND_HOST_ROOT='none')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual((self.state / 'diamond').resolve(), self.state / 'empty-diamond')
+        self.assertEqual(self.prepare().returncode, 0)
+        self.assertEqual((self.state / 'diamond').resolve(), self.state / 'empty-diamond')
+
+    def test_missing_default_allows_foss_and_detects_a_later_installation(self):
+        result = self.prepare()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue((self.state / 'diamond').is_dir())
+        self.assertFalse((self.state / 'diamond-root').exists())
+        path = self.install(Path(self.env['HOME']) / 'lscc/diamond/3.14')
+        self.assertEqual(self.prepare().returncode, 0)
+        self.assertEqual((self.state / 'diamond').resolve(), path)
+
+    def test_invalid_explicit_or_saved_path_fails_without_replacing_mount(self):
+        path = self.install(self.root / 'custom')
+        self.assertEqual(self.prepare(DIAMOND_ROOT=str(path)).returncode, 0)
+        result = self.prepare(DIAMOND_HOST_ROOT=str(self.root / 'typo'))
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('Full Diamond launcher not found', result.stderr)
+        self.assertEqual((self.state / 'diamond').resolve(), path)
+        (path / 'bin/lin64/diamondc').chmod(0o644)
+        result = self.prepare()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('Full Diamond launcher not found', result.stderr)

@@ -150,7 +150,7 @@ jobs:
       - name: Build every catalog program in the release
         run: |
           docker run --rm --init --platform linux/amd64 \
-            --network=bridge --mac-address=10:91:d1:3d:14:ae \
+            --network=name=bridge,mac-address=10:91:d1:3d:14:ae \
             --user "$(id -u):$(id -g)" --env HOME=/tmp \
             --env LM_LICENSE_FILE=/opt/diamond/license/license.dat \
             --env RELEASE_CYCLE \

@@ -6,6 +6,8 @@ Programs live under `programs/<release_cycle>/<program>/`; `programs/releases.to
 
 **S3C controllers:** `s3c_power_on_debounce` is based on the December 2024 source (`6794ce2`); `s3c_rev6_beta` uses the October 2025 Rev06 sources and constraints from `2107cd5`, with one unused driver commented out for GHDL synthesis. Both use static safe-state signaling without a heartbeat. See [S3C provenance and scope](docs/s3c.rst) for exact revisions, differences, and validation limits.
 
+See the [tools and environment overview](docs/tool-environments.rst) for native Linux/Windows, venv and Docker support.
+
 Run `python -m toolchain help` for available commands. Start with [the quick start](docs/quick-start.rst) for creating, simulating, and building a program; see [verification and limits](docs/validation.rst) before using a firmware export.
 
 Use VS Code's **Dev Containers: Reopen in Container** to build and start the development environment, or run `python -m toolchain image` to build the same image for manual use. Diamond is optional; startup reports whether it is found. See [environment setup](docs/environments.rst) for run commands and the optional Diamond mount.

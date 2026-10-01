@@ -3,10 +3,8 @@ import argparse
 from pathlib import Path
 import subprocess
 import sys
-import tempfile
 from .model import BuildError, catalog, load_build, load_output, program_backends, program_targets, release_cycles, resolve_release
 from . import workflow
-from .backends.diamond import launcher, run, wrap
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -53,6 +51,9 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == 'clean-all':
             workflow.clean_all(root)
             return 0
+        if args.command == 'doctor':
+            from toolchain.doctor import report
+            return report(root, backend=args.backend or 'diamond', release_cycle=args.release_cycle, target=args.target)
         cycle = resolve_release(root, args.release_cycle)
         def selected_builds(collect_errors=False):
             builds = []
@@ -83,22 +84,6 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == 'list':
             for build in selected_builds():
                 print(f'{build.qualified_name}\t{build.target}\t{build.backend}')
-        elif args.command == 'doctor':
-            builds = selected_builds()
-            print(f'Python: {sys.version.split()[0]}')
-            if args.backend == 'foss' or (builds and builds[0].backend == 'foss'):
-                if not builds:
-                    raise BuildError('No FOSS programs selected; choose a release cycle with a FOSS program for doctor')
-                from .backends.foss import doctor
-                for device, build in {build.device: build for build in builds}.items():
-                    print(f'{device}: {doctor(build)}')
-            else:
-                print(f'Diamond: {launcher()}')
-                with tempfile.TemporaryDirectory(prefix='cpld-doctor-') as tmp:
-                    script = Path(tmp) / 'doctor.tcl'
-                    script.write_text(wrap(['if {[llength [info commands prj_project]] == 0} {error "Project Tcl unavailable"}', 'puts "Diamond project Tcl available"']))
-                    print(run(script, Path(tmp) / 'doctor.log').strip())
-            print('Catalog and tool startup passed; run build to validate synthesis and exports.')
         elif args.command == 'new':
             if not args.name:
                 raise BuildError('new requires --name (Make: name=...)')

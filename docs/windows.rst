@@ -61,8 +61,10 @@ installation's ``license/license.dat`` when present, preserving any additional
 ``LM_LICENSE_FILE`` entries. The launcher and environment conventions follow
 Lattice's `Scripting Lattice FPGA Build Flow
 <https://www.latticesemi.com/view_document?document_id=54075>`_.
-``doctor`` checks source availability and Diamond Tcl startup; a successful build
-is still required to validate synthesis, licensing and firmware exports.
+``doctor`` lists installed and missing tools plus catalog state. It does not
+start Diamond or validate a license; a successful build is still required to
+validate synthesis, licensing and firmware exports. See :doc:`commands` for
+the report states and exit behavior.
 
 Generate and build
 ------------------

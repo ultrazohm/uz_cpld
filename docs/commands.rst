@@ -14,6 +14,53 @@ wrapper around the same dispatcher; its option names use underscores.
 For example, ``make build program=tx30 release_cycle=original`` is equivalent
 to ``python -m toolchain build --program tx30 --release-cycle original``.
 
+Inspect the current environment
+-------------------------------
+
+Run::
+
+   python -m toolchain doctor
+
+``doctor`` reports the current operating environment, Python executable,
+active venv, Python packages, Diamond executables, simulation/FOSS tools,
+Docker/Podman clients, FOSS installation receipts and selected catalog.
+It lists all tool groups even when one backend is selected. ``--backend``,
+``--target`` and ``--release-cycle`` scope the catalog check.
+
+Example status rows (actual paths and versions depend on the installation)::
+
+   FOUND        Diamond build CLI          .../diamondc (startup not tested)
+   MISSING      Diamond Programmer         ...
+   OK           GHDL                       .../ghdl; GHDL 4.1.0 ...
+   FAILED       Yosys (RTL diagrams)       ...: exit 1; ...
+   MISSING      Sphinx                     not installed in this Python environment
+
+``FOUND`` means a package or executable was located, without testing its
+imports or startup. ``OK`` for an external tool means its version command
+succeeded. ``MISSING``, ``FAILED`` and ``TIMEOUT`` distinguish absent tools
+from tools that could not run; each version check has a five-second timeout.
+``MATCH``/``MISMATCH`` compare installation receipts against repository pins;
+``INVALID`` identifies an unreadable receipt or invalid catalog. A configured
+license is reported separately from license validity.
+
+Missing optional tools and diagnostic findings do not make the report fail:
+``doctor`` returns zero when it completes. This is an inventory, not a build
+readiness gate. Build, simulation and programming commands retain their strict
+dependency and provenance checks. No Diamond process or hardware operation is
+started. License validity, synthesis, USB permissions, Docker daemon access
+and image availability are not tested.
+
+``doctor`` defaults to the current environment for both backends; it does not
+automatically launch Docker for ``--backend foss``. To compare the image's
+installed tools with the host::
+
+   python -m toolchain image
+   python -m toolchain doctor --runner container
+
+Inside an existing Dev Container this uses the current container. To inspect
+a venv, activate it first or run its Python executable directly. Creating a
+venv alone does not change the interpreter running ``doctor``.
+
 From a clean clone to programmed hardware
 -----------------------------------------
 

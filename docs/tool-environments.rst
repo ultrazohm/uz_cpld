@@ -63,6 +63,12 @@ acceptance; the FOSS MachXO2 flow remains experimental. See :doc:`windows`,
      - Native Windows
      - Repository venv
      - Docker / Dev Container
+   * - Environment inventory: ``doctor``
+     - Python; bounded version checks for discovered non-vendor CLI tools
+     - Reports installed and missing tools
+     - Same reporting behavior
+     - Reports packages in the active interpreter
+     - Reports tools inside the image
    * - VHDL generation: ``new --template generator``, ``generate``; standalone ``cpld-vhdl-generator``
      - Python, generator and shared HDL
      - Available
@@ -75,7 +81,7 @@ acceptance; the FOSS MachXO2 flow remains experimental. See :doc:`windows`,
      - Implemented
      - Python dependencies included
      - Python dependencies included
-   * - Diamond firmware: ``project``, ``build``, ``build-all``, ``doctor``
+   * - Diamond firmware: ``project``, ``build``, ``build-all``
      - Diamond CLI, runtime libraries and license
      - Additional Linux Diamond setup
      - Implemented with Windows Diamond
@@ -165,9 +171,11 @@ An activated venv does not alter it.
 
    * - Command
      - Default execution
+   * - ``doctor`` (either backend)
+     - Reports the current environment; use ``--runner container`` to inspect the image explicitly.
    * - Plain ``build-all`` or ``build --program NAME``
      - Local Diamond; no new container starts.
-   * - FOSS ``build``, ``build-all``, ``project`` or ``doctor``
+   * - FOSS ``build``, ``build-all`` or ``project``
      - Starts a temporary toolchain container on the host.
    * - ``sim``, ``netlist``, ``docs``, ``docs-assets``
      - Starts a temporary toolchain container on the host.
@@ -188,7 +196,7 @@ started, correctly configured container.
 ``--runner local`` uses tools installed in the current environment. It does
 not install missing tools or silently switch backends. ``--runner container``
 on a host supports FOSS firmware actions, simulation, analysis/documentation
-and tests. Build the image first with ``python -m toolchain image``; normal
+and tests, plus ``doctor`` for either backend. Build the image first with ``python -m toolchain image``; normal
 commands never rebuild it implicitly.
 
 The generic runner mounts the checkout only. It does not forward Diamond or

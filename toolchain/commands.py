@@ -20,7 +20,7 @@ PROBE = {'backend', 'programmer_backend', 'target', 'probe_index', 'cable', 'usb
 
 # The native Windows suite excludes Linux-only tool and shell integrations.
 WINDOWS_TESTS = (
-    'toolchain.tests.test_platform', 'toolchain.tests.test_commands', 'toolchain.tests.test_venv',
+    'toolchain.tests.test_doctor', 'toolchain.tests.test_platform', 'toolchain.tests.test_commands', 'toolchain.tests.test_venv',
     'toolchain.tests.test_identity.IdentityTests.test_concurrent_allocations_are_unique_and_repeated_allocation_is_stable',
     'toolchain.tests.test_identity.IdentityTests.test_concurrent_same_build_reuses_one_revision',
     'cpld_vhdl_generator.tests.test_generator', 'programmer_helper.tests.test_program',
@@ -45,7 +45,7 @@ def spec(group, example, description, options=(), required=()):
 COMMANDS = {
     'image': spec('Environment', 'image', 'Build the container tools (optional for native Diamond)', CONTAINER),
     'venv': spec('Environment', 'venv [activate=0|1]', 'Install native Python dependencies and open an activated shell', {'activate'}),
-    'doctor': spec('Environment', 'doctor', 'Check Diamond and catalog inputs; backend=foss checks FOSS', FIRMWARE),
+    'doctor': spec('Environment', 'doctor', 'Report this environment and installed/missing tools; no hardware access', FIRMWARE),
     'docs': spec('Documentation', 'docs [release_cycle=all]', 'Generate assets and HTML; defaults to the current release', {'program', 'target', 'release_cycle', 'jobs'}),
     'docs-assets': spec('Documentation', 'docs-assets [program=NAME]', 'Generate documentation assets without rendering HTML', {'program', 'target', 'release_cycle', 'jobs'}),
     'netlist': spec('Documentation', 'netlist [program=NAME]', 'Export RTL diagrams; defaults to the current catalog', {'program', 'target', 'release_cycle'}),
@@ -146,7 +146,7 @@ def shared_help(style='make'):
         '  ' + argument_text('image', CONTAINER, style),
         '  Defaults: container_engine=docker; container_platform=linux/amd64;',
         '  toolchain_image=uz-cpld-toolchain. Container execution supports sim, netlist,',
-        '  docs, docs-assets, test, and FOSS build/build-all/project/doctor.',
+        '  docs, docs-assets, test, doctor, and FOSS build/build-all/project.',
         '',
         'Use ' + example_text('help command=ACTION', style) + ' to focus on one command. Unsupported options are errors.',
         'Run one action per invocation. Make remains an optional Linux convenience wrapper.',
@@ -244,9 +244,9 @@ def plan(action, options, *, root=ROOT, cwd=None, environ=None):
     programmer_backend = options.get('programmer_backend', backend)
     runner = options.get('runner', 'auto')
     inside = environ.get('CPLD_TOOLCHAIN_CONTAINER') == '1'
-    firmware_tools = {'build', 'build-all', 'project', 'doctor'}
+    firmware_tools = {'build', 'build-all', 'project'}
     analysis_tools = {'sim', 'netlist', 'docs', 'docs-assets'}
-    container_capable = analysis_tools | {'test'} | (firmware_tools if build_backend == 'foss' else set())
+    container_capable = analysis_tools | {'test', 'doctor'} | (firmware_tools if build_backend == 'foss' else set())
     if runner == 'auto':
         runner = 'container' if not inside and (action in analysis_tools or
                     action in firmware_tools and build_backend == 'foss') else 'local'
@@ -291,6 +291,8 @@ def plan(action, options, *, root=ROOT, cwd=None, environ=None):
                     value = TARGETS[value]
                 result += ['--' + key.replace('_', '-'), value]
         return result
+    if action == 'doctor':
+        return [invoke('toolchain.doctor', ['--backend', build_backend, *flags('target', 'release_cycle')])]
     if action == 'venv':
         return [invoke('toolchain.venv', ['--activate', options.get('activate', '1')])]
     if action in ('init', 'scan', 'identify', 'program', 'programmer-project'):

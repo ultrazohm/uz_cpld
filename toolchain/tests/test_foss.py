@@ -48,9 +48,13 @@ class FossTests(unittest.TestCase):
         from toolchain.buildsystem.releases import create
         from toolchain.buildsystem.cli import main
         create(self.root, 'empty')
-        with patch('toolchain.buildsystem.cli.launcher') as launcher:
-            self.assertEqual(main(['doctor', '--root', str(self.root), '--backend', 'foss']), 1)
-        launcher.assert_not_called()
+        from contextlib import redirect_stdout
+        import io
+        from toolchain.doctor import Finding
+        with patch('toolchain.doctor.probe', return_value=Finding('tool', 'MISSING', 'test')), \
+                patch('toolchain.doctor.locate', return_value=None), redirect_stdout(io.StringIO()) as output:
+            self.assertEqual(main(['doctor', '--root', str(self.root), '--backend', 'foss']), 0)
+        self.assertIn('selection is empty', output.getvalue())
 
     def test_nonzero_vector_offsets_and_conflicting_pin_settings(self):
         self.fake_database()

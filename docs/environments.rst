@@ -4,6 +4,11 @@ Environment setup
 See :doc:`tool-environments` for which tools each workflow needs, what the
 venv includes, and when commands launch Docker.
 
+Use ``python -m toolchain doctor`` for a non-failing inventory of the current
+environment, including missing optional tools. To inspect the toolchain image
+explicitly, use ``python -m toolchain doctor --runner container`` after building
+it. The report does not check out a Diamond license or contact hardware.
+
 Containers
 ----------
 

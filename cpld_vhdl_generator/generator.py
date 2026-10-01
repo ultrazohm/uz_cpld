@@ -316,11 +316,19 @@ def shared_sources(config):
 
 def source_entries(config, output):
     """Ordered sources and libraries for any consuming build tool."""
-    return [Source(p, 's3c') for p in shared_sources(config)] + [Source(Path(output) / (config.name + '.vhdl'), 'work')]
+    return [Source(p, 's3c') for p in shared_sources(config)] + [Source(Path(output).resolve() / (config.name + '.vhdl'), 'work')]
 
 
 def source_paths(config, output):
     return [s.path for s in source_entries(config, output)]
+
+
+def relative_path(path, base):
+    """Prefer relocatable references; Windows drives cannot share a relative path."""
+    try:
+        return Path(os.path.relpath(path, base)).as_posix()
+    except ValueError:
+        return path.as_posix()
 
 
 def receipt(config, output, files):
@@ -330,7 +338,7 @@ def receipt(config, output, files):
         'contract': config.contract,
         'inputs': {('s3c_library/' + p.name if p in shared_sources(config) else
                     'generator/' + p.relative_to(PACKAGE).as_posix() if p.is_relative_to(PACKAGE)
-                    else 'spec/' + Path(os.path.relpath(p, config.path.parent)).as_posix()): digest(p) for p in dependencies(config)},
+                    else 'spec/' + relative_path(p, config.path.parent)): digest(p) for p in dependencies(config)},
         'sources': [{'path': p.name, 'library': 's3c', 'base': 's3c_library'} for p in shared_sources(config)] +
                    [{'path': config.name + '.vhdl', 'library': 'work', 'base': 'output'}],
         'files': {name: hashlib.sha256(value.encode()).hexdigest() for name, value in files.items()},

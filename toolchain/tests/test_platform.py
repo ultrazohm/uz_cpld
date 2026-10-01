@@ -65,7 +65,7 @@ except BlockingIOError:
 class WindowsDispatchTests(unittest.TestCase):
     def test_windows_diamond_paths_environment_and_overrides(self):
         with tempfile.TemporaryDirectory(prefix='Diamond space ') as tmp:
-            root = Path(tmp)
+            root = Path(tmp).resolve()
             for name in ('bin/nt64/pnmainc.exe', 'bin/nt64/pnmain.exe',
                          'programmer/bin/nt64/pgrcmd.exe', 'license/license.dat'):
                 path = root / name

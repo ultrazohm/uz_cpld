@@ -1,17 +1,38 @@
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 import json
+import ntpath
 import shutil
 import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from cpld_vhdl_generator import GeneratorError, check, generate, load_config, source_entries
-from cpld_vhdl_generator.generator import read_toml
+from cpld_vhdl_generator.generator import read_toml, relative_path
 from cpld_vhdl_generator.toml import dumps
 from xo2_library import S3C_DIRECTORY
 
 
 class GeneratorTests(unittest.TestCase):
+    def test_references_across_windows_drives_and_shares_use_absolute_paths(self):
+        for source, output in (
+            ('D:/shared library/logic.vhdl', 'C:/generated'),
+            ('//server/library/logic.vhdl', '//server/projects/generated'),
+        ):
+            source, output = PureWindowsPath(source), PureWindowsPath(output)
+            with self.subTest(source=source), patch('cpld_vhdl_generator.generator.os.path.relpath', ntpath.relpath):
+                self.assertEqual(relative_path(source, output), source.as_posix())
+
+    def test_same_drive_references_remain_relative(self):
+        self.assertEqual(relative_path(self.root / 'shared/logic.vhdl', self.root / 'generated'),
+                         '../shared/logic.vhdl')
+
+    def test_source_entries_resolve_output_aliases_like_generate(self):
+        output = self.root / 'nested/../generated'
+        sources = generate(self.config, output)
+        entries = source_entries(load_config(self.config), output)
+        self.assertEqual([source.path for source in entries], sources)
+
     def test_toml_roundtrip_unicode_and_quoted_keys(self):
         data = {'key with spaces': 'shared_🚀/logic.vhdl', 'nested': {'a.b': True},
                 'list': [3, 1.25, 'line\n"quoted"\\path\x7f']}

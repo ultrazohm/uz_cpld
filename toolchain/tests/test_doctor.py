@@ -97,6 +97,8 @@ class DoctorTests(unittest.TestCase):
 
     def test_report_survives_missing_tools_packages_and_bad_catalog(self):
         with tempfile.TemporaryDirectory() as tmp, \
+                patch.object(doctor.platform, 'system', return_value='Windows'), \
+                patch.object(doctor.platform, 'machine', return_value='AMD64'), \
                 patch.dict(os.environ, {'FOSS_ROOT': tmp, 'DIAMOND_ROOT': tmp}, clear=True), \
                 patch.object(doctor, 'package', side_effect=lambda name, module=None: doctor.Finding(name, 'MISSING', 'not installed')), \
                 patch.object(doctor, 'locate', return_value=None), \

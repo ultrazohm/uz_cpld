@@ -1,8 +1,5 @@
 """Generate a repository manifest, board constraints and a routing testbench."""
-import os
-from pathlib import Path
-
-from .generator import PACKAGE, source_entries
+from .generator import PACKAGE, relative_path, source_entries
 from .toml import dumps
 
 
@@ -13,14 +10,14 @@ def render_project(config, output):
         'name': name, 'top': name, 'standard': config.standard, 'synthesis': config.synthesis,
         'targets': [config.target], 'backends': list(config.backends),
         'constraints': [name + '_constraints.lpf'],
-        'generator': Path(os.path.relpath(config.path, output)).as_posix(),
-        'sources': [{'path': Path(os.path.relpath(source.path, output)).as_posix(), 'library': source.library}
+        'generator': relative_path(config.path, output),
+        'sources': [{'path': relative_path(source.path, output), 'library': source.library}
                     for source in source_entries(config, output)],
         'testbench': name + '_tb.py',
     }
 
     if config.foss_equivalence_blacklist:
-        manifest['foss_equivalence_blacklist'] = Path(os.path.relpath(config.foss_equivalence_blacklist, output)).as_posix()
+        manifest['foss_equivalence_blacklist'] = relative_path(config.foss_equivalence_blacklist, output)
 
     contract = config.contract
     parameters = {

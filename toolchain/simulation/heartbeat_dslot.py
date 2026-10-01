@@ -36,33 +36,36 @@ async def exercise_program(dut, provenance_path):
             dut.clk.value = 1
             await Timer(5, unit='ns')
 
-    async def check(normal):
+    async def check(normal, system_error=False):
         await Timer(1, unit='ns')
         assert int(dut.slotok.value) == int(normal), 'SlotOK'
-        assert int(dut.reqoe.value) == 1, 'ReqOE must remain high in safe state'
+        assert int(dut.reqoe.value) == int(not system_error), 'ReqOE'
+        assert int(dut.system_error.value) == int(system_error), 'system_error'
         for pin, route in routes.items():
             source = route['source']
             value = heartbeat_level if source == 'carrierrdy' else values[source]
-            expected = value if normal or not route['gated'] else 0
+            expected = 0 if system_error else (value if normal or not route['gated'] else 0)
             assert int(getattr(dut, pin).value) == expected, (pin, route, normal, expected)
+        for pin in upstream['undriven_outputs']:
+            assert str(getattr(dut, pin).value).upper() == ('0' if system_error else 'Z'), pin
 
-    async def patterns(normal):
+    async def patterns(normal, system_error=False):
         # Drive all data inputs with zero/one and walking-one/walking-zero patterns.
         # Enable pins remain at the permitted pattern until their own test below.
         for background in (0, 1):
             for pin in values:
                 values[pin] = enable.get(pin, background)
                 getattr(dut, pin).value = values[pin]
-            await check(normal)
+            await check(normal, system_error)
             for pin in values:
                 if pin in enable:
                     continue
                 values[pin] = 1 - background
                 getattr(dut, pin).value = values[pin]
-                await check(normal)
+                await check(normal, system_error)
                 values[pin] = background
                 getattr(dut, pin).value = background
-            await check(normal)
+            await check(normal, system_error)
 
     await tick(220)
     await patterns(False)  # A static CarrierReady cannot qualify.
@@ -114,26 +117,6 @@ async def exercise_program(dut, provenance_path):
     await tick(2)
     await check(True)
 
-    heartbeat_running = False
-    await tick(212)
-    await patterns(False)
-    heartbeat_running = True
-    phase = 0
-    await tick(21 * 14)
-    await check(False)
-    await tick(21 * 4)
-    await check(True)
-
-    # The stricter shared receiver must reject a pulse train with short intervals.
-    period = 9
-    phase = 0
-    await tick(9 * 20)
-    await patterns(False)
-    period = 21
-    phase = 0
-    await tick(21 * 18)
-    await check(True)
-
     # Observe raw diagnostic routes on both heartbeat levels, also in safe state.
     for safe_request in (0, 1):
         dut.reqsafestate.value = safe_request
@@ -141,3 +124,21 @@ async def exercise_program(dut, provenance_path):
         for _ in range(45):
             await tick()
             await check(not safe_request)
+
+    # Fault detection remains armed during safe state. Previously ungated and
+    # diagnostic outputs, and formerly undriven ports, must all become zero.
+    heartbeat_running = False
+    await tick(212)
+    await patterns(False, system_error=True)
+    heartbeat_running = True
+    phase = 0
+    await tick(21 * 20)
+    await patterns(False, system_error=True)
+    for safe_request in (0, 1, 0):
+        dut.reqsafestate.value = safe_request
+        dut.pilot_in.value = safe_request
+        for pin in enable:
+            values[pin] ^= 1
+            getattr(dut, pin).value = values[pin]
+        await tick(21 * 20)
+        await patterns(False, system_error=True)

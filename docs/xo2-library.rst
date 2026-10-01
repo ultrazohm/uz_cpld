@@ -68,8 +68,9 @@ Heartbeat implementation
 
 Compile ``s3c_logic.vhdl`` followed by ``heartbeat.vhdl`` into library ``s3c``
 and instantiate ``entity s3c.s3c_logic(heartbeat)``. The ports and state/status
-outputs are identical to ``level_signals``; routing can use the same normal/safe
-selection. Neither architecture requires the historical ``xo2_libraries`` Git
+outputs are identical to ``level_signals``, including ``state_system_error``.
+The level-based architecture holds that output low because it has no heartbeat
+fault source. Neither architecture requires the historical ``xo2_libraries`` Git
 submodule. The heartbeat receiver is implemented in this shared library.
 
 The protocol comes from ``feature/add_dig3v35v_configs_heartbeat`` at
@@ -83,14 +84,33 @@ The protocol comes from ``feature/add_dig3v35v_configs_heartbeat`` at
   The S3C may keep sending heartbeat while requesting safe state.
 * Normal operation requires a qualified heartbeat, a released safety gate,
   synchronized ``card_enable='1'``, and the configured pilot condition.
-* Reset, unqualified/lost/malformed heartbeat, active or unknown request, or an
-  unmet enable/pilot condition selects safe state. Recovery is automatic.
+* Before the first complete qualification, missing or malformed heartbeat
+  selects safe state without latching an error.
+* An active or unknown request, reset, or unmet enable/pilot condition selects
+  safe state, with automatic recovery while heartbeat remains healthy.
+* The first qualified sequence permanently arms fault detection. A later
+  timeout, malformed edge interval or unknown heartbeat value latches
+  ``system_error``, including during reset or a static safe request.
 
 The default outputs are ``state_normal/SlotOK=1`` only in normal state,
-``state_safe=1`` otherwise, and ``ReqOE=1`` in both states. Keeping ReqOE high
+``state_safe=1`` only in safe state, and ``ReqOE=1`` in normal and safe states. Keeping ReqOE high
 lets the program drive its selected safe values; safe state does not inherently
 mean high impedance. To retain an RX path in safe state, use the same source
-in both CSV columns. The default implementation does not latch faults.
+in both CSV columns. In system_error, only ``state_system_error`` is high;
+``state_normal``, ``state_safe``, ``SlotOK`` and ``ReqOE`` are all zero,
+regardless of configured normal/safe status levels. Every consuming slot must
+override all its data outputs to zero in this state. CVG always generates this
+override, including for RX, constant-one and high-impedance routes.
+ReqOE low asks the S3C to disable the physical output drivers; the RTL zero
+values do not imply a driven-low level beyond a disabled buffer.
+
+Heartbeat recovery, runtime reset, safe requests, pilot and card enable cannot
+clear the fault or disarm detection. Only CPLD power-on initialization clears
+the sticky flags. Reconfiguration can also reinitialize them. A local latch
+cannot distinguish a full-system power cycle from independent D-slot power
+loss: full-system-only recovery requires the appropriate supply/retention
+arrangement. Verify initialization in the fitted design. The S3C intentionally
+stops heartbeat during shutdown, which latches a fault in slots still powered.
 
 Example instantiation:
 
@@ -108,8 +128,12 @@ Example instantiation:
            reqsafestate => request_safe, carrierrdy => carrier_ready,
            pilot_in => pilot, card_enable => enable,
            state_normal => normal_state, state_safe => safe_state,
+           state_system_error => system_error,
            slotok => slot_ok, reqoe => request_oe
        );
+
+   adapter_output <= '0' when system_error = '1' else
+                     fpga_input when normal_state = '1' else '0';
 
 Heartbeat is always required by this architecture, regardless of the legacy
 ``USE_CARRIER_READY`` generic; ``CARRIER_READY_LEVEL`` is also ignored because
@@ -134,8 +158,9 @@ or warmup counter. Heartbeat monitoring continues during a static safe-state
 request, including initial qualification, malformed-edge rejection and timeout.
 
 Asserting ``ReqSafeState`` asynchronously clears both stages of the release
-synchronizer. All state/status outputs select their safe values without waiting
-for a clock edge. An unknown request also forces safe outputs in simulation.
+synchronizer. Unless system_error is already latched, state/status outputs
+select their safe values without waiting for a clock edge. An unknown request
+also forces safe outputs in simulation. A latched error always takes priority.
 Deasserting the request releases the gate on the second rising clock edge,
 without requiring a new heartbeat qualification if the monitor is still valid.
 An assertion entirely between clock edges still closes the gate and requires
@@ -147,13 +172,14 @@ A missing edge revokes qualification on clock 208 after the last observed edge
 (approximately 100 microseconds), whether CarrierReady is stuck high or low.
 Out-of-window edges revoke qualification immediately when observed and start
 a new sequence at count one. Unknown heartbeat values clear qualification.
-Reset clears the history, and recovery from a heartbeat fault requires a fresh
-qualified sequence. Enable and pilot inputs retain their two-register
+Before arming, reset clears heartbeat history. After arming, the monitor keeps
+running through reset, and any fault is permanent until power-on initialization;
+a fresh qualified sequence cannot restore permission. Enable and pilot inputs retain their two-register
 synchronizers; their state/status effects now occur on the second sampling
 edge because output selection is combinational. ``level_signals`` retains its
 original three-edge control latency.
 
-Clock-dependent recovery does not detect a failure of the receiver's own clock.
+Clock-dependent monitoring does not detect a failure of the receiver's own clock.
 When that clock stops, qualification and timeout counters freeze. After the
 clock resumes, a previously qualified heartbeat can temporarily remain valid
 until the monitor observes a malformed edge or reaches its timeout. There is

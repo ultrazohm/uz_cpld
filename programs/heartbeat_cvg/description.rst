@@ -16,13 +16,18 @@ current handwritten source hashes, copied S3C hashes and per-program cleanup.
 .. rubric:: Behavior and cleanup
 
 Every assigned normal/safe route and card-enable pattern is preserved.
-Pilot is unused, SlotOK follows normal permission, and ReqOE remains high.
+Pilot is unused, SlotOK follows normal permission, and ReqOE remains high in
+normal and safe states.
 The shared ``s3c_heartbeat_v1`` contract selects ``s3c.s3c_logic(heartbeat)``:
 ReqSafeState asserts safe state without a clock, recovery takes two clock
 edges, and heartbeat qualification continues during safe-state requests.
 Ungated routes remain active even in safe state, including the legacy inverter,
-encoder and resolver mappings. This conversion does not add safety gating to
-those routes. See :doc:`/xo2-library` for heartbeat timing and clock limitations.
+encoder and resolver mappings. After the first qualified heartbeat, loss or
+malformed timing latches ``system_error``. Every declared data output, SlotOK
+and ReqOE is then zero, including those normally ungated routes. CSV cannot
+override this policy. Restored heartbeat and runtime reset cannot clear it.
+See :doc:`/xo2-library` for timing, power-on initialization, supply-domain and
+clock limitations; disabling output drivers does not force external pins low.
 
 The diagnostic ``tx30_hearbeattesting`` program is deliberately omitted.
 Previously declared but undriven outputs in ``template_dslots``,
@@ -53,8 +58,9 @@ For the D-slots, generated VHDL, manifests, constraints and cocotb tests are own
 generator and accompanied by freshness receipts. Regression checks compare
 all routes, enable patterns, pin directions and constraints to ``heartbeat``.
 The S3C regression checks its source and configuration against that release.
-Generated simulations exercise routing in both states, heartbeat qualification,
-loss and recovery, and clock-independent safe requests. RTL simulation and
+Generated simulations exercise normal/safe routing, the all-zero system-error
+override, fault persistence after heartbeat recovery, and clock-independent
+safe requests. RTL simulation and
 compilation do not establish board-level behavior. Creation-time validation
 passed all 28 RTL simulations and 85 generator, migration and build-system
 regression tests. Diamond ``build-all`` was attempted but stopped before

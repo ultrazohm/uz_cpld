@@ -96,6 +96,7 @@ entity SignalRouter is
 end SignalRouter;
 
 architecture Behavioral of SignalRouter is
+    signal system_error : std_logic;
 
 	SIGNAL clk: STD_LOGIC;
 
@@ -134,6 +135,7 @@ begin
             reqsafestate => reqsafestate, carrierrdy => carrierrdy,
             pilot_in => pilot_in, card_enable => user_enable_forwarding,
             state_normal => enable_forwarding, state_safe => open,
+            state_system_error => system_error,
             slotok => slotok, reqoe => reqoe
         );
 
@@ -145,42 +147,42 @@ begin
     -- Define the user specific enable_forwarding signal logic
 	user_enable_forwarding <= '1'; -- for resolver    
     -- Map ports
-    d_00 <= fpga_00;
-    d_01 <= fpga_01;
-    d_02 <= fpga_02;
-    d_03 <= fpga_03;
-    d_04 <= fpga_04;
-    d_05 <= fpga_05;
-    d_06 <= fpga_06;
-    d_07 <= fpga_07;
+    d_00 <= '0' when system_error = '1' else fpga_00;
+    d_01 <= '0' when system_error = '1' else fpga_01;
+    d_02 <= '0' when system_error = '1' else fpga_02;
+    d_03 <= '0' when system_error = '1' else fpga_03;
+    d_04 <= '0' when system_error = '1' else fpga_04;
+    d_05 <= '0' when system_error = '1' else fpga_05;
+    d_06 <= '0' when system_error = '1' else fpga_06;
+    d_07 <= '0' when system_error = '1' else fpga_07;
 	
-    fpga_08 <= d_08;
+    fpga_08 <= '0' when system_error = '1' else d_08;
 	
-    d_09 <= fpga_09;
-    d_10 <= fpga_10;
-    d_11 <= fpga_11;
-    d_12 <= fpga_12;
-    d_13 <= fpga_13;
-    d_14 <= fpga_14;
-    d_15 <= fpga_15;
-    d_16 <= fpga_16;
+    d_09 <= '0' when system_error = '1' else fpga_09;
+    d_10 <= '0' when system_error = '1' else fpga_10;
+    d_11 <= '0' when system_error = '1' else fpga_11;
+    d_12 <= '0' when system_error = '1' else fpga_12;
+    d_13 <= '0' when system_error = '1' else fpga_13;
+    d_14 <= '0' when system_error = '1' else fpga_14;
+    d_15 <= '0' when system_error = '1' else fpga_15;
+    d_16 <= '0' when system_error = '1' else fpga_16;
 	
-    fpga_17 <= d_17;
+    fpga_17 <= '0' when system_error = '1' else d_17;
 	
-    d_18 <= fpga_18;
-    d_19 <= fpga_19;
-    d_20 <= fpga_20;
-    d_21 <= fpga_21;
-    d_22 <= fpga_22;
-    d_23 <= fpga_23;
-    d_24 <= fpga_24;
-    d_25 <= fpga_25;
+    d_18 <= '0' when system_error = '1' else fpga_18;
+    d_19 <= '0' when system_error = '1' else fpga_19;
+    d_20 <= '0' when system_error = '1' else fpga_20;
+    d_21 <= '0' when system_error = '1' else fpga_21;
+    d_22 <= '0' when system_error = '1' else fpga_22;
+    d_23 <= '0' when system_error = '1' else fpga_23;
+    d_24 <= '0' when system_error = '1' else fpga_24;
+    d_25 <= '0' when system_error = '1' else fpga_25;
 	
-    fpga_26 <= d_26;
+    fpga_26 <= '0' when system_error = '1' else d_26;
 	
-    d_27 <= fpga_27;
-    d_28 <= fpga_28;
-    d_29 <= fpga_29;
+    d_27 <= '0' when system_error = '1' else fpga_27;
+    d_28 <= '0' when system_error = '1' else fpga_28;
+    d_29 <= '0' when system_error = '1' else fpga_29;
 	
 	-- Make sure ports are not optimized away
 	dummy_signal <= i2c_scl AND i2c_sda AND carrierrdy AND pilot_in;

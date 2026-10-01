@@ -27,7 +27,15 @@ class HeartbeatCvgTests(unittest.TestCase):
                 source = ROOT / 'programs/heartbeat' / name / (name + '.vhdl')
                 self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), item['source_sha256'])
                 text = re.sub(r'--[^\n]*', '', source.read_text())
-                old_routes = routing(source.read_bytes())
+                # Compare normal/safe routes after removing the mandatory
+                # system-error override verified by the handwritten-port tests.
+                provenance = json.loads(source.with_name('upstream.json').read_text())
+                prefix = "'0' when system_error = '1' else "
+                old_routes = {}
+                for pin, expression in routing(source.read_bytes()).items():
+                    self.assertTrue(expression.startswith(prefix))
+                    if pin not in provenance['undriven_outputs']:
+                        old_routes[pin] = expression[len(prefix):]
                 directory = CYCLE / item['generated']
                 config = check(directory / 'generator.toml', directory)
                 expected = {}

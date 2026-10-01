@@ -239,6 +239,7 @@ def render(config, output=None):
     text = HEADER + 'library s3c;\n\n' + entity(config.name, ports(config, external))
     text += f'\narchitecture rtl of {config.name} is\n'
     text += '    signal s3c_normal_state, s3c_card_enable : std_logic;\n'
+    text += '    signal s3c_system_error : std_logic;\n'
     if not external:
         text += '''    signal s3c_clk : std_logic;
     component OSCH
@@ -256,7 +257,7 @@ def render(config, output=None):
     pairs = [('clk', 'clk' if external else 's3c_clk'), ('reset', 'reset' if external else "'0'")]
     pairs += [(name, name) for name in ('pilot_in', 'reqsafestate', 'carrierrdy', 'slotok', 'reqoe')]
     pairs += [('card_enable', 's3c_card_enable'), ('state_normal', 's3c_normal_state'),
-              ('state_safe', 'open')]
+              ('state_safe', 'open'), ('state_system_error', 's3c_system_error')]
     generics = [('REQUIRE_PILOT', str(config.pilot_policy == 'required').lower()),
                 ('REQUEST_SAFE_LEVEL', "'1'" if c['request_mode'] == 'active_high' else "'0'"),
                 ('USE_CARRIER_READY', str(c['carrier_ready'] != 'unused').lower()),
@@ -272,7 +273,7 @@ def render(config, output=None):
     for p in config.pins:
         if p.direction == 'out':
             normal, safe = map(action, p.actions)
-            text += f"    {p.name} <= {normal} when s3c_normal_state = '1' else {safe};\n"
+            text += f"    {p.name} <= '0' when s3c_system_error = '1' else {normal} when s3c_normal_state = '1' else {safe};\n"
     text += 'end architecture;\n'
     files = {config.name + '.vhdl': text}
     if config.target:

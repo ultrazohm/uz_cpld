@@ -65,14 +65,21 @@ class HeartbeatDslotPortTests(unittest.TestCase):
                     lines[start:start + len(new)] = old
                 original = b''.join(lines)
                 self.assertEqual(digest(original), provenance['original_sha256']['source'])
-                self.assertEqual(routing(original), routing(current))
+                expected_error_routes = {
+                    pin: "'0' when system_error = '1' else " + expression
+                    for pin, expression in routing(original).items()
+                }
+                expected_error_routes.update({pin: "'0' when system_error = '1' else 'z'"
+                                              for pin in provenance['undriven_outputs']})
+                self.assertEqual(routing(current), expected_error_routes)
                 expected = {pin: route['source'] + (' and enable_forwarding' if route['gated'] else '')
                             for pin, route in provenance['routes'].items()}
                 self.assertEqual(routing(original), expected)
                 constraints = (directory / f'{name}_constraints.lpf').read_bytes()
                 self.assertEqual(digest(constraints), provenance['original_sha256']['constraints'])
                 self.assertEqual(digest(constraints), provenance['ported_sha256']['constraints'])
-                # Preserve every port direction, including intentionally undriven outputs.
+                # Preserve every port direction; formerly undriven outputs now
+                # drive Z normally and zero on a latched heartbeat fault.
                 expression = rb'\b((?:fpga|d)_\d\d)\s*:\s*(in|out)\s+STD_LOGIC\b'
                 self.assertEqual(re.findall(expression, original, re.I), re.findall(expression, current, re.I))
                 decode = rb"user_enable_forwarding\s*<=\s*'1'\s+when[^;]+;"

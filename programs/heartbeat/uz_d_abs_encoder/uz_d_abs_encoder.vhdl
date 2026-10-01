@@ -92,6 +92,7 @@ entity SignalRouter is
 end SignalRouter;
 
 architecture Behavioral of SignalRouter is
+    signal system_error : std_logic;
 
 	SIGNAL clk: STD_LOGIC;
 
@@ -130,6 +131,7 @@ begin
             reqsafestate => reqsafestate, carrierrdy => carrierrdy,
             pilot_in => pilot_in, card_enable => user_enable_forwarding,
             state_normal => enable_forwarding, state_safe => open,
+            state_system_error => system_error,
             slotok => slotok, reqoe => reqoe
         );
 
@@ -146,29 +148,29 @@ begin
 	
 	-- Tx signals: ssi clk, RW_clk, RW_data
 	-- RW_data pins channels 1,2,3
-	d_05 <= fpga_11;
-	d_04 <= fpga_10;
-	d_14 <= fpga_20;
+	d_05 <= '0' when system_error = '1' else fpga_11;
+	d_04 <= '0' when system_error = '1' else fpga_10;
+	d_14 <= '0' when system_error = '1' else fpga_20;
 	
 	-- RW_clk pins channels 1,2,3
-	d_11 <= fpga_17;  
-	d_10 <= fpga_16;
-	d_17 <= fpga_23;
+	d_11 <= '0' when system_error = '1' else fpga_17;
+	d_10 <= '0' when system_error = '1' else fpga_16;
+	d_17 <= '0' when system_error = '1' else fpga_23;
 
 	-- ssi:clk pins channels 1,2,3
-	d_09 <= fpga_15;
-	d_08 <= fpga_14;
-	d_16 <= fpga_22;
+	d_09 <= '0' when system_error = '1' else fpga_15;
+	d_08 <= '0' when system_error = '1' else fpga_14;
+	d_16 <= '0' when system_error = '1' else fpga_22;
 	
 	-- Rx signals: data channels 1,2,3
-	fpga_07 <= d_01;
-	fpga_06 <= d_00;
-	fpga_18 <= d_12;
+	fpga_07 <= '0' when system_error = '1' else d_01;
+	fpga_06 <= '0' when system_error = '1' else d_00;
+	fpga_18 <= '0' when system_error = '1' else d_12;
 
 	-- Tx signals: data channels 1,2,3
-	d_03 <= fpga_08;
-	d_02 <= fpga_09;
-	d_13 <= fpga_12;
+	d_03 <= '0' when system_error = '1' else fpga_08;
+	d_02 <= '0' when system_error = '1' else fpga_09;
+	d_13 <= '0' when system_error = '1' else fpga_12;
 	
 	
 	-- Make sure ports are not optimized away

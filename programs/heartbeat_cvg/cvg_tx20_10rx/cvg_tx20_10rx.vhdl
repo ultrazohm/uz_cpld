@@ -78,6 +78,7 @@ end entity;
 
 architecture rtl of cvg_tx20_10rx is
     signal s3c_normal_state, s3c_card_enable : std_logic;
+    signal s3c_system_error : std_logic;
     signal s3c_clk : std_logic;
     component OSCH
         generic (NOM_FREQ : string := "2.08");
@@ -112,36 +113,37 @@ begin
             reqoe => reqoe,
             card_enable => s3c_card_enable,
             state_normal => s3c_normal_state,
-            state_safe => open
+            state_safe => open,
+            state_system_error => s3c_system_error
         );
-    fpga_20 <= d_20 when s3c_normal_state = '1' else d_20;
-    fpga_21 <= d_21 when s3c_normal_state = '1' else d_21;
-    fpga_22 <= d_22 when s3c_normal_state = '1' else d_22;
-    fpga_23 <= d_23 when s3c_normal_state = '1' else d_23;
-    fpga_24 <= d_24 when s3c_normal_state = '1' else d_24;
-    fpga_25 <= d_25 when s3c_normal_state = '1' else d_25;
-    fpga_26 <= d_26 when s3c_normal_state = '1' else d_26;
-    fpga_27 <= d_27 when s3c_normal_state = '1' else d_27;
-    fpga_28 <= d_28 when s3c_normal_state = '1' else d_28;
-    fpga_29 <= d_29 when s3c_normal_state = '1' else d_29;
-    d_00 <= fpga_00 when s3c_normal_state = '1' else '0';
-    d_01 <= fpga_01 when s3c_normal_state = '1' else '0';
-    d_02 <= fpga_02 when s3c_normal_state = '1' else '0';
-    d_03 <= fpga_03 when s3c_normal_state = '1' else '0';
-    d_04 <= fpga_04 when s3c_normal_state = '1' else '0';
-    d_05 <= fpga_05 when s3c_normal_state = '1' else '0';
-    d_06 <= fpga_06 when s3c_normal_state = '1' else '0';
-    d_07 <= fpga_07 when s3c_normal_state = '1' else '0';
-    d_08 <= fpga_08 when s3c_normal_state = '1' else '0';
-    d_09 <= fpga_09 when s3c_normal_state = '1' else '0';
-    d_10 <= fpga_10 when s3c_normal_state = '1' else '0';
-    d_11 <= fpga_11 when s3c_normal_state = '1' else '0';
-    d_12 <= fpga_12 when s3c_normal_state = '1' else '0';
-    d_13 <= fpga_13 when s3c_normal_state = '1' else '0';
-    d_14 <= fpga_14 when s3c_normal_state = '1' else '0';
-    d_15 <= fpga_15 when s3c_normal_state = '1' else '0';
-    d_16 <= fpga_16 when s3c_normal_state = '1' else '0';
-    d_17 <= fpga_17 when s3c_normal_state = '1' else '0';
-    d_18 <= fpga_18 when s3c_normal_state = '1' else '0';
-    d_19 <= fpga_19 when s3c_normal_state = '1' else '0';
+    fpga_20 <= '0' when s3c_system_error = '1' else d_20 when s3c_normal_state = '1' else d_20;
+    fpga_21 <= '0' when s3c_system_error = '1' else d_21 when s3c_normal_state = '1' else d_21;
+    fpga_22 <= '0' when s3c_system_error = '1' else d_22 when s3c_normal_state = '1' else d_22;
+    fpga_23 <= '0' when s3c_system_error = '1' else d_23 when s3c_normal_state = '1' else d_23;
+    fpga_24 <= '0' when s3c_system_error = '1' else d_24 when s3c_normal_state = '1' else d_24;
+    fpga_25 <= '0' when s3c_system_error = '1' else d_25 when s3c_normal_state = '1' else d_25;
+    fpga_26 <= '0' when s3c_system_error = '1' else d_26 when s3c_normal_state = '1' else d_26;
+    fpga_27 <= '0' when s3c_system_error = '1' else d_27 when s3c_normal_state = '1' else d_27;
+    fpga_28 <= '0' when s3c_system_error = '1' else d_28 when s3c_normal_state = '1' else d_28;
+    fpga_29 <= '0' when s3c_system_error = '1' else d_29 when s3c_normal_state = '1' else d_29;
+    d_00 <= '0' when s3c_system_error = '1' else fpga_00 when s3c_normal_state = '1' else '0';
+    d_01 <= '0' when s3c_system_error = '1' else fpga_01 when s3c_normal_state = '1' else '0';
+    d_02 <= '0' when s3c_system_error = '1' else fpga_02 when s3c_normal_state = '1' else '0';
+    d_03 <= '0' when s3c_system_error = '1' else fpga_03 when s3c_normal_state = '1' else '0';
+    d_04 <= '0' when s3c_system_error = '1' else fpga_04 when s3c_normal_state = '1' else '0';
+    d_05 <= '0' when s3c_system_error = '1' else fpga_05 when s3c_normal_state = '1' else '0';
+    d_06 <= '0' when s3c_system_error = '1' else fpga_06 when s3c_normal_state = '1' else '0';
+    d_07 <= '0' when s3c_system_error = '1' else fpga_07 when s3c_normal_state = '1' else '0';
+    d_08 <= '0' when s3c_system_error = '1' else fpga_08 when s3c_normal_state = '1' else '0';
+    d_09 <= '0' when s3c_system_error = '1' else fpga_09 when s3c_normal_state = '1' else '0';
+    d_10 <= '0' when s3c_system_error = '1' else fpga_10 when s3c_normal_state = '1' else '0';
+    d_11 <= '0' when s3c_system_error = '1' else fpga_11 when s3c_normal_state = '1' else '0';
+    d_12 <= '0' when s3c_system_error = '1' else fpga_12 when s3c_normal_state = '1' else '0';
+    d_13 <= '0' when s3c_system_error = '1' else fpga_13 when s3c_normal_state = '1' else '0';
+    d_14 <= '0' when s3c_system_error = '1' else fpga_14 when s3c_normal_state = '1' else '0';
+    d_15 <= '0' when s3c_system_error = '1' else fpga_15 when s3c_normal_state = '1' else '0';
+    d_16 <= '0' when s3c_system_error = '1' else fpga_16 when s3c_normal_state = '1' else '0';
+    d_17 <= '0' when s3c_system_error = '1' else fpga_17 when s3c_normal_state = '1' else '0';
+    d_18 <= '0' when s3c_system_error = '1' else fpga_18 when s3c_normal_state = '1' else '0';
+    d_19 <= '0' when s3c_system_error = '1' else fpga_19 when s3c_normal_state = '1' else '0';
 end architecture;

@@ -25,7 +25,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN test "$(dpkg --print-architecture)" = amd64 || { echo 'This toolchain requires linux/amd64 (native or emulated).' >&2; exit 1; }
 # Synplify batch mode also loads Qt OpenGL and GStreamer runtime libraries.
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    bash ca-certificates curl git openssh-client make python3 python3-pip python3-tk libpython3.10 yosys graphviz \
+    bash ca-certificates curl git openssh-client make python3 python3-pip python3-venv python3-tk libpython3.10 yosys graphviz \
     gtkwave ripgrep sudo iproute2 net-tools file procps \
     libfontconfig1 libfreetype6 libglib2.0-0 libgl1 libgstreamer1.0-0 libgstreamer-plugins-base1.0-0 libice6 libsm6 \
     libx11-6 libxext6 libxft2 libxi6 libxrandr2 libxrender1 libxt6 libxtst6 \

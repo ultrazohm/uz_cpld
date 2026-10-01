@@ -34,6 +34,7 @@ def spec(group, example, description, options=(), required=()):
 # Tool groups and command order are shared by overview and focused help.
 COMMANDS = {
     'image': spec('Environment', 'image', 'Build the container tools (optional for native Diamond)', CONTAINER),
+    'venv': spec('Environment', 'venv [activate=0|1]', 'Install native Python dependencies and open an activated Bash shell', {'activate'}),
     'doctor': spec('Environment', 'doctor', 'Check Diamond and catalog inputs; backend=foss checks FOSS', FIRMWARE),
     'docs': spec('Documentation', 'docs [release_cycle=all]', 'Generate assets and HTML; defaults to the current release', {'program', 'target', 'release_cycle', 'jobs'}),
     'docs-assets': spec('Documentation', 'docs-assets [program=NAME]', 'Generate documentation assets without rendering HTML', {'program', 'target', 'release_cycle', 'jobs'}),
@@ -84,7 +85,7 @@ ARGUMENT_VALUES = {
     'jobs': 'N', 'seed': 'N', 'wave_format': 'vcd|ghw|fst',
     'discard_project_changes': '0|1', 'runner': 'auto|local|container', 'dry_run': '0|1',
     'container_engine': 'docker|podman', 'container_platform': 'OS/ARCH',
-    'toolchain_image': 'NAME',
+    'toolchain_image': 'NAME', 'activate': '0|1',
 }
 
 
@@ -111,7 +112,7 @@ def shared_help():
         '  release_cycle defaults to the current release; programmer actions first consult',
         '  the selection file. selection=selection.toml; template=tx30.',
         '  jobs=4; seed=1; wave_format=vcd; runner=auto; dry_run=0; rebuild=0;',
-        '  discard_project_changes=0. Omit an option to use its default.',
+        '  discard_project_changes=0; venv activate=1. Omit an option to use its default.',
         '  Build targets are inferred when unambiguous; scan/identify default to dslot.',
         '  program requires target. probe_index: Diamond defaults to 1, FOSS to 0.',
         '  jobs must be positive; seed and probe_index must be nonnegative.',
@@ -171,7 +172,7 @@ def normalize(action, options):
             raise BuildError(f'{key} must be diamond or foss')
     if options.get('runner', 'auto') not in ('auto', 'local', 'container'):
         raise BuildError('runner must be auto, local or container')
-    for key in ('dry_run', 'rebuild', 'discard_project_changes'):
+    for key in ('dry_run', 'rebuild', 'discard_project_changes', 'activate'):
         if key in options and options[key] not in ('0', '1'):
             raise BuildError(f'{key} must be 0 or 1')
     for key in ('jobs', 'seed', 'probe_index'):
@@ -268,6 +269,8 @@ def plan(action, options, *, root=ROOT, cwd=None, environ=None):
                     value = TARGETS[value]
                 result += ['--' + key.replace('_', '-'), value]
         return result
+    if action == 'venv':
+        return [invoke('toolchain.venv', ['--activate', options.get('activate', '1')])]
     if action in ('init', 'scan', 'identify', 'program', 'programmer-project'):
         selection = Path(options.get('selection', 'selection.toml'))
         if not selection.is_absolute():

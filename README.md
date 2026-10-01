@@ -10,6 +10,8 @@ Run `make` for available commands. Start with [the quick start](docs/quick-start
 
 Use VS Code's **Dev Containers: Reopen in Container** to build and start the development environment, or run `make image` to build the same image for manual use. Diamond is optional; startup reports whether it is found. See [environment setup](docs/environments.rst) for run commands and the optional Diamond mount.
 
+For native VHDL generation, Diamond builds and programming, run `make venv` to install the Python dependencies and open an activated shell. Diamond, its license and system USB dependencies must be installed separately; see [native setup](docs/environments.rst#native-python-environment-for-diamond).
+
 Build the full documentation with `make docs`, then open `docs/_build/html/index.html`. The [generator guide](docs/vhdl-generator.rst), [FOSS pipeline](docs/foss.rst), and [build reports](docs/builds.rst) describe the main workflows.
 
 Use `make init` to create `selection.toml`, `make scan` to read D-slot JTAG IDs, and `make program target=s3c|dslot` to program the selected target. After Diamond builds, `make programmer-project` generates both Lattice Programmer XCF files. See [programmer commands](docs/programmer.rst).

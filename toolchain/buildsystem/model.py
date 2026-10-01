@@ -2,10 +2,6 @@
 from dataclasses import dataclass
 from pathlib import Path
 import re
-try:
-    import tomllib
-except ModuleNotFoundError:
-    import tomli as tomllib
 
 
 class BuildError(Exception):
@@ -23,6 +19,11 @@ def identifier(value: str) -> str:
 
 def read_toml(path: Path) -> dict:
     """Read a manifest, reporting parse and filesystem errors consistently."""
+    # Keep environment setup usable before Python 3.10 has its TOML dependency.
+    try:
+        import tomllib
+    except ModuleNotFoundError:
+        import tomli as tomllib
     try:
         with path.open('rb') as stream:
             return tomllib.load(stream)

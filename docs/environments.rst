@@ -150,3 +150,36 @@ Firmware and documentation commands use dependencies already installed in the im
 The C++ compiler and development headers used to build nextpnr and the patched flasher remain in the intermediate builder stage.
 The runtime includes the compiled tools; ``make flasher-build`` is a separate native source build and requires those development dependencies if run there.
 See :doc:`foss` for the pinned tool bundle and native source-build prerequisites.
+
+Native Python environment for Diamond
+-------------------------------------
+
+On Linux with Python 3.10+ and its ``venv`` support installed (the
+``python3-venv`` package on Ubuntu), run::
+
+   make venv
+
+This creates or reuses ``.venv`` in the checkout, installs the generator in
+editable mode and the Python dependencies for VHDL generation, Diamond builds,
+and hardware programming, then opens an activated Bash shell. Run ``make
+build-all`` or the programmer commands in that shell. Use ``exit`` to return
+to the previous shell. Running the command again refreshes the installation.
+Use ``make venv python=python3.11`` to choose the setup interpreter when first
+creating the environment.
+
+Make cannot change its parent shell's environment. To install without opening
+a shell, or to activate in your existing Bash/Zsh session, use::
+
+   make venv activate=0
+   source .venv/bin/activate
+
+Without an interactive terminal, ``make venv`` installs the dependencies and
+prints the activation command instead of opening a shell.
+``make venv dry_run=1`` previews setup without creating files.
+
+This installs Python dependencies only. Diamond and its runtime libraries,
+license configuration, ``libusb-1.0`` and USB permissions are still required
+for native Diamond builds and programming. FOSS hardware programming additionally
+requires the patched openFPGALoader and OpenOCD described in
+:doc:`firmware-identity`. Simulation and documentation dependencies are outside
+this environment's scope; their usual container defaults remain in effect.

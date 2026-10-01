@@ -9,7 +9,7 @@ command_cli = PYTHONPATH=$(call quote,$(command_root))"$${PYTHONPATH:+:$$PYTHONP
 ifneq ($(word 2,$(MAKECMDGOALS)),)
 $(error Use one action per invocation: make ACTION key=value. Use make scan, make identify, make program, or make programmer-project instead of grouped programmer commands)
 endif
-commands := help image doctor list build-all report init programmer-project scan identify program new generate check build project gui sim netlist docs docs-assets test release-list release-new release-select usercodes usercodes-assign flasher-build clean clean-all
+commands := help image venv doctor list build-all report init programmer-project scan identify program new generate check build project gui sim netlist docs docs-assets test release-list release-new release-select usercodes usercodes-assign flasher-build clean clean-all
 # Single-action aliases preserve existing automation while help shows canonical names.
 aliases := programmer lattice_xcf release-current flasher docs-local docs-assets-local netlist-local test-container _sim
 .PHONY: $(commands) $(aliases)

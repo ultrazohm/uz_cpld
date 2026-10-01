@@ -81,7 +81,7 @@ class CommandTests(unittest.TestCase):
             with patch.object(commands.subprocess, 'run') as run, redirect_stdout(io.StringIO()):
                 for action, opts in [('init', ['--selection', selection]),
                                      ('program', ['--target', 'dslot', '--selection', selection]),
-                                     ('clean-all', []), ('image', []),
+                                     ('clean-all', []), ('image', []), ('venv', []),
                                      ('build', ['--program', 'tx30'])]:
                     self.assertEqual(commands.main([action, '--dry-run', '1', *opts]), 0)
             run.assert_not_called()

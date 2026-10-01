@@ -93,6 +93,10 @@ Filtered documentation replaces generated assets with the selected scope.
 Execution environments
 ----------------------
 
+``make venv`` creates or updates the native Python environment and opens an
+activated Bash shell. Use ``activate=0`` for installation only; see
+:doc:`environments` for system prerequisites and manual activation.
+
 ``runner=auto|local|container`` selects where commands execute independently of
 the backend. Auto uses the configured Dev Container directly. On a host, FOSS
 firmware tools, simulation, diagrams and documentation use the toolchain image;

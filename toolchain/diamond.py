@@ -3,8 +3,23 @@ import os
 from pathlib import Path
 import shutil
 import sys
+import configparser
+import re
 
 from toolchain.buildsystem.model import BuildError
+
+
+def installed_version(binary):
+    """Read vendor installation metadata without starting a licensed process."""
+    path = Path(binary).resolve().parent.parent.parent / 'data/ispsys.ini'
+    config = configparser.ConfigParser(interpolation=None, strict=False)
+    try:
+        config.read_string(path.read_text(encoding='utf-8-sig'))
+        section = config['version']
+        value = '.'.join(section[key].strip() for key in ('MajorVersion', 'MinorVersion', 'BuildNumber'))
+        return value if re.fullmatch(r'\d+\.\d+\.\d+\.\d+\.\d+', value) else None
+    except (OSError, UnicodeError, configparser.Error, KeyError):
+        return None
 
 
 def executable(kind='cli', *, required=True):
@@ -33,7 +48,8 @@ def executable(kind='cli', *, required=True):
         if windows and candidate.suffix.lower() != '.exe':
             raise BuildError(f'{variable} must name a Windows .exe')
         return candidate
-    raise BuildError(f'Diamond {kind} unavailable; set DIAMOND_ROOT or {variable} (tried {", ".join(candidates)})')
+    hint = ' Standalone Programmer does not include the build CLI; building requires full Diamond.' if kind == 'cli' else ''
+    raise BuildError(f'Diamond {kind} unavailable; set DIAMOND_ROOT or {variable} (tried {", ".join(candidates)}).{hint}')
 
 
 def environment(executable_path):

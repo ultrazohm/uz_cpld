@@ -15,6 +15,52 @@ from toolchain.buildsystem.model import BuildError
 
 
 class DoctorTests(unittest.TestCase):
+    def test_vendor_version_metadata_is_read_without_startup(self):
+        from toolchain.diamond import installed_version
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            binary = root / 'bin/nt64/pnmainc.exe'
+            (root / 'data').mkdir()
+            config = root / 'data/ispsys.ini'
+            config.write_text('[version]\nMajorVersion=3\nMinorVersion=13.0\nBuildNumber=56.2\n')
+            self.assertEqual(installed_version(binary), '3.13.0.56.2')
+            config.write_text('invalid')
+            self.assertIsNone(installed_version(binary))
+
+    def test_build_preflight_rejects_wrong_version_before_startup(self):
+        from types import SimpleNamespace
+        from toolchain.buildsystem.backends import diamond
+        with patch.object(diamond, 'launcher', return_value=Path('/vendor/pnmainc.exe')), \
+                patch.object(diamond, 'installed_version', return_value='3.13.0.56.2'), \
+                patch.object(diamond.subprocess, 'run') as run:
+            with self.assertRaisesRegex(BuildError, 'installed 3.13.0.56.2'):
+                diamond.preflight([SimpleNamespace(backend='diamond', expected_version='3.14.0.75.2')])
+        run.assert_not_called()
+
+    def test_build_preflight_checks_startup_once_and_reports_license_failure(self):
+        from types import SimpleNamespace
+        from toolchain.buildsystem.backends import diamond
+        builds = [SimpleNamespace(backend='diamond', expected_version='3.14.0.75.2')] * 29
+        with patch.object(diamond, 'launcher', return_value=Path('/vendor/pnmainc.exe')), \
+                patch.object(diamond, 'installed_version', return_value='3.14.0.75.2'), \
+                patch.object(diamond.subprocess, 'run', return_value=subprocess.CompletedProcess([], 0, '', '')) as run:
+            diamond.preflight(builds)
+            run.assert_called_once()
+            self.assertEqual(run.call_args.kwargs['timeout'], 30)
+            run.return_value = subprocess.CompletedProcess([], 255, '', 'License checkout failed')
+            with self.assertRaisesRegex(BuildError, 'License checkout failed'):
+                diamond.preflight(builds)
+            run.side_effect = subprocess.TimeoutExpired('diamond', 30)
+            with self.assertRaisesRegex(BuildError, 'timed out'):
+                diamond.preflight(builds)
+
+    def test_foss_preflight_does_not_require_diamond(self):
+        from types import SimpleNamespace
+        from toolchain.buildsystem.backends import diamond
+        with patch.object(diamond, 'launcher') as launcher:
+            diamond.preflight([SimpleNamespace(backend='foss')])
+        launcher.assert_not_called()
+
     def test_missing_tool_is_a_finding_without_starting_a_process(self):
         with patch.object(doctor, 'locate', return_value=None), patch.object(doctor.subprocess, 'run') as run:
             result = doctor.probe('missing', 'nonexistent-tool', ['--version'])

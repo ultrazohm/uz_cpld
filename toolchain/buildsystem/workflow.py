@@ -190,9 +190,10 @@ def build_program(build: Build) -> Path:
             before = hashes(build)
             proj, log = prepare(build, directory)
             output = backend_for(build).build(proj, log)
-            versions = re.findall(r'3\.14\.0\.\d+\.\d+', output)
+            from .backends.diamond import reported_versions
+            versions = reported_versions(output)
             if build.backend == 'diamond' and build.expected_version not in versions:
-                raise BuildError(f'Expected Diamond {build.expected_version} not reported; see {log}')
+                raise BuildError(f'Expected Diamond {build.expected_version}; reported {", ".join(versions) or "no full version"}; see {log}')
             if before != hashes(build):
                 raise BuildError('Inputs changed during build; outputs were not published')
             exports = {}

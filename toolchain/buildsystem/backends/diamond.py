@@ -4,9 +4,11 @@ import json
 from pathlib import Path
 import shutil
 import subprocess
+import re
+import tempfile
 import xml.etree.ElementTree as ET
 from ..model import Build, BuildError
-from toolchain.diamond import executable, environment
+from toolchain.diamond import executable, environment, installed_version
 
 
 def tcl(value: str) -> str:
@@ -17,6 +19,43 @@ def tcl(value: str) -> str:
 def launcher(gui: bool = False) -> Path:
     """Find a configurable vendor launcher; overrides are executable paths."""
     return executable('gui' if gui else 'cli')
+
+
+def reported_versions(output: str) -> list[str]:
+    return sorted(set(re.findall(r'(?<![\d.])\d+\.\d+\.\d+\.\d+\.\d+(?![\d.])', output)))
+
+
+def preflight(builds):
+    """Check the shared vendor installation once, before touching build outputs."""
+    expected = {build.expected_version for build in builds if build.backend == 'diamond'}
+    if not expected:
+        return
+    if len(expected) != 1:
+        raise BuildError('Selected builds require different Diamond versions: ' + ', '.join(sorted(expected)))
+    wanted = expected.pop()
+    binary = launcher()
+    version = installed_version(binary)
+    if version is not None and version != wanted:
+        raise BuildError(f'Expected Diamond {wanted}; installed {version} at {binary}. '
+                         'Set DIAMOND_ROOT or DIAMOND_CLI to the matching full Diamond installation. '
+                         'No builds were started.')
+    env = environment(binary)
+    env.pop('DISPLAY', None)
+    env.pop('WAYLAND_DISPLAY', None)
+    with tempfile.TemporaryDirectory(prefix='cpld-diamond-check-') as tmp:
+        script = Path(tmp) / 'check.tcl'
+        script.write_text('exit 0\n', encoding='utf-8')
+        try:
+            result = subprocess.run([str(binary), script.name], cwd=tmp, env=env,
+                                    stdin=subprocess.DEVNULL, capture_output=True,
+                                    text=True, errors='replace', timeout=30)
+        except subprocess.TimeoutExpired as exc:
+            raise BuildError(f'Diamond startup timed out after 30 seconds: {binary}; check the installation and license') from exc
+    output = result.stdout + result.stderr
+    if result.returncode:
+        raise BuildError(f'Diamond startup failed (exit {result.returncode}): {binary}\n{output[-1800:]}')
+    if version is None:
+        print('Diamond installation version unavailable; the full version will be checked in each build log.')
 
 
 def run(script: Path, log: Path) -> str:

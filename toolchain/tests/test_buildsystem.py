@@ -26,6 +26,9 @@ class FrontendTests(unittest.TestCase):
             shutil.copytree(ROOT / folder, self.root / folder, ignore=shutil.ignore_patterns('build', '__pycache__'))
         (self.root / 'programs/releases.toml').write_text('current = "original"\n')
         self.build = load_build(self.root, 'tx30')
+        preflight_patch = patch('toolchain.buildsystem.cli.preflight')
+        self.preflight = preflight_patch.start()
+        self.addCleanup(preflight_patch.stop)
 
     def test_clean_works_with_stale_generator_and_missing_sources(self):
         generated = load_build(self.root, 'cvg_tx30_stateful')
@@ -247,6 +250,9 @@ class FrontendTests(unittest.TestCase):
         with self.assertRaisesRegex(BuildError, 'configuration changed'):
             self.run_build()
         self.build = load_build(self.root, 'tx30')
+        preflight_patch = patch('toolchain.buildsystem.cli.preflight')
+        self.preflight = preflight_patch.start()
+        self.addCleanup(preflight_patch.stop)
         self.run_build()
         record = json.loads((self.build.directory / 'metadata/build.json').read_text())
         self.assertEqual(record['synthesis'], 'synplify')
@@ -278,6 +284,13 @@ class FrontendTests(unittest.TestCase):
         for old, new in zip(original.sources, clone.sources):
             self.assertEqual(old.path.read_bytes(), new.path.read_bytes())
         self.assertEqual(original.constraint.read_bytes(), clone.constraint.read_bytes())
+
+    def test_build_all_stops_once_on_incompatible_installation(self):
+        self.preflight.side_effect = BuildError('Expected Diamond 3.14; installed 3.13')
+        with patch('toolchain.buildsystem.cli.workflow.build_program') as build:
+            self.assertEqual(cli_main(['build-all', '--root', str(self.root)]), 1)
+        self.preflight.assert_called_once()
+        build.assert_not_called()
 
     def test_build_all_selects_each_program_target(self):
         selected = []

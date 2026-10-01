@@ -12,6 +12,7 @@ import subprocess
 import sys
 
 from toolchain.diamond import executable as diamond_executable
+from toolchain.diamond import installed_version
 from toolchain.buildsystem.model import BuildError
 
 
@@ -130,6 +131,10 @@ def report(root, *, backend='diamond', release_cycle=None, target=None):
         try:
             binary = diamond_executable(kind)
             vendor.append(Finding(label, 'FOUND', f'{binary} (startup not tested)'))
+            if kind == 'cli':
+                version = installed_version(binary)
+                vendor.append(Finding('Diamond installed version', 'FOUND' if version else 'NOT CHECKED',
+                                      f'{version} (installation metadata; compare with toolchain/targets/*/target.toml)' if version else 'installation version metadata unavailable'))
         except (BuildError, OSError) as exc:
             vendor.append(Finding(label, 'MISSING', compact(exc)))
     diamond_root = Path(os.environ.get('DIAMOND_ROOT', 'C:/lscc/diamond/3.14' if sys.platform == 'win32' else '/opt/diamond'))
@@ -141,6 +146,8 @@ def report(root, *, backend='diamond', release_cycle=None, target=None):
     else:
         vendor.append(Finding('Diamond license', 'NOT CHECKED', 'no LM_LICENSE_FILE or license file at the configured/default root; vendor search paths may differ'))
     groups.append(('Diamond (no license checkout or synthesis)', vendor))
+    if vendor[0].state == 'MISSING':
+        vendor.append(Finding('Diamond builds', 'UNAVAILABLE', 'Full Diamond build CLI is missing. Standalone Programmer can program hardware but cannot compile firmware.'))
 
     suite = Path(os.environ.get('FOSS_ROOT', '/opt/oss-cad-suite'))
     from programmer_helper.program import loader_path

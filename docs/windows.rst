@@ -142,3 +142,51 @@ is currently running the command. Exit that environment before deleting it.
 
 Use ``python -m toolchain help`` or
 ``python -m toolchain help --command ACTION`` for the available arguments.
+
+Troubleshooting Windows installations
+--------------------------------------
+
+A standalone Lattice Programmer installation does not contain the synthesis
+and build tools. Point the programmer override at its actual executable::
+
+   $env:CPLD_PGRCMD = 'C:\path\to\programmer\bin\nt64\pgrcmd.exe'
+   python -m toolchain doctor
+
+The report can show Programmer as FOUND and the Diamond build CLI as MISSING.
+Generation needs Python only; ``build`` and ``build-all`` require full Diamond.
+Managed programming still requires the current build artifacts and provenance
+described above. Copying a JEDEC file alone does not satisfy those checks.
+For a Programmer-only station, an XCF and its referenced firmware can instead
+be prepared on the build station for use with the vendor Programmer; this is
+outside the repository's managed programming validation.
+
+``DIAMOND_ROOT`` must name an existing installation. Setting it to a 3.14 path
+does not install or upgrade Diamond 3.13. The repository currently requires
+3.14.0.75.2; an older installation is not accepted merely because it starts.
+Build commands check vendor installation metadata and CLI startup before
+starting builds. ``build-all`` performs this shared check once. If version
+metadata is unavailable, the full version is still checked in every build log.
+Startup failures include the vendor's license error. ``doctor`` reads version
+metadata without starting Diamond or testing its license.
+
+Use ``python -m toolchain build-all`` (one hyphenated action), not
+``python -m toolchain build -all``.
+
+If doctor prints a subprocess invocation of ``toolchain.buildsystem doctor``
+and stops at the first error, that checkout has the older doctor implementation.
+Update the checkout to the revision containing the environment inventory;
+the current dispatcher invokes ``toolchain.doctor`` and prints all tool groups,
+even when generation provenance is invalid.
+
+``Generation inputs changed`` is a repository provenance issue, independent
+of whether Diamond or Programmer is installed. The message alone does not
+identify whether the cause is edited inputs, a generator update or changed
+checkout bytes. Review ``git status`` and your intended generator inputs,
+then regenerate the affected program, for example::
+
+   python -m toolchain generate --program cvg_optical_14tx_4rx --release-cycle heartbeat_cvg
+   python -m toolchain check --program cvg_optical_14tx_4rx --release-cycle heartbeat_cvg
+
+Review the generated diff. Regeneration refreshes generated outputs and their
+receipt; it does not install missing tools. Avoid deleting receipts or weakening
+version checks to suppress these diagnostics.

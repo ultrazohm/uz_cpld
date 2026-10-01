@@ -5,6 +5,7 @@ import subprocess
 import sys
 from .model import BuildError, catalog, load_build, load_output, program_backends, program_targets, release_cycles, resolve_release
 from . import workflow
+from .backends.diamond import preflight
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -99,6 +100,7 @@ def main(argv: list[str] | None = None) -> int:
             failed = []
             build_errors = []
             builds, selection_errors = selected_builds(collect_errors=True)
+            preflight(builds)
             for name, target, error in selection_errors:
                 failed.append(name)
                 print(f'{name} ({target}): {error}', file=sys.stderr)
@@ -131,6 +133,8 @@ def main(argv: list[str] | None = None) -> int:
             elif args.command == 'clean':
                 workflow.clean(build, args.discard_project_changes)
             else:
+                if args.command == 'build':
+                    preflight([build])
                 action = workflow.build_program if args.command == 'build' else getattr(workflow, args.command)
                 result = action(build)
                 if result:

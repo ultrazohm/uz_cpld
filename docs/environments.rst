@@ -16,7 +16,8 @@ The Dockerfile has one Linux amd64 runtime image, ``toolchain``, used by Make, C
 An intermediate ``foss-builder`` stage compiles the pinned XO2 tools; it is not a separate runtime image.
 The runtime image includes GHDL, Yosys, nextpnr-machxo2, Trellis, openFPGALoader, OpenOCD, Graphviz, Python, Sphinx, GTKWave, development utilities and Diamond runtime libraries.
 The Dev Container setup installs the developer CLI for its user after creation.
-Diamond itself and its license remain external.
+By default Diamond itself and its license remain external. An optional Diamond
+image base includes both; the other tools and commands are the same.
 Build the image explicitly before using container execution::
 
    make image
@@ -93,7 +94,7 @@ VS Code
 -------
 
 Open the repository in VS Code and select **Dev Containers: Reopen in Container**. VS Code builds the toolchain image from ``.devcontainer/Dockerfile`` automatically; no separate ``make image`` step is required.
-Both Dev Container configurations use bridge networking with ``eth0`` assigned the MAC address ``10:91:d1:3d:14:ae``.
+All Dev Container configurations use bridge networking with ``eth0`` assigned the MAC address ``10:91:d1:3d:14:ae``.
 For Diamond, export the absolute host installation root, which is the parent of ``bin``, before launching VS Code::
 
    export DIAMOND_HOST_ROOT="$HOME/lscc/diamond/3.14"
@@ -121,6 +122,65 @@ If the files are missing, check ``DIAMOND_HOST_ROOT`` on the host and recreate
 the container.
 If the mounted files exist but the launchers are absent from ``PATH``, rebuild the Dev Container to apply its configured environment.
 
+Using the Diamond image
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The existing ``.devcontainer/devcontainer.json`` and
+``.devcontainer/usb/devcontainer.json`` profiles keep using the host-mounted
+installation described above. To include Diamond and its license in the
+container instead, select one of these configurations when reopening in VS Code:
+
+* ``.devcontainer/diamond/devcontainer.json``: Diamond image, without USB access.
+* ``.devcontainer/diamond-usb/devcontainer.json``: Diamond image, with the same
+  USB settings as the host USB profile. Set ``USB_DEVICE_GID`` as described above.
+
+The image profiles default to the locally built
+``lattice-diamond:3.14.0.75.2`` image. They inherit its Ubuntu 22.04 runtime,
+Diamond installation at ``/opt/diamond``, and embedded license, then add the
+repository's FOSS tools and development environment. The Diamond image must be
+available to the same Docker daemon that builds the Dev Container.
+These profiles do not mount anything over ``/opt/diamond`` and use
+``/opt/diamond/license/license.dat`` as ``LM_LICENSE_FILE``. They ignore
+``DIAMOND_HOST_ROOT`` and the host's ``LM_LICENSE_FILE``.
+
+To use a different compatible image, including a future GHCR image, export
+``DIAMOND_IMAGE`` (repository name without a tag) and optionally
+``DIAMOND_TAG`` before launching VS Code::
+
+   export DIAMOND_IMAGE=ghcr.io/yourname/lattice-diamond
+   export DIAMOND_TAG=3.14.0.75.2
+   docker pull "$DIAMOND_IMAGE:$DIAMOND_TAG"
+   code .
+
+For the local image, leave ``DIAMOND_IMAGE`` and ``DIAMOND_TAG`` unset.
+The default tag is ``3.14.0.75.2``. If VS Code is already running,
+close it fully before relaunching to pick up environment changes. Use **Dev
+Containers: Reopen in Container** to select the configuration, or **Dev
+Containers: Rebuild Container** after changing the selected profile's image.
+Inside the container verify installation and licensed synthesis with::
+
+   check-diamond --synthesis
+   python3 -m toolchain doctor
+
+For a manual build, the Dockerfile provides ``TOOLCHAIN_BASE``; its default is
+``ubuntu:22.04`` and preserves host mounting. To build the image variant::
+
+   docker build --platform linux/amd64 --target toolchain \
+     --build-arg TOOLCHAIN_BASE=lattice-diamond:3.14.0.75.2 \
+     -f .devcontainer/Dockerfile -t uz-cpld-toolchain-diamond .
+   docker run --rm -it --init --platform linux/amd64 \
+     --network=bridge --mac-address=10:91:d1:3d:14:ae \
+     --user "$(id -u):$(id -g)" --env HOME=/tmp \
+     --mount "type=bind,source=$PWD,target=/work" \
+     uz-cpld-toolchain-diamond bash
+
+``make image`` continues to build the default host/FOSS image. Inside either
+Dev Container profile, Diamond builds run locally through the same existing
+commands; changing profiles does not enable Diamond in the generic host
+``runner=container`` dispatcher.
+The image variant contains proprietary tools and your license; restrict access
+when publishing it, just as for the Diamond base image.
+
 Diamond and licensing
 ---------------------
 
@@ -131,6 +191,10 @@ Diamond and licensing
      - Meaning
    * - ``DIAMOND_HOST_ROOT``
      - Optional absolute host installation path mounted by the Dev Container.
+   * - ``DIAMOND_IMAGE``
+     - Optional Diamond image repository name without a tag for the image profiles.
+   * - ``DIAMOND_TAG``
+     - Diamond image tag for the image profiles, defaulting to ``3.14.0.75.2``.
    * - ``DIAMOND_ROOT``
      - Runtime installation root, defaulting to ``/opt/diamond``.
    * - ``DIAMOND_CLI`` / ``DIAMOND_GUI``

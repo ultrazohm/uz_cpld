@@ -118,6 +118,8 @@ class ProgrammerHelperTests(unittest.TestCase):
         for folder in ('toolchain/buildsystem', 'toolchain/targets', 'toolchain/foss'):
             shutil.copytree(ROOT / folder, self.root / folder,
                             ignore=shutil.ignore_patterns('__pycache__'))
+        for name in ('diamond.py', 'locking.py'):
+            shutil.copy2(ROOT / 'toolchain' / name, self.root / 'toolchain' / name)
         for template in (
             'archive/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/Programm_All_5_Slots.xcf',
             'archive/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/s3c_programmer.xcf',

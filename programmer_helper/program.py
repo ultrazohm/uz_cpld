@@ -19,6 +19,7 @@ from toolchain.buildsystem.workflow import digest, locked, safe_directory, write
 from .helper import (DEFAULT_DIAMOND_PORT, SLOT_TEMPLATE, S3C_TEMPLATE, render_xcf,
                      jedec_metadata, read_selection, verified_firmware)
 from .usb import diamond_usb
+from .diamond import command as diamond_command, environment as diamond_environment
 
 
 # UltraZohm: one FT4232, channel B for either physical CPLD chain.
@@ -56,7 +57,7 @@ def create_selection(destination: Path):
         print(f'{destination} already exists; kept your selection.')
         return
     print(f'Created {destination} with default programs. Edit the programs and release as needed.')
-    print('Use make list to see program names, then make program target=s3c or target=dslot.')
+    print('Use python -m toolchain list to see programs, then python -m toolchain program --target s3c or dslot.')
 
 
 def loader_path() -> Path:
@@ -158,19 +159,21 @@ def diamond_scan_xcf(root: Path, chain: str, destination: Path, port: int | None
 
 
 def require_usb_bus():
+    if not sys.platform.startswith('linux'):
+        return  # Native Windows driver access is checked by the vendor tools.
     bus = Path('/dev/bus/usb')
     if not bus.is_dir() or not any(bus.glob('*/*')):
         raise BuildError('No USB device nodes are visible at /dev/bus/usb. Reopen with the USB Dev Container profile and check that the programmer is connected to the Docker host.')
 
 
-def run_command(command: tuple[str, ...], log: Path) -> str:
+def run_command(command: tuple[str, ...], log: Path, *, env=None) -> str:
     """Stream tool output to the terminal and retain a log."""
     log.parent.mkdir(parents=True, exist_ok=True)
     with log.open('w') as stream:
         stream.write('$ ' + shlex.join(command) + '\n')
         stream.flush()
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                                   text=True, errors='replace')
+                                   text=True, errors='replace', env=env)
         lines = []
         try:
             for line in process.stdout:
@@ -201,6 +204,8 @@ def run_diamond(command: tuple[str, ...], log: Path, xcf: Path) -> str:
     if project.findtext('./CableOptions/CableName') != 'USB2' or port is None:
         raise BuildError(f'{xcf}: expected a USB2 FTUSB port')
     with diamond_usb(int(port[1])):
+        if sys.platform == 'win32':
+            return run_command(command, log, env=diamond_environment(command))
         return run_command(command, log)
 
 
@@ -269,7 +274,7 @@ def diamond_plan(root, cycle, chain, builds, probe_index):
             xcf = output / f'{chain}.xcf'
             xcf.write_bytes(render_xcf(template, {f.index + 1: f.artifact for f in firmware},
                                       device_name=device, idcode=idcode, port=port))
-            command = ('bash', str(root / 'programmer_helper/diamond_program.sh'), str(xcf), '<run-log>')
+            command = diamond_command(root, xcf, '<run-log>')
             step = Step(chain, builds[0][2], xcf, digest(xcf), command, tuple(firmware), port)
             verify_diamond_plan(step, builds, current)
             write_json(output / 'selection.json', {
@@ -468,8 +473,7 @@ def main(argv=None) -> int:
                 xcf = run_dir / 'scan.xcf'
                 diamond_scan_xcf(args.root.resolve(), args.chain, xcf, port)
                 vendor_log = run_dir / 'pgrcmd.log'
-                command = ('bash', str(args.root.resolve() / 'programmer_helper/diamond_program.sh'),
-                           str(xcf), str(vendor_log))
+                command = diamond_command(args.root.resolve(), xcf, vendor_log)
                 try:
                     output = run_diamond(command, run_dir / 'stdout.log', xcf)
                 finally:
@@ -480,7 +484,7 @@ def main(argv=None) -> int:
                     raise BuildError('Diamond produced no scan output')
             return 0
         if not args.selection.is_file():
-            raise BuildError(f'{args.selection} is missing; run make init, then fill in the target programs')
+            raise BuildError(f'{args.selection} is missing; run python -m toolchain init, then fill in the target programs')
         cycle, output, builds, steps = plan(args.root, args.selection, args.release_cycle,
                                                   args.chain, args.programmer_backend,
                                                   args.cable, args.usb_serial, args.probe_index,

@@ -6,6 +6,7 @@ import shutil
 import subprocess
 import xml.etree.ElementTree as ET
 from ..model import Build, BuildError
+from toolchain.diamond import executable, environment
 
 
 def tcl(value: str) -> str:
@@ -15,21 +16,16 @@ def tcl(value: str) -> str:
 
 def launcher(gui: bool = False) -> Path:
     """Find a configurable vendor launcher; overrides are executable paths."""
-    override = os.environ.get('DIAMOND_GUI' if gui else 'DIAMOND_CLI')
-    root = Path(os.environ.get('DIAMOND_ROOT', '/opt/diamond'))
-    candidate = override or str(root / 'bin/lin64' / ('diamond' if gui else 'diamondc'))
-    found = shutil.which(candidate)
-    if not found:
-        raise BuildError(f'Diamond launcher unavailable: {candidate}; set DIAMOND_ROOT or DIAMOND_CLI/DIAMOND_GUI')
-    return Path(found).resolve()
+    return executable('gui' if gui else 'cli')
 
 
 def run(script: Path, log: Path) -> str:
     """Run Tcl without a display or stdin, preserving output even on failure."""
-    env = dict(os.environ)
+    binary = launcher()
+    env = environment(binary)
     env.pop('DISPLAY', None); env.pop('WAYLAND_DISPLAY', None)
     with log.open('w') as stream:
-        result = subprocess.run([str(launcher()), script.name], cwd=script.parent,
+        result = subprocess.run([str(binary), script.name], cwd=script.parent,
                                 env=env, stdin=subprocess.DEVNULL, stdout=stream, stderr=subprocess.STDOUT)
     output = log.read_text(errors='replace')
     if result.returncode:

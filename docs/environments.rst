@@ -154,23 +154,25 @@ See :doc:`foss` for the pinned tool bundle and native source-build prerequisites
 Native Python environment for Diamond
 -------------------------------------
 
+For native Windows instructions, see :doc:`windows`.
+
 On Linux with Python 3.10+ and its ``venv`` support installed (the
 ``python3-venv`` package on Ubuntu), run::
 
-   make venv
+   python3 -m toolchain venv
 
 This creates or reuses ``.venv`` in the checkout, installs the generator in
 editable mode and the Python dependencies for VHDL generation, Diamond builds,
 and hardware programming, then opens an activated Bash shell. Run ``make
 build-all`` or the programmer commands in that shell. Use ``exit`` to return
 to the previous shell. Running the command again refreshes the installation.
-Use ``make venv python=python3.11`` to choose the setup interpreter when first
+Use ``python3.11 -m toolchain venv`` to choose the setup interpreter when first
 creating the environment.
 
 Make cannot change its parent shell's environment. To install without opening
 a shell, or to activate in your existing Bash/Zsh session, use::
 
-   make venv activate=0
+   python3 -m toolchain venv --activate 0
    source .venv/bin/activate
 
 Without an interactive terminal, ``make venv`` installs the dependencies and

@@ -9,3 +9,6 @@ docs/_generated/
 selection.toml
 # Standalone Python package metadata.
 *.egg-info/
+
+# Persistent Windows workspace and registry locks.
+.cpld.lock

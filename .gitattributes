@@ -1,0 +1,3 @@
+# Build and generation receipts hash exact bytes, including authored line endings.
+# Preserve the tracked bytes on Windows as well as Linux.
+* -text

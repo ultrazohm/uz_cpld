@@ -1,6 +1,7 @@
 """Shared command contract: defaults, filtering, execution, and environments."""
 from contextlib import redirect_stdout, redirect_stderr
 import io
+import sys
 from pathlib import Path
 import tempfile
 import unittest
@@ -58,7 +59,10 @@ class CommandTests(unittest.TestCase):
                    'seed': '17', 'jobs': '2', 'wave_format': 'fst', 'runner': 'container',
                    'container_engine': 'podman', 'toolchain_image': 'custom-image'}
         args = commands.plan('sim', options, environ={})[0].argv
-        self.assertIn('--userns=keep-id', args)
+        if sys.platform != 'win32':
+            self.assertIn('--userns=keep-id', args)
+        else:
+            self.assertNotIn('--user', args)
         self.assertIn('custom-image', args)
         for key in ('program', 'target', 'release_cycle', 'seed', 'jobs', 'wave_format'):
             self.assertIn(f'{key}={options[key]}', args)
@@ -105,7 +109,7 @@ class CommandTests(unittest.TestCase):
 
     def test_relative_selection_uses_caller_not_repository(self):
         args = commands.plan('programmer-project', {'selection': 'my file.toml'}, cwd='/tmp', environ={})[0].argv
-        self.assertIn('/tmp/my file.toml', args)
+        self.assertIn(str(Path('/tmp').resolve() / 'my file.toml'), args)
 
     def test_unknown_options_and_conflicting_duplicate_syntax_are_errors(self):
         with redirect_stderr(io.StringIO()), patch.object(commands.subprocess, 'run') as run:

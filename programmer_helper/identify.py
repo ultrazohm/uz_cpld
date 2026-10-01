@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import sys
 import tempfile
 import xml.etree.ElementTree as ET
 
@@ -13,6 +14,7 @@ from toolchain.buildsystem.backends.diamond import tcl
 from toolchain.buildsystem.workflow import workspace_lock, write_json
 from .helper import DEFAULT_DIAMOND_PORT
 from .usb import diamond_usb
+from .diamond import command as diamond_command, environment as diamond_environment
 
 
 def openocd_path():
@@ -134,8 +136,9 @@ def diamond_read(root, chain, directory, probe_index):
             xcf = directory / f'{key}.xcf'
             diamond_xcf(root, chain, xcf, mode, operation, port)
             log = directory / f'{key}-pgrcmd.log'
-            command = ('bash', str(root / 'programmer_helper/diamond_program.sh'), str(xcf), str(log))
-            stdout = run_command(command, directory / f'{key}-stdout.log')
+            command = diamond_command(root, xcf, log)
+            options = {'env': diamond_environment(command)} if sys.platform == 'win32' else {}
+            stdout = run_command(command, directory / f'{key}-stdout.log', **options)
             # pgrcmd duplicates messages on stdout and in its log: parse one only.
             raw = log.read_text(errors='replace') if log.exists() else stdout
             values[key] = parse_diamond(chain, raw, operation, field, width)

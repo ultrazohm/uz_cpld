@@ -52,7 +52,7 @@ def keys(data, allowed, required, label):
 
 def read_toml(path):
     try:
-        return tomllib.loads(path.read_text())
+        return tomllib.loads(path.read_text(encoding="utf-8"))
     except (OSError, ValueError) as exc:
         raise GeneratorError(f'{path}: {exc}') from exc
 
@@ -134,7 +134,7 @@ def load_contract(path):
 def load_routing(path):
     """Read output actions and infer directions for the complete data interface."""
     try:
-        reader = csv.DictReader(io.StringIO(path.read_text()))
+        reader = csv.DictReader(io.StringIO(path.read_text(encoding="utf-8")))
         if reader.fieldnames != ['output', 'normal_state', 'safe_state']:
             raise GeneratorError('CSV header must be output,normal_state,safe_state')
         outputs = {}
@@ -317,8 +317,8 @@ def receipt(config, output, files):
         'generator_version': __version__, 'schema_version': 1, 'name': config.name,
         'contract': config.contract,
         'inputs': {('s3c_library/' + p.name if p in shared_sources(config) else
-                    'generator/' + str(p.relative_to(PACKAGE)) if p.is_relative_to(PACKAGE)
-                    else 'spec/' + os.path.relpath(p, config.path.parent)): digest(p) for p in dependencies(config)},
+                    'generator/' + p.relative_to(PACKAGE).as_posix() if p.is_relative_to(PACKAGE)
+                    else 'spec/' + Path(os.path.relpath(p, config.path.parent)).as_posix()): digest(p) for p in dependencies(config)},
         'sources': [{'path': p.name, 'library': 's3c', 'base': 's3c_library'} for p in shared_sources(config)] +
                    [{'path': config.name + '.vhdl', 'library': 'work', 'base': 'output'}],
         'files': {name: hashlib.sha256(value.encode()).hexdigest() for name, value in files.items()},
@@ -335,7 +335,7 @@ def check(config_path, output):
         if not p.is_file() or p.read_bytes() != value.encode():
             raise GeneratorError(f'Stale or missing generated file: {p}; run the generator')
     try:
-        actual = json.loads((output / RECEIPT).read_text())
+        actual = json.loads((output / RECEIPT).read_text(encoding="utf-8"))
         expected = receipt(config, output, files)
     except (OSError, ValueError) as exc:
         raise GeneratorError(f'Invalid generation receipt: {exc}') from exc
@@ -348,7 +348,7 @@ def write_atomic(path, value):
     fd, filename = tempfile.mkstemp(dir=path.parent)
     temporary = Path(filename)
     try:
-        with os.fdopen(fd, 'w') as stream:
+        with os.fdopen(fd, 'w', encoding='utf-8', newline='\n') as stream:
             stream.write(value)
         temporary.replace(path)
     finally:
@@ -369,7 +369,7 @@ def generate(config_path, output):
         raise GeneratorError('Generation receipt must not be a symlink')
     if record.exists():
         try:
-            old_files = json.loads(record.read_text())['files']
+            old_files = json.loads(record.read_text(encoding="utf-8"))['files']
         except (OSError, ValueError, KeyError, TypeError) as exc:
             raise GeneratorError(f'Invalid generation receipt: {exc}') from exc
         if (not isinstance(old_files, dict) or

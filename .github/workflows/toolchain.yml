@@ -8,6 +8,30 @@ permissions:
   contents: read
 
 jobs:
+  windows-python:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    env:
+      PYTHONUTF8: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Bootstrap without Make or third-party Python packages
+        run: python -S -m toolchain venv --dry-run 1
+      - name: Create the native environment
+        run: python -m toolchain venv --activate 0
+      - name: Check Python tooling and native Windows locking
+        run: .venv\Scripts\python.exe -m toolchain test
+      - name: Verify the CLI and tracked generated programs
+        run: |
+          .venv\Scripts\python.exe -m toolchain check --program cvg_tx30 --release-cycle heartbeat_cvg
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          .venv\Scripts\python.exe -m toolchain build-all --dry-run 1
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          .venv\Scripts\python.exe -m toolchain program --target dslot --dry-run 1
+
   checks:
     runs-on: ubuntu-22.04
     timeout-minutes: 45

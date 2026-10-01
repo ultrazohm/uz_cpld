@@ -11,19 +11,19 @@ Quick start
 See :doc:`quick-start` for the path from a new program through simulation to a Diamond ``.jed`` or FOSS ``.bit`` export.
 The :ref:`generator-quickstart` covers creating a starter, editing its routing, generating the project files, simulating and building with Diamond.
 
-Run ``make`` to see all commands. With Docker installed, run these commands from the repository root::
+Run ``python -m toolchain help`` to see all commands. With Docker installed, run these commands from the repository root::
 
-   make image
-   make test runner=container
-   make sim
-   make docs
+   python -m toolchain image
+   python -m toolchain test --runner container
+   python -m toolchain sim
+   python -m toolchain docs
 
 Open ``docs/_build/html/index.html`` for the complete site, including program diagrams and interactive waveforms.
 Diamond firmware builds require :doc:`vendor setup <environments>` and never program hardware::
 
-   make list
-   make build program=tx30
-   make build-all
+   python -m toolchain list
+   python -m toolchain build --program tx30
+   python -m toolchain build-all
 
 Run commands from the repository root; paths in this documentation are relative to that directory.
 
@@ -33,6 +33,7 @@ Run commands from the repository root; paths in this documentation are relative 
    commands
    quick-start
    environments
+   windows
    builds
    programmer
    firmware-identity

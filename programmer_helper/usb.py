@@ -1,9 +1,9 @@
 """Temporarily release one Linux FTDI JTAG interface for Diamond."""
-from contextlib import contextmanager
+from contextlib import contextmanager, ExitStack
 import ctypes as C
 from ctypes.util import find_library
 from dataclasses import dataclass
-import fcntl
+from toolchain.locking import file_lock
 import os
 from pathlib import Path
 import signal
@@ -134,7 +134,14 @@ def _interrupt(signum, frame):
 def diamond_usb(port: int, *, serial=None):
     """Restore only the driver we detached, after the Diamond process has exited."""
     if not sys.platform.startswith('linux'):
-        yield
+        # Windows uses the vendor driver. Serialize access without Linux sysfs.
+        lock_path = Path(tempfile.gettempdir()) / 'uz-cpld-diamond-usb.lock'
+        with ExitStack() as stack:
+            try:
+                stack.enter_context(file_lock(lock_path))
+            except BlockingIOError as exc:
+                raise BuildError('Another programmer operation is using Diamond USB') from exc
+            yield
         return
     interface = diamond_interface(serial=serial) if serial is not None else diamond_interface()
     if interface is None:
@@ -145,10 +152,9 @@ def diamond_usb(port: int, *, serial=None):
                          f'interface {JTAG_INTERFACE}; update the port/interface constants for other wiring')
     lock_path = Path(tempfile.gettempdir()) / (
         f'uz-cpld-ftdi-{interface.bus}-{interface.address}-{interface.number}.lock')
-    fd = os.open(lock_path, os.O_CREAT | os.O_RDWR | os.O_NOFOLLOW | os.O_CLOEXEC, 0o600)
-    with os.fdopen(fd, 'w') as lock:
+    with ExitStack() as stack:
         try:
-            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            stack.enter_context(file_lock(lock_path))
         except BlockingIOError as exc:
             raise BuildError('Another programmer operation is using this USB interface') from exc
         driver = interface.driver

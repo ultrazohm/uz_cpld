@@ -2,7 +2,7 @@ Quick start
 ===========
 
 This guide follows a D-slot program from authored files through RTL simulation to a firmware export.
-Run every command from the repository root.
+Run every command from the repository root. For native Windows setup, see :doc:`windows`.
 Examples use ``original`` as the current cycle. Set ``release_cycle=NAME`` on a command to override the current cycle; see :doc:`releases`.
 
 Choose CSV generation or clone a program for manual VHDL editing.
@@ -38,11 +38,11 @@ Generate a program from CSV
 
 Use the generator starter for a D-slot program with normal and safe routing states::
 
-   make new name=my_slot template=generator
+   python -m toolchain new --name my_slot --template generator
    # Edit programs/original/cvg_my_slot/routing.csv
-   make generate program=cvg_my_slot
-   make sim program=cvg_my_slot
-   make build program=cvg_my_slot backend=diamond
+   python -m toolchain generate --program cvg_my_slot
+   python -m toolchain sim --program cvg_my_slot
+   python -m toolchain build --program cvg_my_slot --backend diamond
 
 The starter CSV has 30 transmit routes with low safe-state outputs.
 The directory ``programs/original/cvg_my_slot/`` contains:
@@ -51,7 +51,7 @@ The directory ``programs/original/cvg_my_slot/`` contains:
 * ``generator.toml``: program name, clock, S3C contract, pilot policy and target.
 * ``description.rst``: program documentation.
 
-``make generate program=cvg_my_slot`` creates:
+``python -m toolchain generate --program cvg_my_slot`` creates:
 
 * ``cvg_my_slot.vhdl``: VHDL matching the routing.
 * ``cvg_my_slot_tb.py``: a matching cocotb testbench.
@@ -61,7 +61,7 @@ The directory ``programs/original/cvg_my_slot/`` contains:
 
 Generation validates the project and registers it in ``programs/<release_cycle>/catalog.toml``.
 The starter is excluded from catalog commands until generation succeeds.
-Edit ``routing.csv`` and, when needed, ``generator.toml``, then rerun ``make generate`` to update the generated files together.
+Edit ``routing.csv`` and, when needed, ``generator.toml``, then rerun ``python -m toolchain generate`` to update the generated files together.
 The generator protects manually edited output files from overwriting.
 The generated testbench checks input/output directions, normal and safe routing, and configured control conditions.
 This workflow uses the ``uz_dslot_xo2`` board constraints, internal MachXO2 clock and Diamond backend.
@@ -72,15 +72,15 @@ Clone a program for manual editing
 
 Clone an existing program, replacing ``my_adapter`` with your program name::
 
-   make new name=my_adapter template=tx30
+   python -m toolchain new --name my_adapter --template tx30
    # Edit the cloned files listed below
-   make check program=my_adapter
-   make sim program=my_adapter
-   make build program=my_adapter backend=diamond
+   python -m toolchain check --program my_adapter
+   python -m toolchain sim --program my_adapter
+   python -m toolchain build --program my_adapter --backend diamond
 
 ``template`` defaults to ``tx30`` and can name another program to clone.
 The clone is added to ``programs/<release_cycle>/catalog.toml``, so catalog-wide commands and CI include it.
-``make list`` shows the current catalog.
+``python -m toolchain list`` shows the current catalog.
 Edit these files in ``programs/original/my_adapter/``:
 
 * ``my_adapter.vhdl``: implement the logic.
@@ -99,7 +99,7 @@ Inspect the result
 ------------------
 
 Simulation writes logs, result XML and ``waves.vcd`` under ``programs/<release_cycle>/<name>/build/simulation/``.
-Open the VCD in GTKWave or use ``make docs`` to generate an interactive waveform page.
+Open the VCD in GTKWave or use ``python -m toolchain docs`` to generate an interactive waveform page.
 A failed test assertion fails the simulation command.
 
 Diamond exports ``<name>_uz_dslot_xo2_diamond.jed`` and ``<name>_uz_dslot_xo2_diamond.bit`` under ``programs/<release_cycle>/<name>/build/uz_dslot_xo2_diamond/``.
@@ -110,7 +110,7 @@ See :doc:`validation` for what these checks establish.
 Next steps
 ----------
 
-* Run ``make`` for the command overview and ``make list`` for catalog programs.
+* Run ``make`` for the command overview and ``python -m toolchain list`` for catalog programs.
 * Use :doc:`builds` for catalog builds, reports, the Diamond GUI and cleanup.
 * Use :doc:`simulation` for test coverage, seeds and waveform formats.
 * Use :doc:`program-documentation` for RTL diagrams and generated program pages.

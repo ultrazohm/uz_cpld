@@ -119,13 +119,13 @@ proc drscan {tap args} {
     def test_diamond_read_uses_vendor_logs_and_native_chain_order(self):
         root = Path(__file__).resolve().parents[2]
         expected = {'idcode': '012BB043', 'usercode': '00010001', 'traceid': '0044381228405816'}
-        def run(command, stdout_log):
+        def run(command, stdout_log, **kwargs):
             key = Path(command[2]).stem
             _, _, operation, field, _ = next(item for item in identify.DIAMOND_READS if item[0] == key)
             text = ''.join(f'Device{i} LCMXO2-2000HC: {operation}\n'
                            f'{field} : 0x{expected[key]}.\nOperation Done. No errors.\n'
                            for i in range(1, 6))
-            Path(command[3]).write_text(text)
+            Path(command[-1]).write_text(text)
             return text  # Deliberately duplicated on stdout, as pgrcmd does.
         with patch.object(identify, 'diamond_usb', return_value=nullcontext()) as usb, \
                 patch.object(program, 'run_command', side_effect=run) as command, \

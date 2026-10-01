@@ -105,7 +105,7 @@ def main(argv: list[str] | None = None) -> int:
             created = workflow.scaffold(root, args.name, args.template, args.target, args.backend, cycle, args.template_release_cycle)
             print(created)
             if args.template == 'generator':
-                print(f'Edit {created.relative_to(root)}/routing.csv, then run make generate program={created.name} release_cycle={cycle}')
+                print(f'Edit {created.relative_to(root)}/routing.csv, then run python -m toolchain generate --program {created.name} --release-cycle {cycle}')
         elif args.command == 'generate':
             if not args.program:
                 raise BuildError('generate requires --program (Make: program=...)')

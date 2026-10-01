@@ -1,6 +1,5 @@
 """Build and verify the pinned MachXO2 USERCODE-capable openFPGALoader."""
 import argparse
-import fcntl
 import hashlib
 import json
 import os
@@ -50,6 +49,7 @@ def publish(binary, license_file, output, data):
     """Serialize installation and make the receipt readable by runtime users."""
     output.mkdir(parents=True, exist_ok=True)
     output.chmod(0o755)
+    import fcntl  # Only the Linux source-build publisher uses directory flock.
     fd = os.open(output, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
     try:
         fcntl.flock(fd, fcntl.LOCK_EX)

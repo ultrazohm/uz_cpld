@@ -2,6 +2,7 @@
 import argparse
 from dataclasses import dataclass
 import os
+import re
 from pathlib import Path
 import shlex
 import subprocess
@@ -16,6 +17,15 @@ COMMON = {'runner', 'dry_run'}
 CONTAINER = {'container_engine', 'container_platform', 'toolchain_image'}
 FIRMWARE = {'backend', 'build_backend', 'target', 'release_cycle'}
 PROBE = {'backend', 'programmer_backend', 'target', 'probe_index', 'cable', 'usb_serial'}
+
+# The native Windows suite excludes Linux-only tool and shell integrations.
+WINDOWS_TESTS = (
+    'toolchain.tests.test_platform', 'toolchain.tests.test_commands', 'toolchain.tests.test_venv',
+    'toolchain.tests.test_identity.IdentityTests.test_concurrent_allocations_are_unique_and_repeated_allocation_is_stable',
+    'toolchain.tests.test_identity.IdentityTests.test_concurrent_same_build_reuses_one_revision',
+    'cpld_vhdl_generator.tests.test_generator', 'programmer_helper.tests.test_program',
+    'programmer_helper.tests.test_identify', 'programmer_helper.tests.test_helper',
+)
 
 
 @dataclass(frozen=True)
@@ -34,7 +44,7 @@ def spec(group, example, description, options=(), required=()):
 # Tool groups and command order are shared by overview and focused help.
 COMMANDS = {
     'image': spec('Environment', 'image', 'Build the container tools (optional for native Diamond)', CONTAINER),
-    'venv': spec('Environment', 'venv [activate=0|1]', 'Install native Python dependencies and open an activated Bash shell', {'activate'}),
+    'venv': spec('Environment', 'venv [activate=0|1]', 'Install native Python dependencies and open an activated shell', {'activate'}),
     'doctor': spec('Environment', 'doctor', 'Check Diamond and catalog inputs; backend=foss checks FOSS', FIRMWARE),
     'docs': spec('Documentation', 'docs [release_cycle=all]', 'Generate assets and HTML; defaults to the current release', {'program', 'target', 'release_cycle', 'jobs'}),
     'docs-assets': spec('Documentation', 'docs-assets [program=NAME]', 'Generate documentation assets without rendering HTML', {'program', 'target', 'release_cycle', 'jobs'}),
@@ -89,23 +99,30 @@ ARGUMENT_VALUES = {
 }
 
 
-def argument_text(action, keys):
-    return ' '.join(f'{key}=' + ('NAME|all' if key == 'release_cycle' and
+def argument_text(action, keys, style='make'):
+    return ' '.join((f'{key}=' if style == 'make' else '--' + key.replace('_', '-') + ' ') + ('NAME|all' if key == 'release_cycle' and
                         action in ('docs', 'docs-assets') else values)
                     for key, values in ARGUMENT_VALUES.items() if key in keys) or 'none'
 
 
-def command_help(action):
+def example_text(example, style):
+    if style == 'make':
+        return 'make ' + example
+    return 'python -m toolchain ' + re.sub(r'([a-z_]+)=',
+        lambda match: '--' + match[1].replace('_', '-') + ' ', example)
+
+
+def command_help(action, style='make'):
     command = COMMANDS[action]
-    lines = [f'  make {command.example}', f'    {command.description}']
+    lines = ['  ' + example_text(command.example, style), f'    {command.description}']
     for label, keys in [('Required', command.required), ('Optional', command.options - command.required)]:
-        lines += textwrap.wrap(f'{label}: {argument_text(action, keys)}', width=100,
+        lines += textwrap.wrap(f'{label}: {argument_text(action, keys, style)}', width=100,
                                initial_indent='    ', subsequent_indent='      ',
                                break_long_words=False, break_on_hyphens=False)
     return '\n'.join(lines)
 
 
-def shared_help():
+def shared_help(style='make'):
     return '\n'.join([
         'Argument defaults and rules:',
         '  backend=diamond; build_backend and programmer_backend inherit backend.',
@@ -123,31 +140,32 @@ def shared_help():
         '  docs/docs-assets accept release_cycle=all; other actions use one release.',
         '  dry_run=1 previews without writes, tool startup, or hardware access.',
         '  Auto runner: configured Dev Container stays local; host FOSS builds/sim/netlist/docs',
-        '  use the image. Run make image first. Diamond and USB commands run locally.',
+        '  use the image. Run ' + example_text('image', style) + ' first. Diamond and USB commands run locally.',
         '',
         'Host-container arguments (image, or supported commands with runner=container):',
-        '  ' + argument_text('image', CONTAINER),
+        '  ' + argument_text('image', CONTAINER, style),
         '  Defaults: container_engine=docker; container_platform=linux/amd64;',
         '  toolchain_image=uz-cpld-toolchain. Container execution supports sim, netlist,',
         '  docs, docs-assets, test, and FOSS build/build-all/project/doctor.',
         '',
-        'Use make help command=ACTION to focus on one command. Unsupported options are errors.',
-        'Run one action per invocation; make -j is not a workflow scheduler.',
+        'Use ' + example_text('help command=ACTION', style) + ' to focus on one command. Unsupported options are errors.',
+        'Run one action per invocation. Make remains an optional Linux convenience wrapper.',
     ])
 
 
-def help_text():
-    lines = ['Usage: make ACTION [key=value ...]',
-             'All commands below; make help command=ACTION shows arguments and defaults.']
+def help_text(style='make'):
+    lines = ['Usage: ' + ('make ACTION [key=value ...]' if style == 'make' else
+                                 'python -m toolchain ACTION [--option value ...]'),
+             'All commands below; ' + example_text('help command=ACTION', style) + ' shows arguments and defaults.']
     group = None
     for command in COMMANDS.values():
         if command.group != group:
             group = command.group
             lines += ['', group]
-        lines.append(f'  make {command.example:<43} {command.description}')
+        lines.append(f'  {example_text(command.example, style):<65} {command.description}')
     lines += ['', 'Common options: backend=diamond|foss (default: diamond), target=dslot|s3c,',
               '  release_cycle=NAME, runner=auto|local|container, dry_run=1 (preview).',
-              'Options vary by command; use make help command=ACTION for the complete list.']
+              'Options vary by command; use ' + example_text('help command=ACTION', style) + ' for the complete list.']
     return '\n'.join(lines)
 
 
@@ -157,10 +175,10 @@ def normalize(action, options):
         action, defaults = ALIASES[action]
         options = {**defaults, **options}
     if action not in COMMANDS:
-        raise BuildError(f'Unknown action {action!r}; run make help')
+        raise BuildError(f'Unknown action {action!r}; run python -m toolchain help')
     unsupported = set(options) - COMMANDS[action].options - CONTAINER
     if unsupported:
-        raise BuildError(f'{action} does not accept {", ".join(sorted(unsupported))}; run make help command={action}')
+        raise BuildError(f'{action} does not accept {", ".join(sorted(unsupported))}; run python -m toolchain help --command {action}')
     for key in COMMANDS[action].required:
         if not options.get(key):
             raise BuildError(f'{action} requires {key}=' + ('dslot|s3c' if key == 'target' else 'NAME'))
@@ -243,12 +261,16 @@ def plan(action, options, *, root=ROOT, cwd=None, environ=None):
     engine = options.get('container_engine', 'docker')
     platform = options.get('container_platform', 'linux/amd64')
     image = options.get('toolchain_image', 'uz-cpld-toolchain')
+    if sys.platform == 'win32' and action == 'flasher-build':
+        raise BuildError('The pinned FOSS source build requires Linux; use the toolchain container or WSL')
     if runner == 'container':
         forwarded = {k: v for k, v in options.items() if k not in CONTAINER | {'runner', 'dry_run'}}
         command = [engine, 'run', '--rm', '--platform', platform]
-        if Path(engine).name == 'podman':
+        if sys.platform != 'win32' and Path(engine).name == 'podman':
             command += ['--userns=keep-id']
-        command += ['--user', f'{os.getuid()}:{os.getgid()}', '--mount',
+        if sys.platform != 'win32':
+            command += ['--user', f'{os.getuid()}:{os.getgid()}']
+        command += ['--mount',
                     f'type=bind,source={root},target=/work', '-w', '/work', image,
                     'python3', '-m', 'toolchain.commands', action, '--runner', 'local']
         for key, value in sorted(forwarded.items()):
@@ -289,7 +311,7 @@ def plan(action, options, *, root=ROOT, cwd=None, environ=None):
             if action == 'program':
                 args += ['--build-backend', build_backend]
                 if 'target' not in options:
-                    raise BuildError('program requires target=dslot or target=s3c; use make init to create a selection')
+                    raise BuildError('program requires target=dslot or target=s3c; use python -m toolchain init to create a selection')
             args += ['--target', options.get('target', 'dslot')]
             args += flags('cable', 'usb_serial')
             args += ['--execute']
@@ -297,6 +319,8 @@ def plan(action, options, *, root=ROOT, cwd=None, environ=None):
     if action == 'flasher-build':
         return [invoke('toolchain.foss.flasher', ['--jobs', options.get('jobs', '4')])]
     if action == 'test':
+        if sys.platform == 'win32':
+            return [invoke('unittest', [*WINDOWS_TESTS, '-v'])]
         return [invoke('unittest', ['discover', '-s', f'{folder}/tests', '-v'])
                 for folder in ('xo2_library', 'cpld_vhdl_generator', 'toolchain', 'programmer_helper')]
     if action == 'sim':
@@ -326,11 +350,13 @@ def plan(action, options, *, root=ROOT, cwd=None, environ=None):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('action', nargs='?', default='help')
+    parser.add_argument('--make-help', action='store_true', help=argparse.SUPPRESS)
     parser.add_argument('--option', action='append', default=[], metavar='KEY=VALUE')
     names = set().union(*(s.options for s in COMMANDS.values())) | CONTAINER | {'command'}
     for key in sorted(names):
         parser.add_argument('--' + key.replace('_', '-'), dest=key)
     args = parser.parse_args(argv)
+    style = 'make' if args.make_help else 'python'
     try:
         options = {key: getattr(args, key) for key in names if getattr(args, key) is not None}
         for item in args.option:
@@ -348,13 +374,13 @@ def main(argv=None):
                 if action not in COMMANDS:
                     raise BuildError(f'Unknown action {action}')
                 print(COMMANDS[action].group)
-                print(command_help(action))
-                print('\n' + shared_help())
+                print(command_help(action, style))
+                print('\n' + shared_help(style))
             else:
-                print(help_text())
+                print(help_text(style))
             return 0
         if args.action in ALIASES:
-            print(f'Compatibility alias: use make {ALIASES[args.action][0]} instead.', file=sys.stderr)
+            print(f'Compatibility alias: use python -m toolchain {ALIASES[args.action][0]} instead.', file=sys.stderr)
         calls = plan(args.action, options)
         if options.get('dry_run') == '1':
             print('Preview only: no commands will be executed.')

@@ -1,6 +1,6 @@
 """Tracked program numbers and collision-checked, input-specific USERCODEs."""
 from contextlib import contextmanager
-import fcntl
+from toolchain.locking import directory_lock
 import hashlib
 import json
 import os
@@ -65,9 +65,7 @@ def read_registry(root):
 def _transaction(root):
     """Serialize short registry transactions on a stable directory inode."""
     base = Path(root) / 'programs'
-    fd = os.open(base, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
-    try:
-        fcntl.flock(fd, fcntl.LOCK_EX)
+    with directory_lock(base, blocking=True):
         data = read_registry(root)
         before = json.dumps(data, sort_keys=True)
         yield data
@@ -83,8 +81,6 @@ def _transaction(root):
             finally:
                 if os.path.exists(temporary):
                     os.unlink(temporary)
-    finally:
-        os.close(fd)
 
 
 def _reserve(data, qualified):

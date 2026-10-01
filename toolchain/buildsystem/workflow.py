@@ -1,7 +1,7 @@
 """Locked build lifecycle, artifact provenance and program cloning."""
-from contextlib import contextmanager
+from contextlib import contextmanager, ExitStack
 from datetime import datetime, timezone
-import fcntl
+from toolchain.locking import directory_lock, file_lock
 import hashlib
 import json
 import os
@@ -9,10 +9,12 @@ from pathlib import Path
 import re
 import shutil
 import subprocess
+import sys
 import tempfile
 from .model import Build, BuildError, catalog, identifier, input_path, load_build, read_toml, release_directory, resolve_release, resolve_program
 from .backends.diamond import DiamondBackend, launcher, synthesis_options
 from .ghdl import read_vhdl
+from toolchain.diamond import environment as diamond_environment
 
 
 def backend_for(build):
@@ -32,6 +34,9 @@ def hashes(build: Build) -> dict:
     code = build.root / 'toolchain/buildsystem'
     paths = set(build.inputs) | {code / name for name in
                                  ('model.py', 'workflow.py', 'cli.py', 'identity.py', 'backends/' + build.backend + '.py')}
+    paths.add(build.root / 'toolchain/locking.py')
+    if build.backend == 'diamond':
+        paths.add(build.root / 'toolchain/diamond.py')
     if build.backend == 'foss':
         paths |= {code / 'ghdl.py', code / 'foss_config.py'}
         paths |= set((build.root / 'toolchain/hdl').rglob('*.v'))
@@ -59,17 +64,13 @@ def safe_directory(build: Build, directory: Path | None = None) -> Path:
 
 @contextmanager
 def workspace_lock(root: Path, *, exclusive: bool = False):
-    """Coordinate cleanup on the checkout directory inode, which cleanup preserves."""
-    fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
-    try:
+    """Coordinate cleanup with a persistent workspace lock on either platform."""
+    with ExitStack() as stack:
         try:
-            mode = fcntl.LOCK_EX if exclusive else fcntl.LOCK_SH
-            fcntl.flock(fd, mode | fcntl.LOCK_NB)
+            stack.enter_context(directory_lock(root, exclusive=exclusive))
         except BlockingIOError as exc:
             raise BuildError(f'Workspace operation already active: {root}') from exc
         yield
-    finally:
-        os.close(fd)
 
 
 @contextmanager
@@ -80,10 +81,9 @@ def locked(build: Build):
         lockdir = safe_directory(build, build.root / 'toolchain/build/locks')
         lockdir.mkdir(parents=True, exist_ok=True)
         lockpath = lockdir / f'{build.release_cycle}.{build.name}.{build.target}.{build.backend}.lock'
-        fd = os.open(lockpath, os.O_CREAT | os.O_RDWR | os.O_NOFOLLOW, 0o600)
-        with os.fdopen(fd, 'w') as stream:
+        with ExitStack() as stack:
             try:
-                fcntl.flock(stream, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                stack.enter_context(file_lock(lockpath))
             except BlockingIOError as exc:
                 raise BuildError(f'Build or GUI already active: {directory}') from exc
             yield directory
@@ -275,8 +275,12 @@ def _clean_all(root: Path):
         if (root / folder).is_symlink():
             raise BuildError(f'Authored directory must not be a symlink: {root / folder}')
     programs = root / 'programs'
-    outputs = [root / 'toolchain/build', root / 'docs/_build',
-               root / 'docs/_generated', root / '.venv']
+    outputs = [root / 'toolchain/build', root / 'docs/_build', root / 'docs/_generated']
+    environment = root / '.venv'
+    if Path(sys.prefix).resolve().is_relative_to(environment.resolve()):
+        print(f'Keeping active Python environment: {environment}')
+    else:
+        outputs.append(environment)
     if programs.is_dir():
         for cycle in programs.iterdir():
             if cycle.is_symlink():
@@ -297,7 +301,7 @@ def _clean_all(root: Path):
         base = Path(parent)
         for name in list(dirs):
             path = base / name
-            if name in ('.git', 'archive'):
+            if name in ('.git', 'archive', '.venv'):
                 dirs.remove(name)
             elif name in ('__pycache__', '.pytest_cache'):
                 if path.is_symlink():
@@ -323,7 +327,7 @@ def gui(build: Build):
         proj = directory / 'project'
         if not (proj / 'firmware.ldf').is_file():
             proj, _ = prepare(build, directory)
-        result = subprocess.run([str(executable), str(proj / 'firmware.ldf')], cwd=proj)
+        result = subprocess.run([str(executable), str(proj / 'firmware.ldf')], cwd=proj, env=diamond_environment(executable))
         if result.returncode:
             raise BuildError(f'Diamond GUI exited {result.returncode}')
 

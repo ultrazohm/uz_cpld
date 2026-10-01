@@ -10,7 +10,7 @@ from . import workflow
 def main(argv: list[str] | None = None) -> int:
     """Execute a command and return a shell-compatible status code."""
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command', choices=['list', 'usercodes', 'usercodes-assign', 'doctor', 'new', 'generate', 'check', 'project', 'build', 'gui', 'build-all', 'report', 'clean', 'clean-all', 'release-list', 'release-new', 'release-current'])
+    parser.add_argument('command', choices=['list', 'usercodes', 'usercodes-assign', 'doctor', 'new', 'generate', 'check', 'project', 'build', 'compare', 'gui', 'build-all', 'report', 'clean', 'clean-all', 'release-list', 'release-new', 'release-current'])
     parser.add_argument('--root', type=Path, default=Path(__file__).resolve().parents[2])
     parser.add_argument('--program')
     parser.add_argument('--release-cycle', '--release_cycle', dest='release_cycle')
@@ -55,6 +55,13 @@ def main(argv: list[str] | None = None) -> int:
             from toolchain.doctor import report
             return report(root, backend=args.backend or 'diamond', release_cycle=args.release_cycle, target=args.target)
         cycle = resolve_release(root, args.release_cycle)
+        if args.command == 'compare':
+            if not args.program:
+                raise BuildError('compare requires --program')
+            from .comparison import compare
+            path, passed = compare(root, args.program, args.target, cycle, args.backend)
+            print(path)
+            return 0 if passed else 1
         def selected_builds(collect_errors=False):
             builds = []
             errors = []
@@ -99,6 +106,8 @@ def main(argv: list[str] | None = None) -> int:
             failed = []
             build_errors = []
             builds, selection_errors = selected_builds(collect_errors=True)
+            if not builds and not selection_errors:
+                raise BuildError('No programs selected for build-all')
             for name, target, error in selection_errors:
                 failed.append(name)
                 print(f'{name} ({target}): {error}', file=sys.stderr)

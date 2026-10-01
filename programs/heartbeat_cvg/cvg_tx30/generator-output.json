@@ -23,7 +23,7 @@
     ]
   },
   "files": {
-    "cvg_tx30.toml": "74bdf646ad2ee284af03a3f177be8f9547190358a55ded1763a4d945b97c87fb",
+    "cvg_tx30.toml": "d04a610e6a2094d99b234835b3ca662e83514abd6711fbb727def60c13dc382d",
     "cvg_tx30.vhdl": "0cb366d409cd20616b26dac23e1dbbae39e1d2fb7a27f94af1b9257ad73fb316",
     "cvg_tx30_constraints.lpf": "6060943f4d67be17676d64e96af65b61e6fa5a6094bf1d1daf442780f402818b",
     "cvg_tx30_tb.py": "b86ad2d0d2ac57c6fad697037e0676002a89e060f4d09279247904c74873c04c"
@@ -33,13 +33,14 @@
     "generator/__init__.py": "4f49b7897f98199120193f278915b7811674cda42e9deacf967620eccb83d259",
     "generator/__main__.py": "47d0a830e20065dbcbd55789103a034578b993010c1daf5e2a2d0d25d2f15bbe",
     "generator/contracts/s3c_heartbeat_v1.toml": "6b1c7978ac0ecb946914c88f97b5503159396258e34afbd55627112146b264f7",
-    "generator/generator.py": "96f4ea3371df0186c7a371f50c5812e541ed5da2335f5f3e624edab2e9da9bdb",
-    "generator/project.py": "9f7cba8ab6acfb9fe40d8793645313c307b2f12a5d02ec5a0835a5192647d37e",
+    "generator/generator.py": "f936d3a9a076b7d68b03fbc035a4371647275286c0739b2d56f9e1b770d6ea7a",
+    "generator/project.py": "bbe732f82913e07bb56312103adc4494134896e160c2f78897f5c8abd3f9a98c",
     "generator/targets/uz_dslot_xo2.lpf": "12fd46a1aaeb58b186fbccc8b06ecfe028fb33ed93d71ecee1206cc0f375e857",
     "generator/toml.py": "4ca324c9b6ba5cb26a9b09adfe04b3e11d8aa6938ed8ecd50559fb82e860d29b",
     "s3c_library/heartbeat.vhdl": "1b1d734a3938c1b8b5a59e064680f6061bb697ca4c429dae7cccb24aeb19d0d6",
     "s3c_library/s3c_logic.vhdl": "888b55f2d9b78f5f24b119a689dba6c065e0cf917a82471154f3cf9de17229b2",
-    "spec/generator.toml": "cd4b1bb0b8bc698fa439c1f61807a1f27ef4e8d7772ef8c3f86d1ed3e310e49b",
+    "spec/cvg_tx30_foss_equivalence_blacklist.txt": "4412f2a55802c4941e931bd83c44ae6f18ad68295a002fdea7d503b8db6a1d98",
+    "spec/generator.toml": "5d1f6c9005fcfefcd21d422301e2b8fb4cadfafefccf632ad9992998a090428b",
     "spec/routing.csv": "856f95037eb9b7538fd37aec42c8752a5589a2fda1f71eeaa36a25129b089021"
   },
   "name": "cvg_tx30",

@@ -214,7 +214,7 @@ def build_program(build: Build) -> Path:
                 published.append(destination)
             reports = directory / 'reports'; reports.mkdir()
             for p in (proj / 'impl').rglob('*'):
-                if p.is_file() and p.suffix.lower() in {'.twr', '.mrp', '.par', '.pad', '.srr', '.rpt', '.bgn', '.html', '.log', '.json', '.config'}:
+                if p.is_file() and p.suffix.lower() in {'.twr', '.mrp', '.par', '.pad', '.srr', '.rpt', '.bgn', '.html', '.log', '.json', '.config', '.v', '.vo', '.sdf'}:
                     destination = (metadata / 'reports' if p.suffix.lower() == '.json' else reports) / p.relative_to(proj / 'impl')
                     destination.parent.mkdir(parents=True, exist_ok=True)
                     shutil.copy2(p, destination)
@@ -408,8 +408,8 @@ def generate_program(root: Path, name: str, target: str | None = None,
             raise BuildError('Generator name must match the program directory')
         if target is not None and config.target is not None and target != config.target:
             raise BuildError(f'{name} does not support target {target}')
-        if config.target and backend not in (None, 'diamond'):
-            raise BuildError('Generated projects support backend=diamond')
+        if config.target and backend is not None and backend not in config.backends:
+            raise BuildError(f'Generated project supports backends={config.backends}')
         manifest = config_path.parent / f'{name}.toml'
         if manifest.exists() and read_toml(manifest).get('generator') != 'generator.toml':
             raise BuildError('Repository generator must be program-local generator.toml')

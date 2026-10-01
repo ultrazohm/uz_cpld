@@ -93,3 +93,11 @@ The receipt records input and output hashes; `--check` verifies freshness withou
 Changing shared HDL requires regeneration, and manually edited or unowned output files are protected from overwriting.
 
 Generated internal control signals use `s3c_`, including `s3c_normal_state`, `s3c_card_enable`, and `s3c_clk`. Repository commands accept `release_cycle=NAME`; the standalone command uses the explicit configuration and output paths.
+
+Project configs default to `backends = ["diamond"]`. A validated FOSS project
+can explicitly opt in with `backends = ["diamond", "foss"]`. The optional
+`foss_equivalence_blacklist = "relative-file.txt"` lists internal synthesis
+match points only, never top-level outputs. The file is included in generation
+provenance; every entry must exist in the mapped design. The heartbeat FOSS
+pilot is `programs/heartbeat_cvg/cvg_tx30`. See `docs/foss.rst` for comparison
+commands and the rationale for its single internal match-point exclusion.

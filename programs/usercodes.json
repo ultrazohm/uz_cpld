@@ -1905,9 +1905,75 @@
           "backend": "diamond",
           "fingerprint": "5f6576a038e121d6ecd70d9a2f9b435fcf0225be913fa16e49b1c03a47382bbb",
           "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [],
+          "backend": "foss",
+          "fingerprint": "12787b0163c6cabbc708d5be51f19835b7733348b858a6215fd81f505b97a0bf",
+          "target": "uz_dslot_xo2"
+        },
+        "4": {
+          "artifacts": [],
+          "backend": "foss",
+          "fingerprint": "247976c0e59aa61968c3c62992fc8f708a818e05a54baacd8ab854097d127637",
+          "target": "uz_dslot_xo2"
+        },
+        "5": {
+          "artifacts": [],
+          "backend": "foss",
+          "fingerprint": "2fafa3dcdac3dcdf534e177540546c7003f5d03d032605bc67ff4431a573f152",
+          "target": "uz_dslot_xo2"
+        },
+        "6": {
+          "artifacts": [],
+          "backend": "foss",
+          "fingerprint": "37979a16e869e9e5217660762db929e6cc44cf71f9661b7daceea2c2e7e27624",
+          "target": "uz_dslot_xo2"
+        },
+        "7": {
+          "artifacts": [
+            {
+              "completed_at": "2026-10-01T15:56:01.708158+00:00",
+              "firmware_sha256": {
+                "bit": "18f7c47a5108ffcc2debf9f767fc07891228c910d6580c9f071c4e9d6f3ae3b8"
+              },
+              "git_revision": "48b3277833e195842bf2c70978d3c124f380f824"
+            }
+          ],
+          "backend": "foss",
+          "fingerprint": "8a352491943dc60e5669082a42e35b81da585b8dcc7e8b74d3c8b7eadbcfee43",
+          "target": "uz_dslot_xo2"
+        },
+        "8": {
+          "artifacts": [
+            {
+              "completed_at": "2026-10-01T15:59:00.286072+00:00",
+              "firmware_sha256": {
+                "bit": "bda53b9bc8ca6e9a8a763ecc0e9be6dcbc04c2644bf88fe283e82dd4318cde3d"
+              },
+              "git_revision": "48b3277833e195842bf2c70978d3c124f380f824"
+            }
+          ],
+          "backend": "foss",
+          "fingerprint": "06581e315ffce33ddce26dfaf1e7f5873a25c2f7b677b6786d2c9a3f3318c201",
+          "target": "uz_dslot_xo2"
+        },
+        "9": {
+          "artifacts": [
+            {
+              "completed_at": "2026-10-01T16:09:47.490522+00:00",
+              "firmware_sha256": {
+                "bit": "1d880ebcbf3478accb0531ff5d0d4846ad21df96056f774e6f104ea74dd97a8d"
+              },
+              "git_revision": "48b3277833e195842bf2c70978d3c124f380f824"
+            }
+          ],
+          "backend": "foss",
+          "fingerprint": "b6657ff09ac70498da28ac2ff177fb8a0488f3d15ab4fd097d9d73d61b72ce48",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 3,
+      "next_revision": 10,
       "number": 59
     },
     "heartbeat_cvg/cvg_uz_d_3ph_inverter": {
@@ -2339,9 +2405,23 @@
           "backend": "diamond",
           "fingerprint": "01bb3b7cc6325c6b7ca7640d53a4fbf6c47c2c4cd93153abd89209ff4b10914a",
           "target": "uz_dslot_xo2"
+        },
+        "3": {
+          "artifacts": [
+            {
+              "completed_at": "2026-10-01T16:10:54.781186+00:00",
+              "firmware_sha256": {
+                "bit": "c9c267ff9670e4ef3c6c1e3850af43a74fea4a9c49eab6c3b2ccbf46556d5935"
+              },
+              "git_revision": "48b3277833e195842bf2c70978d3c124f380f824"
+            }
+          ],
+          "backend": "foss",
+          "fingerprint": "2ab21b21e1100eb3c56d231496743b6684e4551b150c1a428fac153359d60624",
+          "target": "uz_dslot_xo2"
         }
       },
-      "next_revision": 3,
+      "next_revision": 4,
       "number": 1
     },
     "original/optical_14tx_4rx": {

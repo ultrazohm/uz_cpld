@@ -85,10 +85,12 @@ class Config:
     target: str | None = None
     standard: str = '1993'
     synthesis: str = 'lse'
+    backends: tuple[str, ...] = ('diamond',)
+    foss_equivalence_blacklist: Path | None = None
 
     @property
     def inputs(self):
-        return [self.path, self.routing, self.contract_path]
+        return [self.path, self.routing, self.contract_path] + ([self.foss_equivalence_blacklist] if self.foss_equivalence_blacklist else [])
 
 
 def load_contract(path):
@@ -165,7 +167,7 @@ def load_config(path):
     path = Path(path).resolve()
     data = read_toml(path)
     required = {'schema_version', 'name', 'routing', 'contract', 'clock', 'pilot_policy'}
-    keys(data, required | {'enable', 's3c_library', 'target', 'standard', 'synthesis'}, required, 'configuration')
+    keys(data, required | {'enable', 's3c_library', 'target', 'standard', 'synthesis', 'backends', 'foss_equivalence_blacklist'}, required, 'configuration')
     if type(data['schema_version']) is not int or data['schema_version'] != 3:
         raise GeneratorError('Only schema_version = 3 is supported')
     name = program_name(data['name'])
@@ -173,6 +175,12 @@ def load_config(path):
         if data[field] not in choices:
             raise GeneratorError(f'{field} must be one of {choices}')
     target = data.get('target')
+    backends = data.get('backends', ['diamond'])
+    if (not isinstance(backends, list) or not backends or
+            any(b not in ('diamond', 'foss') for b in backends) or len(set(backends)) != len(backends)):
+        raise GeneratorError('backends must be a nonempty unique list of diamond and/or foss')
+    if 'backends' in data and not target:
+        raise GeneratorError('backends requires project target')
     standard = data.get('standard', '1993')
     synthesis = data.get('synthesis', 'lse')
     if standard not in ('1993', '2008'):
@@ -202,8 +210,11 @@ def load_config(path):
     enable = data.get('enable', {})
     if not isinstance(enable, dict) or any(k not in inputs or type(v) is not int or v not in (0, 1) for k, v in enable.items()):
         raise GeneratorError('enable must map input pins from d_00..d_29 or fpga_00..fpga_29 to 0 or 1')
+    blacklist = relative(path.parent, data['foss_equivalence_blacklist']) if 'foss_equivalence_blacklist' in data else None
+    if blacklist and (not target or 'foss' not in backends or not blacklist.is_file()):
+        raise GeneratorError('foss_equivalence_blacklist requires an existing file and a FOSS project')
     return Config(path, name, routing, pins, contract_path, contract, data['clock'],
-                  data['pilot_policy'], enable, s3c_library, target, standard, synthesis)
+                  data['pilot_policy'], enable, s3c_library, target, standard, synthesis, tuple(backends), blacklist)
 
 
 def ports(config, clock=False):

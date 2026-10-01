@@ -45,9 +45,14 @@ jobs:
         run: make image
       - name: Run tooling tests
         run: docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make test
-      - name: Build all FOSS firmware
+      - name: Build original FOSS firmware
         if: ${{ !cancelled() && steps.image.outcome == 'success' }}
-        run: docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make build-all backend=foss
+        run: docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make build-all backend=foss release_cycle=original
+      - name: Build and compare the heartbeat FOSS pilot
+        if: ${{ !cancelled() && steps.image.outcome == 'success' }}
+        run: |
+          docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make build program=cvg_tx30 release_cycle=heartbeat_cvg backend=foss
+          docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make compare program=cvg_tx30 release_cycle=heartbeat_cvg backend=foss runner=local
       - name: Build program documentation and run HDL simulations
         if: ${{ !cancelled() && steps.image.outcome == 'success' }}
         run: docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make docs release_cycle=all runner=local
@@ -62,6 +67,7 @@ jobs:
             programs/*/*/build/netlist/
             programs/*/*/build/uz_dslot_xo2_foss/
             programs/*/*/build/uz_s3c_xo2_foss/
+            programs/*/*/build/comparison/
             toolchain/build/simulation/
             toolchain/build/validation/
           if-no-files-found: warn

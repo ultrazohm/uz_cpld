@@ -202,6 +202,27 @@ reqoe = [1, 1]
         with self.assertRaisesRegex(GeneratorError, 'require project target'):
             load_config(self.config)
 
+    def test_foss_project_is_explicit_and_tracks_match_point_file(self):
+        original = self.config.read_text().replace('"external"', '"machxo2"')
+        original += 'target = "uz_dslot_xo2"\n'
+        self.config.write_text(original)
+        generate(self.config, self.output)
+        self.assertEqual(read_toml(self.output / 'cvg_example.toml')['backends'], ['diamond'])
+        blacklist = self.root / 'points.txt'
+        blacklist.write_text('controller.internal\n')
+        self.config.write_text(original + 'backends = ["diamond", "foss"]\n'
+                               'foss_equivalence_blacklist = "points.txt"\n')
+        generate(self.config, self.output)
+        check(self.config, self.output)
+        self.assertEqual(read_toml(self.output / 'cvg_example.toml')['backends'], ['diamond', 'foss'])
+        blacklist.write_text('controller.changed\n')
+        with self.assertRaises(GeneratorError):
+            check(self.config, self.output)
+        for value in ('[]', '["foss", "foss"]', '["other"]', '"foss"'):
+            self.config.write_text(original + f'backends = {value}\n')
+            with self.assertRaises(GeneratorError):
+                load_config(self.config)
+
     def test_changed_input_and_edited_generated_file_rejected(self):
         generate(self.config, self.output)
         self.config.write_text(self.config.read_text() + '\n# authored change\n')

@@ -304,7 +304,7 @@ def load_build(root: Path, name: str, target: str | None = None, backend: str | 
             generated = check(config_path, generation_output)
         except (GeneratorError, OSError) as exc:
             raise BuildError(f'{name}: {exc}') from exc
-        if generated.name != p['top'] or p['standard'] != '1993':
+        if generated.name != p['top'] or p['standard'] != generated.standard:
             raise BuildError('Generated top and VHDL standard must match the generator')
         if [(s.path, s.library) for s in sources] != [(s.path, s.library) for s in source_entries(generated, generation_output)]:
             raise BuildError('Manifest sources must match generator-output.json paths, order, and libraries')

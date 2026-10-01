@@ -70,6 +70,17 @@ class GeneratedProgramTests(unittest.TestCase):
         with self.assertRaisesRegex(BuildError, 'already exists'):
             workflow.scaffold(self.root, 'cvg_adapter', 'generator')
 
+    def test_generated_project_uses_selected_synthesis_and_standard(self):
+        directory = workflow.scaffold(self.root, 'adapter', 'generator')
+        config = directory / 'generator.toml'
+        config.write_text(config.read_text() + 'standard = "2008"\nsynthesis = "synplify"\n')
+        workflow.generate_program(self.root, 'cvg_adapter')
+        build = load_build(self.root, 'cvg_adapter')
+        self.assertEqual((build.standard, build.synthesis), ('2008', 'synplify'))
+        clone = workflow.scaffold(self.root, 'adapter_clone', 'cvg_adapter')
+        build = load_build(self.root, clone.name)
+        self.assertEqual((build.standard, build.synthesis), ('2008', 'synplify'))
+
     def test_generated_project_protects_testbench_manifest_and_constraints(self):
         directory = workflow.scaffold(self.root, 'cvg_adapter', 'generator')
         workflow.generate_program(self.root, 'cvg_adapter')

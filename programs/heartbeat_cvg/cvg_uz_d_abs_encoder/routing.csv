@@ -1,0 +1,16 @@
+output,normal_state,safe_state
+d_02,fpga_09,fpga_09
+d_03,fpga_08,fpga_08
+d_04,fpga_10,fpga_10
+d_05,fpga_11,fpga_11
+d_08,fpga_14,fpga_14
+d_09,fpga_15,fpga_15
+d_10,fpga_16,fpga_16
+d_11,fpga_17,fpga_17
+d_13,fpga_12,fpga_12
+d_14,fpga_20,fpga_20
+d_16,fpga_22,fpga_22
+d_17,fpga_23,fpga_23
+fpga_06,d_00,d_00
+fpga_07,d_01,d_01
+fpga_18,d_12,d_12

@@ -177,6 +177,31 @@ reqoe = [1, 1]
         with self.assertRaisesRegex(GeneratorError, 'target'):
             load_config(self.config)
 
+    def test_project_compilation_settings_and_defaults(self):
+        original = self.config.read_text().replace('"external"', '"machxo2"')
+        original += 'target = "uz_dslot_xo2"\n'
+        self.config.write_text(original)
+        generate(self.config, self.output)
+        manifest = read_toml(self.output / 'cvg_example.toml')
+        self.assertEqual((manifest['standard'], manifest['synthesis']), ('1993', 'lse'))
+        for standard in ('1993', '2008'):
+            for synthesis in ('lse', 'synplify'):
+                with self.subTest(standard=standard, synthesis=synthesis):
+                    self.config.write_text(original + f'standard = "{standard}"\nsynthesis = "{synthesis}"\n')
+                    generate(self.config, self.output)
+                    check(self.config, self.output)
+                    manifest = read_toml(self.output / 'cvg_example.toml')
+                    self.assertEqual((manifest['standard'], manifest['synthesis']), (standard, synthesis))
+        for setting in ('standard = "2002"', 'standard = 2008',
+                        'synthesis = "yosys"', 'synthesis = true'):
+            with self.subTest(setting=setting):
+                self.config.write_text(original + setting + '\n')
+                with self.assertRaises(GeneratorError):
+                    load_config(self.config)
+        self.config.write_text(original.replace('target = "uz_dslot_xo2"\n', '') + 'synthesis = "lse"\n')
+        with self.assertRaisesRegex(GeneratorError, 'require project target'):
+            load_config(self.config)
+
     def test_changed_input_and_edited_generated_file_rejected(self):
         generate(self.config, self.output)
         self.config.write_text(self.config.read_text() + '\n# authored change\n')

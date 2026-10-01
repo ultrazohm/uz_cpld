@@ -65,6 +65,7 @@ cpld-vhdl-generator generator.toml --output . --check
 Generation prefixes program names with `cvg_` (without doubling an existing prefix) and writes `cvg_my_slot.vhdl` and `generator-output.json`.
 Add `target = "uz_dslot_xo2"` to also generate the build manifest, cocotb testbench and D-slot board constraints for Diamond.
 This mode requires `clock = "machxo2"`; without a target, `clock = "external"` provides `clk` and active-high `reset` ports.
+Project mode also accepts `standard = "2008"` and `synthesis = "synplify"` to override the default VHDL-1993/LSE compilation settings.
 Standalone generation does not update the repository catalog.
 
 ## Controls and shared HDL

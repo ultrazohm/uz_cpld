@@ -1,0 +1,64 @@
+{
+  "contract": {
+    "carrier_ready": "heartbeat",
+    "compatible_s3c": [
+      "s3c_heartbeat"
+    ],
+    "heartbeat": {
+      "max_edge_clks": 52,
+      "min_edge_clks": 10,
+      "timeout_clks": 208,
+      "valid_edges_required": 16
+    },
+    "id": "s3c_heartbeat_v1",
+    "implementation": "heartbeat",
+    "reqoe": [
+      1,
+      1
+    ],
+    "request_mode": "active_high",
+    "slotok": [
+      1,
+      0
+    ]
+  },
+  "files": {
+    "cvg_voltage_8tx_8rx_8tx_6tx.toml": "f155a008864a0ca554779551760f0cca39c74aee76fcb3e1adc5c88291e5f4a2",
+    "cvg_voltage_8tx_8rx_8tx_6tx.vhdl": "82623ccfbb5fb7a5fcd81086343774448e74e2c80bff1a47299e8f55512ff9c4",
+    "cvg_voltage_8tx_8rx_8tx_6tx_constraints.lpf": "6060943f4d67be17676d64e96af65b61e6fa5a6094bf1d1daf442780f402818b",
+    "cvg_voltage_8tx_8rx_8tx_6tx_tb.py": "83b166bc2b22dd43f020c02f5ae78d4a4a017b1266eeba65e42fec5faa7d4eea"
+  },
+  "generator_version": "0.5.0",
+  "inputs": {
+    "generator/__init__.py": "4f49b7897f98199120193f278915b7811674cda42e9deacf967620eccb83d259",
+    "generator/__main__.py": "47d0a830e20065dbcbd55789103a034578b993010c1daf5e2a2d0d25d2f15bbe",
+    "generator/contracts/s3c_heartbeat_v1.toml": "6b1c7978ac0ecb946914c88f97b5503159396258e34afbd55627112146b264f7",
+    "generator/generator.py": "13a7cccadcfad734e09e2f35acd7d9dbcce7f4d1cc4a7241529faba158eea7ce",
+    "generator/project.py": "f934242498e83a528218e1ad054c8754c009d699314b8149dee8ac055c44d464",
+    "generator/targets/uz_dslot_xo2.lpf": "12fd46a1aaeb58b186fbccc8b06ecfe028fb33ed93d71ecee1206cc0f375e857",
+    "generator/toml.py": "4ca324c9b6ba5cb26a9b09adfe04b3e11d8aa6938ed8ecd50559fb82e860d29b",
+    "s3c_library/heartbeat.vhdl": "93eadb7bad753af00afae60c4790a0b26071bbf1b2da9995497e771d5a18c483",
+    "s3c_library/s3c_logic.vhdl": "83168ffa3369d1bd78123e4abefb928f2944435054135ad4f916b3e5fd3c9e3d",
+    "spec/generator.toml": "a43119dc91f1b0660cc982d2cadcf6855c2281c14bf929b2d5c228f6d4a08381",
+    "spec/routing.csv": "42a230e78d482a4aa6841630c97420fe9b9804208200c5e1db6e7ee6b41fa13e"
+  },
+  "name": "cvg_voltage_8tx_8rx_8tx_6tx",
+  "schema_version": 1,
+  "sources": [
+    {
+      "base": "s3c_library",
+      "library": "s3c",
+      "path": "s3c_logic.vhdl"
+    },
+    {
+      "base": "s3c_library",
+      "library": "s3c",
+      "path": "heartbeat.vhdl"
+    },
+    {
+      "base": "output",
+      "library": "work",
+      "path": "cvg_voltage_8tx_8rx_8tx_6tx.vhdl"
+    }
+  ]
+}

@@ -15,7 +15,9 @@ The optional ``synthesis = "lse"`` or ``synthesis = "synplify"`` selects the Dia
 Omitting it retains LSE; the setting has no effect on FOSS builds.
 The ``heartbeat`` release selects Synplify throughout, matching its source branch.
 The ``original`` release uses LSE except for ``s3c_rev6_beta``, whose historical project selected Synplify.
-The generator writes an explicit ``synthesis = "lse"`` into generated program manifests.
+The generator writes an explicit synthesis setting into generated program manifests,
+defaulting to ``lse``. Set ``synthesis = "synplify"`` in a project-mode
+``generator.toml`` to select Synplify.
 The engine and its effective VHDL-standard option are recorded in ``metadata/build.json``.
 ``sources`` is a nonempty ordered list with no duplicate paths, and ``targets`` explicitly lists compatible board targets.
 Input paths are relative to the manifest, must exist and must stay within the workspace.
@@ -32,7 +34,9 @@ Its configuration, generated top-level VHDL and generation receipt must live dir
 Builds, simulation and documentation require fresh generated files.
 The standalone generator accepts explicit configuration and output paths independently of this repository layout.
 Configurations with ``target = "uz_dslot_xo2"`` also generate the program manifest, testbench and constraints, and freshness checks cover all these files.
-Generated programs use VHDL-1993 and list sources in the order and libraries recorded by ``generator-output.json``.
+Generated programs default to VHDL-1993; project-mode ``generator.toml`` can
+select ``standard = "2008"``. They list sources in the order and libraries
+recorded by ``generator-output.json``.
 The shared S3C entity and selected architecture use library ``s3c``; the generated top level uses library ``work``.
 The provenance record stays in the program directory and includes the shared source hashes.
 ``description.rst`` is optional program prose discovered by the documentation generator.

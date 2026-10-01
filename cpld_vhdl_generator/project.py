@@ -9,7 +9,7 @@ def render_project(config, output):
     """Use the fixed D-slot board pin map and the configured I/O directions."""
     name = config.name
     manifest = {
-        'name': name, 'top': name, 'standard': '1993', 'synthesis': 'lse',
+        'name': name, 'top': name, 'standard': config.standard, 'synthesis': config.synthesis,
         'targets': [config.target], 'backends': ['diamond'],
         'constraints': [name + '_constraints.lpf'],
         'generator': os.path.relpath(config.path, output),

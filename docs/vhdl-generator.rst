@@ -82,6 +82,11 @@ Data forwarding is combinational.
 ``target = "uz_dslot_xo2"`` selects generation of the manifest, testbench and constraints along with the VHDL.
 This project mode requires ``clock = "machxo2"`` and uses the packaged D-slot board pin map, electrical settings and Diamond backend.
 Configurations without ``target`` generate VHDL and provenance and may use an external clock.
+Project configurations also accept ``standard = "1993"`` or ``"2008"`` and
+``synthesis = "lse"`` or ``"synplify"``. Defaults are ``"1993"`` and ``"lse"``.
+These select the generated manifest's compilation settings; the emitted HDL
+uses VHDL-1993-compatible syntax in both modes. The ``heartbeat_cvg`` release
+selects VHDL-2008 and Synplify to match its ``heartbeat`` source programs.
 
 S3C contract
 ------------

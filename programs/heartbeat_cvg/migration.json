@@ -1,0 +1,226 @@
+{
+  "source_release": "heartbeat",
+  "source_commit": "4eb6c81d82ea4381a56f9991b11516cd226c0ae9",
+  "omitted_programs": {
+    "tx30_hearbeattesting": "Diagnostic CarrierReady passthrough excluded at user request."
+  },
+  "programs": [
+    {
+      "source": "optical_14tx_4rx",
+      "generated": "cvg_optical_14tx_4rx",
+      "source_sha256": "e54d9df4b504bbc4899bc178208ad84848b3f72fbb5709c30eef3196b43033db",
+      "undriven_outputs_changed_to_inputs": []
+    },
+    {
+      "source": "rx30",
+      "generated": "cvg_rx30",
+      "source_sha256": "a04743db7292c1c9904208130aec69a561a751959799f0ad4a5b6eede348497b",
+      "undriven_outputs_changed_to_inputs": []
+    },
+    {
+      "source": "template_dslots",
+      "generated": "cvg_template_dslots",
+      "source_sha256": "ad01705fd5305fa266d1cca8373ff024da57239f2578f4d5ccade1f0c984c52f",
+      "undriven_outputs_changed_to_inputs": [
+        "d_26",
+        "d_27",
+        "d_28",
+        "d_29"
+      ]
+    },
+    {
+      "source": "tx16_14rx",
+      "generated": "cvg_tx16_14rx",
+      "source_sha256": "8dc5359f28cfb23f5007e532bcadd56827844a36f072163873fc8e65e550213c",
+      "undriven_outputs_changed_to_inputs": []
+    },
+    {
+      "source": "tx20_10rx",
+      "generated": "cvg_tx20_10rx",
+      "source_sha256": "8eeee79ecd00b318fdcfc4ff7e249cf8becc898890c410577833056982d59ea5",
+      "undriven_outputs_changed_to_inputs": []
+    },
+    {
+      "source": "tx26_w_enable",
+      "generated": "cvg_tx26_w_enable",
+      "source_sha256": "4257c50e2f832ee022e77ca2fba70321ec4eb34e2f8c80b3341c8e8234c6b7d5",
+      "undriven_outputs_changed_to_inputs": [
+        "d_26",
+        "d_27",
+        "d_28",
+        "d_29"
+      ]
+    },
+    {
+      "source": "tx30",
+      "generated": "cvg_tx30",
+      "source_sha256": "42fbeb1a1a687fa65557289c66487775cf2a050b118d1e03d885385b12924218",
+      "undriven_outputs_changed_to_inputs": []
+    },
+    {
+      "source": "uz_d_3ph_inverter",
+      "generated": "cvg_uz_d_3ph_inverter",
+      "source_sha256": "cca9fede8bfdd9f86711a98a4fa74f5ec59b23c6c27e47f927c72be897d85905",
+      "undriven_outputs_changed_to_inputs": []
+    },
+    {
+      "source": "uz_d_abs_encoder",
+      "generated": "cvg_uz_d_abs_encoder",
+      "source_sha256": "204c716fbeed64ddb408fc7ce78efd9892d94ccc1868f5e9c54bb21da869c01b",
+      "undriven_outputs_changed_to_inputs": []
+    },
+    {
+      "source": "uz_d_resolver_d1_to_d4",
+      "generated": "cvg_uz_d_resolver_d1_to_d4",
+      "source_sha256": "b149f293e2e3fcb660262146ed93bc1a7f12cb70d5d416bbef2704fa64902fc2",
+      "undriven_outputs_changed_to_inputs": []
+    },
+    {
+      "source": "uz_d_resolver_d5",
+      "generated": "cvg_uz_d_resolver_d5",
+      "source_sha256": "713b7cabcaf8a6aa47f53c4a3d106e90e0fdec9cbea7f33c40f01242d6d42e7e",
+      "undriven_outputs_changed_to_inputs": [
+        "d_18",
+        "d_19",
+        "d_20",
+        "d_21",
+        "d_22",
+        "d_23",
+        "d_24",
+        "d_25",
+        "d_27",
+        "d_28",
+        "d_29",
+        "fpga_00",
+        "fpga_01",
+        "fpga_02",
+        "fpga_03",
+        "fpga_04",
+        "fpga_05",
+        "fpga_24",
+        "fpga_25",
+        "fpga_26",
+        "fpga_27",
+        "fpga_28",
+        "fpga_29"
+      ]
+    },
+    {
+      "source": "uz_d_temperature_ltc2983",
+      "generated": "cvg_uz_d_temperature_ltc2983",
+      "source_sha256": "d02b186f6c0b61616c19c35c3d8d4c11b03f7bed287272f7c4da20bafbb5eaa0",
+      "undriven_outputs_changed_to_inputs": []
+    },
+    {
+      "source": "voltage_8rx_8rx_8rx_6rx",
+      "generated": "cvg_voltage_8rx_8rx_8rx_6rx",
+      "source_sha256": "4aa78f65172e9fcb6c8f10e5f3261a4d2980d9646ab5be3406afd12ad83efe52",
+      "undriven_outputs_changed_to_inputs": []
+    },
+    {
+      "source": "voltage_8rx_8rx_8rx_6tx",
+      "generated": "cvg_voltage_8rx_8rx_8rx_6tx",
+      "source_sha256": "a7cb705d3847639420cb6a854fc1c553df65040db973d55bbdfe9897fe9ae03f",
+      "undriven_outputs_changed_to_inputs": []
+    },
+    {
+      "source": "voltage_8rx_8rx_8tx_6rx",
+      "generated": "cvg_voltage_8rx_8rx_8tx_6rx",
+      "source_sha256": "f3e037afc9164fee3e97d9bc52f4a221e80133653bbfa4fc35be4ce6b1d3ecfd",
+      "undriven_outputs_changed_to_inputs": []
+    },
+    {
+      "source": "voltage_8rx_8rx_8tx_6tx",
+      "generated": "cvg_voltage_8rx_8rx_8tx_6tx",
+      "source_sha256": "3c89364ef4757dc0bc8e0c50c6849d05c02970d19b2ca8b6311bb3d900bb3a2a",
+      "undriven_outputs_changed_to_inputs": []
+    },
+    {
+      "source": "voltage_8rx_8tx_8rx_6rx",
+      "generated": "cvg_voltage_8rx_8tx_8rx_6rx",
+      "source_sha256": "8191bee7cdb1db941fbd9e63db0a8f77cd574709444cdbae9d405d6b8210d048",
+      "undriven_outputs_changed_to_inputs": []
+    },
+    {
+      "source": "voltage_8rx_8tx_8rx_6tx",
+      "generated": "cvg_voltage_8rx_8tx_8rx_6tx",
+      "source_sha256": "e4db3f4a3511f5bd2c34552f2d94863e0d347c33d03e02556e069341576fbae5",
+      "undriven_outputs_changed_to_inputs": []
+    },
+    {
+      "source": "voltage_8rx_8tx_8tx_6rx",
+      "generated": "cvg_voltage_8rx_8tx_8tx_6rx",
+      "source_sha256": "fe6d2a6348a083186e695875267bf52850fb30073e47653e82bf7eead33c6639",
+      "undriven_outputs_changed_to_inputs": []
+    },
+    {
+      "source": "voltage_8rx_8tx_8tx_6tx",
+      "generated": "cvg_voltage_8rx_8tx_8tx_6tx",
+      "source_sha256": "0e916f8919e0209a21826bddafa453642f3699175f52a9c0a0683af70c6efd58",
+      "undriven_outputs_changed_to_inputs": []
+    },
+    {
+      "source": "voltage_8tx_8rx_8rx_6rx",
+      "generated": "cvg_voltage_8tx_8rx_8rx_6rx",
+      "source_sha256": "0a6a39dab19910ee4e5688c7c03f52bccf7c1648e26cb41a1a2b08831f8cc9cd",
+      "undriven_outputs_changed_to_inputs": []
+    },
+    {
+      "source": "voltage_8tx_8rx_8rx_6tx",
+      "generated": "cvg_voltage_8tx_8rx_8rx_6tx",
+      "source_sha256": "f47219661cfead9ffe1804607be4951be708a8c31ede4f9261567b9a0b2e92d3",
+      "undriven_outputs_changed_to_inputs": []
+    },
+    {
+      "source": "voltage_8tx_8rx_8tx_6rx",
+      "generated": "cvg_voltage_8tx_8rx_8tx_6rx",
+      "source_sha256": "6c1736e1c887079a4f73fd9cb7ec379a369bc01a3cc8bf88bcf5985271283e1d",
+      "undriven_outputs_changed_to_inputs": []
+    },
+    {
+      "source": "voltage_8tx_8rx_8tx_6tx",
+      "generated": "cvg_voltage_8tx_8rx_8tx_6tx",
+      "source_sha256": "ab4cc4a0cdaf81e7267fca502b168faae89e31daa9a8898f52ebe15ec0293faf",
+      "undriven_outputs_changed_to_inputs": []
+    },
+    {
+      "source": "voltage_8tx_8tx_8rx_6rx",
+      "generated": "cvg_voltage_8tx_8tx_8rx_6rx",
+      "source_sha256": "247fa7225c05da62c900250be2199b716b9b0eb2502421cc4ec1457f770d3e3e",
+      "undriven_outputs_changed_to_inputs": []
+    },
+    {
+      "source": "voltage_8tx_8tx_8rx_6tx",
+      "generated": "cvg_voltage_8tx_8tx_8rx_6tx",
+      "source_sha256": "6526697aee7934ee2be65a287ac96551b9e7fd8aadd0ba991f46a316bbda85fe",
+      "undriven_outputs_changed_to_inputs": []
+    },
+    {
+      "source": "voltage_8tx_8tx_8tx_6rx",
+      "generated": "cvg_voltage_8tx_8tx_8tx_6rx",
+      "source_sha256": "47a155a44e99ae92b393c5c62e25ee5d81c7d828799fe795ae2e319e6b98c988",
+      "undriven_outputs_changed_to_inputs": []
+    },
+    {
+      "source": "voltage_8tx_8tx_8tx_6tx",
+      "generated": "cvg_voltage_8tx_8tx_8tx_6tx",
+      "source_sha256": "a1b0e2eba1ca9ed3712b8f66c5fb3efb966624f308a18f7c0a6e96266abc8750",
+      "undriven_outputs_changed_to_inputs": []
+    }
+  ],
+  "copied_programs": [
+    {
+      "source": "heartbeat/s3c_heartbeat",
+      "destination": "heartbeat_cvg/s3c_heartbeat",
+      "files_sha256": {
+        "s3c_heartbeat.vhdl": "073c92b851df2404edeef1becb052f0443095b521bb9e324c374b6411353f119",
+        "s3c_heartbeat_fsm.vhdl": "2a238cbe24626a12f795a1656cc263dbe7b6e59597cc5b86fe3184e3a52e30f6",
+        "s3c_heartbeat_lib.vhdl": "9678bf6360b52296a6ca69e3f087f97f02159e944fe3d30aac2d6b0d6794a9ef",
+        "s3c_heartbeat_constraints.lpf": "9c85cca0e13bb292b6b44633ea4a63b2f7557ef497ba0393547a36b3af50d9ab",
+        "s3c_heartbeat.toml": "ae4d4a05324818f73d531d83ea2db98f3e484560efe95a410ea5c30e95261c55",
+        "s3c_heartbeat_tb.py": "a0110457f4d1ed470aa70f8f73e88023efddf2b7d954e83e5747886e4a1e3ace",
+        "upstream.json": "06b55ffab8464ad0c42ff0e24abb9993a984f5d1f30258b36ad395f2753d7150"
+      }
+    }
+  ]
+}

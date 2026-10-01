@@ -1,5 +1,5 @@
 {
-  "next_program": 53,
+  "next_program": 82,
   "programs": {
     "heartbeat/optical_14tx_4rx": {
       "builds": {
@@ -180,9 +180,15 @@
           "backend": "diamond",
           "fingerprint": "ceeb93e5e9663d8a3ad9e8a719229cc56cf5a9f337974781d4999964e3c91512",
           "target": "uz_s3c_xo2"
+        },
+        "4": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "09a51dbda959dd874c823c35e8c276cb3fbe61050c7c9ebd5af92164f428b171",
+          "target": "uz_s3c_xo2"
         }
       },
-      "next_revision": 4,
+      "next_revision": 5,
       "number": 23
     },
     "heartbeat/template_dslots": {
@@ -1777,6 +1783,347 @@
       },
       "next_revision": 4,
       "number": 52
+    },
+    "heartbeat_cvg/cvg_optical_14tx_4rx": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "315cd41025e156f1c7d4e1368b21f26c17dde096f6175a146796f79c95033414",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 53
+    },
+    "heartbeat_cvg/cvg_rx30": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "f2990c4ef9e3227b3c59da5dd0504fa39b1cb8d13e7fa28fbcc4170ee430f097",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 54
+    },
+    "heartbeat_cvg/cvg_template_dslots": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "be717c5e0cc70aa742c69b5479fd5ced5795acefda7e024442671098e7524dc7",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 55
+    },
+    "heartbeat_cvg/cvg_tx16_14rx": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "092a578ddb6060535397797e1ab1fc1b4701d50fdbd604d1a4f49d3f8e1baf54",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 56
+    },
+    "heartbeat_cvg/cvg_tx20_10rx": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "8cf621981b7a2c9c7f469fababa3dfc9a4e13bec881e751f2ecc96a59753f733",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 57
+    },
+    "heartbeat_cvg/cvg_tx26_w_enable": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "78931f3b3b34bbcb247b97d713b46b53c58be27cee445f95da0ffe8671defd1c",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 58
+    },
+    "heartbeat_cvg/cvg_tx30": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "47ec6932ccc328f445e9302c4d5017dfddd927ba783705144390b80991bc345f",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 59
+    },
+    "heartbeat_cvg/cvg_uz_d_3ph_inverter": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "3c3d5c45070c95bc09d57309d88546a9ed85757da20b37fdb94ba3e8140b714b",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 60
+    },
+    "heartbeat_cvg/cvg_uz_d_abs_encoder": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "9fdeeffac812d43dfb504bead322df690058e8a72eb10409c5c9976104d79782",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 61
+    },
+    "heartbeat_cvg/cvg_uz_d_resolver_d1_to_d4": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "8381ec0cd7eeffbf19bc48c67323db31c8df1edae4ec607cf3f7b860ac36e65b",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 62
+    },
+    "heartbeat_cvg/cvg_uz_d_resolver_d5": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "109296f851a5b96944b8ebc510084937305e69bf00de8cdca4e9f9e74ffcc312",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 63
+    },
+    "heartbeat_cvg/cvg_uz_d_temperature_ltc2983": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "ffd9ea9b10bd6a05acca766a546ebfc05af355ab4131dc72899f43a327b88a53",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 64
+    },
+    "heartbeat_cvg/cvg_voltage_8rx_8rx_8rx_6rx": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "0d08b47587fff9214ccfbaf958484bfd60685e3a07c9a16400dcd53b4ee6e8ac",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 65
+    },
+    "heartbeat_cvg/cvg_voltage_8rx_8rx_8rx_6tx": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "4d97857e3b67095b7d73890a1ea07f3399ac3f8970eee50f905fa67f613bd89a",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 66
+    },
+    "heartbeat_cvg/cvg_voltage_8rx_8rx_8tx_6rx": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "905b934cc0b3c07a06e8a3c203c01e724293dcd5d9bca426a960a4431b7fed46",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 67
+    },
+    "heartbeat_cvg/cvg_voltage_8rx_8rx_8tx_6tx": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "2f1d691e2d7ade1ac458acf1395439ead2e5f17be5543d467cd128913be970cf",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 68
+    },
+    "heartbeat_cvg/cvg_voltage_8rx_8tx_8rx_6rx": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "89898573f49f44656c283243c4200cd3e24bde068ce4a57aa4112e4e0ba20bf6",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 69
+    },
+    "heartbeat_cvg/cvg_voltage_8rx_8tx_8rx_6tx": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "f2dc7fd1c95f12b9acca458a0e9a25bc7cc2582215a56ff8050b914d0408396e",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 70
+    },
+    "heartbeat_cvg/cvg_voltage_8rx_8tx_8tx_6rx": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "47e01b66ca2f9273a2f5803bc7ed72230d9922288c202558b5954334242f6660",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 71
+    },
+    "heartbeat_cvg/cvg_voltage_8rx_8tx_8tx_6tx": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "271e25a2f3954d4511606277f303193797e5d3c07f022c81e4cc0b04456fbd65",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 72
+    },
+    "heartbeat_cvg/cvg_voltage_8tx_8rx_8rx_6rx": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "e99f91c6deac9c50bcea639a33374cceb39ec804cd7b50319a47f0081203b50e",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 73
+    },
+    "heartbeat_cvg/cvg_voltage_8tx_8rx_8rx_6tx": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "47fd6fd3ad615c2a41015082efdd767db29e7196192c2429540adf45c5b31592",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 74
+    },
+    "heartbeat_cvg/cvg_voltage_8tx_8rx_8tx_6rx": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "f458157effc9622d6111ff8e4594f1442701c2a9d41f3fc534fd0871ed67497b",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 75
+    },
+    "heartbeat_cvg/cvg_voltage_8tx_8rx_8tx_6tx": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "d1be0b1d3688dbe95cda5d537e1f88fcabb93af6c00c006d553395d0c7da3a54",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 76
+    },
+    "heartbeat_cvg/cvg_voltage_8tx_8tx_8rx_6rx": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "b04143a5e8821f38fba8bf25227c0e922f9ba7ca38314c52c20e97d22a7d845c",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 77
+    },
+    "heartbeat_cvg/cvg_voltage_8tx_8tx_8rx_6tx": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "10749d113ec5e848a7dc97e72d6c9707aa4deaf300265bfbfd87f201e397d27a",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 78
+    },
+    "heartbeat_cvg/cvg_voltage_8tx_8tx_8tx_6rx": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "b5d1c185bca2cb876025a84b9f2b1dd8b2539e5ff63e29d181daf28f76cd4657",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 79
+    },
+    "heartbeat_cvg/cvg_voltage_8tx_8tx_8tx_6tx": {
+      "builds": {
+        "1": {
+          "artifacts": [],
+          "backend": "diamond",
+          "fingerprint": "104b1e985aad0e03ade723e0f5277cda1b315e9b23f1116a5e0331b72ed26c30",
+          "target": "uz_dslot_xo2"
+        }
+      },
+      "next_revision": 2,
+      "number": 80
+    },
+    "heartbeat_cvg/s3c_heartbeat": {
+      "builds": {},
+      "next_revision": 1,
+      "number": 81
     },
     "original/cvg_tx30_stateful": {
       "builds": {

@@ -83,6 +83,8 @@ class Config:
     enable: dict
     s3c_library: Path
     target: str | None = None
+    standard: str = '1993'
+    synthesis: str = 'lse'
 
     @property
     def inputs(self):
@@ -163,7 +165,7 @@ def load_config(path):
     path = Path(path).resolve()
     data = read_toml(path)
     required = {'schema_version', 'name', 'routing', 'contract', 'clock', 'pilot_policy'}
-    keys(data, required | {'enable', 's3c_library', 'target'}, required, 'configuration')
+    keys(data, required | {'enable', 's3c_library', 'target', 'standard', 'synthesis'}, required, 'configuration')
     if type(data['schema_version']) is not int or data['schema_version'] != 3:
         raise GeneratorError('Only schema_version = 3 is supported')
     name = program_name(data['name'])
@@ -171,6 +173,14 @@ def load_config(path):
         if data[field] not in choices:
             raise GeneratorError(f'{field} must be one of {choices}')
     target = data.get('target')
+    standard = data.get('standard', '1993')
+    synthesis = data.get('synthesis', 'lse')
+    if standard not in ('1993', '2008'):
+        raise GeneratorError('standard must be "1993" or "2008"')
+    if synthesis not in ('lse', 'synplify'):
+        raise GeneratorError('synthesis must be "lse" or "synplify"')
+    if not target and ('standard' in data or 'synthesis' in data):
+        raise GeneratorError('standard and synthesis require project target')
     if 'target' in data:
         if target != 'uz_dslot_xo2':
             raise GeneratorError('Project generation supports target = "uz_dslot_xo2"')
@@ -193,7 +203,7 @@ def load_config(path):
     if not isinstance(enable, dict) or any(k not in inputs or type(v) is not int or v not in (0, 1) for k, v in enable.items()):
         raise GeneratorError('enable must map input pins from d_00..d_29 or fpga_00..fpga_29 to 0 or 1')
     return Config(path, name, routing, pins, contract_path, contract, data['clock'],
-                  data['pilot_policy'], enable, s3c_library, target)
+                  data['pilot_policy'], enable, s3c_library, target, standard, synthesis)
 
 
 def ports(config, clock=False):

@@ -11,6 +11,9 @@ Quick start
 See :doc:`quick-start` for the path from a new program through simulation to a Diamond ``.jed`` or FOSS ``.bit`` export.
 The :ref:`generator-quickstart` covers creating a starter, editing its routing, generating the project files, simulating and building with Diamond.
 
+See :doc:`tool-environments` for a workflow matrix covering native Linux,
+native Windows, the Python venv and Docker.
+
 Run ``python -m toolchain help`` to see all commands. With Docker installed, run these commands from the repository root::
 
    python -m toolchain image
@@ -32,6 +35,7 @@ Run commands from the repository root; paths in this documentation are relative 
 
    commands
    quick-start
+   tool-environments
    environments
    windows
    builds

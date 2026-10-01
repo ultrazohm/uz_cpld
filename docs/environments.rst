@@ -1,6 +1,9 @@
 Environment setup
 =================
 
+See :doc:`tool-environments` for which tools each workflow needs, what the
+venv includes, and when commands launch Docker.
+
 Containers
 ----------
 
@@ -143,7 +146,10 @@ A host-ID mismatch requires checking the authorized license/environment, not edi
 Native tools
 ------------
 
-Native use requires Python 3.10+, GHDL, Yosys, Graphviz and the packages in ``docs/requirements.txt``.
+The full native Linux simulation and documentation workflow requires Python
+3.10+, GHDL, Yosys, Graphviz and the packages in ``docs/requirements.txt``.
+Generation and native Diamond work need only their workflow-specific
+dependencies; see :doc:`tool-environments`.
 The tooling tests also require Tcl support through ``python3-tk`` on Ubuntu.
 The image and native requirements select the same Sphinx version; OS packages and the Ubuntu image tag remain mutable inputs.
 Firmware and documentation commands use dependencies already installed in the image.

@@ -6,6 +6,8 @@ Linux. Run it from the checkout root with Python 3.10 or later. GNU Make,
 Bash and Docker are not needed for native VHDL generation, Diamond builds,
 or Diamond programming. The Makefile remains an optional Linux wrapper.
 
+See :doc:`tool-environments` for the workflow and environment matrix.
+
 Install Python and Git, and install the Windows edition of Diamond matching
 the version in ``toolchain/targets/*/target.toml`` (currently 3.14.0.75.2).
 Install Diamond's programming cable drivers and configure its license.

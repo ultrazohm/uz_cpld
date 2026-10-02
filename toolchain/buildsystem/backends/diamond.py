@@ -5,10 +5,15 @@ from pathlib import Path
 import shutil
 import subprocess
 import re
+import signal
+import sys
 import tempfile
 import xml.etree.ElementTree as ET
 from ..model import Build, BuildError
 from toolchain.diamond import executable, environment, installed_version
+
+STARTUP_MARKER = 'UZ_CPLD_DIAMOND_TCL_STARTED'
+STARTUP_PREAMBLE = f'puts "{STARTUP_MARKER}"\nflush stdout\n'
 
 
 def tcl(value: str) -> str:
@@ -63,13 +68,27 @@ def run(script: Path, log: Path) -> str:
     binary = launcher()
     env = environment(binary)
     env.pop('DISPLAY', None); env.pop('WAYLAND_DISPLAY', None)
-    with log.open('w') as stream:
-        result = subprocess.run([str(binary), script.name], cwd=script.parent,
-                                env=env, stdin=subprocess.DEVNULL, stdout=stream, stderr=subprocess.STDOUT)
-    output = log.read_text(errors='replace')
-    if result.returncode:
-        raise BuildError(f'Diamond exited {result.returncode}; see {log}\n{output[-1800:]}')
-    return output
+    # The flushed marker precedes every project command. Only retry a native
+    # startup segfault; replaying a partially executed project is unsafe.
+    marked = script.read_text().startswith(STARTUP_PREAMBLE)
+    for attempt in range(2):
+        attempt_log = log if attempt == 0 else log.with_name(f'{log.stem}-retry1{log.suffix}')
+        with attempt_log.open('w') as stream:
+            result = subprocess.run([str(binary), script.name], cwd=script.parent,
+                                    env=env, stdin=subprocess.DEVNULL, stdout=stream, stderr=subprocess.STDOUT)
+        output = attempt_log.read_text(errors='replace')
+        if attempt:
+            # Keep the normal build-log path useful to provenance/report readers.
+            with log.open('a') as stream:
+                stream.write(f'\nDiamond startup retry: {attempt_log.name}\n{output}')
+        if not result.returncode:
+            return output
+        if (attempt == 0 and marked and result.returncode == -signal.SIGSEGV
+                and STARTUP_MARKER not in output):
+            print(f'Diamond segfaulted before Tcl startup; retrying once. First log: {log}', file=sys.stderr)
+            continue
+        reason = ' (SIGSEGV)' if result.returncode == -signal.SIGSEGV else ''
+        raise BuildError(f'Diamond exited {result.returncode}{reason}; see {attempt_log}\n{output[-1800:]}')
 
 
 def synthesis_options(build: Build) -> dict:
@@ -131,5 +150,5 @@ class DiamondBackend:
 
 
 def wrap(lines: list[str]) -> str:
-    """Turn Tcl errors into a nonzero process exit."""
-    return 'if {[catch {\n' + '\n'.join(lines) + '\n} message]} {\nputs stderr $message\nexit 1\n}\nexit 0\n'
+    """Mark Tcl startup, then turn Tcl errors into a nonzero process exit."""
+    return STARTUP_PREAMBLE + 'if {[catch {\n' + '\n'.join(lines) + '\n} message]} {\nputs stderr $message\nexit 1\n}\nexit 0\n'

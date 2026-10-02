@@ -32,3 +32,59 @@ The other 18 D-slot programs use combinational equivalence checks and have no se
 ``make report backend=foss`` or ``make report backend=diamond`` checks existing build evidence for stale inputs and outputs without rebuilding.
 Neither command establishes hardware behavior or a timing acceptance limit.
 The authored LPFs contain no timing budget, so inspect the reports and board-specific electrical settings before using firmware on hardware.
+
+Investigating Diamond preparation crashes
+-----------------------------------------
+
+The temporary **Diagnose Diamond preparation crashes** Actions workflow runs manually,
+or on pushes to the isolated ``codex/diamond-diagnosis`` branch so it can be tested
+before merging it into the default branch.
+Start with the ``baseline`` variant and 100 attempts. It runs ordinary and traced
+preparation in the normal image, then ordinary and GDB preparation in a separate
+debugger image. Both debugger-image experiments use the same traced Tcl, allowing
+comparison of normal/traced, debugger-image/traced and debugger-image/GDB runs
+one variable at a time. Each attempt starts with a fresh project and has no automatic retry.
+If the isolated baseline runs pass, the optional catalog step exercises the original full
+build sequence. The workflow fails on every observed crash, including crashes
+recovered by the catalog's existing retry. It does not publish firmware.
+
+Use ``seed_run_id`` to replay the ``baseline.sty``, ``constraints.lpf`` and
+``prepare.tcl`` from an earlier run's ``diamond-diagnostics`` artifact. Check out
+matching HDL sources when comparing with that run; the evidence records source
+hashes. Without a seed, the reproducer uses the current production preparation
+commands and an existing registered USERID, without allocating an identity or
+producing firmware.
+
+For a local comparison in a licensed Linux environment::
+
+   python3 -m toolchain.diagnose_diamond replay --attempts 100 --mode plain --output /tmp/diamond-plain
+   python3 -m toolchain.diagnose_diamond replay --attempts 100 --mode traced --output /tmp/diamond-traced
+
+Output directories must be new. ``--program`` defaults to
+``original/uz_d_voltage_013_tx30``. ``--seed-project PATH`` accepts the extracted
+project directory from the diagnostic archive. Compare the same image contents,
+source revision and runtime flags before attributing a difference to the CI host.
+The ``private-home`` and ``fresh-tmp`` variants change only ``HOME`` or ``TMPDIR``;
+run them separately after establishing a failing baseline.
+
+The ``diamond-crash-investigation`` artifact contains image identities,
+environment and native-library fingerprints, per-attempt results, flushed Tcl
+markers, generated projects and available stack traces. Ordinary-process core
+dumps stay on the disposable runner and are excluded from uploads; at most three
+cores are kept per isolated experiment. GDB preserves address randomization and
+records the actual inferior exit or signal. Missing debugger results are failures.
+Compare ``environment.json`` files from the normal and debugger images, since
+installing debugger dependencies may also change libraries. Startup library
+fingerprints come from ``ldd`` under the vendor environment; crash reports include
+the libraries actually loaded at the failure.
+
+Normal CI also enables ``CPLD_DIAMOND_TRACE=1``. Failed preparations are retained in
+``logs/*-crash`` before a retry resets the working project. Trace markers locate
+the last Tcl command; a native stack trace is still needed to identify the fault.
+``CPLD_DIAMOND_KEEP_CORES=1`` is used only by the diagnostic catalog run.
+
+After identifying a candidate fix, compare failing and fixed configurations on
+the same runner, then require zero crashes over at least 300 preparations across
+three fresh runners and successful full-catalog builds with verified exports.
+Remove the temporary workflow, reproducer and debugger Dockerfile once the cause
+and fix are established; keep the useful failure logging.

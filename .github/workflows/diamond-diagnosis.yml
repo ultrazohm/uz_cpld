@@ -1,0 +1,218 @@
+name: Diagnose Diamond preparation crashes
+on:
+  # Bootstrap on an isolated branch before this workflow exists on the default branch.
+  push:
+    branches: [codex/diamond-diagnosis]
+  workflow_dispatch:
+    inputs:
+      attempts:
+        description: Preparation attempts per experiment (1–1000)
+        type: number
+        default: 100
+      program:
+        description: Release/program to reproduce
+        type: string
+        default: original/uz_d_voltage_013_tx30
+      variant:
+        description: Change only one environment variable
+        type: choice
+        options: [baseline, private-home, fresh-tmp]
+        default: baseline
+      seed_run_id:
+        description: Optional earlier run containing diamond-diagnostics (for archived preparation inputs)
+        type: string
+        default: ''
+      catalog:
+        description: Also run all catalogs if isolated preparation passes
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    env:
+      DIAMOND_IMAGE: ${{ vars.DIAMOND_IMAGE || 'ghcr.io/schindlerto/lattice-diamond:3.14.0.75.2' }}
+      ATTEMPTS: ${{ github.event_name == 'push' && 100 || inputs.attempts }}
+      PROGRAM: ${{ inputs.program || 'original/uz_d_voltage_013_tx30' }}
+      VARIANT: ${{ inputs.variant || 'baseline' }}
+      SEED_RUN_ID: ${{ inputs.seed_run_id }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate diagnostic inputs
+        run: |
+          python3 - <<'PY'
+          import os, re
+          assert 1 <= int(os.environ['ATTEMPTS']) <= 1000
+          assert re.fullmatch(r'[a-z][a-z0-9_]*/[a-z][a-z0-9_]*', os.environ['PROGRAM'])
+          assert os.environ['VARIANT'] in ('baseline', 'private-home', 'fresh-tmp')
+          assert not os.environ['SEED_RUN_ID'] or os.environ['SEED_RUN_ID'].isdigit()
+          PY
+          mkdir -p toolchain/build/diamond-diagnosis
+      - name: Download archived preparation inputs
+        if: inputs.seed_run_id != ''
+        uses: actions/download-artifact@v4
+        with:
+          name: diamond-diagnostics
+          run-id: ${{ inputs.seed_run_id }}
+          github-token: ${{ github.token }}
+          path: toolchain/build/diamond-seed
+      - name: Authenticate to the existing private Diamond package
+        env:
+          GHCR_TOKEN: ${{ secrets.DIAMOND_GHCR_TOKEN }}
+        run: |
+          test -n "$GHCR_TOKEN"
+          printf '%s' "$GHCR_TOKEN" | docker login ghcr.io -u SchindlerTo --password-stdin
+      - name: Build and record the normal image
+        id: image
+        run: |
+          docker pull "$DIAMOND_IMAGE"
+          diamond_base_ref=$(docker image inspect --format '{{index .RepoDigests 0}}' "$DIAMOND_IMAGE")
+          printf '%s\n' "$diamond_base_ref" > toolchain/build/diamond-diagnosis/base-image.log
+          docker build --platform linux/amd64 --target toolchain \
+            --build-arg "TOOLCHAIN_BASE=$diamond_base_ref" \
+            -f .devcontainer/Dockerfile -t uz-cpld-toolchain-diamond .
+          docker image inspect --format '{{.Id}} {{.Os}} {{.Architecture}}' uz-cpld-toolchain-diamond \
+            > toolchain/build/diamond-diagnosis/image.log
+          docker version > toolchain/build/diamond-diagnosis/docker.log
+          uname -a > toolchain/build/diamond-diagnosis/host.log
+          lscpu >> toolchain/build/diamond-diagnosis/host.log
+          free -m >> toolchain/build/diamond-diagnosis/host.log
+      - name: Enable ordinary-process core capture on this disposable runner
+        run: |
+          sysctl -n kernel.core_pattern > toolchain/build/diamond-diagnosis/original-core-pattern.log
+          sudo sysctl -w 'kernel.core_pattern=core.%e.%p'
+      - name: Run ordinary and traced preparation without retries
+        id: replay
+        continue-on-error: true
+        run: |
+          seed=()
+          if [ -n "$SEED_RUN_ID" ]; then
+            projects=(toolchain/build/diamond-seed/programs/"$PROGRAM"/build/*_diamond/project)
+            test "${#projects[@]}" -eq 1 && test -d "${projects[0]}"
+            seed=(--seed-project "/work/${projects[0]}")
+          fi
+          status=0
+          for mode in plain traced; do
+            docker run --rm --init --platform linux/amd64 --ulimit core=-1 \
+              --network=name=bridge,mac-address=10:91:d1:3d:14:ae \
+              --user "$(id -u):$(id -g)" --env HOME=/tmp \
+              --env LM_LICENSE_FILE=/opt/diamond/license/license.dat \
+              --mount "type=bind,source=$PWD,target=/work" -w /work \
+              uz-cpld-toolchain-diamond python3 -m toolchain.diagnose_diamond replay \
+                --program "$PROGRAM" --attempts "$ATTEMPTS" --mode "$mode" --variant "$VARIANT" \
+                --output "toolchain/build/diamond-diagnosis/$mode" "${seed[@]}" || status=1
+          done
+          exit "$status"
+      - name: Exercise the original catalog sequence if isolated preparation passes
+        id: catalog
+        if: env.VARIANT == 'baseline' && (github.event_name == 'push' || inputs.catalog) && steps.replay.outcome == 'success'
+        continue-on-error: true
+        run: |
+          docker run --rm --init --platform linux/amd64 --ulimit core=-1 \
+            --network=name=bridge,mac-address=10:91:d1:3d:14:ae \
+            --user "$(id -u):$(id -g)" --env HOME=/tmp \
+            --env CPLD_DIAMOND_TRACE=1 --env CPLD_DIAMOND_KEEP_CORES=1 \
+            --env LM_LICENSE_FILE=/opt/diamond/license/license.dat \
+            --mount "type=bind,source=$PWD,target=/work" -w /work \
+            uz-cpld-toolchain-diamond bash -e -c '
+              check-diamond --synthesis
+              python3 -m toolchain.ci build-all
+            '
+      - name: Build the temporary debugger image
+        id: debugger
+        if: ${{ !cancelled() && steps.image.outcome == 'success' }}
+        run: |
+          docker build -f .devcontainer/Dockerfile.diamond-diagnostics -t uz-cpld-diamond-diagnostics .
+          docker image inspect --format '{{.Id}} {{.Os}} {{.Architecture}}' uz-cpld-diamond-diagnostics \
+            > toolchain/build/diamond-diagnosis/debugger-image.log
+      - name: Analyze ordinary-run cores and run the debugger control experiments
+        id: debug
+        if: ${{ !cancelled() && steps.debugger.outcome == 'success' }}
+        continue-on-error: true
+        run: |
+          run_debug() {
+            docker run --rm --init --platform linux/amd64 --cap-add SYS_PTRACE --ulimit core=-1 \
+              --network=name=bridge,mac-address=10:91:d1:3d:14:ae \
+              --user "$(id -u):$(id -g)" --env HOME=/tmp \
+              --env LM_LICENSE_FILE=/opt/diamond/license/license.dat \
+              --mount "type=bind,source=$PWD,target=/work" -w /work \
+              uz-cpld-diamond-diagnostics python3 -m toolchain.diagnose_diamond "$@"
+          }
+          seed=()
+          if [ -n "$SEED_RUN_ID" ]; then
+            projects=(toolchain/build/diamond-seed/programs/"$PROGRAM"/build/*_diamond/project)
+            test "${#projects[@]}" -eq 1 && test -d "${projects[0]}"
+            seed=(--seed-project "/work/${projects[0]}")
+          fi
+          status=0
+          # Both runs use identical traced Tcl; only the debugger changes.
+          for mode in traced gdb; do
+            run_debug replay --program "$PROGRAM" --attempts "$ATTEMPTS" --mode "$mode" \
+              --variant "$VARIANT" --output "toolchain/build/diamond-diagnosis/debugger-$mode" \
+              "${seed[@]}" || status=1
+          done
+          run_debug backtraces --output toolchain/build/diamond-diagnosis || status=1
+          run_debug backtraces --output toolchain/build/diamond-diagnosis --core-root programs || status=1
+          exit "$status"
+      - name: Restore runner core configuration
+        if: always()
+        run: |
+          path=toolchain/build/diamond-diagnosis/original-core-pattern.log
+          if [ -f "$path" ]; then
+            sudo sysctl -w "kernel.core_pattern=$(cat "$path")"
+          fi
+      - name: Retain diagnostic text and project files
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: diamond-crash-investigation
+          path: |
+            toolchain/build/diamond-diagnosis/**/*.json
+            toolchain/build/diamond-diagnosis/**/*.log
+            toolchain/build/diamond-diagnosis/**/*.tcl
+            toolchain/build/diamond-diagnosis/**/*.ldf
+            toolchain/build/diamond-diagnosis/**/*.sty
+            toolchain/build/diamond-diagnosis/**/*.lpf
+            programs/*/*/build/*_diamond/logs/
+            programs/*/*/build/*_diamond/metadata/
+            programs/*/*/build/*_diamond/project/*.tcl
+            programs/*/*/build/*_diamond/project/*.ldf
+            programs/*/*/build/*_diamond/project/*.log
+            toolchain/build/validation/*/diamond-catalog/
+            !**/core
+            !**/core.*
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Fail on any crash, including crashes recovered by catalog retries
+        if: ${{ !cancelled() && steps.image.outcome == 'success' }}
+        env:
+          REPLAY_OUTCOME: ${{ steps.replay.outcome }}
+          CATALOG_OUTCOME: ${{ steps.catalog.outcome }}
+          DEBUG_OUTCOME: ${{ steps.debug.outcome }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          root = Path('toolchain/build/diamond-diagnosis')
+          failed = False
+          for name in ('plain', 'traced', 'debugger-traced', 'debugger-gdb'):
+              path = root / name / 'summary.json'
+              if not path.exists():
+                  print(f'{name}: missing summary')
+                  failed = True
+                  continue
+              report = json.loads(path.read_text())
+              print(f'{name}: {report["attempts"]} attempts, {report["segfaults"]} segfaults, {report["statuses"]}')
+              failed |= report['statuses'].get('failed', 0) > 0 or report['attempts'] != int(os.environ['ATTEMPTS'])
+          crashes = list(Path('programs').glob('*/*/build/*_diamond/logs/*-crash'))
+          print(f'Catalog preparation crashes: {len(crashes)}')
+          failed |= bool(crashes)
+          failed |= any(os.environ[k] not in ('success', 'skipped') for k in
+                        ('REPLAY_OUTCOME', 'CATALOG_OUTCOME', 'DEBUG_OUTCOME'))
+          raise SystemExit(int(failed))
+          PY

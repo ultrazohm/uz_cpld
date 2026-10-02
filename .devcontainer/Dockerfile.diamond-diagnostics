@@ -1,0 +1,7 @@
+# Temporary debugger layer. The normal toolchain image stays unchanged.
+ARG TOOLCHAIN_IMAGE=uz-cpld-toolchain-diamond
+FROM ${TOOLCHAIN_IMAGE}
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends gdb \
+    && rm -rf /var/lib/apt/lists/*
+USER vscode

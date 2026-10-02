@@ -102,7 +102,13 @@ class DiamondPreparationTests(unittest.TestCase):
                         (project / 'impl/partial.ngd').write_text('partial output')
                         (project / 'firmware.ldf').write_text('broken project')
                         (project / 'baseline.sty').write_text('vendor changes')
+                        (project / 'core.pnmainc.123').write_text('process memory')
                         return subprocess.CompletedProcess(args, -signal.SIGSEGV)
+                    snapshot = root / 'prepare-crash'
+                    self.assertEqual((snapshot / 'firmware.ldf').read_text(), 'broken project')
+                    self.assertEqual((snapshot / 'baseline.sty').read_text(), 'vendor changes')
+                    self.assertEqual((snapshot / 'impl/partial.ngd').read_text(), 'partial output')
+                    self.assertFalse((snapshot / 'core.pnmainc.123').exists())
                     self.assertEqual({p.name: p.read_bytes() for p in project.iterdir()}, original_inputs)
                     self.assertEqual(identity.read_text(), '{}')
                     self.assertIn(diamond.STARTUP_MARKER, log.read_text())
@@ -124,3 +130,4 @@ class DiamondPreparationTests(unittest.TestCase):
                         self.assertIn('def_top="top"', (project / 'firmware.ldf').read_text())
                 self.assertEqual(run.call_count, 2)
                 self.assertTrue((root / 'prepare-retry1.log').exists())
+                self.assertEqual((root / 'prepare-retry1-crash').exists(), bool(second_code))

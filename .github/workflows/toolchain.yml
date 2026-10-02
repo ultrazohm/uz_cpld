@@ -117,6 +117,7 @@ jobs:
           docker run --rm --init --platform linux/amd64 \
             --network=name=bridge,mac-address=10:91:d1:3d:14:ae \
             --user "$(id -u):$(id -g)" --env HOME=/tmp \
+            --env CPLD_DIAMOND_TRACE=1 \
             --env LM_LICENSE_FILE=/opt/diamond/license/license.dat \
             --mount "type=bind,source=$PWD,target=/work" -w /work \
             uz-cpld-toolchain-diamond bash -e -c '

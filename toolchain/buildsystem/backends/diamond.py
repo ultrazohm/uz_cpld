@@ -84,6 +84,13 @@ def run(script: Path, log: Path, *, reset_project: Callable[[], None] | None = N
                 stream.write(f'\nDiamond retry: {attempt_log.name}\n{output}')
         if not result.returncode:
             return output
+        if result.returncode == -signal.SIGSEGV and reset_project is not None:
+            # Preserve the native failure before reset_project removes vendor state.
+            # Core dumps are handled separately by the diagnostic workflow.
+            snapshot = attempt_log.with_name(attempt_log.stem + '-crash')
+            shutil.copytree(script.parent, snapshot, symlinks=True,
+                            ignore=None if os.environ.get('CPLD_DIAMOND_KEEP_CORES') == '1'
+                            else shutil.ignore_patterns('core', 'core.*'))
         if (attempt == 0 and marked and result.returncode == -signal.SIGSEGV
                 and (STARTUP_MARKER not in output or reset_project is not None)):
             if reset_project is not None:
@@ -101,6 +108,19 @@ def synthesis_options(build: Build) -> dict:
     return dict(build.options, **{key: "True" if build.standard == "2008" else "False"})
 
 
+def preparation_commands(build: Build, project: Path) -> list[str]:
+    """Share the production project commands with the isolated CI reproducer."""
+    relative = lambda p: tcl(os.path.relpath(p, project))
+    lines = [f'prj_project new -name firmware -impl impl -impl_dir impl -dev {tcl(build.device)} -lpf constraints.lpf',
+             f'prj_syn set {build.synthesis}',
+             'prj_strgy import -name baseline -file baseline.sty', 'prj_strgy set baseline']
+    for source in build.sources:
+        lines.append(f'prj_src add -format VHDL -work {tcl(source.library)} {relative(source.path)}')
+    for key, value in sorted(synthesis_options(build).items()):
+        lines.append(f'prj_strgy set_value {tcl(key + "=" + value)}')
+    return lines + ['prj_project save', 'prj_project close']
+
+
 class DiamondBackend:
     """Prepare relocatable projects and request both firmware export tasks."""
 
@@ -111,18 +131,8 @@ class DiamondBackend:
         from ..identity import constraint_text, validate_identity
         identity = validate_identity(build, json.loads((project.parent / 'metadata/identity.json').read_text()))
         (project / 'constraints.lpf').write_text(constraint_text(build, identity))
-        relative = lambda p: tcl(os.path.relpath(p, project))
-        lines = [f'prj_project new -name firmware -impl impl -impl_dir impl -dev {tcl(build.device)} -lpf constraints.lpf',
-                 f'prj_syn set {build.synthesis}',
-                 'prj_strgy import -name baseline -file baseline.sty', 'prj_strgy set baseline']
-        for source in build.sources:
-            lines.append(f'prj_src add -format VHDL -work {tcl(source.library)} {relative(source.path)}')
-        options = synthesis_options(build)
-        for key, value in sorted(options.items()):
-            lines.append(f'prj_strgy set_value {tcl(key + "=" + value)}')
-        lines += ['prj_project save', 'prj_project close']
         script = project / 'prepare.tcl'
-        script.write_text(wrap(lines))
+        script.write_text(wrap(preparation_commands(build, project)))
         # Discard partial vendor state before retrying preparation. Identity and
         # logs live outside this generated directory and must be retained.
         inputs = {name: (project / name).read_bytes()
@@ -164,6 +174,17 @@ class DiamondBackend:
         return run(script, log)
 
 
-def wrap(lines: list[str]) -> str:
+def wrap(lines: list[str], *, trace: bool | None = None) -> str:
     """Mark Tcl startup, then turn Tcl errors into a nonzero process exit."""
-    return STARTUP_PREAMBLE + 'if {[catch {\n' + '\n'.join(lines) + '\n} message]} {\nputs stderr $message\nexit 1\n}\nexit 0\n'
+    if trace is None:
+        trace = os.environ.get('CPLD_DIAMOND_TRACE') == '1'
+    commands = []
+    for index, line in enumerate(lines, 1):
+        label = f'{index}: {line}'
+        if trace:
+            commands += [f'puts {tcl("UZ_CPLD_DIAMOND_BEFORE " + label)}', 'flush stdout']
+        commands.append(line)
+        if trace:
+            commands += [f'puts {tcl("UZ_CPLD_DIAMOND_AFTER " + label)}', 'flush stdout']
+    ending = 'puts "UZ_CPLD_DIAMOND_BEFORE_EXIT"\nflush stdout\n' if trace else ''
+    return STARTUP_PREAMBLE + 'if {[catch {\n' + '\n'.join(commands) + '\n} message]} {\nputs stderr $message\nexit 1\n}\n' + ending + 'exit 0\n'

@@ -14,7 +14,11 @@
   "updateRemoteUserUID": true,
   "customizations": {
     "vscode": {
-      "extensions": ["openai.chatgpt", "teros-technology.teroshdl"],
+      "extensions": [
+        "openai.chatgpt",
+        "teros-technology.teroshdl",
+        "mhutchie.git-graph"
+      ],
       "settings": {"terminal.integrated.defaultProfile.linux": "bash"}
     }
   },

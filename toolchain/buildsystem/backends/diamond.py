@@ -8,6 +8,7 @@ import re
 import signal
 import sys
 import tempfile
+from typing import Callable
 import xml.etree.ElementTree as ET
 from ..model import Build, BuildError
 from toolchain.diamond import executable, environment, installed_version
@@ -63,13 +64,13 @@ def preflight(builds):
         print('Diamond installation version unavailable; the full version will be checked in each build log.')
 
 
-def run(script: Path, log: Path) -> str:
+def run(script: Path, log: Path, *, reset_project: Callable[[], None] | None = None) -> str:
     """Run Tcl without a display or stdin, preserving output even on failure."""
     binary = launcher()
     env = environment(binary)
     env.pop('DISPLAY', None); env.pop('WAYLAND_DISPLAY', None)
     # The flushed marker precedes every project command. Only retry a native
-    # startup segfault; replaying a partially executed project is unsafe.
+    # startup segfault unless preparation provides a clean project reset.
     marked = script.read_text().startswith(STARTUP_PREAMBLE)
     for attempt in range(2):
         attempt_log = log if attempt == 0 else log.with_name(f'{log.stem}-retry1{log.suffix}')
@@ -80,12 +81,15 @@ def run(script: Path, log: Path) -> str:
         if attempt:
             # Keep the normal build-log path useful to provenance/report readers.
             with log.open('a') as stream:
-                stream.write(f'\nDiamond startup retry: {attempt_log.name}\n{output}')
+                stream.write(f'\nDiamond retry: {attempt_log.name}\n{output}')
         if not result.returncode:
             return output
         if (attempt == 0 and marked and result.returncode == -signal.SIGSEGV
-                and STARTUP_MARKER not in output):
-            print(f'Diamond segfaulted before Tcl startup; retrying once. First log: {log}', file=sys.stderr)
+                and (STARTUP_MARKER not in output or reset_project is not None)):
+            if reset_project is not None:
+                reset_project()
+            phase = 'during project preparation' if reset_project is not None else 'before Tcl startup'
+            print(f'Diamond segfaulted {phase}; retrying once. First log: {log}', file=sys.stderr)
             continue
         reason = ' (SIGSEGV)' if result.returncode == -signal.SIGSEGV else ''
         raise BuildError(f'Diamond exited {result.returncode}{reason}; see {attempt_log}\n{output[-1800:]}')
@@ -119,7 +123,18 @@ class DiamondBackend:
         lines += ['prj_project save', 'prj_project close']
         script = project / 'prepare.tcl'
         script.write_text(wrap(lines))
-        run(script, log)
+        # Discard partial vendor state before retrying preparation. Identity and
+        # logs live outside this generated directory and must be retained.
+        inputs = {name: (project / name).read_bytes()
+                  for name in ('baseline.sty', 'constraints.lpf', 'prepare.tcl')}
+
+        def reset_project():
+            shutil.rmtree(project)
+            project.mkdir()
+            for name, contents in inputs.items():
+                (project / name).write_bytes(contents)
+
+        run(script, log, reset_project=reset_project)
         if not (project / 'firmware.ldf').is_file():
             raise BuildError(f'Diamond did not create a project; see {log}')
         # Diamond exposes def_top as internal-only in Tcl. Store it in its LDF schema.

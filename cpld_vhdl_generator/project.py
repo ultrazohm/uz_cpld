@@ -111,15 +111,15 @@ async def generated_routing(dut):
                 getattr(dut, pin).value = values[pin]
             await check(normal, system_error)
 
-    # Even with all controls permitting operation, startup stays safe for three edges.
-    await check(False)
+    # Heartbeat starts inhibited; level-based control retains its safe warmup.
+    await patterns(False, system_error=bool(HEARTBEAT))
     for _ in range(3):
         await tick(1)
-        await check(False)
+        await check(False, system_error=bool(HEARTBEAT))
     if HEARTBEAT:
-        # Static CarrierReady cannot qualify, even after the startup guard.
+        # Static CarrierReady cannot clear startup inhibition.
         await tick(HEARTBEAT['timeout_clks'] + 3)
-        await check(False)
+        await check(False, system_error=True)
         hb_running = True
         await tick(qualify_cycles)
     else:

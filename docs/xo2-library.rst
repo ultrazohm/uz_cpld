@@ -85,8 +85,9 @@ The protocol comes from ``feature/add_dig3v35v_configs_heartbeat`` at
 * Normal operation requires a qualified heartbeat, a released safety gate,
   synchronized ``card_enable='1'``, and the configured pilot condition.
 * Before the first complete qualification, missing or malformed heartbeat
-  selects safe state without latching an error.
-* An active or unknown request, reset, or unmet enable/pilot condition selects
+  asserts ``system_error`` and inhibits all outputs. This startup inhibition
+  clears automatically on the first complete qualification; it is not a latched fault.
+* After qualification, an active or unknown request, reset, or unmet enable/pilot condition selects
   safe state, with automatic recovery while heartbeat remains healthy.
 * The first qualified sequence permanently arms fault detection. A later
   timeout, malformed edge interval or unknown heartbeat value latches
@@ -158,7 +159,7 @@ or warmup counter. Heartbeat monitoring continues during a static safe-state
 request, including initial qualification, malformed-edge rejection and timeout.
 
 Asserting ``ReqSafeState`` asynchronously clears both stages of the release
-synchronizer. Unless system_error is already latched, state/status outputs
+synchronizer. After initial qualification, unless system_error is latched, state/status outputs
 select their safe values without waiting for a clock edge. An unknown request
 also forces safe outputs in simulation. A latched error always takes priority.
 Deasserting the request releases the gate on the second rising clock edge,

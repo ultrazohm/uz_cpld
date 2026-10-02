@@ -70,15 +70,16 @@ VHDL keywords, ``generator``, the ``s3c_`` prefix, and names used by generated d
 ``clock`` selects ``machxo2`` for an internal nominal 2.08 MHz oscillator or ``external`` for ``clk`` and active-high ``reset`` ports.
 The optional ``enable`` table specifies required data input levels, for example ``enable = {fpga_29 = 1}``.
 ``pilot_policy = "required"`` requires a high synchronized pilot input for normal operation; ``unused`` ignores it.
-The controller starts in ``safe_state`` and enters ``normal_state`` when synchronized S3C controls, the pilot policy, and the enable pattern permit operation.
+The level-based controller starts in ``safe_state`` and enters ``normal_state`` when synchronized S3C controls, the pilot policy, and the enable pattern permit operation.
 The shared controller owns startup: ``level_signals`` uses initialized registers and a three-edge warmup, with normal operation possible on the fourth rising edge.
-Heartbeat mode instead requires its two-stage safety gate to release and a qualified edge sequence.
+Heartbeat mode starts with ``system_error`` asserted and all outputs inhibited until the first qualified edge sequence.
+Qualification clears startup inhibition; normal operation also requires its two-stage safety gate to release.
 With ``clock = "machxo2"``, the controller's reset input is tied low; synthesis must preserve the HDL register initial values.
 With ``clock = "external"``, ``reset`` masks normal permission immediately.
 It resets the level-based controller and restarts its startup guard. In heartbeat
 mode it resets the monitor only before initial qualification; once armed, the
 monitor continues through reset and a latched system error takes priority.
-Control requests select ``safe_state`` and allow automatic recovery.
+After heartbeat qualification (or with level-based control), control requests select ``safe_state`` and allow automatic recovery unless a fault is latched.
 With heartbeat, a fault after the first complete qualification instead latches
 ``system_error``. All data outputs, SlotOK and ReqOE become zero. Reset and
 restored heartbeat cannot clear the fault; see :doc:`xo2-library` for power-on

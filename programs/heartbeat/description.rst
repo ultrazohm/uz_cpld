@@ -76,8 +76,9 @@ mean every data output has been disabled. See :doc:`/xo2-library` for the
 shared receiver's timing and clock-failure limitations.
 
 The fault monitor arms on the first complete 16-edge qualification, including
-qualification during a safe request. Before that, absent heartbeat keeps safe
-state without latching an error. Once armed, monitoring continues through safe
+qualification during a safe request. Before that, ``system_error`` is asserted and all data outputs, SlotOK and ReqOE
+are zero. This startup inhibition clears automatically on first qualification;
+missing or malformed startup heartbeat does not latch a permanent fault. Once armed, monitoring continues through safe
 requests and runtime reset. Only CPLD power-on initialization clears the fault;
 reconfiguration can also reinitialize it. Full-system-only recovery depends on
 power/retention arrangements, because local D-slot power loss also clears it.

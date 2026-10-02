@@ -15,7 +15,8 @@ architecture heartbeat of s3c_logic is
     signal qualified : boolean := false;
     -- Power-on initialization only: runtime reset must not clear these flags.
     signal heartbeat_armed : boolean := false;
-    signal system_error : boolean := false;
+    signal fault_latched : boolean := false;
+    signal system_error : boolean;
 begin
     assert HB_MIN_EDGE_CLKS <= HB_MAX_EDGE_CLKS and HB_MAX_EDGE_CLKS < HB_TIMEOUT_CLKS
         report "heartbeat requires min edge <= max edge < timeout" severity failure;
@@ -52,7 +53,7 @@ begin
                 heartbeat_last <= heartbeat_sync;
                 if heartbeat_sync /= '0' and heartbeat_sync /= '1' then
                     qualified <= false; edges <= 0; age <= HB_TIMEOUT_CLKS;
-                    if heartbeat_armed then system_error <= true; end if;
+                    if heartbeat_armed then fault_latched <= true; end if;
                 elsif heartbeat_sync /= heartbeat_last then
                     -- age is the number of completed clocks since the last edge.
                     -- Compare age with bounds minus one to avoid integer overflow.
@@ -68,18 +69,20 @@ begin
                         -- This edge can start a fresh sequence, but cannot qualify it.
                         edges <= 1;
                         qualified <= false;
-                        if heartbeat_armed then system_error <= true; end if;
+                        if heartbeat_armed then fault_latched <= true; end if;
                     end if;
                     age <= 0;
                 elsif age >= HB_TIMEOUT_CLKS-1 then
                     age <= HB_TIMEOUT_CLKS; edges <= 0; qualified <= false;
-                    if heartbeat_armed then system_error <= true; end if;
+                    if heartbeat_armed then fault_latched <= true; end if;
                 else
                     age <= age + 1;
                 end if;
             end if;
         end if;
     end process;
+    -- Startup inhibition clears on first qualification; subsequent faults latch.
+    system_error <= not heartbeat_armed or fault_latched;
     -- Once armed, monitor heartbeat even during reset and static safe requests.
     normal <= not system_error and release_sync = '1' and qualified and enable_sync = '1' and
               (not REQUIRE_PILOT or pilot_sync = '1');

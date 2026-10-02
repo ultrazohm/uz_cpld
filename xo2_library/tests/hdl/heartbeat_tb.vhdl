@@ -32,7 +32,7 @@ begin
         begin
             if fault then
                 assert system_error = '1' and normal = '0' and safe = '0' and slotok = '0' and reqoe = '0'
-                    report "expected latched system_error with both status outputs low" severity failure;
+                    report "expected system_error with both status outputs low" severity failure;
             elsif value then
                 assert system_error = '0' and normal = '1' and safe = '0' and slotok = '0' and reqoe = '1'
                     report "expected normal state" severity failure;
@@ -49,17 +49,18 @@ begin
         end procedure;
     begin
         -- Each simulation is a fresh power-on; runtime reset is not a power cycle.
+        wait for 1 ns; expect(false, true);
         cycles(1); reset <= '0'; request <= not SAFE_LEVEL;
-        cycles(210); expect(false);
-        hb <= '1'; cycles(210); expect(false); -- no qualified heartbeat yet
+        cycles(210); expect(false, true);
+        hb <= '1'; cycles(210); expect(false, true); -- no qualified heartbeat yet
         reset <= '1'; hb <= '0'; cycles(1); reset <= '0'; cycles(4);
         -- Malformed startup traffic cannot arm or latch the monitor.
-        for i in 1 to 20 loop edge_after(9); expect(false); end loop;
-        for i in 1 to 20 loop edge_after(53); expect(false); end loop;
+        for i in 1 to 20 loop edge_after(9); expect(false, true); end loop;
+        for i in 1 to 20 loop edge_after(53); expect(false, true); end loop;
         reset <= '1'; hb <= '0'; cycles(1); reset <= '0'; cycles(4);
-        for i in 1 to 15 loop edge_after; expect(false); end loop;
-        edge_after(9); expect(false); -- malformed final edge must not qualify
-        for i in 1 to 14 loop edge_after; expect(false); end loop;
+        for i in 1 to 15 loop edge_after; expect(false, true); end loop;
+        edge_after(9); expect(false, true); -- malformed final edge must not qualify
+        for i in 1 to 14 loop edge_after; expect(false, true); end loop;
         -- Arming does not depend on normal permission: qualify in safe state.
         request <= SAFE_LEVEL;
         edge_after; expect(false);

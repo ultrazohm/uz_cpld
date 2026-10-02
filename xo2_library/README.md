@@ -13,7 +13,9 @@ Instantiate `entity s3c.s3c_logic(level_signals)` from your top level. Supply a 
 
 See the [library guide](../docs/xo2-library.rst) for manifest entries, an instantiation example and behavior. You can copy this directory into another HDL project and compile the sources directly. The Python module only provides the default source location to the generator; the generator distribution includes the same HDL files for installation outside the checkout.
 
-Both architectures also expose `state_system_error`. Heartbeat faults after the
+Both architectures also expose `state_system_error`. Heartbeat mode asserts it
+at startup until the first complete qualification, inhibiting all outputs.
+This initial inhibition clears automatically on qualification. Heartbeat faults after the
 first complete qualification latch this state until power-on initialization;
 runtime reset cannot clear it. In this state both status outputs are zero and
 consumers must override every data output to zero. CVG always adds that override.

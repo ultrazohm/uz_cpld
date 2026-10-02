@@ -67,11 +67,12 @@ async def exercise_program(dut, provenance_path):
                 getattr(dut, pin).value = background
             await check(normal, system_error)
 
+    await patterns(False, system_error=True)  # Before any clock edge.
     await tick(220)
-    await patterns(False)  # A static CarrierReady cannot qualify.
+    await patterns(False, system_error=True)  # A static CarrierReady cannot qualify.
     heartbeat_running = True
     await tick(21 * 14)
-    await check(False)
+    await check(False, system_error=True)
     await tick(21 * 4)
     await patterns(True)
 

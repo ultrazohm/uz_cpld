@@ -329,7 +329,8 @@ reqoe = [1, 1]
             routing.write('d_02,1,1\nd_03,Z,Z\n')
         self.simulate('''
         reqsafestate <= '0'; src <= '1'; cycles(210);
-        assert outp = '0' and rx = '1' and slotok = '0' severity failure;
+        assert outp = '0' and rx = '0' and slotok = '0' and reqoe = '0'
+               and always_out = '0' and constant_out = '0' severity failure;
         for i in 1 to 16 loop
             carrierrdy <= not carrierrdy; cycles(21);
         end loop;

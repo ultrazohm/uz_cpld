@@ -21,6 +21,8 @@ normal and safe states.
 The shared ``s3c_heartbeat_v1`` contract selects ``s3c.s3c_logic(heartbeat)``:
 ReqSafeState asserts safe state without a clock, recovery takes two clock
 edges, and heartbeat qualification continues during safe-state requests.
+Before first qualification, ``system_error`` inhibits every declared data output,
+SlotOK and ReqOE. First qualification clears this startup inhibition automatically.
 Ungated routes remain active even in safe state, including the legacy inverter,
 encoder and resolver mappings. After the first qualified heartbeat, loss or
 malformed timing latches ``system_error``. Every declared data output, SlotOK

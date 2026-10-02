@@ -108,7 +108,7 @@ def synthesis_options(build: Build) -> dict:
     return dict(build.options, **{key: "True" if build.standard == "2008" else "False"})
 
 
-def preparation_commands(build: Build, project: Path) -> list[str]:
+def preparation_commands(build: Build, project: Path, *, close_project: bool = True) -> list[str]:
     """Share the production project commands with the isolated CI reproducer."""
     relative = lambda p: tcl(os.path.relpath(p, project))
     lines = [f'prj_project new -name firmware -impl impl -impl_dir impl -dev {tcl(build.device)} -lpf constraints.lpf',
@@ -118,7 +118,7 @@ def preparation_commands(build: Build, project: Path) -> list[str]:
         lines.append(f'prj_src add -format VHDL -work {tcl(source.library)} {relative(source.path)}')
     for key, value in sorted(synthesis_options(build).items()):
         lines.append(f'prj_strgy set_value {tcl(key + "=" + value)}')
-    return lines + ['prj_project save', 'prj_project close']
+    return lines + ['prj_project save'] + (['prj_project close'] if close_project else [])
 
 
 class DiamondBackend:
@@ -132,7 +132,9 @@ class DiamondBackend:
         identity = validate_identity(build, json.loads((project.parent / 'metadata/identity.json').read_text()))
         (project / 'constraints.lpf').write_text(constraint_text(build, identity))
         script = project / 'prepare.tcl'
-        script.write_text(wrap(preparation_commands(build, project)))
+        # Temporary CI experiment; normal builds retain explicit project close.
+        script.write_text(wrap(preparation_commands(
+            build, project, close_project=os.environ.get('CPLD_DIAMOND_SKIP_PREPARE_CLOSE') != '1')))
         # Discard partial vendor state before retrying preparation. Identity and
         # logs live outside this generated directory and must be retained.
         inputs = {name: (project / name).read_bytes()

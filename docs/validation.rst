@@ -36,9 +36,7 @@ The authored LPFs contain no timing budget, so inspect the reports and board-spe
 Investigating Diamond preparation crashes
 -----------------------------------------
 
-The temporary **Diagnose Diamond preparation crashes** Actions workflow runs manually,
-or on pushes to the isolated ``codex/diamond-diagnosis`` branch so it can be tested
-before merging it into the default branch.
+The temporary **Diagnose Diamond preparation crashes** Actions workflow runs manually.
 Start with the ``baseline`` variant and 100 attempts. It runs ordinary and traced
 preparation in the normal image, then ordinary and GDB preparation in a separate
 debugger image. Both debugger-image experiments use the same traced Tcl, allowing
@@ -88,3 +86,18 @@ the same runner, then require zero crashes over at least 300 preparations across
 three fresh runners and successful full-catalog builds with verified exports.
 Remove the temporary workflow, reproducer and debugger Dockerfile once the cause
 and fix are established; keep the useful failure logging.
+
+The **Compare Diamond close and no-close** workflow runs on pushes to
+``codex/diamond-diagnosis``. Three fresh runners each compare 100 traced
+preparations with explicit close against 100 with ``--no-close``, using one
+image for both arms. The middle runner reverses their order. Normal builds keep
+explicit close; only the experimental catalog sets
+``CPLD_DIAMOND_SKIP_PREPARE_CLOSE=1``. This skips preparation close, preserves
+explicit save, and leaves the synthesis/export script unchanged.
+
+Each candidate must complete all preparations, build every catalog, and pass
+firmware packaging validation. Any catalog retry fails the experiment. Control
+segfaults are expected evidence, while other control failures invalidate the
+comparison. If the controls do not crash, a passing candidate is inconclusive.
+The three ``diamond-close-comparison-N`` artifacts retain results and verified
+firmware; this workflow does not publish releases.

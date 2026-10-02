@@ -124,6 +124,27 @@ print('UZ_CPLD_DIAMOND_TCL_STARTED',flush=True)
         self.assertEqual(report['statuses'], {'success': 2})
         self.assertNotEqual(report['results'][0]['tmpdir'], report['results'][1]['tmpdir'])
 
+    def test_no_close_saves_and_preserves_all_other_preparation_commands(self):
+        build = diagnosis.load_build(self.root, 'original/uz_d_voltage_013_tx30', backend='diamond')
+        project = self.root / 'project'
+        control = diagnosis.inputs(build, project, None, True)
+        candidate = diagnosis.inputs(build, project, None, True, close_project=False)
+        for name in ('baseline.sty', 'constraints.lpf'):
+            self.assertEqual(control[name], candidate[name])
+        original = diamond.preparation_commands(build, project)
+        changed = diamond.preparation_commands(build, project, close_project=False)
+        self.assertEqual(original, changed + ['prj_project close'])
+        self.assertEqual(changed[-1], 'prj_project save')
+        code, output, report = self.replay('''from pathlib import Path
+script = Path('prepare.tcl').read_text()
+assert 'prj_project close' not in script
+assert 'prj_project save' in script
+Path('firmware.ldf').write_text('<BaliProject><Implementation/></BaliProject>')
+print('UZ_CPLD_DIAMOND_TCL_STARTED', flush=True)
+''', '--no-close')
+        self.assertEqual(code, 0)
+        self.assertFalse(report['close_project'])
+
     def test_zero_exit_without_a_saved_project_is_not_success(self):
         code, output, report = self.replay('print("UZ_CPLD_DIAMOND_TCL_STARTED")\n')
         self.assertEqual(code, 1)

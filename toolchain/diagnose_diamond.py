@@ -145,7 +145,9 @@ def execute(binary, project, log, *, env, debugger, timeout):
             'status': 'success' if code == 0 and not timed_out else 'failed'}
 
 
-def inputs(build, project, seed, trace):
+def inputs(build, project, seed, trace, *, close_project=True):
+    if seed and not close_project:
+        raise BuildError('--no-close requires freshly generated preparation inputs')
     if seed:
         result = {name: (seed / name).read_bytes()
                   for name in ('baseline.sty', 'constraints.lpf', 'prepare.tcl')}
@@ -166,7 +168,7 @@ def inputs(build, project, seed, trace):
     identity = {'usercode': f'{(entry["number"] << 16) | max(revisions):08X}'}
     return {'baseline.sty': build.strategy.read_bytes(),
             'constraints.lpf': constraint_text(build, identity).encode(),
-            'prepare.tcl': diamond.wrap(diamond.preparation_commands(build, project), trace=trace).encode()}
+            'prepare.tcl': diamond.wrap(diamond.preparation_commands(build, project, close_project=close_project), trace=trace).encode()}
 
 
 def replay(args):
@@ -191,13 +193,13 @@ def replay(args):
         with tempfile.TemporaryDirectory(prefix='diamond-reproducer-', dir=build.build_root) as tmp:
             work = Path(tmp)
             project = work / 'project'
-            seed = inputs(build, project, args.seed_project, args.mode != 'plain')
+            seed = inputs(build, project, args.seed_project, args.mode != 'plain', close_project=not args.no_close)
             write_json(output / 'inputs.json', {
                 'program': build.qualified_name, 'target': build.target,
                 'seed_project': str(args.seed_project) if args.seed_project else None,
                 'inputs_sha256': {k: hashlib.sha256(v).hexdigest() for k, v in seed.items()},
                 'source_sha256': {str(s.path.relative_to(ROOT)): digest(s.path) for s in build.sources},
-                'mode': args.mode, 'variant': args.variant,
+                'mode': args.mode, 'variant': args.variant, 'close_project': not args.no_close,
                 'effective_environment': {k: env[k] for k in ENV_KEYS if k in env}})
             for number in range(1, args.attempts + 1):
                 destination = output / f'attempt-{number:04d}'
@@ -231,7 +233,7 @@ def replay(args):
                         cores_kept += 1
                 # Retain generated state (and any core) before the next fresh attempt.
                 shutil.move(str(project), destination / 'project')
-                summary = {'program': build.qualified_name, 'mode': args.mode, 'variant': args.variant,
+                summary = {'program': build.qualified_name, 'mode': args.mode, 'variant': args.variant, 'close_project': not args.no_close,
                            'attempts': len(attempts), 'statuses': dict(Counter(r['status'] for r in attempts)),
                            'segfaults': sum(r['returncode'] == -signal.SIGSEGV for r in attempts),
                            'results': attempts}
@@ -270,6 +272,7 @@ def main(argv=None):
     parser.add_argument('--mode', choices=('plain', 'traced', 'gdb'), default='plain')
     parser.add_argument('--variant', choices=('baseline', 'private-home', 'fresh-tmp'), default='baseline')
     parser.add_argument('--seed-project', type=Path)
+    parser.add_argument('--no-close', action='store_true', help='Save and exit without explicitly closing the project')
     parser.add_argument('--core-root', type=Path, help='Core search directory for backtraces (default: output)')
     parser.add_argument('--timeout', type=int, default=30)
     args = parser.parse_args(argv)

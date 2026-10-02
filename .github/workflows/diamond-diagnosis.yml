@@ -1,8 +1,5 @@
 name: Diagnose Diamond preparation crashes
 on:
-  # Bootstrap on an isolated branch before this workflow exists on the default branch.
-  push:
-    branches: [codex/diamond-diagnosis]
   workflow_dispatch:
     inputs:
       attempts:

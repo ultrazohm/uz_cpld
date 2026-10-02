@@ -112,11 +112,9 @@ class ComparisonCommandTests(unittest.TestCase):
         self.assertEqual(len(decoded), 3)
 
     def test_default_checks_both_backends(self):
-        args = commands.plan('compare', {'program': 'cvg_tx30', 'release_cycle': 'heartbeat_cvg'},
-                             environ={'CPLD_TOOLCHAIN_CONTAINER': '1'})[0].argv
+        args = commands.plan('compare', {'program': 'cvg_tx30', 'release_cycle': 'heartbeat_cvg'})[0].argv
         self.assertNotIn('--backend', args)
 
     def test_explicit_foss_selection_is_preserved(self):
-        args = commands.plan('compare', {'program': 'cvg_tx30', 'backend': 'foss'},
-                             environ={'CPLD_TOOLCHAIN_CONTAINER': '1'})[0].argv
+        args = commands.plan('compare', {'program': 'cvg_tx30', 'backend': 'foss'})[0].argv
         self.assertEqual(args[args.index('--backend') + 1], 'foss')

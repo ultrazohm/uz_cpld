@@ -2,12 +2,11 @@ Environment setup
 =================
 
 See :doc:`tool-environments` for which tools each workflow needs, what the
-venv includes, and when commands launch Docker.
+venv includes, and how to enter a container explicitly.
 
 Use ``python -m toolchain doctor`` for a non-failing inventory of the current
 environment, including missing optional tools. To inspect the toolchain image
-explicitly, use ``python -m toolchain doctor --runner container`` after building
-it. The report does not check out a Diamond license or contact hardware.
+explicitly, enter the container and run ``python -m toolchain doctor`` there. The report does not check out a Diamond license or contact hardware.
 
 Containers
 ----------
@@ -29,17 +28,13 @@ This reports installation availability, not license validity; missing Diamond do
 Backend selection is unchanged: ``backend`` defaults to ``diamond``; use ``backend=foss`` for FOSS firmware builds.
 Requesting Diamond without an installation fails with a setup error.
 
-``runner=auto`` is the default. On a host, FOSS firmware builds, ``sim``,
-``netlist``, ``docs`` and ``docs-assets`` run in the image created by ``make image``.
-They do not rebuild the image implicitly. Inside a configured Dev Container they run locally.
-``runner=local`` uses installed tools; ``runner=container`` explicitly selects the image.
-``make test`` defaults to local execution; ``make test runner=container`` uses the image.
-Diamond and USB commands require local execution or an already configured Dev Container;
-the generic container runner does not mount a Diamond license or expose USB devices.
-``CPLD_TOOLCHAIN_CONTAINER=1`` identifies the installed environment and avoids nested Docker.
+All workflow commands use tools installed in the calling environment.
+Start a container explicitly using a Dev Container profile or the manual commands below.
+Missing tools produce an error; commands do not launch Docker or Podman automatically.
+``CPLD_TOOLCHAIN_CONTAINER=1`` identifies the installed environment for diagnostics.
 
-``container_engine`` selects Docker or Podman, ``container_platform`` defaults to ``linux/amd64``, ``toolchain_image`` selects the image tag. The repository root is the host bind source.
-Rootless Podman runs use ``--userns=keep-id`` to preserve workspace ownership.
+For ``image`` only, ``container_engine`` selects Docker or Podman, ``container_platform`` defaults to ``linux/amd64``, and ``toolchain_image`` selects the image tag.
+For manual rootless Podman runs, use ``--userns=keep-id`` to preserve workspace ownership.
 The daemon must be able to access the checkout; ARM hosts require amd64 emulation.
 GHDL library paths cannot contain double quotes; use checkout and source paths without them.
 Spaces and apostrophes in checkout paths are supported.
@@ -226,9 +221,7 @@ For a manual build, the Dockerfile provides ``TOOLCHAIN_BASE``; its default is
      uz-cpld-toolchain-diamond bash
 
 ``make image`` continues to build the default host/FOSS image. Inside either
-Dev Container profile, Diamond builds run locally through the same existing
-commands; changing profiles does not enable Diamond in the generic host
-``runner=container`` dispatcher.
+Dev Container profile, Diamond builds run through the same commands using the installed tools.
 The image variant contains proprietary tools and your license; restrict access
 when publishing it, just as for the Diamond base image.
 
@@ -310,4 +303,4 @@ license configuration, ``libusb-1.0`` and USB permissions are still required
 for native Diamond builds and programming. FOSS hardware programming additionally
 requires the patched openFPGALoader and OpenOCD described in
 :doc:`firmware-identity`. Simulation and documentation dependencies are outside
-this environment's scope; their usual container defaults remain in effect.
+this environment's scope; install them separately or enter the toolchain container.

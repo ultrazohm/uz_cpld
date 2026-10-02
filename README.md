@@ -38,4 +38,6 @@ python -m toolchain program --target dslot --dry-run 1
 
 Diamond is the default. `--backend foss` opts into FOSS for both firmware and
 programming; `--build-backend` and `--programmer-backend` override each part.
-See [the command reference](docs/commands.rst) for scope, previews, and runners.
+See [the command reference](docs/commands.rst) for scope, previews, and execution environments.
+
+Commands use tools installed in the calling environment; enter the Dev Container or start Docker explicitly to use container tools. Successful push builds publish a firmware ZIP as a GitHub testing prerelease; see [publishing](docs/publishing.rst).

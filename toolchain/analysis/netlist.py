@@ -1,6 +1,7 @@
 """Export generic RTL schematics with GHDL, Yosys and Graphviz, without Diamond."""
 import argparse
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -10,6 +11,14 @@ from toolchain.buildsystem.model import BuildError, catalog, load_build, resolve
 from toolchain.buildsystem.workflow import digest, locked, safe_directory, write_json
 
 ROOT = Path(__file__).resolve().parents[2]
+
+
+def yosys_executable():
+    """Prefer the installed OSS CAD Suite; native setups may use PATH Yosys."""
+    suite = Path(os.environ.get('FOSS_ROOT', '/opt/oss-cad-suite'))
+    name = 'yosys.exe' if sys.platform == 'win32' else 'yosys'
+    bundled = shutil.which(str(suite / 'bin' / name))
+    return bundled or shutil.which('yosys') or 'yosys'
 
 
 def export_netlist(build):
@@ -30,7 +39,8 @@ def _export_netlist(build):
     primitive = build.root / 'toolchain/hdl/machxo2_primitives.v'
     inputs[str(primitive.relative_to(build.root))] = digest(primitive)
     try:
-        for tool in ('ghdl', 'yosys', 'dot'):
+        yosys = yosys_executable()
+        for tool in ('ghdl', yosys, 'dot'):
             if not shutil.which(tool):
                 raise BuildError(f'{tool} is missing; rebuild the toolchain container')
         standard = {'1993': '93', '2008': '08'}[build.standard]
@@ -47,7 +57,7 @@ def _export_netlist(build):
                             'write_json metadata/rtl.json', f'show -format dot -prefix netlist {build.top}'])
         (output / 'netlist.ys').write_text(script + '\n')
         with (output / 'yosys.log').open('w') as log:
-            subprocess.run(['yosys', '-s', 'netlist.ys'], cwd=output,
+            subprocess.run([yosys, '-s', 'netlist.ys'], cwd=output,
                            stdout=log, stderr=subprocess.STDOUT, check=True)
         with (output / 'graphviz.log').open('w') as log:
             for fmt in ('svg', 'pdf'):
@@ -61,7 +71,7 @@ def _export_netlist(build):
             raise BuildError('Netlist inputs changed during export')
         versions = {name: subprocess.check_output(args, stderr=subprocess.STDOUT, text=True).splitlines()[0]
                     for name, args in [('ghdl', ['ghdl', '--version']),
-                                       ('yosys', ['yosys', '-V']), ('graphviz', ['dot', '-V'])]}
+                                       ('yosys', [yosys, '-V']), ('graphviz', ['dot', '-V'])]}
         write_json(output / 'metadata/netlist.json', {
             'program': build.name, 'release_cycle': build.release_cycle, 'top': build.top, 'standard': build.standard,
             'stage': 'generic RTL: GHDL synthesis; Yosys proc, flatten, opt_clean',

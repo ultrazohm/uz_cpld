@@ -6,12 +6,10 @@ Local build
 
 ::
 
-   make image  # On a host; the configured Dev Container already has its tools.
    make docs release_cycle=all
 
-The host command uses the image created by ``make image`` and runs simulation, netlist analysis and Sphinx inside it without a Diamond installation, license mount or host networking.
-Inside a Dev Container, the command uses installed tools directly.
-``make docs runner=local`` uses installed tools directly.
+Run this command inside the configured Dev Container or a native environment with simulation, analysis and Sphinx dependencies installed.
+Documentation commands use the calling environment and do not start a container.
 Dependencies come from ``docs/requirements.txt`` and its referenced files in both the image and native setup.
 
 The complete site is ``docs/_build/html/``; it includes SVGs, PDFs, VCD downloads and self-contained waveform HTML.
@@ -25,9 +23,10 @@ GitHub Pages
 ------------
 
 The repository workflow ``.github/workflows/toolchain.yml`` builds the image, runs tooling tests, compiles the FOSS firmware catalog and generates documentation in separate steps.
-Pull requests and pushes to other branches produce review artifacts without publishing.
-Successful pushes or manual runs on ``master`` upload a Pages artifact and deploy through the ``github-pages`` environment.
+Pull requests and pushes to other branches produce documentation review artifacts without deploying Pages.
+Successful Linux checks on pushes or manual runs on ``master`` upload a Pages artifact; deployment through the ``github-pages`` environment also requires successful Windows checks.
 Both the artifact upload and deployment conditions select this branch explicitly.
+See :doc:`builds` for the complete CI and firmware pipeline task inventory.
 
 Enable **Settings → Pages → Build and deployment → Source: GitHub Actions** once in the GitHub repository.
 Allow ``master`` in the ``github-pages`` environment deployment branch rules and satisfy any repository approval rules.
@@ -38,8 +37,29 @@ The workflow uploads only the generated HTML site for deployment, retaining buil
 FOSS firmware and reports are retained as workflow artifacts and excluded from the Pages site.
 The diagnostics artifact includes the updated ``programs/usercodes.json`` registry so CI-allocated identities can be resolved alongside the firmware.
 CI does not commit allocations back to Git or coordinate counters between independent runs.
-Before publishing or programming CI firmware, reconcile its registry with the shared branch; artifact retention alone does not guarantee globally unique revisions.
+Before programming CI firmware, reconcile its registry with the shared branch; artifact retention alone does not guarantee globally unique revisions.
 A configured workflow is not evidence of a successful hosted deployment; verify the GitHub Actions run after pushing the workflow to the deployment branch.
+
+Firmware downloads
+------------------
+
+Every push, including feature branches and tags, requests publication of ``uz-cpld-firmware.zip`` through GitHub Releases after Diamond, Linux and Windows checks succeed.
+The release is marked as a testing prerelease, never as the latest stable release.
+Its tag is ``firmware-ci-<run_id>-<run_attempt>`` and points to the pushed commit; reruns receive a new tag rather than replacing a previous archive.
+The workflow uses ``GITHUB_TOKEN`` with ``contents: write`` for publication; the private Diamond image still requires ``DIAMOND_GHCR_TOKEN``.
+Tags created by this token do not recursively trigger push workflows.
+Manual runs retain the archive as an Actions artifact but do not publish it.
+
+The ZIP contains ``<release>/<program>/<target>/*.bit``, matching ``.jed`` files, and ``manifest.json``.
+The manifest records the source commit, all selected releases, firmware checksums, build provenance and a snapshot of the existing identity registry.
+Packaging rejects missing, failed or stale builds, mismatched firmware hashes, and builds from another commit.
+An incomplete catalog never produces a published archive.
+All release catalogs share one Diamond image build and one checkout, so identity allocations from that run are retained together.
+
+This archive is a firmware download, not an import command for the managed programmer.
+The programmer still requires matching source/build metadata and the identity registry; the archive does not change those checks.
+Registry counters are not coordinated across independent CI runs, and prerelease firmware has no established hardware or board timing acceptance.
+The 14-day retention period applies to Actions diagnostics and preview artifacts; GitHub Release archives are separate downloads.
 
 Maintenance
 -----------

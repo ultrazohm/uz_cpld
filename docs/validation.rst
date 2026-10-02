@@ -3,7 +3,7 @@ Verification and limits
 
 Run the tooling tests, HDL simulations, FOSS firmware builds and documentation checks from the repository root::
 
-   make test runner=container
+   make test
    make sim
    make build-all backend=foss
    make docs

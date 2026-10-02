@@ -50,16 +50,10 @@ dependency and provenance checks. No Diamond process or hardware operation is
 started. License validity, synthesis, USB permissions, Docker daemon access
 and image availability are not tested.
 
-``doctor`` defaults to the current environment for both backends; it does not
-automatically launch Docker for ``--backend foss``. To compare the image's
-installed tools with the host::
-
-   python -m toolchain image
-   python -m toolchain doctor --runner container
-
-Inside an existing Dev Container this uses the current container. To inspect
-a venv, activate it first or run its Python executable directly. Creating a
-venv alone does not change the interpreter running ``doctor``.
+``doctor`` always reports the current environment for both backends.
+To inspect container tools, enter the container and run ``python -m toolchain doctor`` there.
+To inspect a venv, activate it first or run its Python executable directly.
+Creating a venv alone does not change the interpreter running ``doctor``.
 
 From a clean clone to programmed hardware
 -----------------------------------------
@@ -73,9 +67,8 @@ or reopen in the configured Dev Container. Then::
    python -m toolchain report
 
 ``build-all`` compiles every supported catalog program in the current release.
-It does not flash hardware. For simulation, diagrams, documentation, or FOSS
-builds on a host, run ``python -m toolchain image`` once first. Rebuild the image explicitly
-when its tool dependencies change.
+It does not flash hardware. Install the tools required for simulation, diagrams, documentation and FOSS builds, or enter the toolchain container before running those commands.
+Rebuild the image explicitly when its tool dependencies change.
 
 Create the programming selection and project::
 
@@ -146,20 +139,11 @@ Execution environments
 activated shell. Use ``--activate 0`` for installation only; see
 :doc:`environments` for system prerequisites and manual activation.
 
-``--runner auto|local|container`` selects where commands execute independently of
-the backend. Auto uses the configured Dev Container directly. On a host, FOSS
-firmware tools, simulation, diagrams and documentation use the toolchain image;
-other commands run locally. ``python -m toolchain image`` must build that image first.
+Commands always use tools installed in the calling environment.
+Enter a Dev Container or start Docker manually to use container tools; see :doc:`environments`.
+Missing tools are errors and do not cause a switch to another environment or backend.
+``container_engine``, ``container_platform`` and ``toolchain_image`` customize the explicit ``image`` build action only.
 
-``--runner local`` uses the installed tools. ``--runner container`` is supported for
-FOSS firmware tools, simulation, diagrams, documentation and utility tests.
-Inside the configured Dev Container it uses the current container rather than
-starting another one. Generic container execution does not expose USB or mount
-Diamond and its license; those actions require a native setup or the configured
-Dev Container. Unsupported combinations fail before launching tools.
-
-``container_engine``, ``container_platform`` and ``toolchain_image`` customize
-``image`` and host container execution. The repository is mounted at ``/work``.
 The optional ``flasher-build`` action compiles openFPGALoader locally; it never
 programs a device and requires native compiler/development dependencies.
 
@@ -174,7 +158,6 @@ instead of ``flasher``. Single-action legacy aliases remain available with a
 migration message. The grouped ``programmer ACTION`` syntax is rejected with
 the replacement names before doing any work.
 
-Use ``runner=local`` instead of ``docs-local`` or ``netlist-local``, and
-``make test runner=container`` instead of ``test-container``. These old
-single-action aliases also remain available. The shorthand ``make program=NAME``
-still means ``make build program=NAME``; explicit actions are preferred in guides.
+Use ``docs`` and ``netlist`` instead of their ``-local`` aliases.
+The removed ``test-container`` action is replaced by running ``test`` inside an explicitly started container.
+The shorthand ``make program=NAME`` still means ``make build program=NAME``; explicit actions are preferred in guides.

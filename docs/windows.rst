@@ -121,11 +121,9 @@ Scope and validation
 --------------------
 
 Native Windows support covers the Python CLI, generator and Diamond workflow.
-The FOSS compiler/source-build installers remain Linux tools. FOSS builds,
-simulation and documentation retain their container defaults; the Windows
-host runner omits Unix user/group flags and requires a Linux Docker engine
-with access to the checkout. Native FOSS hardware drivers and programming are
-outside the Windows validation scope.
+The FOSS compiler/source-build installers remain Linux tools.
+All commands use the current environment; enter the Linux toolchain container explicitly for workflows whose tools are unavailable natively.
+Native FOSS hardware drivers and programming are outside the Windows validation scope.
 
 ``python -m toolchain test`` on Windows runs the native Python suite without
 Make, Bash or Linux HDL tools. Windows CI uses this same command. It checks

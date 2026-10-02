@@ -32,7 +32,7 @@ What each environment provides
 **A venv is still native execution.** It isolates Python packages; it does
 not contain a different operating system, install Diamond, or expose USB
 hardware. Native Python and venv execution have the same external tool
-requirements. Creating or activating a venv does not change runner defaults.
+requirements. Commands always use the calling environment.
 The container already has its Python dependencies, so a venv is not required
 inside it.
 
@@ -42,8 +42,7 @@ Workflow matrix
 In the table, **included** means supplied by the repository's image or venv
 setup. **Additional setup** means the code can use locally installed tools,
 but those tools are not installed by ``venv``. The Docker column describes
-execution *inside a running container*; automatic container launching is
-covered in the next section.
+execution *inside a running container*; start that container explicitly.
 
 Native Windows entries describe implemented support. Windows CI has been
 configured, but a successful Windows CI run and real Diamond/USB validation
@@ -119,19 +118,19 @@ acceptance; the FOSS MachXO2 flow remains experimental. See :doc:`windows`,
      - Tools included; expose USB with permissions
    * - HDL simulation: ``sim``
      - GHDL, cocotb, pytest and pytest-xdist
-     - Additional tools/packages; use ``--runner local``
+     - Additional tools/packages
      - Use the Linux container workflow
      - Simulation dependencies not included
      - Included
    * - RTL diagrams: ``netlist``
      - GHDL, Yosys and Graphviz
-     - Additional tools; use ``--runner local``
+     - Additional tools
      - Use the Linux container workflow
      - Analysis tools not included
      - Included
    * - Program documentation: ``docs-assets``, ``docs``
      - Simulation/RTL tools and analysis packages; ``docs`` also runs Sphinx
-     - Additional tools/packages; use ``--runner local``
+     - Additional tools/packages
      - Use the Linux container workflow
      - Documentation dependencies not included
      - Included
@@ -157,54 +156,21 @@ Docker or this build system. Compile it with the HDL tools used by the consuming
 project. Opening already generated HTML documentation also does not require
 the build toolchain.
 
-When does a container start?
-----------------------------
+Execution environment
+---------------------
 
-``--runner auto`` is the default. Backend selection is separate:
-``--backend diamond`` is the default and ``--backend foss`` opts into FOSS.
-On either a native Linux or Windows host, the following routing applies.
-An activated venv does not alter it.
+Commands run in the calling environment on native Windows, Ubuntu and inside containers.
+They use installed tools and report missing dependencies; they never start Docker or Podman automatically.
+Backend selection is independent: ``--backend diamond`` is the default and ``--backend foss`` opts into FOSS.
 
-.. list-table:: Default runner behavior
-   :header-rows: 1
-   :widths: 45 55
+``python -m toolchain image`` explicitly builds the toolchain image but does not start a shell.
+Reopen the workspace in a Dev Container or use the manual Docker commands in :doc:`environments` before running workflows with the container's tools.
+``python -m toolchain venv`` installs native Python dependencies and opens an activated shell when interactive.
+``doctor`` reports the environment in which it is invoked.
 
-   * - Command
-     - Default execution
-   * - ``doctor`` (either backend)
-     - Reports the current environment; use ``--runner container`` to inspect the image explicitly.
-   * - Plain ``build-all`` or ``build --program NAME``
-     - Local Diamond; no new container starts.
-   * - FOSS ``build``, ``build-all`` or ``project``
-     - Starts a temporary toolchain container on the host.
-   * - ``sim``, ``netlist``, ``docs``, ``docs-assets``
-     - Starts a temporary toolchain container on the host.
-   * - ``test``
-     - Local tests; ``--runner container`` explicitly selects the image.
-   * - Generator, catalog, release, selection, XCF export and USB commands
-     - Local execution. Generic ``--runner container`` is not supported for these actions.
-   * - ``image``
-     - Asks Docker/Podman to build the image; it does not enter a development shell.
-   * - ``venv``
-     - Installs native Python dependencies and opens an activated shell when interactive.
-
-Inside the configured image or Dev Container, commands use the existing
-environment instead of starting nested containers. Therefore, a command that
-cannot use the generic host container runner can still run *inside* a manually
-started, correctly configured container.
-
-``--runner local`` uses tools installed in the current environment. It does
-not install missing tools or silently switch backends. ``--runner container``
-on a host supports FOSS firmware actions, simulation, analysis/documentation
-and tests, plus ``doctor`` for either backend. Build the image first with ``python -m toolchain image``; normal
-commands never rebuild it implicitly.
-
-The generic runner mounts the checkout only. It does not forward Diamond or
-USB devices. The default Dev Container can mount Diamond, but USB needs the
-separate Linux USB profile or equivalent manual configuration. On Windows,
-Docker still runs the Linux image; native Windows Diamond cannot serve as the
-Linux Diamond installation inside that image. Hardware forwarding into the
-Docker VM is separate from native Windows driver access.
+Choose a USB profile when the container needs hardware access.
+On Windows, Docker runs the Linux image; native Windows Diamond cannot serve as the Linux Diamond installation inside that image.
+Hardware forwarding into the Docker VM is separate from native Windows driver access.
 
 Build and programmer backends
 -----------------------------

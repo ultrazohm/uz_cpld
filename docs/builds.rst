@@ -1,6 +1,79 @@
 Build and author programs
 =========================
 
+Pipeline task inventory
+-----------------------
+
+The automation is defined in ``.github/workflows/toolchain.yml``; the Makefile forwards commands to ``python -m toolchain``.
+The workflow runs on pushes, pull requests and manual dispatches.
+
+.. list-table:: CI tasks
+   :header-rows: 1
+   :widths: 24 76
+
+   * - Job
+     - Tasks, in execution order
+   * - ``windows-python``
+     - Check out sources; install Python 3.10; preview environment bootstrap without third-party packages; create the native venv; run the Windows tooling test subset; check tracked generated files for ``heartbeat_cvg/cvg_tx30``; preview catalog builds; preview D-slot programming.
+   * - ``checks``
+     - Check out sources; build the license-free Docker toolchain image; run Python tooling tests; build the FOSS-supported ``original`` catalog; build ``heartbeat_cvg/cvg_tx30``; compare the pilot against its RTL reference; generate documentation and run HDL simulations for all release cycles; retain diagnostics and the HTML preview; upload the Pages site on successful ``master`` runs.
+   * - ``diamond-build``
+     - On pushes and manual runs, authenticate using ``DIAMOND_GHCR_TOKEN``; build the image from ``DIAMOND_IMAGE`` once; check Diamond startup and synthesis; attempt every release catalog; package all verified Diamond exports into one ZIP; retain firmware and diagnostics.
+   * - ``publish-firmware``
+     - On every push, after successful Diamond, Linux and Windows jobs, publish the firmware ZIP as a uniquely named GitHub testing prerelease.
+   * - ``deploy``
+     - After successful Linux and Windows checks on ``master``, configure Pages and deploy the uploaded HTML through the ``github-pages`` environment.
+
+Diamond jobs require the private image credentials and its bundled license and run independently of the documentation deployment gate.
+Pull requests omit Diamond builds, firmware publication and Pages deployment.
+Manual runs build and retain Diamond firmware without publishing a GitHub Release.
+Release catalogs are attempted sequentially even if an earlier catalog fails; any failure prevents ZIP publication.
+After the license-free image succeeds, independent firmware and documentation steps still run if an earlier check fails, so their diagnostics are available.
+The pilot comparison runs only after its firmware build succeeds.
+Artifact retention is attempted even after failures, with a 14-day retention period.
+
+Each firmware build performs these shared tasks:
+
+#. Resolve the release, catalog entry, manifest, target, sources, constraints and backend; validate inputs and check generator-managed files for drift.
+#. Obtain workspace and build locks, reload the configuration and protect externally edited generated project settings.
+#. Clear previous published firmware and reports, mark the attempt running and hash the inputs and build implementation.
+#. Reserve the registered firmware identity and prepare the backend project with generated constraints containing its USERCODE.
+#. Execute the backend stages listed below and retain tool logs.
+#. Check that inputs stayed unchanged and fresh, nonempty firmware exports exist; for Diamond, verify the tool version and JEDEC USERCODE.
+#. Publish firmware and reports, record artifact hashes, tool information, identity, warnings and source provenance, and mark success.
+#. On failure, remove published outputs and record the error while retaining logs and intermediates.
+
+Diamond compilation performs these tasks in order:
+
+#. Synthesize VHDL with the configured LSE or Synplify engine.
+#. Translate and map the design; export and retain the mapped Verilog simulation netlist.
+#. Place and route, then run ``PARTrace`` for timing reports.
+#. Export routed Verilog and SDF using ``TimingSimFileVlg``.
+#. Export the ``.bit`` and ``.jed`` firmware files using ``Bitgen`` and ``Jedecgen``.
+
+FOSS compilation performs these tasks in order:
+
+#. Check tool versions and device support; analyze VHDL libraries with GHDL and synthesize Verilog.
+#. Run Yosys MachXO2 synthesis and retain the RTL reference and mapped JSON netlist.
+#. Prove RTL-to-mapped equivalence; for sequential designs, run eight-cycle initialized-output and retained-match-point checks and record their results.
+#. Remove unused input ports from the routing copy, normalize oscillator configuration and translate LPF/package constraints.
+#. Run ``nextpnr-machxo2`` placement, routing and timing reporting.
+#. Complete device, bank and electrical configuration, including open-drain settings.
+#. Pack a compressed bitstream with USERCODE using ``ecppack``; unpack it with ``ecpunpack`` to check format/CRC and verify open-drain configuration.
+
+Startup counterexamples are recorded by the FOSS build; the pilot ``compare`` command requires passing initialized-state checks as well as equivalence and six event-driven heartbeat scenarios.
+This CI comparison uses only the FOSS backend and does not establish Diamond equivalence.
+
+The documentation command performs these tasks for each selected program:
+
+#. Validate program inputs, export generic RTL schematics where supported and extract state diagrams.
+#. Run GHDL/cocotb simulations through pytest and verify that analysis and simulation used the same HDL inputs.
+#. Generate interactive waveform and RTL viewers, copy SVG/PDF/VCD files and provenance, and assemble program pages grouped by release.
+#. Clear the previous HTML output, build Sphinx with warnings treated as errors and check local page, image, iframe and download links.
+
+The retained diagnostics include firmware projects, logs, reports and metadata, simulation traces, netlists, state diagrams, comparison evidence, catalog summaries and the CI identity registry.
+These tasks do not program hardware or establish board timing acceptance; see :doc:`validation` and :doc:`foss` for qualification limits.
+
 Firmware commands
 -----------------
 
@@ -28,7 +101,7 @@ The target is inferred from each program manifest; ``target=uz_dslot_xo2`` or
 ``target=uz_s3c_xo2`` selects or filters it explicitly. ``backend`` selects
 ``diamond`` (default) or ``foss``.
 See :doc:`foss` for open-source setup, artifacts and validation limits.
-Diamond commands run in the calling environment; FOSS compilation uses the toolchain container on hosts.
+Diamond and FOSS commands use installed tools in the calling environment.
 Firmware commands never flash a device.
 
 Create a program

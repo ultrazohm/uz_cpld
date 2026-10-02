@@ -13,7 +13,7 @@ from toolchain.buildsystem.model import BuildError
 
 class CommandTests(unittest.TestCase):
     def calls(self, action, **options):
-        return commands.plan(action, options, environ={'CPLD_TOOLCHAIN_CONTAINER': '1'})
+        return commands.plan(action, options)
 
     def test_every_documented_action_has_a_make_target(self):
         text = (commands.ROOT / 'Makefile').read_text()
@@ -36,7 +36,7 @@ class CommandTests(unittest.TestCase):
             args = self.calls(action, backend='foss', build_backend='diamond', **extra)[0].argv
             self.assertEqual(args[args.index('--backend') + 1], 'diamond')
 
-    def test_invalid_combinations_fail_before_runner_selection(self):
+    def test_invalid_combinations_fail_before_execution(self):
         for action, options in [('program', {'target': 'dslot', 'build_backend': 'foss'}),
                                 ('gui', {'program': 'tx30', 'backend': 'foss'}),
                                 ('sim', {'backend': 'diamond'}),
@@ -44,40 +44,28 @@ class CommandTests(unittest.TestCase):
             with self.assertRaises(BuildError):
                 self.calls(action, **options)
 
-    def test_auto_runner_does_not_change_the_backend(self):
-        args = commands.plan('build', {'program': 'tx30'}, environ={})[0].argv
-        self.assertEqual(args[1:3], ('-m', 'toolchain.buildsystem'))
-        args = commands.plan('build', {'program': 'tx30', 'backend': 'foss'}, environ={})[0].argv
-        self.assertEqual(args[:2], ('docker', 'run'))
-        self.assertIn('backend=foss', args)
-        self.assertIn('program=tx30', args)
-        args = commands.plan('build', {'program': 'tx30', 'backend': 'foss', 'runner': 'local'}, environ={})[0].argv
-        self.assertEqual(args[1:3], ('-m', 'toolchain.buildsystem'))
+    def test_all_workflows_use_the_current_python(self):
+        for action, options in [('build', {'program': 'tx30', 'backend': 'foss'}),
+                                ('build-all', {'backend': 'diamond'}), ('sim', {}),
+                                ('docs', {}), ('netlist', {}), ('test', {}),
+                                ('doctor', {}), ('program', {'target': 'dslot'})]:
+            with self.subTest(action=action):
+                for call in commands.plan(action, options):
+                    self.assertEqual(call.argv[0], sys.executable)
+                    self.assertNotIn('docker', call.argv)
+                    self.assertNotIn('podman', call.argv)
 
-    def test_container_forwards_filters_and_worker_options_exactly(self):
-        options = {'program': 'tx30', 'target': 'dslot', 'release_cycle': 'original',
-                   'seed': '17', 'jobs': '2', 'wave_format': 'fst', 'runner': 'container',
-                   'container_engine': 'podman', 'toolchain_image': 'custom-image'}
-        args = commands.plan('sim', options, environ={})[0].argv
-        if sys.platform != 'win32':
-            self.assertIn('--userns=keep-id', args)
-        else:
-            self.assertNotIn('--user', args)
-        self.assertIn('custom-image', args)
-        for key in ('program', 'target', 'release_cycle', 'seed', 'jobs', 'wave_format'):
-            self.assertIn(f'{key}={options[key]}', args)
-        self.assertNotIn('runner=container', args)
+    def test_runner_and_container_options_are_rejected_for_workflows(self):
+        for option in ('runner', 'container_engine', 'container_platform', 'toolchain_image'):
+            with self.subTest(option=option), self.assertRaises(BuildError):
+                commands.plan('sim', {option: 'container'})
+        with self.assertRaises(BuildError):
+            commands.plan('test-container', {})
 
-    def test_configured_container_does_not_nest_containers(self):
-        args = self.calls('test', runner='container')[0].argv
-        self.assertIn('unittest', args)
-        self.assertNotIn('docker', args)
-
-    def test_plain_container_cannot_access_usb_or_unconfigured_diamond(self):
-        for action, options in [('program', {'target': 'dslot'}), ('scan', {}),
-                                ('build', {'program': 'tx30'}), ('init', {})]:
-            with self.assertRaisesRegex(BuildError, 'requires runner=local'):
-                commands.plan(action, {**options, 'runner': 'container'}, environ={})
+    def test_image_build_remains_explicit_and_configurable(self):
+        call, = commands.plan('image', {'container_engine': 'podman', 'toolchain_image': 'custom'})
+        self.assertEqual(call.argv[:2], ('podman', 'build'))
+        self.assertIn('custom', call.argv)
 
     def test_dry_run_never_invokes_any_subprocess(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -108,7 +96,7 @@ class CommandTests(unittest.TestCase):
             self.calls('build-all', release_cycle='all')
 
     def test_relative_selection_uses_caller_not_repository(self):
-        args = commands.plan('programmer-project', {'selection': 'my file.toml'}, cwd='/tmp', environ={})[0].argv
+        args = commands.plan('programmer-project', {'selection': 'my file.toml'}, cwd='/tmp')[0].argv
         self.assertIn(str(Path('/tmp').resolve() / 'my file.toml'), args)
 
     def test_unknown_options_and_conflicting_duplicate_syntax_are_errors(self):

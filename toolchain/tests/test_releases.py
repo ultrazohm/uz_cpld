@@ -139,7 +139,7 @@ class ReleaseTests(unittest.TestCase):
         releases.create(self.root, 'empty')
         for backend in ('diamond', 'foss'):
             with self.subTest(backend=backend):
-                output = self.make('build-all', f'backend={backend}', 'runner=local', success=False)
+                output = self.make('build-all', f'backend={backend}', success=False)
                 self.assertIn('No programs selected for build-all', output)
         self.make('report')
         path = self.root / 'toolchain/build/validation/empty/diamond-catalog/report.json'

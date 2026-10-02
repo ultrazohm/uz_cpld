@@ -112,14 +112,12 @@ class DoctorTests(unittest.TestCase):
         self.assertIn('INVALID', text)
         run.assert_not_called()
 
-    def test_doctor_stays_local_regardless_of_backend_unless_container_is_explicit(self):
+    def test_doctor_stays_local_regardless_of_backend(self):
         for backend in ('diamond', 'foss'):
             with self.subTest(backend=backend):
-                call, = commands.plan('doctor', {'backend': backend}, environ={})
+                call, = commands.plan('doctor', {'backend': backend})
                 self.assertIn('toolchain.doctor', call.argv)
                 self.assertNotIn('docker', call.argv)
-                call, = commands.plan('doctor', {'backend': backend, 'runner': 'container'}, environ={})
-                self.assertEqual(call.argv[:2], ('docker', 'run'))
 
     def test_clean_python_without_third_party_packages_can_run_doctor(self):
         with tempfile.TemporaryDirectory() as tmp:

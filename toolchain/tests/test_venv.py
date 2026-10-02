@@ -1,6 +1,7 @@
 """Native setup must bootstrap before third-party Python dependencies exist."""
 from contextlib import redirect_stdout
 import io
+import os
 from pathlib import Path
 import tempfile
 from unittest.mock import patch, Mock
@@ -21,8 +22,9 @@ class VenvTests(unittest.TestCase):
 
     def test_setup_remains_local_on_host_and_in_container(self):
         for environment in ({}, {'CPLD_TOOLCHAIN_CONTAINER': '1'}):
-            call, = commands.plan('venv', {'activate': '0'}, environ=environment)
-            self.assertEqual(call.argv[1:], ('-m', 'toolchain.venv', '--activate', '0'))
+            with patch.dict(os.environ, environment, clear=True):
+                call, = commands.plan('venv', {'activate': '0'})
+                self.assertEqual(call.argv[1:], ('-m', 'toolchain.venv', '--activate', '0'))
 
     def test_existing_environment_keeps_its_interpreter_while_updating_packages(self):
         with tempfile.TemporaryDirectory() as tmp:

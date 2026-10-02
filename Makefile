@@ -11,7 +11,7 @@ $(error Use one action per invocation: make ACTION key=value. Use make scan, mak
 endif
 commands := help image venv doctor list build-all report init programmer-project scan identify program new generate check build compare project gui sim netlist docs docs-assets test release-list release-new release-select usercodes usercodes-assign flasher-build clean clean-all
 # Single-action aliases preserve existing automation while help shows canonical names.
-aliases := programmer lattice_xcf release-current flasher docs-local docs-assets-local netlist-local test-container _sim
+aliases := programmer lattice_xcf release-current flasher docs-local docs-assets-local netlist-local _sim
 .PHONY: $(commands) $(aliases)
 $(commands) $(aliases):
 	@$(command_cli) $@ $(foreach key,$(command_options),--option $(call quote,$(key)=$($(key))))

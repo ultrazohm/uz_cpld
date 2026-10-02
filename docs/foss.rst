@@ -9,7 +9,7 @@ FOSS firmware pipeline
    make clean program=tx30 backend=foss
 
 ``backend`` defaults to ``diamond``; ``backend=foss`` selects the same program HDL, authored LPF and board target through the open-source pipeline.
-On the host, FOSS compilation and tool checks run in the toolchain container; inside the Dev Container they use installed tools.
+FOSS compilation and tool checks use installed tools in the calling environment; enter the toolchain container explicitly if the host lacks them.
 The Python CLI accepts ``--backend foss`` for native use.
 Make variables use lowercase names; ``backend`` selects the firmware flow.
 Simulation and generic RTL documentation use the shared GHDL flow independently of the firmware backend.
@@ -40,6 +40,8 @@ The suite and nextpnr installers refuse existing destinations and verify archive
 ``make flasher-build`` verifies its source and patch checksums and replaces its local installation after compilation and tests pass.
 Release and source pins are in ``toolchain/foss/toolchain.json``, ``toolchain/foss/sources.json`` and ``toolchain/foss/openfpgaloader.json``.
 ``FOSS_ROOT`` defaults to ``/opt/oss-cad-suite``; tools are selected by absolute paths without replacing the system Python environment.
+RTL schematic generation also uses this Yosys installation when available, falling back to Yosys on ``PATH`` for native setups without the suite.
+The container does not install a second Yosys from Ubuntu packages.
 Native nextpnr resides in ``$FOSS_ROOT/native/``, while the bundle's executables reside in ``$FOSS_ROOT/bin/``.
 The image's patched loader resides in ``$FOSS_ROOT/native/openfpgaloader/``; ``make flasher-build`` installs a workspace override in ``toolchain/build/openfpgaloader/``.
 See :doc:`firmware-identity` for loader selection and rebuilding.
@@ -50,9 +52,8 @@ Build stages and outputs
 .. mermaid::
 
    flowchart LR
-      host[Host Make] --> docker[Docker toolchain image]
-      docker --> cli[Python build CLI]
-      dev[Dev Container Make] --> cli
+      host[Native shell] --> cli[Python build CLI]
+      dev[Container shell] --> cli
       inputs[Program VHDL, LPF, target] --> cli
       cli --> ghdl[GHDL: VHDL to Verilog]
       ghdl --> synth[Yosys: XO2 synthesis]
@@ -169,14 +170,14 @@ Heartbeat comparison pilot
 ``heartbeat_cvg/cvg_tx30`` opts into FOSS. Other heartbeat slots and the S3C
 remain Diamond-only. Build and check the pilot with installed tools::
 
-   make build program=cvg_tx30 release_cycle=heartbeat_cvg backend=foss runner=local
-   make compare program=cvg_tx30 release_cycle=heartbeat_cvg backend=foss runner=local
+   make build program=cvg_tx30 release_cycle=heartbeat_cvg backend=foss
+   make compare program=cvg_tx30 release_cycle=heartbeat_cvg backend=foss
 
 On a machine with Diamond and the FOSS tools, build the same source with Diamond
 and omit ``backend`` from the comparison command to check both implementations::
 
-   make build program=cvg_tx30 release_cycle=heartbeat_cvg backend=diamond runner=local
-   make compare program=cvg_tx30 release_cycle=heartbeat_cvg runner=local
+   make build program=cvg_tx30 release_cycle=heartbeat_cvg backend=diamond
+   make compare program=cvg_tx30 release_cycle=heartbeat_cvg
 
 ``compare`` consumes firmware builds and writes ``build/comparison/``; it never
 programs hardware. Both builds must have current input/output hashes. Missing or

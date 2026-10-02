@@ -1,7 +1,6 @@
 """Public command contract shared by Make, help, and command-routing tests."""
 import argparse
 from dataclasses import dataclass
-import os
 import re
 from pathlib import Path
 import shlex
@@ -13,7 +12,7 @@ from toolchain.buildsystem.model import BuildError, resolve_release
 
 ROOT = Path(__file__).resolve().parents[1]
 TARGETS = {'dslot': 'uz_dslot_xo2', 's3c': 'uz_s3c_xo2'}
-COMMON = {'runner', 'dry_run'}
+COMMON = {'dry_run'}
 CONTAINER = {'container_engine', 'container_platform', 'toolchain_image'}
 FIRMWARE = {'backend', 'build_backend', 'target', 'release_cycle'}
 PROBE = {'backend', 'programmer_backend', 'target', 'probe_index', 'cable', 'usb_serial'}
@@ -78,10 +77,8 @@ COMMANDS = {
 ALIASES = {
     'programmer': ('init', {}), 'lattice_xcf': ('programmer-project', {}),
     'release-current': ('release-select', {}), 'flasher': ('flasher-build', {}),
-    'docs-local': ('docs', {'runner': 'local'}),
-    'docs-assets-local': ('docs-assets', {'runner': 'local'}),
-    'netlist-local': ('netlist', {'runner': 'local'}),
-    'test-container': ('test', {'runner': 'container'}), '_sim': ('sim', {'runner': 'local'}),
+    'docs-local': ('docs', {}), 'docs-assets-local': ('docs-assets', {}),
+    'netlist-local': ('netlist', {}), '_sim': ('sim', {}),
 }
 
 
@@ -94,7 +91,7 @@ ARGUMENT_VALUES = {
     'programmer_backend': 'diamond|foss', 'selection': 'FILE', 'probe_index': 'N',
     'cable': 'NAME', 'usb_serial': 'SERIAL', 'rebuild': '0|1',
     'jobs': 'N', 'seed': 'N', 'wave_format': 'vcd|ghw|fst',
-    'discard_project_changes': '0|1', 'runner': 'auto|local|container', 'dry_run': '0|1',
+    'discard_project_changes': '0|1', 'dry_run': '0|1',
     'container_engine': 'docker|podman', 'container_platform': 'OS/ARCH',
     'toolchain_image': 'NAME', 'activate': '0|1',
 }
@@ -130,7 +127,7 @@ def shared_help(style='make'):
         '  compare defaults to both backends; backend selects a partial check.',
         '  release_cycle defaults to the current release; programmer actions first consult',
         '  the selection file. selection=selection.toml; template=tx30.',
-        '  jobs=4; seed=1; wave_format=vcd; runner=auto; dry_run=0; rebuild=0;',
+        '  jobs=4; seed=1; wave_format=vcd; dry_run=0; rebuild=0;',
         '  discard_project_changes=0; venv activate=1. Omit an option to use its default.',
         '  Build targets are inferred when unambiguous; scan/identify default to dslot.',
         '  program requires target. probe_index: Diamond defaults to 1, FOSS to 0.',
@@ -141,14 +138,12 @@ def shared_help(style='make'):
         '  Long target names remain accepted aliases. Selection files do not select backends.',
         '  docs/docs-assets accept release_cycle=all; other actions use one release.',
         '  dry_run=1 previews without writes, tool startup, or hardware access.',
-        '  Auto runner: configured Dev Container stays local; host FOSS builds/sim/netlist/docs',
-        '  use the image. Run ' + example_text('image', style) + ' first. Diamond and USB commands run locally.',
+        '  Commands use tools installed in the calling environment; no containers are launched.',
         '',
-        'Host-container arguments (image, or supported commands with runner=container):',
+        'Image build arguments (image only):',
         '  ' + argument_text('image', CONTAINER, style),
         '  Defaults: container_engine=docker; container_platform=linux/amd64;',
-        '  toolchain_image=uz-cpld-toolchain. Container execution supports sim, netlist,',
-        '  docs, docs-assets, test, doctor, and FOSS build/build-all/project.',
+        '  toolchain_image=uz-cpld-toolchain. Enter the container explicitly to use its tools.',
         '',
         'Use ' + example_text('help command=ACTION', style) + ' to focus on one command. Unsupported options are errors.',
         'Run one action per invocation. Make remains an optional Linux convenience wrapper.',
@@ -166,7 +161,7 @@ def help_text(style='make'):
             lines += ['', group]
         lines.append(f'  {example_text(command.example, style):<65} {command.description}')
     lines += ['', 'Common options: backend=diamond|foss (default: diamond), target=dslot|s3c,',
-              '  release_cycle=NAME, runner=auto|local|container, dry_run=1 (preview).',
+              '  release_cycle=NAME, dry_run=1 (preview).',
               'Options vary by command; use ' + example_text('help command=ACTION', style) + ' for the complete list.']
     return '\n'.join(lines)
 
@@ -178,7 +173,7 @@ def normalize(action, options):
         options = {**defaults, **options}
     if action not in COMMANDS:
         raise BuildError(f'Unknown action {action!r}; run python -m toolchain help')
-    unsupported = set(options) - COMMANDS[action].options - CONTAINER
+    unsupported = set(options) - COMMANDS[action].options
     if unsupported:
         raise BuildError(f'{action} does not accept {", ".join(sorted(unsupported))}; run python -m toolchain help --command {action}')
     for key in COMMANDS[action].required:
@@ -190,8 +185,6 @@ def normalize(action, options):
     for key in ('backend', 'build_backend', 'programmer_backend'):
         if key in options and options[key] not in ('diamond', 'foss'):
             raise BuildError(f'{key} must be diamond or foss')
-    if options.get('runner', 'auto') not in ('auto', 'local', 'container'):
-        raise BuildError('runner must be auto, local or container')
     for key in ('dry_run', 'rebuild', 'discard_project_changes', 'activate'):
         if key in options and options[key] not in ('0', '1'):
             raise BuildError(f'{key} must be 0 or 1')
@@ -235,52 +228,21 @@ class Invocation:
     cwd: Path
 
 
-def plan(action, options, *, root=ROOT, cwd=None, environ=None):
+def plan(action, options, *, root=ROOT, cwd=None):
     """Resolve a command without writes, tool startup, or hardware access."""
     action, options = normalize(action, options)
     root = Path(root).resolve()
     cwd = Path(cwd or Path.cwd()).resolve()
-    environ = os.environ if environ is None else environ
     backend = options.get('backend', 'diamond')
     build_backend = options.get('build_backend', backend)
     programmer_backend = options.get('programmer_backend', backend)
-    runner = options.get('runner', 'auto')
-    inside = environ.get('CPLD_TOOLCHAIN_CONTAINER') == '1'
-    firmware_tools = {'build', 'build-all', 'project'}
-    analysis_tools = {'sim', 'netlist', 'docs', 'docs-assets'}
-    container_capable = analysis_tools | {'test', 'doctor'} | (firmware_tools if build_backend == 'foss' else set())
-    if runner == 'auto':
-        runner = 'container' if not inside and (action in analysis_tools or
-                    action in firmware_tools and build_backend == 'foss') else 'local'
-    if runner == 'container' and inside:
-        runner = 'local'
-    if runner == 'container' and action not in container_capable:
-        raise BuildError(f'{action} with this backend requires runner=local (or a configured Dev Container)')
-    if CONTAINER & options.keys() and action != 'image' and runner != 'container':
-        raise BuildError('Container options require runner=container outside the Dev Container, or action image')
-    if action == 'image' and options.get('runner', 'auto') == 'container':
-        raise BuildError('image builds on the host; use runner=local')
-    engine = options.get('container_engine', 'docker')
-    platform = options.get('container_platform', 'linux/amd64')
-    image = options.get('toolchain_image', 'uz-cpld-toolchain')
     if sys.platform == 'win32' and action == 'flasher-build':
         raise BuildError('The pinned FOSS source build requires Linux; use the toolchain container or WSL')
-    if runner == 'container':
-        forwarded = {k: v for k, v in options.items() if k not in CONTAINER | {'runner', 'dry_run'}}
-        command = [engine, 'run', '--rm', '--platform', platform]
-        if sys.platform != 'win32' and Path(engine).name == 'podman':
-            command += ['--userns=keep-id']
-        if sys.platform != 'win32':
-            command += ['--user', f'{os.getuid()}:{os.getgid()}']
-        command += ['--mount',
-                    f'type=bind,source={root},target=/work', '-w', '/work', image,
-                    'python3', '-m', 'toolchain.commands', action, '--runner', 'local']
-        for key, value in sorted(forwarded.items()):
-            command += ['--option', f'{key}={value}']
-        return [Invocation(tuple(command), root)]
     if action == 'image':
-        return [Invocation((engine, 'build', '--platform', platform, '--target', 'toolchain',
-                            '-f', '.devcontainer/Dockerfile', '-t', image, '.'), root)]
+        return [Invocation((options.get('container_engine', 'docker'), 'build',
+                            '--platform', options.get('container_platform', 'linux/amd64'),
+                            '--target', 'toolchain', '-f', '.devcontainer/Dockerfile',
+                            '-t', options.get('toolchain_image', 'uz-cpld-toolchain'), '.'), root)]
     python = sys.executable
     def invoke(module, args, working=root):
         return Invocation(tuple([python, '-m', module, *args]), working)

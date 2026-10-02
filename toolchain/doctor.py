@@ -150,11 +150,12 @@ def report(root, *, backend='diamond', release_cycle=None, target=None):
         vendor.append(Finding('Diamond builds', 'UNAVAILABLE', 'Full Diamond build CLI is missing. Standalone Programmer can program hardware but cannot compile firmware.'))
 
     suite = Path(os.environ.get('FOSS_ROOT', '/opt/oss-cad-suite'))
+    from toolchain.analysis.netlist import yosys_executable
     from programmer_helper.program import loader_path
     from programmer_helper.identify import openocd_path
     specs = [
         ('GHDL', 'ghdl', ['--version']),
-        ('Yosys (RTL diagrams)', 'yosys', ['-V']),
+        ('Yosys (RTL diagrams)', yosys_executable(), ['-V']),
         ('Graphviz', 'dot', ['-V']),
         ('GTKWave', 'gtkwave', None),
         ('Yosys (FOSS builds)', suite / 'bin/yosys', ['-V']),
@@ -191,7 +192,7 @@ def report(root, *, backend='diamond', release_cycle=None, target=None):
     print('\nMissing tools affect only workflows that use them. No hardware was accessed.')
     print('License validity, synthesis, USB permissions, Docker daemon and image availability were not tested.')
     print('Python setup: python -m toolchain venv')
-    print('Bundled Linux tools: python -m toolchain image; then python -m toolchain doctor --runner container')
+    print('Bundled Linux tools: python -m toolchain image; then enter the container and run python -m toolchain doctor')
     print('Setup and workflow requirements: docs/tool-environments.rst, docs/environments.rst, docs/windows.rst')
     return 0
 

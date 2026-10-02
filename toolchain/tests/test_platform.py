@@ -119,12 +119,12 @@ class WindowsDispatchTests(unittest.TestCase):
             inspect.assert_not_called()
             library.assert_not_called()
 
-    def test_windows_container_dispatch_has_no_unix_user_ids(self):
+    def test_windows_foss_build_uses_native_python(self):
         with patch.object(sys, 'platform', 'win32'):
-            call, = commands.plan('build-all', {'backend': 'foss'}, environ={})
-            self.assertEqual(call.argv[:2], ('docker', 'run'))
+            call, = commands.plan('build-all', {'backend': 'foss'})
+            self.assertEqual(call.argv[:3], (sys.executable, '-m', 'toolchain.buildsystem'))
             self.assertNotIn('--user', call.argv)
-            self.assertIn('--mount', call.argv)
+            self.assertNotIn('--mount', call.argv)
 
     def test_clean_all_keeps_the_running_environment_and_its_caches(self):
         from toolchain.buildsystem.workflow import clean_all
@@ -143,7 +143,7 @@ class WindowsDispatchTests(unittest.TestCase):
 
     def test_windows_test_action_selects_the_native_suite(self):
         with patch.object(sys, 'platform', 'win32'):
-            calls = commands.plan('test', {}, environ={})
+            calls = commands.plan('test', {})
             self.assertEqual(len(calls), 1)
             self.assertIn('toolchain.tests.test_platform', calls[0].argv)
             self.assertNotIn('discover', calls[0].argv)

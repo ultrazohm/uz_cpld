@@ -14,10 +14,10 @@ Up to ``jobs`` programs run concurrently (default: 4; ``jobs=1`` runs sequential
 For each program, RTL schematics, state diagrams, simulation, waveform assets and its page are generated in order.
 After every program succeeds, the complete page index is written and the main Sphinx build runs sequentially.
 Failed analysis or simulation stops the build; generated page sources are replaced before generation.
-A documentation lock covers asset generation, HTML cleanup, Sphinx rendering and site validation for ``make docs`` and ``make docs runner=local``.
+A documentation lock covers asset generation, HTML cleanup, Sphinx rendering and site validation for ``make docs``.
 It rejects concurrent managed documentation builds and prevents ``clean-all`` or program creation throughout those stages.
 The assets-only command holds the same lock for its generation stage.
-The same worker limit applies to ``make docs-assets runner=local`` and ``make docs runner=local``.
+The same worker limit applies to ``make docs-assets`` and ``make docs``.
 Firmware builds, including Diamond ``make build-all``, run sequentially.
 ``make netlist`` exports diagrams for the firmware catalog without simulation; ``program`` selects one program.
 
@@ -73,7 +73,7 @@ Authoring and publishing
 Write release-wide prose in ``programs/<release_cycle>/description.rst``, program-specific prose in ``programs/<release_cycle>/<name>/description.rst``, and shared guides in ``docs/*.rst``.
 Use one sentence per source line without manual wrapping or a line-length limit; preserve the required layout of directives, tables and code blocks.
 Generated pages follow the same prose rule.
-``make docs runner=local`` uses installed tools; ``make docs-assets runner=local`` generates pages/assets without Sphinx.
+``make docs`` uses installed tools; ``make docs-assets`` generates pages/assets without Sphinx.
 Direct Sphinx invocation renders existing assets without refreshing simulation or netlists.
 See :doc:`publishing` for GitHub Pages deployment and :doc:`architecture` for source/output ownership.
 

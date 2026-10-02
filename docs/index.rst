@@ -14,10 +14,9 @@ The :ref:`generator-quickstart` covers creating a starter, editing its routing, 
 See :doc:`tool-environments` for a workflow matrix covering native Linux,
 native Windows, the Python venv and Docker.
 
-Run ``python -m toolchain help`` to see all commands. With Docker installed, run these commands from the repository root::
+Run ``python -m toolchain help`` to see all commands. Inside the Dev Container or a native environment with the required tools installed, run these commands from the repository root::
 
-   python -m toolchain image
-   python -m toolchain test --runner container
+   python -m toolchain test
    python -m toolchain sim
    python -m toolchain docs
 

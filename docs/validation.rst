@@ -102,8 +102,10 @@ native stacks, runtime fingerprints, scripts and results, but exclude raw cores.
 Observed crashes keep the diagnostic red; zero crashes do not establish a fix.
 No firmware catalog is built or published by this trace workflow.
 
-The **Compare Diamond glibc runtimes** workflow now runs on pushes to
-``codex/diamond-diagnosis``. Each of three fresh runners builds the normal
+The **Compare Diamond glibc runtimes** workflow is retained for manual runs.
+Its comparison observed 16/300 crashes with glibc ``.14`` and 12/300 with ``.15``;
+upgrading those packages did not eliminate the failure.
+Each of three fresh runners builds the normal
 image and derives a candidate by upgrading only ``libc6`` and ``libc-bin``
 from ``2.35-0ubuntu3.14`` to ``2.35-0ubuntu3.15``. Package inventories and
 native-library hashes must confirm that unrelated dependencies and Diamond
@@ -118,3 +120,81 @@ control failures invalidate the comparison. No control crashes makes an
 otherwise passing comparison inconclusive. The ``diamond-runtime-comparison-N``
 artifacts retain fingerprints, attempt logs and catalog results. Normal images
 and published firmware continue to use the existing production configuration.
+
+Parallel cause isolation
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The temporary **Isolate Diamond crash causes** workflow runs on pushes to
+``codex/diamond-diagnosis`` or manually. It replaces the automatic glibc
+experiment with independent matrix jobs, with ``fail-fast: false``. Each job
+has its own VM and builds its own image from the same pinned private-base digest.
+No image, licensed installation, raw core or firmware is published by this workflow.
+Normal firmware publication continues through the existing production workflow.
+
+Each job runs control/candidate followed by candidate/control, with 100 fresh
+preparations per block: 200 attempts per arm, without retries or synthesis.
+Memcheck is limited to 10 instrumented attempts per block with a 180-second
+timeout; its control still runs 200 ordinary attempts. Instrumentation jobs
+install their dependencies in an image shared by both arms. These jobs diagnose
+memory errors and missing files; they are not candidate production configurations.
+
+The independent experiments cover:
+
+* An identical A/A reference, a passwd entry for the unchanged UID/GID,
+  a private HOME, and a fresh TMPDIR.
+* One CPU, unlimited stack, a larger shared-memory filesystem, a 2-GiB RAM
+  cap with unchanged swap allowance, address randomization, and the syscall filter.
+* Allocator perturbation and disabling the glibc per-thread allocation cache.
+* A delay before close, servicing pending Tcl events, omission of strategy
+  commands, omission of explicit synthesis selection, and minimal create/save/close.
+* Valgrind Memcheck with origin tracking and failed memory/process/file syscalls
+  under strace. File contents and network payloads are not traced.
+* Identical vendor files on a read-only bind mount, the original vendor
+  environment setup, and the CI base's ``QT_GRAPHICSSYSTEM=native`` setting.
+* The default Ubuntu container supply path versus the private CI base, both
+  using the same mounted CI installation. This is a broad image comparison,
+  not a single-library experiment or a copy of the actual local container.
+* A second A/A reference on an Ubuntu 24.04 host. Compare it with the Ubuntu
+  22.04 reference; VM hardware and host configuration can differ too, so it
+  cannot isolate the kernel version alone.
+
+Local development and CI do **not** use the same image. The default development
+container starts with Ubuntu and mounts the host's complete Diamond installation;
+CI inherits a private image with a manually selected subset of Diamond.
+The container source is in
+`lattice-container <https://github.com/SchindlerTo/lattice-container>`_. Its
+``scripts/select-tools.sh`` retains MachXO2, shared runtime files, LSE and
+Synplify while omitting other device data and tools. Matching executable hashes
+does not establish equal installation contents. The installer controller calls
+``selectAll()``; pruning happens through allowlist copies into a fresh stage.
+
+The additional ``full-installation`` job compares those vendor contents while
+keeping the CI runtime image and read-only mounting method constant. Set the
+repository variable ``DIAMOND_FULL_IMAGE`` to a private image containing the
+complete matching Diamond 3.14 installation at ``/opt/diamond``. The existing
+package credential must be able to pull it. Both arms use the control image's
+license. The full image is used only as a source of installation files and is
+never pushed or uploaded. If unavailable, that lane explicitly reports missing
+evidence while all other jobs proceed. A pruned image cannot supply omitted files.
+
+Installed component metadata exposes a mandatory base package and selectable
+device families, including ``com.latticesemi.device.xo2`` with an XP dependency.
+It does not expose separate LSE/Synplify packages. Selecting supported installer
+components could replace device pruning, but the mandatory base is about 6.1 GB
+according to that metadata; it does not promise the manually pruned image size.
+
+Evidence includes package inventories, hashes of the launcher and vendor shared
+libraries, installation filenames/sizes, input hashes, effective environment,
+resource settings, native exit status, kernel OOM/segfault messages and per-attempt
+logs. ``wait4`` records peak process RSS after termination; cgroup ``memory.peak``
+records the container's lifetime peak, including cache and other processes.
+Host available memory is sampled every 50 ms. Process RSS is not the sum of all
+concurrent descendants, so inspect both measurements. Memcheck/strace runs alter
+timing and memory usage and must be compared with their own controls.
+
+The final summary distinguishes incomplete/invalid comparisons, diagnostic probes,
+remaining crashes, controls that did not reproduce, and promising candidates.
+Any observed crash keeps the workflow red, including expected control crashes.
+A promising result still needs independent repetition and full-catalog validation
+with no recovered crashes. Lifecycle reduction probes are not firmware fixes.
+Remove this workflow and its temporary helpers once a fix has been established.

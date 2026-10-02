@@ -1,7 +1,5 @@
 name: Compare Diamond glibc runtimes
 on:
-  push:
-    branches: [codex/diamond-diagnosis]
   workflow_dispatch:
 
 permissions:

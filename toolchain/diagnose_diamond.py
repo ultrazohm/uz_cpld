@@ -23,7 +23,9 @@ from toolchain.buildsystem.workflow import locked
 ROOT = Path(__file__).resolve().parents[1]
 ENV_KEYS = ('HOME', 'USER', 'LOGNAME', 'TMPDIR', 'PATH', 'LD_LIBRARY_PATH',
             'TCL_LIBRARY', 'FOUNDRY', 'DIAMOND_ROOT', 'QT_PLUGIN_PATH',
-            'QT_QPA_PLATFORM', 'DISPLAY', 'WAYLAND_DISPLAY')
+            'QT_QPA_PLATFORM', 'DISPLAY', 'WAYLAND_DISPLAY', 'MALLOC_PERTURB_',
+            'GLIBC_TUNABLES', 'DIAMOND_HOME', 'QT_GRAPHICSSYSTEM')
+PREPARATIONS = ('full', 'no-strategy', 'no-engine', 'minimal', 'close-delay', 'event-loop')
 GDB_REPORT = ['thread apply all bt', 'info registers', 'x/i $pc', 'info sharedlibrary', 'info proc mappings']
 GDB_SCRIPT = '''set pagination off
 set confirm off
@@ -59,6 +61,15 @@ def write_json(path, value):
     path.write_text(json.dumps(value, indent=2, sort_keys=True) + '\n')
 
 
+def installation_inventory(binary):
+    if binary.parent.name != 'lin64' or binary.parent.parent.name != 'bin':
+        return {}  # Test launchers are not vendor installations.
+    installation = binary.parent.parent.parent
+    return {str(p.relative_to(installation)): {'size': p.stat().st_size, 'symlink': p.is_symlink()}
+            for p in installation.rglob('*') if p.is_file()
+            and 'license' not in str(p.relative_to(installation)).lower() and p.suffix.lower() != '.lic'}
+
+
 def capture(argv, **kwargs):
     try:
         result = subprocess.run(argv, stdin=subprocess.DEVNULL, capture_output=True,
@@ -88,11 +99,13 @@ def fingerprint(binary):
     # These are loaded dynamically and are absent from pnmainc startup ldd.
     paths.update(bindir / name for name in ('libprojmngr.so.1', 'libpntcl.so',
                                           'libpnmaincdll.so', 'libftcjtag.so.1', 'libjtaginterface.so.1'))
+    paths.update(bindir.glob('*.so*'))
     paths.update(Path(p) for p in re.findall(r'(/\S+)\s+\(0x', libraries.get('output', '')))
     system_files = ('/proc/self/limits', '/proc/self/cgroup', '/proc/meminfo', '/proc/sys/kernel/core_pattern',
                     '/proc/sys/kernel/randomize_va_space', '/sys/fs/cgroup/memory.max',
                     '/sys/fs/cgroup/memory.events', '/sys/fs/cgroup/cpu.max',
-                    '/sys/fs/cgroup/pids.max')
+                    '/sys/fs/cgroup/pids.max', '/sys/fs/cgroup/memory.swap.max',
+                    '/proc/sys/vm/overcommit_memory', '/proc/sys/vm/max_map_count')
     return {'platform': platform.platform(), 'uid': os.getuid(), 'gid': os.getgid(), 'account': account,
             'groups': os.getgroups(), 'cpu_affinity': sorted(os.sched_getaffinity(0)),
             'environment': {k: os.environ[k] for k in ENV_KEYS if k in os.environ},
@@ -102,6 +115,8 @@ def fingerprint(binary):
             'file_sha256': {str(p): digest(p) for p in sorted(paths) if p.is_file()},
             'system_files': {p: Path(p).read_text() for p in system_files if Path(p).is_file()},
             'cpu': capture(['lscpu']), 'mounts': capture(['findmnt', '-T', str(ROOT)]),
+            'diamond_mount': capture(['findmnt', '-T', str(binary)]),
+            'shared_memory_bytes': os.statvfs('/dev/shm').f_frsize * os.statvfs('/dev/shm').f_blocks,
             'packages': capture(['dpkg-query', '-W']),
             'git_revision': capture(['git', '-C', str(ROOT), 'rev-parse', 'HEAD'])}
 
@@ -117,7 +132,43 @@ def gdb_result(output):
     return None
 
 
-def execute(binary, project, log, *, env, debugger, timeout):
+def wait_measured(proc, timeout):
+    """Reap once with wait4: retain peak RSS even after a segfault or OOM kill."""
+    deadline = time.monotonic() + timeout
+    available = []
+    timed_out = False
+    process_settings = {}
+    while True:
+        pid, status, usage = os.wait4(proc.pid, os.WNOHANG)
+        if pid:
+            break
+        if not process_settings:
+            try:
+                status_lines = Path(f'/proc/{proc.pid}/status').read_text().splitlines()
+                process_settings = {line.split(':', 1)[0]: line.split(':', 1)[1].strip()
+                                    for line in status_lines if line.startswith(('Seccomp:', 'NoNewPrivs:', 'CapEff:'))}
+            except FileNotFoundError:
+                pass
+        meminfo = Path('/proc/meminfo').read_text()
+        match = re.search(r'^MemAvailable:\s+(\d+)', meminfo, re.M)
+        if match:
+            available.append(int(match[1]))
+        if time.monotonic() >= deadline:
+            timed_out = True
+            try:
+                os.killpg(proc.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            _, status, usage = os.wait4(proc.pid, 0)
+            break
+        time.sleep(0.05)
+    proc.returncode = os.waitstatus_to_exitcode(status)
+    return timed_out, {'peak_rss_kib': usage.ru_maxrss,
+                       'minimum_sampled_host_available_kib': min(available) if available else None,
+                       'host_memory_samples': len(available), 'process_settings': process_settings}
+
+
+def execute(binary, project, log, *, env, debugger, timeout, instrumentation=None):
     argv = [str(binary), 'prepare.tcl']
     if debugger:
         commands = project / 'diagnose.gdb'
@@ -125,32 +176,66 @@ def execute(binary, project, log, *, env, debugger, timeout):
         # Follow the vendor shell wrapper's exec into pnmainc, preserving its setup.
         argv = ['gdb', '--batch', '--nx', '-x', str(commands), '--args',
                 '/bin/bash', str(binary), 'prepare.tcl']
+    elif instrumentation == 'memcheck':
+        argv = ['valgrind', '--tool=memcheck', '--trace-children=yes', '--track-origins=yes',
+                '--leak-check=no', '--error-exitcode=86', '--num-callers=30',
+                '--log-file=' + str(log.parent / 'memcheck-%p.log'),
+                '/bin/bash', str(binary), 'prepare.tcl']
+    elif instrumentation == 'strace':
+        # No file contents, environment dump or network payloads enter this trace.
+        argv = ['strace', '-f', '-o', str(log.parent / 'syscalls.log'),
+                '-e', 'trace=%memory,%process,%file', '--status=failed', *argv]
     started = time.monotonic()
     with log.open('w') as stream:
         proc = subprocess.Popen(argv, cwd=project, env=env, stdin=subprocess.DEVNULL,
                                 stdout=stream, stderr=subprocess.STDOUT, start_new_session=True)
-        try:
-            code = proc.wait(timeout=timeout)
-            timed_out = False
-        except subprocess.TimeoutExpired:
-            os.killpg(proc.pid, signal.SIGKILL)
-            proc.wait()
-            code, timed_out = None, True
+        timed_out, memory = wait_measured(proc, timeout)
+        code = None if timed_out else proc.returncode
     output = log.read_text(errors='replace')
     if debugger and not timed_out:
         code = gdb_result(output)
     markers = [line for line in output.splitlines() if line.startswith('UZ_CPLD_DIAMOND_')]
+    instrument_logs = list(log.parent.glob('memcheck-*.log')) if instrumentation == 'memcheck' else []
+    memcheck = '\n'.join(p.read_text(errors='replace') for p in instrument_logs)
+    error_counts = re.findall(r'ERROR SUMMARY: ([\d,]+) errors', memcheck)
+    errors = sum(int(n.replace(',', '')) for n in error_counts)
+    if instrumentation == 'memcheck' and code == 0 and (errors or not error_counts):
+        code = 86  # A shell wrapper must not hide a child Memcheck error.
+    native_segfault = code == -signal.SIGSEGV or (
+        instrumentation == 'memcheck' and 'default action of signal 11 (SIGSEGV)' in memcheck)
+    syscall_failures = {}
+    if instrumentation == 'strace' and (log.parent / 'syscalls.log').exists():
+        syscalls = (log.parent / 'syscalls.log').read_text(errors='replace')
+        native_segfault |= '+++ killed by SIGSEGV' in syscalls
+        syscall_failures = dict(Counter(re.findall(r'= -1 (ENOMEM|EACCES|ENOENT|EPERM|EAGAIN)\b', syscalls)))
     return {'returncode': code, 'timeout': timed_out, 'seconds': time.monotonic() - started,
+            'raw_returncode': proc.returncode, 'native_segfault': native_segfault,
+            'memory': memory, 'memcheck_errors': errors,
+            'syscall_failures': syscall_failures,
             'last_marker': markers[-1] if markers else None,
             'resource_counters': {name: Path('/sys/fs/cgroup', name).read_text()
-                                  for name in ('memory.events', 'memory.current', 'pids.current')
+                                  for name in ('memory.events', 'memory.current', 'memory.peak', 'pids.current')
                                   if Path('/sys/fs/cgroup', name).is_file()},
             'status': 'success' if code == 0 and not timed_out else 'failed'}
 
 
-def inputs(build, project, seed, trace, *, close_project=True):
-    if seed and not close_project:
-        raise BuildError('--no-close requires freshly generated preparation inputs')
+def preparation(build, project, close_project, variant):
+    lines = diamond.preparation_commands(build, project, close_project=close_project)
+    if variant == 'no-strategy':
+        lines = [line for line in lines if not line.startswith('prj_strgy ')]
+    elif variant == 'no-engine':
+        lines = [line for line in lines if not line.startswith('prj_syn ')]
+    elif variant == 'minimal':
+        lines = [line for line in lines if line.startswith('prj_project ')]
+    elif variant in ('close-delay', 'event-loop'):
+        index = lines.index('prj_project save') + 1
+        lines.insert(index, 'after 250' if variant == 'close-delay' else 'update')
+    return lines
+
+
+def inputs(build, project, seed, trace, *, close_project=True, variant='full'):
+    if seed and (not close_project or variant != 'full'):
+        raise BuildError('Preparation changes require freshly generated inputs')
     if seed:
         result = {name: (seed / name).read_bytes()
                   for name in ('baseline.sty', 'constraints.lpf', 'prepare.tcl')}
@@ -171,7 +256,7 @@ def inputs(build, project, seed, trace, *, close_project=True):
     identity = {'usercode': f'{(entry["number"] << 16) | max(revisions):08X}'}
     return {'baseline.sty': build.strategy.read_bytes(),
             'constraints.lpf': constraint_text(build, identity).encode(),
-            'prepare.tcl': diamond.wrap(diamond.preparation_commands(build, project, close_project=close_project), trace=trace).encode()}
+            'prepare.tcl': diamond.wrap(preparation(build, project, close_project, variant), trace=trace).encode()}
 
 
 def replay(args):
@@ -179,9 +264,14 @@ def replay(args):
     binary = diamond.launcher()
     if args.mode == 'gdb' and not shutil.which('gdb'):
         raise BuildError('GDB is required for --mode gdb; use the temporary diagnostic image')
+    instrument = {'memcheck': 'valgrind', 'strace': 'strace'}.get(args.mode)
+    if instrument and not shutil.which(instrument):
+        raise BuildError(f'{instrument} is required for --mode {args.mode}')
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
     write_json(output / 'environment.json', fingerprint(binary))
+    # Paths/sizes only: no license content or installation binaries enter artifacts.
+    write_json(output / 'installation.json', installation_inventory(binary))
     env = diamond.environment(binary)
     env.pop('DISPLAY', None)
     env.pop('WAYLAND_DISPLAY', None)
@@ -196,13 +286,15 @@ def replay(args):
         with tempfile.TemporaryDirectory(prefix='diamond-reproducer-', dir=build.build_root) as tmp:
             work = Path(tmp)
             project = work / 'project'
-            seed = inputs(build, project, args.seed_project, args.mode != 'plain', close_project=not args.no_close)
+            seed = inputs(build, project, args.seed_project, args.mode != 'plain',
+                          close_project=not args.no_close, variant=args.preparation)
             write_json(output / 'inputs.json', {
                 'program': build.qualified_name, 'target': build.target,
                 'seed_project': str(args.seed_project) if args.seed_project else None,
                 'inputs_sha256': {k: hashlib.sha256(v).hexdigest() for k, v in seed.items()},
                 'source_sha256': {str(s.path.relative_to(ROOT)): digest(s.path) for s in build.sources},
                 'mode': args.mode, 'variant': args.variant, 'close_project': not args.no_close,
+                'preparation': args.preparation,
                 'effective_environment': {k: env[k] for k in ENV_KEYS if k in env}})
             for number in range(1, args.attempts + 1):
                 destination = output / f'attempt-{number:04d}'
@@ -214,7 +306,8 @@ def replay(args):
                     if args.variant == 'fresh-tmp':
                         env['TMPDIR'] = temp
                     result = execute(binary, project, destination / 'diamond.log', env=env,
-                                     debugger=args.mode == 'gdb', timeout=args.timeout)
+                                     debugger=args.mode == 'gdb', timeout=args.timeout,
+                                     instrumentation=args.mode if instrument else None)
                     if result['status'] == 'success':
                         try:
                             implementation = ET.parse(project / 'firmware.ldf').getroot().find('Implementation')
@@ -238,7 +331,7 @@ def replay(args):
                 shutil.move(str(project), destination / 'project')
                 summary = {'program': build.qualified_name, 'mode': args.mode, 'variant': args.variant, 'close_project': not args.no_close,
                            'attempts': len(attempts), 'statuses': dict(Counter(r['status'] for r in attempts)),
-                           'segfaults': sum(r['returncode'] == -signal.SIGSEGV for r in attempts),
+                           'segfaults': sum(r['native_segfault'] for r in attempts),
                            'results': attempts}
                 write_json(output / 'summary.json', summary)
                 print(f'{args.mode}/{args.variant} {number}/{args.attempts}: '
@@ -272,7 +365,8 @@ def main(argv=None):
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--program', default='original/uz_d_voltage_013_tx30')
     parser.add_argument('--attempts', type=int, default=100)
-    parser.add_argument('--mode', choices=('plain', 'traced', 'gdb'), default='plain')
+    parser.add_argument('--mode', choices=('plain', 'traced', 'gdb', 'memcheck', 'strace'), default='plain')
+    parser.add_argument('--preparation', choices=PREPARATIONS, default='full')
     parser.add_argument('--variant', choices=('baseline', 'private-home', 'fresh-tmp'), default='baseline')
     parser.add_argument('--seed-project', type=Path)
     parser.add_argument('--no-close', action='store_true', help='Save and exit without explicitly closing the project')

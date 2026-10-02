@@ -1,0 +1,124 @@
+name: Isolate Diamond crash causes
+on:
+  push:
+    branches: [codex/diamond-diagnosis]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inputs:
+    name: Pin experiment inputs
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    outputs:
+      base: ${{ steps.pin.outputs.base }}
+      ubuntu: ${{ steps.pin.outputs.ubuntu }}
+      full: ${{ steps.pin.outputs.full }}
+      matrix: ${{ steps.pin.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Authenticate to the existing private Diamond package
+        env:
+          GHCR_TOKEN: ${{ secrets.DIAMOND_GHCR_TOKEN }}
+        run: |
+          test -n "$GHCR_TOKEN"
+          printf '%s' "$GHCR_TOKEN" | docker login ghcr.io -u SchindlerTo --password-stdin
+      - name: Pin image digests once for every experiment
+        id: pin
+        env:
+          DIAMOND_IMAGE: ${{ vars.DIAMOND_IMAGE || 'ghcr.io/schindlerto/lattice-diamond:3.14.0.75.2' }}
+          DIAMOND_FULL_IMAGE: ${{ vars.DIAMOND_FULL_IMAGE }}
+        run: |
+          docker pull "$DIAMOND_IMAGE"
+          docker pull ubuntu:22.04
+          diamond_ref=$(docker image inspect --format '{{index .RepoDigests 0}}' "$DIAMOND_IMAGE")
+          ubuntu_ref=$(docker image inspect --format '{{index .RepoDigests 0}}' ubuntu:22.04)
+          printf 'base=%s\nubuntu=%s\n' "$diamond_ref" "$ubuntu_ref" >> "$GITHUB_OUTPUT"
+          if [ -n "$DIAMOND_FULL_IMAGE" ]; then
+            # A missing/unavailable optional full image must not prevent the other comparisons.
+            if docker pull "$DIAMOND_FULL_IMAGE"; then
+              full_ref=$(docker image inspect --format '{{index .RepoDigests 0}}' "$DIAMOND_FULL_IMAGE")
+              printf 'full=%s\n' "$full_ref" >> "$GITHUB_OUTPUT"
+            else
+              echo 'Full installation unavailable; its lane will report missing evidence.'
+            fi
+          fi
+          python3 - <<'PY'
+          import json, os
+          from toolchain.diagnose_diamond_matrix import CASES
+          matrix = {'include': [{'case': name, 'runner': 'ubuntu-24.04' if name == 'host24' else 'ubuntu-22.04'}
+                                for name in CASES]}
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as stream:
+              stream.write('matrix=' + json.dumps(matrix) + '\n')
+          PY
+
+  experiment:
+    name: ${{ matrix.case }}
+    needs: inputs
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.inputs.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Authenticate to the existing private Diamond package
+        env:
+          GHCR_TOKEN: ${{ secrets.DIAMOND_GHCR_TOKEN }}
+        run: |
+          test -n "$GHCR_TOKEN"
+          printf '%s' "$GHCR_TOKEN" | docker login ghcr.io -u SchindlerTo --password-stdin
+      - name: Run paired experiments with reversed order and no retries
+        env:
+          CASE: ${{ matrix.case }}
+          BASE: ${{ needs.inputs.outputs.base }}
+          UBUNTU: ${{ needs.inputs.outputs.ubuntu }}
+          FULL: ${{ needs.inputs.outputs.full }}
+        run: |
+          python3 -m toolchain.diagnose_diamond_matrix run --case "$CASE" \
+            --base "$BASE" --ubuntu "$UBUNTU" --full "$FULL" --attempts 100 \
+            --output "toolchain/build/diamond-matrix/$CASE"
+      - name: Restore host address randomization
+        if: always()
+        env:
+          CASE: ${{ matrix.case }}
+        run: |
+          path="toolchain/build/diamond-matrix/$CASE/original-aslr.txt"
+          if [ "$CASE" = aslr ] && [ -f "$path" ]; then
+            sudo sysctl -w "kernel.randomize_va_space=$(cat "$path")"
+          fi
+      - name: Retain diagnostic evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: diamond-cause-${{ matrix.case }}
+          path: |
+            toolchain/build/diamond-matrix/${{ matrix.case }}/
+            !**/home/**
+            !**/core
+            !**/core.*
+          retention-days: 14
+
+  summary:
+    name: Compare all causes
+    if: always()
+    needs: [inputs, experiment]
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: diamond-cause-*
+          path: toolchain/build/diamond-matrix-results
+      - name: Summarize every experiment including missing evidence
+        if: always()
+        run: python3 -m toolchain.diagnose_diamond_matrix summary --output toolchain/build/diamond-matrix-results
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: diamond-cause-summary
+          path: toolchain/build/diamond-matrix-results/summary.md
+          retention-days: 14

@@ -157,6 +157,41 @@ print('UZ_CPLD_DIAMOND_TCL_STARTED', flush=True)
         self.assertTrue(all(r['timeout'] for r in report['results']))
         self.assertEqual(report['segfaults'], 0)
 
+    def test_peak_rss_survives_process_exit(self):
+        code, output, report = self.replay('''from pathlib import Path
+memory = bytearray(64 * 1024 * 1024)
+Path('firmware.ldf').write_text('<BaliProject><Implementation/></BaliProject>')
+print('UZ_CPLD_DIAMOND_TCL_STARTED', flush=True)
+''')
+        self.assertEqual(code, 0)
+        self.assertTrue(all(r['memory']['peak_rss_kib'] >= 64 * 1024 for r in report['results']))
+
+    def test_minimal_preparation_retains_save_and_explicit_close(self):
+        build = diagnosis.load_build(self.root, 'original/uz_d_voltage_013_tx30', backend='diamond')
+        lines = diagnosis.preparation(build, self.root / 'project', True, 'minimal')
+        self.assertEqual(len(lines), 3)
+        self.assertTrue(lines[0].startswith('prj_project new '))
+        self.assertEqual(lines[1:], ['prj_project save', 'prj_project close'])
+
+    def test_memcheck_error_is_not_hidden_by_successful_shell_exit(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            project = Path(tmp)
+            binary = project / 'valgrind'
+            binary.write_text(f'#!{sys.executable}\n' + '''import sys
+from pathlib import Path
+log = next(a.split('=',1)[1] for a in sys.argv if a.startswith('--log-file='))
+Path(log.replace('%p','123')).write_text('ERROR SUMMARY: 2 errors from 1 contexts\\n')
+print('UZ_CPLD_DIAMOND_BEFORE_EXIT')
+''')
+            binary.chmod(0o755)
+            result = diagnosis.execute(Path('/unused/diamondc'), project, project / 'diamond.log',
+                env=dict(os.environ, PATH=str(project) + os.pathsep + os.environ['PATH']),
+                debugger=False, timeout=5, instrumentation='memcheck')
+            self.assertEqual(result['raw_returncode'], 0)
+            self.assertEqual(result['returncode'], 86)
+            self.assertEqual(result['memcheck_errors'], 2)
+            self.assertEqual(result['status'], 'failed')
+
     def test_debugger_that_fails_to_launch_inferior_is_not_success(self):
         with tempfile.TemporaryDirectory() as tmp:
             project = Path(tmp)

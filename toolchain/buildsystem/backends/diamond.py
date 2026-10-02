@@ -132,9 +132,7 @@ class DiamondBackend:
         identity = validate_identity(build, json.loads((project.parent / 'metadata/identity.json').read_text()))
         (project / 'constraints.lpf').write_text(constraint_text(build, identity))
         script = project / 'prepare.tcl'
-        # Temporary CI experiment; normal builds retain explicit project close.
-        script.write_text(wrap(preparation_commands(
-            build, project, close_project=os.environ.get('CPLD_DIAMOND_SKIP_PREPARE_CLOSE') != '1')))
+        script.write_text(wrap(preparation_commands(build, project)))
         # Discard partial vendor state before retrying preparation. Identity and
         # logs live outside this generated directory and must be retained.
         inputs = {name: (project / name).read_bytes()

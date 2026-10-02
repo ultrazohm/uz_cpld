@@ -87,17 +87,18 @@ three fresh runners and successful full-catalog builds with verified exports.
 Remove the temporary workflow, reproducer and debugger Dockerfile once the cause
 and fix are established; keep the useful failure logging.
 
-The **Compare Diamond close and no-close** workflow runs on pushes to
-``codex/diamond-diagnosis``. Three fresh runners each compare 100 traced
-preparations with explicit close against 100 with ``--no-close``, using one
-image for both arms. The middle runner reverses their order. Normal builds keep
-explicit close; only the experimental catalog sets
-``CPLD_DIAMOND_SKIP_PREPARE_CLOSE=1``. This skips preparation close, preserves
-explicit save, and leaves the synthesis/export script unchanged.
+The **Trace Diamond close and exit crashes** workflow runs on pushes to
+``codex/diamond-diagnosis``. The previous comparison observed 11/300 crashes
+with explicit close and 13/300 without it, all no-close failures after the
+``BEFORE_EXIT`` marker. Removing close is therefore not a workaround. Production
+preparation always saves and explicitly closes the project; ``--no-close`` is
+retained only in the diagnostic reproducer.
 
-Each candidate must complete all preparations, build every catalog, and pass
-firmware packaging validation. Any catalog retry fails the experiment. Control
-segfaults are expected evidence, while other control failures invalidate the
-comparison. If the controls do not crash, a passing candidate is inconclusive.
-The three ``diamond-close-comparison-N`` artifacts retain results and verified
-firmware; this workflow does not publish releases.
+Three fresh runners each execute 100 preparations per arm in one normal image,
+retaining at most three cores per arm. A temporary GDB layer analyzes those
+cores, then traces another 100 no-close attempts live. The middle runner reverses
+the ordinary arms' order. Core capture uses a temporary runner configuration
+which is restored afterward. The ``diamond-exit-traces-N`` artifacts contain
+native stacks, runtime fingerprints, scripts and results, but exclude raw cores.
+Observed crashes keep the diagnostic red; zero crashes do not establish a fix.
+No firmware catalog is built or published by this trace workflow.

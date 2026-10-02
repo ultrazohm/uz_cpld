@@ -24,7 +24,7 @@ ROOT = Path(__file__).resolve().parents[1]
 ENV_KEYS = ('HOME', 'USER', 'LOGNAME', 'TMPDIR', 'PATH', 'LD_LIBRARY_PATH',
             'TCL_LIBRARY', 'FOUNDRY', 'DIAMOND_ROOT', 'QT_PLUGIN_PATH',
             'QT_QPA_PLATFORM', 'DISPLAY', 'WAYLAND_DISPLAY')
-GDB_REPORT = ['thread apply all bt', 'info sharedlibrary', 'info proc mappings']
+GDB_REPORT = ['thread apply all bt', 'info registers', 'x/i $pc', 'info sharedlibrary', 'info proc mappings']
 GDB_SCRIPT = '''set pagination off
 set confirm off
 set disable-randomization off
@@ -41,7 +41,7 @@ end
 run
 python
 if gdb.selected_inferior().pid:
-    for command in ("thread apply all bt", "info sharedlibrary", "info proc mappings"):
+    for command in ("thread apply all bt", "info registers", "x/i $pc", "info sharedlibrary", "info proc mappings"):
         gdb.execute(command)
 end
 '''
@@ -85,6 +85,9 @@ def fingerprint(binary):
     env.update(vendor_env)
     libraries = capture(['ldd', str(bindir / 'pnmainc')], env=env)
     paths = {binary, bindir / 'pnmainc', bindir / 'diamond_env'}
+    # These are loaded dynamically and are absent from pnmainc startup ldd.
+    paths.update(bindir / name for name in ('libprojmngr.so.1', 'libpntcl.so',
+                                          'libpnmaincdll.so', 'libftcjtag.so.1', 'libjtaginterface.so.1'))
     paths.update(Path(p) for p in re.findall(r'(/\S+)\s+\(0x', libraries.get('output', '')))
     system_files = ('/proc/self/limits', '/proc/self/cgroup', '/proc/meminfo', '/proc/sys/kernel/core_pattern',
                     '/proc/sys/kernel/randomize_va_space', '/sys/fs/cgroup/memory.max',

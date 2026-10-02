@@ -1,4 +1,4 @@
-name: Compare Diamond close and no-close
+name: Trace Diamond close and exit crashes
 on:
   push:
     branches: [codex/diamond-diagnosis]
@@ -37,6 +37,10 @@ jobs:
           docker image inspect --format '{{.Id}}' uz-cpld-close-comparison \
             > toolchain/build/diamond-close-comparison/image.log
           uname -a > toolchain/build/diamond-close-comparison/host.log
+      - name: Enable core capture on this disposable runner
+        run: |
+          sysctl -n kernel.core_pattern > toolchain/build/diamond-close-comparison/original-core-pattern.log
+          sudo sysctl -w 'kernel.core_pattern=core.%e.%p'
       - name: Compare 100 fresh preparations per arm without retries
         id: replay
         continue-on-error: true
@@ -50,7 +54,7 @@ jobs:
             options=()
             if [ "$arm" = no-close ]; then options=(--no-close); fi
             status=0
-            docker run --rm --init --platform linux/amd64 --ulimit core=0 \
+            docker run --rm --init --platform linux/amd64 --ulimit core=-1 \
               --network=name=bridge,mac-address=10:91:d1:3d:14:ae \
               --user "$(id -u):$(id -g)" --env HOME=/tmp \
               --env LM_LICENSE_FILE=/opt/diamond/license/license.dat \
@@ -60,84 +64,82 @@ jobs:
                 --output "toolchain/build/diamond-close-comparison/$arm" "${options[@]}" || status=$?
             printf '%s\n' "$status" > "toolchain/build/diamond-close-comparison/$arm-exit.log"
           done
-          python3 - <<'PY'
-          import hashlib, json
-          from pathlib import Path
-          root = Path('toolchain/build/diamond-close-comparison')
-          saved = {}
-          for arm in ('close', 'no-close'):
-              report = json.loads((root / arm / 'summary.json').read_text())
-              assert report['attempts'] == 100, report
-              if arm == 'no-close':
-                  assert report['statuses'] == {'success': 100}, report
-              else:
-                  # Expected SIGSEGV is evidence; other control failures invalidate the comparison.
-                  assert all(r['returncode'] == 0 or (r['returncode'] == -11 and not r['timeout'])
-                             for r in report['results']), report
-                  assert report['statuses'].get('failed', 0) == report['segfaults'], report
-              saved[arm] = set()
-              for result in report['results']:
-                  if result['status'] == 'success':
-                      project = root / arm / f'attempt-{result["attempt"]:04d}' / 'project'
-                      saved[arm].add(tuple(hashlib.sha256((project / name).read_bytes()).hexdigest()
-                                          for name in ('firmware.ldf', 'baseline.sty', 'firmware1.sty', 'constraints.lpf')))
-          assert len(saved['close']) == 1 and saved['close'] == saved['no-close'], 'Saved projects differ between arms'
-          print('Saved project files match across all successful attempts in both arms.')
-          PY
-      - name: Build and verify every catalog with no-close preparation
-        id: catalog
-        if: steps.replay.outcome == 'success'
+      - name: Build the temporary debugger layer
+        id: debugger
+        if: ${{ !cancelled() && steps.replay.outcome != 'skipped' }}
+        run: |
+          docker build --build-arg TOOLCHAIN_IMAGE=uz-cpld-close-comparison \
+            -f .devcontainer/Dockerfile.diamond-diagnostics -t uz-cpld-exit-debugger .
+          docker image inspect --format '{{.Id}}' uz-cpld-exit-debugger \
+            > toolchain/build/diamond-close-comparison/debugger-image.log
+      - name: Analyze ordinary cores and trace no-close exits under GDB
+        id: trace
+        if: ${{ !cancelled() && steps.debugger.outcome == 'success' }}
         continue-on-error: true
         run: |
-          docker run --rm --init --platform linux/amd64 --ulimit core=0 \
-            --network=name=bridge,mac-address=10:91:d1:3d:14:ae \
-            --user "$(id -u):$(id -g)" --env HOME=/tmp \
-            --env CPLD_DIAMOND_TRACE=1 --env CPLD_DIAMOND_SKIP_PREPARE_CLOSE=1 \
-            --env LM_LICENSE_FILE=/opt/diamond/license/license.dat \
-            --mount "type=bind,source=$PWD,target=/work" -w /work \
-            uz-cpld-close-comparison bash -e -c '
-              python3 -m toolchain.ci build-all
-              python3 -m toolchain.ci package --output toolchain/build/diamond-close-comparison/verified-firmware.zip
-            '
-      - name: Report comparison and reject any candidate or catalog crash
+          run_debug() {
+            docker run --rm --init --platform linux/amd64 --cap-add SYS_PTRACE --ulimit core=0 \
+              --network=name=bridge,mac-address=10:91:d1:3d:14:ae \
+              --user "$(id -u):$(id -g)" --env HOME=/tmp \
+              --env LM_LICENSE_FILE=/opt/diamond/license/license.dat \
+              --mount "type=bind,source=$PWD,target=/work" -w /work \
+              uz-cpld-exit-debugger python3 -m toolchain.diagnose_diamond "$@"
+          }
+          status=0
+          run_debug backtraces --output toolchain/build/diamond-close-comparison || status=1
+          run_debug replay --program original/uz_d_voltage_013_tx30 --attempts 100 \
+            --mode gdb --no-close --output toolchain/build/diamond-close-comparison/no-close-gdb || status=1
+          exit "$status"
+      - name: Restore runner core configuration
+        if: always()
+        run: |
+          path=toolchain/build/diamond-close-comparison/original-core-pattern.log
+          if [ -f "$path" ]; then
+            sudo sysctl -w "kernel.core_pattern=$(cat "$path")"
+          fi
+      - name: Report native crash evidence
         if: always()
         env:
           REPLAY_OUTCOME: ${{ steps.replay.outcome }}
-          CATALOG_OUTCOME: ${{ steps.catalog.outcome }}
+          TRACE_OUTCOME: ${{ steps.trace.outcome }}
         run: |
           python3 - <<'PY'
           import json, os
           from pathlib import Path
           root = Path('toolchain/build/diamond-close-comparison')
           lines = ['| Preparation | Attempts | Segfaults | Results |', '|---|---:|---:|---|']
-          for arm in ('close', 'no-close'):
+          failed = False
+          for arm in ('close', 'no-close', 'no-close-gdb'):
               path = root / arm / 'summary.json'
               if path.exists():
                   report = json.loads(path.read_text())
                   lines.append(f'| {arm} | {report["attempts"]} | {report["segfaults"]} | {report["statuses"]} |')
+                  failed |= report['attempts'] != 100 or report['statuses'].get('failed', 0) > 0
               else:
                   lines.append(f'| {arm} | Missing evidence | | |')
-          crashes = list(Path('programs').glob('*/*/build/*_diamond/logs/*-crash'))
-          retries = list(Path('programs').glob('*/*/build/*_diamond/logs/*-retry1.log'))
-          lines += ['', f'Catalog: {os.environ["CATALOG_OUTCOME"]}; crash snapshots: {len(crashes)}; retries: {len(retries)}.',
-                    '', 'A passing candidate is inconclusive unless the close control reproduces the fault across the trials.']
+                  failed = True
+          path = root / 'backtraces.json'
+          if path.exists():
+              report = json.loads(path.read_text())
+              lines += ['', f'Ordinary-process cores analyzed: {report["cores"]}.']
+              failed |= any(r['returncode'] != 0 for r in report['results'])
+          else:
+              failed = True
+          lines += ['', 'Crashes intentionally keep this diagnostic red. Read native stacks in the artifact; no crashes means reproduction was inconclusive.']
           message = '\n'.join(lines) + '\n'
           print(message)
           with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as stream:
               stream.write(message)
-          raise SystemExit(int(bool(crashes or retries) or any(os.environ[k] != 'success'
-                               for k in ('REPLAY_OUTCOME', 'CATALOG_OUTCOME'))))
+          failed |= any(os.environ[k] != 'success' for k in ('REPLAY_OUTCOME', 'TRACE_OUTCOME'))
+          raise SystemExit(int(failed))
           PY
       - name: Retain comparison evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: diamond-close-comparison-${{ matrix.trial }}
+          name: diamond-exit-traces-${{ matrix.trial }}
           path: |
             toolchain/build/diamond-close-comparison/
-            programs/*/*/build/*_diamond/logs/
-            programs/*/*/build/*_diamond/metadata/
-            programs/*/*/build/*_diamond/project/*.tcl
-            programs/*/*/build/*_diamond/project/*.ldf
-            toolchain/build/validation/*/diamond-catalog/
+            !**/core
+            !**/core.*
           retention-days: 14

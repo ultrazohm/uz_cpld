@@ -1,7 +1,5 @@
 name: Trace Diamond close and exit crashes
 on:
-  push:
-    branches: [codex/diamond-diagnosis]
   workflow_dispatch:
 
 permissions:

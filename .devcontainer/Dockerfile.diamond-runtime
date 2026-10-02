@@ -1,0 +1,15 @@
+# Temporary A/B experiment; never used by the normal build workflow.
+ARG TOOLCHAIN_IMAGE=uz-cpld-runtime-control
+FROM ${TOOLCHAIN_IMAGE}
+USER root
+ARG GLIBC_VERSION=2.35-0ubuntu3.15
+RUN mkdir -p /usr/local/share/diamond-runtime \
+    && dpkg-query -W -f='${binary:Package}\t${Version}\n' > /usr/local/share/diamond-runtime/before.tsv \
+    && test "$(dpkg-query -W -f='${Version}' libc6)" = 2.35-0ubuntu3.14 \
+    && test "$(dpkg-query -W -f='${Version}' libc-bin)" = 2.35-0ubuntu3.14 \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends --only-upgrade \
+       "libc6=${GLIBC_VERSION}" "libc-bin=${GLIBC_VERSION}" \
+    && dpkg-query -W -f='${binary:Package}\t${Version}\n' > /usr/local/share/diamond-runtime/after.tsv \
+    && rm -rf /var/lib/apt/lists/*
+USER vscode

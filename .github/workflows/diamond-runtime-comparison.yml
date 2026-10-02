@@ -1,0 +1,130 @@
+name: Compare Diamond glibc runtimes
+on:
+  push:
+    branches: [codex/diamond-diagnosis]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compare:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        trial: [1, 2, 3]
+    env:
+      DIAMOND_IMAGE: ${{ vars.DIAMOND_IMAGE || 'ghcr.io/schindlerto/lattice-diamond:3.14.0.75.2' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Authenticate to the existing private Diamond package
+        env:
+          GHCR_TOKEN: ${{ secrets.DIAMOND_GHCR_TOKEN }}
+        run: |
+          test -n "$GHCR_TOKEN"
+          printf '%s' "$GHCR_TOKEN" | docker login ghcr.io -u SchindlerTo --password-stdin
+      - name: Build control and candidate images
+        run: |
+          mkdir -p toolchain/build/diamond-runtime
+          docker pull "$DIAMOND_IMAGE"
+          diamond_base_ref=$(docker image inspect --format '{{index .RepoDigests 0}}' "$DIAMOND_IMAGE")
+          printf '%s\n' "$diamond_base_ref" > toolchain/build/diamond-runtime/base-image.log
+          docker build --platform linux/amd64 --target toolchain \
+            --build-arg "TOOLCHAIN_BASE=$diamond_base_ref" \
+            -f .devcontainer/Dockerfile -t uz-cpld-runtime-control .
+          docker build -f .devcontainer/Dockerfile.diamond-runtime -t uz-cpld-runtime-candidate .
+          for arm in control candidate; do
+            docker image inspect --format '{{.Id}}' "uz-cpld-runtime-$arm" \
+              > "toolchain/build/diamond-runtime/$arm-image.log"
+          done
+          uname -a > toolchain/build/diamond-runtime/host.log
+      - name: Verify only the two glibc packages changed
+        run: |
+          set -o pipefail
+          docker run --rm --entrypoint python3 uz-cpld-runtime-candidate -c '
+          from pathlib import Path
+          root = Path("/usr/local/share/diamond-runtime")
+          before, after = [dict(line.split("\t") for line in (root / name).read_text().splitlines())
+                           for name in ("before.tsv", "after.tsv")]
+          changed = {k: (before.get(k), after.get(k)) for k in before.keys() | after.keys() if before.get(k) != after.get(k)}
+          print(changed)
+          assert changed == {k: ("2.35-0ubuntu3.14", "2.35-0ubuntu3.15") for k in ("libc6:amd64", "libc-bin")}, changed
+          ' | tee toolchain/build/diamond-runtime/package-delta.log
+      - name: Compare 100 explicit-close preparations per runtime without retries
+        env:
+          TRIAL: ${{ matrix.trial }}
+        run: |
+          arms=(control candidate)
+          if [ "$TRIAL" = 2 ]; then arms=(candidate control); fi
+          for arm in "${arms[@]}"; do
+            status=0
+            docker run --rm --init --platform linux/amd64 --ulimit core=0 \
+              --network=name=bridge,mac-address=10:91:d1:3d:14:ae \
+              --user "$(id -u):$(id -g)" --env HOME=/tmp \
+              --env LM_LICENSE_FILE=/opt/diamond/license/license.dat \
+              --mount "type=bind,source=$PWD,target=/work" -w /work \
+              "uz-cpld-runtime-$arm" python3 -m toolchain.diagnose_diamond replay \
+                --program original/uz_d_voltage_013_tx30 --attempts 100 --mode traced \
+                --output "toolchain/build/diamond-runtime/$arm" || status=$?
+            printf '%s\n' "$status" > "toolchain/build/diamond-runtime/$arm-exit.log"
+          done
+      - name: Validate runtime isolation and candidate results
+        id: validate
+        continue-on-error: true
+        run: python3 -m toolchain.diagnose_diamond_runtime toolchain/build/diamond-runtime
+      - name: Build and verify all catalogs with the candidate runtime
+        id: catalog
+        if: steps.validate.outcome == 'success'
+        continue-on-error: true
+        run: |
+          docker run --rm --init --platform linux/amd64 --ulimit core=0 \
+            --network=name=bridge,mac-address=10:91:d1:3d:14:ae \
+            --user "$(id -u):$(id -g)" --env HOME=/tmp --env CPLD_DIAMOND_TRACE=1 \
+            --env LM_LICENSE_FILE=/opt/diamond/license/license.dat \
+            --mount "type=bind,source=$PWD,target=/work" -w /work \
+            uz-cpld-runtime-candidate bash -e -c '
+              python3 -m toolchain.ci build-all
+              python3 -m toolchain.ci package --output toolchain/build/diamond-runtime/verified-firmware.zip
+            '
+      - name: Report results and reject recovered catalog crashes
+        if: always()
+        env:
+          VALIDATE_OUTCOME: ${{ steps.validate.outcome }}
+          CATALOG_OUTCOME: ${{ steps.catalog.outcome }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          root = Path('toolchain/build/diamond-runtime')
+          lines = ['| Runtime | Attempts | Segfaults | Results |', '|---|---:|---:|---|']
+          for arm in ('control', 'candidate'):
+              path = root / arm / 'summary.json'
+              if path.exists():
+                  report = json.loads(path.read_text())
+                  lines.append(f'| {arm} | {report["attempts"]} | {report["segfaults"]} | {report["statuses"]} |')
+              else:
+                  lines.append(f'| {arm} | Missing evidence | | |')
+          retries = list(Path('programs').glob('*/*/build/*_diamond/logs/*-retry1.log'))
+          crashes = list(Path('programs').glob('*/*/build/*_diamond/logs/*-crash'))
+          lines += ['', f'Catalog: {os.environ["CATALOG_OUTCOME"]}; retries: {len(retries)}; crash snapshots: {len(crashes)}.',
+                    '', 'No control crashes means the comparison is inconclusive, even if the candidate passes.']
+          message = '\n'.join(lines) + '\n'
+          print(message)
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as stream:
+              stream.write(message)
+          raise SystemExit(int(bool(retries or crashes) or any(os.environ[k] != 'success'
+                               for k in ('VALIDATE_OUTCOME', 'CATALOG_OUTCOME'))))
+          PY
+      - name: Retain runtime comparison evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: diamond-runtime-comparison-${{ matrix.trial }}
+          path: |
+            toolchain/build/diamond-runtime/
+            programs/*/*/build/*_diamond/logs/
+            programs/*/*/build/*_diamond/metadata/
+            toolchain/build/validation/*/diamond-catalog/
+          retention-days: 14

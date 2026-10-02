@@ -87,8 +87,7 @@ three fresh runners and successful full-catalog builds with verified exports.
 Remove the temporary workflow, reproducer and debugger Dockerfile once the cause
 and fix are established; keep the useful failure logging.
 
-The **Trace Diamond close and exit crashes** workflow runs on pushes to
-``codex/diamond-diagnosis``. The previous comparison observed 11/300 crashes
+The **Trace Diamond close and exit crashes** workflow is retained for manual runs. The previous comparison observed 11/300 crashes
 with explicit close and 13/300 without it, all no-close failures after the
 ``BEFORE_EXIT`` marker. Removing close is therefore not a workaround. Production
 preparation always saves and explicitly closes the project; ``--no-close`` is
@@ -102,3 +101,20 @@ which is restored afterward. The ``diamond-exit-traces-N`` artifacts contain
 native stacks, runtime fingerprints, scripts and results, but exclude raw cores.
 Observed crashes keep the diagnostic red; zero crashes do not establish a fix.
 No firmware catalog is built or published by this trace workflow.
+
+The **Compare Diamond glibc runtimes** workflow now runs on pushes to
+``codex/diamond-diagnosis``. Each of three fresh runners builds the normal
+image and derives a candidate by upgrading only ``libc6`` and ``libc-bin``
+from ``2.35-0ubuntu3.14`` to ``2.35-0ubuntu3.15``. Package inventories and
+native-library hashes must confirm that unrelated dependencies and Diamond
+libraries are unchanged. The experiment fails setup if these exact versions
+are unavailable or the control has already changed.
+
+Both arms use explicit close, identical preparation inputs and runtime options,
+with 100 attempts per arm and reversed order on the middle runner. A clean
+candidate proceeds to all catalogs and firmware packaging checks. Any catalog
+retry or crash rejects it. Control segfaults are expected evidence, but other
+control failures invalidate the comparison. No control crashes makes an
+otherwise passing comparison inconclusive. The ``diamond-runtime-comparison-N``
+artifacts retain fingerprints, attempt logs and catalog results. Normal images
+and published firmware continue to use the existing production configuration.

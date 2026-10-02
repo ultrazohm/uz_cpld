@@ -112,6 +112,11 @@ jobs:
           docker build --platform linux/amd64 --target toolchain \
             --build-arg "TOOLCHAIN_BASE=$DIAMOND_IMAGE" \
             -f .devcontainer/Dockerfile -t uz-cpld-toolchain-diamond .
+      - name: Disable ASLR for the Diamond build
+        run: |
+          sysctl -n kernel.randomize_va_space > "$RUNNER_TEMP/diamond-original-aslr"
+          sudo sysctl -w kernel.randomize_va_space=0
+          test "$(sysctl -n kernel.randomize_va_space)" = 0
       - name: Build every catalog program in every release
         run: |
           docker run --rm --init --platform linux/amd64 \
@@ -124,6 +129,14 @@ jobs:
               python3 -m toolchain.ci build-all
               python3 -m toolchain.ci package --output toolchain/build/publication/uz-cpld-firmware.zip
             '
+      - name: Restore runner ASLR
+        if: always()
+        run: |
+          if [ -f "$RUNNER_TEMP/diamond-original-aslr" ]; then
+            original_aslr=$(cat "$RUNNER_TEMP/diamond-original-aslr")
+            sudo sysctl -w "kernel.randomize_va_space=$original_aslr"
+            test "$(sysctl -n kernel.randomize_va_space)" = "$original_aslr"
+          fi
       - name: Retain Diamond firmware and diagnostics
         if: always()
         uses: actions/upload-artifact@v4

@@ -182,7 +182,7 @@ class FrontendTests(unittest.TestCase):
         from toolchain.buildsystem.identity import reserve_build
         (project.parent / 'metadata').mkdir(parents=True)
         workflow.write_json(project.parent / 'metadata/identity.json', reserve_build(build))
-        def fake_run(script, log, *, reset_project=None):
+        def fake_run(script, log):
             (project / 'firmware.ldf').write_text('<BaliProject><Implementation><Options/></Implementation></BaliProject>')
             return 'prepared'
         with patch('toolchain.buildsystem.backends.diamond.run', side_effect=fake_run):
@@ -233,7 +233,7 @@ class FrontendTests(unittest.TestCase):
                     project = build.directory / 'project'
                     (project.parent / 'metadata').mkdir(parents=True, exist_ok=True)
                     workflow.write_json(project.parent / 'metadata/identity.json', reserve_build(build))
-                    def fake_run(script, log, *, reset_project=None):
+                    def fake_run(script, log):
                         (project / 'firmware.ldf').write_text('<BaliProject><Implementation/></BaliProject>')
                     with patch('toolchain.buildsystem.backends.diamond.run', side_effect=fake_run):
                         DiamondBackend().prepare(build, project, project / 'prepare.log')

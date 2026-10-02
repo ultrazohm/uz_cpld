@@ -15,6 +15,14 @@ Simulation and documentation discover all complete program manifests, including 
 ``make generate`` registers completed generator projects in the catalog; unfinished starters are excluded.
 ``make check program=tx30`` validates a manifest and its input files, while ``make doctor backend=foss`` checks the FOSS tool installation.
 For Diamond, run ``make doctor backend=diamond`` and ``make build-all backend=diamond`` in a licensed environment.
+The GitHub Actions Diamond job temporarily disables host ASLR before launching the build container,
+then restores the recorded setting in an ``always()`` cleanup step.
+This mitigates an intermittent Diamond 3.14 project-cleanup crash: the diagnostic comparison
+observed zero crashes in 200 attempts with ASLR disabled versus 14 in 200 control attempts.
+It is not a correction of the vendor's observed use-after-free and double-free.
+Diamond commands run once without automatic retries, including native local builds;
+failures retain their logs and partial project state and prevent firmware publication.
+Local builds do not change the host ASLR setting automatically.
 Generated firmware provenance, tool identity, input hashes and output hashes are in each backend directory's ``metadata/build.json``; simulation provenance is in ``build/simulation/metadata/run.json``.
 A passing simulation checks the behavior exercised by its testbench.
 A successful firmware build verifies fresh exports and unchanged authored inputs; the FOSS build also checks synthesis equivalence and bitstream format.

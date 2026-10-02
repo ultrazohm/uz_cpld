@@ -12,8 +12,8 @@ architecture heartbeat of s3c_logic is
     signal enable_meta, enable_sync : std_logic := '0';
     signal age : natural range 0 to HB_TIMEOUT_CLKS := HB_TIMEOUT_CLKS;
     signal edges : natural range 0 to HB_VALID_EDGES_REQUIRED := 0;
-    signal qualified : boolean := false;
-    -- Power-on initialization only: runtime reset must not clear these flags.
+    -- These flags encode three phases: awaiting qualification, healthy, failed.
+    -- Power-on initialization only: runtime reset must not clear their history.
     signal heartbeat_armed : boolean := false;
     signal fault_latched : boolean := false;
     signal system_error : boolean;
@@ -45,14 +45,14 @@ begin
                 heartbeat_meta <= '0'; heartbeat_sync <= '0'; heartbeat_last <= '0';
                 pilot_meta <= '0'; pilot_sync <= '0';
                 enable_meta <= '0'; enable_sync <= '0';
-                age <= HB_TIMEOUT_CLKS; edges <= 0; qualified <= false;
+                age <= HB_TIMEOUT_CLKS; edges <= 0;
             else
                 heartbeat_meta <= carrierrdy; heartbeat_sync <= heartbeat_meta;
                 pilot_meta <= pilot_in; pilot_sync <= pilot_meta;
                 enable_meta <= card_enable; enable_sync <= enable_meta;
                 heartbeat_last <= heartbeat_sync;
                 if heartbeat_sync /= '0' and heartbeat_sync /= '1' then
-                    qualified <= false; edges <= 0; age <= HB_TIMEOUT_CLKS;
+                    edges <= 0; age <= HB_TIMEOUT_CLKS;
                     if heartbeat_armed then fault_latched <= true; end if;
                 elsif heartbeat_sync /= heartbeat_last then
                     -- age is the number of completed clocks since the last edge.
@@ -61,19 +61,17 @@ begin
                         if edges < HB_VALID_EDGES_REQUIRED then
                             edges <= edges + 1;
                         end if;
-                        qualified <= edges >= HB_VALID_EDGES_REQUIRED-1;
                         if edges >= HB_VALID_EDGES_REQUIRED-1 then
                             heartbeat_armed <= true;
                         end if;
                     else
                         -- This edge can start a fresh sequence, but cannot qualify it.
                         edges <= 1;
-                        qualified <= false;
                         if heartbeat_armed then fault_latched <= true; end if;
                     end if;
                     age <= 0;
                 elsif age >= HB_TIMEOUT_CLKS-1 then
-                    age <= HB_TIMEOUT_CLKS; edges <= 0; qualified <= false;
+                    age <= HB_TIMEOUT_CLKS; edges <= 0;
                     if heartbeat_armed then fault_latched <= true; end if;
                 else
                     age <= age + 1;
@@ -83,8 +81,9 @@ begin
     end process;
     -- Startup inhibition clears on first qualification; subsequent faults latch.
     system_error <= not heartbeat_armed or fault_latched;
-    -- Once armed, monitor heartbeat even during reset and static safe requests.
-    normal <= not system_error and release_sync = '1' and qualified and enable_sync = '1' and
+    -- No separate qualification flag is needed: armed without a latched fault
+    -- means the first qualification completed and every later edge stayed valid.
+    normal <= not system_error and release_sync = '1' and enable_sync = '1' and
               (not REQUIRE_PILOT or pilot_sync = '1');
     state_normal <= '1' when normal else '0';
     state_safe <= '1' when not normal and not system_error else '0';

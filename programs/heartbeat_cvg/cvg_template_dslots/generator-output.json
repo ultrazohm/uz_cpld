@@ -37,7 +37,7 @@
     "generator/project.py": "2fa458ced1fb1c920aef83b1c0450c82bbaa64586340ca163f7ebb3c998c8736",
     "generator/targets/uz_dslot_xo2.lpf": "12fd46a1aaeb58b186fbccc8b06ecfe028fb33ed93d71ecee1206cc0f375e857",
     "generator/toml.py": "4ca324c9b6ba5cb26a9b09adfe04b3e11d8aa6938ed8ecd50559fb82e860d29b",
-    "s3c_library/heartbeat.vhdl": "a85193ea80d25db31977ef2a2f2fdbe319f1f34aae1b258a981354cb521e9f0a",
+    "s3c_library/heartbeat.vhdl": "23c6bbf51e9e0cc6b2a9e7caead9dcd2aaa5baeca3af60f4bd5d1dd2525174b4",
     "s3c_library/s3c_logic.vhdl": "888b55f2d9b78f5f24b119a689dba6c065e0cf917a82471154f3cf9de17229b2",
     "spec/generator.toml": "9e1c6e0e1be1fed6c6ef91a21d6391b26717f8388aa48c6b4d61cabcc113ab48",
     "spec/routing.csv": "ca93568cfd3a634421d820133fefc9512afb04617fcc503cb90f4c650bc57219"

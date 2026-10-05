@@ -1,28 +1,31 @@
 User guide
 ==========
 
-Run commands from the repository root with Python 3.10+ (``python3`` on Linux if ``python`` is unavailable).
-Use firmware for your adapter wiring and a matching S3C/D-slot protocol; the example below uses the heartbeat release.
+Run commands from the repository root with Python 3.8+ for setup (``python3`` on Linux if ``python`` is unavailable).
+Use firmware for your adapter wiring and a matching S3C/D-slot protocol; compare the available :doc:`releases </releases>` before selecting programs.
+The example below uses ``heartbeat_cvg``.
 
 Quick start reference
 ---------------------
 
 Install Diamond 3.14.0.75.2, its license and programming cable drivers, then create the Python environment::
 
-   python -m cpld_toolchain venv
-   python -m cpld_toolchain doctor
-   python -m cpld_toolchain list --release-cycle heartbeat_cvg
+   python -m cpld_toolchain setup
+   uz_cpld doctor
+   uz_cpld list --release-cycle heartbeat_cvg
 
-``venv`` opens an activated shell when run interactively.
-It installs Python dependencies only.
+Setup downloads uv and Python 3.10.12 as needed, installs all locked Python dependencies into ``.venv``, and opens an activated shell with ``uz_cpld`` available.
+Internet access is required for initial downloads.
+In a new Bash shell, run ``source .venv/bin/activate``; in PowerShell, run ``& .\.venv\Scripts\Activate.ps1``.
+Use ``--activate 0`` to install without opening a shell.
 For installation paths, licensing and USB access, see :doc:`../windows` or :doc:`../environments`.
 ``doctor`` reports available tools; it does not test the license or hardware and missing tools do not make it fail.
 
 Build the programs you need and create your selection::
 
-   python -m cpld_toolchain build --program cvg_tx30 --release-cycle heartbeat_cvg
-   python -m cpld_toolchain build --program s3c_heartbeat --release-cycle heartbeat_cvg
-   python -m cpld_toolchain init
+   uz_cpld build --program cvg_tx30 --release-cycle heartbeat_cvg
+   uz_cpld build --program s3c_heartbeat --release-cycle heartbeat_cvg
+   uz_cpld init
 
 Edit ``selection.toml`` to match your adapters (this example uses TX30 in all five slots)::
 
@@ -42,10 +45,10 @@ Build commands do not read ``selection.toml``.
 
 Prepare the UltraZohm for D-slot JTAG access, then run::
 
-   python -m cpld_toolchain scan --target dslot
-   python -m cpld_toolchain identify --target dslot
-   python -m cpld_toolchain program --target dslot --dry-run 1
-   python -m cpld_toolchain program --target dslot
+   uz_cpld scan --target dslot
+   uz_cpld identify --target dslot
+   uz_cpld program --target dslot --dry-run 1
+   uz_cpld program --target dslot
 
 ``program`` immediately erases, writes and verifies Flash, including firmware identity readback.
 ``--dry-run 1`` only previews the command; firmware freshness and hardware checks happen during execution.
@@ -57,11 +60,11 @@ Useful commands
 
 ::
 
-   python -m cpld_toolchain release-list
-   python -m cpld_toolchain build-all --release-cycle heartbeat_cvg
-   python -m cpld_toolchain report --release-cycle heartbeat_cvg
-   python -m cpld_toolchain programmer-project
-   python -m cpld_toolchain help --command program
+   uz_cpld release-list
+   uz_cpld build-all --release-cycle heartbeat_cvg
+   uz_cpld report --release-cycle heartbeat_cvg
+   uz_cpld programmer-project
+   uz_cpld help --command program
 
 ``programmer-project`` optionally exports both Diamond XCF files and requires all six assignments and current builds.
 CLI programming creates its own project, so this export is optional.

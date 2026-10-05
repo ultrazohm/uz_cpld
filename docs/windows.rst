@@ -2,7 +2,7 @@ Native Windows setup
 ====================
 
 The primary repository interface is ``python -m cpld_toolchain`` on Windows and Linux.
-Run it from the checkout root with Python 3.10 or later.
+Run setup from the checkout root with Python 3.8 or later; setup downloads the selected modern Python as needed.
 GNU Make, Bash and Docker are not needed for native VHDL generation, Diamond builds, or Diamond programming.
 The Makefile remains an optional Linux wrapper.
 
@@ -18,15 +18,15 @@ Python environment
 
 From PowerShell in the checkout::
 
-   python -m cpld_toolchain venv
+   python -m cpld_toolchain setup
 
-This creates or updates ``.venv``, installs the standalone generator and native workflow Python dependencies, and opens PowerShell with the environment activated.
+This creates or updates ``.venv``, installs the editable project and all locked Python dependencies, and opens PowerShell with the environment activated.
 Type ``exit`` to return to the original terminal.
 Without an interactive terminal, setup prints an activation command instead.
 
 To stay in the current PowerShell session::
 
-   python -m cpld_toolchain venv --activate 0
+   python -m cpld_toolchain setup --activate 0
    & .\.venv\Scripts\Activate.ps1
 
 Activation is subject to your PowerShell execution policy.

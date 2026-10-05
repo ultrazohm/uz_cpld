@@ -1,7 +1,10 @@
 Command reference
 =================
 
-Use ``python -m cpld_toolchain ACTION --option value`` from the repository root.
+Use ``uz_cpld ACTION --option value`` after running ``python -m cpld_toolchain setup`` from the repository root.
+For example, ``uz_cpld setup`` creates or updates the repository's Python environment.
+The equivalent ``python -m cpld_toolchain ACTION --option value`` works from a fresh checkout before installation.
+The examples below use this module form; installed ``uz_cpld`` and ``cpld-toolchain`` accept the same arguments.
 ``python -m cpld_toolchain help`` lists all commands; add ``--command ACTION`` for required and optional arguments.
 Options use hyphens, for example ``--release-cycle original`` and ``--dry-run 1``.
 See :doc:`windows` for native Windows setup and :doc:`environments` for Linux and container setup.
@@ -138,7 +141,7 @@ See :doc:`foss` for the export/modeling limitation and the scope of the function
 Execution environments
 ----------------------
 
-``python -m cpld_toolchain venv`` creates or updates the native Python environment and opens an activated shell.
+``python -m cpld_toolchain setup`` creates or updates the native Python environment and opens an activated shell.
 Use ``--activate 0`` for installation only; see :doc:`environments` for system prerequisites and manual activation.
 
 Commands always use tools installed in the calling environment.

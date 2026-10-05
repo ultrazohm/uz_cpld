@@ -10,7 +10,7 @@ Local build
 
 Run this command inside the configured Dev Container or a native environment with simulation, analysis and Sphinx dependencies installed.
 Documentation commands use the calling environment and do not start a container.
-Dependencies come from ``docs/requirements.txt`` and its referenced files in both the image and native setup.
+Dependencies come from ``pyproject.toml`` and ``uv.lock`` in both the image and native setup.
 
 The complete site is ``docs/_build/html/``; it includes SVGs, PDFs, VCD downloads and self-contained waveform HTML.
 Relative links support repository subpaths such as ``/uz_cpld/``.

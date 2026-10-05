@@ -82,10 +82,11 @@ Browser checks
 
 The optional browser tests exercise schematic navigation and full-screen mode, waveform selection, keyboard focus and Plotly zoom/reset in Chromium::
 
-   python3 -m pip install playwright
-   python3 -m playwright install chromium
-   CPLD_BROWSER_TESTS=1 python3 -m unittest cpld_toolchain.toolchain.tests.test_viewers_browser -v
+   uv run --with playwright python -m playwright install chromium
+   CPLD_BROWSER_TESTS=1 uv run --with playwright python -m unittest cpld_toolchain.toolchain.tests.test_viewers_browser -v
 
+For native setup, use the pinned uv executable under ``.tools/uv/``.
+The optional Playwright package is added to a temporary environment for these commands.
 Set ``CPLD_CHROMIUM_EXECUTABLE`` to use an existing Chromium executable.
 These tests are skipped during normal tooling tests unless ``CPLD_BROWSER_TESTS=1`` is set.
 

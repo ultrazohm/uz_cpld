@@ -8,13 +8,6 @@
 !.devcontainer/smoke.tcl
 !cpld_toolchain/
 !cpld_toolchain/toolchain/
-!cpld_toolchain/toolchain/simulation/
-!cpld_toolchain/toolchain/simulation/requirements.txt
-!cpld_toolchain/toolchain/analysis/
-!cpld_toolchain/toolchain/analysis/requirements.txt
-!requirements.txt
-!docs/
-!docs/requirements.txt
 !cpld_toolchain/toolchain/foss/
 !cpld_toolchain/toolchain/foss/install.py
 !cpld_toolchain/toolchain/foss/toolchain.json
@@ -25,3 +18,12 @@
 !cpld_toolchain/toolchain/foss/openfpgaloader-usercode.patch
 !cpld_toolchain/toolchain/foss/tests/
 !cpld_toolchain/toolchain/foss/tests/usercode.cpp
+!.python-version
+!pyproject.toml
+!setup.cfg
+!uv.lock
+!cpld_toolchain/__init__.py
+!cpld_toolchain/bootstrap.py
+!cpld_toolchain/uv-bootstrap.json
+!cpld_toolchain/README.md
+!.devcontainer/uz_cpld

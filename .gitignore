@@ -15,3 +15,6 @@ selection.toml
 
 # Host-specific Diamond selection and mount link; never include the installation.
 .devcontainer/.local/
+
+# Repository-local setup tools
+.tools/

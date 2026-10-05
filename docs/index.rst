@@ -15,4 +15,4 @@ Each guide starts with a quick start reference.
    :caption: Program reference
    :maxdepth: 1
 
-   _generated/programs/index
+   releases

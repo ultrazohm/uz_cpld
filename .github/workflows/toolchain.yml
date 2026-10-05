@@ -19,9 +19,9 @@ jobs:
         with:
           python-version: '3.10'
       - name: Bootstrap without Make or third-party Python packages
-        run: python -S -m cpld_toolchain venv --dry-run 1
+        run: python -S -m cpld_toolchain setup --dry-run 1
       - name: Create the native environment
-        run: python -m cpld_toolchain venv --activate 0
+        run: python -m cpld_toolchain setup --activate 0
       - name: Check Python tooling and native Windows locking
         run: .venv\Scripts\python.exe -m cpld_toolchain test
       - name: Verify the CLI and tracked generated programs
@@ -40,6 +40,21 @@ jobs:
       - name: Build the license-free toolchain image
         id: image
         run: make image
+      - name: Verify the shared Python and uv pins
+        run: |
+          docker run --rm -i --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain python - <<'PYTHON'
+          import json
+          from pathlib import Path
+          import subprocess
+          import sys
+
+          assert sys.prefix == "/opt/uz-cpld-env", sys.prefix
+          assert sys.version.split()[0] == Path(".python-version").read_text().strip()
+          version = json.loads(Path("cpld_toolchain/uv-bootstrap.json").read_text())["version"]
+          assert subprocess.check_output(["uv", "--version"], text=True).split()[1] == version
+          subprocess.run(["uz_cpld", "help", "--command", "setup"], check=True)
+          subprocess.run(["uv", "run", "python", "-c", "import sys; assert sys.prefix == '/opt/uz-cpld-env'"], check=True)
+          PYTHON
       - name: Run tooling tests
         run: docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make test
       - name: Build original FOSS firmware

@@ -44,7 +44,8 @@ def spec(group, example, description, options=(), required=()):
 # Tool groups and command order are shared by overview and focused help.
 COMMANDS = {
     'image': spec('Environment', 'image', 'Build the container tools (optional for native Diamond)', CONTAINER),
-    'venv': spec('Environment', 'venv [activate=0|1]', 'Install native Python dependencies and open an activated shell', {'activate'}),
+    'setup': spec('Environment', 'setup [activate=0|1]', 'Create the locked Python environment, downloading Python as needed', {'activate'}),
+    'venv': spec('Environment', 'venv [activate=0|1]', 'Alias for setup: install all locked Python dependencies', {'activate'}),
     'doctor': spec('Environment', 'doctor', 'Report this environment and installed/missing tools; no hardware access', FIRMWARE),
     'docs': spec('Documentation', 'docs [release_cycle=all]', 'Generate assets and HTML; defaults to the current release', {'program', 'target', 'release_cycle', 'jobs'}),
     'docs-assets': spec('Documentation', 'docs-assets [program=NAME]', 'Generate documentation assets without rendering HTML', {'program', 'target', 'release_cycle', 'jobs'}),
@@ -129,7 +130,7 @@ def shared_help(style='make'):
         '  release_cycle defaults to the current release; programmer actions first consult',
         '  the selection file. selection=selection.toml; template=tx30.',
         '  jobs=4; seed=1; wave_format=vcd; dry_run=0; rebuild=0;',
-        '  discard_project_changes=0; venv activate=1. Omit an option to use its default.',
+        '  discard_project_changes=0; setup/venv activate=1. Omit an option to use its default.',
         '  Build targets are inferred when unambiguous; scan/identify default to dslot.',
         '  program requires target. probe_index: Diamond defaults to 1, FOSS to 0.',
         '  jobs must be positive; seed and probe_index must be nonnegative.',
@@ -263,7 +264,7 @@ def plan(action, options, *, root=ROOT, cwd=None):
         return result
     if action == 'doctor':
         return [invoke('cpld_toolchain.toolchain.doctor', ['--backend', build_backend, *flags('target', 'release_cycle')])]
-    if action == 'venv':
+    if action in ('setup', 'venv'):
         return [invoke('cpld_toolchain.toolchain.venv', ['--activate', options.get('activate', '1')])]
     if action in ('init', 'scan', 'identify', 'program', 'programmer-project'):
         selection = Path(options.get('selection', 'selection.toml'))

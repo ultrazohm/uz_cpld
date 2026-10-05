@@ -2,6 +2,8 @@
 from contextlib import redirect_stdout
 import io
 import json
+import os
+import sys
 from pathlib import Path
 import shutil
 import subprocess
@@ -611,7 +613,11 @@ class FrontendTests(unittest.TestCase):
 
     def test_tcl_quoting_roundtrips_without_substitution(self):
         import tkinter
-        interpreter = tkinter.Tcl()
+        # Older standalone Python builds need their bundled Tcl library located explicitly.
+        bundled = Path(sys.base_prefix) / 'lib' / 'tcl8.6'
+        environment = {'TCL_LIBRARY': str(bundled)} if (bundled / 'init.tcl').is_file() else {}
+        with patch.dict(os.environ, environment):
+            interpreter = tkinter.Tcl()
         value = 'spaces " braces {} $env(HOME) [error injected] \\ newline\n'
         self.assertEqual(interpreter.eval('set value ' + tcl(value)), value)
 

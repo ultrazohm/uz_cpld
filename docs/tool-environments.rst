@@ -19,7 +19,7 @@ What each environment provides
      - Runs the repository CLI with the host's Python installation.
      - Python 3.10+, the Python dependencies for the chosen workflow, and any external tools.
    * - Repository venv
-     - Isolated native Python packages: the editable VHDL generator and TOML parser where needed, installed by ``python -m cpld_toolchain venv``.
+     - Isolated native Python packages: the editable project plus all simulation, analysis and documentation packages, installed by ``python -m cpld_toolchain setup``.
      - Diamond, licenses, USB drivers/libraries and any additional simulation or documentation tools.
    * - Docker toolchain image
      - Linux amd64 Python environment, simulation/analysis packages, GHDL, FOSS binaries, Graphviz, Sphinx and Diamond runtime libraries.
@@ -28,7 +28,8 @@ What each environment provides
      - A persistent development session using the same Docker image and the mounted checkout.
      - The optional Diamond mount, or USB configuration, when the workflow requires them.
 
-**A venv is still native execution.** It isolates Python packages; it does not contain a different operating system, install Diamond, or expose USB hardware.
+**A venv is still native execution.**
+It isolates Python packages; it does not contain a different operating system, install Diamond, or expose USB hardware.
 Native Python and venv execution have the same external tool requirements.
 Commands always use the calling environment.
 The container already has its Python dependencies, so a venv is not required inside it.
@@ -114,7 +115,7 @@ See :doc:`windows`, :doc:`foss` and :doc:`validation` for the limits.
      - GHDL, cocotb, pytest and pytest-xdist
      - Additional tools/packages
      - Use the Linux container workflow
-     - Simulation dependencies not included
+     - Python dependencies included; GHDL installed separately
      - Included
    * - RTL diagrams: ``netlist``
      - GHDL, Yosys and Graphviz
@@ -126,13 +127,13 @@ See :doc:`windows`, :doc:`foss` and :doc:`validation` for the limits.
      - Simulation/RTL tools and analysis packages; ``docs`` also runs Sphinx
      - Additional tools/packages
      - Use the Linux container workflow
-     - Documentation dependencies not included
+     - Python dependencies included; HDL tools and Graphviz installed separately
      - Included
    * - Tooling regressions: ``test``
      - unittest plus dependencies used by the selected tests
      - Broader suite; needs Make/Bash and additional analysis/simulation dependencies for its integrations
      - Native Python subset, without Make/Bash/Linux HDL integrations
-     - Windows subset covered; Linux broader suite needs additional dependencies
+     - Python packages included; native test tools installed separately
      - Broader Linux suite uses included tools
    * - Build patched flasher: ``flasher-build``
      - Linux compiler, development libraries and pinned sources
@@ -157,7 +158,7 @@ Backend selection is independent: ``--backend diamond`` is the default and ``--b
 
 ``python -m cpld_toolchain image`` explicitly builds the toolchain image but does not start a shell.
 Reopen the workspace in a Dev Container or use the manual Docker commands in :doc:`environments` before running workflows with the container's tools.
-``python -m cpld_toolchain venv`` installs native Python dependencies and opens an activated shell when interactive.
+``python -m cpld_toolchain setup`` installs native Python dependencies and opens an activated shell when interactive.
 ``doctor`` reports the environment in which it is invoked.
 
 Choose a USB profile when the container needs hardware access.
@@ -196,7 +197,7 @@ Setup entry points
 
 For generation and native Diamond work, start with::
 
-   python -m cpld_toolchain venv
+   python -m cpld_toolchain setup
    # Configure Diamond and its license separately.
    python -m cpld_toolchain doctor
    python -m cpld_toolchain build-all
@@ -211,4 +212,4 @@ For the bundled simulation, FOSS and documentation tools, start with::
    python -m cpld_toolchain docs
 
 See :doc:`environments` for Linux tools, container mounts and USB permissions; :doc:`windows` for native Windows setup; :doc:`foss` for pinned native FOSS tools; and :doc:`commands` for the complete command contract.
-A venv can be extended with the Python packages in ``docs/requirements.txt`` for native Linux analysis and simulation, but GHDL, Yosys, Graphviz and other external executables must still be installed separately.
+Setup includes Python packages for native Linux analysis and simulation; GHDL, Yosys, Graphviz and other external executables must still be installed separately.

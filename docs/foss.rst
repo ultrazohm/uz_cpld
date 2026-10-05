@@ -25,10 +25,12 @@ Compiler dependencies remain in the builder stage; the single runtime image rece
 ``FOSS_BUILD_JOBS`` controls build parallelism and defaults to 2.
 The bundle is large and the first image build includes C++ compilation; subsequent image builds reuse Docker layers.
 
-For native Linux amd64 setup, install GHDL and the shared Python requirements, then install the source-build prerequisites::
+For native Linux amd64 setup, install GHDL and run the shared Python setup, then install the source-build prerequisites.
+Use the pinned uv executable under ``.tools/uv/`` for the ``uv`` command below and add its tool executable directory to PATH::
 
    sudo apt-get install build-essential python3-dev libboost-filesystem-dev libboost-program-options-dev libboost-iostreams-dev libboost-thread-dev libeigen3-dev pybind11-dev curl pkg-config patch libftdi1-dev libusb-1.0-0-dev zlib1g-dev
-   python3 -m pip install cmake==3.31.6
+   uv tool install cmake==3.31.6
+   export PATH="$(uv tool dir --bin):$PATH"
    python3 cpld_toolchain/toolchain/foss/install.py --prefix /your/writable/path/oss-cad-suite
    python3 cpld_toolchain/toolchain/foss/build_nextpnr.py --suite /your/writable/path/oss-cad-suite
    export FOSS_ROOT=/your/writable/path/oss-cad-suite

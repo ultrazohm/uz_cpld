@@ -244,40 +244,51 @@ A host-ID mismatch requires checking the authorized license/environment, not edi
 Native tools
 ------------
 
-The full native Linux simulation and documentation workflow requires Python 3.10+, GHDL, Yosys, Graphviz and the packages in ``docs/requirements.txt``.
+The full native Linux simulation and documentation workflow requires Python 3.10+, GHDL, Yosys, Graphviz and the packages locked in ``uv.lock``.
 Generation and native Diamond work need only their workflow-specific dependencies; see :doc:`tool-environments`.
-The tooling tests also require Tcl support through ``python3-tk`` on Ubuntu.
-The image and native requirements select the same Sphinx version; OS packages and the Ubuntu image tag remain mutable inputs.
+The managed Python includes Tcl support for tooling tests.
+The image and native setup share ``.python-version``, ``cpld_toolchain/uv-bootstrap.json``, ``pyproject.toml`` and ``uv.lock``; OS packages and the Ubuntu image tag remain mutable inputs.
 Firmware and documentation commands use dependencies already installed in the image.
 The C++ compiler and development headers used to build nextpnr and the patched flasher remain in the intermediate builder stage.
 The runtime includes the compiled tools; ``make flasher-build`` is a separate native source build and requires those development dependencies if run there.
 See :doc:`foss` for the pinned tool bundle and native source-build prerequisites.
 
-Native Python environment for Diamond
--------------------------------------
+Native Python setup
+-------------------
 
-For native Windows instructions, see :doc:`windows`.
+From a fresh checkout, run this with Python 3.8 or newer::
 
-On Linux with Python 3.10+ and its ``venv`` support installed (the ``python3-venv`` package on Ubuntu), run::
+   python -m cpld_toolchain setup
 
-   python3 -m cpld_toolchain venv
+Use ``python3`` if ``python`` is unavailable.
+Setup downloads the pinned uv executable into the ignored ``.tools/`` directory and verifies the archive checksum.
+It uses ``.python-version`` to select uv-managed Python 3.10.12, downloading it if needed, then installs the editable project and all dependency groups from ``uv.lock`` into ``.venv``.
+An active older Conda environment can run setup; its Python and packages are not changed.
+Initial downloads require internet access to GitHub and Python package sources.
+No prior uv, pip or system venv package is needed.
+An existing virtual environment is synchronized to the lockfile; uv may replace its interpreter when the selected Python changes and removes packages absent from the lockfile.
+Setup refuses an existing ``.venv`` directory that is not a virtual environment.
 
-This creates or reuses ``.venv`` in the checkout, installs the generator in editable mode and the Python dependencies for VHDL generation, Diamond builds, and hardware programming, then opens an activated Bash shell.
-Run ``make build-all`` or the programmer commands in that shell.
-Use ``exit`` to return to the previous shell.
-Running the command again refreshes the installation.
-Use ``python3.11 -m cpld_toolchain venv`` to choose the setup interpreter when first creating the environment.
+Interactive setup opens an activated Bash or PowerShell shell with ``uz_cpld`` available.
+Use ``exit`` to return to the original shell.
+To install without opening a shell, then activate in the current Bash or Zsh session::
 
-Make cannot change its parent shell's environment.
-To install without opening a shell, or to activate in your existing Bash/Zsh session, use::
-
-   python3 -m cpld_toolchain venv --activate 0
+   python -m cpld_toolchain setup --activate 0
    source .venv/bin/activate
 
-Without an interactive terminal, ``make venv`` installs the dependencies and prints the activation command instead of opening a shell.
-``make venv dry_run=1`` previews setup without creating files.
+In later shells, only the activation command is needed.
+For PowerShell activation, see :doc:`windows`.
+Without an interactive terminal, setup prints the activation command.
+``python -m cpld_toolchain setup --dry-run 1`` previews setup without downloads or changes.
+``make setup`` and ``uz_cpld setup`` invoke the same setup; ``venv`` is also accepted.
 
-This installs Python dependencies only.
-Diamond and its runtime libraries, license configuration, ``libusb-1.0`` and USB permissions are still required for native Diamond builds and programming.
-FOSS hardware programming additionally requires the patched openFPGALoader and OpenOCD described in :doc:`firmware-identity`.
-Simulation and documentation dependencies are outside this environment's scope; install them separately or enter the toolchain container.
+All Python packages for simulation, analysis and documentation are included.
+Diamond, licenses, USB drivers, GHDL, Yosys, Graphviz and other native tools must be installed separately.
+FOSS hardware programming requires the patched openFPGALoader and OpenOCD described in :doc:`firmware-identity`.
+
+The container builds its Python environment with the same uv release and ``uv sync --locked --all-groups --managed-python``.
+Its environment lives at ``/opt/uz-cpld-env`` and is already on PATH, independently of any host ``.venv`` mounted with the checkout.
+The container's ``uz_cpld`` command runs source from the current checkout.
+``uv run`` uses the same prebuilt environment with automatic synchronization disabled.
+Rebuild the image after changing the interpreter pin, uv manifest or dependency lockfile.
+CMake 3.31.6 is installed with ``uv tool install`` in the native-tools builder stage only.

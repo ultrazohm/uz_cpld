@@ -36,15 +36,26 @@ The FOSS comparison above is the supported heartbeat pilot; Diamond comparison i
 
 For native Linux development with GHDL, Yosys and Graphviz installed::
 
-   python3 -m cpld_toolchain venv --activate 0
+   python3 -m cpld_toolchain setup --activate 0
    source .venv/bin/activate
-   python -m pip install -r docs/requirements.txt
    python -m cpld_toolchain doctor
 
-The base venv does not install HDL tools, simulation or documentation dependencies.
-Native Linux tooling tests also need Make, Bash and Python Tcl support (``python3-tk`` on Ubuntu).
+The venv installs the ``uz_cpld`` console command, so ``uz_cpld ACTION`` can replace ``python -m cpld_toolchain ACTION`` in an activated environment.
+Run setup again to synchronize dependencies with the committed lockfile.
+Setup includes simulation, analysis and documentation Python dependencies; native HDL tools are installed separately.
+Native Linux tooling tests also need Make and Bash; the managed Python includes Tcl support.
 FOSS builds need the pinned tools in :doc:`../foss`.
 See :doc:`../windows` for native Windows generation, Diamond workflows and the Windows test subset.
+
+Python dependency maintenance
+-----------------------------
+
+``pyproject.toml`` defines package metadata and dependency groups; ``uv.lock`` locks the complete Python dependency graph.
+``.python-version`` selects the setup interpreter independently of the Python used to launch setup.
+The bootstrap version and archive checksums are recorded in ``cpld_toolchain/uv-bootstrap.json``.
+After changing dependencies, use the repository-local uv executable under ``.tools/uv/`` to run ``uv lock`` and commit the resulting ``uv.lock``.
+The container and native setup use the same interpreter pin, uv bootstrap manifest and lockfile.
+Run setup again to verify that ``uv sync --locked --all-groups --managed-python`` succeeds.
 
 Author a program
 ----------------
@@ -83,7 +94,7 @@ Program and release descriptions live beside their sources and appear in the gen
    ../programmer
    ../firmware-identity
    ../s3c
-   ../releases
+   release-management
    ../foss
    ../simulation
    ../program-documentation

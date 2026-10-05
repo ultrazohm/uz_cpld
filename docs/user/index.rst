@@ -11,14 +11,50 @@ Quick start reference
 Install Diamond 3.14.0.75.2, its license and programming cable drivers, then create the Python environment::
 
    python -m cpld_toolchain setup
-   uz_cpld doctor
-   uz_cpld list --release-cycle heartbeat_cvg
 
 Setup downloads uv and Python 3.10.12 as needed, installs all locked Python dependencies into ``.venv``, and opens an activated shell with ``uz_cpld`` available.
 Internet access is required for initial downloads.
 In a new Bash shell, run ``source .venv/bin/activate``; in PowerShell, run ``& .\.venv\Scripts\Activate.ps1``.
 Use ``--activate 0`` to install without opening a shell.
-For installation paths, licensing and USB access, see :doc:`../windows` or :doc:`../environments`.
+Set ``DIAMOND_ROOT`` in the activated terminal to your actual Diamond installation directory, not its ``bin`` directory or an executable.
+The following are example paths; adjust them to match your installation.
+
+On Ubuntu (Bash)::
+
+   export DIAMOND_ROOT="$HOME/lscc/diamond/3.14"
+   echo "$DIAMOND_ROOT"
+   ls "$DIAMOND_ROOT/bin/lin64/diamondc"
+
+Bash uses ``export NAME=value`` to make a variable available to commands started from that shell.
+``set DIAMOND_ROOT=...`` sets a positional argument instead of the environment variable.
+Use ``$HOME`` inside double quotes: ``"~/lscc/diamond/3.14"`` contains a literal ``~`` and will not resolve to your home directory.
+To keep this setting for new interactive Bash terminals, add the same ``export`` line to ``~/.bashrc`` and run ``source ~/.bashrc``.
+The native Linux default, when no root is set, is ``/opt/diamond``.
+
+On Windows (PowerShell)::
+
+   $env:DIAMOND_ROOT = 'C:\lscc\diamond\3.14'
+   echo $env:DIAMOND_ROOT
+   Test-Path "$env:DIAMOND_ROOT\bin\nt64\pnmainc.exe"
+
+For Windows Command Prompt (``cmd.exe``), use its own syntax::
+
+   set "DIAMOND_ROOT=C:\lscc\diamond\3.14"
+   echo %DIAMOND_ROOT%
+
+These Windows assignments apply to the current terminal and commands started from it.
+For a persistent user setting, see :doc:`../windows`.
+The native Windows default is ``C:/lscc/diamond/3.14``.
+
+A path such as ``$HOME/lscc/programmer/diamond/3.14`` may be a standalone Programmer installation.
+Check that the build executable shown above exists: ``build`` and ``build-all`` require full Diamond; standalone Programmer only provides programming tools.
+For licensing, container paths and USB access, see :doc:`../windows` or :doc:`../environments`.
+
+Check discovery after setting the path::
+
+   uz_cpld doctor
+   uz_cpld list --release-cycle heartbeat_cvg
+
 ``doctor`` reports available tools; it does not test the license or hardware and missing tools do not make it fail.
 
 Build the programs you need and create your selection::

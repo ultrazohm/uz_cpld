@@ -45,6 +45,23 @@ Set the installation root in the same terminal::
    python -m cpld_toolchain doctor
 
 Adjust these example paths to your installation.
+``DIAMOND_ROOT`` names the installation directory, not ``bin\nt64`` or an executable.
+Check the current PowerShell setting and build executable::
+
+   echo $env:DIAMOND_ROOT
+   Test-Path "$env:DIAMOND_ROOT\bin\nt64\pnmainc.exe"
+
+``$env:DIAMOND_ROOT`` applies to this terminal and its child processes.
+To save the current value for future Windows sessions, run this in PowerShell::
+
+   [Environment]::SetEnvironmentVariable('DIAMOND_ROOT', $env:DIAMOND_ROOT, 'User')
+
+Restart the terminal application (and VS Code if using its integrated terminal) to inherit the saved value.
+In Command Prompt (``cmd.exe``), the equivalent current-session commands are::
+
+   set "DIAMOND_ROOT=C:\lscc\diamond\3.14"
+   echo %DIAMOND_ROOT%
+
 The default root is ``C:/lscc/diamond/3.14``.
 The launcher looks for ``bin/nt64/pnmainc.exe`` for builds and ``bin/nt64/pnmain.exe`` for the GUI.
 Programmer discovery checks ``programmer/bin/nt64/pgrcmd.exe`` and ``bin/nt64/pgrcmd.exe``.

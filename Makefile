@@ -1,11 +1,11 @@
-# Public command definitions and help live in toolchain/commands.py.
+# Public command definitions and help live in cpld_toolchain/toolchain/commands.py.
 .DEFAULT_GOAL := $(if $(program),build,help)
 python ?= python3
 command_root := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 quote = '$(subst ','"'"',$(1))'
 # Forward explicit options, including unknown names, so typos cannot be ignored.
 command_options = $(filter-out python,$(foreach key,$(.VARIABLES),$(if $(filter command line,$(origin $(key))),$(key))))
-command_cli = PYTHONPATH=$(call quote,$(command_root))"$${PYTHONPATH:+:$$PYTHONPATH}" $(python) -m toolchain.commands --make-help
+command_cli = PYTHONPATH=$(call quote,$(command_root))"$${PYTHONPATH:+:$$PYTHONPATH}" $(python) -m cpld_toolchain --make-help
 ifneq ($(word 2,$(MAKECMDGOALS)),)
 $(error Use one action per invocation: make ACTION key=value. Use make scan, make identify, make program, or make programmer-project instead of grouped programmer commands)
 endif

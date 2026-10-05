@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libeigen3-dev pybind11-dev pkg-config patch libftdi1-dev libusb-1.0-0-dev zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
 RUN python3 -m pip install --no-cache-dir cmake==3.31.6
-COPY toolchain/foss/ /tmp/foss-setup/
+COPY cpld_toolchain/toolchain/foss/ /tmp/foss-setup/
 ARG FOSS_BUILD_JOBS=2
 RUN python3 /tmp/foss-setup/install.py --prefix /opt/oss-cad-suite \
     && python3 /tmp/foss-setup/build_nextpnr.py --suite /opt/oss-cad-suite --jobs ${FOSS_BUILD_JOBS} \
@@ -47,8 +47,8 @@ ENV PATH="/opt/diamond/bin/lin64:/opt/ghdl/bin:/home/vscode/.local/bin:${PATH}" 
     DIAMOND_ROOT=/opt/diamond
 COPY requirements.txt /tmp/dependencies/requirements.txt
 COPY docs/requirements.txt /tmp/dependencies/docs/requirements.txt
-COPY toolchain/simulation/requirements.txt /tmp/dependencies/toolchain/simulation/requirements.txt
-COPY toolchain/analysis/requirements.txt /tmp/dependencies/toolchain/analysis/requirements.txt
+COPY cpld_toolchain/toolchain/simulation/requirements.txt /tmp/dependencies/cpld_toolchain/toolchain/simulation/requirements.txt
+COPY cpld_toolchain/toolchain/analysis/requirements.txt /tmp/dependencies/cpld_toolchain/toolchain/analysis/requirements.txt
 RUN python3 -m pip install --no-cache-dir -r /tmp/dependencies/docs/requirements.txt \
     && python3 -m pip check && ghdl --version && python3 -m sphinx --version
 COPY --from=foss-builder /opt/oss-cad-suite /opt/oss-cad-suite

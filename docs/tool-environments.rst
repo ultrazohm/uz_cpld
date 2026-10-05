@@ -1,7 +1,7 @@
 Tools and execution environments
 ================================
 
-Use ``python -m toolchain ACTION`` from the repository root on Linux or
+Use ``python -m cpld_toolchain ACTION`` from the repository root on Linux or
 Windows. The Makefile is an optional Linux wrapper around the same commands.
 This page separates the Python environment, the external tools, and the
 choice of where a command executes.
@@ -20,7 +20,7 @@ What each environment provides
      - Runs the repository CLI with the host's Python installation.
      - Python 3.10+, the Python dependencies for the chosen workflow, and any external tools.
    * - Repository venv
-     - Isolated native Python packages: the editable VHDL generator and TOML parser where needed, installed by ``python -m toolchain venv``.
+     - Isolated native Python packages: the editable VHDL generator and TOML parser where needed, installed by ``python -m cpld_toolchain venv``.
      - Diamond, licenses, USB drivers/libraries and any additional simulation or documentation tools.
    * - Docker toolchain image
      - Linux amd64 Python environment, simulation/analysis packages, GHDL, FOSS binaries, Graphviz, Sphinx and Diamond runtime libraries.
@@ -163,9 +163,9 @@ Commands run in the calling environment on native Windows, Ubuntu and inside con
 They use installed tools and report missing dependencies; they never start Docker or Podman automatically.
 Backend selection is independent: ``--backend diamond`` is the default and ``--backend foss`` opts into FOSS.
 
-``python -m toolchain image`` explicitly builds the toolchain image but does not start a shell.
+``python -m cpld_toolchain image`` explicitly builds the toolchain image but does not start a shell.
 Reopen the workspace in a Dev Container or use the manual Docker commands in :doc:`environments` before running workflows with the container's tools.
-``python -m toolchain venv`` installs native Python dependencies and opens an activated shell when interactive.
+``python -m cpld_toolchain venv`` installs native Python dependencies and opens an activated shell when interactive.
 ``doctor`` reports the environment in which it is invoked.
 
 Choose a USB profile when the container needs hardware access.
@@ -206,17 +206,17 @@ Setup entry points
 
 For generation and native Diamond work, start with::
 
-   python -m toolchain venv
+   python -m cpld_toolchain venv
    # Configure Diamond and its license separately.
-   python -m toolchain doctor
-   python -m toolchain build-all
+   python -m cpld_toolchain doctor
+   python -m cpld_toolchain build-all
 
 For the bundled simulation, FOSS and documentation tools, start with::
 
-   python -m toolchain image
-   python -m toolchain sim --program tx30
-   python -m toolchain build --program tx30 --backend foss
-   python -m toolchain docs
+   python -m cpld_toolchain image
+   python -m cpld_toolchain sim --program tx30
+   python -m cpld_toolchain build --program tx30 --backend foss
+   python -m cpld_toolchain docs
 
 See :doc:`environments` for Linux tools, container mounts and USB permissions;
 :doc:`windows` for native Windows setup; :doc:`foss` for pinned native FOSS

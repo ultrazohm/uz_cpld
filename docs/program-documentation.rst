@@ -84,7 +84,7 @@ The optional browser tests exercise schematic navigation and full-screen mode, w
 
    python3 -m pip install playwright
    python3 -m playwright install chromium
-   CPLD_BROWSER_TESTS=1 python3 -m unittest toolchain.tests.test_viewers_browser -v
+   CPLD_BROWSER_TESTS=1 python3 -m unittest cpld_toolchain.toolchain.tests.test_viewers_browser -v
 
 Set ``CPLD_CHROMIUM_EXECUTABLE`` to use an existing Chromium executable.
 These tests are skipped during normal tooling tests unless ``CPLD_BROWSER_TESTS=1`` is set.

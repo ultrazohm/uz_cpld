@@ -1,7 +1,7 @@
 """Validate the imported routes in normal/safe state against pinned upstream metadata."""
 from pathlib import Path
 import cocotb
-from toolchain.simulation.heartbeat_dslot import exercise_program
+from cpld_toolchain.toolchain.simulation.heartbeat_dslot import exercise_program
 
 
 @cocotb.test()

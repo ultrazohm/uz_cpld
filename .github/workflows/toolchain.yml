@@ -19,18 +19,18 @@ jobs:
         with:
           python-version: '3.10'
       - name: Bootstrap without Make or third-party Python packages
-        run: python -S -m toolchain venv --dry-run 1
+        run: python -S -m cpld_toolchain venv --dry-run 1
       - name: Create the native environment
-        run: python -m toolchain venv --activate 0
+        run: python -m cpld_toolchain venv --activate 0
       - name: Check Python tooling and native Windows locking
-        run: .venv\Scripts\python.exe -m toolchain test
+        run: .venv\Scripts\python.exe -m cpld_toolchain test
       - name: Verify the CLI and tracked generated programs
         run: |
-          .venv\Scripts\python.exe -m toolchain check --program cvg_tx30 --release-cycle heartbeat_cvg
+          .venv\Scripts\python.exe -m cpld_toolchain check --program cvg_tx30 --release-cycle heartbeat_cvg
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          .venv\Scripts\python.exe -m toolchain build-all --dry-run 1
+          .venv\Scripts\python.exe -m cpld_toolchain build-all --dry-run 1
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          .venv\Scripts\python.exe -m toolchain program --target dslot --dry-run 1
+          .venv\Scripts\python.exe -m cpld_toolchain program --target dslot --dry-run 1
 
   checks:
     runs-on: ubuntu-22.04
@@ -65,8 +65,8 @@ jobs:
             programs/*/*/build/uz_dslot_xo2_foss/
             programs/*/*/build/uz_s3c_xo2_foss/
             programs/*/*/build/comparison/
-            toolchain/build/simulation/
-            toolchain/build/validation/
+            cpld_toolchain/toolchain/build/simulation/
+            cpld_toolchain/toolchain/build/validation/
           if-no-files-found: warn
           retention-days: 14
       - name: Retain the documentation preview
@@ -126,8 +126,8 @@ jobs:
             --mount "type=bind,source=$PWD,target=/work" -w /work \
             uz-cpld-toolchain-diamond bash -e -c '
               check-diamond --synthesis
-              python3 -m toolchain.ci build-all
-              python3 -m toolchain.ci package --output toolchain/build/publication/uz-cpld-firmware.zip
+              python3 -m cpld_toolchain.toolchain.ci build-all
+              python3 -m cpld_toolchain.toolchain.ci package --output cpld_toolchain/toolchain/build/publication/uz-cpld-firmware.zip
             '
       - name: Restore runner ASLR
         if: always()
@@ -146,7 +146,7 @@ jobs:
             programs/usercodes.json
             programs/*/*/build/uz_dslot_xo2_diamond/
             programs/*/*/build/uz_s3c_xo2_diamond/
-            toolchain/build/validation/*/diamond-catalog/
+            cpld_toolchain/toolchain/build/validation/*/diamond-catalog/
           if-no-files-found: warn
           retention-days: 14
 
@@ -154,7 +154,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: diamond-firmware
-          path: toolchain/build/publication/uz-cpld-firmware.zip
+          path: cpld_toolchain/toolchain/build/publication/uz-cpld-firmware.zip
           if-no-files-found: error
           retention-days: 14
 

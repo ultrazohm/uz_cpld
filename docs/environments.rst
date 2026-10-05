@@ -4,9 +4,9 @@ Environment setup
 See :doc:`tool-environments` for which tools each workflow needs, what the
 venv includes, and how to enter a container explicitly.
 
-Use ``python -m toolchain doctor`` for a non-failing inventory of the current
+Use ``python -m cpld_toolchain doctor`` for a non-failing inventory of the current
 environment, including missing optional tools. To inspect the toolchain image
-explicitly, enter the container and run ``python -m toolchain doctor`` there. The report does not check out a Diamond license or contact hardware.
+explicitly, enter the container and run ``python -m cpld_toolchain doctor`` there. The report does not check out a Diamond license or contact hardware.
 
 Containers
 ----------
@@ -206,7 +206,7 @@ Containers: Rebuild Container** after changing the selected profile's image.
 Inside the container verify installation and licensed synthesis with::
 
    check-diamond --synthesis
-   python3 -m toolchain doctor
+   python3 -m cpld_toolchain doctor
 
 For a manual build, the Dockerfile provides ``TOOLCHAIN_BASE``; its default is
 ``ubuntu:22.04`` and preserves host mounting. To build the image variant::
@@ -278,20 +278,20 @@ For native Windows instructions, see :doc:`windows`.
 On Linux with Python 3.10+ and its ``venv`` support installed (the
 ``python3-venv`` package on Ubuntu), run::
 
-   python3 -m toolchain venv
+   python3 -m cpld_toolchain venv
 
 This creates or reuses ``.venv`` in the checkout, installs the generator in
 editable mode and the Python dependencies for VHDL generation, Diamond builds,
 and hardware programming, then opens an activated Bash shell. Run ``make
 build-all`` or the programmer commands in that shell. Use ``exit`` to return
 to the previous shell. Running the command again refreshes the installation.
-Use ``python3.11 -m toolchain venv`` to choose the setup interpreter when first
+Use ``python3.11 -m cpld_toolchain venv`` to choose the setup interpreter when first
 creating the environment.
 
 Make cannot change its parent shell's environment. To install without opening
 a shell, or to activate in your existing Bash/Zsh session, use::
 
-   python3 -m toolchain venv --activate 0
+   python3 -m cpld_toolchain venv --activate 0
    source .venv/bin/activate
 
 Without an interactive terminal, ``make venv`` installs the dependencies and

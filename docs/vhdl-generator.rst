@@ -12,7 +12,7 @@ Generation and file ownership
 
 The standalone command generates the same project files without changing the repository catalog::
 
-   python3 -m cpld_vhdl_generator programs/original/cvg_my_slot/generator.toml --output programs/original/cvg_my_slot
+   python3 -m cpld_toolchain generator programs/original/cvg_my_slot/generator.toml --output programs/original/cvg_my_slot
 
 Add ``--check`` to that command to verify freshness without writing files.
 Repository projects use program-local ``generator.toml`` and emit their top-level VHDL and receipt into that program directory.
@@ -131,7 +131,7 @@ pilot policy and enable pattern work unchanged.
 
 To customize timing, use a relative contract file with these fields:
 
-.. literalinclude:: ../cpld_vhdl_generator/contracts/s3c_heartbeat_v1.toml
+.. literalinclude:: ../cpld_toolchain/cpld_vhdl_generator/contracts/s3c_heartbeat_v1.toml
    :language: toml
 
 Only the ``heartbeat`` implementation accepts ``carrier_ready = "heartbeat"``
@@ -158,7 +158,7 @@ The direct shared-controller testbench checks startup/reset, state/status output
 
 The interaction testbench connects the generated slot to the actual S3C sources and checks startup, soft stop, and re-enable::
 
-   python3 -m unittest toolchain.tests.test_s3c_interaction -v
+   python3 -m unittest cpld_toolchain.toolchain.tests.test_s3c_interaction -v
 
 It uses an accelerated simulation oscillator while retaining the S3C's original counters.
 Both testbenches require GHDL and run under ``make test``.

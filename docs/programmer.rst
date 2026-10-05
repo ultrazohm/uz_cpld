@@ -218,7 +218,7 @@ Build freshness and firmware provenance are checked when the command executes.
 
 Release selection follows command-line ``release_cycle``, then TOML ``release``, then the repository's current release. All selected programs come from that cycle.
 
-The generated files are ``toolchain/build/programmer/<release_cycle>/dslots.xcf``, ``s3c.xcf`` and ``selection.json``. The receipt records the chosen programs and SHA-256 hashes of the JEDEC and XCF files. The helper copies device positions and programming options from the archived XCFs, replaces each JEDEC path, time, fuse checksum and usercode, and removes archived USB serial numbers. Both generated chains default to USB2 port ``FTUSB-1``, matching the verified UltraZohm connection; confirm the port on your programming station. Use ``make programmer-project probe_index=N`` to select ``FTUSB-N`` in both exported projects. The generated XCFs contain absolute paths and must be regenerated after moving the checkout or rebuilding the firmware.
+The generated files are ``cpld_toolchain/toolchain/build/programmer/<release_cycle>/dslots.xcf``, ``s3c.xcf`` and ``selection.json``. The receipt records the chosen programs and SHA-256 hashes of the JEDEC and XCF files. The helper copies device positions and programming options from the archived XCFs, replaces each JEDEC path, time, fuse checksum and usercode, and removes archived USB serial numbers. Both generated chains default to USB2 port ``FTUSB-1``, matching the verified UltraZohm connection; confirm the port on your programming station. Use ``make programmer-project probe_index=N`` to select ``FTUSB-N`` in both exported projects. The generated XCFs contain absolute paths and must be regenerated after moving the checkout or rebuilding the firmware.
 
 Open the XCFs in Lattice Programmer to inspect or program each chain manually.
 Their configured operation is ``FLASH Erase,Program,Verify``. Generating the
@@ -237,7 +237,7 @@ as supported by the `openFPGALoader Lattice implementation
 <https://github.com/trabucayre/openFPGALoader/blob/master/src/lattice.cpp>`_,
 and continues to use bitstreams for FOSS builds.
 
-``make scan`` reads IDs and ``make program`` writes Flash; both execute by default. Use ``dry_run=1`` for a preview. FOSS uses openFPGALoader ``--detect`` and reports the ID codes it sees, including unexpected devices. Diamond makes a temporary XCF containing only ``FLASH Display ID`` operations and runs ``pgrcmd``; its output and the exact XCF are retained under ``toolchain/build/programmer/scans/``. Diamond uses the archived expected chain positions, so its result is an ID check against that chain rather than unrestricted chain discovery. Neither scan command needs firmware builds or a selection file. For programming, the FOSS path first scans and checks the entire JTAG chain: five 2000HC devices at indices 0–4 for D-slots, or one 4000HC at index 0 for S3C. It stops before writing if the scan does not match. The Diamond path creates a unique plan under ``toolchain/build/programmer/<cycle>/<chain>/plans/plan-*/`` and applies ``probe_index`` to its USB2 port. Each plan contains its own XCF and verified JEDEC snapshots. Execution checks the requested positions, snapshot hashes and current firmware hashes; a rebuild that changes the firmware requires a new plan. It uses the device and position checks built into that XCF. The separate ``make programmer-project`` command generates both XCFs and requires all six assignments.
+``make scan`` reads IDs and ``make program`` writes Flash; both execute by default. Use ``dry_run=1`` for a preview. FOSS uses openFPGALoader ``--detect`` and reports the ID codes it sees, including unexpected devices. Diamond makes a temporary XCF containing only ``FLASH Display ID`` operations and runs ``pgrcmd``; its output and the exact XCF are retained under ``cpld_toolchain/toolchain/build/programmer/scans/``. Diamond uses the archived expected chain positions, so its result is an ID check against that chain rather than unrestricted chain discovery. Neither scan command needs firmware builds or a selection file. For programming, the FOSS path first scans and checks the entire JTAG chain: five 2000HC devices at indices 0–4 for D-slots, or one 4000HC at index 0 for S3C. It stops before writing if the scan does not match. The Diamond path creates a unique plan under ``cpld_toolchain/toolchain/build/programmer/<cycle>/<chain>/plans/plan-*/`` and applies ``probe_index`` to its USB2 port. Each plan contains its own XCF and verified JEDEC snapshots. Execution checks the requested positions, snapshot hashes and current firmware hashes; a rebuild that changes the firmware requires a new plan. It uses the device and position checks built into that XCF. The separate ``make programmer-project`` command generates both XCFs and requires all six assignments.
 
 Connection defaults and overrides
 ---------------------------------
@@ -266,7 +266,7 @@ Managed programming and identity reads support only ``ft4232_b`` with FOSS probe
 The identity readers and automatic detach mapping must be extended before another wiring or probe-index mapping can be used for managed programming.
 A past cycle can be chosen with ``release_cycle=NAME``.
 The selected build backend must have successful, current builds for the selected programs.
-Programming writes logs and a ``result.json`` receipt under ``toolchain/build/programmer/<cycle>/runs/`` for FOSS and ``toolchain/build/programmer/<cycle>/<chain>/plans/plan-*/runs/`` for Diamond.
+Programming writes logs and a ``result.json`` receipt under ``cpld_toolchain/toolchain/build/programmer/<cycle>/runs/`` for FOSS and ``cpld_toolchain/toolchain/build/programmer/<cycle>/<chain>/plans/plan-*/runs/`` for Diamond.
 
 On the UltraZohm FT4232 with serial ``0100206000050``, both commands below read the S3C ``LCMXO2-4000HC`` ID ``0x012BC043`` in a live container check::
 
@@ -288,8 +288,8 @@ unloading, added container capabilities, writable sysfs, or container rebuild is
 needed. The container image already includes ``libusb-1.0``.
 
 The fixed wiring is ``FTUSB-1`` on USB interface ``1`` (channel B). For future
-hardware changes, edit ``DEFAULT_DIAMOND_PORT`` in ``programmer_helper/helper.py``
-and ``JTAG_INTERFACE`` in ``programmer_helper/usb.py``. That module also defines
+hardware changes, edit ``DEFAULT_DIAMOND_PORT`` in ``cpld_toolchain/programmer_helper/helper.py``
+and ``JTAG_INTERFACE`` in ``cpld_toolchain/programmer_helper/usb.py``. That module also defines
 the FT4232 vendor/product IDs (``0403:6011``). The helper requires a single matching
 FT4232 device and refuses ambiguous device selection. Concurrent helper operations
 on the same interface are rejected. ``dry_run=1`` and ``programmer-project`` never detach
@@ -314,7 +314,7 @@ name for S3C or each D-slot, followed by both backend choices and artifact paths
 also records ``programmer_backend`` and ``build_backend`` alongside artifact
 paths and hashes.
 
-All programmer outputs are under ``toolchain/build/programmer/``:
+All programmer outputs are under ``cpld_toolchain/toolchain/build/programmer/``:
 
 * Diamond scans: ``scans/<timestamp>/``, containing ``scan.xcf``, ``stdout.log``
   and ``pgrcmd.log``.

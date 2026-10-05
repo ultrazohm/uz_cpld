@@ -1,25 +1,31 @@
 Command reference
 =================
 
-Use ``python -m toolchain ACTION --option value`` from the repository root.
-``python -m toolchain help`` lists all commands; add ``--command ACTION`` for
+Use ``python -m cpld_toolchain ACTION --option value`` from the repository root.
+``python -m cpld_toolchain help`` lists all commands; add ``--command ACTION`` for
 required and optional arguments. Options use hyphens, for example
 ``--release-cycle original`` and ``--dry-run 1``. See :doc:`windows` for native
 Windows setup and :doc:`environments` for Linux and container setup.
 
-The shared definitions in ``toolchain/commands.py`` drive help, validation,
-backend resolution and execution. ``python -m toolchain.commands`` remains
+The shared definitions in ``cpld_toolchain/toolchain/commands.py`` drive help, validation,
+backend resolution and execution. ``python -m cpld_toolchain.toolchain.commands`` remains
 an equivalent entry point. On Linux, ``make ACTION key=value`` is an optional
 wrapper around the same dispatcher; its option names use underscores.
 For example, ``make build program=tx30 release_cycle=original`` is equivalent
-to ``python -m toolchain build --program tx30 --release-cycle original``.
+to ``python -m cpld_toolchain build --program tx30 --release-cycle original``.
+
+Standalone generation uses ``python -m cpld_toolchain generator CONFIG --output DIRECTORY``;
+add ``--check`` to verify freshness. This interface does not require a repository
+catalog. The installed ``cpld-toolchain`` executable accepts the same arguments.
+Python component imports now start with ``cpld_toolchain.``; the former top-level
+module names have moved. The ``cpld-vhdl-generator`` executable remains available.
 
 Inspect the current environment
 -------------------------------
 
 Run::
 
-   python -m toolchain doctor
+   python -m cpld_toolchain doctor
 
 ``doctor`` reports the current operating environment, Python executable,
 active venv, Python packages, Diamond executables, simulation/FOSS tools,
@@ -51,7 +57,7 @@ started. License validity, synthesis, USB permissions, Docker daemon access
 and image availability are not tested.
 
 ``doctor`` always reports the current environment for both backends.
-To inspect container tools, enter the container and run ``python -m toolchain doctor`` there.
+To inspect container tools, enter the container and run ``python -m cpld_toolchain doctor`` there.
 To inspect a venv, activate it first or run its Python executable directly.
 Creating a venv alone does not change the interpreter running ``doctor``.
 
@@ -61,10 +67,10 @@ From a clean clone to programmed hardware
 Configure the Diamond installation and license as described in :doc:`environments`,
 or reopen in the configured Dev Container. Then::
 
-   python -m toolchain doctor
-   python -m toolchain list
-   python -m toolchain build-all
-   python -m toolchain report
+   python -m cpld_toolchain doctor
+   python -m cpld_toolchain list
+   python -m cpld_toolchain build-all
+   python -m cpld_toolchain report
 
 ``build-all`` compiles every supported catalog program in the current release.
 It does not flash hardware. Install the tools required for simulation, diagrams, documentation and FOSS builds, or enter the toolchain container before running those commands.
@@ -72,9 +78,9 @@ Rebuild the image explicitly when its tool dependencies change.
 
 Create the programming selection and project::
 
-   python -m toolchain init
+   python -m cpld_toolchain init
    # Edit selection.toml: choose the programs for S3C and all five slots.
-   python -m toolchain programmer-project
+   python -m cpld_toolchain programmer-project
 
 ``init`` preserves existing selections. ``programmer-project`` exports both
 Diamond XCF files from current firmware builds without accessing hardware.
@@ -84,10 +90,10 @@ before exporting XCFs; it is specific to ``programmer-project``.
 
 Prepare the hardware for one physical chain, then::
 
-   python -m toolchain scan --target dslot
-   python -m toolchain identify --target dslot
-   python -m toolchain program --target dslot --dry-run 1
-   python -m toolchain program --target dslot
+   python -m cpld_toolchain scan --target dslot
+   python -m cpld_toolchain identify --target dslot
+   python -m cpld_toolchain program --target dslot --dry-run 1
+   python -m cpld_toolchain program --target dslot
 
 Use ``--target s3c`` when the hardware is prepared for S3C access. Programming
 requires an explicit target; scanning and identification default to D-slots.
@@ -101,7 +107,7 @@ Shared option rules
 * ``--backend diamond`` is the default. ``--backend foss`` sets both firmware and
   programmer defaults where applicable. ``build_backend`` and
   ``programmer_backend`` override their respective parts. For example,
-  ``python -m toolchain program --target dslot --programmer-backend foss`` programs Diamond builds
+  ``python -m cpld_toolchain program --target dslot --programmer-backend foss`` programs Diamond builds
   through the FOSS programmer. Diamond cannot program FOSS firmware exports.
 * Selection files hold assignments and a release. Legacy ``build_backend``
   fields are accepted but do not change the command's backend.
@@ -110,7 +116,7 @@ Shared option rules
   It validates command options; build freshness and hardware checks occur during
   execution. ``--execute 0`` is no longer a public option.
 * Unsupported options and misspelled names are errors. For example,
-  ``python -m toolchain build-all --program tx30`` fails; use ``python -m toolchain build --program tx30``.
+  ``python -m cpld_toolchain build-all --program tx30`` fails; use ``python -m cpld_toolchain build --program tx30``.
 * Run actions sequentially. Supplying multiple actions in one invocation is rejected. ``--jobs N`` controls parallel work only for commands that
   document it: simulation, documentation, and ``flasher-build``.
 
@@ -135,7 +141,7 @@ Filtered documentation replaces generated assets with the selected scope.
 Execution environments
 ----------------------
 
-``python -m toolchain venv`` creates or updates the native Python environment and opens an
+``python -m cpld_toolchain venv`` creates or updates the native Python environment and opens an
 activated shell. Use ``--activate 0`` for installation only; see
 :doc:`environments` for system prerequisites and manual activation.
 

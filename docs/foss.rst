@@ -29,21 +29,21 @@ For native Linux amd64 setup, install GHDL and the shared Python requirements, t
 
    sudo apt-get install build-essential python3-dev libboost-filesystem-dev libboost-program-options-dev libboost-iostreams-dev libboost-thread-dev libeigen3-dev pybind11-dev curl pkg-config patch libftdi1-dev libusb-1.0-0-dev zlib1g-dev
    python3 -m pip install cmake==3.31.6
-   python3 toolchain/foss/install.py --prefix /your/writable/path/oss-cad-suite
-   python3 toolchain/foss/build_nextpnr.py --suite /your/writable/path/oss-cad-suite
+   python3 cpld_toolchain/toolchain/foss/install.py --prefix /your/writable/path/oss-cad-suite
+   python3 cpld_toolchain/toolchain/foss/build_nextpnr.py --suite /your/writable/path/oss-cad-suite
    export FOSS_ROOT=/your/writable/path/oss-cad-suite
    make flasher-build
-   python3 -m toolchain.buildsystem doctor --backend foss
-   python3 -m toolchain.buildsystem build --program tx30 --backend foss
+   python3 -m cpld_toolchain.toolchain.buildsystem doctor --backend foss
+   python3 -m cpld_toolchain.toolchain.buildsystem build --program tx30 --backend foss
 
 The suite and nextpnr installers refuse existing destinations and verify archive checksums before extraction.
 ``make flasher-build`` verifies its source and patch checksums and replaces its local installation after compilation and tests pass.
-Release and source pins are in ``toolchain/foss/toolchain.json``, ``toolchain/foss/sources.json`` and ``toolchain/foss/openfpgaloader.json``.
+Release and source pins are in ``cpld_toolchain/toolchain/foss/toolchain.json``, ``cpld_toolchain/toolchain/foss/sources.json`` and ``cpld_toolchain/toolchain/foss/openfpgaloader.json``.
 ``FOSS_ROOT`` defaults to ``/opt/oss-cad-suite``; tools are selected by absolute paths without replacing the system Python environment.
 RTL schematic generation also uses this Yosys installation when available, falling back to Yosys on ``PATH`` for native setups without the suite.
 The container does not install a second Yosys from Ubuntu packages.
 Native nextpnr resides in ``$FOSS_ROOT/native/``, while the bundle's executables reside in ``$FOSS_ROOT/bin/``.
-The image's patched loader resides in ``$FOSS_ROOT/native/openfpgaloader/``; ``make flasher-build`` installs a workspace override in ``toolchain/build/openfpgaloader/``.
+The image's patched loader resides in ``$FOSS_ROOT/native/openfpgaloader/``; ``make flasher-build`` installs a workspace override in ``cpld_toolchain/toolchain/build/openfpgaloader/``.
 See :doc:`firmware-identity` for loader selection and rebuilding.
 
 Build stages and outputs
@@ -88,7 +88,7 @@ Unknown RTL values remain unspecified for synthesis and do not establish physica
 Outputs live under ``programs/<release_cycle>/<name>/build/<target>_foss/`` with ``<name>_<target>_foss.bit``, ``reports/``, ``metadata/``, project files and logs under the same directory.
 The FOSS build plan and generated JSON reports live in ``metadata/``.
 Reports include synthesized/routed JSON, timing, completed/unpacked configuration, equivalence evidence and method, tool versions/hashes and the constraint translation record.
-``make build-all backend=foss`` writes a catalog report under ``toolchain/build/validation/<release_cycle>/foss-catalog/``; ``make report backend=foss`` refreshes that report from existing evidence without rebuilding.
+``make build-all backend=foss`` writes a catalog report under ``cpld_toolchain/toolchain/build/validation/<release_cycle>/foss-catalog/``; ``make report backend=foss`` refreshes that report from existing evidence without rebuilding.
 ``project backend=foss`` prepares the synthesis script and build plan; the equivalence script is generated during a build after mapped cells are known.
 ``gui`` requires ``backend=diamond``.
 Cleanup affects only the selected backend, so Diamond and FOSS results can coexist.

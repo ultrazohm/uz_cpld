@@ -14,18 +14,18 @@ The :ref:`generator-quickstart` covers creating a starter, editing its routing, 
 See :doc:`tool-environments` for a workflow matrix covering native Linux,
 native Windows, the Python venv and Docker.
 
-Run ``python -m toolchain help`` to see all commands. Inside the Dev Container or a native environment with the required tools installed, run these commands from the repository root::
+Run ``python -m cpld_toolchain help`` to see all commands. Inside the Dev Container or a native environment with the required tools installed, run these commands from the repository root::
 
-   python -m toolchain test
-   python -m toolchain sim
-   python -m toolchain docs
+   python -m cpld_toolchain test
+   python -m cpld_toolchain sim
+   python -m cpld_toolchain docs
 
 Open ``docs/_build/html/index.html`` for the complete site, including program diagrams and interactive waveforms.
 Diamond firmware builds require :doc:`vendor setup <environments>` and never program hardware::
 
-   python -m toolchain list
-   python -m toolchain build --program tx30
-   python -m toolchain build-all
+   python -m cpld_toolchain list
+   python -m cpld_toolchain build --program tx30
+   python -m cpld_toolchain build-all
 
 Run commands from the repository root; paths in this documentation are relative to that directory.
 

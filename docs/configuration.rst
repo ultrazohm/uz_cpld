@@ -44,7 +44,7 @@ The provenance record stays in the program directory and includes the shared sou
 Target
 ------
 
-.. literalinclude:: ../toolchain/targets/uz_dslot_xo2/target.toml
+.. literalinclude:: ../cpld_toolchain/toolchain/targets/uz_dslot_xo2/target.toml
    :language: toml
 
 The D-slot target is ``uz_dslot_xo2`` (``LCMXO2-2000HC-4TG100C``).

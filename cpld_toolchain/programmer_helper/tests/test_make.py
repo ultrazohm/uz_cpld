@@ -32,6 +32,51 @@ class ProgrammerMakeTests(unittest.TestCase):
         self.assertEqual(len(commands), 1, result.stdout)
         return commands[0]
 
+    def test_every_command_and_alias_matches_unified_cli_preview(self):
+        from cpld_toolchain.toolchain.commands import COMMANDS, ALIASES
+        values = {'program': 'cvg_tx30', 'name': 'command_smoke',
+                  'target': 'dslot', 'release_cycle': 'heartbeat_cvg', 'backend': 'foss'}
+        for action in [*COMMANDS, *ALIASES]:
+            canonical = ALIASES.get(action, (action, {}))[0]
+            options = {key: values[key] for key in COMMANDS[canonical].required}
+            options['dry_run'] = '1'
+            with self.subTest(action=action):
+                made = self.make(action, *(f'{key}={value}' for key, value in options.items()))
+                cli_args = [sys.executable, '-m', 'cpld_toolchain', action]
+                for key, value in options.items():
+                    cli_args += ['--' + key.replace('_', '-'), value]
+                direct = subprocess.run(cli_args, cwd=self.cwd, text=True, capture_output=True,
+                                        timeout=15, env={**os.environ, 'PYTHONPATH': str(ROOT)})
+                self.assertEqual(made.returncode, 0, made.stdout + made.stderr)
+                self.assertEqual(direct.returncode, 0, direct.stdout + direct.stderr)
+                self.assertEqual(made.stdout, direct.stdout)
+                self.assertIn('Preview only:', made.stdout)
+        self.assertEqual(list(self.cwd.iterdir()), [])
+
+    def test_every_command_and_alias_has_working_focused_make_help(self):
+        from cpld_toolchain.toolchain.commands import COMMANDS, ALIASES
+        for action in [*COMMANDS, *ALIASES]:
+            with self.subTest(action=action):
+                result = self.make('help', f'command={action}')
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertIn('Required:', result.stdout)
+                self.assertIn('Optional:', result.stdout)
+        result = self.make()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('Usage: make ACTION', result.stdout)
+
+    def test_compare_rejects_diamond_and_combined_before_execution(self):
+        for options in ((), ('backend=diamond',)):
+            with self.subTest(options=options):
+                result = self.make('compare', 'program=cvg_tx30',
+                                   'release_cycle=heartbeat_cvg', *options)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn('compare currently supports only backend=foss', result.stderr)
+                self.assertFalse(result.stdout.strip(), result.stdout)
+        args = self.preview('compare', 'program=cvg_tx30',
+                            'release_cycle=heartbeat_cvg', 'backend=foss')
+        self.assertEqual(args[args.index('--backend') + 1], 'foss')
+
     def test_initialization_creates_selection_in_callers_directory_without_overwriting(self):
         result = self.make('init')
         self.assertEqual(result.returncode, 0, result.stderr)

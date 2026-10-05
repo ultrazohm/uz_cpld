@@ -55,7 +55,7 @@ COMMANDS = {
     'check': spec('Toolchain', 'check program=NAME', 'Validate a program manifest and inputs', FIRMWARE | {'program'}, {'program'}),
     'project': spec('Toolchain', 'project program=NAME', 'Prepare one firmware project without compiling it', FIRMWARE | {'program'}, {'program'}),
     'build': spec('Toolchain', 'build program=NAME', 'Build one program; target is inferred when unambiguous', FIRMWARE | {'program'}, {'program'}),
-    'compare': spec('Toolchain', 'compare program=cvg_tx30 release_cycle=heartbeat_cvg', 'Compare fresh mapped netlists; omit backend to check both tools', {'program', 'target', 'release_cycle', 'backend'}, {'program'}),
+    'compare': spec('Toolchain', 'compare program=cvg_tx30 release_cycle=heartbeat_cvg backend=foss', 'Compare FOSS mapped logic with the VHDL reference; Diamond is unsupported', {'program', 'target', 'release_cycle', 'backend'}, {'program', 'backend'}),
     'build-all': spec('Toolchain', 'build-all', 'Build every catalog program for the selected backend', FIRMWARE),
     'gui': spec('Toolchain', 'gui program=NAME', 'Open the Diamond firmware project', FIRMWARE | {'program'}, {'program'}),
     'report': spec('Toolchain', 'report', 'Summarize existing catalog build evidence', FIRMWARE),
@@ -99,7 +99,7 @@ ARGUMENT_VALUES = {
 
 
 def argument_text(action, keys, style='make'):
-    return ' '.join((f'{key}=' if style == 'make' else '--' + key.replace('_', '-') + ' ') + ('NAME|all' if key == 'release_cycle' and
+    return ' '.join((f'{key}=' if style == 'make' else '--' + key.replace('_', '-') + ' ') + ('foss' if action == 'compare' and key == 'backend' else 'NAME|all' if key == 'release_cycle' and
                         action in ('docs', 'docs-assets') else values)
                     for key, values in ARGUMENT_VALUES.items() if key in keys) or 'none'
 
@@ -125,7 +125,7 @@ def shared_help(style='make'):
     return '\n'.join([
         'Argument defaults and rules:',
         '  backend=diamond; build_backend and programmer_backend inherit backend.',
-        '  compare defaults to both backends; backend selects a partial check.',
+        '  compare requires explicit backend=foss; Diamond and combined comparisons are unsupported.',
         '  release_cycle defaults to the current release; programmer actions first consult',
         '  the selection file. selection=selection.toml; template=tx30.',
         '  jobs=4; seed=1; wave_format=vcd; dry_run=0; rebuild=0;',
@@ -179,6 +179,9 @@ def normalize(action, options):
     unsupported = set(options) - COMMANDS[action].options
     if unsupported:
         raise BuildError(f'{action} does not accept {", ".join(sorted(unsupported))}; run python -m cpld_toolchain help --command {action}')
+    if action == 'compare':
+        from .buildsystem.comparison import require_foss_backend
+        require_foss_backend(options.get('backend'))
     for key in COMMANDS[action].required:
         if not options.get(key):
             raise BuildError(f'{action} requires {key}=' + ('dslot|s3c' if key == 'target' else 'NAME'))

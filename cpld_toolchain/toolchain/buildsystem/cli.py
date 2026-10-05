@@ -26,6 +26,9 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     root = args.root.resolve()
     try:
+        if args.command == 'compare':
+            from .comparison import require_foss_backend
+            require_foss_backend(args.backend)
         if args.command in ('usercodes', 'usercodes-assign'):
             from .identity import read_registry, assign_programs
             if args.command == 'usercodes-assign':

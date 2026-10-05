@@ -14,6 +14,11 @@ Simulation and documentation discover all complete program manifests, including 
 ``target=uz_dslot_xo2`` or ``target=uz_s3c_xo2`` filters firmware builds, and backend selection respects each program's ``backends`` list.
 ``make generate`` registers completed generator projects in the catalog; unfinished starters are excluded.
 ``make check program=tx30`` validates a manifest and its input files, while ``make doctor backend=foss`` checks the FOSS tool installation.
+``make compare program=cvg_tx30 release_cycle=heartbeat_cvg backend=foss`` is a
+separate FOSS-only functional netlist check. Diamond and implicit combined
+comparison requests fail explicitly because real Diamond exports are not yet
+supported by the comparison importer. This does not affect ``make check`` or
+Diamond firmware builds. See :doc:`foss` for the limitation and CI coverage.
 For Diamond, run ``make doctor backend=diamond`` and ``make build-all backend=diamond`` in a licensed environment.
 The GitHub Actions Diamond job temporarily disables host ASLR before launching the build container,
 then restores the recorded setting in an ``always()`` cleanup step.

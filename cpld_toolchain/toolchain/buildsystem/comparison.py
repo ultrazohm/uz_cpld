@@ -1,4 +1,4 @@
-"""Reproducible functional comparison of the cvg_tx30 pilot netlists.
+"""FOSS-only functional comparison of the cvg_tx30 pilot netlists.
 
 This command consumes fresh, hashed firmware artifacts. It never programs hardware
 and does not interpret a simulation pass as timing or board qualification.
@@ -171,8 +171,20 @@ def formal(reference, candidate, directory):
     return results
 
 
+def require_foss_backend(backend):
+    """Reject unsupported comparisons before loading builds or replacing reports."""
+    if backend != 'foss':
+        raise BuildError(
+            'compare currently supports only backend=foss; Diamond and combined comparisons '
+            'are unavailable because Diamond simulation netlists cannot yet be imported '
+            'with validated functional cell models. Use make compare program=cvg_tx30 '
+            'release_cycle=heartbeat_cvg backend=foss '
+            '(Python CLI: --backend foss). make check and Diamond builds remain supported.')
+
+
 def compare(root, name, target=None, release_cycle=None, backend=None):
-    """Run the pilot checks; return a report path and whether selected checks pass."""
+    """Run the supported FOSS pilot checks; reject Diamond and combined requests."""
+    require_foss_backend(backend)
     if name != 'cvg_tx30' or release_cycle != 'heartbeat_cvg':
         raise BuildError('Netlist comparison currently supports heartbeat_cvg/cvg_tx30 only')
     from cpld_toolchain.cpld_vhdl_generator import load_config

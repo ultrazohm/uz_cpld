@@ -138,6 +138,19 @@ uncatalogued programs, and accept program and target filters.
 explicitly includes all releases. CI uses that explicit all-release scope.
 Filtered documentation replaces generated assets with the selected scope.
 
+Netlist comparison
+------------------
+
+``make compare program=cvg_tx30 release_cycle=heartbeat_cvg backend=foss``
+checks the FOSS pilot's mapped logic against its VHDL-derived reference.
+The Python equivalent is ``python -m cpld_toolchain compare --program cvg_tx30
+--release-cycle heartbeat_cvg --backend foss``.
+Diamond comparison is currently unsupported; selecting ``backend=diamond`` or
+omitting the backend returns an error before running tools. See :doc:`foss`
+for the export/modeling limitation and the scope of the functional checks.
+``make check`` validates manifests and inputs for both firmware backends; it
+is not a netlist equivalence test.
+
 Execution environments
 ----------------------
 

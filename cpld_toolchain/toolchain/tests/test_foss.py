@@ -74,7 +74,7 @@ class FossTests(unittest.TestCase):
         config = self.root / 'programs/heartbeat_cvg/cvg_tx30/generator.toml'
         config.write_text(config.read_text() + 's3c_library = "../../../xo2_library/s3c"\n')
         generate(config, config.parent)
-        path, passed = compare(self.root, 'cvg_tx30', release_cycle='heartbeat_cvg')
+        path, passed = compare(self.root, 'cvg_tx30', release_cycle='heartbeat_cvg', backend='foss')
         self.assertFalse(passed)
         report = json.loads(path.read_text())
         self.assertFalse(report['diamond_foss_equivalent'])

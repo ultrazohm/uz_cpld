@@ -1,5 +1,8 @@
 """Comparison failures must remain visible, including initialization errors."""
 import json
+import io
+from contextlib import redirect_stderr
+from unittest.mock import patch
 from pathlib import Path
 import shutil
 import subprocess
@@ -111,9 +114,27 @@ class ComparisonCommandTests(unittest.TestCase):
         self.assertIn('PT1:PIC_T0/unknown: F1B2', decoded)
         self.assertEqual(len(decoded), 3)
 
-    def test_default_checks_both_backends(self):
-        args = commands.plan('compare', {'program': 'cvg_tx30', 'release_cycle': 'heartbeat_cvg'})[0].argv
-        self.assertNotIn('--backend', args)
+    def test_diamond_and_combined_requests_fail_before_loading_builds(self):
+        from cpld_toolchain.toolchain.buildsystem.comparison import compare
+        from cpld_toolchain.toolchain.buildsystem.cli import main
+        for backend in (None, 'diamond'):
+            with self.subTest(backend=backend), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                options = {'program': 'cvg_tx30'}
+                cli_args = ['compare', '--root', str(root), '--program', 'cvg_tx30']
+                if backend:
+                    options['backend'] = backend
+                    cli_args += ['--backend', backend]
+                with self.assertRaisesRegex(BuildError, 'only backend=foss'):
+                    commands.plan('compare', options)
+                with patch('cpld_toolchain.toolchain.buildsystem.comparison.load_build') as load:
+                    with self.assertRaisesRegex(BuildError, 'only backend=foss'):
+                        compare(root, 'cvg_tx30', release_cycle='heartbeat_cvg', backend=backend)
+                    load.assert_not_called()
+                with redirect_stderr(io.StringIO()) as error:
+                    self.assertEqual(main(cli_args), 1)
+                self.assertIn('only backend=foss', error.getvalue())
+                self.assertEqual(list(root.iterdir()), [])
 
     def test_explicit_foss_selection_is_preserved(self):
         args = commands.plan('compare', {'program': 'cvg_tx30', 'backend': 'foss'})[0].argv

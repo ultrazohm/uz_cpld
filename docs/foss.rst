@@ -173,17 +173,21 @@ remain Diamond-only. Build and check the pilot with installed tools::
    make build program=cvg_tx30 release_cycle=heartbeat_cvg backend=foss
    make compare program=cvg_tx30 release_cycle=heartbeat_cvg backend=foss
 
-On a machine with Diamond and the FOSS tools, build the same source with Diamond
-and omit ``backend`` from the comparison command to check both implementations::
+``make compare`` currently supports only the FOSS backend and only the
+``heartbeat_cvg/cvg_tx30`` pilot. Specify ``backend=foss`` explicitly.
+``backend=diamond`` and an omitted backend (the former combined comparison)
+fail immediately with an explanatory error, before tools run or existing
+comparison reports are replaced. They do not silently fall back to FOSS.
 
-   make build program=cvg_tx30 release_cycle=heartbeat_cvg backend=diamond
-   make compare program=cvg_tx30 release_cycle=heartbeat_cvg
+``compare`` consumes fresh build artifacts and writes ``build/comparison/``.
+It simulates the synthesized circuit represented by a mapped netlist, not the
+``.bit`` or ``.jed`` programming file. The reference is derived from the original
+VHDL using GHDL. Functional simulation and the recorded FOSS synthesis proof
+must pass; a passing result does not establish Diamond equivalence, routed
+timing, or physical hardware behavior. No hardware is programmed.
 
-``compare`` consumes firmware builds and writes ``build/comparison/``; it never
-programs hardware. Both builds must have current input/output hashes. Missing or
-stale Diamond evidence leaves the combined comparison incomplete and returns a
-nonzero exit code. The FOSS-only command can pass without claiming Diamond
-equivalence. Each run replaces its comparison artifacts under the build locks.
+``make check`` is a separate manifest/input validation command and works with
+both backends. Diamond ``make build`` and ``make build-all`` remain supported.
 
 Diamond exports mapped Verilog using ``MapVerilogSimFile`` and routed Verilog/SDF
 using ``TimingSimFileVlg``. The mapped snapshot is retained as
@@ -213,17 +217,33 @@ No output is excluded and no logic is removed. A changed compiled signal name
 fails blacklist validation and requires re-evaluation. Initialized-state checks
 must also pass for ``compare`` to pass.
 
-For Diamond, the command attempts output-only induction against the GHDL-derived
-reference and an eight-cycle initialized-output proof. Unproven obligations,
-timeouts and unsupported cells prevent a passing combined comparison, even if
-simulation passes. Actual Diamond exports still need validation on a machine
-with Diamond; primitive fixture tests do not establish that integration.
+Diamond comparison limitation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-``report.json`` records checks, tool/model hashes, build-record hashes, artifacts
-and FOSS clock timing. With both bitstreams, it also unpacks and lists decoded
-PIO, bank and global-setting differences. These require review: unused-pin
-defaults, decoder aliases and undecoded bits are not automatically qualified.
-USERCODE differs by build identity and is excluded.
+The real Diamond mapped simulation export contains ``$setuphold`` timing checks
+that the current Yosys Verilog frontend rejects before simulation or formal
+verification. Delayed signals such as ``CLK_dly`` and vendor cells such as
+``FL1P3DX`` and ``PUR`` also require validated functional modeling. Removing
+``specify`` blocks alone can leave signals undriven. This is an import/modeling
+limitation, not evidence that the Diamond circuit differs from the VHDL.
+
+VHDL input is possible through the GHDL-Yosys plugin, so Verilog is not a
+requirement of the proof engine. However, Diamond's VHDL export uses VITAL timing
+models; changing the export language alone does not establish formal-import
+compatibility. Potential repairs include a validated functional conversion of
+the mapped export or a VHDL import path with suitable functional cell models.
+Both must preserve initialization, reset, enable and power-up behavior.
+
+Simplified primitive tests did not establish compatibility with real Diamond
+exports. CI runs the FOSS-only pilot comparison; its Diamond job builds and
+packages firmware without running a combined comparison. Re-enabling Diamond
+comparison requires real-export integration coverage, including tests that
+detect deliberately corrupted behavior. Parser success or a simulation pass
+alone is insufficient to establish equivalence.
+
+``report.json`` records FOSS checks, tool/model hashes, build-record hashes,
+artifacts and FOSS clock timing. Electrical/global configuration comparison
+between Diamond and FOSS is not performed by the supported FOSS-only command.
 
 Remaining qualification steps are explicit in the report:
 

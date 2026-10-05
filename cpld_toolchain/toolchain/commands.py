@@ -47,7 +47,7 @@ COMMANDS = {
     'setup': spec('Environment', 'setup [activate=0|1]', 'Create the locked Python environment, downloading Python as needed', {'activate'}),
     'venv': spec('Environment', 'venv [activate=0|1]', 'Alias for setup: install all locked Python dependencies', {'activate'}),
     'doctor': spec('Environment', 'doctor', 'Report this environment and installed/missing tools; no hardware access', FIRMWARE),
-    'docs': spec('Documentation', 'docs [release_cycle=all]', 'Generate assets and HTML; defaults to the current release', {'program', 'target', 'release_cycle', 'jobs'}),
+    'docs': spec('Documentation', 'docs [release_cycle=all]', 'Generate assets and HTML; defaults to all releases', {'program', 'target', 'release_cycle', 'jobs'}),
     'docs-assets': spec('Documentation', 'docs-assets [program=NAME]', 'Generate documentation assets without rendering HTML', {'program', 'target', 'release_cycle', 'jobs'}),
     'netlist': spec('Documentation', 'netlist [program=NAME]', 'Export RTL diagrams; defaults to the current catalog', {'program', 'target', 'release_cycle'}),
     'sim': spec('Simulation', 'sim [program=NAME]', 'Simulate complete manifests in the current release', {'program', 'target', 'release_cycle', 'jobs', 'seed', 'wave_format'}),
@@ -127,7 +127,7 @@ def shared_help(style='make'):
         'Argument defaults and rules:',
         '  backend=diamond; build_backend and programmer_backend inherit backend.',
         '  compare requires explicit backend=foss; Diamond and combined comparisons are unsupported.',
-        '  release_cycle defaults to the current release; programmer actions first consult',
+        '  release_cycle defaults to all releases; programmer actions first consult',
         '  the selection file. selection=selection.toml; template=tx30.',
         '  jobs=4; seed=1; wave_format=vcd; dry_run=0; rebuild=0;',
         '  discard_project_changes=0; setup/venv activate=1. Omit an option to use its default.',
@@ -305,7 +305,7 @@ def plan(action, options, *, root=ROOT, cwd=None):
     if action == 'netlist':
         return [invoke('cpld_toolchain.toolchain.analysis.netlist', flags('program', 'target', 'release_cycle'))]
     if action in ('docs', 'docs-assets'):
-        cycle = options.get('release_cycle') or resolve_release(root)
+        cycle = options.get('release_cycle') or 'all'
         args = ['--jobs', options.get('jobs', '4'), '--release-cycle', cycle]
         args += flags('program', 'target')
         if action == 'docs':

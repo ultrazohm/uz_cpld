@@ -6,8 +6,9 @@ Program diagrams and waveforms
    make docs jobs=4
    make netlist program=tx26_w_enable release_cycle=original
 
-``make docs`` discovers complete program manifests in the current release, generates RTL schematics, runs its testbench with seed 1 and builds a Sphinx page.
-Use ``release_cycle=all`` for all releases, or ``program=NAME`` and ``target=dslot|s3c`` to filter.
+``make docs`` discovers complete program manifests across all releases, generates RTL schematics, runs its testbench with seed 1 and builds a Sphinx page.
+Use ``release_cycle=NAME`` for a single release, or ``program=NAME`` and ``target=dslot|s3c`` to filter.
+The navigation groups program pages under ``Programs``, then the release name.
 An explicit filter matching no programs fails before replacing existing assets.
 Each page includes ``programs/<release_cycle>/<name>/description.rst`` when present, SVG/PDF diagrams, an interactive waveform and downloads.
 Up to ``jobs`` programs run concurrently (default: 4; ``jobs=1`` runs sequentially).

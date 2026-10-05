@@ -58,7 +58,7 @@ def build_site(root=ROOT, jobs=4, release_cycle=None, program=None, target=None)
 
 
 def _generate(root, jobs, release_cycle, program=None, target=None):
-    cycles = release_cycles(root) if release_cycle == 'all' else [resolve_release(root, release_cycle)]
+    cycles = release_cycles(root) if release_cycle in (None, 'all') else [resolve_release(root, release_cycle)]
     names = [f'{cycle}/{name}' for cycle in cycles for name in discover_programs(root, cycle)
              if (program is None or program in (name, f'{cycle}/{name}'))
              and (target is None or target in program_targets(root, name, cycle))]
@@ -90,16 +90,21 @@ def _generate(root, jobs, release_cycle, program=None, target=None):
                 raise
     index = ('Programs\n========\n\n'
              'Each page combines the authored description with simulation evidence and RTL schematics where supported.\n\n')
+    index += '.. toctree::\n   :maxdepth: 2\n\n'
     for cycle in cycles:
-        index += f'{cycle}\n{"-" * len(cycle)}\n\n'
+        index += f'   release-{cycle}\n'
+        release_page = f'{cycle}\n{"=" * len(cycle)}\n\n'
         description = root / 'programs' / cycle / 'description.rst'
         if description.is_file():
-            index += f'.. include:: ../../../programs/{cycle}/description.rst\n\n'
-        entries = [name.replace('/', '-') for name in names if name.startswith(cycle + '/')]
+            release_page += f'.. include:: ../../../programs/{cycle}/description.rst\n\n'
+        entries = [name for name in names if name.startswith(cycle + '/')]
         if entries:
-            index += '.. toctree::\n   :maxdepth: 1\n\n' + ''.join(f'   program-{name}\n' for name in entries) + '\n'
+            release_page += '.. toctree::\n   :maxdepth: 1\n\n' + ''.join(
+                f'   {name.split("/", 1)[1]} <program-{name.replace("/", "-")}>\n'
+                for name in entries) + '\n'
         else:
-            index += 'No complete program manifests in this cycle.\n\n'
+            release_page += 'No complete programs match this documentation scope in this cycle.\n\n'
+        (pages / f'release-{cycle}.rst').write_text(release_page)
     (pages / 'index.rst').write_text(index)
     return pages
 
@@ -153,8 +158,8 @@ def generate_program(root, generated, name, target=None):
                 shutil.copy2(state_diagrams / 'metadata/state-diagrams.json',
                              assets / 'metadata/state-diagrams.json')
                 state_section = ('State diagrams\n--------------\n\n'
-                                 'These diagrams show possible state assignments and their conditions extracted from the VHDL. '
-                                 'Conditions on ``elsif`` and ``else`` paths include the earlier guards being false. '
+                                 'These diagrams show possible state assignments and their conditions extracted from the VHDL.\n'
+                                 'Conditions on ``elsif`` and ``else`` paths include the earlier guards being false.\n'
                                  'Implicit state holds are omitted.\n\n')
                 for diagram in state_info['diagrams']:
                     stem = diagram['stem']
@@ -233,7 +238,7 @@ Download the :download:`cocotb testbench <../../../programs/{name}/{build.name}_
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--jobs", type=int, default=4, help="Concurrent programs (default: 4; 1 for sequential)")
-    parser.add_argument("--release-cycle", "--release_cycle", dest="release_cycle", help="Release to document; default: current; use all for every release")
+    parser.add_argument("--release-cycle", "--release_cycle", dest="release_cycle", help="Release to document; default: all releases")
     parser.add_argument('--program', help='Limit documentation to one program')
     parser.add_argument('--target', help='Limit documentation to one board target')
     parser.add_argument('--build-site', action='store_true', help='Also render and validate HTML under the same lock')

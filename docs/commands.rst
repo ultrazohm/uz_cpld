@@ -118,14 +118,14 @@ Program and release scope
 
 ``--release-cycle NAME`` selects a release without changing the default.
 Programming and XCF export resolve the release from the command line, then ``selection.toml``, then the repository's current release.
-Other program commands use the command line, then the current release.
+Other firmware commands use the command line, then the current release.
 
 ``build``, ``check``, ``generate``, ``project``, ``gui`` and ``clean`` require ``--program NAME``.
 ``new`` requires ``--name NAME`` for the new program.
 ``list``, ``build-all`` and ``report`` operate on the catalog, optionally filtered by target.
 ``netlist`` uses the catalog unless a program is selected.
 Simulation and documentation discover complete program manifests, including uncatalogued programs, and accept program and target filters.
-``docs`` and ``docs-assets`` default to the current release; ``--release-cycle all`` explicitly includes all releases.
+``docs`` and ``docs-assets`` include all releases by default; ``--release-cycle NAME`` limits a preview to one release.
 CI uses that explicit all-release scope.
 Filtered documentation replaces generated assets with the selected scope.
 

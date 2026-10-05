@@ -44,7 +44,7 @@ class DocumentationSchedulingTests(unittest.TestCase):
     def test_workers_overlap_and_index_is_sorted(self):
         with patch('cpld_toolchain.toolchain.analysis.documentation.generate_program', overlapping_worker):
             pages = generate(self.root, jobs=2)
-        index = (pages / 'index.rst').read_text()
+        index = (pages / 'release-original.rst').read_text()
         self.assertLess(index.index('program-original-alpha'), index.index('program-original-zeta'))
         pids = {p.read_text() for p in pages.parent.glob('*.started')}
         self.assertEqual(len(pids), 2)
@@ -103,24 +103,28 @@ class DocumentationSchedulingTests(unittest.TestCase):
         (empty / 'catalog.toml').write_text('programs = []\n')
         (empty / 'description.rst').write_text('Planned cycle without firmware yet.\n')
         with patch('cpld_toolchain.toolchain.analysis.documentation.generate_program') as worker:
-            pages = generate(self.root, jobs=1, release_cycle='all')
+            pages = generate(self.root, jobs=1)
         self.assertEqual([call.args[2] for call in worker.call_args_list],
                          ['next/alpha', 'original/alpha', 'original/zeta'])
         index = (pages / 'index.rst').read_text()
-        self.assertIn('program-next-alpha', index)
-        self.assertIn('program-original-alpha', index)
-        self.assertIn('No complete program manifests', index)
-        self.assertIn('.. include:: ../../../programs/empty/description.rst', index)
-        self.assertIn('.. include:: ../../../programs/next/description.rst', index)
-        self.assertLess(index.index('programs/next/description.rst'), index.index('program-next-alpha'))
-        self.assertNotIn('programs/original/description.rst', index)
+        self.assertIn('   release-empty', index)
+        self.assertIn('   release-next', index)
+        self.assertIn('   release-original', index)
+        self.assertNotIn('program-original-alpha', index)
+        next_page = (pages / 'release-next.rst').read_text()
+        self.assertIn('alpha <program-next-alpha>', next_page)
+        self.assertIn('alpha <program-original-alpha>', (pages / 'release-original.rst').read_text())
+        empty_page = (pages / 'release-empty.rst').read_text()
+        self.assertIn('No complete programs match', empty_page)
+        self.assertIn('.. include:: ../../../programs/empty/description.rst', empty_page)
+        self.assertLess(next_page.index('programs/next/description.rst'), next_page.index('program-next-alpha'))
         with patch('cpld_toolchain.toolchain.analysis.documentation.generate_program') as worker:
             pages = generate(self.root, jobs=1, release_cycle='next')
         self.assertEqual([call.args[2] for call in worker.call_args_list], ['next/alpha'])
-        index = (pages / 'index.rst').read_text()
-        self.assertNotIn('program-original-alpha', index)
-        self.assertNotIn('programs/empty/description.rst', index)
-        self.assertIn('programs/next/description.rst', index)
+        self.assertNotIn('release-original', (pages / 'index.rst').read_text())
+        self.assertFalse((pages / 'release-original.rst').exists())
+        self.assertFalse((pages / 'release-empty.rst').exists())
+        self.assertIn('programs/next/description.rst', (pages / 'release-next.rst').read_text())
 
     def test_documentation_lock_prevents_cleanup_and_other_generators(self):
         from cpld_toolchain.toolchain.buildsystem.workflow import clean_all, workspace_lock

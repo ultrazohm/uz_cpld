@@ -86,12 +86,14 @@ class CommandTests(unittest.TestCase):
             self.assertNotEqual(commands.main(['test']), 0)
         run.assert_called_once()
 
-    def test_docs_scope_is_current_unless_all_is_explicit(self):
+    def test_docs_scope_is_all_unless_a_release_is_explicit(self):
         with patch.object(commands, 'resolve_release', return_value='selected'):
             args = self.calls('docs')[0].argv
-            self.assertIn('selected', args)
-            args = self.calls('docs', release_cycle='all')[0].argv
             self.assertIn('all', args)
+            args = self.calls('docs-assets')[0].argv
+            self.assertIn('all', args)
+            args = self.calls('docs', release_cycle='heartbeat')[0].argv
+            self.assertIn('heartbeat', args)
         with self.assertRaises(BuildError):
             self.calls('build-all', release_cycle='all')
 

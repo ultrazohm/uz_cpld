@@ -14,8 +14,8 @@ Document a cycle
 Write release-wide documentation in ``programs/<release_cycle>/description.rst``; for example, ``programs/original/description.rst``.
 Describe the cycle's purpose, intended hardware, S3C/D-slot protocol compatibility, and validation limits.
 Keep program-specific routing and behavior in ``programs/<release_cycle>/<program>/description.rst``.
-The generated program index includes the release description above that cycle's program list, including for empty cycles.
-Use paragraphs and ``.. rubric::`` headings without a top-level title; the index supplies the cycle heading.
+Each generated release page includes its description above the program list, including for empty cycles.
+Use paragraphs and ``.. rubric::`` headings without a top-level title; the release page supplies the cycle heading.
 Use absolute Sphinx document paths, such as ``/s3c``, for links to shared guides.
 Existing cycles without a description remain supported.
 

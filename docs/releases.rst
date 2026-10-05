@@ -93,10 +93,6 @@ They are outside the MachXO2 release-cycle catalog and are not selected by ``--r
 Program reference
 -----------------
 
-The generated catalog groups individual program descriptions, simulation evidence and available RTL schematics by release.
-It contains the scope selected during documentation generation; use ``python -m cpld_toolchain docs --release-cycle all`` to include every cycle.
-
-.. toctree::
-   :maxdepth: 2
-
-   _generated/programs/index
+Browse :doc:`Programs <_generated/programs/index>` for the release pages and their individual programs.
+Documentation generation includes every release by default.
+Use ``--release-cycle NAME`` only when intentionally building a smaller documentation preview.

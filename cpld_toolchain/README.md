@@ -1,38 +1,24 @@
 # CPLD toolchain
 
-One command-line program with three separate components:
+The `python -m cpld_toolchain` CLI contains three components:
 
-- `cpld_vhdl_generator/`: deterministic CSV/TOML-to-VHDL generation.
-- `toolchain/`: builds, simulation, documentation, releases and environment setup.
-- `programmer_helper/`: programmer selection, identification and flashing.
+- `cpld_vhdl_generator/`: CSV/TOML-to-VHDL generation.
+- `toolchain/`: firmware builds, simulation, documentation, releases and setup.
+- `programmer_helper/`: selection, JTAG identification and Flash programming.
 
-Run from the repository root:
+See the [user guide](../docs/user/index.rst) for usage and the
+[developer guide](../docs/developer/index.rst) for setup, tests and implementation references.
+Both include a quick start reference.
+Run `python -m cpld_toolchain help --command ACTION` for command options.
 
-```sh
-python -m cpld_toolchain help
-python -m cpld_toolchain new --name my_slot --template generator
-python -m cpld_toolchain generate --program cvg_my_slot
-python -m cpld_toolchain build --program cvg_my_slot
-python -m cpld_toolchain init
-python -m cpld_toolchain program --target dslot --dry-run 1
-```
-
-Existing `make ACTION key=value` commands use the same dispatcher.
-Install with `pip install .` for the `cpld-toolchain` command. Repository workflows
-require a checkout containing `programs/`, `archive/` and the supporting tools.
-The standalone generator can also run outside a checkout:
+Install with `python -m pip install .` for the `cpld-toolchain` executable.
+Repository workflows require the complete checkout and their external tools.
+The standalone generator also runs outside a checkout:
 
 ```sh
 cpld-toolchain generator generator.toml --output .
 cpld-toolchain generator generator.toml --output . --check
 ```
 
-The `cpld-vhdl-generator` executable remains available. Python imports now use
-`cpld_toolchain.cpld_vhdl_generator`, `cpld_toolchain.toolchain` and
-`cpld_toolchain.programmer_helper`. Component module entry points remain available
-under those qualified names. Shared HDL remains in `xo2_library/`.
-Repository-wide build artifacts now live in `cpld_toolchain/toolchain/build/`;
-existing artifacts should be rebuilt after migration.
-
-See the [quickstart](../docs/quick-start.rst) and
-[generator reference](cpld_vhdl_generator/README.md).
+`cpld-vhdl-generator` exposes the standalone generator directly.
+See the [generator reference](../docs/vhdl-generator.rst).

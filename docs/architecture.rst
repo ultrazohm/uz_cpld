@@ -26,8 +26,7 @@ Source layout
    │   └── <release_cycle>/
    │       ├── catalog.toml   firmware catalog
    │       └── <name>/        TOML, VHDL, LPF, testbench and description.rst
-   ├── docs/                  shared Sphinx source
-   └── archive/               vendor reference projects and material
+   └── docs/                  user guide, developer guide and Sphinx references
 
 Run ``python -m cpld_toolchain`` or the installed ``cpld-toolchain`` command.
 The three components retain separate modules and tests within one package.
@@ -37,7 +36,7 @@ Generator-managed projects use editable CSV/TOML inputs to produce the VHDL, tes
 Generated VHDL references the shared S3C entity and selected architecture in ``xo2_library/s3c``.
 The build system validates generated files through the standalone package, while the generator itself has no build-system dependency.
 Firmware build artifacts live under each program's ignored ``build/`` directory, while aggregate reports use ``cpld_toolchain/toolchain/build/`` and documentation uses ``docs/_generated/`` and ``docs/_build/``.
-The repository has one Makefile and one Dockerfile, with a default Dev Container configuration and an optional Linux USB configuration.
+The repository has one Makefile and one Dockerfile, with host-mounted and Diamond-image Dev Container profiles, each with an optional Linux USB configuration.
 
 Design decisions
 ----------------
@@ -66,7 +65,7 @@ Python integration
    from cpld_toolchain.toolchain.buildsystem.model import load_build
    from cpld_toolchain.toolchain.buildsystem.workflow import build_program
 
-   config = load_build(Path("/path/to/uz_cpld"), "tx30")
+   config = load_build(Path("/path/to/uz_cpld"), "cvg_tx30", release_cycle="heartbeat_cvg")
    output_dir = build_program(config)
 
 Use workflow functions to retain locking and provenance checks; backend methods are lower-level interfaces.

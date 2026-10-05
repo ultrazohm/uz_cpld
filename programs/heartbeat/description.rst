@@ -1,161 +1,42 @@
-.. rubric:: Scope and provenance
+This cycle contains the handwritten ``s3c_heartbeat`` controller and 29 handwritten D-slot programs.
+All manifests select Diamond, Synplify and VHDL-2008.
+D-slots use the shared ``s3c.s3c_logic(heartbeat)`` receiver.
 
-The ``heartbeat`` release contains ``s3c_heartbeat`` and all 29 D-slot programs
-that instantiate the heartbeat receiver in
-``feature/add_dig3v35v_configs_heartbeat`` at commit
-``bcfc7ee37d79eb2068b7d0dab166f0fa2e8833f7``. Archive content is excluded.
-The S3C targets the LCMXO2-4000HC-4TG144C; the D-slots target the
-LCMXO2-2000HC-4TG100C.
+.. rubric:: Protocol
 
-All program manifests select Synplify and VHDL-2008, matching the feature branch.
-The previously built ``s3c_heartbeat`` Diamond LSE image has a reproduced startup
-failure: unsupported Gray encoding falls back to one-hot encoding without a
-working startup reset, leaving power off and the red LED asserted. See the
-S3C program description for the netlist reproduction and the disposable
-sequential-encoding experiment. The S3C HDL sources remain unchanged;
-successful build/export results do not establish working hardware startup.
+CarrierReady carries heartbeat and ReqSafeState is a separate active-high static request.
+Receivers require 16 qualifying edges, inclusive 10--52-clock intervals and a 208-clock no-edge timeout at nominal 2.08 MHz.
+Before qualification all declared data outputs, SlotOK and ReqOE are zero; qualification clears startup inhibition.
+After qualification a malformed interval or timeout latches system_error until power-on initialization or reconfiguration.
+Runtime reset and restored heartbeat do not clear a latched fault.
+Static safe-state assertion is clock-independent; release takes two rising edges while heartbeat monitoring continues.
+See :doc:`/xo2-library` for clock, reset and supply-domain limits.
 
-The D-slot ports use ``s3c.s3c_logic(heartbeat)`` from ``xo2_library``.
-The branch's normal/safe routing, port directions, card-enable decoding,
-oscillator wiring and shared LPF are preserved. A latched system-error override
-now forces every declared data output to zero. Each program records its
-original source paths and hashes, reversible controller and routing edits, and routing
-expectations in ``upstream.json``. ``dslot-ports.json`` inventories the 29 imports.
-Names remain unchanged, including the historical ``tx30_hearbeattesting`` spelling.
-These are handwritten imports; the receiver integration does not require a
-CSV conversion or change the declared directions of unused pins.
+.. rubric:: Routing
 
-.. rubric:: Included D-slot programs
+The 16 voltage variants select TX/RX for groups 00--07, 08--15, 16--23 and 24--29.
+TX is FPGA to adapter and gated low in safe state; RX is adapter to FPGA and remains active in safe state.
+All routes are zero in system_error.
+The inverter, encoder, resolver and RX-only programs keep their assigned routes active in safe state.
+``uz_d_temperature_ltc2983`` keeps channels 00--18 active and gates outputs 19--29.
+``optical_14tx_4rx`` implements 26 TX and four RX routes.
+``tx30_hearbeattesting`` exposes raw CarrierReady on outputs 00 and 01 in normal/safe state and is a diagnostic program.
+Program descriptions list individual gated, ungated, high-impedance and enable-controlled pins.
 
-The 16 ``voltage_8rx_8rx_8rx_6rx`` through
-``voltage_8tx_8tx_8tx_6tx`` variants cover all RX/TX combinations for channel
-groups 00--07, 08--15, 16--23 and 24--29. TX is FPGA to adapter, gated low in
-safe state. RX is adapter to FPGA and remains active in normal and safe states;
-it is zero in system_error.
+Pilot is unused and ReqOE is high in normal and safe states.
+Low SlotOK alone does not mean that every route is disabled; S3C SlotOK inputs do not cause the implemented hard-error decisions.
+ReqOE zero disables external buffers and does not guarantee physical pins are driven low.
+LPFs request ``TRACEID "0000000000"`` and ``SLAVE_SPI_PORT=ENABLE``; review vendor diagnostics and board pulls for these settings.
+Managed builds allocate USERCODE independently.
 
-The other 13 imports are ``optical_14tx_4rx``, ``rx30``, ``template_dslots``,
-``tx16_14rx``, ``tx20_10rx``, ``tx26_w_enable``, ``tx30``,
-``tx30_hearbeattesting``, ``uz_d_3ph_inverter``, ``uz_d_abs_encoder``,
-``uz_d_resolver_d1_to_d4``, ``uz_d_resolver_d5`` and
-``uz_d_temperature_ltc2983``. Each program description lists its gated,
-ungated and undriven outputs. No unrelated programs from ``original`` or
-archive have been added.
+.. rubric:: Validation
 
-.. rubric:: Protocol and deliberate differences
-
-Digital CarrierReady carries heartbeat and ReqSafeState is a separate,
-active-high static request. The receiver uses the shared defaults at nominal
-2.08 MHz: 16 qualifying edges, an inclusive 10--52-clock interval window,
-and a 208-clock no-edge timeout. Pair these programs with ``s3c_heartbeat``;
-the ``original`` cycle is not a declared compatible firmware set.
-
-The following differences from the branch receiver are intentional:
-
-* Before first qualification, a malformed interval restarts the edge count.
-  After first qualification, malformed intervals or timeout latch system_error.
-  Restored heartbeat and runtime reset cannot clear that fault.
-  The branch can remain valid during malformed trains and can qualify a
-  malformed final edge using the previous counter value.
-* The shared implementation measures actual edge intervals and times out at
-  208 clocks. The branch effectively accepts intervals of 11--53 clocks and
-  times out at 209 clocks.
-* Static ReqSafeState assertion remains clock-independent. Its release requires
-  two rising clock edges, whereas the branch releases combinationally.
-  Heartbeat monitoring continues during the request and does not require
-  fresh qualification on release if it remains valid.
-* Card enable is synchronized. In ``tx26_w_enable``, ``template_dslots`` and
-  ``uz_d_abs_encoder``, changes to the decoded 0/0/1/1 pattern on FPGA inputs
-  26--29 take two sampling edges to affect state/status, rather than acting
-  combinationally. Whether this latency and sampling of brief enable changes
-  satisfy each card's requirements remains a hardware/application review point.
-
-Pilot is ignored, matching every imported program, and ReqOE remains high in
-normal and safe states. In system_error, all data outputs, SlotOK and ReqOE
-are zero. Low SlotOK alone indicates denied normal-state permission; it does not
-mean every data output has been disabled. See :doc:`/xo2-library` for the
-shared receiver's timing and clock-failure limitations.
-
-The fault monitor arms on the first complete 16-edge qualification, including
-qualification during a safe request. Before that, ``system_error`` is asserted and all data outputs, SlotOK and ReqOE
-are zero. This startup inhibition clears automatically on first qualification;
-missing or malformed startup heartbeat does not latch a permanent fault. Once armed, monitoring continues through safe
-requests and runtime reset. Only CPLD power-on initialization clears the fault;
-reconfiguration can also reinitialize it. Full-system-only recovery depends on
-power/retention arrangements, because local D-slot power loss also clears it.
-S3C shutdown intentionally stops heartbeat and faults any still-powered slot.
-ReqOE zero disables the external output drivers; RTL zero does not guarantee
-that a disabled external buffer drives a physical zero.
-
-.. rubric:: Preserved behaviors requiring review
-
-* ``uz_d_3ph_inverter``, ``uz_d_abs_encoder``, both resolver programs, ``rx30``
-  and the all-RX voltage variant retain all their assigned data routes in safe
-  state. A static ReqSafeState affects SlotOK but does not gate those routes.
-  A heartbeat fault after qualification now enters system_error and zeros them.
-  In particular, the inverter's forwarded outputs continue when normal-state
-  permission is denied. The S3C does not currently turn SlotOK into an FSM
-  fault, so that status signal is not a substitute for route gating.
-  These inherited policies require application review; this port does not
-  change them.
-* ``uz_d_temperature_ltc2983`` intentionally keeps channels 00--18 active,
-  including the LTC2983 interfaces and reset. Only outputs 19--29 are gated in safe state; all outputs are zero in system_error.
-* ``tx30_hearbeattesting`` exposes raw CarrierReady on adapter outputs 00 and
-  01 in normal and safe states. Both are zero in system_error.
-  It is a lab diagnostic, not a normal tx30 replacement.
-* ``tx26_w_enable`` and ``template_dslots`` originally left outputs 26--29
-  undriven; ``uz_d_resolver_d5`` originally declared 23 undriven outputs.
-  They now explicitly drive Z in normal/safe and zero in system_error.
-  Their upstream declarations remain recorded in the provenance metadata.
-* The branch's names do not always describe all routes: ``optical_14tx_4rx``
-  also forwards FPGA channels 18--29, for a total of 26 gated TX and four RX
-  routes. All of those assignments are preserved.
-* LPFs are byte-identical to the shared branch LPF, including electrical pulls,
-  configuration options and TRACEID. Managed builds inject their own USERCODE
-  into a generated copy. Pin/electrical compatibility with the actual card
-  revision still requires review; no 3.3 V/5 V hardware configuration change
-  is inferred from a program name.
-* Diamond reports the preserved ``TRACEID "0000000000"`` as invalid because
-  it exceeds eight bits. Firmware export succeeds, but that TRACEID setting
-  must not be treated as successfully applied. Selecting a valid value is an
-  open constraint issue; the managed USERCODE is separately verified.
-* ``SLAVE_SPI_PORT=ENABLE`` reserves the SN pin. Diamond warns that an external
-  pull-up is needed when the slave SPI configuration port is not used.
-  The board configuration must be checked before changing this option.
-* LSE reports ignored initialization values on some heartbeat age-counter
-  bits, along with unused-port/net warnings. Qualification also depends on
-  its initialized valid flag and edge counter; RTL simulation alone does not
-  establish the fitted startup behavior. Review mapped startup and board
-  behavior before claiming hardware qualification.
-
-The previously identified S3C behaviors remain unchanged: power-good loss is
-filtered by an approximately 10 ms debounce before heartbeat gating, enabling
-the heartbeat can create a one-clock startup pulse, and a healthy heartbeat
-does not detect a static ReqSafeState line stuck low. The D-slot cannot measure
-elapsed time while its own clock is stopped; qualification can be stale after
-that clock resumes. These are documented limits, not fixes in this migration.
-
-.. rubric:: Build and validation
-
-Each D-slot manifest supports Diamond and includes a cocotb test that checks
-all normal/safe routes against pinned upstream expectations, the all-zero
-system-error override, persistence after heartbeat recovery, asynchronous safe
-assertion, two-edge request release, and all 16 card-enable combinations where used.
-Shared-controller tests cover malformed intervals and persistence through reset.
-Source-fidelity tests reconstruct the original source bytes from the recorded
-patches and check preserved normal/safe routing, the mandatory error override,
-port directions and constraints.
-The original S3C snapshot and its existing validation remain in the release.
+D-slot tests exercise routes, safe-state requests, system-error persistence and enable combinations where used.
+Shared-library tests cover interval boundaries and runtime-reset behavior.
+The S3C test accelerates its oscillator/tick stimulus; neither RTL simulation nor firmware export establishes fitted startup or board timing.
 
 ::
 
-   make sim release_cycle=heartbeat target=dslot
-   make build-all release_cycle=heartbeat backend=diamond
-   make report release_cycle=heartbeat backend=diamond
-   make docs release_cycle=heartbeat
-
-Simulation drives the unbound oscillator and uses accelerated clock timing.
-Diamond builds verify compilation and firmware export, not board safety or
-physical fault-response times. All manifests select Synplify, matching the
-branch's project settings. FOSS firmware support and hardware programming are
-outside this port. Refer to each retained build report for warnings and timing
-acceptance; a successful export is not a hardware qualification claim.
+   python -m cpld_toolchain sim --release-cycle heartbeat
+   python -m cpld_toolchain build-all --release-cycle heartbeat
+   python -m cpld_toolchain docs --release-cycle heartbeat

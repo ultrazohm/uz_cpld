@@ -4,9 +4,9 @@ FOSS firmware pipeline
 ::
 
    make doctor backend=foss
-   make build program=tx30 backend=foss
+   make build program=tx30 backend=foss release_cycle=original
    make build-all backend=foss
-   make clean program=tx30 backend=foss
+   make clean program=tx30 backend=foss release_cycle=original
 
 ``backend`` defaults to ``diamond``; ``backend=foss`` selects the same program HDL, authored LPF and board target through the open-source pipeline.
 FOSS compilation and tool checks use installed tools in the calling environment; enter the toolchain container explicitly if the host lacks them.
@@ -33,8 +33,8 @@ For native Linux amd64 setup, install GHDL and the shared Python requirements, t
    python3 cpld_toolchain/toolchain/foss/build_nextpnr.py --suite /your/writable/path/oss-cad-suite
    export FOSS_ROOT=/your/writable/path/oss-cad-suite
    make flasher-build
-   python3 -m cpld_toolchain.toolchain.buildsystem doctor --backend foss
-   python3 -m cpld_toolchain.toolchain.buildsystem build --program tx30 --backend foss
+   python3 -m cpld_toolchain doctor --backend foss
+   python3 -m cpld_toolchain build --program tx30 --release-cycle original --backend foss
 
 The suite and nextpnr installers refuse existing destinations and verify archive checksums before extraction.
 ``make flasher-build`` verifies its source and patch checksums and replaces its local installation after compilation and tests pass.
@@ -97,8 +97,10 @@ The FOSS backend exports ``.bit``; Diamond exports JEDEC files.
 Constraints and limits
 ----------------------
 
-Diamond PIO names such as ``PT22A`` are translated through the selected XO2-2000 TQFP100 or XO2-4000 TQFP144 package database. Numeric package pins are accepted for either target.
-For the S3C target, the LPF must declare the Rev05 board's six bank voltages. The FOSS flow checks each assigned pin's ``IO_TYPE`` against its bank and writes the three 1.8 V bank enums using locations decoded from the archived Diamond S3C image.
+Diamond PIO names such as ``PT22A`` are translated through the selected XO2-2000 TQFP100 or XO2-4000 TQFP144 package database.
+Numeric package pins are accepted for either target.
+For the S3C target, the LPF must declare the Rev05 board's six bank voltages.
+The FOSS flow checks each assigned pin's ``IO_TYPE`` against its bank and writes the three 1.8 V bank enums using the bank encodings implemented in the FOSS backend.
 The verified exception is the pair of LVCMOS33 open-drain outputs on bank-2 pins 41 and 50, described below.
 Unloaded input ports are removed before routing; remaining IO must have explicit pin constraints, with automatic unconstrained placement disabled.
 Constraints for absent ports are listed in the report, including the inherited ``CPLD_DIGOUT_01`` entries.
@@ -110,7 +112,7 @@ Vector bit constraints use the synthesized port index range, including nonzero o
 ``SDM_PORT``, ``SLAVE_SPI_PORT`` and ``I2C_PORT`` are applied as database-validated CFG tile enums before packing.
 ``MCCLK_FREQ`` accepts only ``2.08``, using the default MachXO2 encoding checked against a Diamond reference.
 The backend converts the oscillator's packed ASCII ``NOM_FREQ`` parameter to the string expected by nextpnr and checks it against ``MCCLK_FREQ``.
-An omitted ``NOM_FREQ`` uses the MachXO2 primitive's 2.08 MHz default, including the preserved Rev06 source whose synthesis directives hide its generic.
+An omitted ``NOM_FREQ`` uses the MachXO2 primitive's 2.08 MHz default, including the Rev06 source whose synthesis directives hide its generic.
 The managed build replaces authored ``USERCODE`` values with the code allocated by ``programs/usercodes.json`` and passes it to the packer; see :doc:`firmware-identity`.
 ``TRACEID`` is retained in provenance but is not encoded by this backend.
 The LPF reset/asynchronous-path exclusions are recorded without establishing a timing acceptance budget.
@@ -118,9 +120,9 @@ The LPF reset/asynchronous-path exclusions are recorded without establishing a t
 Upstream MachXO2 support is experimental.
 Successful exports and synthesis equivalence do not establish matching Diamond bitstreams, electrical defaults, timing closure or hardware qualification.
 
-``s3c_power_on_debounce`` extracts the archived ``S3C_171224`` controller for both firmware backends and simulation.
+``original/s3c_power_on_debounce`` uses its program-local VHDL for both firmware backends and simulation.
 Its FOSS LPF omits ``JTAG_PORT=DISABLE``, which Trellis cannot reproduce, explicitly preserves Diamond's two bank-2 open-drain outputs, and translates one-based VHDL vector indices to zero-based Verilog indices.
-``s3c_rev6_beta`` uses the same adaptations in its separate FOSS LPF while retaining the original Diamond LPF and imported HDL bytes.
+``s3c_rev6_beta`` uses the same adaptations in its separate FOSS LPF while using its Diamond LPF and program-local HDL.
 The remaining configuration differences, startup proof counterexample, and incomplete safety outputs require review before hardware use.
 
 S3C output electrical configuration
@@ -129,7 +131,8 @@ S3C output electrical configuration
 Both S3C controllers declare bank 2 at 1.8 V but assign ``LVCMOS33`` to ``SD_SEL`` (pin 41) and ``FlexMio61ExternalStop`` (pin 50).
 Diamond 3.14 selects open-drain operation when ``OPENDRAIN`` is unspecified for this combination.
 An isolated Diamond build rejects the same combination with ``OPENDRAIN=OFF``; changing it to ``LVCMOS18`` instead produces ordinary push-pull outputs.
-The original author's intent is not established by those constraints alone. The FOSS port preserves the observed Diamond behavior.
+The original author's intent is not established by those constraints alone.
+The FOSS port preserves the observed Diamond behavior.
 
 The FOSS LPFs therefore retain ``LVCMOS33`` and explicitly request ``OPENDRAIN=ON PULLMODE=NONE DRIVE=12 SLEWRATE=SLOW`` on these two outputs.
 The original Diamond LPFs remain unchanged.
@@ -137,12 +140,14 @@ The original Diamond LPFs remain unchanged.
 The pinned Trellis ``DRIVE`` encoding was characterized with LVCMOS33 at its normal bank voltage and overlaps the open-drain field.
 Packing nextpnr's unmodified ``OPENDRAIN`` and ``DRIVE`` enums therefore does not reproduce Diamond's bank-2 configuration.
 The build completes these two output encodings using the Diamond reference and checks the entire relevant electrical field after packing and decoding.
-A mismatch fails the build before firmware export. ``metadata/reports/constraints.json`` records each verified pin.
+A mismatch fails the build before firmware export.
+``metadata/reports/constraints.json`` records each verified pin.
 This is a check of these two output buffers, separate from the logic-equivalence proof; it does not establish equivalence of every device setting or board behavior.
 
 The reference can be reproduced by building either S3C program with ``backend=diamond`` and decoding its exported ``.bit`` with ``ecpunpack``.
 The relevant tiles are ``PB4:PIC_B0`` and ``PB13:PIC_B0``, both PIOB.
-Diamond's pad report specifies open drain, 12 mA and slow slew. The set electrical bits are ``F0B18 F5B10 F5B12 F5B14 F5B20 F5B24 F5B36``.
+Diamond's pad report specifies open drain, 12 mA and slow slew.
+The set electrical bits are ``F0B18 F5B10 F5B12 F5B14 F5B20 F5B24 F5B36``.
 The decoder represents this as ``PIOB.BASE_TYPE INPUT_LVCMOS18``, ``PIOB.OPENDRAIN ON``, ``PIOB.PULLMODE NONE`` and unknown bits ``F0B18`` and ``F5B10``.
 The apparent input type is an overlapping decoder alias; ``F0B18`` enables the output.
 The regression test packs and decodes this configuration, rejects the uncorrected drive overwrite, and detects a changed drive encoding even when open-drain remains enabled.
@@ -167,95 +172,79 @@ References
 Heartbeat comparison pilot
 --------------------------
 
-``heartbeat_cvg/cvg_tx30`` opts into FOSS. Other heartbeat slots and the S3C
-remain Diamond-only. Build and check the pilot with installed tools::
+``heartbeat_cvg/cvg_tx30`` opts into FOSS.
+Other heartbeat slots and the S3C remain Diamond-only.
+Build and check the pilot with installed tools::
 
    make build program=cvg_tx30 release_cycle=heartbeat_cvg backend=foss
    make compare program=cvg_tx30 release_cycle=heartbeat_cvg backend=foss
 
-``make compare`` currently supports only the FOSS backend and only the
-``heartbeat_cvg/cvg_tx30`` pilot. Specify ``backend=foss`` explicitly.
-``backend=diamond`` and an omitted backend (the former combined comparison)
-fail immediately with an explanatory error, before tools run or existing
-comparison reports are replaced. They do not silently fall back to FOSS.
+``make compare`` currently supports only the FOSS backend and only the ``heartbeat_cvg/cvg_tx30`` pilot.
+Specify ``backend=foss`` explicitly.
+``backend=diamond`` and an omitted backend fail immediately with an explanatory error, before tools run or existing comparison reports are replaced.
+They do not silently fall back to FOSS.
 
 ``compare`` consumes fresh build artifacts and writes ``build/comparison/``.
-It simulates the synthesized circuit represented by a mapped netlist, not the
-``.bit`` or ``.jed`` programming file. The reference is derived from the original
-VHDL using GHDL. Functional simulation and the recorded FOSS synthesis proof
-must pass; a passing result does not establish Diamond equivalence, routed
-timing, or physical hardware behavior. No hardware is programmed.
+It simulates the synthesized circuit represented by a mapped netlist, not the ``.bit`` or ``.jed`` programming file.
+The reference is derived from the original VHDL using GHDL.
+Functional simulation and the recorded FOSS synthesis proof must pass; a passing result does not establish Diamond equivalence, routed timing, or physical hardware behavior.
+No hardware is programmed.
 
-``make check`` is a separate manifest/input validation command and works with
-both backends. Diamond ``make build`` and ``make build-all`` remain supported.
+``make check`` is a separate manifest/input validation command and works with both backends.
+Diamond ``make build`` and ``make build-all`` remain supported.
 
-Diamond exports mapped Verilog using ``MapVerilogSimFile`` and routed Verilog/SDF
-using ``TimingSimFileVlg``. The mapped snapshot is retained as
-``reports/comparison_mapped.v``. FOSS retains ``reports/reference.v`` from GHDL
-alongside synthesized and routed JSON. These exports are hashed in build records.
+Diamond exports mapped Verilog using ``MapVerilogSimFile`` and routed Verilog/SDF using ``TimingSimFileVlg``.
+The mapped snapshot is retained as ``reports/comparison_mapped.v``.
+FOSS retains ``reports/reference.v`` from GHDL alongside synthesized and routed JSON.
+These exports are hashed in build records.
 
-The command expands mapped cell models using the pinned Yosys MachXO2 library;
-unsupported primitives fail elaboration. It replaces the single always-enabled
-OSCH with a common ideal clock in comparison copies only. The firmware oscillator
-is unchanged. Each netlist runs six Icarus Verilog scenarios: timeout, too-fast
-and too-slow heartbeat, each introduced in normal and safe state. Tests cover
-unarmed startup, invalid startup traffic, qualification, inclusive 10/52-clock
-intervals, walking data patterns, safe pulses between clock edges, and error
-persistence after heartbeat recovery and control changes. Output traces must
-match the reference at every checkpoint. Each scenario starts a fresh process
-with declared initial values. This tests initialization, not physical power
-sequencing. The slot ties reset low; runtime reset remains covered by controller
-RTL tests.
+The command expands mapped cell models using the pinned Yosys MachXO2 library; unsupported primitives fail elaboration.
+It replaces the single always-enabled OSCH with a common ideal clock in comparison copies only.
+The firmware oscillator is unchanged.
+Each netlist runs six Icarus Verilog scenarios: timeout, too-fast and too-slow heartbeat, each introduced in normal and safe state.
+Tests cover unarmed startup, invalid startup traffic, qualification, inclusive 10/52-clock intervals, walking data patterns, safe pulses between clock edges, and error persistence after heartbeat recovery and control changes.
+Output traces must match the reference at every checkpoint.
+Each scenario starts a fresh process with declared initial values.
+This tests initialization, not physical power sequencing.
+The slot ties reset low; runtime reset remains covered by controller RTL tests.
 
-The FOSS proof checks all outputs and retained internal match points. Asynchronous
-FFs use Yosys ``async2sync`` in proof copies only, with its negative-hold-time
-assumption. Event-driven simulation retains the asynchronous FF semantics. The
-pilot blacklist removes only ``controller.n225_o`` as an internal matching point:
-GHDL emits this conditional edge-counter increment, whose unused intermediate
-value can change after optimization without changing the consuming registers.
-No output is excluded and no logic is removed. A changed compiled signal name
-fails blacklist validation and requires re-evaluation. Initialized-state checks
-must also pass for ``compare`` to pass.
+The FOSS proof checks all outputs and retained internal match points.
+Asynchronous FFs use Yosys ``async2sync`` in proof copies only, with its negative-hold-time assumption.
+Event-driven simulation retains the asynchronous FF semantics.
+The pilot blacklist removes only ``controller.n225_o`` as an internal matching point: GHDL emits this conditional edge-counter increment, whose unused intermediate value can change after optimization without changing the consuming registers.
+No output is excluded and no logic is removed.
+A changed compiled signal name fails blacklist validation and requires re-evaluation.
+Initialized-state checks must also pass for ``compare`` to pass.
 
 Diamond comparison limitation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The real Diamond mapped simulation export contains ``$setuphold`` timing checks
-that the current Yosys Verilog frontend rejects before simulation or formal
-verification. Delayed signals such as ``CLK_dly`` and vendor cells such as
-``FL1P3DX`` and ``PUR`` also require validated functional modeling. Removing
-``specify`` blocks alone can leave signals undriven. This is an import/modeling
-limitation, not evidence that the Diamond circuit differs from the VHDL.
+The real Diamond mapped simulation export contains ``$setuphold`` timing checks that the current Yosys Verilog frontend rejects before simulation or formal verification.
+Delayed signals such as ``CLK_dly`` and vendor cells such as ``FL1P3DX`` and ``PUR`` also require validated functional modeling.
+Removing ``specify`` blocks alone can leave signals undriven.
+This is an import/modeling limitation, not evidence that the Diamond circuit differs from the VHDL.
 
-VHDL input is possible through the GHDL-Yosys plugin, so Verilog is not a
-requirement of the proof engine. However, Diamond's VHDL export uses VITAL timing
-models; changing the export language alone does not establish formal-import
-compatibility. Potential repairs include a validated functional conversion of
-the mapped export or a VHDL import path with suitable functional cell models.
+VHDL input is possible through the GHDL-Yosys plugin, so Verilog is not a requirement of the proof engine.
+However, Diamond's VHDL export uses VITAL timing models; changing the export language alone does not establish formal-import compatibility.
+Potential repairs include a validated functional conversion of the mapped export or a VHDL import path with suitable functional cell models.
 Both must preserve initialization, reset, enable and power-up behavior.
 
-Simplified primitive tests did not establish compatibility with real Diamond
-exports. CI runs the FOSS-only pilot comparison; its Diamond job builds and
-packages firmware without running a combined comparison. Re-enabling Diamond
-comparison requires real-export integration coverage, including tests that
-detect deliberately corrupted behavior. Parser success or a simulation pass
-alone is insufficient to establish equivalence.
+Simplified primitive tests did not establish compatibility with real Diamond exports.
+CI runs the FOSS-only pilot comparison; its Diamond job builds and packages firmware without running a combined comparison.
+Re-enabling Diamond comparison requires real-export integration coverage, including tests that detect deliberately corrupted behavior.
+Parser success or a simulation pass alone is insufficient to establish equivalence.
 
-``report.json`` records FOSS checks, tool/model hashes, build-record hashes,
-artifacts and FOSS clock timing. Electrical/global configuration comparison
-between Diamond and FOSS is not performed by the supported FOSS-only command.
+``report.json`` records FOSS checks, tool/model hashes, build-record hashes, artifacts and FOSS clock timing.
+Electrical/global configuration comparison between Diamond and FOSS is not performed by the supported FOSS-only command.
 
 Remaining qualification steps are explicit in the report:
 
 * Review electrical settings, package pins and output-enable behavior.
-* Define board input/output and asynchronous-path timing budgets and check both
-  timing reports. The oscillator clock limit alone is insufficient.
-* If needed, simulate Diamond's routed netlist with its SDF and vendor timing
-  models in a supported simulator. Automated post-route timing simulation is not
-  implemented here; FOSS routed JSON is retained for further work.
-* Program each image on the same board and check heartbeat boundaries, data
-  outputs, SlotOK/ReqOE, startup, fault persistence and recovery after slot power
-  is removed and restored.
+* Define board input/output and asynchronous-path timing budgets and check both timing reports.
+  The oscillator clock limit alone is insufficient.
+* If needed, simulate Diamond's routed netlist with its SDF and vendor timing models in a supported simulator.
+  Automated post-route timing simulation is not implemented here; FOSS routed JSON is retained for further work.
+* Program each image on the same board and check heartbeat boundaries, data outputs, SlotOK/ReqOE, startup, fault persistence and recovery after slot power is removed and restored.
 
 Passing functional checks does not mark those remaining steps complete.
 The S3C toolchain test program exercises the second device and package but does not implement the carrier's operating state machine.

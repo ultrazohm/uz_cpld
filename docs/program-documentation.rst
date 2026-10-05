@@ -4,7 +4,7 @@ Program diagrams and waveforms
 ::
 
    make docs jobs=4
-   make netlist program=tx26_w_enable
+   make netlist program=tx26_w_enable release_cycle=original
 
 ``make docs`` discovers complete program manifests in the current release, generates RTL schematics, runs its testbench with seed 1 and builds a Sphinx page.
 Use ``release_cycle=all`` for all releases, or ``program=NAME`` and ``target=dslot|s3c`` to filter.
@@ -97,10 +97,10 @@ References
 * `Plotly HTML export <https://plotly.com/python/interactive-html-export/>`_
 * `UltraZohm documentation dependencies <https://github.com/ultrazohm/ultrazohm_sw/blob/main/docs/requirements.txt>`_
 
-Preserved historical HDL
-------------------------
+Declared netlist omissions
+--------------------------
 
-A program can declare ``netlist_skip_reason`` in its manifest when unchanged historical HDL cannot be synthesized by GHDL.
+A program can declare ``netlist_skip_reason`` in its manifest when its HDL cannot be synthesized by GHDL.
 The value must be a nonempty explanation and is displayed in place of the RTL schematic on the program page.
 Simulation remains mandatory, and unexpected netlist failures for other programs still fail documentation generation.
 Catalog netlist export reports the declared omission; explicitly requesting that program's netlist fails with the explanation.

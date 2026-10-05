@@ -1,340 +1,125 @@
-Programming CPLDs
-=================
+Programmer reference
+====================
 
-Managed flash programming verifies registered USERCODE identities after writing.
-The FOSS programmer requires the pinned patched loader supplied by the toolchain image or ``make flasher-build``; stock loaders are rejected before flash writes.
-See :doc:`firmware-identity`.
+For the build/select/program workflow, see :doc:`user/index`.
+Run from the checkout with Diamond Programmer and its cable driver, or the pinned FOSS tools.
+Containers also need USB access and device permissions; see :doc:`environments`.
+S3C and D-slots require different physical UltraZohm access states.
 
-Run these commands from the repository inside the USB-enabled devcontainer.
-``programmer_backend=diamond`` is the default programming and scan tool. The container user needs permission to open
-the USB device; see :doc:`environments`. Diamond also requires the mounted Linux
-installation and license.
+Selection and release
+---------------------
 
-The UltraZohm must be in different physical states for S3C and D-slot access.
-Prepare it for one target at a time and change its physical state before
-accessing the other target.
+::
 
-Create and edit the selection
------------------------------
+   python -m cpld_toolchain init
+   python -m cpld_toolchain list --release-cycle heartbeat_cvg
+   python -m cpld_toolchain program --target dslot --selection selection.toml
 
-Run::
+``init`` creates ``selection.toml`` and preserves an existing file.
+The template contains ``release = ""``, ``s3c = "s3c_power_on_debounce"`` and ``tx30`` for slots 1 through 5.
+These program names belong to ``original``; edit the release and assignments before using another cycle.
+``--release-cycle`` takes precedence over the selection's ``release``, then the current cycle in ``programs/releases.toml``.
+Build commands do not read the selection: build every distinct assignment with the same explicit release.
+Programming requires current successful builds and never builds automatically.
+If the selection is absent, ``program`` creates a template and exits without accessing hardware.
 
-   make init
+D-slot programming requires all five ``[slots]`` entries (keys ``"1"`` through ``"5"``).
+S3C programming requires only ``s3c``; the unused chain may be omitted.
+Slots identify physical JTAG positions, not catalog order.
+All selected programs come from one release.
 
-This creates ``selection.toml`` in the current directory and preserves an
-existing file. New files contain these editable defaults::
+Backends and probes
+-------------------
 
-   release = ""
-   s3c = "s3c_power_on_debounce"
-
-   [slots]
-   "1" = "tx30"
-   "2" = "tx30"
-   "3" = "tx30"
-   "4" = "tx30"
-   "5" = "tx30"
-
-``release = ""`` (or an omitted field) uses the current release from
-``programs/releases.toml``. Set ``release = "NAME"`` to select another release.
-The command-line ``release_cycle=NAME`` takes precedence over the file.
-Programming and XCF export use this release for every selected program.
-Discover available releases and programs with::
-
-   make release-list
-   make list
-   make list release_cycle=NAME
-
-Fill ``s3c`` for S3C programming, or all five slots for D-slot programming.
-The unused target can remain blank or be omitted. Slot numbers are physical
-JTAG positions, not catalog order. XCF export requires all six assignments.
-
-Use ``make init selection=FILE`` to create a template at a custom path.
-If ``make program target=dslot`` (or ``target=s3c``) finds no selection file, it creates the template
-and exits without accessing hardware. Review it, then run
-``make program target=dslot`` or ``target=s3c``.
-Existing selection files are never overwritten by initialization.
-Pass ``selection=FILE`` to programming or XCF export to use that file.
-
-Choose the build and programmer independently
----------------------------------------------
-
-Both backends default to ``diamond``. ``backend=foss`` explicitly selects FOSS
-firmware and programming together. ``build_backend=NAME`` and
-``programmer_backend=NAME`` override their respective parts independently.
-Selection files contain program assignments and a release. Legacy
-``build_backend`` fields are accepted for compatibility but no longer select a backend.
-
-Identification and post-programming readback honor the programmer backend:
-Diamond uses native display operations; FOSS identification uses OpenOCD.
-No command falls back to a different backend when a tool is unavailable.
+``--backend`` defaults to ``diamond`` and sets both firmware and programmer defaults.
+``--build-backend`` and ``--programmer-backend`` override them independently on programming commands.
+Selection files do not select backends.
 
 .. list-table:: Supported combinations
    :header-rows: 1
 
-   * - Build backend
+   * - Firmware backend
      - Programmer backend
-     - Firmware used
-   * - ``diamond``
-     - ``diamond``
-     - Diamond ``.jed`` through an XCF
-   * - ``diamond``
-     - ``foss``
-     - Diamond ``.jed`` directly through openFPGALoader
-   * - ``foss``
-     - ``foss``
-     - FOSS ``.bit`` through openFPGALoader
-
-FOSS builds with the Diamond programmer are unsupported. The helper rejects
-that combination before contacting hardware. It never substitutes builds from
-another backend.
-
-For example, program Diamond builds with the FOSS programmer::
-
-   make build program=tx30 backend=diamond
-   make program target=dslot programmer_backend=foss dry_run=1
-   make program target=dslot programmer_backend=foss
-
-To use FOSS builds for one invocation instead::
-
-   make program target=dslot programmer_backend=foss build_backend=foss
-
-Build those programs with ``make build program=NAME backend=foss`` first.
-Alternatively, use ``make program target=dslot backend=foss`` to select both FOSS backends.
-
-Scan the connected chain
-------------------------
-
-Read JTAG IDs with Diamond::
-
-   # D-slots are the default target.
-   make scan
-
-   # Change the UltraZohm physical state before accessing S3C.
-   make scan target=s3c
-
-Or use FOSS::
-
-   make scan target=dslot programmer_backend=foss
-   # Change the UltraZohm physical state before accessing S3C.
-   make scan target=s3c programmer_backend=foss
-
-Scans execute immediately and require neither a selection file nor firmware
-builds. Release and build-backend settings are not accepted for scans. Add ``dry_run=1`` to preview the scan
-without contacting hardware. Diamond checks IDs against the expected chain;
-FOSS reports the devices it discovers.
-
-.. list-table:: Expected JTAG chains
-   :header-rows: 1
-
-   * - Target
-     - Devices
-     - ID code per device
-   * - ``dslot``
-     - Five LCMXO2-2000HC
-     - ``0x012BB043``
-   * - ``s3c``
-     - One LCMXO2-4000HC
-     - ``0x012BC043``
-
-Build the selected firmware
----------------------------
-
-Programming requires successful, current builds for the selected
-``build_backend``, regardless of the programmer tool.
-With the default selection, build each distinct program once::
-
-   make build program=tx30 backend=diamond
-   make build program=s3c_power_on_debounce backend=diamond
-
-When selecting ``build_backend=foss`` on the command line, use ``backend=foss`` on each build
-instead. Build any other programs chosen in the selection file in the same way.
-
-**Build commands do not read selection.toml.** If its release differs from the
-repository default, pass the same ``release_cycle=NAME`` to each build::
-
-   make build program=tx30 backend=diamond release_cycle=NAME
-   make build program=s3c_power_on_debounce backend=diamond release_cycle=NAME
-
-``make program=NAME`` remains the firmware-build shortcut. Programming commands
-do not automatically build firmware and reject missing or stale build evidence.
-
-Preview and program Flash
--------------------------
-
-Validate the selection and print a plan without contacting hardware::
-
-   make program target=dslot dry_run=1
-   make program target=s3c dry_run=1
-
-Program D-slots with Diamond::
-
-   make program target=dslot
-
-After changing the UltraZohm to its S3C access state, program S3C::
-
-   make program target=s3c
-
-The default ``s3c_power_on_debounce`` firmware uses the normal programming
-command with no program-specific override. Build freshness, artifact hashes,
-board compatibility and JTAG chain checks still apply.
-
-To use the FOSS programmer with the selected builds, use::
-
-   make program target=dslot programmer_backend=foss
-   # Change the UltraZohm physical state before programming S3C.
-   make program target=s3c programmer_backend=foss
-
-These commands **immediately erase, program, and verify Flash**. Programming
-requires an explicit target and only operates on that target. The Diamond programmer uses Diamond
-``.jed`` builds. The FOSS programmer uses Diamond ``.jed`` or FOSS ``.bit``
-builds according to ``build_backend``. There is no SRAM programming mode.
-Use ``dry_run=1`` for a preview; ``execute=0`` is not accepted by the public interface.
-
-A custom selection and release can be supplied together::
-
-   make program target=dslot selection=my_selection.toml release_cycle=NAME
-
-Generating Lattice Programmer projects
---------------------------------------
-
-``programmer_helper`` generates separate five-device D-slot and one-device S3C XCF files from published Diamond JEDEC exports. Its programming command can erase, program and verify device Flash through Diamond Programmer or openFPGALoader.
-
-Review the six assignments in ``selection.toml``, then run::
-
-   make programmer-project
-
-Or use a custom selection file::
-
-   make programmer-project selection=my_programmer_selection.toml
-
-To build the selected Diamond firmware before exporting::
-
-   make programmer-project rebuild=1
-
-The TOML file has top-level ``release`` and ``s3c`` fields and a ``[slots]`` table with keys ``"1"`` through ``"5"``. Each program name is resolved within the selected release. ``make programmer-project`` defaults to ``selection.toml`` and requires all six assignments. It validates board compatibility and checks that each Diamond JEDEC matches a successful, current build. Add ``rebuild=1`` to rebuild the selected Diamond programs before those checks. Project generation does not contact hardware.
-These stable XCF exports reference published build files for use in Lattice Programmer; the direct programming command creates separate execution plans and firmware snapshots.
-``dry_run=1`` prints the resolved command without creating files or accessing hardware.
-Build freshness and firmware provenance are checked when the command executes.
-
-Release selection follows command-line ``release_cycle``, then TOML ``release``, then the repository's current release. All selected programs come from that cycle.
-
-The generated files are ``cpld_toolchain/toolchain/build/programmer/<release_cycle>/dslots.xcf``, ``s3c.xcf`` and ``selection.json``. The receipt records the chosen programs and SHA-256 hashes of the JEDEC and XCF files. The helper copies device positions and programming options from the archived XCFs, replaces each JEDEC path, time, fuse checksum and usercode, and removes archived USB serial numbers. Both generated chains default to USB2 port ``FTUSB-1``, matching the verified UltraZohm connection; confirm the port on your programming station. Use ``make programmer-project probe_index=N`` to select ``FTUSB-N`` in both exported projects. The generated XCFs contain absolute paths and must be regenerated after moving the checkout or rebuilding the firmware.
-
-Open the XCFs in Lattice Programmer to inspect or program each chain manually.
-Their configured operation is ``FLASH Erase,Program,Verify``. Generating the
-files does not perform that operation. The CLI's ``make program``
-generates its own target-specific XCF, so running ``make programmer-project`` first is optional.
-XCF export requires ``programmer_backend=diamond`` and
-``build_backend=diamond``, both defaults. Explicit FOSS backend requests are rejected.
-``rebuild=1`` rebuilds the selected Diamond programs before export.
-
-Backend execution details
--------------------------
-
-Diamond runs ``pgrcmd`` on a generated XCF. FOSS runs openFPGALoader with
-``--write-flash --verify --usercode XXXXXXXX`` on the selected builds. It accepts Diamond JEDEC files
-as supported by the `openFPGALoader Lattice implementation
-<https://github.com/trabucayre/openFPGALoader/blob/master/src/lattice.cpp>`_,
-and continues to use bitstreams for FOSS builds.
-
-``make scan`` reads IDs and ``make program`` writes Flash; both execute by default. Use ``dry_run=1`` for a preview. FOSS uses openFPGALoader ``--detect`` and reports the ID codes it sees, including unexpected devices. Diamond makes a temporary XCF containing only ``FLASH Display ID`` operations and runs ``pgrcmd``; its output and the exact XCF are retained under ``cpld_toolchain/toolchain/build/programmer/scans/``. Diamond uses the archived expected chain positions, so its result is an ID check against that chain rather than unrestricted chain discovery. Neither scan command needs firmware builds or a selection file. For programming, the FOSS path first scans and checks the entire JTAG chain: five 2000HC devices at indices 0–4 for D-slots, or one 4000HC at index 0 for S3C. It stops before writing if the scan does not match. The Diamond path creates a unique plan under ``cpld_toolchain/toolchain/build/programmer/<cycle>/<chain>/plans/plan-*/`` and applies ``probe_index`` to its USB2 port. Each plan contains its own XCF and verified JEDEC snapshots. Execution checks the requested positions, snapshot hashes and current firmware hashes; a rebuild that changes the firmware requires a new plan. It uses the device and position checks built into that XCF. The separate ``make programmer-project`` command generates both XCFs and requires all six assignments.
-
-Connection defaults and overrides
----------------------------------
-
-.. list-table:: Current backend defaults for both targets
-   :header-rows: 1
-
-   * - Setting
+     - Artifact
+   * - Diamond
      - Diamond
+     - ``.jed`` through XCF
+   * - Diamond
      - FOSS
-   * - Connection
-     - ``FTUSB-1``
-     - ``ft4232_b``, USB probe index ``0``
-   * - FTDI channel
-     - B / USB interface 1
-     - B / USB interface 1
-   * - JTAG clock
-     - ``TCKDelay=3``; observed 7.5 MHz on this station
-     - 1 MHz
+     - ``.jed`` through patched openFPGALoader
+   * - FOSS
+     - FOSS
+     - ``.bit`` through patched openFPGALoader
 
-FOSS defaults to ``ft4232_b`` (FT4232 channel B) and USB probe index 0 for both targets.
-Both physical CPLD chains use the same programmer; change the UltraZohm physical state between targets.
-These openFPGALoader probe indices do not necessarily match Diamond's ``FTUSB-N`` ports, which can enumerate interfaces of a single FTDI chip.
-FOSS scans accept ``probe_index=N``, ``usb_serial=SERIAL`` and ``cable=NAME`` overrides.
-Managed programming and identity reads support only ``ft4232_b`` with FOSS probe index 0 or an explicit serial, and Diamond ``FTUSB-1``.
-The identity readers and automatic detach mapping must be extended before another wiring or probe-index mapping can be used for managed programming.
-A past cycle can be chosen with ``release_cycle=NAME``.
-The selected build backend must have successful, current builds for the selected programs.
-Programming writes logs and a ``result.json`` receipt under ``cpld_toolchain/toolchain/build/programmer/<cycle>/runs/`` for FOSS and ``cpld_toolchain/toolchain/build/programmer/<cycle>/<chain>/plans/plan-*/runs/`` for Diamond.
+Diamond cannot program FOSS exports.
+Missing tools never cause an automatic backend change.
+FOSS identity reads use OpenOCD; managed FOSS programming requires the verified USERCODE-capable loader, supplied in the image or built with ``flasher-build``.
+See :doc:`firmware-identity` for installation and identity checks.
 
-On the UltraZohm FT4232 with serial ``0100206000050``, both commands below read the S3C ``LCMXO2-4000HC`` ID ``0x012BC043`` in a live container check::
+Both chains use FT4232 channel B.
+Diamond defaults to ``--probe-index 1`` (``FTUSB-1``); FOSS defaults to ``--cable ft4232_b --probe-index 0`` at 1 MHz.
+Managed programming and identification support these mappings; FOSS also accepts ``--usb-serial SERIAL`` instead of the probe index.
+FOSS scans permit other cable/index selections, but those do not extend the managed reader's supported wiring.
 
-   make scan target=s3c programmer_backend=foss cable=ft4232_b usb_serial=0100206000050
-   make scan target=s3c programmer_backend=diamond probe_index=1
+Scan, identify and program
+--------------------------
 
-Here, FOSS uses FT4232 channel B and Diamond uses ``FTUSB-1``. The old archived S3C port ``FTUSB-0`` returned an all-zero ID on this setup, so generated XCFs and scans now default to ``FTUSB-1``. ``FLASH Display ID`` is the MachXO2 operation name; the generic ``Display ID`` is rejected by Diamond. Despite its name, ``FLASH Display ID`` only reads the ID and does not program Flash.
+::
 
-The container needs access to the USB device and its user must have permission to open it; see :doc:`environments`. Diamond additionally needs the mounted Linux installation and license.
+   python -m cpld_toolchain scan --target dslot
+   python -m cpld_toolchain identify --target dslot
+   python -m cpld_toolchain program --target dslot --dry-run 1
+   python -m cpld_toolchain program --target dslot
 
-Automatic FTDI driver handling
-------------------------------
+``scan`` and ``identify`` default to D-slots and execute immediately.
+Neither needs firmware builds or a selection file.
+They do not accept release or build-backend options.
+``program`` requires an explicit target and immediately erases, programs and verifies Flash; it has no SRAM mode.
+After changing the hardware access state, use ``--target s3c`` for S3C.
+``--dry-run 1`` validates CLI options and prints the resolved invocation without writes or hardware access.
+It does not validate selection contents, firmware freshness or hardware readiness.
 
-Diamond scans and programming temporarily detach ``ftdi_sio`` from the UltraZohm
-FT4232 JTAG interface through libusb. The driver is restored after Diamond exits,
-including after a command failure or interruption. An interface that was already
-unbound is left unbound. Channels A, C, and D are not detached. No host module
-unloading, added container capabilities, writable sysfs, or container rebuild is
-needed. The container image already includes ``libusb-1.0``.
+Diamond scans check expected XCF device positions; FOSS scans report discovered IDs.
+The expected D-slot chain has five LCMXO2-2000HC devices (``0x012BB043``); S3C has one LCMXO2-4000HC (``0x012BC043``).
+FOSS programming checks the whole chain before writing.
+Diamond execution validates its XCF positions and verified JEDEC snapshots.
+Both paths check build provenance and verify the registered USERCODE after programming.
+A readback failure marks the run failed even if the Flash write completed.
 
-The fixed wiring is ``FTUSB-1`` on USB interface ``1`` (channel B). For future
-hardware changes, edit ``DEFAULT_DIAMOND_PORT`` in ``cpld_toolchain/programmer_helper/helper.py``
-and ``JTAG_INTERFACE`` in ``cpld_toolchain/programmer_helper/usb.py``. That module also defines
-the FT4232 vendor/product IDs (``0403:6011``). The helper requires a single matching
-FT4232 device and refuses ambiguous device selection. Concurrent helper operations
-on the same interface are rejected. ``dry_run=1`` and ``programmer-project`` never detach
-a driver. Running an exported XCF directly in the Diamond GUI does not use this
-Python wrapper.
-
-Restoration is attempted after normal errors, Ctrl-C, and SIGTERM. A forced kill
-or USB disconnection can prevent cleanup; reconnect the device if the driver
-cannot be restored. The live integrated D-slot scan detected all five
-``LCMXO2-2000HC`` devices while ``ftdi_sio`` stayed loaded, then restored channel B.
-
-The S3C controller's validation coverage and inherited design limitations are
-documented in ``programs/original/s3c_power_on_debounce/description.rst``.
-Programming does not change those validation records.
-
-Logs and receipts
------------------
-
-Before contacting hardware, programming prints the selected release and program
-name for S3C or each D-slot, followed by both backend choices and artifact paths.
-``dry_run=1`` prints the resolved command; identity summaries are produced during execution. Each programming ``result.json``
-also records ``programmer_backend`` and ``build_backend`` alongside artifact
-paths and hashes.
-
-All programmer outputs are under ``cpld_toolchain/toolchain/build/programmer/``:
-
-* Diamond scans: ``scans/<timestamp>/``, containing ``scan.xcf``, ``stdout.log``
-  and ``pgrcmd.log``.
-* FOSS scans: ``scan.log`` (replaced by the next scan).
-* Diamond programming: ``<release>/<chain>/runs/<timestamp>/``, containing logs
-  and ``result.json``. The internal chain name is ``dslots`` or ``s3c``.
-* FOSS programming: ``<release>/runs/<timestamp>/``, containing detection and
-  programming logs and ``result.json``.
-* XCF export: ``<release>/dslots.xcf``, ``<release>/s3c.xcf`` and
-  ``<release>/selection.json``.
-
-Use ``make help`` for the command summary grouped by tool. Hardware commands are
-``scan``, ``identify`` and ``program``; ``programmer-project`` exports XCFs.
-Run one action per invocation.
-
-Firmware identification
+Export Diamond projects
 -----------------------
 
-Use ``make identify target=dslot`` or ``target=s3c`` to read USERCODE and TraceID and resolve the program and build revision.
-See :doc:`firmware-identity` for the registry, automatic allocation, reader dependencies and supported probe selection.
-Managed programming now requires this reader and verifies the observed USERCODE after programming, recording each physical device in ``result.json``.
-The general FOSS cable options above remain available for scans; identification requires the documented FT4232 channel-B reader wiring.
-Managed FOSS programming requires the verified patched openFPGALoader, which writes and checks USERCODE for both JEDEC and compressed bitstream inputs.
+::
+
+   python -m cpld_toolchain programmer-project
+   python -m cpld_toolchain programmer-project --selection selection.toml --rebuild 1
+
+XCF export requires Diamond for both backends, all six assignments, and current JEDEC builds.
+``--rebuild 1`` builds the selected programs before exporting.
+It writes ``dslots.xcf``, ``s3c.xcf`` and ``selection.json`` under ``cpld_toolchain/toolchain/build/programmer/<release>/`` without contacting hardware.
+XCFs reference absolute firmware paths; regenerate them after moving the checkout or rebuilding firmware.
+Their operation is ``FLASH Erase,Program,Verify`` when executed in Lattice Programmer.
+CLI programming creates separate target-specific plans, so prior XCF export is optional.
+
+Execution and logs
+------------------
+
+Diamond runs ``pgrcmd`` with a generated XCF; FOSS runs openFPGALoader with ``--write-flash --verify --usercode``.
+Diamond scan, identity and programming operations on Linux temporarily detach ``ftdi_sio`` from interface 1 and attempt to restore it on exit, errors and interruption.
+Other FTDI interfaces remain attached; an already unbound interface stays unbound.
+The helper rejects ambiguous probes and concurrent operations on the same interface.
+Driver cleanup cannot complete after a forced kill or USB disconnection; reconnect the probe if needed.
+Running XCFs directly in the vendor GUI does not use this wrapper.
+
+Outputs are relative to ``cpld_toolchain/toolchain/build/programmer/``:
+
+* Diamond scans: ``scans/<timestamp>/`` with XCF and logs.
+* FOSS scans: ``scan.log``, replaced by the next scan.
+* Identity reads: ``identification/read-*/``.
+* Diamond programming: ``<release>/<chain>/plans/plan-*/runs/<timestamp>/`` with logs and ``result.json``.
+* FOSS programming: ``<release>/runs/<timestamp>/`` with detection/programming logs and ``result.json``.
+* XCF export: ``<release>/`` with both XCFs and ``selection.json``.
+
+The internal chain names are ``dslots`` and ``s3c``.
+Programming receipts record both backends, firmware hashes and observed device identities.
+A firmware rebuild that changes a snapshot's inputs or artifact invalidates its execution plan.

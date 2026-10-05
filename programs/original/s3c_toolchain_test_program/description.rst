@@ -3,7 +3,7 @@ Purpose
 
 ``s3c_toolchain_test_program`` is a fixed-output example for building and simulating the S3C ``LCMXO2-4000HC-4TG144C`` target.
 
-It is not an S3C power controller; see :doc:`/s3c` for the implemented controller and its source revision.
+It is not an S3C power controller; see :doc:`/s3c` for the implemented controllers and their protocols.
 
 Behavior
 --------

@@ -9,7 +9,7 @@ Read the firmware currently reported by each device without erasing or programmi
 These commands read the device IDCODE, 32-bit USERCODE and 64-bit TraceID over JTAG.
 They resolve the USERCODE through the tracked ``programs/usercodes.json`` registry and print the program, release cycle and build revision.
 No selection file or local firmware exports are required.
-Unknown codes and unregistered revisions are reported explicitly; historical hard-coded values are not guessed.
+Unknown codes and unregistered revisions are reported explicitly.
 ``dry_run=1`` previews the selected backend’s read operations without accessing USB.
 The current physical UltraZohm chain must match the selected target, as for programming.
 
@@ -50,7 +50,7 @@ A failed build can reserve a revision without producing an artifact.
 Both Diamond and FOSS builds embed the allocated USERCODE.
 Diamond uses a generated ``project/constraints.lpf`` containing the authored electrical constraints and the assigned code.
 The FOSS packer receives the allocated value.
-Historical ``USERCODE`` preferences in authored LPFs are replaced in the generated build inputs; the registry owns firmware identification.
+Authored ``USERCODE`` preferences in authored LPFs are replaced in the generated build inputs; the registry owns firmware identification.
 ``TRACEID`` preferences are separate and retain their existing backend behavior.
 The standalone VHDL generator does not allocate identities; allocation belongs to the repository workflow.
 
@@ -96,7 +96,7 @@ The wrapper checks the binary and patch provenance and parses every selected inp
 Stock or modified loaders are rejected before flash writes.
 The patch accepts ``--usercode``, writes the MachXO2 register, waits for completion and verifies it before finishing flash programming.
 JEDEC input must contain the same code; bitstream input uses the code from verified build provenance.
-FOSS builds now emit compressed bitstreams, as required by the MachXO2 internal-flash parser.
+FOSS builds emit compressed bitstreams, as required by the MachXO2 internal-flash parser.
 Plain ``scan`` retains its existing cable options.
 The Linux FTDI interface lock and driver restoration also cover identity reads.
 
@@ -133,10 +133,8 @@ The receipt stores both the full TraceID and its immutable part as ``silicon_id`
 After managed programming, the reader checks every device's USERCODE against the selected build and stores the observed identifiers in ``result.json``.
 The run is only marked successful after this check passes.
 A mismatch or read failure marks the run failed even if the flash write already completed; inspect the logs before retrying.
-Programming old exports without registered identity provenance requires rebuilding them first.
+Exports without registered identity provenance must be rebuilt before managed programming.
 
-The read commands and register semantics follow the `MachXO2 Programming and Configuration User Guide <https://www.latticesemi.com/view_document?document_id=39085>`_,
-`Using TraceID <https://www.latticesemi.com/view_document?document_id=39093>`_ and
-`OpenOCD JTAG command reference <https://openocd.org/doc/html/JTAG-Commands.html>`_.
+The read commands and register semantics follow the `MachXO2 Programming and Configuration User Guide <https://www.latticesemi.com/view_document?document_id=39085>`_, `Using TraceID <https://www.latticesemi.com/view_document?document_id=39093>`_ and `OpenOCD JTAG command reference <https://openocd.org/doc/html/JTAG-Commands.html>`_.
 Hardware-independent tests exercise allocation, generated scripts, parsing and programming readback decisions.
 Diamond identity readback has been validated on the five-device UltraZohm D-slot chain.

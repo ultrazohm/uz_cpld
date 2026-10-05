@@ -1,9 +1,11 @@
-Quick start
-===========
+Program authoring walkthrough
+=============================
 
 This guide follows a D-slot program from authored files through RTL simulation to a firmware export.
-Run every command from the repository root. For native Windows setup, see :doc:`windows`.
-Examples use ``original`` as the current cycle. Set ``release_cycle=NAME`` on a command to override the current cycle; see :doc:`releases`.
+Run every command from the repository root.
+For native Windows setup, see :doc:`windows`.
+Examples explicitly use the ``original`` cycle; they do not depend on the tracked default.
+Use ``--release-cycle NAME`` to choose another; see :doc:`releases`.
 
 Choose CSV generation or clone a program for manual VHDL editing.
 Simulation checks the behavior exercised by the testbench; a firmware build implements the design for the device.
@@ -38,11 +40,11 @@ Generate a program from CSV
 
 Use the generator starter for a D-slot program with normal and safe routing states::
 
-   python -m cpld_toolchain new --name my_slot --template generator
+   python -m cpld_toolchain new --name my_slot --template generator --release-cycle original
    # Edit programs/original/cvg_my_slot/routing.csv
-   python -m cpld_toolchain generate --program cvg_my_slot
-   python -m cpld_toolchain sim --program cvg_my_slot
-   python -m cpld_toolchain build --program cvg_my_slot --backend diamond
+   python -m cpld_toolchain generate --program cvg_my_slot --release-cycle original
+   python -m cpld_toolchain sim --program cvg_my_slot --release-cycle original
+   python -m cpld_toolchain build --program cvg_my_slot --release-cycle original --backend diamond
 
 The starter CSV has 30 transmit routes with low safe-state outputs.
 The directory ``programs/original/cvg_my_slot/`` contains:
@@ -51,7 +53,7 @@ The directory ``programs/original/cvg_my_slot/`` contains:
 * ``generator.toml``: program name, clock, S3C contract, pilot policy and target.
 * ``description.rst``: program documentation.
 
-``python -m cpld_toolchain generate --program cvg_my_slot`` creates:
+``python -m cpld_toolchain generate --program cvg_my_slot --release-cycle original`` creates:
 
 * ``cvg_my_slot.vhdl``: VHDL matching the routing.
 * ``cvg_my_slot_tb.py``: a matching cocotb testbench.
@@ -61,7 +63,7 @@ The directory ``programs/original/cvg_my_slot/`` contains:
 
 Generation validates the project and registers it in ``programs/<release_cycle>/catalog.toml``.
 The starter is excluded from catalog commands until generation succeeds.
-Edit ``routing.csv`` and, when needed, ``generator.toml``, then rerun ``python -m cpld_toolchain generate`` to update the generated files together.
+Edit ``routing.csv`` and, when needed, ``generator.toml``, then rerun ``python -m cpld_toolchain generate --program cvg_my_slot --release-cycle original`` to update the generated files together.
 The generator protects manually edited output files from overwriting.
 The generated testbench checks input/output directions, normal and safe routing, and configured control conditions.
 This workflow uses the ``uz_dslot_xo2`` board constraints, internal MachXO2 clock and Diamond backend.
@@ -72,11 +74,11 @@ Clone a program for manual editing
 
 Clone an existing program, replacing ``my_adapter`` with your program name::
 
-   python -m cpld_toolchain new --name my_adapter --template tx30
+   python -m cpld_toolchain new --name my_adapter --template tx30 --release-cycle original
    # Edit the cloned files listed below
-   python -m cpld_toolchain check --program my_adapter
-   python -m cpld_toolchain sim --program my_adapter
-   python -m cpld_toolchain build --program my_adapter --backend diamond
+   python -m cpld_toolchain check --program my_adapter --release-cycle original
+   python -m cpld_toolchain sim --program my_adapter --release-cycle original
+   python -m cpld_toolchain build --program my_adapter --release-cycle original --backend diamond
 
 ``template`` defaults to ``tx30`` and can name another program to clone.
 The clone is added to ``programs/<release_cycle>/catalog.toml``, so catalog-wide commands and CI include it.

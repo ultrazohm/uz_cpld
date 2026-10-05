@@ -99,5 +99,5 @@ can explicitly opt in with `backends = ["diamond", "foss"]`. The optional
 `foss_equivalence_blacklist = "relative-file.txt"` lists internal synthesis
 match points only, never top-level outputs. The file is included in generation
 provenance; every entry must exist in the mapped design. The heartbeat FOSS
-pilot is `programs/heartbeat_cvg/cvg_tx30`. See `docs/foss.rst` for comparison
+pilot is `programs/heartbeat_cvg/cvg_tx30`. See [FOSS reference](../../docs/foss.rst) for comparison
 commands and the rationale for its single internal match-point exclusion.

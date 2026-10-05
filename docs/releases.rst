@@ -10,7 +10,7 @@ Document a cycle
 ----------------
 
 Write release-wide documentation in ``programs/<release_cycle>/description.rst``; for example, ``programs/original/description.rst``.
-Describe the cycle's purpose, intended hardware, source commits, S3C/D-slot protocol compatibility, and validation limits.
+Describe the cycle's purpose, intended hardware, S3C/D-slot protocol compatibility, and validation limits.
 Keep program-specific routing and behavior in ``programs/<release_cycle>/<program>/description.rst``.
 The generated program index includes the release description above that cycle's program list, including for empty cycles.
 Use paragraphs and ``.. rubric::`` headings without a top-level title; the index supplies the cycle heading.
@@ -33,7 +33,7 @@ The directory name ``build`` is reserved for generated outputs.
 Creating a cycle selects it as current; an existing cycle is never overwritten.
 Without ``from``, a new cycle has an empty catalog and a starter ``description.rst``.
 With ``from``, authored files and the catalog are copied, including unfinished generator starters, while ``build/`` directories and Python caches are excluded.
-The release description is copied too; review it for the new cycle, especially source revisions, compatibility, and validation claims.
+The release description is copied too; review it for the new cycle, especially compatibility and validation claims.
 If the source cycle has no description, a starter is created.
 Complete programs are validated before and after copying.
 Shared HDL and board targets remain shared across cycles; a cycle is not a frozen snapshot of the whole toolchain.

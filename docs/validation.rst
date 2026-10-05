@@ -12,21 +12,16 @@ Run the tooling tests, HDL simulations, FOSS firmware builds and documentation c
 Firmware catalog commands (``list``, ``build-all``, ``report`` and catalog netlist export) select programs from ``programs/<release_cycle>/catalog.toml``.
 Simulation and documentation discover all complete program manifests, including programs outside that catalog.
 ``target=uz_dslot_xo2`` or ``target=uz_s3c_xo2`` filters firmware builds, and backend selection respects each program's ``backends`` list.
-``make generate`` registers completed generator projects in the catalog; unfinished starters are excluded.
-``make check program=tx30`` validates a manifest and its input files, while ``make doctor backend=foss`` checks the FOSS tool installation.
-``make compare program=cvg_tx30 release_cycle=heartbeat_cvg backend=foss`` is a
-separate FOSS-only functional netlist check. Diamond and implicit combined
-comparison requests fail explicitly because real Diamond exports are not yet
-supported by the comparison importer. This does not affect ``make check`` or
-Diamond firmware builds. See :doc:`foss` for the limitation and CI coverage.
+``make generate program=NAME`` registers completed generator projects in the catalog; unfinished starters are excluded.
+``make check program=tx30 release_cycle=original`` validates a manifest and its input files, while ``make doctor backend=foss`` inventories tools and the selected catalog without serving as a readiness gate.
+``make compare program=cvg_tx30 release_cycle=heartbeat_cvg backend=foss`` is a separate FOSS-only functional netlist check.
+Diamond and implicit combined comparison requests fail explicitly because real Diamond exports are not yet supported by the comparison importer.
+This does not affect ``make check`` or Diamond firmware builds.
+See :doc:`foss` for the limitation and CI coverage.
 For Diamond, run ``make doctor backend=diamond`` and ``make build-all backend=diamond`` in a licensed environment.
-The GitHub Actions Diamond job temporarily disables host ASLR before launching the build container,
-then restores the recorded setting in an ``always()`` cleanup step.
-This mitigates an intermittent Diamond 3.14 project-cleanup crash: the diagnostic comparison
-observed zero crashes in 200 attempts with ASLR disabled versus 14 in 200 control attempts.
-It is not a correction of the vendor's observed use-after-free and double-free.
-Diamond commands run once without automatic retries, including native local builds;
-failures retain their logs and partial project state and prevent firmware publication.
+The GitHub Actions Diamond job temporarily disables host ASLR before launching the build container, then restores the recorded setting in an ``always()`` cleanup step.
+Diamond project-cleanup failures remain build failures; the workflow does not treat a firmware export as successful after a vendor error.
+Diamond commands run once without automatic retries, including native local builds; failures retain their logs and partial project state and prevent firmware publication.
 Local builds do not change the host ASLR setting automatically.
 Generated firmware provenance, tool identity, input hashes and output hashes are in each backend directory's ``metadata/build.json``; simulation provenance is in ``build/simulation/metadata/run.json``.
 A passing simulation checks the behavior exercised by its testbench.
@@ -35,13 +30,14 @@ Both firmware backends embed the registry-assigned USERCODE; managed programming
 The flasher's native tests mock JTAG operations, and parser-only checks do not access hardware.
 These software checks do not establish live programming or identity-readback behavior; see :doc:`firmware-identity`.
 For both S3C controllers, FOSS also verifies the packed electrical fields of the two bank-2 open-drain outputs against Diamond before export.
-This check covers pins 41 and 50; it does not compare all electrical settings. Details and per-pin results are in :doc:`/foss` and ``metadata/reports/constraints.json``.
+This check covers pins 41 and 50; it does not compare all electrical settings.
+Details and per-pin results are in :doc:`/foss` and ``metadata/reports/constraints.json``.
 The sequential FOSS induction check alone does not prove startup alignment.
 The initialized-state miter passes for ``cvg_tx30_stateful`` and records output counterexamples for both ``s3c_power_on_debounce`` and ``s3c_rev6_beta``; a successful export does not establish initial-state equivalence for either controller.
 Both controllers leave some output registers unspecified before their startup assignments execute.
 The strict startup comparison allows arbitrary binary values for uninitialized reference registers, while mapped flip-flop models supply definite initial values.
 An eight-step diagnostic comparison that marks unspecified initial registers unknown and ignores undefined reference outputs passes for both controllers; it does not replace the strict check or establish hardware startup behavior.
-The other 18 D-slot programs use combinational equivalence checks and have no sequential startup check.
+The 18 combinational D-slot programs in ``original`` use combinational equivalence checks and have no sequential startup check.
 ``make report backend=foss`` or ``make report backend=diamond`` checks existing build evidence for stale inputs and outputs without rebuilding.
 Neither command establishes hardware behavior or a timing acceptance limit.
 The authored LPFs contain no timing budget, so inspect the reports and board-specific electrical settings before using firmware on hardware.

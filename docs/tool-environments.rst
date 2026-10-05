@@ -1,10 +1,9 @@
 Tools and execution environments
 ================================
 
-Use ``python -m cpld_toolchain ACTION`` from the repository root on Linux or
-Windows. The Makefile is an optional Linux wrapper around the same commands.
-This page separates the Python environment, the external tools, and the
-choice of where a command executes.
+Use ``python -m cpld_toolchain ACTION`` from the repository root on Linux or Windows.
+The Makefile is an optional Linux wrapper around the same commands.
+This page separates the Python environment, the external tools, and the choice of where a command executes.
 
 What each environment provides
 ------------------------------
@@ -29,28 +28,23 @@ What each environment provides
      - A persistent development session using the same Docker image and the mounted checkout.
      - The optional Diamond mount, or USB configuration, when the workflow requires them.
 
-**A venv is still native execution.** It isolates Python packages; it does
-not contain a different operating system, install Diamond, or expose USB
-hardware. Native Python and venv execution have the same external tool
-requirements. Commands always use the calling environment.
-The container already has its Python dependencies, so a venv is not required
-inside it.
+**A venv is still native execution.** It isolates Python packages; it does not contain a different operating system, install Diamond, or expose USB hardware.
+Native Python and venv execution have the same external tool requirements.
+Commands always use the calling environment.
+The container already has its Python dependencies, so a venv is not required inside it.
 
 Workflow matrix
 ---------------
 
-In the table, **included** means supplied by the repository's image or venv
-setup. **Additional setup** means the code can use locally installed tools,
-but those tools are not installed by ``venv``. The Docker column describes
-execution *inside a running container*; start that container explicitly.
+In the table, **included** means supplied by the repository's image or venv setup.
+**Additional setup** means the code can use locally installed tools, but those tools are not installed by ``venv``.
+The Docker column describes execution *inside a running container*; start that container explicitly.
 
-Native Windows entries describe implemented support. Windows CI has been
-configured, but a successful Windows CI run and real Diamond/USB validation
-are not established by the Linux regression results. Native Windows FOSS,
-simulation and analysis integrations are outside the current validation scope.
-Tool availability also does not establish hardware equivalence or timing
-acceptance; the FOSS MachXO2 flow remains experimental. See :doc:`windows`,
-:doc:`foss` and :doc:`validation` for the limits.
+Native Windows entries describe implemented support.
+Windows CI has been configured, but a successful Windows CI run and real Diamond/USB validation are not established by the Linux regression results.
+Native Windows FOSS, simulation and analysis integrations are outside the current validation scope.
+Tool availability also does not establish hardware equivalence or timing acceptance; the FOSS MachXO2 flow remains experimental.
+See :doc:`windows`, :doc:`foss` and :doc:`validation` for the limits.
 
 .. list-table:: Workflows, tools and environments
    :header-rows: 1
@@ -147,14 +141,12 @@ acceptance; the FOSS MachXO2 flow remains experimental. See :doc:`windows`,
      - Compiler/development dependencies not included
      - Compiled flasher included; rebuilding it requires additional development dependencies
 
-``programmer-project --rebuild 1`` also runs Diamond builds, so it needs the
-Diamond installation and license. Without ``--rebuild 1``, exporting an XCF
-uses existing, current build evidence and does not launch Diamond.
+``programmer-project --rebuild 1`` also runs Diamond builds, so it needs the Diamond installation and license.
+Without ``--rebuild 1``, exporting an XCF uses existing, current build evidence and does not launch Diamond.
 
-The shared ``xo2_library`` VHDL itself has no dependency on Python, the venv,
-Docker or this build system. Compile it with the HDL tools used by the consuming
-project. Opening already generated HTML documentation also does not require
-the build toolchain.
+The shared ``xo2_library`` VHDL itself has no dependency on Python, the venv, Docker or this build system.
+Compile it with the HDL tools used by the consuming project.
+Opening already generated HTML documentation also does not require the build toolchain.
 
 Execution environment
 ---------------------
@@ -195,11 +187,9 @@ Build and programmer backends
      - Diamond
      - Unsupported; rejected before programming.
 
-``--backend`` sets both defaults; ``--build-backend`` and
-``--programmer-backend`` override them separately. Programming requires current
-successful builds and does not build firmware automatically. A command preview
-using ``--dry-run 1`` starts no vendor tools and contacts no hardware; it does
-not demonstrate that the required tools, builds or hardware are available.
+``--backend`` sets both defaults; ``--build-backend`` and ``--programmer-backend`` override them separately.
+Programming requires current successful builds and does not build firmware automatically.
+A command preview using ``--dry-run 1`` starts no vendor tools and contacts no hardware; it does not demonstrate that the required tools, builds or hardware are available.
 
 Setup entry points
 ------------------
@@ -214,13 +204,11 @@ For generation and native Diamond work, start with::
 For the bundled simulation, FOSS and documentation tools, start with::
 
    python -m cpld_toolchain image
-   python -m cpld_toolchain sim --program tx30
-   python -m cpld_toolchain build --program tx30 --backend foss
+   docker run --rm -it --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain bash
+   # Run the following commands inside that Linux container.
+   python -m cpld_toolchain sim --program cvg_tx30 --release-cycle heartbeat_cvg
+   python -m cpld_toolchain build --program cvg_tx30 --release-cycle heartbeat_cvg --backend foss
    python -m cpld_toolchain docs
 
-See :doc:`environments` for Linux tools, container mounts and USB permissions;
-:doc:`windows` for native Windows setup; :doc:`foss` for pinned native FOSS
-tools; and :doc:`commands` for the complete command contract. A venv can be
-extended with the Python packages in ``docs/requirements.txt`` for native
-Linux analysis and simulation, but GHDL, Yosys, Graphviz and other external
-executables must still be installed separately.
+See :doc:`environments` for Linux tools, container mounts and USB permissions; :doc:`windows` for native Windows setup; :doc:`foss` for pinned native FOSS tools; and :doc:`commands` for the complete command contract.
+A venv can be extended with the Python packages in ``docs/requirements.txt`` for native Linux analysis and simulation, but GHDL, Yosys, Graphviz and other external executables must still be installed separately.

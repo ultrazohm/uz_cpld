@@ -1,74 +1,34 @@
-This cycle contains the same ``s3c_heartbeat`` controller as ``heartbeat`` and
-recreates its 28 non-diagnostic D-slot programs using ``cpld_vhdl_generator``.
-D-slot program names use the generator's ``cvg_`` prefix. The generator supports D-slot routing;
-the S3C is a handwritten copy with identical HDL, constraints, manifest,
-testbench and upstream provenance. It was cloned with::
+This cycle contains ``s3c_heartbeat`` and 28 CSV-generated D-slot programs with ``cvg_`` names.
+The S3C is handwritten; D-slot projects use ``routing.csv``, ``generator.toml`` and the shared ``s3c_heartbeat_v1`` contract.
+All programs select Synplify and VHDL-2008 for Diamond builds.
+``cvg_tx30`` also supports FOSS; the other manifests enable Diamond only.
 
-   make new name=s3c_heartbeat template=s3c_heartbeat template_release_cycle=heartbeat release_cycle=heartbeat_cvg
+.. rubric:: Behavior
 
-Use ``heartbeat_cvg/s3c_heartbeat`` when selecting the controller for this cycle.
-The reviewed S3C reset and power-good changes were reverted in both releases;
-the original behavior and documented limitations apply.
-The ultimate routing source is ``feature/add_dig3v35v_configs_heartbeat`` at
-``bcfc7ee37d79eb2068b7d0dab166f0fa2e8833f7``; ``migration.json`` records the
-current handwritten source hashes, copied S3C hashes and per-program cleanup.
+Pair the D-slots with this cycle's ``s3c_heartbeat`` controller.
+CarrierReady supplies heartbeat and ReqSafeState requests safe state independently.
+Before qualification system_error inhibits all declared data outputs, SlotOK and ReqOE; first qualification clears this inhibition.
+After qualification malformed heartbeat or timeout latches system_error; restored heartbeat and runtime reset do not clear it.
+Static safe-state assertion is clock-independent and release takes two edges.
+See :doc:`/xo2-library` for timing and power-domain limits.
 
-.. rubric:: Behavior and cleanup
-
-Every assigned normal/safe route and card-enable pattern is preserved.
-Pilot is unused, SlotOK follows normal permission, and ReqOE remains high in
-normal and safe states.
-The shared ``s3c_heartbeat_v1`` contract selects ``s3c.s3c_logic(heartbeat)``:
-ReqSafeState asserts safe state without a clock, recovery takes two clock
-edges, and heartbeat qualification continues during safe-state requests.
-Before first qualification, ``system_error`` inhibits every declared data output,
-SlotOK and ReqOE. First qualification clears this startup inhibition automatically.
-Ungated routes remain active even in safe state, including the legacy inverter,
-encoder and resolver mappings. After the first qualified heartbeat, loss or
-malformed timing latches ``system_error``. Every declared data output, SlotOK
-and ReqOE is then zero, including those normally ungated routes. CSV cannot
-override this policy. Restored heartbeat and runtime reset cannot clear it.
-See :doc:`/xo2-library` for timing, power-on initialization, supply-domain and
-clock limitations; disabling output drivers does not force external pins low.
-
-The diagnostic ``tx30_hearbeattesting`` program is deliberately omitted.
-Previously declared but undriven outputs in ``template_dslots``,
-``tx26_w_enable`` and ``uz_d_resolver_d5`` are now unused input ports, following
-the generator's routing model. Their names are listed in the corresponding
-program descriptions and ``migration.json``. No fixed output value is invented.
-Unused inputs may be optimized away; physical pad behavior still depends on
-Diamond's unused-pin configuration and board pulls and requires hardware review.
-
-All projects select Synplify and VHDL-2008, matching ``heartbeat``.
-The generator supplies the standard D-slot board constraints: pin locations,
-electrical settings and system configuration match the source release, while
-the generator's existing TraceID default is ``00000001`` instead of
-``0000000000``. Firmware identity is allocated independently for this release.
-Obsolete dummy keep-signals and handwritten controller wiring are replaced by
-the generator's shared-controller instantiation.
+CSV routing defines normal and safe values; routes with matching values remain active in safe state.
+Pilot is unused, SlotOK follows normal permission, and ReqOE stays high in normal/safe states.
+System_error overrides every declared output to zero regardless of CSV values.
+Unused pins are inputs and may be optimized away; physical behavior depends on device configuration and board pulls.
 
 .. rubric:: Editing and validation
 
-Edit a program's ``routing.csv`` and ``generator.toml``, then use::
+Edit CSV/TOML inputs and regenerate; the generator owns the VHDL, manifest, LPF, testbench and freshness receipt.
 
-   make generate program=cvg_tx30 release_cycle=heartbeat_cvg
-   make check program=cvg_tx30 release_cycle=heartbeat_cvg
-   make sim release_cycle=heartbeat_cvg
-   make build-all release_cycle=heartbeat_cvg backend=diamond
+::
 
-For the D-slots, generated VHDL, manifests, constraints and cocotb tests are owned by the
-generator and accompanied by freshness receipts. Regression checks compare
-all routes, enable patterns, pin directions and constraints to ``heartbeat``.
-The S3C regression checks its source and configuration against that release.
-Generated simulations exercise normal/safe routing, the all-zero system-error
-override, fault persistence after heartbeat recovery, and clock-independent
-safe requests. RTL simulation and
-compilation do not establish board-level behavior. Creation-time validation
-passed all 28 RTL simulations and 85 generator, migration and build-system
-regression tests. Diamond ``build-all`` was attempted but stopped before
-synthesis because the installed license host ID did not match the container
-(FlexNet ``-9,57``). No successful firmware build or hardware validation is
-claimed. After restoring the reference S3C and adding it to this cycle, all
-29 program simulations and 18 relevant regression tests passed. Source-equality
-checks cover the copied S3C. The root ``log.md`` records the creation commands,
-manual steps and validation results.
+   python -m cpld_toolchain generate --program cvg_tx30 --release-cycle heartbeat_cvg
+   python -m cpld_toolchain check --program cvg_tx30 --release-cycle heartbeat_cvg
+   python -m cpld_toolchain sim --release-cycle heartbeat_cvg
+   python -m cpld_toolchain build-all --release-cycle heartbeat_cvg
+
+Simulations exercise normal/safe routing, startup inhibition, system-error overrides and fault persistence.
+Regression tests compare routing, enable patterns, pin directions and constraints with the handwritten programs.
+The FOSS ``cvg_tx30`` pilot has a separate mapped-logic comparison command described in :doc:`/foss`.
+Simulation and compilation do not establish board-level behavior; see :doc:`/s3c` and :doc:`/validation`.

@@ -5,33 +5,34 @@ Simulation and tests
 
    make test
    make sim jobs=4
-   make sim program=tx26_w_enable seed=42
-   make sim program=tx30 wave_format=ghw
-   make sim program=rx30 wave_format=fst
+   make sim program=tx26_w_enable seed=42 release_cycle=original
+   make sim program=tx30 wave_format=ghw release_cycle=original
+   make sim program=rx30 wave_format=fst release_cycle=original
 
 ``make test`` runs Python tooling regressions, including mocked vendor failures and VCD interpretation; it does not establish synthesis success.
 ``make sim`` discovers every program manifest in the selected release cycle, or runs the single selected program, using the actual manifest HDL and its cocotb testbench.
 The runner selects each program's declared target, compiles sources in their declared libraries and elaborates the top entity in ``work``.
-Make target/backend overrides are not simulation parameters.
+``--target dslot|s3c`` filters programs by their declared target; firmware backend overrides are not simulation parameters.
 A missing program or failed assertion produces a failing command.
 
 Parallel execution
 ------------------
 
 ``jobs`` limits the number of programs simulated concurrently (default: 4).
-Use ``make sim jobs=1`` for one worker. Pytest-xdist assigns each program to a separate worker process;
-each cocotb testbench and its GHDL simulation run normally within that worker.
+Use ``make sim jobs=1`` for one worker.
+Pytest-xdist assigns each program to a separate worker process; each cocotb testbench and its GHDL simulation run normally within that worker.
 Programs keep separate build directories, waveforms and logs; pytest combines their results into one JUnit report.
 Generator configurations without a generated program manifest are skipped.
 
 Behavior
 --------
 
-The ``tx30`` test drives all inputs low and high, then raises and lowers each input separately while checking every route.
+The ``original/tx30`` test drives all inputs low and high, then raises and lowers each input separately while checking every route.
 It requests safe state with all inputs high and checks that all outputs fall low and recover afterward.
 D-slot routing testbenches exercise data patterns and safe-state transitions.
 ``s3c_toolchain_test_program`` checks its fixed safe-state outputs.
-``s3c_power_on_debounce`` drives the archived controller's internal clock and checks its initial safe-state request, disabled slot outputs, and carrier power request. It does not cover the ready or shutdown transitions.
+``s3c_power_on_debounce`` drives the controller's internal clock and checks its initial safe-state request, disabled slot outputs, and carrier power request.
+It does not cover the ready or shutdown transitions.
 ``s3c_rev6_beta`` checks startup, ready operation, soft stop, STOP/ENABLE priority and supply-failure shutdown with an accelerated timebase.
 A separate GHDL integration test in ``make test`` couples ``s3c_power_on_debounce`` to ``cvg_tx30_stateful`` and exercises startup, ready operation, soft stop and re-enable.
 ``tx26_w_enable`` additionally tests all 16 combinations of its four enable pins.

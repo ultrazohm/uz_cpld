@@ -206,7 +206,7 @@ RTL tests.
 The FOSS proof checks all outputs and retained internal match points. Asynchronous
 FFs use Yosys ``async2sync`` in proof copies only, with its negative-hold-time
 assumption. Event-driven simulation retains the asynchronous FF semantics. The
-pilot blacklist removes only ``controller.n226_o`` as an internal matching point:
+pilot blacklist removes only ``controller.n225_o`` as an internal matching point:
 GHDL emits this conditional edge-counter increment, whose unused intermediate
 value can change after optimization without changing the consuming registers.
 No output is excluded and no logic is removed. A changed compiled signal name

@@ -19,7 +19,8 @@ def run(argv, directory, log):
         result = subprocess.run(argv, cwd=directory, stdout=stream,
                                 stderr=subprocess.STDOUT, timeout=180)
     if result.returncode:
-        raise BuildError(f'Comparison tool failed; see {log}')
+        raise BuildError(f'Comparison tool failed; see {log}\n' +
+                         log.read_text()[-4000:])
 
 
 def normalize(source, top, destination, root, *, mapped=False):
@@ -301,9 +302,9 @@ endtask
 initial begin
   if(!$value$plusargs("FAULT=%s",fault)) $fatal(1,"FAULT required");
   if(!$value$plusargs("SAFE=%d",safe_fault)) $fatal(1,"SAFE required");
-  #1; check(0,0);
-  tick(220); check(0,0); // Absence before qualification is not an error.
-  running=1; period=5; tick(100); check(0,0); // Invalid startup traffic stays unarmed.
+  #1; check(0,1); // Startup inhibits outputs until heartbeat qualification.
+  tick(220); check(0,1); // Absence before qualification keeps outputs inhibited.
+  running=1; period=5; tick(100); check(0,1); // Invalid startup traffic stays unarmed.
   period=21; phase=0; tick(400); check(1,0);
   // Walking one/zero data patterns with a held clock.
   for(i=0;i<30;i=i+1) begin data=30'b1<<i; check(1,0); data=~data; check(1,0); end

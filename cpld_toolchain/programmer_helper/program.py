@@ -87,6 +87,8 @@ def build_selection(root: Path, selection: Path, release_cycle=None, *, target=N
     preflight(list(unique.values()))
     for build in unique.values():
         print(build_program(build))
+    from cpld_toolchain.toolchain.buildsystem.publication import publish
+    print(publish(root, list(unique.values())))
 
 
 def loader_path() -> Path:

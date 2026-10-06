@@ -299,20 +299,23 @@ class FrontendTests(unittest.TestCase):
         def capture(build):
             selected.append((build.name, build.target))
             return build.directory
-        with patch('cpld_toolchain.toolchain.buildsystem.cli.workflow.build_program', side_effect=capture), redirect_stdout(io.StringIO()):
+        with patch('cpld_toolchain.toolchain.buildsystem.cli.workflow.build_program', side_effect=capture), \
+             patch('cpld_toolchain.toolchain.buildsystem.publication.publish'), redirect_stdout(io.StringIO()):
             self.assertEqual(cli_main(['build-all', '--root', str(self.root)]), 0)
         self.assertEqual(len(selected), len(catalog(self.root)))
         self.assertTrue((self.root / 'cpld_toolchain/toolchain/build/validation/original/diamond-catalog/report.md').is_file())
         self.assertIn(('s3c_toolchain_test_program', 'uz_s3c_xo2'), selected)
         selected.clear()
-        with patch('cpld_toolchain.toolchain.buildsystem.cli.workflow.build_program', side_effect=capture), redirect_stdout(io.StringIO()):
+        with patch('cpld_toolchain.toolchain.buildsystem.cli.workflow.build_program', side_effect=capture), \
+             patch('cpld_toolchain.toolchain.buildsystem.publication.publish'), redirect_stdout(io.StringIO()):
             self.assertEqual(cli_main(['build-all', '--root', str(self.root), '--target', 'uz_s3c_xo2']), 0)
         self.assertEqual(selected, [('s3c_toolchain_test_program', 'uz_s3c_xo2'),
                                     ('s3c_power_on_debounce', 'uz_s3c_xo2'),
                                     ('s3c_rev6_beta', 'uz_s3c_xo2')])
         self.assertTrue((self.root / 'cpld_toolchain/toolchain/build/validation/original/diamond-uz_s3c_xo2-catalog/report.json').is_file())
         selected.clear()
-        with patch('cpld_toolchain.toolchain.buildsystem.cli.workflow.build_program', side_effect=capture), redirect_stdout(io.StringIO()):
+        with patch('cpld_toolchain.toolchain.buildsystem.cli.workflow.build_program', side_effect=capture), \
+             patch('cpld_toolchain.toolchain.buildsystem.publication.publish'), redirect_stdout(io.StringIO()):
             self.assertEqual(cli_main(['build-all', '--root', str(self.root), '--target', 'uz_s3c_xo2', '--backend', 'foss']), 0)
         self.assertEqual(selected, [('s3c_toolchain_test_program', 'uz_s3c_xo2'),
                                     ('s3c_power_on_debounce', 'uz_s3c_xo2'),

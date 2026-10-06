@@ -74,6 +74,35 @@ The documentation command performs these tasks for each selected program:
 The retained diagnostics include firmware projects, logs, reports and metadata, simulation traces, netlists, state diagrams, comparison evidence, catalog summaries and the CI identity registry.
 These tasks do not program hardware or establish board timing acceptance; see :doc:`validation` and :doc:`foss` for qualification limits.
 
+Firmware distribution layout
+----------------------------
+
+Successful ``build``, ``build_all`` and ``build_selection`` commands export a snapshot to
+``cpld_toolchain/toolchain/build/publication/<backend>/<release>/``::
+
+   manifest.json
+   <release>/<program>/<target>/<program>_<target>_<backend>.bit
+   <release>/<program>/<target>/<program>_<target>_<backend>.jed
+
+Diamond exports both formats; FOSS exports only ``.bit``.
+The manifest records exactly the builds selected by that invocation, their identities,
+firmware SHA-256 checksums, build provenance and the identity registry snapshot.
+Release defaults, backend selection and target/program filters are unchanged.
+A successful invocation replaces the previous snapshot for that backend and release,
+including removing programs outside the new selection. Other releases and backends remain separate.
+A failed build or export does not replace the previous complete snapshot; inspect the
+command exit status and manifest provenance before using an older snapshot.
+
+Build projects, logs, reports and per-build metadata remain in
+``programs/<release>/<program>/build/<target>_<backend>/`` as working evidence.
+The managed programmer continues to validate that evidence; importing published snapshots
+without a checkout is future work.
+
+CI invokes the same catalog build command once per release with the Diamond backend.
+It then uses the shared exporter to collect every release into ``uz-cpld-firmware.zip``;
+the ZIP has the same internal directory layout and manifest schema as a local snapshot.
+No separate CI compilation or manifest-generation implementation is used.
+
 Firmware commands
 -----------------
 

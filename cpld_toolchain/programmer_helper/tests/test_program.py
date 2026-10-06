@@ -39,11 +39,13 @@ class ProgramTests(unittest.TestCase):
             program.create_selection(selection, release='original', s3c='s3c_power_on_debounce',
                                      slots={i: 'tx30' for i in range(1, 6)})
             with patch.object(program, 'build_program') as build, patch(
-                    'cpld_toolchain.toolchain.buildsystem.backends.diamond.preflight'):
+                    'cpld_toolchain.toolchain.buildsystem.backends.diamond.preflight'), patch(
+                    'cpld_toolchain.toolchain.buildsystem.publication.publish') as publish:
                 program.build_selection(root, selection, backend='foss')
                 configs = [call.args[0] for call in build.call_args_list]
                 self.assertEqual([b.name for b in configs], ['tx30', 's3c_power_on_debounce'])
                 self.assertTrue(all(b.release_cycle == 'original' and b.backend == 'foss' for b in configs))
+                self.assertEqual(publish.call_args.args, (root, configs))
                 build.reset_mock()
                 selection.write_text('release="missing_release"\ns3c="s3c_power_on_debounce"\n')
                 program.build_selection(root, selection, 'original', target='s3c')

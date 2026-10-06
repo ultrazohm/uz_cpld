@@ -132,7 +132,7 @@ jobs:
           sysctl -n kernel.randomize_va_space > "$RUNNER_TEMP/diamond-original-aslr"
           sudo sysctl -w kernel.randomize_va_space=0
           test "$(sysctl -n kernel.randomize_va_space)" = 0
-      - name: Build every catalog program in every release
+      - name: Run local catalog builds for every release and archive firmware
         run: |
           docker run --rm --init --platform linux/amd64 \
             --network=name=bridge,mac-address=10:91:d1:3d:14:ae \
@@ -162,6 +162,7 @@ jobs:
             programs/*/*/build/uz_dslot_xo2_diamond/
             programs/*/*/build/uz_s3c_xo2_diamond/
             cpld_toolchain/toolchain/build/validation/*/diamond-catalog/
+            cpld_toolchain/toolchain/build/publication/diamond/
           if-no-files-found: warn
           retention-days: 14
 

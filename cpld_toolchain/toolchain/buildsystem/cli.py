@@ -133,6 +133,8 @@ def main(argv: list[str] | None = None) -> int:
                                  backend=args.backend or 'diamond', release_cycle=cycle, build_errors=build_errors))
             if failed:
                 raise BuildError('Failed programs: ' + ', '.join(failed))
+            from .publication import publish
+            print(publish(root, builds))
         elif args.command == 'report':
             from .report import catalog_report
             builds, selection_errors = selected_builds(collect_errors=True)
@@ -154,6 +156,9 @@ def main(argv: list[str] | None = None) -> int:
                     preflight([build])
                 action = workflow.build_program if args.command == 'build' else getattr(workflow, args.command)
                 result = action(build)
+                if args.command == 'build':
+                    from .publication import publish
+                    print(publish(root, [build]))
                 if result:
                     print(result)
         return 0

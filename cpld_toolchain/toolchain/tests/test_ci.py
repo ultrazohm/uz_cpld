@@ -4,9 +4,12 @@ import json
 from pathlib import Path
 from unittest.mock import patch
 import unittest
+from types import SimpleNamespace
 from zipfile import ZipFile
 
 from cpld_toolchain.toolchain import ci
+from cpld_toolchain.toolchain.buildsystem import publication
+from cpld_toolchain.toolchain.buildsystem.identity import read_registry
 from cpld_toolchain.toolchain.buildsystem.model import BuildError
 from cpld_toolchain.toolchain.tests import test_buildsystem as fixtures
 
@@ -30,7 +33,7 @@ class FirmwareArchiveTests(unittest.TestCase):
         self.output = self.root / 'firmware.zip'
 
     def package(self):
-        with patch.object(ci.subprocess, 'check_output', return_value='a' * 40):
+        with patch.object(publication.subprocess, 'run', return_value=SimpleNamespace(returncode=0, stdout='a' * 40)):
             return ci.package(self.root, self.output)
 
     def test_archive_contains_verified_exports_and_registry(self):
@@ -40,7 +43,7 @@ class FirmwareArchiveTests(unittest.TestCase):
             manifest = json.loads(archive.read('manifest.json'))
             self.assertEqual(manifest['git_revision'], 'a' * 40)
             self.assertEqual(manifest['release_cycles'], ['original'])
-            self.assertEqual(manifest['identity_registry'], ci.read_registry(self.root))
+            self.assertEqual(manifest['identity_registry'], read_registry(self.root))
             entry, = manifest['builds']
             self.assertEqual(entry['identity'], self.record['identity'])
             self.assertEqual(len(archive.namelist()), 3)
@@ -110,3 +113,91 @@ class FirmwareArchiveTests(unittest.TestCase):
                 ci.build_all(self.root)
             with self.assertRaisesRegex(BuildError, 'No release catalogs'):
                 ci.package(self.root, self.root / 'firmware.zip')
+
+
+    def test_local_snapshot_matches_ci_archive_byte_for_byte(self):
+        self.prepare()
+        with patch.object(publication.subprocess, 'run',
+                          return_value=SimpleNamespace(returncode=0, stdout='a' * 40)):
+            snapshot = publication.publish(self.root, [self.build])
+        self.package()
+        with ZipFile(self.output) as archive:
+            self.assertEqual(sorted(p.relative_to(snapshot).as_posix() for p in snapshot.rglob('*') if p.is_file()),
+                             sorted(archive.namelist()))
+            for name in archive.namelist():
+                self.assertEqual((snapshot / name).read_bytes(), archive.read(name))
+
+    def test_failed_publication_preserves_previous_complete_snapshot(self):
+        self.run_build()
+        snapshot = publication.publish(self.root, [self.build])
+        before = (snapshot / 'manifest.json').read_bytes()
+        self.build.firmware_path('bit').write_bytes(b'tampered')
+        with self.assertRaises(BuildError):
+            publication.publish(self.root, [self.build])
+        self.assertEqual((snapshot / 'manifest.json').read_bytes(), before)
+
+    def test_republication_removes_files_outside_selected_snapshot(self):
+        self.run_build()
+        snapshot = publication.publish(self.root, [self.build])
+        extra = snapshot / 'unselected.bit'
+        extra.write_bytes(b'old')
+        publication.publish(self.root, [self.build])
+        self.assertFalse(extra.exists())
+        manifest = json.loads((snapshot / 'manifest.json').read_text())
+        self.assertEqual([entry['program'] for entry in manifest['builds']], ['tx30'])
+
+    def test_catalog_command_publishes_only_selected_target(self):
+        from cpld_toolchain.toolchain.buildsystem.cli import main
+        from cpld_toolchain.toolchain.buildsystem import workflow
+        from cpld_toolchain.toolchain.buildsystem.model import load_build
+        (self.root / 'programs/original/catalog.toml').write_text(
+            'programs = ["tx30", "s3c_power_on_debounce"]\n')
+        self.build = load_build(self.root, 's3c_power_on_debounce')
+        with patch.object(workflow.DiamondBackend, 'prepare', side_effect=self.fake_prepare), \
+             patch.object(workflow.DiamondBackend, 'build', side_effect=self.fake_build), \
+             patch.object(workflow, 'launcher', return_value=Path('/bin/true')):
+            self.assertEqual(main(['build-all', '--root', str(self.root),
+                                   '--target', 'uz_s3c_xo2', '--backend', 'diamond']), 0)
+        path = self.root / 'cpld_toolchain/toolchain/build/publication/diamond/original/manifest.json'
+        manifest = json.loads(path.read_text())
+        self.assertEqual([entry['program'] for entry in manifest['builds']], ['s3c_power_on_debounce'])
+
+    def test_foss_publication_contains_only_bitstream(self):
+        from cpld_toolchain.toolchain.buildsystem.model import load_build
+        self.build = load_build(self.root, 'tx30', backend='foss')
+        self.build.directory.mkdir(parents=True)
+        metadata = self.build.directory / 'metadata'
+        metadata.mkdir()
+        firmware = self.build.firmware_path('bit')
+        firmware.write_bytes(b'foss firmware')
+        record = {'git_revision': None, 'outputs': {firmware.name: hashlib.sha256(firmware.read_bytes()).hexdigest()}}
+        (metadata / 'build.json').write_text(json.dumps(record))
+        with patch.object(publication, '_row', return_value={'status': 'success', 'identity': {'usercode': '00010001'}}):
+            snapshot = publication.publish(self.root, [self.build])
+        manifest = json.loads((snapshot / 'manifest.json').read_text())
+        self.assertEqual(manifest['backend'], 'foss')
+        self.assertEqual(len(manifest['builds'][0]['files']), 1)
+        self.assertEqual(len(list(snapshot.rglob('*.bit'))), 1)
+        self.assertEqual(list(snapshot.rglob('*.jed')), [])
+
+
+    def test_single_build_command_publishes_manifest(self):
+        from cpld_toolchain.toolchain.buildsystem.cli import main
+        from cpld_toolchain.toolchain.buildsystem import workflow
+        with patch.object(workflow.DiamondBackend, 'prepare', side_effect=self.fake_prepare), \
+             patch.object(workflow.DiamondBackend, 'build', side_effect=self.fake_build), \
+             patch.object(workflow, 'launcher', return_value=Path('/bin/true')):
+            self.assertEqual(main(['build', '--root', str(self.root), '--program', 'tx30']), 0)
+        manifest = json.loads((self.root / 'cpld_toolchain/toolchain/build/publication/diamond/original/manifest.json').read_text())
+        self.assertEqual([entry['program'] for entry in manifest['builds']], ['tx30'])
+
+    def test_publication_rejects_symlinked_ancestor(self):
+        self.run_build()
+        outside = self.root / 'outside'
+        outside.mkdir()
+        output = self.root / 'cpld_toolchain/toolchain/build/publication'
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.symlink_to(outside, target_is_directory=True)
+        with self.assertRaisesRegex(BuildError, 'symlink'):
+            publication.publish(self.root, [self.build])
+        self.assertEqual(list(outside.iterdir()), [])

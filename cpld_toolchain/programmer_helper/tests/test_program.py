@@ -100,7 +100,7 @@ class ProgramTests(unittest.TestCase):
 
     def test_scan_plan_does_not_access_hardware(self):
         with patch.object(program, 'run_command') as run:
-            self.assertEqual(program.main(['scan', '--chain', 's3c', '--programmer-backend', 'foss']), 0)
+            self.assertEqual(program.main(['scan', '--target', 's3c', '--programmer-backend', 'foss']), 0)
             run.assert_not_called()
 
     def test_blank_selection_cannot_reach_hardware(self):
@@ -139,7 +139,7 @@ class ProgramTests(unittest.TestCase):
     def test_foss_scan_reports_unexpected_id_without_programming(self):
         output = 'index 0:\n  idcode 0x12345678\n'
         with patch.object(program, 'require_usb_bus'), patch.object(program, 'run_command', return_value=output):
-            self.assertEqual(program.main(['scan', '--chain', 's3c', '--programmer-backend', 'foss', '--execute']), 0)
+            self.assertEqual(program.main(['scan', '--target', 's3c', '--programmer-backend', 'foss', '--execute']), 0)
 
     def test_foss_targets_use_same_ft4232_channel_and_first_probe(self):
         for chain in ('s3c', 'dslots'):

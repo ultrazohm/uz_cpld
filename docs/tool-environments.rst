@@ -38,7 +38,7 @@ Workflow matrix
 ---------------
 
 In the table, **included** means supplied by the repository's image or venv setup.
-**Additional setup** means the code can use locally installed tools, but those tools are not installed by ``venv``.
+**Additional setup** means the code can use locally installed tools, but those tools are not installed by ``setup``.
 The Docker column describes execution *inside a running container*; start that container explicitly.
 
 Native Windows entries describe implemented support.

@@ -111,7 +111,7 @@ end case;'''
                             ignore=shutil.ignore_patterns('build', '__pycache__'))
         (self.root / 'programs/releases.toml').write_text('current = "original"\n')
         build = load_build(self.root, 'tx30')
-        output = build.build_root / 'netlist'
+        output = build.analysis_directory / 'netlist'
         output.mkdir(parents=True)
         (output / 'metadata').mkdir()
         for name in ('netlist.svg', 'netlist.pdf', 'metadata/netlist.json'):

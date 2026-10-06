@@ -126,7 +126,7 @@ def extract_state_machines(source):
 def export_state_diagrams(build):
     """Export SVG/PDF state graphs from the manifest's VHDL, if any are found."""
     with locked(build):
-        output = safe_directory(build, build.build_root / 'state-diagrams')
+        output = safe_directory(build, build.analysis_directory / 'state-diagrams')
         if output.exists():
             shutil.rmtree(output)
         output.mkdir(parents=True)

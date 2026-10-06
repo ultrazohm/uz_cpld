@@ -67,7 +67,7 @@ def make_app(style='python'):
         if command is None:
             print(commands.help_text(style))
             return
-        name = commands.ALIASES.get(command, (command, {}))[0]
+        name = command
         if name not in commands.COMMANDS:
             raise BuildError(f'Unknown action {command}')
         print(commands.COMMANDS[name].group)
@@ -84,13 +84,10 @@ def make_app(style='python'):
             [option(key, key in contract.required) for key in commands.ARGUMENT_VALUES
              if key in contract.options])
         callback.__name__ = name
-        app.command(name, help=contract.description, rich_help_panel=contract.group,
-                    hidden=name in commands.ALIASES)(callback)
+        app.command(name, help=contract.description, rich_help_panel=contract.group)(callback)
 
     for name, contract in commands.COMMANDS.items():
         register(name, contract)
-    for alias, (name, _) in commands.ALIASES.items():
-        register(alias, commands.COMMANDS[name])
 
     @app.command('generator', help='Generate VHDL from a standalone config; no catalog needed.')
     def generator(config: Path, output: Path = typer.Option(..., '--output'),

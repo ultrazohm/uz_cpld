@@ -29,6 +29,8 @@ def collect(root, builds):
                 'builds': [], 'identity_registry': read_registry(root)}
     payloads = {}
     for build in sorted(builds, key=lambda b: (b.release_cycle, b.name, b.target)):
+        safe_directory(build)
+        safe_directory(build, build.directory / 'metadata/build.json')
         row = _row(build)
         if row['status'] != 'success':
             raise BuildError(f'{build.qualified_name} ({build.target}): {row["status"]} build evidence')
@@ -38,6 +40,7 @@ def collect(root, builds):
         files = {}
         for extension in (('bit', 'jed') if build.backend == 'diamond' else ('bit',)):
             source = build.firmware_path(extension)
+            safe_directory(build, source)
             payload = source.read_bytes()
             checksum = hashlib.sha256(payload).hexdigest()
             if not payload or record['outputs'].get(source.name) != checksum:

@@ -45,7 +45,7 @@ class ReleaseTests(unittest.TestCase):
         self.assertIn(['original', 'tx30', 'uz_dslot_xo2', 'diamond'],
                       [line.split() for line in self.make('list', 'release_cycle=original').splitlines()])
         self.assertEqual(resolve_release(self.root), 'a_new')
-        self.make('release_current', 'release_cycle=original')
+        self.make('release_select', 'release_cycle=original')
         self.assertIn('original (current)', self.make('release_list'))
         self.assertEqual(release_cycles(self.root), ['a_new', 'original', 'z_old'])
 
@@ -69,8 +69,8 @@ class ReleaseTests(unittest.TestCase):
 
     def test_copy_preserves_authored_files_and_starters_without_build_outputs(self):
         original = load_build(self.root, 'tx30')
-        original.build_root.mkdir(parents=True)
-        (original.build_root / 'old.bit').write_text('old output')
+        original.analysis_directory.mkdir(parents=True)
+        (original.analysis_directory / 'old.bit').write_text('old output')
         starter = workflow.scaffold(self.root, 'unfinished', 'generator')
         cache = starter / '__pycache__'
         cache.mkdir()
@@ -84,7 +84,7 @@ class ReleaseTests(unittest.TestCase):
         self.assertNotEqual(copied_description.read_bytes(), original_description.read_bytes())
         copied = load_build(self.root, 'tx30')
         self.assertEqual(copied.sources[-1].path.read_bytes(), original.sources[-1].path.read_bytes())
-        self.assertFalse(copied.build_root.exists())
+        self.assertFalse(copied.analysis_directory.exists())
         self.assertTrue((self.root / 'programs/next/cvg_unfinished/generator.toml').is_file())
         self.assertFalse((self.root / 'programs/next/cvg_unfinished/__pycache__').exists())
         load_build(self.root, 'cvg_tx30_stateful')
@@ -109,11 +109,11 @@ class ReleaseTests(unittest.TestCase):
         self.assertNotEqual(old_report, new_report)
         self.assertEqual(json.loads(new_report.with_suffix('.json').read_text())['release_cycle'], 'next')
         for build in (old, new):
-            build.build_root.mkdir(parents=True)
-            (build.build_root / 'result').touch()
+            build.analysis_directory.mkdir(parents=True)
+            (build.analysis_directory / 'result').touch()
         workflow.clean_all(self.root)
-        self.assertFalse(old.build_root.exists())
-        self.assertFalse(new.build_root.exists())
+        self.assertFalse(old.analysis_directory.exists())
+        self.assertFalse(new.analysis_directory.exists())
         self.assertEqual(resolve_release(self.root), 'next')
 
     def test_failed_creation_and_invalid_selection_preserve_current(self):
@@ -141,7 +141,7 @@ class ReleaseTests(unittest.TestCase):
         for backend in ('diamond', 'foss'):
             with self.subTest(backend=backend):
                 output = self.make('build_all', f'backend={backend}', success=False)
-                self.assertIn('No programs selected for build-all', output)
+                self.assertIn('No programs selected for build_all', output)
         self.make('report')
         path = self.root / 'build/validation/empty/diamond-catalog/report.json'
         report = json.loads(path.read_text())

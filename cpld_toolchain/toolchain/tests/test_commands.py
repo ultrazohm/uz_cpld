@@ -16,7 +16,7 @@ class CommandTests(unittest.TestCase):
         return commands.plan(action, options)
 
     def test_command_names_use_lowercase_underscores(self):
-        for name in [*commands.COMMANDS, *commands.ALIASES]:
+        for name in commands.COMMANDS:
             self.assertRegex(name, r'^[a-z_]+$')
 
     def test_selection_commands_forward_options_without_accessing_files(self):
@@ -90,7 +90,7 @@ class CommandTests(unittest.TestCase):
             with patch.object(commands.subprocess, 'run') as run, redirect_stdout(io.StringIO()):
                 for action, opts in [('init_programmer', ['--selection', selection]),
                                      ('program', ['--target', 'dslot', '--selection', selection]),
-                                     ('clean_all', []), ('image', []), ('venv', []),
+                                     ('clean_all', []), ('image', []), ('setup', []),
                                      ('build', ['--program', 'tx30'])]:
                     self.assertEqual(commands.main([action, '--dry-run', '1', *opts]), 0)
             run.assert_not_called()
@@ -161,6 +161,13 @@ class UnifiedEntryPointTests(unittest.TestCase):
             (root / 'cpld_toolchain').mkdir()
             with patch('cpld_toolchain.__file__', str(root / 'installed/cpld_toolchain/__init__.py')), patch('pathlib.Path.cwd', return_value=root / 'programs'):
                 self.assertEqual(repository_root(), root)
+
+
+    def test_retired_actions_are_rejected(self):
+        for action in ('venv', 'programmer', 'lattice_xcf', 'release_current', 'flasher',
+                       'docs_local', 'docs_assets_local', 'netlist_local', '_sim', 'build-all'):
+            with self.subTest(action=action), self.assertRaisesRegex(BuildError, 'Unknown action'):
+                commands.plan(action, {})
 
 
 if __name__ == '__main__':

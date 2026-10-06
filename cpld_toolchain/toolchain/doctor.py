@@ -195,8 +195,8 @@ def report(root, *, backend='diamond', release_cycle=None, target=None):
               ('; '.join(problems) if problems else 'prerequisites located'))
     print('\nMissing tools affect only workflows that use them. No hardware was accessed.')
     print('License validity, synthesis, USB permissions, Docker daemon and image availability were not tested.')
-    print('Python setup: python -m cpld_toolchain venv')
-    print('Bundled Linux tools: python -m cpld_toolchain image; then enter the container and run python -m cpld_toolchain doctor')
+    print('Python setup: uz_cpld setup')
+    print('Bundled Linux tools: uz_cpld image; then enter the container and run uz_cpld doctor')
     print('Setup and workflow requirements: docs/tool-environments.rst, docs/environments.rst, docs/windows.rst')
     return 0
 

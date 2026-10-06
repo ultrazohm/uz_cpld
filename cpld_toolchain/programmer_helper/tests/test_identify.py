@@ -167,7 +167,7 @@ proc drscan {tap args} {
                 self.assertNotIn('FLASH Display USERCODE</Operation>', xcf.read_text().replace('XFLASH', 'TRANSPARENT'))
 
     def test_explicit_foss_preview(self):
-        for flag in ('--backend', '--programmer-backend'):
+        for flag in ('--programmer-backend',):
             with redirect_stdout(io.StringIO()) as output:
                 program.main(['identify', flag, 'foss'])
             self.assertIn('irscan', output.getvalue())

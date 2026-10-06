@@ -87,7 +87,7 @@ def verified_firmware(build, extension: str) -> tuple[Path, str]:
         detail = row.get('error') or ', '.join(row['changed_inputs'] + row['changed_outputs'])
         raise BuildError(f'{build.qualified_name}: {build.backend} build is {row["status"]}' +
                          (f' ({detail})' if detail else '') +
-                         f'; run python -m cpld_toolchain build --program {build.name} --backend {build.backend} --release-cycle {build.release_cycle}')
+                         f'; run uz_cpld build --program {build.name} --backend {build.backend} --release-cycle {build.release_cycle}')
     firmware = build.firmware_path(extension)
     record_path = build.directory / 'metadata/build.json'
     try:

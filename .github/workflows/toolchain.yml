@@ -138,7 +138,7 @@ jobs:
             --mount "type=bind,source=$PWD,target=/work" -w /work \
             uz-cpld-toolchain-diamond bash -e -c '
               check-diamond --synthesis
-              python3 -m cpld_toolchain.toolchain.ci build-all
+              python3 -m cpld_toolchain.toolchain.ci build_all
               python3 -m cpld_toolchain.toolchain.ci package --output build/uz-cpld-firmware.zip
             '
       - name: Restore runner ASLR

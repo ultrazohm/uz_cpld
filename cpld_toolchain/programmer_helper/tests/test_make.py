@@ -32,13 +32,12 @@ class ProgrammerMakeTests(unittest.TestCase):
         self.assertEqual(len(commands), 1, result.stdout)
         return commands[0]
 
-    def test_every_command_and_alias_matches_unified_cli_preview(self):
-        from cpld_toolchain.toolchain.commands import COMMANDS, ALIASES
+    def test_every_command_matches_unified_cli_preview(self):
+        from cpld_toolchain.toolchain.commands import COMMANDS
         values = {'program': 'cvg_tx30', 'name': 'command_smoke',
                   'target': 'dslot', 'release_cycle': 'heartbeat_cvg', 'backend': 'foss'}
-        for action in [*COMMANDS, *ALIASES]:
-            canonical = ALIASES.get(action, (action, {}))[0]
-            options = {key: values[key] for key in COMMANDS[canonical].required}
+        for action in COMMANDS:
+            options = {key: values[key] for key in COMMANDS[action].required}
             options['dry_run'] = '1'
             with self.subTest(action=action):
                 made = self.make(action, *(f'{key}={value}' for key, value in options.items()))
@@ -53,9 +52,9 @@ class ProgrammerMakeTests(unittest.TestCase):
                 self.assertIn('Preview only:', made.stdout)
         self.assertEqual(list(self.cwd.iterdir()), [])
 
-    def test_every_command_and_alias_has_working_focused_make_help(self):
-        from cpld_toolchain.toolchain.commands import COMMANDS, ALIASES
-        for action in [*COMMANDS, *ALIASES]:
+    def test_every_command_has_working_focused_make_help(self):
+        from cpld_toolchain.toolchain.commands import COMMANDS
+        for action in COMMANDS:
             with self.subTest(action=action):
                 result = self.make('help', f'command={action}')
                 self.assertEqual(result.returncode, 0, result.stderr)
@@ -171,11 +170,11 @@ class ProgrammerMakeTests(unittest.TestCase):
         self.assertIn('programmer_backend=diamond|foss', result.stdout)
         self.assertNotIn('make sim', result.stdout)
 
-    def test_build_shorthand_and_single_action_aliases(self):
+    def test_build_shorthand_and_canonical_programmer_actions(self):
         self.assertIn('build', self.preview('program=tx30'))
-        self.assertEqual(self.make('programmer').returncode, 0)
+        self.assertEqual(self.make('init_programmer').returncode, 0)
         self.assertTrue((self.cwd / 'selection.toml').exists())
-        self.assertIn('cpld_toolchain.programmer_helper', self.preview('lattice_xcf'))
+        self.assertIn('cpld_toolchain.programmer_helper', self.preview('diamond_xcf_programming_chain'))
 
 
 if __name__ == '__main__':

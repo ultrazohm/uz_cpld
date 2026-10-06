@@ -32,7 +32,7 @@ def test_routing(program, request):
 def run_simulation(build, request):
     """Run one program while its caller holds the generated-output lock."""
     program = build.name
-    output = safe_directory(build, build.build_root / "simulation")
+    output = safe_directory(build, build.analysis_directory / "simulation")
     # GHDL libraries retain design units removed from a manifest. Recreate the
     # whole directory so elaboration can only use this run's declared sources.
     if output.exists():

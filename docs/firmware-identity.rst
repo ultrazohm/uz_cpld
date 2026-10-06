@@ -91,7 +91,7 @@ Other cable types or probe-index mappings require extending the reader and are r
 Managed FOSS programming requires the pinned USERCODE-capable openFPGALoader build included in the toolchain image.
 On a native host, ``make flasher_build`` builds it under ``build/openfpgaloader/`` (requires a C++ compiler, CMake, pkg-config, patch, libftdi1/libusb development headers and zlib).
 This command builds the programming executable only; it does not build CPLD firmware, access USB or program a device.
-The managed loader selection prefers that local build, then the image's ``FOSS_ROOT/native/openfpgaloader/`` installation; ``CPLD_OPENFPGALOADER`` can select another verified installation.
+The loader lookup order is described below; every loader used for managed programming must have a matching patch receipt and binary checksum.
 The wrapper checks the binary and patch provenance and parses every selected input before accessing USB.
 Stock or modified loaders are rejected before flash writes.
 The patch accepts ``--usercode``, writes the MachXO2 register, waits for completion and verifies it before finishing flash programming.
@@ -113,11 +113,20 @@ Rebuilding the image reapplies the patch and recompiles when the source pin or p
 No manual ``make flasher_build`` step is needed in a fresh container.
 The runtime lacks the compiler/development headers from the builder stage; use a container rebuild to update its bundled loader.
 
-The selection order is ``CPLD_OPENFPGALOADER``, then the workspace installation, then the container installation.
-Stock PATH/bundle fallback is available for scans only.
-A stale workspace installation takes precedence even after a container rebuild and is rejected during programming.
-Rebuild that installation with native prerequisites, or remove only ``build/openfpgaloader/`` to select the bundled loader.
-``make clean_all`` also removes the workspace installation along with other generated outputs.
+The loader lookup order is:
+
+#. Explicit ``CPLD_OPENFPGALOADER`` override.
+#. Bundled tools under ``CPLD_BUNDLED_TOOLS`` or the package's ``bundled_tools/`` directory.
+#. Workspace installation at ``build/openfpgaloader/openFPGALoader``.
+#. Container installation at ``FOSS_ROOT/native/openfpgaloader/openFPGALoader``.
+#. ``FOSS_ROOT/bin/openFPGALoader``, then ``PATH``.
+
+An explicit override is authoritative; an unavailable override does not fall back to another loader.
+Managed programming verifies the selected executable's receipt regardless of its location;
+stock executables can be used for scans but fail managed programming verification.
+A stale selected installation is rejected rather than silently skipped.
+Rebuild it, or select another verified installation using ``CPLD_OPENFPGALOADER``.
+``make clean_all`` removes the workspace installation along with other generated outputs.
 Calling the stock executable directly bypasses these checks and does not provide the managed workflow's identity guarantee.
 
 Device readback

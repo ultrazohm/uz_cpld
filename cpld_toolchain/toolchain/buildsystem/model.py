@@ -127,7 +127,7 @@ class Build:
     synthesis: str = "lse"
 
     @property
-    def build_root(self) -> Path:
+    def analysis_directory(self) -> Path:
         """Shared analysis outputs for this program, separate from firmware backends."""
         return self.root / 'build/analysis' / self.release_cycle / self.name
 

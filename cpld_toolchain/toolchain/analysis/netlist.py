@@ -27,7 +27,7 @@ def export_netlist(build):
 
 
 def _export_netlist(build):
-    output = safe_directory(build, build.build_root / 'netlist')
+    output = safe_directory(build, build.analysis_directory / 'netlist')
     if output.exists():
         shutil.rmtree(output)
     output.mkdir(parents=True)
@@ -87,7 +87,7 @@ def _export_netlist(build):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--program')
-    parser.add_argument('--release-cycle', '--release_cycle', dest='release_cycle')
+    parser.add_argument('--release-cycle')
     parser.add_argument('--target')
     args = parser.parse_args(argv)
     try:

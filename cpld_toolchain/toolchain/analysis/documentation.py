@@ -135,7 +135,7 @@ def generate_program(root, generated, name, target=None):
                 state_info = json.loads((state_diagrams / 'metadata/state-diagrams.json').read_text())
                 if any(before[path] != value for path, value in state_info['inputs'].items()):
                     raise BuildError(f'{name}: state diagrams and simulation use different HDL')
-            simulation = build.build_root / 'simulation'
+            simulation = build.analysis_directory / 'simulation'
             run = json.loads((simulation / 'metadata/run.json').read_text())
             info = write_waveform(simulation / 'waves.vcd', simulation / 'waveform.html',
                                   f'{name} — RTL waveform', run['simulation_duration_ns'])
@@ -238,7 +238,7 @@ Download the :download:`cocotb testbench <../../../programs/{name}/{build.name}_
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--jobs", type=int, default=4, help="Concurrent programs (default: 4; 1 for sequential)")
-    parser.add_argument("--release-cycle", "--release_cycle", dest="release_cycle", help="Release to document; default: all releases")
+    parser.add_argument("--release-cycle", dest="release_cycle", help="Release to document; default: all releases")
     parser.add_argument('--program', help='Limit documentation to one program')
     parser.add_argument('--target', help='Limit documentation to one board target')
     parser.add_argument('--build-site', action='store_true', help='Also render and validate HTML under the same lock')

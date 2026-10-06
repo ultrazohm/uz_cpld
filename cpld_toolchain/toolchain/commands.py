@@ -45,7 +45,6 @@ def spec(group, example, description, options=(), required=()):
 COMMANDS = {
     'image': spec('Environment', 'image', 'Build the container tools (optional for native Diamond)', CONTAINER),
     'setup': spec('Environment', 'setup [activate=0|1]', 'Create the locked Python environment, downloading Python as needed', {'activate'}),
-    'venv': spec('Environment', 'venv [activate=0|1]', 'Alias for setup: install all locked Python dependencies', {'activate'}),
     'doctor': spec('Environment', 'doctor', 'Report this environment and installed/missing tools; no hardware access', FIRMWARE),
     'docs': spec('Documentation', 'docs [release_cycle=all]', 'Generate assets and HTML; defaults to all releases', {'program', 'target', 'release_cycle', 'jobs'}),
     'docs_assets': spec('Documentation', 'docs_assets [program=NAME]', 'Generate documentation assets without rendering HTML', {'program', 'target', 'release_cycle', 'jobs'}),
@@ -77,12 +76,7 @@ COMMANDS = {
     'program': spec('Programmer', 'program target=dslot', 'Program one physical chain from selection.toml', PROBE | {'selection', 'release_cycle', 'build_backend'}, {'target'}),
     'flasher_build': spec('Programmer', 'flasher_build', 'Compile the optional FOSS programmer utility locally', {'jobs'}),
 }
-ALIASES = {
-    'programmer': ('init_programmer', {}), 'lattice_xcf': ('diamond_xcf_programming_chain', {}),
-    'release_current': ('release_select', {}), 'flasher': ('flasher_build', {}),
-    'docs_local': ('docs', {}), 'docs_assets_local': ('docs_assets', {}),
-    'netlist_local': ('netlist', {}), '_sim': ('sim', {}),
-}
+
 
 
 # Argument spellings are shared by overview and focused help; applicability and
@@ -133,7 +127,7 @@ def shared_help(style='make'):
         '  the selection file first. selection=selection.toml; template=tx30.',
         '  init_programmer: omitted assignments keep template defaults; release="" uses the current release.',
         '  jobs=4; seed=1; wave_format=vcd; dry_run=0; rebuild=0;',
-        '  discard_project_changes=0; setup/venv activate=1. Omit an option to use its default.',
+        '  discard_project_changes=0; setup activate=1. Omit an option to use its default.',
         '  Build targets are inferred when unambiguous; scan/identify default to dslot.',
         '  program requires target. probe_index: Diamond defaults to 1, FOSS to 0.',
         '  jobs must be positive; seed and probe_index must be nonnegative.',
@@ -175,9 +169,6 @@ def help_text(style='make'):
 
 def normalize(action, options):
     options = dict(options)
-    if action in ALIASES:
-        action, defaults = ALIASES[action]
-        options = {**defaults, **options}
     if action not in COMMANDS:
         raise BuildError(f'Unknown action {action!r}; run uz_cpld help')
     unsupported = set(options) - COMMANDS[action].options
@@ -269,8 +260,8 @@ def plan(action, options, *, root=ROOT, cwd=None):
         return result
     if action == 'doctor':
         return [invoke('cpld_toolchain.toolchain.doctor', ['--backend', build_backend, *flags('target', 'release_cycle')])]
-    if action in ('setup', 'venv'):
-        return [invoke('cpld_toolchain.toolchain.venv', ['--activate', options.get('activate', '1')])]
+    if action == 'setup':
+        return [invoke('cpld_toolchain.bootstrap', ['--activate', options.get('activate', '1')])]
     if action in ('init_programmer', 'build_selection', 'scan', 'identify', 'program', 'diamond_xcf_programming_chain'):
         selection = Path(options.get('selection', 'selection.toml'))
         if not selection.is_absolute():
@@ -330,8 +321,7 @@ def plan(action, options, *, root=ROOT, cwd=None):
         args += ['--backend', build_backend]
     if options.get('discard_project_changes') == '1':
         args += ['--discard-project-changes']
-    internal = 'release-current' if action == 'release_select' else action.replace('_', '-')
-    return [invoke('cpld_toolchain.toolchain.buildsystem', [internal, *args])]
+    return [invoke('cpld_toolchain.toolchain.buildsystem', [action, *args])]
 
 
 def run(action, options):
@@ -339,8 +329,6 @@ def run(action, options):
     from cpld_toolchain import capabilities, runtime
     canonical, normalized = normalize(action, options)
     calls = plan(canonical, normalized)
-    if action in ALIASES:
-        print(f'Compatibility alias: use uz_cpld {canonical} instead.', file=sys.stderr)
     preview = normalized.get('dry_run') == '1'
     if preview:
         print('Preview only: no commands will be executed.')

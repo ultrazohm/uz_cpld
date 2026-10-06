@@ -1,4 +1,4 @@
-"""Shell activation helpers and the venv alias for repository setup."""
+"""Shell activation helpers for repository setup."""
 from cpld_toolchain import repository_root
 import shlex
 import shutil
@@ -25,12 +25,3 @@ def shell_command(environment):
             raise OSError('PowerShell not found; use --activate 0 and the venv Python directly')
         return [shell, '-NoLogo', '-NoProfile', '-NoExit', '-Command', activation_command(environment)]
     return ['bash', '--noprofile', '--rcfile', str(ROOT / 'cpld_toolchain/toolchain/venv-shell.bash'), '-i']
-
-
-def main(argv=None):
-    from cpld_toolchain.bootstrap import main as setup
-    return setup(argv)
-
-
-if __name__ == '__main__':
-    raise SystemExit(main())

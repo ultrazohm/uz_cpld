@@ -17,7 +17,7 @@ from cpld_toolchain.toolchain import commands
 
 class VenvTests(unittest.TestCase):
     def test_old_python_setup_needs_no_site_packages_or_modern_imports(self):
-        for action in ('setup', 'venv'):
+        for action in ('setup',):
             script = (
                 'import sys; from cpld_toolchain.__main__ import main; '
                 'sys.version_info = (3, 8, 20); '
@@ -40,10 +40,10 @@ class VenvTests(unittest.TestCase):
         self.assertNotIn('Traceback', result.stderr)
 
     def test_setup_is_local(self):
-        for action in ('setup', 'venv'):
+        for action in ('setup',):
             with patch.dict(os.environ, {'CPLD_TOOLCHAIN_CONTAINER': '1'}):
                 call, = commands.plan(action, {'activate': '0'})
-                self.assertEqual(call.argv[1:], ('-m', 'cpld_toolchain.toolchain.venv', '--activate', '0'))
+                self.assertEqual(call.argv[1:], ('-m', 'cpld_toolchain.bootstrap', '--activate', '0'))
 
     def test_dry_run_never_downloads(self):
         with patch.object(bootstrap, 'ensure_uv') as download, redirect_stdout(io.StringIO()):

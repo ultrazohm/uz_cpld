@@ -156,7 +156,7 @@ class FirmwareArchiveTests(unittest.TestCase):
         with patch.object(workflow.DiamondBackend, 'prepare', side_effect=self.fake_prepare), \
              patch.object(workflow.DiamondBackend, 'build', side_effect=self.fake_build), \
              patch.object(workflow, 'launcher', return_value=Path('/bin/true')):
-            self.assertEqual(main(['build-all', '--root', str(self.root),
+            self.assertEqual(main(['build_all', '--root', str(self.root),
                                    '--target', 'uz_s3c_xo2', '--backend', 'diamond']), 0)
         path = self.root / 'build/diamond/manifest.json'
         manifest = json.loads(path.read_text())
@@ -251,3 +251,14 @@ class FirmwareArchiveTests(unittest.TestCase):
         publication.publish(self.root, [first])
         manifest = json.loads((output / 'manifest.json').read_text())
         self.assertEqual(manifest['release_cycles'], ['original'])
+
+
+    def test_archive_rejects_symlinked_firmware_directory(self):
+        self.prepare()
+        original = self.build.directory
+        relocated = self.root / 'external-output'
+        original.rename(relocated)
+        original.symlink_to(relocated, target_is_directory=True)
+        with self.assertRaisesRegex(BuildError, 'symlink'):
+            self.package()
+        self.assertFalse(self.output.exists())

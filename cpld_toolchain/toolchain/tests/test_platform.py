@@ -152,7 +152,7 @@ class WindowsDispatchTests(unittest.TestCase):
         result = subprocess.run([sys.executable, '-m', 'cpld_toolchain', 'build_all', '--dry-run', '1'],
                                 cwd=ROOT, capture_output=True, text=True, timeout=15)
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn('cpld_toolchain.toolchain.buildsystem build-all --backend diamond', result.stdout)
+        self.assertIn('cpld_toolchain.toolchain.buildsystem build_all --backend diamond', result.stdout)
         with redirect_stdout(io.StringIO()) as output:
             self.assertEqual(commands.main(['help', '--command', 'program']), 0)
         self.assertIn('uz_cpld program --target', output.getvalue())

@@ -12,10 +12,10 @@ from .backends.diamond import preflight
 def main(argv: list[str] | None = None) -> int:
     """Execute a command and return a shell-compatible status code."""
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command', choices=['list', 'usercodes', 'usercodes-assign', 'doctor', 'new', 'generate', 'check', 'project', 'build', 'compare', 'gui', 'build-all', 'report', 'clean', 'clean-all', 'release-list', 'release-new', 'release-current'])
+    parser.add_argument('command', choices=['list', 'usercodes', 'usercodes_assign', 'doctor', 'new', 'generate', 'check', 'project', 'build', 'compare', 'gui', 'build_all', 'report', 'clean', 'clean_all', 'release_list', 'release_new', 'release_select'])
     parser.add_argument('--root', type=Path, default=repository_root())
     parser.add_argument('--program')
-    parser.add_argument('--release-cycle', '--release_cycle', dest='release_cycle')
+    parser.add_argument('--release-cycle')
     parser.add_argument('--template-release-cycle')
     parser.add_argument('--from', dest='source_cycle', help='Release to copy when creating a cycle')
     parser.add_argument('--target', help='Filter catalog commands or select a program target')
@@ -29,31 +29,31 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == 'compare':
             from .comparison import require_foss_backend
             require_foss_backend(args.backend)
-        if args.command in ('usercodes', 'usercodes-assign'):
+        if args.command in ('usercodes', 'usercodes_assign'):
             from .identity import read_registry, assign_programs
-            if args.command == 'usercodes-assign':
+            if args.command == 'usercodes_assign':
                 assign_programs(root)
             for name, entry in sorted(read_registry(root)['programs'].items(), key=lambda item: item[1]['number']):
                 print(f'{entry["number"]:5d}  0x{entry["number"]:04X}rrrr  {name}  ({len(entry["builds"])} registered builds)')
             return 0
         if args.discard_project_changes and args.command != 'clean':
             raise BuildError('--discard-project-changes is only valid for clean')
-        if args.command.startswith('release-'):
+        if args.command.startswith('release_'):
             from . import releases
-            if args.command == 'release-list':
+            if args.command == 'release_list':
                 current = resolve_release(root)
                 for cycle in release_cycles(root):
                     print(f'{cycle}' + (' (current)' if cycle == current else ''))
-            elif args.command == 'release-new':
+            elif args.command == 'release_new':
                 if not args.name:
-                    raise BuildError('release-new requires --name (Make: name=...)')
+                    raise BuildError('release_new requires --name (Make: name=...)')
                 print(releases.create(root, args.name, args.source_cycle))
             else:
                 if not args.release_cycle:
-                    raise BuildError('release-current requires --release-cycle (Make: release_cycle=...)')
+                    raise BuildError('release_select requires --release-cycle (Make: release_cycle=...)')
                 print(releases.select(root, args.release_cycle))
             return 0
-        if args.command == 'clean-all':
+        if args.command == 'clean_all':
             workflow.clean_all(root)
             return 0
         if args.command == 'doctor':
@@ -106,18 +106,18 @@ def main(argv: list[str] | None = None) -> int:
             created = workflow.scaffold(root, args.name, args.template, args.target, args.backend, cycle, args.template_release_cycle)
             print(created)
             if args.template == 'generator':
-                print(f'Edit {created.relative_to(root)}/routing.csv, then run python -m cpld_toolchain generate --program {created.name} --release-cycle {cycle}')
+                print(f'Edit {created.relative_to(root)}/routing.csv, then run uz_cpld generate --program {created.name} --release-cycle {cycle}')
         elif args.command == 'generate':
             if not args.program:
                 raise BuildError('generate requires --program (Make: program=...)')
             print(workflow.generate_program(root, args.program, args.target, args.backend, cycle))
-        elif args.command == 'build-all':
+        elif args.command == 'build_all':
             failed = []
             build_errors = []
             builds, selection_errors = selected_builds(collect_errors=True)
             preflight(builds)
             if not builds and not selection_errors:
-                raise BuildError('No programs selected for build-all')
+                raise BuildError('No programs selected for build_all')
             for name, target, error in selection_errors:
                 failed.append(name)
                 print(f'{name} ({target}): {error}', file=sys.stderr)

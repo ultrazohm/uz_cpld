@@ -68,14 +68,14 @@ def ensure_uv(root):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(prog='uz_cpld setup', description=__doc__)
     parser.add_argument('--activate', choices=('0', '1'), default='1')
     parser.add_argument('--dry-run', choices=('0', '1'), default='0')
     args = parser.parse_args(argv)
     try:
         if args.dry_run == '1':
             print('Preview only: no commands will be executed.')
-            command = [sys.executable, '-m', 'cpld_toolchain.toolchain.venv',
+            command = [sys.executable, '-m', 'cpld_toolchain.bootstrap',
                        '--activate', args.activate]
             print('[{}] {}'.format(ROOT, shlex.join(command)))
             return 0

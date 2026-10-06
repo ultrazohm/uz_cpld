@@ -5,7 +5,7 @@ import sys
 def main(argv=None):
     """Dispatch repository actions or a component's standalone interface."""
     args = list(sys.argv[1:] if argv is None else argv)
-    if args and args[0] in ('setup', 'venv'):
+    if args and args[0] == 'setup':
         from .bootstrap import main as setup
         return setup(args[1:])
     if sys.version_info < (3, 10):

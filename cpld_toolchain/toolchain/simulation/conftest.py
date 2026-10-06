@@ -3,7 +3,7 @@ from cpld_toolchain.toolchain.buildsystem.model import discover_programs, resolv
 
 
 def pytest_addoption(parser):
-    parser.addoption("--release-cycle", "--release_cycle", dest="release_cycle")
+    parser.addoption("--release-cycle", dest="release_cycle")
     parser.addoption("--program", help="Program directory name; defaults to every program manifest")
     parser.addoption("--target", help="Select or filter a board target")
     parser.addoption("--seed", type=int, default=1)

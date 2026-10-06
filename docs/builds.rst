@@ -127,8 +127,6 @@ Inside the ZIP, paths start with ``<release>/<program>/<target>/``; projects, lo
 intermediates are excluded. No additional publication directory is created.
 Importing this ZIP without a checkout remains future work.
 
-Existing outputs in the old nested directories are not migrated or overwritten.
-Rebuild to populate the new layout. ``clean_all`` also removes the legacy output directories.
 Documentation HTML and generated documentation assets retain ``docs/_build/`` and ``docs/_generated/``.
 
 Firmware commands
@@ -225,7 +223,7 @@ Remove all generated files
 --------------------------
 
 Run ``make clean_all`` from the repository root.
-It removes ``build/``, legacy program and toolchain ``build/`` directories, ``docs/_build/``, ``docs/_generated/``, ``.venv/`` and Python caches within the repository.
+It removes ``build/``, ``docs/_build/``, ``docs/_generated/``, ``.venv/`` and Python caches within the repository.
 It refuses to run while a managed build, project, GUI, simulation, netlist or clean operation is active.
 A lock on the checkout directory also prevents new operations from starting during cleanup, even while generated lock files are removed.
 The active virtual environment is preserved when its interpreter is running the cleanup command.

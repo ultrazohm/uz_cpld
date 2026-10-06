@@ -279,23 +279,12 @@ def _clean_all(root: Path):
     for folder in ('programs', 'cpld_toolchain', 'docs'):
         if (root / folder).is_symlink():
             raise BuildError(f'Authored directory must not be a symlink: {root / folder}')
-    programs = root / 'programs'
-    outputs = [root / 'build', root / 'cpld_toolchain/toolchain/build', root / 'docs/_build', root / 'docs/_generated']
+    outputs = [root / 'build', root / 'docs/_build', root / 'docs/_generated']
     environment = root / '.venv'
     if Path(sys.prefix).resolve().is_relative_to(environment.resolve()):
         print(f'Keeping active Python environment: {environment}')
     else:
         outputs.append(environment)
-    if programs.is_dir():
-        for cycle in programs.iterdir():
-            if cycle.is_symlink():
-                raise BuildError(f'Release directory must not be a symlink: {cycle}')
-            if cycle.is_dir():
-                for program in cycle.iterdir():
-                    if program.is_symlink():
-                        raise BuildError(f'Program directory must not be a symlink: {program}')
-                    if program.is_dir():
-                        outputs.append(program / 'build')
     for path in outputs:
         if path.is_symlink():
             raise BuildError(f'Generated path must not be a symlink: {path}')

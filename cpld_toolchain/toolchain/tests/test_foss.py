@@ -61,7 +61,7 @@ class FossTests(unittest.TestCase):
         from contextlib import redirect_stderr
         import io
         with redirect_stderr(io.StringIO()) as error:
-            result = main(['build-all', '--root', str(self.root), '--backend', 'foss',
+            result = main(['build_all', '--root', str(self.root), '--backend', 'foss',
                            '--release-cycle', 'heartbeat'])
         self.assertEqual(result, 1)
         self.assertIn('No programs selected', error.getvalue())
@@ -454,7 +454,7 @@ endmodule
         self.assertTrue(diamond.firmware_path('jed').exists())
         self.assertEqual(json.loads((self.build.directory / 'metadata/status.json').read_text())['status'], 'failed')
 
-    def test_foss_publishes_named_bitstream_at_build_root(self):
+    def test_foss_publishes_named_bitstream_in_firmware_directory(self):
         def prepare(build, project, log):
             (project / 'impl').mkdir(parents=True)
             metadata = project.parent / 'metadata'

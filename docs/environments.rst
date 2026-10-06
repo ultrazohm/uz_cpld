@@ -280,7 +280,7 @@ In later shells, only the activation command is needed.
 For PowerShell activation, see :doc:`windows`.
 Without an interactive terminal, setup prints the activation command.
 ``python -m cpld_toolchain setup --dry-run 1`` previews setup without downloads or changes.
-``make setup`` and ``uz_cpld setup`` invoke the same setup; ``venv`` is also accepted.
+``make setup`` and ``uz_cpld setup`` invoke the same setup.
 
 All Python packages for simulation, analysis and documentation are included.
 Diamond, licenses, USB drivers, GHDL, Yosys, Graphviz and other native tools must be installed separately.

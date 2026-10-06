@@ -203,7 +203,7 @@ def compare(root, name, target=None, release_cycle=None, backend=None):
             config.enable or config.pilot_policy != 'unused' or
             {p.name: p.actions for p in config.pins if p.direction == 'out'} != expected_routes):
         raise BuildError('Pilot testbench requires the original cvg_tx30 contract and routes')
-    destination = safe_directory(foss, foss.build_root / 'comparison')
+    destination = safe_directory(foss, foss.analysis_directory / 'comparison')
     report_path = destination / 'report.json'
     report = {'schema_version': 1, 'program': foss.qualified_name, 'status': 'running',
               'selected_backends': selected, 'checks': {}, 'diamond_foss_equivalent': False,

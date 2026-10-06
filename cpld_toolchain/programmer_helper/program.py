@@ -70,7 +70,7 @@ def create_selection(destination: Path, *, release=None, s3c=None, slots=None):
         print(f'{destination} already exists; kept your selection.')
         return
     print(f'Created {destination} with selected programs. Edit the programs and release as needed.')
-    print('Use python -m cpld_toolchain list to see programs, then python -m cpld_toolchain program --target s3c or dslot.')
+    print('Use uz_cpld list to see programs, then uz_cpld program --target s3c or dslot.')
 
 
 def build_selection(root: Path, selection: Path, release_cycle=None, *, target=None,
@@ -427,9 +427,7 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description='Inspect and program the selected CPLD JTAG chain.')
     parser.add_argument('action', choices=('init_programmer', 'build_selection', 'scan', 'identify', 'program'))
     parser.add_argument('--root', type=Path, default=repository_root())
-    targets = parser.add_mutually_exclusive_group()
-    targets.add_argument('--chain', choices=('dslots', 's3c'))
-    targets.add_argument('--target', choices=('dslot', 's3c'), help='Physical target; scans default to dslot')
+    parser.add_argument('--target', choices=('dslot', 's3c'), help='Physical target; scans default to dslot')
     parser.add_argument('--selection', type=Path, default=Path('selection.toml'),
                         help='Program selection file (default: selection.toml in the current directory)')
     parser.add_argument('--release', help='Initial selection release; empty uses the current release')
@@ -437,7 +435,7 @@ def main(argv=None) -> int:
     for position in range(1, 6):
         parser.add_argument(f'--dslot-{position}', dest=f'dslot_{position}', help=f'Initial program for D-slot {position}')
     parser.add_argument('--release-cycle', help='Override the release in the selection file')
-    parser.add_argument('--programmer-backend', '--backend', choices=('diamond', 'foss'), default='diamond',
+    parser.add_argument('--programmer-backend', choices=('diamond', 'foss'), default='diamond',
                         help='Programming/scan tool, independent of the firmware build backend')
     parser.add_argument('--build-backend', choices=('diamond', 'foss'),
                         help='Firmware build backend (default: diamond); ignored for scans')
@@ -460,7 +458,7 @@ def main(argv=None) -> int:
             create_selection(args.selection)
             print('Review the selection before programming; no hardware was accessed.')
             return 0
-        args.chain = args.chain or {'dslot': 'dslots', 's3c': 's3c'}.get(args.target)
+        args.chain = {'dslot': 'dslots', 's3c': 's3c'}.get(args.target)
         if not args.chain:
             if args.action == 'program':
                 raise BuildError('Choose target=s3c or target=dslot; program one physical chain at a time')
@@ -517,7 +515,7 @@ def main(argv=None) -> int:
                     raise BuildError('Diamond produced no scan output')
             return 0
         if not args.selection.is_file():
-            raise BuildError(f'{args.selection} is missing; run python -m cpld_toolchain init_programmer, then fill in the target programs')
+            raise BuildError(f'{args.selection} is missing; run uz_cpld init_programmer, then fill in the target programs')
         cycle, output, builds, steps = plan(args.root, args.selection, args.release_cycle,
                                                   args.chain, args.programmer_backend,
                                                   args.cable, args.usb_serial, args.probe_index,

@@ -18,7 +18,7 @@ def build_all(root):
         raise BuildError('No release catalogs found')
     failed = []
     for cycle in cycles:
-        if build_cli(['build-all', '--root', str(root), '--release-cycle', cycle,
+        if build_cli(['build_all', '--root', str(root), '--release-cycle', cycle,
                       '--backend', 'diamond']):
             failed.append(cycle)
     if failed:
@@ -47,12 +47,12 @@ def package(root, output):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=('build-all', 'package'))
+    parser.add_argument('action', choices=('build_all', 'package'))
     parser.add_argument('--root', type=Path, default=ROOT)
     parser.add_argument('--output', type=Path)
     args = parser.parse_args(argv)
     try:
-        if args.action == 'build-all':
+        if args.action == 'build_all':
             build_all(args.root.resolve())
         else:
             if args.output is None:

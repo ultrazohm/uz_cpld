@@ -108,7 +108,7 @@ def catalog_report(builds: list[Build], target_filter: str | None = None,
     name = backend + ('-' + target_filter if target_filter else '') + '-catalog'
     from .model import resolve_release
     release_cycle = resolve_release(root, release_cycle)
-    directory = root / 'cpld_toolchain/toolchain/build/validation' / release_cycle / name
+    directory = root / 'build/validation' / release_cycle / name
     directory.mkdir(parents=True, exist_ok=True)
     rows = [_row(build) for build in builds]
     for program, target, error in build_errors or []:

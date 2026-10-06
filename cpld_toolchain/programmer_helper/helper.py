@@ -211,7 +211,7 @@ def generate(root: Path, slots: dict[int, str], s3c: str,
             templates['s3c'] = digest(root / S3C_TEMPLATE)
             xcfs['s3c.xcf'] = render_xcf(root / S3C_TEMPLATE, {1: jed_paths['s3c']},
                              device_name='LCMXO2-4000HC', idcode='0x012bc043', port=port)
-        output = root / 'cpld_toolchain/toolchain/build/programmer' / cycle
+        output = root / 'build/programmer' / cycle
         if chain:
             output /= chain
         for parent in (output, *output.parents):

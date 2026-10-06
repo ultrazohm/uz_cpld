@@ -45,7 +45,7 @@ Release and source pins are in ``cpld_toolchain/toolchain/foss/toolchain.json``,
 RTL schematic generation also uses this Yosys installation when available, falling back to Yosys on ``PATH`` for native setups without the suite.
 The container does not install a second Yosys from Ubuntu packages.
 Native nextpnr resides in ``$FOSS_ROOT/native/``, while the bundle's executables reside in ``$FOSS_ROOT/bin/``.
-The image's patched loader resides in ``$FOSS_ROOT/native/openfpgaloader/``; ``make flasher_build`` installs a workspace override in ``cpld_toolchain/toolchain/build/openfpgaloader/``.
+The image's patched loader resides in ``$FOSS_ROOT/native/openfpgaloader/``; ``make flasher_build`` installs a workspace override in ``build/openfpgaloader/``.
 See :doc:`firmware-identity` for loader selection and rebuilding.
 
 Build stages and outputs
@@ -87,10 +87,10 @@ The S3C miter explicitly excludes wholly undefined or high-impedance RTL output 
 These proofs do not establish oscillator startup, place-and-route behavior, or hardware behavior.
 Unknown RTL values remain unspecified for synthesis and do not establish physical output levels.
 
-Outputs live under ``programs/<release_cycle>/<name>/build/<target>_foss/`` with ``<name>_<target>_foss.bit``, ``reports/``, ``metadata/``, project files and logs under the same directory.
+Outputs live under ``build/foss/<release_cycle>/<name>/<target>/`` with ``<name>_<target>_foss.bit``, ``reports/``, ``metadata/``, project files and logs under the same directory.
 The FOSS build plan and generated JSON reports live in ``metadata/``.
 Reports include synthesized/routed JSON, timing, completed/unpacked configuration, equivalence evidence and method, tool versions/hashes and the constraint translation record.
-``make build_all backend=foss`` writes a catalog report under ``cpld_toolchain/toolchain/build/validation/<release_cycle>/foss-catalog/``; ``make report backend=foss`` refreshes that report from existing evidence without rebuilding.
+``make build_all backend=foss`` writes a catalog report under ``build/validation/<release_cycle>/foss-catalog/``; ``make report backend=foss`` refreshes that report from existing evidence without rebuilding.
 ``project backend=foss`` prepares the synthesis script and build plan; the equivalence script is generated during a build after mapped cells are known.
 ``gui`` requires ``backend=diamond``.
 Cleanup affects only the selected backend, so Diamond and FOSS results can coexist.

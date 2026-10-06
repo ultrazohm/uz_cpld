@@ -166,7 +166,7 @@ def identify(root, chain, backend='diamond', cable=None, serial=None, probe_inde
     preflight(backend, cable, serial, probe_index)
     root = Path(root).resolve()
     with workspace_lock(root):
-        base = root / 'cpld_toolchain/toolchain/build/programmer/identification'
+        base = root / 'build/programmer/identification'
         for path in [base, *base.parents]:
             if path == root:
                 break

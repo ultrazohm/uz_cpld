@@ -33,7 +33,7 @@ Conditional routing appears as a mux at this stage; for example, choosing an FPG
 The firmware tools can map that function into device LUTs.
 Vendor attributes such as ``syn_keep`` can be ignored; sources in the manifest are compiled in their declared libraries, while unsupported primitives require explicit models.
 
-``programs/<release_cycle>/<name>/build/netlist/`` contains ``netlist.svg``, ``netlist.pdf``, intermediates and diagnostic logs; ``metadata/`` contains netlist provenance and the Yosys JSON export.
+``build/analysis/<release_cycle>/<name>/netlist/`` contains ``netlist.svg``, ``netlist.pdf``, intermediates and diagnostic logs; ``metadata/`` contains netlist provenance and the Yosys JSON export.
 Netlist exports use the managed program/target lock and remove stale diagrams on failure.
 
 State diagrams
@@ -47,7 +47,7 @@ The extractor supports named ``when`` branches, grouped choices such as ``when r
 Unsupported or duplicate state choices fail diagram generation instead of publishing a partial graph.
 Reset assignments outside that statement, enclosing process guards, and implicit holds are omitted.
 The diagram is a source navigation aid and does not establish transition reachability or safety.
-Generated files and source hashes are under ``programs/<release_cycle>/<name>/build/state-diagrams/``.
+Generated files and source hashes are under ``build/analysis/<release_cycle>/<name>/state-diagrams/``.
 TerosHDL offers an interactive state-machine viewer in VS Code; Sphinx's headless export uses the repository's own extractor.
 
 Interactive waveforms

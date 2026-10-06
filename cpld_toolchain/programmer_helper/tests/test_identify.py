@@ -96,7 +96,7 @@ proc drscan {tap args} {
             devices = identify.identify(self.root, 's3c', backend='foss')
         usb.assert_called_once_with(1, serial=None)
         run.assert_called_once()
-        receipt = next((self.root / 'cpld_toolchain/toolchain/build/programmer/identification').glob('*/identity.json'))
+        receipt = next((self.root / 'build/programmer/identification').glob('*/identity.json'))
         self.assertEqual(json.loads(receipt.read_text())['devices'], devices)
 
     def test_preview_never_runs_a_hardware_command(self):

@@ -69,7 +69,7 @@ class ReleaseTests(unittest.TestCase):
 
     def test_copy_preserves_authored_files_and_starters_without_build_outputs(self):
         original = load_build(self.root, 'tx30')
-        original.build_root.mkdir()
+        original.build_root.mkdir(parents=True)
         (original.build_root / 'old.bit').write_text('old output')
         starter = workflow.scaffold(self.root, 'unfinished', 'generator')
         cache = starter / '__pycache__'
@@ -143,7 +143,7 @@ class ReleaseTests(unittest.TestCase):
                 output = self.make('build_all', f'backend={backend}', success=False)
                 self.assertIn('No programs selected for build-all', output)
         self.make('report')
-        path = self.root / 'cpld_toolchain/toolchain/build/validation/empty/diamond-catalog/report.json'
+        path = self.root / 'build/validation/empty/diamond-catalog/report.json'
         report = json.loads(path.read_text())
         self.assertEqual(report['builds'], [])
         self.assertEqual(report['release_cycle'], 'empty')

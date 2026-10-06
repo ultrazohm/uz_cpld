@@ -52,8 +52,10 @@ Manual runs retain the archive as an Actions artifact but do not publish it.
 
 The ZIP contains ``<release>/<program>/<target>/*.bit``, matching ``.jed`` files, and ``manifest.json``.
 Local ``build``, ``build_all`` and ``build_selection`` use the same exporter and manifest schema,
-writing their selected firmware to ``cpld_toolchain/toolchain/build/publication/<backend>/<release>/``.
-See :doc:`builds` for snapshot replacement behavior and the working-output layout.
+writing firmware directly to ``build/<backend>/<release>/<program>/<target>/``
+and updating ``build/<backend>/manifest.json`` without a second firmware copy.
+CI writes its combined archive to ``build/uz-cpld-firmware.zip``.
+See :doc:`builds` for manifest indexing and the unified output layout.
 The manifest records the source commit, all selected releases, firmware checksums, build provenance and a snapshot of the existing identity registry.
 Packaging rejects missing, failed or stale builds, mismatched firmware hashes, and builds from another commit.
 An incomplete catalog never produces a published archive.

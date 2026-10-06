@@ -36,7 +36,7 @@ class FrontendTests(unittest.TestCase):
         generated = load_build(self.root, 'cvg_tx30_stateful')
         generated.directory.mkdir(parents=True)
         other = generated.build_root / 'simulation'
-        other.mkdir()
+        other.mkdir(parents=True)
         routing = generated.manifests[0].parent / 'routing.csv'
         routing.write_text(routing.read_text().replace('d_00,fpga_00,0', 'd_00,fpga_01,0'))
         self.assertEqual(cli_main(['clean', '--root', str(self.root), '--program', generated.name]), 0)
@@ -148,7 +148,7 @@ class FrontendTests(unittest.TestCase):
         # Clones use current authored content, including edits after migration.
         with self.build.sources[0].path.open('a') as stream:
             stream.write('\n-- current program edit\n')
-        self.build.build_root.mkdir()
+        self.build.build_root.mkdir(parents=True)
         (self.build.build_root / 'old-firmware.bit').write_text('generated output')
         result = workflow.scaffold(self.root, 'custom', 'tx30')
         custom = load_build(self.root, 'custom')
@@ -303,7 +303,7 @@ class FrontendTests(unittest.TestCase):
              patch('cpld_toolchain.toolchain.buildsystem.publication.publish'), redirect_stdout(io.StringIO()):
             self.assertEqual(cli_main(['build-all', '--root', str(self.root)]), 0)
         self.assertEqual(len(selected), len(catalog(self.root)))
-        self.assertTrue((self.root / 'cpld_toolchain/toolchain/build/validation/original/diamond-catalog/report.md').is_file())
+        self.assertTrue((self.root / 'build/validation/original/diamond-catalog/report.md').is_file())
         self.assertIn(('s3c_toolchain_test_program', 'uz_s3c_xo2'), selected)
         selected.clear()
         with patch('cpld_toolchain.toolchain.buildsystem.cli.workflow.build_program', side_effect=capture), \
@@ -312,7 +312,7 @@ class FrontendTests(unittest.TestCase):
         self.assertEqual(selected, [('s3c_toolchain_test_program', 'uz_s3c_xo2'),
                                     ('s3c_power_on_debounce', 'uz_s3c_xo2'),
                                     ('s3c_rev6_beta', 'uz_s3c_xo2')])
-        self.assertTrue((self.root / 'cpld_toolchain/toolchain/build/validation/original/diamond-uz_s3c_xo2-catalog/report.json').is_file())
+        self.assertTrue((self.root / 'build/validation/original/diamond-uz_s3c_xo2-catalog/report.json').is_file())
         selected.clear()
         with patch('cpld_toolchain.toolchain.buildsystem.cli.workflow.build_program', side_effect=capture), \
              patch('cpld_toolchain.toolchain.buildsystem.publication.publish'), redirect_stdout(io.StringIO()):
@@ -332,7 +332,7 @@ class FrontendTests(unittest.TestCase):
              redirect_stdout(io.StringIO()):
             self.assertEqual(cli_main(['build-all', '--root', str(self.root)]), 1)
         self.assertEqual(len(attempted), len(catalog(self.root)))
-        report = self.root / 'cpld_toolchain/toolchain/build/validation/original/diamond-catalog/report.json'
+        report = self.root / 'build/validation/original/diamond-catalog/report.json'
         rows = json.loads(report.read_text())['builds']
         failed = next(row for row in rows if row['program'] == 'tx30')
         self.assertEqual(failed['status'], 'failed')
@@ -348,7 +348,7 @@ class FrontendTests(unittest.TestCase):
             self.assertEqual(cli_main(['build-all', '--root', str(self.root)]), 1)
         self.assertNotIn('tx30', attempted)
         self.assertEqual(len(attempted), len(catalog(self.root)) - 1)
-        report = self.root / 'cpld_toolchain/toolchain/build/validation/original/diamond-catalog/report.json'
+        report = self.root / 'build/validation/original/diamond-catalog/report.json'
         row = next(row for row in json.loads(report.read_text())['builds'] if row['program'] == 'tx30')
         self.assertEqual(row['status'], 'failed')
         self.assertIn('unknown fields', row['error'])
@@ -419,7 +419,7 @@ class FrontendTests(unittest.TestCase):
         record = json.loads((directory / 'metadata/build.json').read_text())
         self.assertEqual(record['status'], 'success')
         self.assertEqual(directory, self.build.directory)
-        self.assertEqual(directory.name, 'uz_dslot_xo2_diamond')
+        self.assertEqual(directory, self.root / 'build/diamond/original/tx30/uz_dslot_xo2')
         self.assertIn(self.build.firmware_path('jed').name, record['outputs'])
         self.assertIn(self.build.firmware_path('bit').name, record['outputs'])
         self.assertTrue(self.build.firmware_path('jed').is_file())
@@ -428,10 +428,10 @@ class FrontendTests(unittest.TestCase):
         self.assertEqual({p.name for p in directory.iterdir() if p.is_file()},
                          {self.build.firmware_path('jed').name, self.build.firmware_path('bit').name})
         self.assertTrue((directory / 'metadata/configuration.json').is_file())
-        self.assertTrue((self.root / 'cpld_toolchain/toolchain/build/locks').is_dir())
+        self.assertTrue((self.root / 'build/locks').is_dir())
         self.assertFalse((self.build.build_root / '.locks').exists())
         self.assertEqual(len(record['inputs']), len(workflow.hashes(self.build)))
-        untouched = self.build.build_root / 'simulation'; untouched.mkdir()
+        untouched = self.build.build_root / 'simulation'; untouched.mkdir(parents=True)
         workflow.clean(self.build)
         self.assertTrue(untouched.exists())
         self.assertTrue(self.build.sources[0].path.exists())
@@ -503,7 +503,7 @@ class FrontendTests(unittest.TestCase):
         workflow.clean(self.build, discard_project_changes=True)
 
     def test_clean_all_removes_generated_files_and_keeps_sources(self):
-        for relative in ('cpld_toolchain/toolchain/build', 'docs/_build', 'docs/_generated',
+        for relative in ('build', 'docs/_build', 'docs/_generated',
                          '.venv', 'programs/original/tx30/build', '.pytest_cache',
                          'cpld_toolchain/toolchain/buildsystem/__pycache__'):
             path = self.root / relative
@@ -513,7 +513,7 @@ class FrontendTests(unittest.TestCase):
         archive = self.root / 'archive'; archive.mkdir()
         (archive / 'retained.pyc').write_bytes(b'archived input')
         workflow.clean_all(self.root)
-        for relative in ('cpld_toolchain/toolchain/build', 'docs/_build', 'docs/_generated',
+        for relative in ('build', 'docs/_build', 'docs/_generated',
                          '.venv', 'programs/original/tx30/build', '.pytest_cache',
                          'cpld_toolchain/toolchain/buildsystem/__pycache__',
                          'cpld_toolchain/toolchain/buildsystem/loose.pyc'):
@@ -526,7 +526,7 @@ class FrontendTests(unittest.TestCase):
         target = self.root / 'keep'; target.mkdir()
         (target / 'important.txt').write_text('keep')
         (self.root / 'programs/original/tx30/build').symlink_to(target, target_is_directory=True)
-        output = self.root / 'cpld_toolchain/toolchain/build'; output.mkdir()
+        output = self.root / 'build'; output.mkdir()
         with self.assertRaisesRegex(BuildError, 'symlink'):
             workflow.clean_all(self.root)
         self.assertTrue((target / 'important.txt').is_file())
@@ -540,7 +540,7 @@ class FrontendTests(unittest.TestCase):
     def test_clean_all_preserves_active_build_and_lock(self):
         self.run_build()
         with workflow.locked(self.build):
-            lock = self.root / 'cpld_toolchain/toolchain/build/locks/original.tx30.uz_dslot_xo2.diamond.lock'
+            lock = self.root / 'build/locks/original.tx30.uz_dslot_xo2.diamond.lock'
             inode = lock.stat().st_ino
             with self.assertRaisesRegex(BuildError, 'already active'):
                 workflow.clean_all(self.root)
@@ -560,7 +560,7 @@ class FrontendTests(unittest.TestCase):
 
         def during_cleanup(root):
             cleanup(root)
-            self.assertFalse((root / 'cpld_toolchain/toolchain/build').exists())
+            self.assertFalse((root / 'build').exists())
             for build in (self.build, load_build(root, 'rx30')):
                 with self.assertRaisesRegex(BuildError, 'already active'):
                     with workflow.locked(build):
@@ -588,7 +588,7 @@ class FrontendTests(unittest.TestCase):
         config.write_text(config.read_text() + '\n# changed generation input\n')
         with redirect_stdout(io.StringIO()):
             self.assertEqual(cli_main(['report', '--root', str(self.root), '--backend', 'diamond']), 1)
-        report = self.root / 'cpld_toolchain/toolchain/build/validation/original/diamond-catalog/report.json'
+        report = self.root / 'build/validation/original/diamond-catalog/report.json'
         rows = {row['program']: row for row in json.loads(report.read_text())['builds']}
         self.assertEqual(rows['tx30']['status'], 'success')
         self.assertEqual(rows['cvg_tx30_stateful']['status'], 'failed')
@@ -602,14 +602,15 @@ class FrontendTests(unittest.TestCase):
         with redirect_stdout(io.StringIO()):
             self.assertEqual(cli_main(['report', '--root', str(self.root), '--backend', 'diamond',
                                        '--target', self.build.target]), 1)
-        report = self.root / 'cpld_toolchain/toolchain/build/validation/original/diamond-uz_dslot_xo2-catalog/report.json'
+        report = self.root / 'build/validation/original/diamond-uz_dslot_xo2-catalog/report.json'
         row, = json.loads(report.read_text())['builds']
         self.assertEqual(row['program'], 'tx30')
         self.assertEqual(row['status'], 'failed')
         self.assertIn('unknown fields', row['error'])
 
     def test_symlink_cannot_redirect_clean(self):
-        self.build.build_root.symlink_to(self.root / 'programs', target_is_directory=True)
+        self.build.directory.parent.mkdir(parents=True)
+        self.build.directory.symlink_to(self.root / 'programs', target_is_directory=True)
         with self.assertRaisesRegex(BuildError, 'symlink'):
             workflow.clean(self.build, True)
         self.assertTrue(self.build.manifests[0].exists())

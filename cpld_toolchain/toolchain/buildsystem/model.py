@@ -128,8 +128,8 @@ class Build:
 
     @property
     def build_root(self) -> Path:
-        """Program-local generated outputs, separate from authored inputs."""
-        return self.manifests[0].parent / 'build'
+        """Shared analysis outputs for this program, separate from firmware backends."""
+        return self.root / 'build/analysis' / self.release_cycle / self.name
 
     @property
     def release_cycle(self) -> str:
@@ -142,7 +142,7 @@ class Build:
     @property
     def directory(self) -> Path:
         """Generated output location; never an authored source directory."""
-        return self.build_root / f"{self.target}_{self.backend}"
+        return self.root / 'build' / self.backend / self.release_cycle / self.name / self.target
 
     def firmware_path(self, extension: str) -> Path:
         """Published firmware path for this program, target and backend."""
@@ -208,7 +208,7 @@ class OutputIdentity:
 
     @property
     def directory(self) -> Path:
-        return self.root / 'programs' / self.release_cycle / self.name / 'build' / f'{self.target}_{self.backend}'
+        return self.root / 'build' / self.backend / self.release_cycle / self.name / self.target
 
 
 def load_output(root: Path, name: str, target=None, backend=None, release_cycle=None) -> OutputIdentity:

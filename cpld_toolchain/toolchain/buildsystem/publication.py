@@ -7,9 +7,9 @@ import tempfile
 from zipfile import ZIP_DEFLATED, ZipFile
 
 from .identity import read_registry
-from .model import BuildError
+from .model import BuildError, load_build
 from .report import _row
-from .workflow import safe_directory, workspace_lock
+from .workflow import safe_directory, workspace_lock, write_json
 
 
 def collect(root, builds):
@@ -54,36 +54,44 @@ def collect(root, builds):
 
 
 def publish(root, builds):
-    """Replace the selected release/backend snapshot only after complete validation."""
+    """Index canonical firmware in place; never create a second export copy."""
     root, builds = Path(root).resolve(), list(builds)
-    scopes = {(build.backend, build.release_cycle) for build in builds}
-    if len(scopes) != 1:
-        raise BuildError('Local publication requires one backend and release')
-    backend, cycle = scopes.pop()
-    output = root / 'cpld_toolchain/toolchain/build/publication' / backend / cycle
+    backends = {build.backend for build in builds}
+    if len(backends) != 1:
+        raise BuildError('Local publication requires one backend')
+    backend = backends.pop()
+    output = root / 'build' / backend
     with workspace_lock(root, exclusive=True):
-        payloads = collect(root, builds)
         safe_directory(builds[0], output)
-        output.parent.mkdir(parents=True, exist_ok=True)
-        if output.is_symlink():
-            raise BuildError(f'Publication must not be a symlink: {output}')
-        with tempfile.TemporaryDirectory(prefix='.firmware-', dir=output.parent) as temporary:
-            staging = Path(temporary) / 'snapshot'
-            staging.mkdir()
-            for name, payload in payloads.items():
-                path = staging / name
-                path.parent.mkdir(parents=True, exist_ok=True)
-                path.write_bytes(payload)
-            previous = Path(temporary) / 'previous'
-            if output.exists():
-                output.rename(previous)
+        invalidate(builds[0])
+        # Requested builds must succeed. Older outputs are included only while
+        # they still pass the same source, registry, revision and checksum checks.
+        collect(root, builds)
+        indexed = {(b.release_cycle, b.name, b.target): b for b in builds}
+        for record in sorted(output.glob('*/*/*/metadata/build.json')):
+            target = record.parent.parent.name
+            name = record.parent.parent.parent.name
+            cycle = record.parent.parent.parent.parent.name
+            key = (cycle, name, target)
+            if key in indexed:
+                continue
             try:
-                staging.rename(output)
-            except OSError:
-                if previous.exists():
-                    previous.rename(output)
-                raise
+                build = load_build(root, name, target, backend, cycle)
+                collect(root, [build])
+            except (BuildError, OSError, ValueError):
+                continue
+            indexed[key] = build
+        payloads = collect(root, indexed.values())
+        output.mkdir(parents=True, exist_ok=True)
+        write_json(output / 'manifest.json', json.loads(payloads['manifest.json']))
     return output
+
+
+def invalidate(build):
+    """A rebuild or cleanup must not leave a manifest advertising removed firmware."""
+    output = build.root / 'build' / build.backend / 'manifest.json'
+    safe_directory(build, output)
+    output.unlink(missing_ok=True)
 
 
 def archive(root, builds, output):

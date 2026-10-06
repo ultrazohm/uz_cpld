@@ -100,11 +100,11 @@ See :doc:`configuration` for the manifest and target fields.
 Inspect the result
 ------------------
 
-Simulation writes logs, result XML and ``waves.vcd`` under ``programs/<release_cycle>/<name>/build/simulation/``.
+Simulation writes logs, result XML and ``waves.vcd`` under ``build/analysis/<release_cycle>/<name>/simulation/``.
 Open the VCD in GTKWave or use ``uz_cpld docs`` to generate an interactive waveform page.
 A failed test assertion fails the simulation command.
 
-Diamond exports ``<name>_uz_dslot_xo2_diamond.jed`` and ``<name>_uz_dslot_xo2_diamond.bit`` under ``programs/<release_cycle>/<name>/build/uz_dslot_xo2_diamond/``.
+Diamond exports ``<name>_uz_dslot_xo2_diamond.jed`` and ``<name>_uz_dslot_xo2_diamond.bit`` under ``build/diamond/<release_cycle>/<name>/uz_dslot_xo2/``.
 That directory also contains logs, reports and metadata.
 ``metadata/status.json`` records the outcome; ``metadata/build.json`` records the inputs, tools and output hashes of a successful build.
 See :doc:`validation` for what these checks establish.

@@ -101,7 +101,7 @@ class FossTests(unittest.TestCase):
         self.assertNotIn(diamond.strategy, self.build.inputs)
         diamond.directory.mkdir(parents=True)
         diamond.firmware_path('bit').write_text('Diamond artifact')
-        self.build.directory.mkdir()
+        self.build.directory.mkdir(parents=True)
         workflow.clean(self.build)
         self.assertTrue(diamond.firmware_path('bit').is_file())
 
@@ -469,7 +469,7 @@ endmodule
         with patch('cpld_toolchain.toolchain.buildsystem.backends.foss.FossBackend.prepare', side_effect=prepare), \
              patch('cpld_toolchain.toolchain.buildsystem.backends.foss.FossBackend.build', side_effect=build):
             directory = workflow.build_program(self.build)
-        self.assertEqual(directory.name, 'uz_dslot_xo2_foss')
+        self.assertEqual(directory, self.root / 'build/foss/original/tx30/uz_dslot_xo2')
         self.assertEqual(self.build.firmware_path('bit').read_bytes(), b'new bitstream')
         self.assertFalse(self.build.firmware_path('jed').exists())
         record = json.loads((directory / 'metadata/build.json').read_text())

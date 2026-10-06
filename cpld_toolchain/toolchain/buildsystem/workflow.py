@@ -78,7 +78,7 @@ def locked(build: Build):
     """Exclude cleanup and competing project, build, GUI or clean operations."""
     with workspace_lock(build.root):
         directory = safe_directory(build)
-        lockdir = safe_directory(build, build.root / 'cpld_toolchain/toolchain/build/locks')
+        lockdir = safe_directory(build, build.root / 'build/locks')
         lockdir.mkdir(parents=True, exist_ok=True)
         lockpath = lockdir / f'{build.release_cycle}.{build.name}.{build.target}.{build.backend}.lock'
         with ExitStack() as stack:
@@ -152,6 +152,8 @@ def project(build: Build) -> Path:
 
 def clear_publication(build: Build, directory: Path):
     """Remove published firmware, reports and provenance without losing diagnostics."""
+    from .publication import invalidate
+    invalidate(build)
     metadata = directory / 'metadata'
     if metadata.is_symlink():
         raise BuildError(f'Metadata directory must not be a symlink: {metadata}')
@@ -259,6 +261,8 @@ def clean(build: Build, discard_project_changes: bool = False):
     with locked(build) as directory:
         if not discard_project_changes:
             guard(directory)
+        from .publication import invalidate
+        invalidate(build)
         if directory.exists():
             shutil.rmtree(directory)
 
@@ -276,7 +280,7 @@ def _clean_all(root: Path):
         if (root / folder).is_symlink():
             raise BuildError(f'Authored directory must not be a symlink: {root / folder}')
     programs = root / 'programs'
-    outputs = [root / 'cpld_toolchain/toolchain/build', root / 'docs/_build', root / 'docs/_generated']
+    outputs = [root / 'build', root / 'cpld_toolchain/toolchain/build', root / 'docs/_build', root / 'docs/_generated']
     environment = root / '.venv'
     if Path(sys.prefix).resolve().is_relative_to(environment.resolve()):
         print(f'Keeping active Python environment: {environment}')

@@ -74,34 +74,62 @@ The documentation command performs these tasks for each selected program:
 The retained diagnostics include firmware projects, logs, reports and metadata, simulation traces, netlists, state diagrams, comparison evidence, catalog summaries and the CI identity registry.
 These tasks do not program hardware or establish board timing acceptance; see :doc:`validation` and :doc:`foss` for qualification limits.
 
-Firmware distribution layout
-----------------------------
+Unified build directory
+-----------------------
 
-Successful ``build``, ``build_all`` and ``build_selection`` commands export a snapshot to
-``cpld_toolchain/toolchain/build/publication/<backend>/<release>/``::
+All firmware and toolchain outputs live under the repository's top-level ``build/``::
 
-   manifest.json
-   <release>/<program>/<target>/<program>_<target>_<backend>.bit
-   <release>/<program>/<target>/<program>_<target>_<backend>.jed
+   build/
+     diamond/
+       manifest.json
+       <release>/<program>/<target>/
+         <program>_<target>_diamond.bit
+         <program>_<target>_diamond.jed
+         project/
+         logs/
+         reports/
+         metadata/
+     foss/
+       manifest.json
+       <release>/<program>/<target>/...
+     analysis/<release>/<program>/
+       simulation/
+       netlist/
+       state-diagrams/
+       comparison/
+     validation/<release>/...
+     simulation/<release>/junit.xml
+     programmer/...
+     locks/
+     openfpgaloader/
+     uz-cpld-firmware.zip
 
-Diamond exports both formats; FOSS exports only ``.bit``.
-The manifest records exactly the builds selected by that invocation, their identities,
-firmware SHA-256 checksums, build provenance and the identity registry snapshot.
+Diamond exports both firmware formats; FOSS exports only ``.bit``.
+There is one canonical exported copy of each firmware file. The managed programmer,
+reports and CI packaging all use it directly. Vendor intermediates remain in ``project/``.
+Successful ``build``, ``build_all`` and ``build_selection`` update ``build/<backend>/manifest.json``
+in place, using the same schema and relative firmware paths as the CI ZIP.
 Release defaults, backend selection and target/program filters are unchanged.
-A successful invocation replaces the previous snapshot for that backend and release,
-including removing programs outside the new selection. Other releases and backends remain separate.
-A failed build or export does not replace the previous complete snapshot; inspect the
-command exit status and manifest provenance before using an older snapshot.
 
-Build projects, logs, reports and per-build metadata remain in
-``programs/<release>/<program>/build/<target>_<backend>/`` as working evidence.
-The managed programmer continues to validate that evidence; importing published snapshots
-without a checkout is future work.
+The manifest indexes the requested successful builds together with other existing builds
+for that backend that still pass source, identity, Git revision and checksum validation.
+Building another program or release therefore preserves valid earlier entries without
+copying or rebuilding their firmware. Unverified files and stale builds are not indexed.
+The manifest records identities, firmware SHA-256 checksums, build provenance and a
+snapshot of the identity registry.
+Once a rebuild begins replacing exports, or ``clean`` removes a build, the backend
+manifest is invalidated. A successful build command regenerates it; a failed rebuild
+leaves it absent rather than advertising removed firmware.
 
 CI invokes the same catalog build command once per release with the Diamond backend.
-It then uses the shared exporter to collect every release into ``uz-cpld-firmware.zip``;
-the ZIP has the same internal directory layout and manifest schema as a local snapshot.
-No separate CI compilation or manifest-generation implementation is used.
+It then archives the selected verified firmware and manifest as ``build/uz-cpld-firmware.zip``.
+Inside the ZIP, paths start with ``<release>/<program>/<target>/``; projects, logs and
+intermediates are excluded. No additional publication directory is created.
+Importing this ZIP without a checkout remains future work.
+
+Existing outputs in the old nested directories are not migrated or overwritten.
+Rebuild to populate the new layout. ``clean_all`` also removes the legacy output directories.
+Documentation HTML and generated documentation assets retain ``docs/_build/`` and ``docs/_generated/``.
 
 Firmware commands
 -----------------
@@ -120,7 +148,7 @@ Firmware commands
 ``check`` validates manifests and files.
 ``doctor`` inventories every tool group and the selected catalog; missing tools do not make it fail and no license checkout is attempted.
 ``build_all`` processes the explicit ``programs/<release_cycle>/catalog.toml`` list and fails if any entry fails.
-It also writes ``cpld_toolchain/toolchain/build/validation/<release_cycle>/<backend>-catalog/report.md`` and ``report.json`` after attempting every valid selected build, even if a tool fails.
+It also writes ``build/validation/<release_cycle>/<backend>-catalog/report.md`` and ``report.json`` after attempting every valid selected build, even if a tool fails.
 Invalid program manifests appear as failed report rows and do not prevent other programs from building.
 ``make report backend=diamond|foss`` refreshes the selected catalog report from existing build records without invoking firmware tools.
 Invalid manifests and stale generator outputs appear as failed rows; the report includes the other programs, and the command exits with a failure status after writing the report.
@@ -162,10 +190,10 @@ Documentation groups program manifests by release cycle, including programs crea
 Outputs and failures
 --------------------
 
-``programs/<release_cycle>/<name>/build/<target>_<backend>/`` contains the generated ``project/``, retained ``logs/``, published ``reports/`` and ``metadata/`` directories.
+``build/<backend>/<release_cycle>/<name>/<target>/`` contains the generated ``project/``, retained ``logs/``, published ``reports/`` and ``metadata/`` directories.
 Diamond publishes ``<name>_<target>_diamond.jed`` and ``<name>_<target>_diamond.bit`` at this directory level; FOSS publishes ``<name>_<target>_foss.bit``.
 ``metadata/`` contains ``build.json``, ``identity.json``, ``configuration.json``, ``status.json``, the FOSS build plan and generated JSON reports.
-The backend directory itself contains only the named firmware files; ``project/`` retains other tool inputs and intermediates.
+The target directory has only the named firmware files at its top level; ``project/`` retains other tool inputs and intermediates.
 
 A build that passes the lock/configuration guards removes previous firmware, reports and provenance before invoking the selected backend.
 Preparation or compilation failure preserves logs without publishing stale firmware.
@@ -189,18 +217,18 @@ Check the destination when saving from Spreadsheet View, because an exported LPF
 Transfer useful project/strategy changes into manifests or the target strategy before regenerating.
 ``gui`` preserves an existing project, while ``project``, ``build`` and ordinary ``clean`` reject edited generated settings.
 After preserving useful changes, ``make clean program=tx30 discard_project_changes=1 release_cycle=original`` explicitly discards them.
-``clean`` removes only the selected backend firmware directory and preserves simulation, netlist and shared lock files in ``cpld_toolchain/toolchain/build/locks/``.
+``clean`` removes only the selected backend firmware directory and preserves simulation, netlist and shared lock files in ``build/locks/``.
 Cleanup does not require fresh generated VHDL or present HDL input files; it still validates the output location, obtains the build lock and protects edited generated project settings.
-Build, GUI, simulation and netlist operations use advisory locks in ``cpld_toolchain/toolchain/build/locks/`` to prevent concurrent changes to one program; independently launched GUI sessions cannot honor them and must be closed before a build.
+Build, GUI, simulation and netlist operations use advisory locks in ``build/locks/`` to prevent concurrent changes to one program; independently launched GUI sessions cannot honor them and must be closed before a build.
 
 Remove all generated files
 --------------------------
 
 Run ``make clean_all`` from the repository root.
-It removes every program ``build/`` directory, ``cpld_toolchain/toolchain/build/``, ``docs/_build/``, ``docs/_generated/``, ``.venv/`` and Python caches within the repository.
+It removes ``build/``, legacy program and toolchain ``build/`` directories, ``docs/_build/``, ``docs/_generated/``, ``.venv/`` and Python caches within the repository.
 It refuses to run while a managed build, project, GUI, simulation, netlist or clean operation is active.
 A lock on the checkout directory also prevents new operations from starting during cleanup, even while generated lock files are removed.
 The active virtual environment is preserved when its interpreter is running the cleanup command.
 It discards generated project edits and validation evidence; authored HDL, constraints, manifests and testbenches remain.
 The tracked identity registry remains, including allocated numbers and recorded build revisions.
-Cleanup removes a local ``make flasher_build`` installation under ``cpld_toolchain/toolchain/build/``; the container's installed patched loader is unaffected.
+Cleanup removes a local ``make flasher_build`` installation under ``build/``; the container's installed patched loader is unaffected.

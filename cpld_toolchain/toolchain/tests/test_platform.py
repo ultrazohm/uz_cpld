@@ -134,7 +134,7 @@ class WindowsDispatchTests(unittest.TestCase):
             cache = environment / 'lib/__pycache__/installed.pyc'
             cache.parent.mkdir(parents=True)
             cache.write_bytes(b'active environment')
-            generated = root / 'cpld_toolchain/toolchain/build'
+            generated = root / 'build'
             generated.mkdir(parents=True)
             with patch.object(sys, 'prefix', str(environment)), redirect_stdout(io.StringIO()):
                 clean_all(root)

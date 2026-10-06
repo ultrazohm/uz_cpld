@@ -75,13 +75,10 @@ jobs:
           name: program-diagnostics
           path: |
             programs/usercodes.json
-            programs/*/*/build/simulation/
-            programs/*/*/build/netlist/
-            programs/*/*/build/uz_dslot_xo2_foss/
-            programs/*/*/build/uz_s3c_xo2_foss/
-            programs/*/*/build/comparison/
-            cpld_toolchain/toolchain/build/simulation/
-            cpld_toolchain/toolchain/build/validation/
+            build/analysis/
+            build/foss/
+            build/simulation/
+            build/validation/
           if-no-files-found: warn
           retention-days: 14
       - name: Retain the documentation preview
@@ -142,7 +139,7 @@ jobs:
             uz-cpld-toolchain-diamond bash -e -c '
               check-diamond --synthesis
               python3 -m cpld_toolchain.toolchain.ci build-all
-              python3 -m cpld_toolchain.toolchain.ci package --output cpld_toolchain/toolchain/build/publication/uz-cpld-firmware.zip
+              python3 -m cpld_toolchain.toolchain.ci package --output build/uz-cpld-firmware.zip
             '
       - name: Restore runner ASLR
         if: always()
@@ -159,10 +156,8 @@ jobs:
           name: diamond-diagnostics
           path: |
             programs/usercodes.json
-            programs/*/*/build/uz_dslot_xo2_diamond/
-            programs/*/*/build/uz_s3c_xo2_diamond/
-            cpld_toolchain/toolchain/build/validation/*/diamond-catalog/
-            cpld_toolchain/toolchain/build/publication/diamond/
+            build/diamond/
+            build/validation/*/diamond-catalog/
           if-no-files-found: warn
           retention-days: 14
 
@@ -170,7 +165,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: diamond-firmware
-          path: cpld_toolchain/toolchain/build/publication/uz-cpld-firmware.zip
+          path: build/uz-cpld-firmware.zip
           if-no-files-found: error
           retention-days: 14
 

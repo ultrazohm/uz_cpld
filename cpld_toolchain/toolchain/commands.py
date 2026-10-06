@@ -311,7 +311,7 @@ def plan(action, options, *, root=ROOT, cwd=None):
     if action == 'sim':
         cycle = resolve_release(root, options.get('release_cycle'))
         args = ['cpld_toolchain/toolchain/simulation/test_simulation.py', '-v', '-n', options.get('jobs', '4'),
-                f'--junitxml=cpld_toolchain/toolchain/build/simulation/{cycle}/junit.xml', '--release-cycle', cycle,
+                f'--junitxml=build/simulation/{cycle}/junit.xml', '--release-cycle', cycle,
                 '--seed', options.get('seed', '1'), '--wave-format', options.get('wave_format', 'vcd')]
         return [invoke('pytest', args + flags('program', 'target'))]
     if action == 'netlist':

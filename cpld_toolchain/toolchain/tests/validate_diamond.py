@@ -46,8 +46,8 @@ def main():
                         help='Optional external LDF for legacy comparison; not required')
     args = parser.parse_args()
     results = {}
-    # Keep all evidence beneath ignored cpld_toolchain/toolchain/build/validation; unique directory per run.
-    output = ROOT / 'cpld_toolchain/toolchain/build/validation'; output.mkdir(parents=True, exist_ok=True)
+    # Keep all evidence beneath ignored build/validation; unique directory per run.
+    output = ROOT / 'build/validation'; output.mkdir(parents=True, exist_ok=True)
     stage = Path(tempfile.mkdtemp(prefix='integration-', dir=output))
     for name in catalog(ROOT) if args.legacy_project else []:
         dest = stage / name; dest.mkdir()

@@ -65,7 +65,7 @@ testbench = "probe_tb.py"
 
                 first = simulate()
                 self.assertEqual(first.returncode, 0, first.stdout + first.stderr)
-                output = program / 'build/simulation'
+                output = root / 'build/analysis/original/probe/simulation'
                 self.assertTrue((output / 'waves.vcd').is_file())
                 # The file still exists; only the manifest stops declaring it.
                 manifest.write_text(original.replace(helper, ''))

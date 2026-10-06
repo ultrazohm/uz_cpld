@@ -71,7 +71,7 @@ Outputs and documentation
 -------------------------
 
 Builds, simulations and netlists write under the selected program's ``build/`` directory.
-Catalog reports are under ``cpld_toolchain/toolchain/build/validation/<release_cycle>/``.
+Catalog reports are under ``build/validation/<release_cycle>/``.
 Locks and provenance include the cycle so matching program names remain independent.
 ``list``, ``build_all``, ``report``, ``sim`` and ``netlist`` operate on the selected cycle.
 ``make docs`` documents all releases; ``make docs release_cycle=NAME`` selects another cycle.

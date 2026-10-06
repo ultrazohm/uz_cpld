@@ -36,7 +36,7 @@ Manually maintained programs contain editable HDL, constraints, manifests and te
 Generator-managed projects use editable CSV/TOML inputs to produce the VHDL, testbench, board constraints, manifest and generation receipt.
 Generated VHDL references the shared S3C entity and selected architecture in ``xo2_library/s3c``.
 The build system validates generated files through the standalone package, while the generator itself has no build-system dependency.
-Firmware build artifacts live under each program's ignored ``build/`` directory, while aggregate reports use ``cpld_toolchain/toolchain/build/`` and documentation uses ``docs/_generated/`` and ``docs/_build/``.
+Firmware artifacts live under ``build/<backend>/<release>/<program>/<target>/``, with a shared ``build/<backend>/manifest.json`` and no separate publication copy. Analysis, reports, programmer outputs and tool builds also use the top-level ``build/`` directory. Documentation uses ``docs/_generated/`` and ``docs/_build/``.
 The repository has one Makefile and one Dockerfile, with host-mounted and Diamond-image Dev Container profiles, each with an optional Linux USB configuration.
 
 Design decisions

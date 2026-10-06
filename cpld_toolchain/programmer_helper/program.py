@@ -280,7 +280,7 @@ def diamond_plan(root, cycle, chain, builds, probe_index):
         for build in sorted(unique.values(), key=lambda item: str(item.directory)):
             stack.enter_context(locked(build))
         current = {label: verified_firmware(build, 'jed') for label, _, build in builds}
-        base = safe_directory(builds[0][2], root / 'cpld_toolchain/toolchain/build/programmer' / cycle / chain / 'plans')
+        base = safe_directory(builds[0][2], root / 'build/programmer' / cycle / chain / 'plans')
         base.mkdir(parents=True, exist_ok=True)
         output = Path(tempfile.mkdtemp(prefix='plan-', dir=base))
         try:
@@ -332,7 +332,7 @@ def plan(root: Path, selection: Path, cycle_name: str | None, chain: str, progra
     if programmer_backend == 'diamond':
         output, steps = diamond_plan(root, cycle, chain, builds, probe_index)
     else:
-        output = root / 'cpld_toolchain/toolchain/build/programmer' / cycle
+        output = root / 'build/programmer' / cycle
         steps = []
         for label, index, build in builds:
             firmware, sha256 = verified_firmware(build, 'jed' if build_backend == 'diamond' else 'bit')
@@ -492,7 +492,7 @@ def main(argv=None) -> int:
                     return 0
                 if not args.cable or args.cable.startswith(('ft2232', 'ft4232')):
                     require_usb_bus()
-                output = run_command(command, args.root.resolve() / 'cpld_toolchain/toolchain/build/programmer/scan.log')
+                output = run_command(command, args.root.resolve() / 'build/programmer/scan.log')
                 print('Detected:', parse_scan(output))
             else:
                 port = args.probe_index if args.probe_index is not None else DEFAULT_DIAMOND_PORT
@@ -501,7 +501,7 @@ def main(argv=None) -> int:
                     return 0
                 require_usb_bus()
                 stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
-                run_dir = args.root.resolve() / 'cpld_toolchain/toolchain/build/programmer/scans' / stamp
+                run_dir = args.root.resolve() / 'build/programmer/scans' / stamp
                 run_dir.mkdir(parents=True)
                 xcf = run_dir / 'scan.xcf'
                 diamond_scan_xcf(args.root.resolve(), args.chain, xcf, port)

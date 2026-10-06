@@ -37,7 +37,7 @@ def executable(name, *, override=None, candidates=(), required=False):
 def loader_path():
     suite = Path(os.environ.get('FOSS_ROOT', '/opt/oss-cad-suite'))
     return executable('openFPGALoader', override='CPLD_OPENFPGALOADER', candidates=(
-        repository_root() / 'cpld_toolchain/toolchain/build/openfpgaloader/openFPGALoader',
+        repository_root() / 'build/openfpgaloader/openFPGALoader',
         suite / 'native/openfpgaloader/openFPGALoader', suite / 'bin/openFPGALoader'))
 
 

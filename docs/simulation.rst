@@ -53,14 +53,14 @@ These waits allow combinational logic to settle and are not device timing requir
 Results
 -------
 
-``programs/<release_cycle>/<name>/build/simulation/`` contains compiler/simulation logs, cocotb result XML and ``waves.vcd``; ``metadata/run.json`` records provenance.
+``build/analysis/<release_cycle>/<name>/simulation/`` contains compiler/simulation logs, cocotb result XML and ``waves.vcd``; ``metadata/run.json`` records provenance.
 VCD is a portable text waveform; optional GHW preserves GHDL/VHDL type information and optional FST is more compact.
 Selecting GHW or FST emits that file alongside VCD.
-``cpld_toolchain/toolchain/build/simulation/<release_cycle>/junit.xml`` is the aggregate pytest report.
+``build/simulation/<release_cycle>/junit.xml`` is the aggregate pytest report.
 Reruns replace program results, and concurrent managed operations on the same program/target are rejected.
 Each run recreates its simulation directory and GHDL libraries from the declared sources.
 Changes to authored inputs during compilation or simulation fail the run; successful provenance describes the inputs used by that run.
 
 Open VCD with GTKWave or use the interactive :doc:`program pages <program-documentation>`::
 
-   gtkwave programs/original/tx26_w_enable/build/simulation/waves.vcd
+   gtkwave build/analysis/original/tx26_w_enable/simulation/waves.vcd

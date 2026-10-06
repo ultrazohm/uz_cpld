@@ -99,7 +99,7 @@ Export Diamond projects
 
 XCF export requires Diamond for both backends, all six assignments, and current JEDEC builds.
 ``--rebuild 1`` builds the selected programs before exporting.
-It writes ``dslots.xcf``, ``s3c.xcf`` and ``selection.json`` under ``cpld_toolchain/toolchain/build/programmer/<release>/`` without contacting hardware.
+It writes ``dslots.xcf``, ``s3c.xcf`` and ``selection.json`` under ``build/programmer/<release>/`` without contacting hardware.
 XCFs reference absolute firmware paths; regenerate them after moving the checkout or rebuilding firmware.
 Their operation is ``FLASH Erase,Program,Verify`` when executed in Lattice Programmer.
 CLI programming creates separate target-specific plans, so prior XCF export is optional.
@@ -114,7 +114,7 @@ The helper rejects ambiguous probes and concurrent operations on the same interf
 Driver cleanup cannot complete after a forced kill or USB disconnection; reconnect the probe if needed.
 Running XCFs directly in the vendor GUI does not use this wrapper.
 
-Outputs are relative to ``cpld_toolchain/toolchain/build/programmer/``:
+Outputs are relative to ``build/programmer/``:
 
 * Diamond scans: ``scans/<timestamp>/`` with XCF and logs.
 * FOSS scans: ``scan.log``, replaced by the next scan.

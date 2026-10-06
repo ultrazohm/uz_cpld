@@ -22,7 +22,7 @@ def test_routing(program, request):
 
     ``program`` is selected by the pytest fixture in ``cpld_toolchain.toolchain.simulation.conftest``;
     ``request`` supplies the seed and waveform format from command-line options.
-    Results are written beneath ``programs/<release_cycle>/<program>/build/simulation``.
+    Results are written beneath ``build/analysis/<release_cycle>/<program>/simulation``.
     """
     build = load_build(ROOT, program, request.config.getoption('--target'))
     with locked(build):

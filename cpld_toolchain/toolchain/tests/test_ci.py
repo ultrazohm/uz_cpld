@@ -122,27 +122,27 @@ class FirmwareArchiveTests(unittest.TestCase):
             snapshot = publication.publish(self.root, [self.build])
         self.package()
         with ZipFile(self.output) as archive:
-            self.assertEqual(sorted(p.relative_to(snapshot).as_posix() for p in snapshot.rglob('*') if p.is_file()),
-                             sorted(archive.namelist()))
+            self.assertEqual(len(archive.namelist()), 3)
+            self.assertEqual(self.build.firmware_path('bit').relative_to(snapshot).as_posix(),
+                             next(name for name in archive.namelist() if name.endswith('.bit')))
             for name in archive.namelist():
                 self.assertEqual((snapshot / name).read_bytes(), archive.read(name))
 
-    def test_failed_publication_preserves_previous_complete_snapshot(self):
+    def test_failed_publication_invalidates_manifest(self):
         self.run_build()
         snapshot = publication.publish(self.root, [self.build])
-        before = (snapshot / 'manifest.json').read_bytes()
         self.build.firmware_path('bit').write_bytes(b'tampered')
         with self.assertRaises(BuildError):
             publication.publish(self.root, [self.build])
-        self.assertEqual((snapshot / 'manifest.json').read_bytes(), before)
+        self.assertFalse((snapshot / 'manifest.json').exists())
 
-    def test_republication_removes_files_outside_selected_snapshot(self):
+    def test_republication_does_not_index_unverified_files(self):
         self.run_build()
         snapshot = publication.publish(self.root, [self.build])
         extra = snapshot / 'unselected.bit'
         extra.write_bytes(b'old')
         publication.publish(self.root, [self.build])
-        self.assertFalse(extra.exists())
+        self.assertTrue(extra.exists())
         manifest = json.loads((snapshot / 'manifest.json').read_text())
         self.assertEqual([entry['program'] for entry in manifest['builds']], ['tx30'])
 
@@ -158,7 +158,7 @@ class FirmwareArchiveTests(unittest.TestCase):
              patch.object(workflow, 'launcher', return_value=Path('/bin/true')):
             self.assertEqual(main(['build-all', '--root', str(self.root),
                                    '--target', 'uz_s3c_xo2', '--backend', 'diamond']), 0)
-        path = self.root / 'cpld_toolchain/toolchain/build/publication/diamond/original/manifest.json'
+        path = self.root / 'build/diamond/manifest.json'
         manifest = json.loads(path.read_text())
         self.assertEqual([entry['program'] for entry in manifest['builds']], ['s3c_power_on_debounce'])
 
@@ -188,16 +188,66 @@ class FirmwareArchiveTests(unittest.TestCase):
              patch.object(workflow.DiamondBackend, 'build', side_effect=self.fake_build), \
              patch.object(workflow, 'launcher', return_value=Path('/bin/true')):
             self.assertEqual(main(['build', '--root', str(self.root), '--program', 'tx30']), 0)
-        manifest = json.loads((self.root / 'cpld_toolchain/toolchain/build/publication/diamond/original/manifest.json').read_text())
+        manifest = json.loads((self.root / 'build/diamond/manifest.json').read_text())
         self.assertEqual([entry['program'] for entry in manifest['builds']], ['tx30'])
 
     def test_publication_rejects_symlinked_ancestor(self):
         self.run_build()
         outside = self.root / 'outside'
         outside.mkdir()
-        output = self.root / 'cpld_toolchain/toolchain/build/publication'
+        output = self.root / 'build/diamond'
+        output.rename(self.root / 'saved-diamond')
         output.parent.mkdir(parents=True, exist_ok=True)
         output.symlink_to(outside, target_is_directory=True)
         with self.assertRaisesRegex(BuildError, 'symlink'):
             publication.publish(self.root, [self.build])
         self.assertEqual(list(outside.iterdir()), [])
+
+
+    def test_manifest_accumulates_valid_builds_without_copying_firmware(self):
+        from cpld_toolchain.toolchain.buildsystem.model import load_build
+        self.run_build()
+        first = self.build
+        snapshot = publication.publish(self.root, [first])
+        self.build = load_build(self.root, 'rx30')
+        self.run_build()
+        self.assertFalse((snapshot / 'manifest.json').exists())
+        publication.publish(self.root, [self.build])
+        manifest = json.loads((snapshot / 'manifest.json').read_text())
+        self.assertEqual({entry['program'] for entry in manifest['builds']}, {'tx30', 'rx30'})
+        for build in (first, self.build):
+            paths = list((self.root / 'build').rglob(build.firmware_path('bit').name))
+            self.assertEqual(paths, [build.firmware_path('bit')])
+        first.sources[0].path.write_text(first.sources[0].path.read_text() + '\n-- changed\n')
+        publication.publish(self.root, [self.build])
+        manifest = json.loads((snapshot / 'manifest.json').read_text())
+        self.assertEqual([entry['program'] for entry in manifest['builds']], ['rx30'])
+
+    def test_failed_rebuild_invalidates_manifest_and_removes_firmware(self):
+        self.run_build()
+        snapshot = publication.publish(self.root, [self.build])
+        with self.assertRaises(BuildError):
+            self.run_build(action=lambda project, log: 'wrong tool version')
+        self.assertFalse((snapshot / 'manifest.json').exists())
+        self.assertFalse(self.build.firmware_path('bit').exists())
+
+
+    def test_manifest_accumulates_releases_and_clean_invalidates_it(self):
+        from cpld_toolchain.toolchain.buildsystem.model import load_build
+        from cpld_toolchain.toolchain.buildsystem.releases import create
+        from cpld_toolchain.toolchain.buildsystem.workflow import clean
+        self.run_build()
+        first = self.build
+        create(self.root, 'next', 'original')
+        self.build = load_build(self.root, 'tx30', release_cycle='next')
+        self.run_build()
+        output = publication.publish(self.root, [self.build])
+        manifest = json.loads((output / 'manifest.json').read_text())
+        self.assertEqual(manifest['release_cycles'], ['next', 'original'])
+        self.assertEqual(len(manifest['builds']), 2)
+        clean(self.build)
+        self.assertFalse((output / 'manifest.json').exists())
+        self.assertTrue(first.firmware_path('bit').is_file())
+        publication.publish(self.root, [first])
+        manifest = json.loads((output / 'manifest.json').read_text())
+        self.assertEqual(manifest['release_cycles'], ['original'])

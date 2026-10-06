@@ -30,7 +30,7 @@ class ProgrammerHelperTests(unittest.TestCase):
         self.assertEqual(project_main(['--root', str(self.root), '--selection', str(selection),
                                        '--probe-index', '3']), 0)
         for chain in ('s3c', 'dslots'):
-            xcf = self.root / 'cpld_toolchain/toolchain/build/programmer/original' / f'{chain}.xcf'
+            xcf = self.root / 'build/programmer/original' / f'{chain}.xcf'
             self.assertEqual(ET.parse(xcf).findtext('./CableOptions/PortAdd'), 'FTUSB-3')
 
     def test_diamond_plans_are_private_and_preserve_each_selection(self):
@@ -207,7 +207,7 @@ class ProgrammerHelperTests(unittest.TestCase):
             with self.subTest(expected=expected):
                 self.assertEqual(project_main(['--root', str(self.root), '--selection', str(selection),
                                                *extra]), 0)
-                output = self.root / 'cpld_toolchain/toolchain/build/programmer' / expected
+                output = self.root / 'build/programmer' / expected
                 receipt = json.loads((output / 'selection.json').read_text())
                 self.assertEqual(receipt['release_cycle'], expected)
                 self.assertTrue((output / 'dslots.xcf').is_file())
@@ -278,10 +278,10 @@ class ProgrammerHelperTests(unittest.TestCase):
         with self.assertRaises(SystemExit) as error:
             project_main(['--root', str(self.root), '--selection', str(selection), '--build-backend', 'foss'])
         self.assertEqual(error.exception.code, 2)
-        self.assertFalse((self.root / 'cpld_toolchain/toolchain/build/programmer').exists())
+        self.assertFalse((self.root / 'build/programmer').exists())
         self.assertEqual(project_main(['--root', str(self.root), '--selection', str(selection),
                                        '--build-backend', 'diamond']), 0)
-        receipt = json.loads((self.root / 'cpld_toolchain/toolchain/build/programmer/old/selection.json').read_text())
+        receipt = json.loads((self.root / 'build/programmer/old/selection.json').read_text())
         self.assertEqual(receipt['build_backend'], 'diamond')
 
     def test_foss_execution_revalidates_selected_build_and_records_both_backends(self):
@@ -355,9 +355,9 @@ class ProgrammerHelperTests(unittest.TestCase):
         slot_tree = ET.parse(output / 'dslots.xcf')
         devices = slot_tree.findall('./Chain/Device')
         self.assertEqual([int(item.findtext('Pos')) for item in devices], [1, 2, 3, 4, 5])
-        self.assertEqual([Path(item.findtext('File')).parent.parent.parent.name for item in devices],
+        self.assertEqual([Path(item.findtext('File')).parents[1].name for item in devices],
                          [SLOTS[position] for position in range(1, 6)])
-        self.assertEqual([Path(item.findtext('File')).parent.parent.parent.parent.name for item in devices],
+        self.assertEqual([Path(item.findtext('File')).parents[2].name for item in devices],
                          ['old'] * 5)
         self.assertTrue(all(item.findtext('JedecChecksum') == '0x5678' for item in devices))
         self.assertIsNone(slot_tree.find('./CableOptions/USBID'))
@@ -378,7 +378,7 @@ class ProgrammerHelperTests(unittest.TestCase):
         source.write_text(source.read_text() + '\n-- changed\n')
         with self.assertRaisesRegex(BuildError, 'stale'):
             generate(self.root, SLOTS, 's3c_power_on_debounce')
-        self.assertFalse((self.root / 'cpld_toolchain/toolchain/build/programmer/original/dslots.xcf').exists())
+        self.assertFalse((self.root / 'build/programmer/original/dslots.xcf').exists())
 
     def test_wrong_target_is_rejected(self):
         with self.assertRaisesRegex(BuildError, 'does not support'):

@@ -72,9 +72,9 @@ Then::
    uz_cpld report
 
 ``build_all`` compiles every supported catalog program in the current release.
-Successful ``build``, ``build_all`` and ``build_selection`` also write the selected firmware
-and ``manifest.json`` to ``cpld_toolchain/toolchain/build/publication/<backend>/<release>/``
-using the CI archive layout; see :doc:`builds` for the snapshot contents and replacement behavior.
+Successful ``build``, ``build_all`` and ``build_selection`` write firmware directly under
+``build/<backend>/<release>/<program>/<target>/`` and update ``build/<backend>/manifest.json``.
+The programmer and CI use these same files; see :doc:`builds` for indexing and cleanup behavior.
 It does not flash hardware.
 Install the tools required for simulation, diagrams, documentation and FOSS builds, or enter the toolchain container before running those commands.
 Rebuild the image explicitly when its tool dependencies change.

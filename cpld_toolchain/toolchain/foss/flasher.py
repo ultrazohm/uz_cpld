@@ -119,7 +119,7 @@ def build(output, jobs=2, archive=None):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--output', type=Path, default=ROOT / 'cpld_toolchain/toolchain/build/openfpgaloader')
+    parser.add_argument('--output', type=Path, default=ROOT / 'build/openfpgaloader')
     parser.add_argument('--jobs', type=int, default=2)
     parser.add_argument('--archive', type=Path)
     args = parser.parse_args(argv)

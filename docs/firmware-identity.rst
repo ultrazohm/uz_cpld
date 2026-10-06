@@ -89,7 +89,7 @@ The supported reader wiring is the UltraZohm FT4232 channel B at 1 MHz: Diamond 
 For multiple probes, the FOSS interface accepts ``usb_serial=SERIAL``; an ambiguous unselected probe is rejected.
 Other cable types or probe-index mappings require extending the reader and are rejected before managed programming starts.
 Managed FOSS programming requires the pinned USERCODE-capable openFPGALoader build included in the toolchain image.
-On a native host, ``make flasher_build`` builds it under ``cpld_toolchain/toolchain/build/openfpgaloader/`` (requires a C++ compiler, CMake, pkg-config, patch, libftdi1/libusb development headers and zlib).
+On a native host, ``make flasher_build`` builds it under ``build/openfpgaloader/`` (requires a C++ compiler, CMake, pkg-config, patch, libftdi1/libusb development headers and zlib).
 This command builds the programming executable only; it does not build CPLD firmware, access USB or program a device.
 The managed loader selection prefers that local build, then the image's ``FOSS_ROOT/native/openfpgaloader/`` installation; ``CPLD_OPENFPGALOADER`` can select another verified installation.
 The wrapper checks the binary and patch provenance and parses every selected input before accessing USB.
@@ -116,7 +116,7 @@ The runtime lacks the compiler/development headers from the builder stage; use a
 The selection order is ``CPLD_OPENFPGALOADER``, then the workspace installation, then the container installation.
 Stock PATH/bundle fallback is available for scans only.
 A stale workspace installation takes precedence even after a container rebuild and is rejected during programming.
-Rebuild that installation with native prerequisites, or remove only ``cpld_toolchain/toolchain/build/openfpgaloader/`` to select the bundled loader.
+Rebuild that installation with native prerequisites, or remove only ``build/openfpgaloader/`` to select the bundled loader.
 ``make clean_all`` also removes the workspace installation along with other generated outputs.
 Calling the stock executable directly bypasses these checks and does not provide the managed workflow's identity guarantee.
 
@@ -126,7 +126,7 @@ Device readback
 Both readers check the expected chain and read IDCODE, USERCODE and TraceID.
 Diamond additionally enters and leaves transparent FLASH access for USERCODE readback.
 Neither reader issues erase, program, configuration-refresh or device-reset commands.
-Identification receipts and logs are retained under ``cpld_toolchain/toolchain/build/programmer/identification/read-*/``.
+Identification receipts and logs are retained under ``build/programmer/identification/read-*/``.
 TraceID's lower 56 bits are the immutable silicon identity; its upper eight bits are user configurable.
 The receipt stores both the full TraceID and its immutable part as ``silicon_id``.
 

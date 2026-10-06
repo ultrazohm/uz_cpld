@@ -1891,6 +1891,14 @@
                 "jed": "9ac8974ff290125f31ccbb64b28141c21b593d1b988c1b8227a65147d4e40eed"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T08:54:49.203928+00:00",
+              "firmware_sha256": {
+                "bit": "14e7d28170e9b245391024002e2558028d6e5b40e4482828de340b03381b44e1",
+                "jed": "6508a9177f505245bf5852b202fc1b84007fcf1619a37e439a99948374b81ea5"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -2008,6 +2016,14 @@
                 "jed": "f62466bfe74a125bea0d0fb234976dfdfc40b814b6ab69a91605883505d802d9"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T08:55:05.426842+00:00",
+              "firmware_sha256": {
+                "bit": "ee7cb4ca9c88aceb12aedbb15097b6653a97ef42f6830838fbde5af82f9087d7",
+                "jed": "480ca526a917696a55dd9595d7323998e3f2b9f5949b5c374ccfa0c415d1c189"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -2125,6 +2141,14 @@
                 "jed": "46de51836405460c2012bad60e799edaf854bbcb455d691859c6db3f99d67d25"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T08:55:21.962017+00:00",
+              "firmware_sha256": {
+                "bit": "13dab4d96a6b7bf8e65c0f881a3753f878c9a504aa89c328850bb7eb875f8bd7",
+                "jed": "7f68b76a006c6f03ec24617a3fcb2bab6ea040878e3717873541ce1f8d3ea6c9"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -2242,6 +2266,14 @@
                 "jed": "6e8fa63ad5c37e40506d46e19c5ef0b574d73c6ab71cde636ed83e64041d4431"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T08:55:38.355315+00:00",
+              "firmware_sha256": {
+                "bit": "c974a86304937c97b8a11dd56d538a377d454865208223a1ff58a901760cfa6a",
+                "jed": "6754a4d390e9f5e075c5d26d8aefe7d76fc0716a297081787c038829fe4d6df5"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -2351,6 +2383,14 @@
                 "jed": "13948e3f32583e28917e61e2a7f91ec3499435b49e22c06ead4b5f2a83039838"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T08:55:54.582129+00:00",
+              "firmware_sha256": {
+                "bit": "263c83b0480c1d823b496a8617625544b17170eb51208fa187b771732b49f347",
+                "jed": "103e4e77485d2720e51464f79af8abc7adc4951548f8a004f18833ce145704f8"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -2460,6 +2500,14 @@
                 "jed": "cea4905d01d09014bd6143ceaee272b7e1a6487bbb94b83893f20fb66bf91bc7"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T08:56:10.849962+00:00",
+              "firmware_sha256": {
+                "bit": "9aeebd6bc0ccc1e34f6e5c72ce7d639b368e9d353ab7b6f23fa0d4ae219fca9c",
+                "jed": "99909f9afe287bd33e3b3ad5a731c082d2e833ab1f42979f6a5f6fae87ca7ad1"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -2563,6 +2611,14 @@
                 "jed": "bcc80048c799cb9e89b2243873446290e0478fda02364894592abda8c9583292"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T08:56:27.292846+00:00",
+              "firmware_sha256": {
+                "bit": "5cb0f79e76ac21a5aa9c3dca1248336925488cde27c9635a724bb97df9a5428f",
+                "jed": "f4e3510a63852ffea487161a0e0553aad3c817cd80549dbb03e47bbebc387b04"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -2744,6 +2800,14 @@
                 "jed": "4de73d94f78b682a47a37154757152524891cbc9e6edbb4dfcde64f28bf3dd12"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T08:56:43.848060+00:00",
+              "firmware_sha256": {
+                "bit": "b24a900031d4c2e6ca702f2192b98842b4163df352fa3973b87beaadf4b33edb",
+                "jed": "c14da664b6e61b2d6d9e1ec0a0642ed0c140e2b7a4ecaffbf8950396cee59b33"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -2853,6 +2917,14 @@
                 "jed": "c94c3177f24a31a2f234c701d377fbd779296945b6764d296c2e09e850dc3925"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T08:57:00.145126+00:00",
+              "firmware_sha256": {
+                "bit": "fa9afdc648550a84df1709fc4c0911050135a84406dbd19fffbed52dce721bdd",
+                "jed": "6613d2029eb677f519335a65d37df78f203701c463ea85eba4f4d941f6fac677"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -2962,6 +3034,14 @@
                 "jed": "b0ff04d9385edd21a56669bd9583ff342612e354a4ca5913cd418ee7a3ae2175"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T08:57:16.863715+00:00",
+              "firmware_sha256": {
+                "bit": "04760341ee6c53a5b08c4f18a8057f14b5889fca75e56c80d52c613987b7ee66",
+                "jed": "6e097e77e50cdf8e497fb4635979bc6b2c5ca9b66d1ef1a81fa9293a74e445a0"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -3071,6 +3151,14 @@
                 "jed": "755ee9b1cc2af8afb9c13474583da6610e98e95853dc94b749f179950f140cc9"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T08:57:33.076425+00:00",
+              "firmware_sha256": {
+                "bit": "80c7634b473213aadd8553681beb4b313bc6487bff1ef7e4a765031c03a5cb39",
+                "jed": "99964be8211625fde025e6a6927c159b8e896923e0d2ad879222c8f1f0634735"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -3180,6 +3268,14 @@
                 "jed": "eeced47f24f8e04e15682bfcde4b1c9f45e3d4fa53df96a68dc29b94982b3e2f"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T08:57:49.211013+00:00",
+              "firmware_sha256": {
+                "bit": "4590f5e8f240818f5dfe9345cb70ccaaf5a135a61ebbabfc3b8d5e3446f635f1",
+                "jed": "e7770cc8bc0ab6ab0f2214766a3782edd64e2593bec92344f4c1d940e657bb3a"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -3289,6 +3385,14 @@
                 "jed": "d437c214b5cf454131d577f0921a022113379336d2562cb348bc54b02c0544c0"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T08:58:05.289520+00:00",
+              "firmware_sha256": {
+                "bit": "5d231c35885c19f375751f7b10501ba76692e3bb762c2374a4a36defae45d14b",
+                "jed": "acb21509924a86826602cc2a82f22778064dad5f60e24de301f5f8ecd65830ee"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -3398,6 +3502,14 @@
                 "jed": "c055c8a11e41265ede2c535bfca9d9c7729349fc0fb32a189098cb4665195302"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T08:58:21.500270+00:00",
+              "firmware_sha256": {
+                "bit": "fa26d2d949e950fbcc2ba0e45a5dfbee80a6c5d0607ef2af8aab644dccfbb10d",
+                "jed": "86e5313aa8915b7c4c7722e1ecef42a1007790ddc73a3186a5f9f2645212b0e4"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -3507,6 +3619,14 @@
                 "jed": "a4b100a0a92267bd4ac47e7cf47a014caf17b80b06f55211bb6d92faed71aeab"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T08:58:37.734559+00:00",
+              "firmware_sha256": {
+                "bit": "baed8bb46ac51e37a13a9d8735a57a39831d7b072943608562c2e3443c1fa175",
+                "jed": "e29f3cdc1bcdae5f9cd838daaaf33b7e69f436193e367ef4330335126153a261"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -3616,6 +3736,14 @@
                 "jed": "12b9d79d96328d4a612562f4065904751b18540d1d438c27e6a939fd94d5033c"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T08:58:54.042476+00:00",
+              "firmware_sha256": {
+                "bit": "b9ac160dbc1db80b66263ca06b5b29b632a696f324ef7234adb5e41d1324321d",
+                "jed": "73ea18ebe5e20df19fb0af4aca44a9ebda9de8dd7da2a5ac02cd2945d66bf1b6"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -3725,6 +3853,14 @@
                 "jed": "ca9ff5e00e8cf5555103412c94565850b8b1967975a409a23f0d0ea4d6f49bd9"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T08:59:10.424206+00:00",
+              "firmware_sha256": {
+                "bit": "1d01074f313fec0489486be7b6153ffd21ff9c61a1b04578bf1dbbc799709e1a",
+                "jed": "843b1344c00adc92283440a6c2ac6b1ee09e02aeb1ba5aaedabf0c08d14bf8ae"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -3834,6 +3970,14 @@
                 "jed": "5b6ee2af934dfa125cb2da0a731683ae520ba28c29b2c8d7453731f18584d447"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T08:59:26.762693+00:00",
+              "firmware_sha256": {
+                "bit": "4e5fce4016affb08bcddfd43a42ed70d1af3f79ce57f6a58062a022b2debc7f7",
+                "jed": "b406b7afe4a14c08934b1babdc1513e526669ee7680287497f257706f5bfaa27"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -3943,6 +4087,14 @@
                 "jed": "7f3e993d98b2a26e527f3c94889e5676b14a45e504855e9973b9169c12e88865"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T08:59:43.005398+00:00",
+              "firmware_sha256": {
+                "bit": "126ad1783eb21b39252f7a739ee8a3bb6ed33e41fe7bfd8273f2414d6d743367",
+                "jed": "2aa58899308d0223754bc476fa6bba5398ce79c6c0498b3a6697ef14cf9522bf"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -4052,6 +4204,14 @@
                 "jed": "33edae23d4352172920647aaf469d4727c64f6e462998640fc8aa1db8b4e1e42"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T08:59:59.404691+00:00",
+              "firmware_sha256": {
+                "bit": "8f39c4991cdacb469afebb491181ef156e0d1b8eae7d48f5a59568c27f283b97",
+                "jed": "520751598da9786460b4f1f15dbcdc1d108a54bf4e1a2026820031ed2bf72cda"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -4161,6 +4321,14 @@
                 "jed": "dd964d6dc543ce94fa45a8968c13d0935e0dbc7a72371e98aac6d6f167ff34e3"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T09:00:15.629798+00:00",
+              "firmware_sha256": {
+                "bit": "ad20f2517a97878463cba424d6e9bb69a4e689b58b88dd511c6bc9516acd1468",
+                "jed": "59bdbeba1c561adf9112b9bbe58825e2ca8afc16152c4cfbdbcacd10e5d3369c"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -4270,6 +4438,14 @@
                 "jed": "450aad93fddd78abd46f46695fca52fb83d9ac21b93092a37bde9fbe7c568ed7"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T09:00:31.929435+00:00",
+              "firmware_sha256": {
+                "bit": "d00304be0c53132a8a8af016295eacde905942c34185fa193916c9659f0f7e1b",
+                "jed": "96622816861de3a26b6a1fba792f6f08fdf7fa71664c94ab5708a7fe1d680b2e"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -4379,6 +4555,14 @@
                 "jed": "5472e0b04c7ebb854184333ab34a8caa6e53bc08296e36cdf9511f66d2fee2ca"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T09:00:48.275723+00:00",
+              "firmware_sha256": {
+                "bit": "6865bc8d0d68998d38f7bdfe90f1ce35e50844330d63df5213a753cab895f388",
+                "jed": "da238e4178fa5b4a2cefa606a8ef7728ae8a682f41f0f29bb0eadfcd9ef92955"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -4488,6 +4672,14 @@
                 "jed": "2d200622b243364dc1bc3f7689d32c9c2335b484f16287f4d7f075fc9de11dbb"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T09:01:04.549596+00:00",
+              "firmware_sha256": {
+                "bit": "afe3a5bd3e356af41a8df9e4e0b9dd4fe7cd3a9bda444aa2e45ea2775277cf34",
+                "jed": "b222e48350fdbd538d79d22cd9c4392c8a6cc1e3dc7cfc6a5cf293a67da023fc"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -4597,6 +4789,14 @@
                 "jed": "ff291dd981a82025d234d8151205afb8be85057f5336663d90f2716431620628"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T09:01:20.655426+00:00",
+              "firmware_sha256": {
+                "bit": "0b2dc31829c6b63b4b5e9c66b9021c36b5a10455b9f6fe7f4885ea734898a903",
+                "jed": "00d42f023487347658dd599a084ba360052d3e1efa0e3062546abfab3dc52f70"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -4706,6 +4906,14 @@
                 "jed": "36890718605df40dcfa9fe49b9d55ebceeb79ec3fd1902bfba13d6374253b0c0"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T09:01:37.067047+00:00",
+              "firmware_sha256": {
+                "bit": "a780d3cdb17b5044620762a3e9ba422244a91a4adb4209e7ca828f0c66ddf5c4",
+                "jed": "6e6aec657e9f5674ece831672097aaf200def2b9b57ec3869fbd2d334401a9ea"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -4815,6 +5023,14 @@
                 "jed": "394f2fe911cfe5991a26c5642448dfd18b2815b27e18f361a2ae4023db5994be"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T09:01:53.403180+00:00",
+              "firmware_sha256": {
+                "bit": "2ea3168c3a0dec144537d6d3d2315e6fc55ecfa0e3716e1c6f50b0bde50e35c7",
+                "jed": "9e3942805fde1897fa80f9dbe81cd43be7087abe5d9dcc3e0ffd6be2da007be2"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -4924,6 +5140,14 @@
                 "jed": "089b68076b7d654fca32c87e5fc25a3d9bc2eadb04a0f678590d0733b03871aa"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T09:02:09.731477+00:00",
+              "firmware_sha256": {
+                "bit": "353363f0265ae25e17eb1d86ad386f6895281293fee74c3333c55f4d94a16b2d",
+                "jed": "1a515efec35a73478ffcecf3d57cb3122a40d07fd122ed3eb0eb5d6e5935b218"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",
@@ -5019,6 +5243,14 @@
                 "jed": "17b974db1d305f5842f0ef4f7e4024d6893fe7886aec3dcf5c8470de648627cd"
               },
               "git_revision": "e6b7d7e2f053126225a95b71ac59e58ba018be29"
+            },
+            {
+              "completed_at": "2026-10-06T09:02:30.800449+00:00",
+              "firmware_sha256": {
+                "bit": "a0ef2335067e78e5bf3a2809c3f337b56b667734e4c7fa063e62a0c8e51bcbef",
+                "jed": "3f5598dd1154fb346a95335dfa851ec22956d8fc56c628020f42d6f5ffed8663"
+              },
+              "git_revision": "4106106f730500805feba6285cfe065443de7d42"
             }
           ],
           "backend": "diamond",

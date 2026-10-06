@@ -15,8 +15,8 @@ import sys
 import tempfile
 import xml.etree.ElementTree as ET
 
-from cpld_toolchain.toolchain.buildsystem.model import BuildError, load_build, resolve_release
-from cpld_toolchain.toolchain.buildsystem.workflow import digest, locked, safe_directory, write_json
+from cpld_toolchain.toolchain.buildsystem.model import BuildError, identifier, load_build, resolve_release
+from cpld_toolchain.toolchain.buildsystem.workflow import build_program, digest, locked, safe_directory, write_json
 from .helper import (DEFAULT_DIAMOND_PORT, SLOT_TEMPLATE, S3C_TEMPLATE, render_xcf,
                      jedec_metadata, read_selection, verified_firmware)
 from .usb import diamond_usb
@@ -48,17 +48,45 @@ class Step:
     port: int | None = None
 
 
-def create_selection(destination: Path):
+def create_selection(destination: Path, *, release=None, s3c=None, slots=None):
     """Create an editable selection in the caller's directory without overwriting."""
     template = Path(__file__).with_name('selection.example.toml').read_text()
+    replacements = {}
+    if release is not None:
+        replacements['release'] = identifier(release) if release else ''
+    if s3c is not None:
+        replacements['s3c'] = identifier(s3c)
+    for position, name in (slots or {}).items():
+        if position not in range(1, 6):
+            raise BuildError('D-slot position must be 1..5')
+        replacements[f'"{position}"'] = identifier(name)
+    for key, value in replacements.items():
+        template = re.sub(rf'(?m)^{re.escape(key)} = .*$',
+                          lambda match: f'{key} = {json.dumps(value)}', template)
     try:
         with destination.open('x') as stream:
             stream.write(template)
     except FileExistsError:
         print(f'{destination} already exists; kept your selection.')
         return
-    print(f'Created {destination} with default programs. Edit the programs and release as needed.')
+    print(f'Created {destination} with selected programs. Edit the programs and release as needed.')
     print('Use python -m cpld_toolchain list to see programs, then python -m cpld_toolchain program --target s3c or dslot.')
+
+
+def build_selection(root: Path, selection: Path, release_cycle=None, *, target=None,
+                    backend='diamond'):
+    """Validate all selected builds before compiling each distinct firmware once."""
+    chain = {'dslot': 'dslots', 's3c': 's3c'}.get(target)
+    slots, s3c, selected_release, _ = read_selection(selection, chain)
+    cycle = resolve_release(root, release_cycle or selected_release)
+    builds = []
+    for selected_chain in ([chain] if chain else ['dslots', 's3c']):
+        builds.extend(selected_chain_builds(root, cycle, slots, s3c, selected_chain, backend))
+    unique = {build.directory: build for _, _, build in builds}
+    from cpld_toolchain.toolchain.buildsystem.backends.diamond import preflight
+    preflight(list(unique.values()))
+    for build in unique.values():
+        print(build_program(build))
 
 
 def loader_path() -> Path:
@@ -403,13 +431,17 @@ def execute(root: Path, cycle: str, chain: str, programmer_backend: str, output:
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description='Inspect and program the selected CPLD JTAG chain.')
-    parser.add_argument('action', choices=('init', 'scan', 'identify', 'program'))
+    parser.add_argument('action', choices=('init_programmer', 'build_selection', 'scan', 'identify', 'program'))
     parser.add_argument('--root', type=Path, default=repository_root())
     targets = parser.add_mutually_exclusive_group()
     targets.add_argument('--chain', choices=('dslots', 's3c'))
     targets.add_argument('--target', choices=('dslot', 's3c'), help='Physical target; scans default to dslot')
     parser.add_argument('--selection', type=Path, default=Path('selection.toml'),
                         help='Program selection file (default: selection.toml in the current directory)')
+    parser.add_argument('--release', help='Initial selection release; empty uses the current release')
+    parser.add_argument('--s3c', help='Initial S3C program')
+    for position in range(1, 6):
+        parser.add_argument(f'--dslot-{position}', dest=f'dslot_{position}', help=f'Initial program for D-slot {position}')
     parser.add_argument('--release-cycle', help='Override the release in the selection file')
     parser.add_argument('--programmer-backend', '--backend', choices=('diamond', 'foss'), default='diamond',
                         help='Programming/scan tool, independent of the firmware build backend')
@@ -421,8 +453,14 @@ def main(argv=None) -> int:
     parser.add_argument('--execute', action='store_true', help='Contact hardware (scan reads IDs; program writes Flash)')
     args = parser.parse_args(argv)
     try:
-        if args.action == 'init':
-            create_selection(args.selection)
+        if args.action == 'init_programmer':
+            create_selection(args.selection, release=args.release, s3c=args.s3c,
+                             slots={i: getattr(args, f'dslot_{i}') for i in range(1, 6)
+                                    if getattr(args, f'dslot_{i}') is not None})
+            return 0
+        if args.action == 'build_selection':
+            build_selection(args.root, args.selection, args.release_cycle,
+                            target=args.target, backend=args.build_backend or 'diamond')
             return 0
         if args.action == 'program' and not args.selection.exists():
             create_selection(args.selection)
@@ -485,7 +523,7 @@ def main(argv=None) -> int:
                     raise BuildError('Diamond produced no scan output')
             return 0
         if not args.selection.is_file():
-            raise BuildError(f'{args.selection} is missing; run python -m cpld_toolchain init, then fill in the target programs')
+            raise BuildError(f'{args.selection} is missing; run python -m cpld_toolchain init_programmer, then fill in the target programs')
         cycle, output, builds, steps = plan(args.root, args.selection, args.release_cycle,
                                                   args.chain, args.programmer_backend,
                                                   args.cable, args.usb_serial, args.probe_index,

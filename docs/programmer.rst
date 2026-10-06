@@ -11,15 +11,18 @@ Selection and release
 
 ::
 
-   python -m cpld_toolchain init
-   python -m cpld_toolchain list --release-cycle heartbeat_cvg
-   python -m cpld_toolchain program --target dslot --selection selection.toml
+   uz_cpld init_programmer
+   uz_cpld list --release-cycle heartbeat_cvg
+   # Edit selection.toml for this release before building and programming.
+   uz_cpld build_selection
+   uz_cpld program --target dslot --selection selection.toml
 
-``init`` creates ``selection.toml`` and preserves an existing file.
+``init_programmer`` creates ``selection.toml`` and preserves an existing file.
 The template contains ``release = ""``, ``s3c = "s3c_power_on_debounce"`` and ``tx30`` for slots 1 through 5.
 These program names belong to ``original``; edit the release and assignments before using another cycle.
 ``--release-cycle`` takes precedence over the selection's ``release``, then the current cycle in ``programs/releases.toml``.
-Build commands do not read the selection: build every distinct assignment with the same explicit release.
+``build_selection`` reads the selection and builds every distinct assignment in its release.
+``build`` and ``build_all`` use their command-line release or the current release; they do not read the selection.
 Programming requires current successful builds and never builds automatically.
 If the selection is absent, ``program`` creates a template and exits without accessing hardware.
 
@@ -53,7 +56,7 @@ Selection files do not select backends.
 
 Diamond cannot program FOSS exports.
 Missing tools never cause an automatic backend change.
-FOSS identity reads use OpenOCD; managed FOSS programming requires the verified USERCODE-capable loader, supplied in the image or built with ``flasher-build``.
+FOSS identity reads use OpenOCD; managed FOSS programming requires the verified USERCODE-capable loader, supplied in the image or built with ``flasher_build``.
 See :doc:`firmware-identity` for installation and identity checks.
 
 Both chains use FT4232 channel B.
@@ -66,10 +69,10 @@ Scan, identify and program
 
 ::
 
-   python -m cpld_toolchain scan --target dslot
-   python -m cpld_toolchain identify --target dslot
-   python -m cpld_toolchain program --target dslot --dry-run 1
-   python -m cpld_toolchain program --target dslot
+   uz_cpld scan --target dslot
+   uz_cpld identify --target dslot
+   uz_cpld program --target dslot --dry-run 1
+   uz_cpld program --target dslot
 
 ``scan`` and ``identify`` default to D-slots and execute immediately.
 Neither needs firmware builds or a selection file.
@@ -91,8 +94,8 @@ Export Diamond projects
 
 ::
 
-   python -m cpld_toolchain programmer-project
-   python -m cpld_toolchain programmer-project --selection selection.toml --rebuild 1
+   uz_cpld diamond_xcf_programming_chain
+   uz_cpld diamond_xcf_programming_chain --selection selection.toml --rebuild 1
 
 XCF export requires Diamond for both backends, all six assignments, and current JEDEC builds.
 ``--rebuild 1`` builds the selected programs before exporting.
@@ -123,3 +126,30 @@ Outputs are relative to ``cpld_toolchain/toolchain/build/programmer/``:
 The internal chain names are ``dslots`` and ``s3c``.
 Programming receipts record both backends, firmware hashes and observed device identities.
 A firmware rebuild that changes a snapshot's inputs or artifact invalidates its execution plan.
+
+Build selected firmware
+-----------------------
+
+``build_selection`` builds only the programs in ``selection.toml``, once per distinct
+program and target, without programming hardware.
+It uses the selection's release, or the current release when that field is empty.
+``--release-cycle NAME`` overrides it.
+``--backend foss`` selects FOSS builds; Diamond is the default, and ``--build-backend`` overrides the firmware backend.
+By default all six assignments are required.
+An optional ``--target dslot|s3c`` restricts the build and required assignments to that chain.
+For example::
+
+   uz_cpld build_selection
+   uz_cpld build_selection --selection custom.toml --target s3c
+   make build_selection selection=custom.toml
+
+``init_programmer`` accepts ``--s3c NAME``, ``--dslot-1 NAME`` through
+``--dslot-5 NAME``, and ``--release NAME``. ``--release ""`` uses the current
+release. With Make, use ``s3c=NAME``, ``dslot_1=NAME`` through ``dslot_5=NAME``,
+and ``release=""``. Existing files are preserved even when options are supplied.
+
+For example, initialize a new file with optional assignments::
+
+   uz_cpld init_programmer --selection custom.toml --release original --s3c s3c_power_on_debounce --dslot-1 rx30
+
+The other four slots retain ``tx30`` in this example.

@@ -3,8 +3,8 @@ Environment setup
 
 See :doc:`tool-environments` for which tools each workflow needs, what the venv includes, and how to enter a container explicitly.
 
-Use ``python -m cpld_toolchain doctor`` for a non-failing inventory of the current environment, including missing optional tools.
-To inspect the toolchain image explicitly, enter the container and run ``python -m cpld_toolchain doctor`` there.
+Use ``uz_cpld doctor`` for a non-failing inventory of the current environment, including missing optional tools.
+To inspect the toolchain image explicitly, enter the container and run ``uz_cpld doctor`` there.
 The report does not check out a Diamond license or contact hardware.
 
 Containers
@@ -154,7 +154,7 @@ To distinguish a missing mount from a shell path problem, run::
    ls -l "$DIAMOND_ROOT/bin/lin64/diamond" "$DIAMOND_ROOT/bin/lin64/diamondc"
    command -v diamond diamondc
    check-diamond --synthesis
-   make build-all
+   make build_all
 
 The first command must show ``10:91:d1:3d:14:ae``.
 If it shows ``02:42:...`` or the launcher files are missing, run ``bash .devcontainer/prepare-host.sh`` on the host and rebuild the container with the updated configuration.
@@ -191,7 +191,7 @@ Use **Dev Containers: Reopen in Container** to select the configuration, or **De
 Inside the container verify installation and licensed synthesis with::
 
    check-diamond --synthesis
-   python3 -m cpld_toolchain doctor
+   uz_cpld doctor
 
 For a manual build, the Dockerfile provides ``TOOLCHAIN_BASE``; its default is ``ubuntu:22.04`` and preserves host mounting.
 To build the image variant::
@@ -238,7 +238,7 @@ Floating-license configurations can use a server address reachable from the cont
 
 ``check-diamond`` tests Tcl startup; ``check-diamond --synthesis`` also synthesizes a one-gate design.
 These shell helpers use ``DIAMOND_ROOT`` rather than ``DIAMOND_CLI``.
-Neither check performs full routing or firmware export; use ``make build-all`` for that validation.
+Neither check performs full routing or firmware export; use ``make build_all`` for that validation.
 A host-ID mismatch requires checking the authorized license/environment, not editing the signed license or host MAC.
 
 Native tools
@@ -250,7 +250,7 @@ The managed Python includes Tcl support for tooling tests.
 The image and native setup share ``.python-version``, ``cpld_toolchain/uv-bootstrap.json``, ``pyproject.toml`` and ``uv.lock``; OS packages and the Ubuntu image tag remain mutable inputs.
 Firmware and documentation commands use dependencies already installed in the image.
 The C++ compiler and development headers used to build nextpnr and the patched flasher remain in the intermediate builder stage.
-The runtime includes the compiled tools; ``make flasher-build`` is a separate native source build and requires those development dependencies if run there.
+The runtime includes the compiled tools; ``make flasher_build`` is a separate native source build and requires those development dependencies if run there.
 See :doc:`foss` for the pinned tool bundle and native source-build prerequisites.
 
 Native Python setup

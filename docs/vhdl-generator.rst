@@ -12,7 +12,7 @@ Generation and file ownership
 
 The standalone command generates the same project files without changing the repository catalog::
 
-   python3 -m cpld_toolchain generator programs/original/cvg_my_slot/generator.toml --output programs/original/cvg_my_slot
+   uz_cpld generator programs/original/cvg_my_slot/generator.toml --output programs/original/cvg_my_slot
 
 Add ``--check`` to that command to verify freshness without writing files.
 Repository projects use program-local ``generator.toml`` and emit their top-level VHDL and receipt into that program directory.

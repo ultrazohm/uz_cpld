@@ -371,7 +371,7 @@ class FrontendTests(unittest.TestCase):
         result = subprocess.run(['make'], cwd=ROOT, capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn('make build program=NAME', result.stdout)
-        self.assertIn('make clean-all', result.stdout)
+        self.assertIn('make clean_all', result.stdout)
         explicit = subprocess.run(['make', 'help'], cwd=ROOT,
                                   capture_output=True, text=True)
         self.assertEqual(explicit.returncode, 0, explicit.stderr)

@@ -28,7 +28,7 @@ jobs:
         run: |
           .venv\Scripts\python.exe -m cpld_toolchain check --program cvg_tx30 --release-cycle heartbeat_cvg
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          .venv\Scripts\python.exe -m cpld_toolchain build-all --dry-run 1
+          .venv\Scripts\python.exe -m cpld_toolchain build_all --dry-run 1
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           .venv\Scripts\python.exe -m cpld_toolchain program --target dslot --dry-run 1
 
@@ -59,7 +59,7 @@ jobs:
         run: docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make test
       - name: Build original FOSS firmware
         if: ${{ !cancelled() && steps.image.outcome == 'success' }}
-        run: docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make build-all backend=foss release_cycle=original
+        run: docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make build_all backend=foss release_cycle=original
       - name: Build and compare the heartbeat FOSS pilot
         if: ${{ !cancelled() && steps.image.outcome == 'success' }}
         run: |

@@ -28,7 +28,8 @@ Source layout
    │       └── <name>/        TOML, VHDL, LPF, testbench and description.rst
    └── docs/                  user guide, developer guide and Sphinx references
 
-Run ``python -m cpld_toolchain`` or the installed ``cpld-toolchain`` command.
+Run ``uz_cpld`` in the activated environment.
+``python -m cpld_toolchain`` and ``cpld-toolchain`` remain equivalent entry points.
 The three components retain separate modules and tests within one package.
 The workspace can be copied or renamed.
 Manually maintained programs contain editable HDL, constraints, manifests and testbenches.

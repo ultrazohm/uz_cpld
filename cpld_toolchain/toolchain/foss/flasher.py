@@ -34,7 +34,7 @@ def verify(binary):
         if record['pin'] != pin() or record['binary_sha256'] != digest(binary):
             raise ValueError('flasher provenance does not match the current pin and binary')
     except (OSError, ValueError, KeyError, TypeError) as exc:
-        raise ValueError(f'{binary}: a verified USERCODE-capable flasher is required; run make flasher-build or rebuild the container ({exc})') from exc
+        raise ValueError(f'{binary}: a verified USERCODE-capable flasher is required; run make flasher_build or rebuild the container ({exc})') from exc
     return record
 
 

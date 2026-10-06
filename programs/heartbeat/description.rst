@@ -37,6 +37,6 @@ The S3C test accelerates its oscillator/tick stimulus; neither RTL simulation no
 
 ::
 
-   python -m cpld_toolchain sim --release-cycle heartbeat
-   python -m cpld_toolchain build-all --release-cycle heartbeat
-   python -m cpld_toolchain docs --release-cycle heartbeat
+   uz_cpld sim --release-cycle heartbeat
+   uz_cpld build_all --release-cycle heartbeat
+   uz_cpld docs --release-cycle heartbeat

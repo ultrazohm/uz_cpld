@@ -5,7 +5,7 @@ FOSS firmware pipeline
 
    make doctor backend=foss
    make build program=tx30 backend=foss release_cycle=original
-   make build-all backend=foss
+   make build_all backend=foss
    make clean program=tx30 backend=foss release_cycle=original
 
 ``backend`` defaults to ``diamond``; ``backend=foss`` selects the same program HDL, authored LPF and board target through the open-source pipeline.
@@ -34,18 +34,18 @@ Use the pinned uv executable under ``.tools/uv/`` for the ``uv`` command below a
    python3 cpld_toolchain/toolchain/foss/install.py --prefix /your/writable/path/oss-cad-suite
    python3 cpld_toolchain/toolchain/foss/build_nextpnr.py --suite /your/writable/path/oss-cad-suite
    export FOSS_ROOT=/your/writable/path/oss-cad-suite
-   make flasher-build
-   python3 -m cpld_toolchain doctor --backend foss
-   python3 -m cpld_toolchain build --program tx30 --release-cycle original --backend foss
+   make flasher_build
+   uz_cpld doctor --backend foss
+   uz_cpld build --program tx30 --release-cycle original --backend foss
 
 The suite and nextpnr installers refuse existing destinations and verify archive checksums before extraction.
-``make flasher-build`` verifies its source and patch checksums and replaces its local installation after compilation and tests pass.
+``make flasher_build`` verifies its source and patch checksums and replaces its local installation after compilation and tests pass.
 Release and source pins are in ``cpld_toolchain/toolchain/foss/toolchain.json``, ``cpld_toolchain/toolchain/foss/sources.json`` and ``cpld_toolchain/toolchain/foss/openfpgaloader.json``.
 ``FOSS_ROOT`` defaults to ``/opt/oss-cad-suite``; tools are selected by absolute paths without replacing the system Python environment.
 RTL schematic generation also uses this Yosys installation when available, falling back to Yosys on ``PATH`` for native setups without the suite.
 The container does not install a second Yosys from Ubuntu packages.
 Native nextpnr resides in ``$FOSS_ROOT/native/``, while the bundle's executables reside in ``$FOSS_ROOT/bin/``.
-The image's patched loader resides in ``$FOSS_ROOT/native/openfpgaloader/``; ``make flasher-build`` installs a workspace override in ``cpld_toolchain/toolchain/build/openfpgaloader/``.
+The image's patched loader resides in ``$FOSS_ROOT/native/openfpgaloader/``; ``make flasher_build`` installs a workspace override in ``cpld_toolchain/toolchain/build/openfpgaloader/``.
 See :doc:`firmware-identity` for loader selection and rebuilding.
 
 Build stages and outputs
@@ -90,7 +90,7 @@ Unknown RTL values remain unspecified for synthesis and do not establish physica
 Outputs live under ``programs/<release_cycle>/<name>/build/<target>_foss/`` with ``<name>_<target>_foss.bit``, ``reports/``, ``metadata/``, project files and logs under the same directory.
 The FOSS build plan and generated JSON reports live in ``metadata/``.
 Reports include synthesized/routed JSON, timing, completed/unpacked configuration, equivalence evidence and method, tool versions/hashes and the constraint translation record.
-``make build-all backend=foss`` writes a catalog report under ``cpld_toolchain/toolchain/build/validation/<release_cycle>/foss-catalog/``; ``make report backend=foss`` refreshes that report from existing evidence without rebuilding.
+``make build_all backend=foss`` writes a catalog report under ``cpld_toolchain/toolchain/build/validation/<release_cycle>/foss-catalog/``; ``make report backend=foss`` refreshes that report from existing evidence without rebuilding.
 ``project backend=foss`` prepares the synthesis script and build plan; the equivalence script is generated during a build after mapped cells are known.
 ``gui`` requires ``backend=diamond``.
 Cleanup affects only the selected backend, so Diamond and FOSS results can coexist.
@@ -193,7 +193,7 @@ Functional simulation and the recorded FOSS synthesis proof must pass; a passing
 No hardware is programmed.
 
 ``make check`` is a separate manifest/input validation command and works with both backends.
-Diamond ``make build`` and ``make build-all`` remain supported.
+Diamond ``make build`` and ``make build_all`` remain supported.
 
 Diamond exports mapped Verilog using ``MapVerilogSimFile`` and routed Verilog/SDF using ``TimingSimFileVlg``.
 The mapped snapshot is retained as ``reports/comparison_mapped.v``.

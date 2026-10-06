@@ -5,11 +5,11 @@ Run the tooling tests, HDL simulations, FOSS firmware builds and documentation c
 
    make test
    make sim
-   make build-all backend=foss
+   make build_all backend=foss
    make docs
 
 ``make test`` runs the Python tooling tests with installed dependencies.
-Firmware catalog commands (``list``, ``build-all``, ``report`` and catalog netlist export) select programs from ``programs/<release_cycle>/catalog.toml``.
+Firmware catalog commands (``list``, ``build_all``, ``report`` and catalog netlist export) select programs from ``programs/<release_cycle>/catalog.toml``.
 Simulation and documentation discover all complete program manifests, including programs outside that catalog.
 ``target=uz_dslot_xo2`` or ``target=uz_s3c_xo2`` filters firmware builds, and backend selection respects each program's ``backends`` list.
 ``make generate program=NAME`` registers completed generator projects in the catalog; unfinished starters are excluded.
@@ -18,7 +18,7 @@ Simulation and documentation discover all complete program manifests, including 
 Diamond and implicit combined comparison requests fail explicitly because real Diamond exports are not yet supported by the comparison importer.
 This does not affect ``make check`` or Diamond firmware builds.
 See :doc:`foss` for the limitation and CI coverage.
-For Diamond, run ``make doctor backend=diamond`` and ``make build-all backend=diamond`` in a licensed environment.
+For Diamond, run ``make doctor backend=diamond`` and ``make build_all backend=diamond`` in a licensed environment.
 The GitHub Actions Diamond job temporarily disables host ASLR before launching the build container, then restores the recorded setting in an ``always()`` cleanup step.
 Diamond project-cleanup failures remain build failures; the workflow does not treat a firmware export as successful after a vendor error.
 Diamond commands run once without automatic retries, including native local builds; failures retain their logs and partial project state and prevent firmware publication.

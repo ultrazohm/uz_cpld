@@ -15,6 +15,23 @@ class CommandTests(unittest.TestCase):
     def calls(self, action, **options):
         return commands.plan(action, options)
 
+    def test_command_names_use_lowercase_underscores(self):
+        for name in [*commands.COMMANDS, *commands.ALIASES]:
+            self.assertRegex(name, r'^[a-z_]+$')
+
+    def test_selection_commands_forward_options_without_accessing_files(self):
+        options = {'release': '', 's3c': 's3c_heartbeat',
+                   **{f'dslot_{i}': 'cvg_tx30' for i in range(1, 6)}}
+        args = self.calls('init_programmer', **options)[0].argv
+        for key, value in options.items():
+            self.assertEqual(args[args.index('--' + key.replace('_', '-')) + 1], value)
+        args = commands.plan('build_selection', {'selection': 'custom.toml', 'target': 's3c',
+                             'backend': 'foss', 'release_cycle': 'heartbeat_cvg'}, cwd='/tmp')[0].argv
+        self.assertIn('/tmp/custom.toml', args)
+        self.assertEqual(args[args.index('--build-backend') + 1], 'foss')
+        self.assertEqual(args[args.index('--target') + 1], 's3c')
+        self.assertNotIn('--execute', args)
+
     def test_every_documented_action_has_a_make_target(self):
         text = (commands.ROOT / 'Makefile').read_text()
         line = next(line for line in text.splitlines() if line.startswith('commands :='))
@@ -29,7 +46,7 @@ class CommandTests(unittest.TestCase):
                         self.assertEqual(args[args.index('--target') + 1], internal)
 
     def test_default_and_overridden_backends(self):
-        for action in ('build', 'build-all', 'doctor', 'check', 'clean', 'report'):
+        for action in ('build', 'build_all', 'doctor', 'check', 'clean', 'report'):
             extra = {'program': 'tx30'} if 'program' in commands.COMMANDS[action].required else {}
             args = self.calls(action, **extra)[0].argv
             self.assertEqual(args[args.index('--backend') + 1], 'diamond')
@@ -46,7 +63,7 @@ class CommandTests(unittest.TestCase):
 
     def test_all_workflows_use_the_current_python(self):
         for action, options in [('build', {'program': 'tx30', 'backend': 'foss'}),
-                                ('build-all', {'backend': 'diamond'}), ('sim', {}),
+                                ('build_all', {'backend': 'diamond'}), ('sim', {}),
                                 ('docs', {}), ('netlist', {}), ('test', {}),
                                 ('doctor', {}), ('program', {'target': 'dslot'})]:
             with self.subTest(action=action):
@@ -71,9 +88,9 @@ class CommandTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             selection = str(Path(tmp) / 'new.toml')
             with patch.object(commands.subprocess, 'run') as run, redirect_stdout(io.StringIO()):
-                for action, opts in [('init', ['--selection', selection]),
+                for action, opts in [('init_programmer', ['--selection', selection]),
                                      ('program', ['--target', 'dslot', '--selection', selection]),
-                                     ('clean-all', []), ('image', []), ('venv', []),
+                                     ('clean_all', []), ('image', []), ('venv', []),
                                      ('build', ['--program', 'tx30'])]:
                     self.assertEqual(commands.main([action, '--dry-run', '1', *opts]), 0)
             run.assert_not_called()
@@ -90,15 +107,15 @@ class CommandTests(unittest.TestCase):
         with patch.object(commands, 'resolve_release', return_value='selected'):
             args = self.calls('docs')[0].argv
             self.assertIn('all', args)
-            args = self.calls('docs-assets')[0].argv
+            args = self.calls('docs_assets')[0].argv
             self.assertIn('all', args)
             args = self.calls('docs', release_cycle='heartbeat')[0].argv
             self.assertIn('heartbeat', args)
         with self.assertRaises(BuildError):
-            self.calls('build-all', release_cycle='all')
+            self.calls('build_all', release_cycle='all')
 
     def test_relative_selection_uses_caller_not_repository(self):
-        args = commands.plan('programmer-project', {'selection': 'my file.toml'}, cwd='/tmp')[0].argv
+        args = commands.plan('diamond_xcf_programming_chain', {'selection': 'my file.toml'}, cwd='/tmp')[0].argv
         self.assertIn(str(Path('/tmp').resolve() / 'my file.toml'), args)
 
     def test_unknown_options_and_conflicting_duplicate_syntax_are_errors(self):

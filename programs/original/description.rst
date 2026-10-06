@@ -13,4 +13,4 @@ Program descriptions define routing and safe-state gating; see :doc:`/s3c` for c
 Program testbenches check declared behavior; a GHDL integration test couples ``s3c_power_on_debounce`` to ``cvg_tx30_stateful``.
 Both S3C controllers have strict FOSS initialized-state counterexamples associated with unspecified RTL startup values.
 Successful compilation does not establish matching initial state, electrical behavior or hardware qualification.
-See :doc:`/validation`; inspect local evidence with ``python -m cpld_toolchain report --release-cycle original``.
+See :doc:`/validation`; inspect local evidence with ``uz_cpld report --release-cycle original``.

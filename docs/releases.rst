@@ -74,12 +74,12 @@ The tracked default is defined here:
 
 Run these commands from the repository root::
 
-   python -m cpld_toolchain release-list
-   python -m cpld_toolchain list --release-cycle heartbeat_cvg
-   python -m cpld_toolchain build --program cvg_tx30 --release-cycle heartbeat_cvg
+   uz_cpld release_list
+   uz_cpld list --release-cycle heartbeat_cvg
+   uz_cpld build --program cvg_tx30 --release-cycle heartbeat_cvg
 
 ``--release-cycle NAME`` selects a cycle for one command without changing the default.
-``python -m cpld_toolchain release-select --release-cycle NAME`` changes the tracked default.
+``uz_cpld release_select --release-cycle NAME`` changes the tracked default.
 Programming resolves the release from the command line, then ``selection.toml``, then the tracked default; build commands do not read ``selection.toml``.
 Use program names from the selected cycle and pair S3C and D-slot firmware with compatible protocols.
 See the :doc:`user guide <user/index>` for programming and :doc:`developer/release-management` for creating, cloning and documenting cycles.

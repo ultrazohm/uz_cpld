@@ -1,6 +1,6 @@
 """Licensed integration check for independent scaffolding and optional legacy comparison.
 
-Run ``python3 cpld_toolchain/toolchain/tests/validate_diamond.py`` after ``make build-all``. Requires
+Run ``python3 cpld_toolchain/toolchain/tests/validate_diamond.py`` after ``make build_all``. Requires
 Diamond but never modifies original project files or programs hardware.
 """
 import argparse

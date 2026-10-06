@@ -22,7 +22,7 @@ Use ``python`` instead of ``python3`` where appropriate; Windows setup and its t
 
 For the bundled Linux tools, use **Dev Containers: Reopen in Container**, or start a manual container::
 
-   python3 -m cpld_toolchain image
+   uz_cpld image
    docker run --rm -it --init --platform=linux/amd64 \
      --user "$(id -u):$(id -g)" \
      --mount "type=bind,source=$PWD,target=/work" -w /work \

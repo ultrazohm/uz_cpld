@@ -11,6 +11,57 @@ from cpld_toolchain.toolchain.buildsystem.model import BuildError
 
 
 class ProgramTests(unittest.TestCase):
+    def test_initial_selection_overrides_defaults_and_preserves_existing_file(self):
+        from cpld_toolchain.programmer_helper.helper import read_selection
+        with tempfile.TemporaryDirectory() as directory:
+            selection = Path(directory) / 'selection.toml'
+            self.assertEqual(program.main(['init_programmer', '--selection', str(selection),
+                                          '--release', 'heartbeat_cvg', '--s3c', 's3c_heartbeat',
+                                          '--dslot-1', 'cvg_tx30', '--dslot-5', 'cvg_rx30']), 0)
+            slots, s3c, release, _ = read_selection(selection)
+            self.assertEqual(slots, {1: 'cvg_tx30', 2: 'tx30', 3: 'tx30', 4: 'tx30', 5: 'cvg_rx30'})
+            self.assertEqual((s3c, release), ('s3c_heartbeat', 'heartbeat_cvg'))
+            before = selection.read_bytes()
+            program.create_selection(selection, release='', s3c='other')
+            self.assertEqual(selection.read_bytes(), before)
+            empty = Path(directory) / 'current.toml'
+            program.create_selection(empty, release='')
+            self.assertIsNone(read_selection(empty)[2])
+            invalid = Path(directory) / 'invalid.toml'
+            with self.assertRaises(BuildError):
+                program.create_selection(invalid, slots={1: '../bad'})
+            self.assertFalse(invalid.exists())
+
+    def test_build_selection_deduplicates_and_honors_release_backend_and_target(self):
+        root = Path(__file__).resolve().parents[3]
+        with tempfile.TemporaryDirectory() as directory:
+            selection = Path(directory) / 'selection.toml'
+            program.create_selection(selection, release='original', s3c='s3c_power_on_debounce',
+                                     slots={i: 'tx30' for i in range(1, 6)})
+            with patch.object(program, 'build_program') as build, patch(
+                    'cpld_toolchain.toolchain.buildsystem.backends.diamond.preflight'):
+                program.build_selection(root, selection, backend='foss')
+                configs = [call.args[0] for call in build.call_args_list]
+                self.assertEqual([b.name for b in configs], ['tx30', 's3c_power_on_debounce'])
+                self.assertTrue(all(b.release_cycle == 'original' and b.backend == 'foss' for b in configs))
+                build.reset_mock()
+                selection.write_text('release="missing_release"\ns3c="s3c_power_on_debounce"\n')
+                program.build_selection(root, selection, 'original', target='s3c')
+                build.assert_called_once()
+                self.assertEqual(build.call_args.args[0].target, 'uz_s3c_xo2')
+                self.assertEqual(build.call_args.args[0].backend, 'diamond')
+
+    def test_build_selection_validates_every_assignment_before_building(self):
+        root = Path(__file__).resolve().parents[3]
+        with tempfile.TemporaryDirectory() as directory:
+            selection = Path(directory) / 'selection.toml'
+            program.create_selection(selection, release='heartbeat_cvg', s3c='missing_program',
+                                     slots={i: 'cvg_tx30' for i in range(1, 6)})
+            with patch.object(program, 'build_program') as build:
+                with self.assertRaises(BuildError):
+                    program.build_selection(root, selection)
+                build.assert_not_called()
+
     def test_scan_requires_expected_full_chain(self):
         scan = '\n'.join(f'index {index}:\n  idcode 0x012bb043' for index in range(5))
         self.assertEqual(len(program.check_chain('dslots', scan)), 5)

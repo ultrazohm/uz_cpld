@@ -21,9 +21,9 @@ Build and validation
 
 ::
 
-   python -m cpld_toolchain check --program s3c_heartbeat --release-cycle heartbeat
-   python -m cpld_toolchain sim --program s3c_heartbeat --release-cycle heartbeat
-   python -m cpld_toolchain build --program s3c_heartbeat --release-cycle heartbeat
+   uz_cpld check --program s3c_heartbeat --release-cycle heartbeat
+   uz_cpld sim --program s3c_heartbeat --release-cycle heartbeat
+   uz_cpld build --program s3c_heartbeat --release-cycle heartbeat
 
 The manifest selects Diamond, Synplify and VHDL-2008.
 The FSM requests ``safe,gray`` encoding; verify the mapped startup/reset behavior when changing synthesis settings.

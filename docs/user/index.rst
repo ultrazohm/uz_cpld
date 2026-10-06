@@ -47,7 +47,7 @@ For a persistent user setting, see :doc:`../windows`.
 The native Windows default is ``C:/lscc/diamond/3.14``.
 
 A path such as ``$HOME/lscc/programmer/diamond/3.14`` may be a standalone Programmer installation.
-Check that the build executable shown above exists: ``build`` and ``build-all`` require full Diamond; standalone Programmer only provides programming tools.
+Check that the build executable shown above exists: ``build`` and ``build_all`` require full Diamond; standalone Programmer only provides programming tools.
 For licensing, container paths and USB access, see :doc:`../windows` or :doc:`../environments`.
 
 Check discovery after setting the path::
@@ -57,11 +57,9 @@ Check discovery after setting the path::
 
 ``doctor`` reports available tools; it does not test the license or hardware and missing tools do not make it fail.
 
-Build the programs you need and create your selection::
+Create the programming selection::
 
-   uz_cpld build --program cvg_tx30 --release-cycle heartbeat_cvg
-   uz_cpld build --program s3c_heartbeat --release-cycle heartbeat_cvg
-   uz_cpld init
+   uz_cpld init_programmer
 
 Edit ``selection.toml`` to match your adapters (this example uses TX30 in all five slots)::
 
@@ -75,9 +73,21 @@ Edit ``selection.toml`` to match your adapters (this example uses TX30 in all fi
    "4" = "cvg_tx30"
    "5" = "cvg_tx30"
 
-``init`` preserves an existing file; its template defaults must be edited for this release.
-Build every distinct selected program in the same release before programming.
-Build commands do not read ``selection.toml``.
+``init_programmer`` preserves an existing file.
+For a new file, optional ``--release NAME``, ``--s3c NAME`` and ``--dslot-1 NAME`` through ``--dslot-5 NAME`` set initial values.
+Omitted assignments retain the template defaults (``tx30`` and ``s3c_power_on_debounce`` from ``original``); edit or override all assignments when using ``heartbeat_cvg``.
+An empty ``--release ""`` follows the current release in ``programs/releases.toml``.
+With Make, the equivalent options are ``release=NAME``, ``s3c=NAME`` and ``dslot_1=NAME`` through ``dslot_5=NAME``.
+
+Build the selected programs::
+
+   uz_cpld build_selection
+
+This reads ``selection.toml`` and builds each distinct program and target once.
+Use ``--selection FILE`` for another file, ``--target dslot|s3c`` to build one chain, or ``--release-cycle NAME`` to override its release.
+Diamond builds require full Diamond and its license.
+``build --program NAME`` builds an individual program; ``build_all`` builds the entire catalog in the selected release.
+Those two commands use the command-line or current release and do not read ``selection.toml``.
 
 Prepare the UltraZohm for D-slot JTAG access, then run::
 
@@ -96,13 +106,13 @@ Useful commands
 
 ::
 
-   uz_cpld release-list
-   uz_cpld build-all --release-cycle heartbeat_cvg
+   uz_cpld release_list
+   uz_cpld build_all --release-cycle heartbeat_cvg
    uz_cpld report --release-cycle heartbeat_cvg
-   uz_cpld programmer-project
+   uz_cpld diamond_xcf_programming_chain
    uz_cpld help --command program
 
-``programmer-project`` optionally exports both Diamond XCF files and requires all six assignments and current builds.
+``diamond_xcf_programming_chain`` optionally exports both Diamond XCF files and requires all six assignments and current builds.
 CLI programming creates its own project, so this export is optional.
 
 Diamond firmware uses ``.jed`` files; FOSS firmware uses ``.bit`` files.

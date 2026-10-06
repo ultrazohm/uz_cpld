@@ -4,17 +4,18 @@ Command reference
 Use ``uz_cpld ACTION --option value`` after running ``python -m cpld_toolchain setup`` from the repository root.
 For example, ``uz_cpld setup`` creates or updates the repository's Python environment.
 The equivalent ``python -m cpld_toolchain ACTION --option value`` works from a fresh checkout before installation.
-The examples below use this module form; installed ``uz_cpld`` and ``cpld-toolchain`` accept the same arguments.
-``python -m cpld_toolchain help`` lists all commands; add ``--command ACTION`` for required and optional arguments.
+The examples below use ``uz_cpld``; the module form and ``cpld-toolchain`` accept the same arguments.
+Command names use lowercase letters and underscores, for example ``build_all`` and ``diamond_xcf_programming_chain``.
+``uz_cpld help`` lists all commands; add ``--command ACTION`` for required and optional arguments.
 Options use hyphens, for example ``--release-cycle original`` and ``--dry-run 1``.
 See :doc:`windows` for native Windows setup and :doc:`environments` for Linux and container setup.
 
 The shared definitions in ``cpld_toolchain/toolchain/commands.py`` drive help, validation, backend resolution and execution.
 ``python -m cpld_toolchain.toolchain.commands`` remains an equivalent entry point.
 On Linux, ``make ACTION key=value`` is an optional wrapper around the same dispatcher; its option names use underscores.
-For example, ``make build program=tx30 release_cycle=original`` is equivalent to ``python -m cpld_toolchain build --program tx30 --release-cycle original``.
+For example, ``make build program=tx30 release_cycle=original`` is equivalent to ``uz_cpld build --program tx30 --release-cycle original``.
 
-Standalone generation uses ``python -m cpld_toolchain generator CONFIG --output DIRECTORY``; add ``--check`` to verify freshness.
+Standalone generation uses ``uz_cpld generator CONFIG --output DIRECTORY``; add ``--check`` to verify freshness.
 This interface does not require a repository catalog.
 The installed ``cpld-toolchain`` executable accepts the same arguments.
 Python imports use the ``cpld_toolchain`` package.
@@ -25,7 +26,7 @@ Inspect the current environment
 
 Run::
 
-   python -m cpld_toolchain doctor
+   uz_cpld doctor
 
 ``doctor`` reports the current operating environment, Python executable, active venv, Python packages, Diamond executables, simulation/FOSS tools, Docker/Podman clients, FOSS installation receipts and selected catalog.
 It lists all tool groups even when one backend is selected.
@@ -52,7 +53,7 @@ No Diamond process or hardware operation is started.
 License validity, synthesis, USB permissions, Docker daemon access and image availability are not tested.
 
 ``doctor`` always reports the current environment for both backends.
-To inspect container tools, enter the container and run ``python -m cpld_toolchain doctor`` there.
+To inspect container tools, enter the container and run ``uz_cpld doctor`` there.
 To inspect a venv, activate it first or run its Python executable directly.
 Creating a venv alone does not change the interpreter running ``doctor``.
 
@@ -62,33 +63,34 @@ From a clean clone to programmed hardware
 Configure the Diamond installation and license as described in :doc:`environments`, or reopen in the configured Dev Container.
 Then::
 
-   python -m cpld_toolchain doctor
-   python -m cpld_toolchain list
-   python -m cpld_toolchain build-all
-   python -m cpld_toolchain report
+   uz_cpld doctor
+   uz_cpld list
+   uz_cpld build_all
+   uz_cpld report
 
-``build-all`` compiles every supported catalog program in the current release.
+``build_all`` compiles every supported catalog program in the current release.
 It does not flash hardware.
 Install the tools required for simulation, diagrams, documentation and FOSS builds, or enter the toolchain container before running those commands.
 Rebuild the image explicitly when its tool dependencies change.
 
 Create the programming selection and project::
 
-   python -m cpld_toolchain init
-   # Edit selection.toml: choose the programs for S3C and all five slots.
-   python -m cpld_toolchain programmer-project
+   uz_cpld init_programmer
+   # Edit selection.toml: choose the release and programs for S3C and all five slots.
+   uz_cpld build_selection
+   uz_cpld diamond_xcf_programming_chain
 
-``init`` preserves existing selections.
-``programmer-project`` exports both Diamond XCF files from current firmware builds without accessing hardware.
+``init_programmer`` preserves existing selections.
+``diamond_xcf_programming_chain`` exports both Diamond XCF files from current firmware builds without accessing hardware.
 It is optional for command-line programming, which creates its own verified project and firmware snapshots.
-``--rebuild 1`` rebuilds the selected firmware before exporting XCFs; it is specific to ``programmer-project``.
+``--rebuild 1`` rebuilds the selected firmware before exporting XCFs; it is specific to ``diamond_xcf_programming_chain``.
 
 Prepare the hardware for one physical chain, then::
 
-   python -m cpld_toolchain scan --target dslot
-   python -m cpld_toolchain identify --target dslot
-   python -m cpld_toolchain program --target dslot --dry-run 1
-   python -m cpld_toolchain program --target dslot
+   uz_cpld scan --target dslot
+   uz_cpld identify --target dslot
+   uz_cpld program --target dslot --dry-run 1
+   uz_cpld program --target dslot
 
 Use ``--target s3c`` when the hardware is prepared for S3C access.
 Programming requires an explicit target; scanning and identification default to D-slots.
@@ -101,31 +103,33 @@ Shared option rules
 * ``--backend diamond`` is the default.
   ``--backend foss`` sets both firmware and programmer defaults where applicable.
   ``build_backend`` and ``programmer_backend`` override their respective parts.
-  For example, ``python -m cpld_toolchain program --target dslot --programmer-backend foss`` programs Diamond builds through the FOSS programmer.
+  For example, ``uz_cpld program --target dslot --programmer-backend foss`` programs Diamond builds through the FOSS programmer.
   Diamond cannot program FOSS firmware exports.
 * Selection files hold assignments and a release; choose backends on the command line.
 * ``--dry-run 1`` prints resolved commands without running tools, writing plans, creating selections, or accessing hardware.
   It is available for every action.
   It validates command options; build freshness and hardware checks occur during execution.
 * Unsupported options and misspelled names are errors.
-  For example, ``python -m cpld_toolchain build-all --program tx30`` fails; use ``python -m cpld_toolchain build --program tx30 --release-cycle original``.
+  For example, ``uz_cpld build_all --program tx30`` fails; use ``uz_cpld build --program tx30 --release-cycle original``.
 * Run actions sequentially.
   Supplying multiple actions in one invocation is rejected.
-  ``--jobs N`` controls parallel work only for commands that document it: simulation, documentation, and ``flasher-build``.
+  ``--jobs N`` controls parallel work only for commands that document it: simulation, documentation, and ``flasher_build``.
 
 Program and release scope
 -------------------------
 
 ``--release-cycle NAME`` selects a release without changing the default.
-Programming and XCF export resolve the release from the command line, then ``selection.toml``, then the repository's current release.
+``build_selection``, programming and XCF export resolve the release from the command line, then ``selection.toml``, then the repository's current release.
 Other firmware commands use the command line, then the current release.
 
 ``build``, ``check``, ``generate``, ``project``, ``gui`` and ``clean`` require ``--program NAME``.
 ``new`` requires ``--name NAME`` for the new program.
-``list``, ``build-all`` and ``report`` operate on the catalog, optionally filtered by target.
+``list``, ``build_all`` and ``report`` operate on the catalog, optionally filtered by target.
+``list`` displays an aligned table with Release, Program, Target and Backend columns.
+``build_selection`` uses the selection file rather than the whole catalog; repeated assignments build once per program and target.
 ``netlist`` uses the catalog unless a program is selected.
 Simulation and documentation discover complete program manifests, including uncatalogued programs, and accept program and target filters.
-``docs`` and ``docs-assets`` include all releases by default; ``--release-cycle NAME`` limits a preview to one release.
+``docs`` and ``docs_assets`` include all releases by default; ``--release-cycle NAME`` limits a preview to one release.
 CI uses that explicit all-release scope.
 Filtered documentation replaces generated assets with the selected scope.
 
@@ -133,7 +137,7 @@ Netlist comparison
 ------------------
 
 ``make compare program=cvg_tx30 release_cycle=heartbeat_cvg backend=foss`` checks the FOSS pilot's mapped logic against its VHDL-derived reference.
-The Python equivalent is ``python -m cpld_toolchain compare --program cvg_tx30 --release-cycle heartbeat_cvg --backend foss``.
+The ``uz_cpld`` equivalent is ``uz_cpld compare --program cvg_tx30 --release-cycle heartbeat_cvg --backend foss``.
 Diamond comparison is currently unsupported; selecting ``backend=diamond`` or omitting the backend returns an error before running tools.
 See :doc:`foss` for the export/modeling limitation and the scope of the functional checks.
 ``make check`` validates manifests and inputs for both firmware backends; it is not a netlist equivalence test.
@@ -149,4 +153,31 @@ Enter a Dev Container or start Docker manually to use container tools; see :doc:
 Missing tools are errors and do not cause a switch to another environment or backend.
 ``container_engine``, ``container_platform`` and ``toolchain_image`` customize the explicit ``image`` build action only.
 
-The optional ``flasher-build`` action compiles openFPGALoader locally; it never programs a device and requires native compiler/development dependencies.
+The optional ``flasher_build`` action compiles openFPGALoader locally; it never programs a device and requires native compiler/development dependencies.
+
+Build selected firmware
+-----------------------
+
+``build_selection`` builds only the programs in ``selection.toml``, once per distinct
+program and target, without programming hardware.
+It uses the selection's release, or the current release when that field is empty.
+``--release-cycle NAME`` overrides it.
+``--backend foss`` selects FOSS builds; Diamond is the default, and ``--build-backend`` overrides the firmware backend.
+By default all six assignments are required.
+An optional ``--target dslot|s3c`` restricts the build and required assignments to that chain.
+For example::
+
+   uz_cpld build_selection
+   uz_cpld build_selection --selection custom.toml --target s3c
+   make build_selection selection=custom.toml
+
+``init_programmer`` accepts ``--s3c NAME``, ``--dslot-1 NAME`` through
+``--dslot-5 NAME``, and ``--release NAME``. ``--release ""`` uses the current
+release. With Make, use ``s3c=NAME``, ``dslot_1=NAME`` through ``dslot_5=NAME``,
+and ``release=""``. Existing files are preserved even when options are supplied.
+
+For example, initialize a new file with optional assignments::
+
+   uz_cpld init_programmer --selection custom.toml --release original --s3c s3c_power_on_debounce --dslot-1 rx30
+
+The other four slots retain ``tx30`` in this example.

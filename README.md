@@ -18,7 +18,7 @@ After cloning, run setup:
 ```sh
 python -m cpld_toolchain setup
 uz_cpld help
-uz_cpld release-list
+uz_cpld release_list
 uz_cpld list
 ```
 
@@ -32,4 +32,4 @@ Diamond, HDL tools and hardware drivers need separate installation.
 The container uses the same pinned Python, uv release and dependency lockfile, with its environment under `/opt/uz-cpld-env`.
 The `python -m cpld_toolchain` and `cpld-toolchain` entry points remain available.
 To build the full documentation in a configured development environment, run
-`python -m cpld_toolchain docs --release-cycle all` and open `docs/_build/html/index.html`.
+`uz_cpld docs --release-cycle all` and open `docs/_build/html/index.html`.

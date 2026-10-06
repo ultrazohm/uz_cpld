@@ -179,7 +179,7 @@ def generate(root: Path, slots: dict[int, str], s3c: str,
              build_backend: str = 'diamond') -> Path:
     """Generate selected XCFs, optionally rebuilding the Diamond firmware."""
     if build_backend != 'diamond':
-        raise BuildError('Diamond programming and programmer-project require Diamond JEDEC builds; '
+        raise BuildError('Diamond programming and diamond_xcf_programming_chain require Diamond JEDEC builds; '
                          'use programmer_backend=foss to program FOSS builds, or select build_backend=diamond')
     root = root.resolve()
     cycle = resolve_release(root, release_cycle)

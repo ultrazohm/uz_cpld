@@ -40,11 +40,11 @@ Generate a program from CSV
 
 Use the generator starter for a D-slot program with normal and safe routing states::
 
-   python -m cpld_toolchain new --name my_slot --template generator --release-cycle original
+   uz_cpld new --name my_slot --template generator --release-cycle original
    # Edit programs/original/cvg_my_slot/routing.csv
-   python -m cpld_toolchain generate --program cvg_my_slot --release-cycle original
-   python -m cpld_toolchain sim --program cvg_my_slot --release-cycle original
-   python -m cpld_toolchain build --program cvg_my_slot --release-cycle original --backend diamond
+   uz_cpld generate --program cvg_my_slot --release-cycle original
+   uz_cpld sim --program cvg_my_slot --release-cycle original
+   uz_cpld build --program cvg_my_slot --release-cycle original --backend diamond
 
 The starter CSV has 30 transmit routes with low safe-state outputs.
 The directory ``programs/original/cvg_my_slot/`` contains:
@@ -53,7 +53,7 @@ The directory ``programs/original/cvg_my_slot/`` contains:
 * ``generator.toml``: program name, clock, S3C contract, pilot policy and target.
 * ``description.rst``: program documentation.
 
-``python -m cpld_toolchain generate --program cvg_my_slot --release-cycle original`` creates:
+``uz_cpld generate --program cvg_my_slot --release-cycle original`` creates:
 
 * ``cvg_my_slot.vhdl``: VHDL matching the routing.
 * ``cvg_my_slot_tb.py``: a matching cocotb testbench.
@@ -63,7 +63,7 @@ The directory ``programs/original/cvg_my_slot/`` contains:
 
 Generation validates the project and registers it in ``programs/<release_cycle>/catalog.toml``.
 The starter is excluded from catalog commands until generation succeeds.
-Edit ``routing.csv`` and, when needed, ``generator.toml``, then rerun ``python -m cpld_toolchain generate --program cvg_my_slot --release-cycle original`` to update the generated files together.
+Edit ``routing.csv`` and, when needed, ``generator.toml``, then rerun ``uz_cpld generate --program cvg_my_slot --release-cycle original`` to update the generated files together.
 The generator protects manually edited output files from overwriting.
 The generated testbench checks input/output directions, normal and safe routing, and configured control conditions.
 This workflow uses the ``uz_dslot_xo2`` board constraints, internal MachXO2 clock and Diamond backend.
@@ -74,15 +74,15 @@ Clone a program for manual editing
 
 Clone an existing program, replacing ``my_adapter`` with your program name::
 
-   python -m cpld_toolchain new --name my_adapter --template tx30 --release-cycle original
+   uz_cpld new --name my_adapter --template tx30 --release-cycle original
    # Edit the cloned files listed below
-   python -m cpld_toolchain check --program my_adapter --release-cycle original
-   python -m cpld_toolchain sim --program my_adapter --release-cycle original
-   python -m cpld_toolchain build --program my_adapter --release-cycle original --backend diamond
+   uz_cpld check --program my_adapter --release-cycle original
+   uz_cpld sim --program my_adapter --release-cycle original
+   uz_cpld build --program my_adapter --release-cycle original --backend diamond
 
 ``template`` defaults to ``tx30`` and can name another program to clone.
 The clone is added to ``programs/<release_cycle>/catalog.toml``, so catalog-wide commands and CI include it.
-``python -m cpld_toolchain list`` shows the current catalog.
+``uz_cpld list`` shows the current catalog.
 Edit these files in ``programs/original/my_adapter/``:
 
 * ``my_adapter.vhdl``: implement the logic.
@@ -101,7 +101,7 @@ Inspect the result
 ------------------
 
 Simulation writes logs, result XML and ``waves.vcd`` under ``programs/<release_cycle>/<name>/build/simulation/``.
-Open the VCD in GTKWave or use ``python -m cpld_toolchain docs`` to generate an interactive waveform page.
+Open the VCD in GTKWave or use ``uz_cpld docs`` to generate an interactive waveform page.
 A failed test assertion fails the simulation command.
 
 Diamond exports ``<name>_uz_dslot_xo2_diamond.jed`` and ``<name>_uz_dslot_xo2_diamond.bit`` under ``programs/<release_cycle>/<name>/build/uz_dslot_xo2_diamond/``.
@@ -112,7 +112,7 @@ See :doc:`validation` for what these checks establish.
 Next steps
 ----------
 
-* Run ``make`` for the command overview and ``python -m cpld_toolchain list`` for catalog programs.
+* Run ``make`` for the command overview and ``uz_cpld list`` for catalog programs.
 * Use :doc:`builds` for catalog builds, reports, the Diamond GUI and cleanup.
 * Use :doc:`simulation` for test coverage, seeds and waveform formats.
 * Use :doc:`program-documentation` for RTL diagrams and generated program pages.

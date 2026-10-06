@@ -1,7 +1,8 @@
 Native Windows setup
 ====================
 
-The primary repository interface is ``python -m cpld_toolchain`` on Windows and Linux.
+The primary interface after setup is ``uz_cpld`` on Windows and Linux.
+Use ``python -m cpld_toolchain setup`` from a fresh checkout to install and activate it.
 Run setup from the checkout root with Python 3.8 or later; setup downloads the selected modern Python as needed.
 GNU Make, Bash and Docker are not needed for native VHDL generation, Diamond builds, or Diamond programming.
 The Makefile remains an optional Linux wrapper.
@@ -42,7 +43,7 @@ Set the installation root in the same terminal::
    $env:DIAMOND_ROOT = 'C:\lscc\diamond\3.14'
    # Optional extra license file or floating server:
    $env:LM_LICENSE_FILE = 'C:\licenses\diamond.lic'
-   python -m cpld_toolchain doctor
+   uz_cpld doctor
 
 Adjust these example paths to your installation.
 ``DIAMOND_ROOT`` names the installation directory, not ``bin\nt64`` or an executable.
@@ -80,16 +81,16 @@ Generate and build
 
 For an existing program::
 
-   python -m cpld_toolchain list
-   python -m cpld_toolchain build --program cvg_tx30 --release-cycle heartbeat_cvg
-   python -m cpld_toolchain build-all
+   uz_cpld list
+   uz_cpld build --program cvg_tx30 --release-cycle heartbeat_cvg
+   uz_cpld build_all
 
 To create a CSV-based program::
 
-   python -m cpld_toolchain new --name my_slot --template generator
+   uz_cpld new --name my_slot --template generator
    # Edit the new program's routing.csv and generator.toml.
-   python -m cpld_toolchain generate --program cvg_my_slot
-   python -m cpld_toolchain build --program cvg_my_slot
+   uz_cpld generate --program cvg_my_slot
+   uz_cpld build --program cvg_my_slot
 
 Use ``--release-cycle NAME`` when selecting a cycle other than the repository current cycle.
 Generated manifests use forward slashes, and generated files use UTF-8 with LF line endings.
@@ -101,22 +102,23 @@ Program hardware
 
 Create and edit the selection, then inspect the connected D-slot chain::
 
-   python -m cpld_toolchain init
+   uz_cpld init_programmer
    # Edit selection.toml.
-   python -m cpld_toolchain scan --target dslot
-   python -m cpld_toolchain identify --target dslot
-   python -m cpld_toolchain program --target dslot --dry-run 1
+   uz_cpld build_selection
+   uz_cpld scan --target dslot
+   uz_cpld identify --target dslot
+   uz_cpld program --target dslot --dry-run 1
 
 After checking the selection and preparing the hardware::
 
-   python -m cpld_toolchain program --target dslot
+   uz_cpld program --target dslot
 
 The last command erases, programs and verifies Flash.
 Use ``--target s3c`` only when the hardware is prepared for S3C access.
 The selection's programs must have successful, current Diamond builds.
 Source hashes, firmware snapshots, JTAG checks and post-programming USERCODE readback remain mandatory.
 ``--dry-run 1`` only previews the command; it does not validate firmware or contact hardware.
-``programmer-project`` exports XCFs without accessing USB.
+``diamond_xcf_programming_chain`` exports XCFs without accessing USB.
 
 Windows uses the installed vendor driver and invokes ``pgrcmd.exe`` directly.
 Linux-only USB bus checks and FTDI driver detachment are not used on Windows.
@@ -131,17 +133,17 @@ The FOSS compiler/source-build installers remain Linux tools.
 All commands use the current environment; enter the Linux toolchain container explicitly for workflows whose tools are unavailable natively.
 Native FOSS hardware drivers and programming are outside the Windows validation scope.
 
-``python -m cpld_toolchain test`` on Windows runs the native Python suite without Make, Bash or Linux HDL tools.
+``uz_cpld test`` on Windows runs the native Python suite without Make, Bash or Linux HDL tools.
 Windows CI uses this same command.
 It checks generation, shared/exclusive process locks, concurrent identity allocation and mocked programmer behavior.
 It does not install licensed Diamond or connect physical hardware.
 Before using a Windows station, validate one Diamond build, scan, identity read and program/verify cycle there.
 The implementation was developed and regression tested on Linux; Windows CI and vendor/hardware results must be reviewed on Windows before claiming end-to-end validation.
 
-``clean-all`` preserves the virtual environment when its Python interpreter is currently running the command.
+``clean_all`` preserves the virtual environment when its Python interpreter is currently running the command.
 Exit that environment before deleting it.
 
-Use ``python -m cpld_toolchain help`` or ``python -m cpld_toolchain help --command ACTION`` for the available arguments.
+Use ``uz_cpld help`` or ``uz_cpld help --command ACTION`` for the available arguments.
 
 Troubleshooting Windows installations
 -------------------------------------
@@ -150,10 +152,10 @@ A standalone Lattice Programmer installation does not contain the synthesis and 
 Point the programmer override at its actual executable::
 
    $env:CPLD_PGRCMD = 'C:\path\to\programmer\bin\nt64\pgrcmd.exe'
-   python -m cpld_toolchain doctor
+   uz_cpld doctor
 
 The report can show Programmer as FOUND and the Diamond build CLI as MISSING.
-Generation needs Python only; ``build`` and ``build-all`` require full Diamond.
+Generation needs Python only; ``build`` and ``build_all`` require full Diamond.
 Managed programming still requires the current build artifacts and provenance described above.
 Copying a JEDEC file alone does not satisfy those checks.
 For a Programmer-only station, an XCF and its referenced firmware can instead be prepared on the build station for use with the vendor Programmer; this is outside the repository's managed programming validation.
@@ -162,19 +164,19 @@ For a Programmer-only station, an XCF and its referenced firmware can instead be
 Setting it to a 3.14 path does not install or upgrade Diamond 3.13.
 The repository currently requires 3.14.0.75.2; an older installation is not accepted merely because it starts.
 Build commands check vendor installation metadata and CLI startup before starting builds.
-``build-all`` performs this shared check once.
+``build_all`` performs this shared check once.
 If version metadata is unavailable, the full version is still checked in every build log.
 Startup failures include the vendor's license error.
 ``doctor`` reads version metadata without starting Diamond or testing its license.
 
-Use ``python -m cpld_toolchain build-all`` (one hyphenated action), not ``python -m cpld_toolchain build -all``.
+Use ``uz_cpld build_all`` (one action with an underscore), not ``uz_cpld build -all``.
 
 ``Generation inputs changed`` is a repository provenance issue, independent of whether Diamond or Programmer is installed.
 The message alone does not identify whether the cause is edited inputs, a generator update or changed checkout bytes.
 Review ``git status`` and your intended generator inputs, then regenerate the affected program, for example::
 
-   python -m cpld_toolchain generate --program cvg_optical_14tx_4rx --release-cycle heartbeat_cvg
-   python -m cpld_toolchain check --program cvg_optical_14tx_4rx --release-cycle heartbeat_cvg
+   uz_cpld generate --program cvg_optical_14tx_4rx --release-cycle heartbeat_cvg
+   uz_cpld check --program cvg_optical_14tx_4rx --release-cycle heartbeat_cvg
 
 Review the generated diff.
 Regeneration refreshes generated outputs and their receipt; it does not install missing tools.

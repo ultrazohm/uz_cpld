@@ -1,6 +1,6 @@
-# Created by make init. Edit these defaults for your hardware.
+# Created by make init_programmer. Edit these defaults for your hardware.
 # Empty release uses programs/releases.toml; release_cycle=NAME overrides this field.
-# Use make release-list and make list release_cycle=NAME to see available choices.
+# Use make release_list and make list release_cycle=NAME to see available choices.
 # Slot numbers are JTAG chain positions.
 # S3C and D-slots require different UltraZohm physical states; program separately.
 release = ""

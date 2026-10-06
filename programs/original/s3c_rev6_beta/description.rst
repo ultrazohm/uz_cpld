@@ -39,8 +39,8 @@ GHDL uses Synopsys-package compatibility for the preserved imports and reads the
 
 Set ``release = "original"`` and ``s3c = "s3c_rev6_beta"`` in ``selection.toml``, then run::
 
-   python -m cpld_toolchain program --target s3c --dry-run 1
-   python -m cpld_toolchain program --target s3c
+   uz_cpld program --target s3c --dry-run 1
+   uz_cpld program --target s3c
 
 Use ``--programmer-backend foss`` to program Diamond JEDEC with FOSS tools, or ``--backend foss`` to program a current FOSS build.
 The Diamond LPF retains ``JTAG_PORT=DISABLE`` and the configured bank settings.

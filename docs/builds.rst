@@ -84,13 +84,13 @@ Firmware commands
    make check program=tx30 release_cycle=original
    make doctor
    make build program=tx30 release_cycle=original
-   make build-all
+   make build_all
    make report backend=foss
    make build program=tx30 backend=foss release_cycle=original
 
 ``check`` validates manifests and files.
 ``doctor`` inventories every tool group and the selected catalog; missing tools do not make it fail and no license checkout is attempted.
-``build-all`` processes the explicit ``programs/<release_cycle>/catalog.toml`` list and fails if any entry fails.
+``build_all`` processes the explicit ``programs/<release_cycle>/catalog.toml`` list and fails if any entry fails.
 It also writes ``cpld_toolchain/toolchain/build/validation/<release_cycle>/<backend>-catalog/report.md`` and ``report.json`` after attempting every valid selected build, even if a tool fails.
 Invalid program manifests appear as failed report rows and do not prevent other programs from building.
 ``make report backend=diamond|foss`` refreshes the selected catalog report from existing build records without invoking firmware tools.
@@ -126,7 +126,7 @@ The shared S3C HDL and selected contract retain their configured locations.
 A clone owns its local files and continues to use the shared dependencies declared by the template.
 It is added to ``programs/<release_cycle>/catalog.toml`` after its manifest validates.
 It also receives a new permanent program number in ``programs/usercodes.json``; commit that registry with the new program.
-Catalog registration includes the program in ``build-all``, netlist export and firmware CI for the selected cycle.
+Catalog registration includes the program in ``build_all``, netlist export and firmware CI for the selected cycle.
 Simulation and documentation discover complete program manifests independently of catalog membership.
 Documentation groups program manifests by release cycle, including programs created outside ``make new``.
 
@@ -167,11 +167,11 @@ Build, GUI, simulation and netlist operations use advisory locks in ``cpld_toolc
 Remove all generated files
 --------------------------
 
-Run ``make clean-all`` from the repository root.
+Run ``make clean_all`` from the repository root.
 It removes every program ``build/`` directory, ``cpld_toolchain/toolchain/build/``, ``docs/_build/``, ``docs/_generated/``, ``.venv/`` and Python caches within the repository.
 It refuses to run while a managed build, project, GUI, simulation, netlist or clean operation is active.
 A lock on the checkout directory also prevents new operations from starting during cleanup, even while generated lock files are removed.
 The active virtual environment is preserved when its interpreter is running the cleanup command.
 It discards generated project edits and validation evidence; authored HDL, constraints, manifests and testbenches remain.
 The tracked identity registry remains, including allocated numbers and recorded build revisions.
-Cleanup removes a local ``make flasher-build`` installation under ``cpld_toolchain/toolchain/build/``; the container's installed patched loader is unaffected.
+Cleanup removes a local ``make flasher_build`` installation under ``cpld_toolchain/toolchain/build/``; the container's installed patched loader is unaffected.

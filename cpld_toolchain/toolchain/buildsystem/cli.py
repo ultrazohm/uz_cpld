@@ -94,8 +94,12 @@ def main(argv: list[str] | None = None) -> int:
             return (builds, errors) if collect_errors else builds
 
         if args.command == 'list':
-            for build in selected_builds():
-                print(f'{build.qualified_name}\t{build.target}\t{build.backend}')
+            headers = ('Release', 'Program', 'Target', 'Backend')
+            rows = [(build.release_cycle, build.name, build.target, build.backend)
+                    for build in selected_builds()]
+            widths = [max(len(row[i]) for row in [headers, *rows]) for i in range(len(headers))]
+            for row in [headers, tuple('-' * width for width in widths), *rows]:
+                print('  '.join(value.ljust(width) for value, width in zip(row, widths)).rstrip())
         elif args.command == 'new':
             if not args.name:
                 raise BuildError('new requires --name (Make: name=...)')

@@ -1,7 +1,7 @@
 Tools and execution environments
 ================================
 
-Use ``python -m cpld_toolchain ACTION`` from the repository root on Linux or Windows.
+Use ``uz_cpld ACTION`` in the activated environment from the repository root on Linux or Windows.
 The Makefile is an optional Linux wrapper around the same commands.
 This page separates the Python environment, the external tools, and the choice of where a command executes.
 
@@ -69,13 +69,13 @@ See :doc:`windows`, :doc:`foss` and :doc:`validation` for the limits.
      - Implemented
      - Python dependencies included
      - Python dependencies included
-   * - Catalog, releases, source checks, identities and selections: ``list``, ``check``, ``release-*``, ``usercodes*``, ``init``, ``report``, ``clean*``
+   * - Catalog, releases, source checks, identities and selections: ``list``, ``check``, ``release_*``, ``usercodes*``, ``init_programmer``, ``report``, ``clean*``
      - Repository Python modules
      - Available
      - Implemented
      - Python dependencies included
      - Python dependencies included
-   * - Diamond firmware: ``project``, ``build``, ``build-all``
+   * - Diamond firmware: ``project``, ``build``, ``build_all``, ``build_selection``
      - Diamond CLI, runtime libraries and license
      - Additional Linux Diamond setup
      - Implemented with Windows Diamond
@@ -87,13 +87,13 @@ See :doc:`windows`, :doc:`foss` and :doc:`validation` for the limits.
      - Windows launcher implemented
      - Diamond remains external
      - Requires mounted Diamond, license and separately configured GUI display forwarding
-   * - FOSS firmware: ``build --backend foss``, ``build-all --backend foss``
+   * - FOSS firmware: ``build --backend foss``, ``build_all --backend foss``, ``build_selection --backend foss``
      - GHDL, pinned Yosys, nextpnr-machxo2 and Trellis toolchain
      - Additional pinned tool installation
      - Use the Linux container workflow
      - FOSS tools not included
      - Compiled toolchain included
-   * - Export Programmer projects: ``programmer-project``
+   * - Export Programmer projects: ``diamond_xcf_programming_chain``
      - Python, current Diamond firmware and build receipts; no USB access
      - Available with matching builds
      - Implemented with matching builds
@@ -123,7 +123,7 @@ See :doc:`windows`, :doc:`foss` and :doc:`validation` for the limits.
      - Use the Linux container workflow
      - Analysis tools not included
      - Included
-   * - Program documentation: ``docs-assets``, ``docs``
+   * - Program documentation: ``docs_assets``, ``docs``
      - Simulation/RTL tools and analysis packages; ``docs`` also runs Sphinx
      - Additional tools/packages
      - Use the Linux container workflow
@@ -135,14 +135,14 @@ See :doc:`windows`, :doc:`foss` and :doc:`validation` for the limits.
      - Native Python subset, without Make/Bash/Linux HDL integrations
      - Python packages included; native test tools installed separately
      - Broader Linux suite uses included tools
-   * - Build patched flasher: ``flasher-build``
+   * - Build patched flasher: ``flasher_build``
      - Linux compiler, development libraries and pinned sources
      - Additional development dependencies
      - Native action rejected; use a Linux environment
      - Compiler/development dependencies not included
      - Compiled flasher included; rebuilding it requires additional development dependencies
 
-``programmer-project --rebuild 1`` also runs Diamond builds, so it needs the Diamond installation and license.
+``diamond_xcf_programming_chain --rebuild 1`` also runs Diamond builds, so it needs the Diamond installation and license.
 Without ``--rebuild 1``, exporting an XCF uses existing, current build evidence and does not launch Diamond.
 
 The shared ``xo2_library`` VHDL itself has no dependency on Python, the venv, Docker or this build system.
@@ -156,7 +156,7 @@ Commands run in the calling environment on native Windows, Ubuntu and inside con
 They use installed tools and report missing dependencies; they never start Docker or Podman automatically.
 Backend selection is independent: ``--backend diamond`` is the default and ``--backend foss`` opts into FOSS.
 
-``python -m cpld_toolchain image`` explicitly builds the toolchain image but does not start a shell.
+``uz_cpld image`` explicitly builds the toolchain image but does not start a shell.
 Reopen the workspace in a Dev Container or use the manual Docker commands in :doc:`environments` before running workflows with the container's tools.
 ``python -m cpld_toolchain setup`` installs native Python dependencies and opens an activated shell when interactive.
 ``doctor`` reports the environment in which it is invoked.
@@ -199,17 +199,17 @@ For generation and native Diamond work, start with::
 
    python -m cpld_toolchain setup
    # Configure Diamond and its license separately.
-   python -m cpld_toolchain doctor
-   python -m cpld_toolchain build-all
+   uz_cpld doctor
+   uz_cpld build_all
 
 For the bundled simulation, FOSS and documentation tools, start with::
 
-   python -m cpld_toolchain image
+   uz_cpld image
    docker run --rm -it --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain bash
    # Run the following commands inside that Linux container.
-   python -m cpld_toolchain sim --program cvg_tx30 --release-cycle heartbeat_cvg
-   python -m cpld_toolchain build --program cvg_tx30 --release-cycle heartbeat_cvg --backend foss
-   python -m cpld_toolchain docs
+   uz_cpld sim --program cvg_tx30 --release-cycle heartbeat_cvg
+   uz_cpld build --program cvg_tx30 --release-cycle heartbeat_cvg --backend foss
+   uz_cpld docs
 
 See :doc:`environments` for Linux tools, container mounts and USB permissions; :doc:`windows` for native Windows setup; :doc:`foss` for pinned native FOSS tools; and :doc:`commands` for the complete command contract.
 Setup includes Python packages for native Linux analysis and simulation; GHDL, Yosys, Graphviz and other external executables must still be installed separately.

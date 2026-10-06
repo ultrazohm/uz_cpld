@@ -16,6 +16,7 @@ TARGETS = {'dslot': 'uz_dslot_xo2', 's3c': 'uz_s3c_xo2'}
 COMMON = {'dry_run'}
 CONTAINER = {'container_engine', 'container_platform', 'toolchain_image'}
 FIRMWARE = {'backend', 'build_backend', 'target', 'release_cycle'}
+SELECTION_DEFAULTS = {'release', 's3c', *(f'dslot_{i}' for i in range(1, 6))}
 PROBE = {'backend', 'programmer_backend', 'target', 'probe_index', 'cable', 'usb_serial'}
 
 # The native Windows suite excludes Linux-only tool and shell integrations.
@@ -48,7 +49,7 @@ COMMANDS = {
     'venv': spec('Environment', 'venv [activate=0|1]', 'Alias for setup: install all locked Python dependencies', {'activate'}),
     'doctor': spec('Environment', 'doctor', 'Report this environment and installed/missing tools; no hardware access', FIRMWARE),
     'docs': spec('Documentation', 'docs [release_cycle=all]', 'Generate assets and HTML; defaults to all releases', {'program', 'target', 'release_cycle', 'jobs'}),
-    'docs-assets': spec('Documentation', 'docs-assets [program=NAME]', 'Generate documentation assets without rendering HTML', {'program', 'target', 'release_cycle', 'jobs'}),
+    'docs_assets': spec('Documentation', 'docs_assets [program=NAME]', 'Generate documentation assets without rendering HTML', {'program', 'target', 'release_cycle', 'jobs'}),
     'netlist': spec('Documentation', 'netlist [program=NAME]', 'Export RTL diagrams; defaults to the current catalog', {'program', 'target', 'release_cycle'}),
     'sim': spec('Simulation', 'sim [program=NAME]', 'Simulate complete manifests in the current release', {'program', 'target', 'release_cycle', 'jobs', 'seed', 'wave_format'}),
     'list': spec('Toolchain', 'list', 'List programs in the current release catalog', FIRMWARE),
@@ -57,36 +58,38 @@ COMMANDS = {
     'project': spec('Toolchain', 'project program=NAME', 'Prepare one firmware project without compiling it', FIRMWARE | {'program'}, {'program'}),
     'build': spec('Toolchain', 'build program=NAME', 'Build one program; target is inferred when unambiguous', FIRMWARE | {'program'}, {'program'}),
     'compare': spec('Toolchain', 'compare program=cvg_tx30 release_cycle=heartbeat_cvg backend=foss', 'Compare FOSS mapped logic with the VHDL reference; Diamond is unsupported', {'program', 'target', 'release_cycle', 'backend'}, {'program', 'backend'}),
-    'build-all': spec('Toolchain', 'build-all', 'Build every catalog program for the selected backend', FIRMWARE),
+    'build_selection': spec('Toolchain', 'build_selection', 'Build each distinct program in selection.toml', FIRMWARE | {'selection'}),
+    'build_all': spec('Toolchain', 'build_all', 'Build every catalog program for the selected backend', FIRMWARE),
     'gui': spec('Toolchain', 'gui program=NAME', 'Open the Diamond firmware project', FIRMWARE | {'program'}, {'program'}),
     'report': spec('Toolchain', 'report', 'Summarize existing catalog build evidence', FIRMWARE),
     'test': spec('Toolchain', 'test', 'Run Python utility tests; sim runs HDL tests'),
-    'release-list': spec('Toolchain', 'release-list', 'List releases and the current selection'),
-    'release-new': spec('Toolchain', 'release-new name=NAME [from=CYCLE]', 'Create a release and make it current', {'name', 'from'}, {'name'}),
-    'release-select': spec('Toolchain', 'release-select release_cycle=NAME', 'Select the default release', {'release_cycle'}, {'release_cycle'}),
+    'release_list': spec('Toolchain', 'release_list', 'List releases and the current selection'),
+    'release_new': spec('Toolchain', 'release_new name=NAME [from=CYCLE]', 'Create a release and make it current', {'name', 'from'}, {'name'}),
+    'release_select': spec('Toolchain', 'release_select release_cycle=NAME', 'Select the default release', {'release_cycle'}, {'release_cycle'}),
     'usercodes': spec('Toolchain', 'usercodes', 'List permanent program numbers and build revisions'),
-    'usercodes-assign': spec('Toolchain', 'usercodes-assign', 'Register manually added programs'),
+    'usercodes_assign': spec('Toolchain', 'usercodes_assign', 'Register manually added programs'),
     'clean': spec('Toolchain', 'clean program=NAME', 'Remove one backend build; preserve simulation and diagrams', FIRMWARE | {'program', 'discard_project_changes'}, {'program'}),
-    'clean-all': spec('Toolchain', 'clean-all', 'Remove all generated builds, assets, and caches'),
+    'clean_all': spec('Toolchain', 'clean_all', 'Remove all generated builds, assets, and caches'),
     'generate': spec('cpld_vhdl_generator', 'generate program=NAME', 'Generate VHDL and register a CSV-based program', FIRMWARE | {'program'}, {'program'}),
-    'init': spec('Programmer', 'init', 'Create selection.toml; preserve an existing file', {'selection'}),
-    'programmer-project': spec('Programmer', 'programmer-project', 'Export both Diamond XCFs from the edited selection', {'selection', 'release_cycle', 'backend', 'build_backend', 'programmer_backend', 'probe_index', 'rebuild'}),
+    'init_programmer': spec('Programmer', 'init_programmer', 'Create selection.toml; preserve an existing file', {'selection'} | SELECTION_DEFAULTS),
+    'diamond_xcf_programming_chain': spec('Programmer', 'diamond_xcf_programming_chain', 'Export both Diamond XCFs from the edited selection', {'selection', 'release_cycle', 'backend', 'build_backend', 'programmer_backend', 'probe_index', 'rebuild'}),
     'scan': spec('Programmer', 'scan target=dslot', 'Check JTAG IDs (target defaults to dslot)', PROBE),
     'identify': spec('Programmer', 'identify target=dslot', 'Read firmware identity and silicon TraceID', PROBE),
     'program': spec('Programmer', 'program target=dslot', 'Program one physical chain from selection.toml', PROBE | {'selection', 'release_cycle', 'build_backend'}, {'target'}),
-    'flasher-build': spec('Programmer', 'flasher-build', 'Compile the optional FOSS programmer utility locally', {'jobs'}),
+    'flasher_build': spec('Programmer', 'flasher_build', 'Compile the optional FOSS programmer utility locally', {'jobs'}),
 }
 ALIASES = {
-    'programmer': ('init', {}), 'lattice_xcf': ('programmer-project', {}),
-    'release-current': ('release-select', {}), 'flasher': ('flasher-build', {}),
-    'docs-local': ('docs', {}), 'docs-assets-local': ('docs-assets', {}),
-    'netlist-local': ('netlist', {}), '_sim': ('sim', {}),
+    'programmer': ('init_programmer', {}), 'lattice_xcf': ('diamond_xcf_programming_chain', {}),
+    'release_current': ('release_select', {}), 'flasher': ('flasher_build', {}),
+    'docs_local': ('docs', {}), 'docs_assets_local': ('docs_assets', {}),
+    'netlist_local': ('netlist', {}), '_sim': ('sim', {}),
 }
 
 
 # Argument spellings are shared by overview and focused help; applicability and
 # required/optional status always come from the command's validated option sets.
 ARGUMENT_VALUES = {
+    'release': 'NAME', 's3c': 'NAME', **{f'dslot_{i}': 'NAME' for i in range(1, 6)},
     'program': 'NAME', 'name': 'NAME', 'template': 'NAME|generator',
     'target': 'dslot|s3c', 'release_cycle': 'NAME', 'template_release_cycle': 'NAME',
     'from': 'CYCLE', 'backend': 'diamond|foss', 'build_backend': 'diamond|foss',
@@ -101,14 +104,14 @@ ARGUMENT_VALUES = {
 
 def argument_text(action, keys, style='make'):
     return ' '.join((f'{key}=' if style == 'make' else '--' + key.replace('_', '-') + ' ') + ('foss' if action == 'compare' and key == 'backend' else 'NAME|all' if key == 'release_cycle' and
-                        action in ('docs', 'docs-assets') else values)
+                        action in ('docs', 'docs_assets') else values)
                     for key, values in ARGUMENT_VALUES.items() if key in keys) or 'none'
 
 
 def example_text(example, style):
     if style == 'make':
         return 'make ' + example
-    return 'python -m cpld_toolchain ' + re.sub(r'([a-z_]+)=',
+    return 'uz_cpld ' + re.sub(r'([a-z_]+)=',
         lambda match: '--' + match[1].replace('_', '-') + ' ', example)
 
 
@@ -127,18 +130,19 @@ def shared_help(style='make'):
         'Argument defaults and rules:',
         '  backend=diamond; build_backend and programmer_backend inherit backend.',
         '  compare requires explicit backend=foss; Diamond and combined comparisons are unsupported.',
-        '  release_cycle defaults to all releases; programmer actions first consult',
-        '  the selection file. selection=selection.toml; template=tx30.',
+        '  release_cycle defaults to the current release (docs default to all); programmer actions consult',
+        '  the selection file first. selection=selection.toml; template=tx30.',
+        '  init_programmer: omitted assignments keep template defaults; release="" uses the current release.',
         '  jobs=4; seed=1; wave_format=vcd; dry_run=0; rebuild=0;',
         '  discard_project_changes=0; setup/venv activate=1. Omit an option to use its default.',
         '  Build targets are inferred when unambiguous; scan/identify default to dslot.',
         '  program requires target. probe_index: Diamond defaults to 1, FOSS to 0.',
         '  jobs must be positive; seed and probe_index must be nonnegative.',
-        '  gui requires Diamond builds; programmer-project requires both backends to be Diamond.',
+        '  gui requires Diamond builds; diamond_xcf_programming_chain requires both backends to be Diamond.',
         '  Diamond programming requires Diamond builds. cable and usb_serial are FOSS-only.',
         '  FOSS cable defaults to ft4232_b; usb_serial selects a probe instead of probe_index.',
         '  Long target names remain accepted aliases. Selection files do not select backends.',
-        '  docs/docs-assets accept release_cycle=all; other actions use one release.',
+        '  docs/docs_assets accept release_cycle=all; other actions use one release.',
         '  dry_run=1 previews without writes, tool startup, or hardware access.',
         '  Commands use tools installed in the calling environment; no containers are launched.',
         '',
@@ -154,7 +158,7 @@ def shared_help(style='make'):
 
 def help_text(style='make'):
     lines = ['Usage: ' + ('make ACTION [key=value ...]' if style == 'make' else
-                                 'python -m cpld_toolchain ACTION [--option value ...]'),
+                                 'uz_cpld ACTION [--option value ...]'),
              'All commands below; ' + example_text('help command=ACTION', style) + ' shows arguments and defaults.']
     group = None
     for command in COMMANDS.values():
@@ -166,7 +170,7 @@ def help_text(style='make'):
               '  release_cycle=NAME, dry_run=1 (preview).',
               'Options vary by command; use ' + example_text('help command=ACTION', style) + ' for the complete list.']
     if style != 'make':
-        lines += ['', 'Standalone generation: python -m cpld_toolchain generator CONFIG --output DIRECTORY [--check]']
+        lines += ['', 'Standalone generation: uz_cpld generator CONFIG --output DIRECTORY [--check]']
     return '\n'.join(lines)
 
 
@@ -176,10 +180,10 @@ def normalize(action, options):
         action, defaults = ALIASES[action]
         options = {**defaults, **options}
     if action not in COMMANDS:
-        raise BuildError(f'Unknown action {action!r}; run python -m cpld_toolchain help')
+        raise BuildError(f'Unknown action {action!r}; run uz_cpld help')
     unsupported = set(options) - COMMANDS[action].options
     if unsupported:
-        raise BuildError(f'{action} does not accept {", ".join(sorted(unsupported))}; run python -m cpld_toolchain help --command {action}')
+        raise BuildError(f'{action} does not accept {", ".join(sorted(unsupported))}; run uz_cpld help --command {action}')
     if action == 'compare':
         from .buildsystem.comparison import require_foss_backend
         require_foss_backend(options.get('backend'))
@@ -187,7 +191,7 @@ def normalize(action, options):
         if not options.get(key):
             raise BuildError(f'{action} requires {key}=' + ('dslot|s3c' if key == 'target' else 'NAME'))
     for key, value in options.items():
-        if not value:
+        if not value and not (action == 'init_programmer' and key == 'release'):
             raise BuildError(f'{key} must not be empty; omit it to use the default')
     for key in ('backend', 'build_backend', 'programmer_backend'):
         if key in options and options[key] not in ('diamond', 'foss'):
@@ -210,15 +214,15 @@ def normalize(action, options):
         options['target'] = reverse.get(options['target'], options['target'])
         if options['target'] not in TARGETS:
             raise BuildError('target must be dslot or s3c')
-    if options.get('release_cycle') == 'all' and action not in ('docs', 'docs-assets'):
-        raise BuildError('release_cycle=all is only supported for docs and docs-assets')
+    if options.get('release_cycle') == 'all' and action not in ('docs', 'docs_assets'):
+        raise BuildError('release_cycle=all is only supported for docs and docs_assets')
     backend = options.get('backend', 'diamond')
     build_backend = options.get('build_backend', backend)
     programmer_backend = options.get('programmer_backend', backend)
     if action == 'gui' and build_backend != 'diamond':
         raise BuildError('gui requires build_backend=diamond')
-    if action == 'programmer-project' and (build_backend != 'diamond' or programmer_backend != 'diamond'):
-        raise BuildError('programmer-project exports Diamond XCFs; both backends must be diamond')
+    if action == 'diamond_xcf_programming_chain' and (build_backend != 'diamond' or programmer_backend != 'diamond'):
+        raise BuildError('diamond_xcf_programming_chain exports Diamond XCFs; both backends must be diamond')
     if action == 'program' and programmer_backend == 'diamond' and build_backend != 'diamond':
         raise BuildError('Diamond programming requires Diamond builds; choose programmer_backend=foss')
     if action in ('scan', 'identify', 'program'):
@@ -243,7 +247,7 @@ def plan(action, options, *, root=ROOT, cwd=None):
     backend = options.get('backend', 'diamond')
     build_backend = options.get('build_backend', backend)
     programmer_backend = options.get('programmer_backend', backend)
-    if sys.platform == 'win32' and action == 'flasher-build':
+    if sys.platform == 'win32' and action == 'flasher_build':
         raise BuildError('The pinned FOSS source build requires Linux; use the toolchain container or WSL')
     if action == 'image':
         return [Invocation((options.get('container_engine', 'docker'), 'build',
@@ -266,30 +270,37 @@ def plan(action, options, *, root=ROOT, cwd=None):
         return [invoke('cpld_toolchain.toolchain.doctor', ['--backend', build_backend, *flags('target', 'release_cycle')])]
     if action in ('setup', 'venv'):
         return [invoke('cpld_toolchain.toolchain.venv', ['--activate', options.get('activate', '1')])]
-    if action in ('init', 'scan', 'identify', 'program', 'programmer-project'):
+    if action in ('init_programmer', 'build_selection', 'scan', 'identify', 'program', 'diamond_xcf_programming_chain'):
         selection = Path(options.get('selection', 'selection.toml'))
         if not selection.is_absolute():
             selection = cwd / selection
         args = []
-        if action in ('init', 'program', 'programmer-project'):
+        if action in ('init_programmer', 'build_selection', 'program', 'diamond_xcf_programming_chain'):
             args += ['--selection', str(selection)]
         args += flags('release_cycle', 'probe_index')
-        if action == 'programmer-project':
+        if action == 'init_programmer':
+            args += flags('release', 's3c', *(f'dslot_{i}' for i in range(1, 6)))
+        if action == 'build_selection':
+            args += ['--build-backend', build_backend]
+            if 'target' in options:
+                args += ['--target', options['target']]
+            return [invoke('cpld_toolchain.programmer_helper.program', [action, *args])]
+        if action == 'diamond_xcf_programming_chain':
             args += ['--build-backend', build_backend]
             if options.get('rebuild') == '1':
                 args += ['--build']
             return [invoke('cpld_toolchain.programmer_helper', args)]
-        if action != 'init':
+        if action != 'init_programmer':
             args += ['--programmer-backend', programmer_backend]
             if action == 'program':
                 args += ['--build-backend', build_backend]
                 if 'target' not in options:
-                    raise BuildError('program requires target=dslot or target=s3c; use python -m cpld_toolchain init to create a selection')
+                    raise BuildError('program requires target=dslot or target=s3c; use uz_cpld init_programmer to create a selection')
             args += ['--target', options.get('target', 'dslot')]
             args += flags('cable', 'usb_serial')
             args += ['--execute']
         return [invoke('cpld_toolchain.programmer_helper.program', [action, *args])]
-    if action == 'flasher-build':
+    if action == 'flasher_build':
         return [invoke('cpld_toolchain.toolchain.foss.flasher', ['--jobs', options.get('jobs', '4')])]
     if action == 'test':
         if sys.platform == 'win32':
@@ -304,7 +315,7 @@ def plan(action, options, *, root=ROOT, cwd=None):
         return [invoke('pytest', args + flags('program', 'target'))]
     if action == 'netlist':
         return [invoke('cpld_toolchain.toolchain.analysis.netlist', flags('program', 'target', 'release_cycle'))]
-    if action in ('docs', 'docs-assets'):
+    if action in ('docs', 'docs_assets'):
         cycle = options.get('release_cycle') or 'all'
         args = ['--jobs', options.get('jobs', '4'), '--release-cycle', cycle]
         args += flags('program', 'target')
@@ -318,12 +329,12 @@ def plan(action, options, *, root=ROOT, cwd=None):
         args += ['--backend', build_backend]
     if options.get('discard_project_changes') == '1':
         args += ['--discard-project-changes']
-    internal = 'release-current' if action == 'release-select' else action
+    internal = 'release-current' if action == 'release_select' else action.replace('_', '-')
     return [invoke('cpld_toolchain.toolchain.buildsystem', [internal, *args])]
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(prog="uz_cpld", description=__doc__)
     parser.add_argument('action', nargs='?', default='help')
     parser.add_argument('--make-help', action='store_true', help=argparse.SUPPRESS)
     parser.add_argument('--option', action='append', default=[], metavar='KEY=VALUE')
@@ -355,7 +366,7 @@ def main(argv=None):
                 print(help_text(style))
             return 0
         if args.action in ALIASES:
-            print(f'Compatibility alias: use python -m cpld_toolchain {ALIASES[args.action][0]} instead.', file=sys.stderr)
+            print(f'Compatibility alias: use uz_cpld {ALIASES[args.action][0]} instead.', file=sys.stderr)
         calls = plan(args.action, options)
         if options.get('dry_run') == '1':
             print('Preview only: no commands will be executed.')

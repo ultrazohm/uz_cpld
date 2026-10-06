@@ -78,25 +78,25 @@ class ProgrammerMakeTests(unittest.TestCase):
         self.assertEqual(args[args.index('--backend') + 1], 'foss')
 
     def test_initialization_creates_selection_in_callers_directory_without_overwriting(self):
-        result = self.make('init')
+        result = self.make('init_programmer')
         self.assertEqual(result.returncode, 0, result.stderr)
         selection = self.cwd / 'selection.toml'
         self.assertEqual(read_selection(selection),
                          ({i: 'tx30' for i in range(1, 6)}, 's3c_power_on_debounce', None, 'diamond'))
         self.assertNotIn('build_backend =', selection.read_text())
         selection.write_text('s3c = "custom"\n')
-        self.assertEqual(self.make('init').returncode, 0)
+        self.assertEqual(self.make('init_programmer').returncode, 0)
         self.assertEqual(selection.read_text(), 's3c = "custom"\n')
 
     def test_initialization_with_spaces_and_shell_characters(self):
         name = "my ' selection `touch UNEXPECTED`.toml"
-        result = self.make('init', f'selection={name}')
+        result = self.make('init_programmer', f'selection={name}')
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertTrue((self.cwd / name).exists())
         self.assertFalse((self.cwd / 'UNEXPECTED').exists())
 
     def test_preview_does_not_create_selection(self):
-        self.preview('init')
+        self.preview('init_programmer')
         self.assertFalse((self.cwd / 'selection.toml').exists())
         self.preview('program', 'target=s3c')
         self.assertFalse((self.cwd / 'selection.toml').exists())
@@ -121,16 +121,16 @@ class ProgrammerMakeTests(unittest.TestCase):
         args = self.preview('project', 'program=tx30', 'target=dslot')
         self.assertIn('cpld_toolchain.toolchain.buildsystem', args)
         self.assertIn('uz_dslot_xo2', args)
-        args = self.preview('programmer-project', 'selection=custom.toml', 'probe_index=3')
+        args = self.preview('diamond_xcf_programming_chain', 'selection=custom.toml', 'probe_index=3')
         self.assertIn('cpld_toolchain.programmer_helper', args)
         self.assertNotIn('--execute', args)
         self.assertIn(str(self.cwd / 'custom.toml'), args)
         self.assertEqual(args[args.index('--probe-index') + 1], '3')
 
     def test_invalid_or_inapplicable_options_fail_before_any_command(self):
-        for args in [('build-all', 'program=tx30'), ('build', 'program=tx30', 'bakend=foss'),
+        for args in [('build_all', 'program=tx30'), ('build', 'program=tx30', 'bakend=foss'),
                      ('scan', 'selection=missing.toml'), ('identify', 'build_backend=foss'),
-                     ('scan', 'programmer_backend=typo'), ('programmer-project', 'backend=foss'),
+                     ('scan', 'programmer_backend=typo'), ('diamond_xcf_programming_chain', 'backend=foss'),
                      ('program',), ('build', 'program=tx30', 'execute=0'),
                      ('sim', 'jobs=0'), ('scan', 'dry_run=yes')]:
             with self.subTest(args=args):
@@ -139,7 +139,7 @@ class ProgrammerMakeTests(unittest.TestCase):
                 self.assertFalse(result.stdout.strip(), result.stdout)
 
     def test_parallel_make_cannot_mix_workflow_actions(self):
-        for actions in [('init', 'program'), ('build-all', 'program'), ('programmer', 'scan')]:
+        for actions in [('init_programmer', 'program'), ('build_all', 'program'), ('programmer', 'scan')]:
             result = self.make('-j2', *actions)
             self.assertNotEqual(result.returncode, 0)
             self.assertIn('one action', result.stderr)

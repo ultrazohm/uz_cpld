@@ -23,10 +23,10 @@ Edit CSV/TOML inputs and regenerate; the generator owns the VHDL, manifest, LPF,
 
 ::
 
-   python -m cpld_toolchain generate --program cvg_tx30 --release-cycle heartbeat_cvg
-   python -m cpld_toolchain check --program cvg_tx30 --release-cycle heartbeat_cvg
-   python -m cpld_toolchain sim --release-cycle heartbeat_cvg
-   python -m cpld_toolchain build-all --release-cycle heartbeat_cvg
+   uz_cpld generate --program cvg_tx30 --release-cycle heartbeat_cvg
+   uz_cpld check --program cvg_tx30 --release-cycle heartbeat_cvg
+   uz_cpld sim --release-cycle heartbeat_cvg
+   uz_cpld build_all --release-cycle heartbeat_cvg
 
 Simulations exercise normal/safe routing, startup inhibition, system-error overrides and fault persistence.
 Regression tests compare routing, enable patterns, pin directions and constraints with the handwritten programs.

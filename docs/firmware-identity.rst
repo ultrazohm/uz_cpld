@@ -31,12 +31,12 @@ All existing complete programs have numbers, including templates.
 A clone or copied release receives new numbers, while references to ``xo2_library`` remain shared.
 For programs added manually, run::
 
-   make usercodes-assign
+   make usercodes_assign
 
 This includes complete manifests outside the catalog and unfinished generator starters.
 Build preparation also registers an unregistered program when needed.
 Numbers remain reserved after a failed operation or deletion; do not remove registry entries or reset counters.
-``make clean`` and ``make clean-all`` preserve the registry.
+``make clean`` and ``make clean_all`` preserve the registry.
 
 Build revisions and provenance
 ------------------------------
@@ -89,7 +89,7 @@ The supported reader wiring is the UltraZohm FT4232 channel B at 1 MHz: Diamond 
 For multiple probes, the FOSS interface accepts ``usb_serial=SERIAL``; an ambiguous unselected probe is rejected.
 Other cable types or probe-index mappings require extending the reader and are rejected before managed programming starts.
 Managed FOSS programming requires the pinned USERCODE-capable openFPGALoader build included in the toolchain image.
-On a native host, ``make flasher-build`` builds it under ``cpld_toolchain/toolchain/build/openfpgaloader/`` (requires a C++ compiler, CMake, pkg-config, patch, libftdi1/libusb development headers and zlib).
+On a native host, ``make flasher_build`` builds it under ``cpld_toolchain/toolchain/build/openfpgaloader/`` (requires a C++ compiler, CMake, pkg-config, patch, libftdi1/libusb development headers and zlib).
 This command builds the programming executable only; it does not build CPLD firmware, access USB or program a device.
 The managed loader selection prefers that local build, then the image's ``FOSS_ROOT/native/openfpgaloader/`` installation; ``CPLD_OPENFPGALOADER`` can select another verified installation.
 The wrapper checks the binary and patch provenance and parses every selected input before accessing USB.
@@ -110,14 +110,14 @@ Concurrent installers serialize publication of the binary and receipt.
 
 The Docker builder stage runs this automatically and copies the installation into the runtime image.
 Rebuilding the image reapplies the patch and recompiles when the source pin or patch changes; unchanged inputs can reuse Docker's cached layer.
-No manual ``make flasher-build`` step is needed in a fresh container.
+No manual ``make flasher_build`` step is needed in a fresh container.
 The runtime lacks the compiler/development headers from the builder stage; use a container rebuild to update its bundled loader.
 
 The selection order is ``CPLD_OPENFPGALOADER``, then the workspace installation, then the container installation.
 Stock PATH/bundle fallback is available for scans only.
 A stale workspace installation takes precedence even after a container rebuild and is rejected during programming.
 Rebuild that installation with native prerequisites, or remove only ``cpld_toolchain/toolchain/build/openfpgaloader/`` to select the bundled loader.
-``make clean-all`` also removes the workspace installation along with other generated outputs.
+``make clean_all`` also removes the workspace installation along with other generated outputs.
 Calling the stock executable directly bypasses these checks and does not provide the managed workflow's identity guarantee.
 
 Device readback

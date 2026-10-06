@@ -24,10 +24,10 @@ Select and create cycles
 
 ::
 
-   make release-list
-   make release-new name=r2026_10
-   make release-select release_cycle=original
-   make release-new name=r2026_11 from=original
+   make release_list
+   make release_new name=r2026_10
+   make release_select release_cycle=original
+   make release_new name=r2026_11 from=original
 
 ``programs/releases.toml`` records the current cycle and is tracked in Git.
 Cycle and program names use lowercase letters, digits and underscores, starting with a letter.
@@ -43,9 +43,10 @@ Git records the corresponding toolchain version.
 Copied programs and generator starters receive new permanent program numbers in the shared ``programs/usercodes.json`` registry.
 Commit the registry with the new release; see :doc:`/firmware-identity` for allocation across independent checkouts.
 
-Every program command accepts ``release_cycle=NAME``.
-Omitting it selects the current cycle, independently of directory timestamps or alphabetical ordering.
-The Python build CLI uses ``--release-cycle NAME``.
+Firmware, simulation and documentation commands accept ``release_cycle=NAME`` (``--release-cycle NAME`` with ``uz_cpld``).
+Firmware commands normally default to the current cycle; ``build_selection``, programming and XCF export first consult the selection file.
+Documentation defaults to all releases.
+``init_programmer`` uses ``release=NAME`` (``--release NAME``) to initialize the selection file.
 Explicit selection does not change the tracked current cycle.
 
 Create and generate programs
@@ -72,7 +73,7 @@ Outputs and documentation
 Builds, simulations and netlists write under the selected program's ``build/`` directory.
 Catalog reports are under ``cpld_toolchain/toolchain/build/validation/<release_cycle>/``.
 Locks and provenance include the cycle so matching program names remain independent.
-``list``, ``build-all``, ``report``, ``sim`` and ``netlist`` operate on the selected cycle.
-``make docs`` documents the current cycle; ``make docs release_cycle=NAME`` selects another cycle.
+``list``, ``build_all``, ``report``, ``sim`` and ``netlist`` operate on the selected cycle.
+``make docs`` documents all releases; ``make docs release_cycle=NAME`` selects another cycle.
 ``make docs release_cycle=all`` includes every cycle and groups program pages by cycle.
-``make clean`` affects one selected program/backend; ``make clean-all`` removes generated outputs across all cycles.
+``make clean`` affects one selected program/backend; ``make clean_all`` removes generated outputs across all cycles.

@@ -1,6 +1,5 @@
 """Public command contract shared by Make, help, and command-routing tests."""
 from cpld_toolchain import repository_root
-import argparse
 from dataclasses import dataclass
 import re
 from pathlib import Path
@@ -21,7 +20,7 @@ PROBE = {'backend', 'programmer_backend', 'target', 'probe_index', 'cable', 'usb
 
 # The native Windows suite excludes Linux-only tool and shell integrations.
 WINDOWS_TESTS = (
-    'cpld_toolchain.toolchain.tests.test_doctor', 'cpld_toolchain.toolchain.tests.test_platform', 'cpld_toolchain.toolchain.tests.test_commands', 'cpld_toolchain.toolchain.tests.test_venv',
+    'cpld_toolchain.toolchain.tests.test_capabilities', 'cpld_toolchain.toolchain.tests.test_doctor', 'cpld_toolchain.toolchain.tests.test_platform', 'cpld_toolchain.toolchain.tests.test_commands', 'cpld_toolchain.toolchain.tests.test_venv',
     'cpld_toolchain.toolchain.tests.test_identity.IdentityTests.test_concurrent_allocations_are_unique_and_repeated_allocation_is_stable',
     'cpld_toolchain.toolchain.tests.test_identity.IdentityTests.test_concurrent_same_build_reuses_one_revision',
     'cpld_toolchain.cpld_vhdl_generator.tests.test_generator', 'cpld_toolchain.programmer_helper.tests.test_program',
@@ -237,6 +236,8 @@ def normalize(action, options):
 class Invocation:
     argv: tuple[str, ...]
     cwd: Path
+    module: str | None = None
+    arguments: tuple[str, ...] = ()
 
 
 def plan(action, options, *, root=ROOT, cwd=None):
@@ -256,7 +257,7 @@ def plan(action, options, *, root=ROOT, cwd=None):
                             '-t', options.get('toolchain_image', 'uz-cpld-toolchain'), '.'), root)]
     python = sys.executable
     def invoke(module, args, working=root):
-        return Invocation(tuple([python, '-m', module, *args]), working)
+        return Invocation(tuple([python, '-m', module, *args]), working, module, tuple(args))
     def flags(*keys):
         result = []
         for key in keys:
@@ -333,51 +334,36 @@ def plan(action, options, *, root=ROOT, cwd=None):
     return [invoke('cpld_toolchain.toolchain.buildsystem', [internal, *args])]
 
 
+def run(action, options):
+    """Plan, check only this command's dependencies, then execute lazily."""
+    from cpld_toolchain import capabilities, runtime
+    canonical, normalized = normalize(action, options)
+    calls = plan(canonical, normalized)
+    if action in ALIASES:
+        print(f'Compatibility alias: use uz_cpld {canonical} instead.', file=sys.stderr)
+    preview = normalized.get('dry_run') == '1'
+    if preview:
+        print('Preview only: no commands will be executed.')
+    else:
+        capabilities.require(canonical, normalized)
+    for call in calls:
+        print(f'[{call.cwd}] {shlex.join(call.argv)}', flush=True)
+        if not preview:
+            try:
+                runtime.execute(call)
+            except subprocess.CalledProcessError as exc:
+                raise BuildError(str(exc)) from exc
+    return 0
+
+
 def main(argv=None):
-    parser = argparse.ArgumentParser(prog="uz_cpld", description=__doc__)
-    parser.add_argument('action', nargs='?', default='help')
-    parser.add_argument('--make-help', action='store_true', help=argparse.SUPPRESS)
-    parser.add_argument('--option', action='append', default=[], metavar='KEY=VALUE')
-    names = set().union(*(s.options for s in COMMANDS.values())) | CONTAINER | {'command'}
-    for key in sorted(names):
-        parser.add_argument('--' + key.replace('_', '-'), dest=key)
-    args = parser.parse_args(argv)
-    style = 'make' if args.make_help else 'python'
     try:
-        options = {key: getattr(args, key) for key in names if getattr(args, key) is not None}
-        for item in args.option:
-            key, separator, value = item.partition('=')
-            if not separator:
-                raise BuildError('Options must have the form key=value')
-            if key in options:
-                raise BuildError(f'Duplicate option {key}')
-            options[key] = value
-        if args.action == 'help':
-            if set(options) - {'command'}:
-                raise BuildError('help accepts only command=ACTION')
-            if 'command' in options:
-                action = ALIASES.get(options['command'], (options['command'], {}))[0]
-                if action not in COMMANDS:
-                    raise BuildError(f'Unknown action {action}')
-                print(COMMANDS[action].group)
-                print(command_help(action, style))
-                print('\n' + shared_help(style))
-            else:
-                print(help_text(style))
-            return 0
-        if args.action in ALIASES:
-            print(f'Compatibility alias: use uz_cpld {ALIASES[args.action][0]} instead.', file=sys.stderr)
-        calls = plan(args.action, options)
-        if options.get('dry_run') == '1':
-            print('Preview only: no commands will be executed.')
-        for call in calls:
-            print(f'[{call.cwd}] {shlex.join(call.argv)}', flush=True)
-            if options.get('dry_run') != '1':
-                subprocess.run(call.argv, cwd=call.cwd, check=True)
-        return 0
-    except (BuildError, OSError, ValueError, subprocess.CalledProcessError) as exc:
-        print(f'error: {exc}', file=sys.stderr)
+        from cpld_toolchain.cli import main as cli
+    except ImportError as exc:
+        print(f'error: CLI dependencies are unavailable: {exc}. '
+              'Run python -m cpld_toolchain setup.', file=sys.stderr)
         return 2
+    return cli(argv)
 
 
 if __name__ == '__main__':

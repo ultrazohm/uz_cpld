@@ -90,16 +90,8 @@ def build_selection(root: Path, selection: Path, release_cycle=None, *, target=N
 
 
 def loader_path() -> Path:
-    override = os.environ.get('CPLD_OPENFPGALOADER')
-    if override:
-        return Path(override)
-    suite = Path(os.environ.get('FOSS_ROOT', '/opt/oss-cad-suite'))
-    for candidate in (repository_root() / 'cpld_toolchain/toolchain/build/openfpgaloader/openFPGALoader',
-                      suite / 'native/openfpgaloader/openFPGALoader'):
-        if candidate.is_file():
-            return candidate
-    found = shutil.which('openFPGALoader')
-    return Path(found) if found else Path(os.environ.get('FOSS_ROOT', '/opt/oss-cad-suite')) / 'bin/openFPGALoader'
+    from cpld_toolchain.tools import loader_path as locate
+    return locate()
 
 
 def cable_args(chain: str, cable: str | None, serial: str | None,

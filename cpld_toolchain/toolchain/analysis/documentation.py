@@ -235,14 +235,14 @@ Download the :download:`cocotb testbench <../../../programs/{name}/{build.name}_
         raise BuildError(f'{name}: {exc}\n{detail or ""}') from exc
 
 
-def main():
+def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--jobs", type=int, default=4, help="Concurrent programs (default: 4; 1 for sequential)")
     parser.add_argument("--release-cycle", "--release_cycle", dest="release_cycle", help="Release to document; default: all releases")
     parser.add_argument('--program', help='Limit documentation to one program')
     parser.add_argument('--target', help='Limit documentation to one board target')
     parser.add_argument('--build-site', action='store_true', help='Also render and validate HTML under the same lock')
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     try:
         action = build_site if args.build_site else generate
         print(action(jobs=args.jobs, release_cycle=args.release_cycle, program=args.program, target=args.target))

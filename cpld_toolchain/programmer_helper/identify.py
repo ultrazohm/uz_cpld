@@ -1,9 +1,7 @@
 """Read MachXO2 identity registers through the UltraZohm FT4232 channel B."""
 from datetime import datetime, timezone
-import os
 from pathlib import Path
 import re
-import shutil
 import sys
 import tempfile
 import xml.etree.ElementTree as ET
@@ -18,8 +16,8 @@ from .diamond import command as diamond_command, environment as diamond_environm
 
 
 def openocd_path():
-    candidate = os.environ.get('CPLD_OPENOCD') or shutil.which('openocd')
-    return Path(candidate) if candidate else Path(os.environ.get('FOSS_ROOT', '/opt/oss-cad-suite')) / 'bin/openocd'
+    from cpld_toolchain.tools import openocd_path as locate
+    return locate()
 
 
 def preflight(backend, cable=None, serial=None, probe_index=None):

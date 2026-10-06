@@ -123,7 +123,7 @@ def report(root, *, backend='diamond', release_cycle=None, target=None):
     packages = [package('cpld-toolchain', 'cpld_toolchain')]
     packages += ([Finding('TOML parser', 'FOUND', 'Python standard library (tomllib)')]
                  if sys.version_info >= (3, 11) else [package('tomli', 'tomli')])
-    packages += [package(name) for name in ('cocotb', 'pytest', 'pytest-xdist', 'plotly',
+    packages += [package(name) for name in ('typer', 'cocotb', 'pytest', 'pytest-xdist', 'plotly',
                                            'pyvcd', 'Sphinx', 'furo', 'sphinxcontrib-mermaid')]
     groups.append(('Python packages (FOUND does not test imports)', packages))
 
@@ -151,9 +151,7 @@ def report(root, *, backend='diamond', release_cycle=None, target=None):
         vendor.append(Finding('Diamond builds', 'UNAVAILABLE', 'Full Diamond build CLI is missing. Standalone Programmer can program hardware but cannot compile firmware.'))
 
     suite = Path(os.environ.get('FOSS_ROOT', '/opt/oss-cad-suite'))
-    from cpld_toolchain.toolchain.analysis.netlist import yosys_executable
-    from cpld_toolchain.programmer_helper.program import loader_path
-    from cpld_toolchain.programmer_helper.identify import openocd_path
+    from cpld_toolchain.tools import yosys_path as yosys_executable, loader_path, openocd_path
     specs = [
         ('GHDL', 'ghdl', ['--version']),
         ('Yosys (RTL diagrams)', yosys_executable(), ['-V']),
@@ -190,6 +188,11 @@ def report(root, *, backend='diamond', release_cycle=None, target=None):
         print(f'\n{title}')
         for row in rows:
             print(f'  {row.state:<12} {row.name:<26} {compact(row.detail)}')
+    from cpld_toolchain.capabilities import inventory
+    print('\nCommand prerequisites (located only; license, versions and hardware not verified)')
+    for name, problems in inventory():
+        print(f'  {"MISSING" if problems else "AVAILABLE":<12} {name}: ' +
+              ('; '.join(problems) if problems else 'prerequisites located'))
     print('\nMissing tools affect only workflows that use them. No hardware was accessed.')
     print('License validity, synthesis, USB permissions, Docker daemon and image availability were not tested.')
     print('Python setup: python -m cpld_toolchain venv')

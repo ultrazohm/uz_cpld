@@ -241,7 +241,8 @@ endmodule
     def test_make_backend_selection_and_invalid_value(self):
         result = subprocess.run(['make', 'list', 'backend=foss', 'release_cycle=original'], cwd=ROOT, capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(result.stdout.count('\tfoss'),
+        self.assertEqual(sum(len(line.split()) == 4 and line.split()[-1] == 'foss'
+                             for line in result.stdout.splitlines()),
                          sum('foss' in program_backends(ROOT, name, 'original') for name in catalog(ROOT, 'original')))
         result = subprocess.run(['make', 'list', 'backend=unknown'], cwd=ROOT, capture_output=True, text=True)
         self.assertNotEqual(result.returncode, 0)

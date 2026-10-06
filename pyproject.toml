@@ -8,7 +8,13 @@ dynamic = ["version"]
 description = "Modular CPLD generation, build, simulation and programming tools"
 readme = "cpld_toolchain/README.md"
 requires-python = ">=3.10"
-dependencies = ["tomli==2.2.1; python_version < '3.11'"]
+dependencies = [
+    "tomli==2.2.1; python_version < '3.11'",
+    "typer==0.27.2",
+    "Sphinx==7.4.7", "furo==2025.12.19", "sphinxcontrib-mermaid==2.1.1",
+    "plotly==5.24.1", "pyvcd==0.5.0", "tenacity==9.1.4",
+    "cocotb==2.0.0", "pytest==8.4.2", "pytest-xdist==3.8.0", "find_libpython==0.4.0",
+]
 
 [project.scripts]
 uz_cpld = "cpld_toolchain.__main__:main"

@@ -16,9 +16,6 @@ def main(argv=None):
             file=sys.stderr,
         )
         return 2
-    if args and args[0] == 'generator':
-        from .cpld_vhdl_generator.__main__ import main as run
-        return run(args[1:])
     from .toolchain.commands import main as run
     return run(args)
 

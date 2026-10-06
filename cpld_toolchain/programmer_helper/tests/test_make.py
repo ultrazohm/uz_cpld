@@ -71,7 +71,8 @@ class ProgrammerMakeTests(unittest.TestCase):
                 result = self.make('compare', 'program=cvg_tx30',
                                    'release_cycle=heartbeat_cvg', *options)
                 self.assertNotEqual(result.returncode, 0)
-                self.assertIn('compare currently supports only backend=foss', result.stderr)
+                self.assertIn('compare currently supports only backend=foss' if options else
+                              "Missing option '--backend'", result.stderr)
                 self.assertFalse(result.stdout.strip(), result.stdout)
         args = self.preview('compare', 'program=cvg_tx30',
                             'release_cycle=heartbeat_cvg', 'backend=foss')

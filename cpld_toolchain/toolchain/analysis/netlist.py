@@ -2,7 +2,6 @@
 from cpld_toolchain import repository_root
 import argparse
 import json
-import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -15,11 +14,8 @@ ROOT = repository_root()
 
 
 def yosys_executable():
-    """Prefer the installed OSS CAD Suite; native setups may use PATH Yosys."""
-    suite = Path(os.environ.get('FOSS_ROOT', '/opt/oss-cad-suite'))
-    name = 'yosys.exe' if sys.platform == 'win32' else 'yosys'
-    bundled = shutil.which(str(suite / 'bin' / name))
-    return bundled or shutil.which('yosys') or 'yosys'
+    from cpld_toolchain.tools import yosys_path
+    return str(yosys_path())
 
 
 def export_netlist(build):
@@ -88,12 +84,12 @@ def _export_netlist(build):
         raise BuildError(f'Netlist export failed for {build.name}; see {output}: {exc}') from exc
 
 
-def main():
+def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--program')
     parser.add_argument('--release-cycle', '--release_cycle', dest='release_cycle')
     parser.add_argument('--target')
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     try:
         cycle = resolve_release(ROOT, args.release_cycle)
         if args.program:

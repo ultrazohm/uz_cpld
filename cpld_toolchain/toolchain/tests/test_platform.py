@@ -121,7 +121,7 @@ class WindowsDispatchTests(unittest.TestCase):
 
     def test_windows_foss_build_uses_native_python(self):
         with patch.object(sys, 'platform', 'win32'):
-            call, = commands.plan('build-all', {'backend': 'foss'})
+            call, = commands.plan('build_all', {'backend': 'foss'})
             self.assertEqual(call.argv[:3], (sys.executable, '-m', 'cpld_toolchain.toolchain.buildsystem'))
             self.assertNotIn('--user', call.argv)
             self.assertNotIn('--mount', call.argv)
@@ -149,11 +149,11 @@ class WindowsDispatchTests(unittest.TestCase):
             self.assertNotIn('discover', calls[0].argv)
 
     def test_primary_entrypoint_previews_without_make_or_vendor_tools(self):
-        result = subprocess.run([sys.executable, '-m', 'cpld_toolchain', 'build-all', '--dry-run', '1'],
+        result = subprocess.run([sys.executable, '-m', 'cpld_toolchain', 'build_all', '--dry-run', '1'],
                                 cwd=ROOT, capture_output=True, text=True, timeout=15)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn('cpld_toolchain.toolchain.buildsystem build-all --backend diamond', result.stdout)
         with redirect_stdout(io.StringIO()) as output:
             self.assertEqual(commands.main(['help', '--command', 'program']), 0)
-        self.assertIn('python -m cpld_toolchain program --target', output.getvalue())
+        self.assertIn('uz_cpld program --target', output.getvalue())
         self.assertIn('--programmer-backend diamond|foss', output.getvalue())

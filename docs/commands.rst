@@ -10,7 +10,10 @@ Command names use lowercase letters and underscores, for example ``build_all`` a
 Options use hyphens, for example ``--release-cycle original`` and ``--dry-run 1``.
 See :doc:`windows` for native Windows setup and :doc:`environments` for Linux and container setup.
 
-The shared definitions in ``cpld_toolchain/toolchain/commands.py`` drive help, validation, backend resolution and execution.
+The shared definitions in ``cpld_toolchain/toolchain/commands.py`` drive the Typer command options, help, validation and planning.
+``uz_cpld ACTION --help`` also shows command-specific help.
+All commands are always present; execution checks only the dependencies needed by the selected command.
+Missing tools produce an actionable error and never cause a backend switch.
 ``python -m cpld_toolchain.toolchain.commands`` remains an equivalent entry point.
 On Linux, ``make ACTION key=value`` is an optional wrapper around the same dispatcher; its option names use underscores.
 For example, ``make build program=tx30 release_cycle=original`` is equivalent to ``uz_cpld build --program tx30 --release-cycle original``.

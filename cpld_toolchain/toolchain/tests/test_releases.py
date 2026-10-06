@@ -37,19 +37,20 @@ class ReleaseTests(unittest.TestCase):
         return result.stdout + result.stderr
 
     def test_current_is_explicit_and_make_overrides_do_not_change_it(self):
-        self.make('release-new', 'name=z_old')
-        self.make('release-new', 'name=a_new')
+        self.make('release_new', 'name=z_old')
+        self.make('release_new', 'name=a_new')
         self.assertEqual(resolve_release(self.root), 'a_new')
         self.assertEqual(catalog(self.root), [])
         self.assertTrue((self.root / 'programs/a_new/description.rst').is_file())
-        self.assertIn('original/tx30', self.make('list', 'release_cycle=original'))
+        self.assertIn(['original', 'tx30', 'uz_dslot_xo2', 'diamond'],
+                      [line.split() for line in self.make('list', 'release_cycle=original').splitlines()])
         self.assertEqual(resolve_release(self.root), 'a_new')
-        self.make('release-current', 'release_cycle=original')
-        self.assertIn('original (current)', self.make('release-list'))
+        self.make('release_current', 'release_cycle=original')
+        self.assertIn('original (current)', self.make('release_list'))
         self.assertEqual(release_cycles(self.root), ['a_new', 'original', 'z_old'])
 
     def test_cross_cycle_template_and_generator_commands(self):
-        self.make('release-new', 'name=next')
+        self.make('release_new', 'name=next')
         self.make('new', 'name=manual', 'template=tx30', 'template_release_cycle=original')
         manual = load_build(self.root, 'manual')
         self.assertEqual(manual.release_cycle, 'next')
@@ -74,7 +75,7 @@ class ReleaseTests(unittest.TestCase):
         cache = starter / '__pycache__'
         cache.mkdir()
         (cache / 'old.pyc').touch()
-        self.make('release-new', 'name=next', 'from=original')
+        self.make('release_new', 'name=next', 'from=original')
         self.assertEqual(catalog(self.root), catalog(self.root, 'original'))
         original_description = self.root / 'programs/original/description.rst'
         copied_description = self.root / 'programs/next/description.rst'
@@ -139,7 +140,7 @@ class ReleaseTests(unittest.TestCase):
         releases.create(self.root, 'empty')
         for backend in ('diamond', 'foss'):
             with self.subTest(backend=backend):
-                output = self.make('build-all', f'backend={backend}', success=False)
+                output = self.make('build_all', f'backend={backend}', success=False)
                 self.assertIn('No programs selected for build-all', output)
         self.make('report')
         path = self.root / 'cpld_toolchain/toolchain/build/validation/empty/diamond-catalog/report.json'

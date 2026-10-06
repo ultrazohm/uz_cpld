@@ -72,3 +72,38 @@ Python integration
 Use workflow functions to retain locking and provenance checks; backend methods are lower-level interfaces.
 Importing build modules does not launch Diamond, and expected configuration failures raise ``BuildError``.
 See :doc:`api` for signatures.
+
+CLI and command availability
+----------------------------
+
+The application always exposes the complete command set.
+``cpld_toolchain/cli.py`` uses Typer to parse command-specific options, including numeric ranges and backend choices.
+The shared contract in ``toolchain/commands.py`` supplies the option signatures and retains Make-compatible help, cross-option validation, and side-effect-free command planning.
+``uz_cpld ACTION --help`` shows the options for that action; ``uz_cpld help --command ACTION`` also explains shared defaults and rules.
+Make translates its ``key=value`` options into the same CLI options.
+
+``capabilities.py`` checks only the selected command's prerequisites before execution.
+``runtime.py`` lazily imports the selected component and invokes its callable entry point in-process, restoring the caller's working directory afterward.
+The component entry points remain usable independently and retain their workflow validation and locking.
+External tools and isolated pytest/unittest runners still use subprocesses; documentation also retains its worker processes.
+Help, listing and selection initialization do not import the simulation or documentation dependencies.
+Dry runs do not check tool availability, start tools, or import the selected workflow.
+
+The normal Python package includes the dependencies for the complete application, including simulation and documentation.
+Lazy imports isolate commands and reduce startup work; they do not define separate reduced-functionality editions.
+``doctor`` reports located command prerequisites without claiming that licenses, tool versions, drivers or hardware have passed validation.
+Missing dependencies affect only commands that need them, and the requested backend is never changed automatically.
+Diamond build tools and Diamond Programmer are independent requirements.
+FOSS programming requires both the patched openFPGALoader and OpenOCD for identity readback.
+
+``tools.py`` resolves programmer executables and the RTL Yosys executable without importing workflows.
+An explicit ``CPLD_OPENFPGALOADER`` or ``CPLD_OPENOCD`` takes priority and does not silently fall back if invalid.
+Then the resolver checks packaged tool resources, existing tool installation locations and PATH.
+The packaged resource directory defaults to ``cpld_toolchain/bundled_tools`` and may be supplied with ``CPLD_BUNDLED_TOOLS``.
+It accepts executables directly in that directory or under a tool-named subdirectory, including Windows ``.exe`` names.
+Companion libraries, scripts and the patched flasher receipt must accompany any future bundled tools.
+The pinned FOSS build installation and its receipt checks remain separate and unchanged.
+
+This establishes discovery and execution boundaries for future distributions; it does not produce a standalone executable or bundle native tools.
+Repository workflows still require the checkout and existing build provenance.
+Consuming CI firmware independently of a checkout, packaging simulation workers, and producing OS-specific executable distributions remain future work.

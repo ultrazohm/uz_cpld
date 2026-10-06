@@ -10,7 +10,9 @@ See the [user guide](../docs/user/index.rst) for usage and the
 [toolchain contribution guide](../docs/developer/toolchain.rst) for tooling changes.
 The [HDL developer guide](../docs/developer/hdl.rst) covers handwritten and generated programs.
 Each guide includes a quick start reference.
-Run `uz_cpld help --command ACTION` for command options.
+Run `uz_cpld ACTION --help` for Typer command options, or `uz_cpld help --command ACTION` for shared defaults.
+All commands remain available; `uz_cpld doctor` reports their environment prerequisites.
+The Python package includes the full dependency set. External tools are required only by the workflows that use them.
 
 From the checkout, run `python -m cpld_toolchain setup` with Python 3.8 or newer.
 Setup downloads uv and the project Python as needed, installs all locked Python dependencies into `.venv`, and opens an activated shell with `uz_cpld` available.

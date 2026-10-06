@@ -213,3 +213,17 @@ For the bundled simulation, FOSS and documentation tools, start with::
 
 See :doc:`environments` for Linux tools, container mounts and USB permissions; :doc:`windows` for native Windows setup; :doc:`foss` for pinned native FOSS tools; and :doc:`commands` for the complete command contract.
 Setup includes Python packages for native Linux analysis and simulation; GHDL, Yosys, Graphviz and other external executables must still be installed separately.
+
+One application, environment-dependent capabilities
+---------------------------------------------------
+
+Every installation exposes the full command set and installs the full Python dependency set.
+External tools remain environment-dependent: ``docs`` needs its HDL analysis/simulation tools, while ``program`` needs the explicitly selected programming backend.
+The dispatcher checks prerequisites before executing a command.
+Use ``uz_cpld doctor`` to see located prerequisites; availability is not a license, pin, USB or hardware verification result.
+Missing documentation or simulation tools never prevent help, catalog listing or programmer selection initialization.
+``--dry-run 1`` remains usable without the selected command's tools.
+
+A future distribution can supply openFPGALoader and OpenOCD through the common tool resolver while leaving Diamond as a system installation.
+No external tools are bundled by this change, and the native driver and USB access requirements still apply.
+See :doc:`architecture` for the module boundaries and future packaging limitations.

@@ -20,6 +20,7 @@ PROBE = {'backend', 'programmer_backend', 'target', 'probe_index', 'cable', 'usb
 
 # The native Windows suite excludes Linux-only tool and shell integrations.
 WINDOWS_TESTS = (
+    'cpld_toolchain.toolchain.tests.test_firmware_download',
     'cpld_toolchain.toolchain.tests.test_capabilities', 'cpld_toolchain.toolchain.tests.test_doctor', 'cpld_toolchain.toolchain.tests.test_platform', 'cpld_toolchain.toolchain.tests.test_commands', 'cpld_toolchain.toolchain.tests.test_venv',
     'cpld_toolchain.toolchain.tests.test_identity.IdentityTests.test_concurrent_allocations_are_unique_and_repeated_allocation_is_stable',
     'cpld_toolchain.toolchain.tests.test_identity.IdentityTests.test_concurrent_same_build_reuses_one_revision',
@@ -59,6 +60,7 @@ COMMANDS = {
     'build_selection': spec('Toolchain', 'build_selection', 'Build each distinct program in selection.toml', FIRMWARE | {'selection'}),
     'build_all': spec('Toolchain', 'build_all', 'Build every catalog program for the selected backend', FIRMWARE),
     'gui': spec('Toolchain', 'gui program=NAME', 'Open the Diamond firmware project', FIRMWARE | {'program'}, {'program'}),
+    'firmware_download': spec('Toolchain', 'firmware_download', 'Download the latest GitHub CI firmware for the current branch', {'remote', 'output'}),
     'report': spec('Toolchain', 'report', 'Summarize existing catalog build evidence', FIRMWARE),
     'test': spec('Toolchain', 'test', 'Run Python utility tests; sim runs HDL tests'),
     'release_list': spec('Toolchain', 'release_list', 'List releases and the current selection'),
@@ -82,6 +84,7 @@ COMMANDS = {
 # Argument spellings are shared by overview and focused help; applicability and
 # required/optional status always come from the command's validated option sets.
 ARGUMENT_VALUES = {
+    'remote': 'NAME', 'output': 'FILE',
     'release': 'NAME', 's3c': 'NAME', **{f'dslot_{i}': 'NAME' for i in range(1, 6)},
     'program': 'NAME', 'name': 'NAME', 'template': 'NAME|generator',
     'target': 'dslot|s3c', 'release_cycle': 'NAME', 'template_release_cycle': 'NAME',
@@ -258,6 +261,11 @@ def plan(action, options, *, root=ROOT, cwd=None):
                     value = TARGETS[value]
                 result += ['--' + key.replace('_', '-'), value]
         return result
+    if action == 'firmware_download':
+        args = ['--root', str(root), *flags('remote')]
+        if 'output' in options:
+            args += ['--output', str((cwd / options['output']).absolute())]
+        return [invoke('cpld_toolchain.toolchain.firmware_download', args)]
     if action == 'doctor':
         return [invoke('cpld_toolchain.toolchain.doctor', ['--backend', build_backend, *flags('target', 'release_cycle')])]
     if action == 'setup':

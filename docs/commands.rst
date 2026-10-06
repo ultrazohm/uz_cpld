@@ -79,6 +79,22 @@ It does not flash hardware.
 Install the tools required for simulation, diagrams, documentation and FOSS builds, or enter the toolchain container before running those commands.
 Rebuild the image explicitly when its tool dependencies change.
 
+Download the newest published CI firmware for the current Git branch::
+
+   uz_cpld firmware_download
+   # Optional remote and destination overrides:
+   uz_cpld firmware_download --remote origin --output build/firmware.zip
+   make firmware_download
+
+The default destination is ``build/downloads/<release-tag>/uz-cpld-firmware.zip``.
+The command uses the branch's tracking remote and branch, or ``origin`` and the local
+branch name when no upstream is configured. An explicit ``--remote`` uses the local
+branch name unless it is the configured tracking remote.
+It includes CI prereleases and matches the exact ``Source ref`` in the release notes;
+it never falls back to another branch. Detached HEAD and missing releases are errors.
+``--dry-run 1`` previews the command without Git or network access.
+See :doc:`publishing` for authentication, verification and the downloaded archive's scope.
+
 Create the programming selection and project::
 
    uz_cpld init_programmer

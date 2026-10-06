@@ -9,7 +9,7 @@ command_cli = PYTHONPATH=$(call quote,$(command_root))"$${PYTHONPATH:+:$$PYTHONP
 ifneq ($(word 2,$(MAKECMDGOALS)),)
 $(error Use one action per invocation: make ACTION key=value. Use make scan, make identify, make program, or make diamond_xcf_programming_chain instead of grouped programmer commands)
 endif
-commands := help image setup doctor list build_all build_selection report init_programmer diamond_xcf_programming_chain scan identify program new generate check build compare project gui sim netlist docs docs_assets test release_list release_new release_select usercodes usercodes_assign flasher_build clean clean_all
+commands := help image setup doctor list build_all build_selection firmware_download report init_programmer diamond_xcf_programming_chain scan identify program new generate check build compare project gui sim netlist docs docs_assets test release_list release_new release_select usercodes usercodes_assign flasher_build clean clean_all
 .PHONY: $(commands)
 $(commands):
 	@$(command_cli) $@ $(foreach key,$(command_options),--option $(call quote,$(key)=$($(key))))

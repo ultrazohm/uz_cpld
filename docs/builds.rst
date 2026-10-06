@@ -102,6 +102,7 @@ All firmware and toolchain outputs live under the repository's top-level ``build
      programmer/...
      locks/
      openfpgaloader/
+     downloads/<release-tag>/uz-cpld-firmware.zip
      uz-cpld-firmware.zip
 
 Diamond exports both firmware formats; FOSS exports only ``.bit``.

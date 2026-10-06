@@ -45,7 +45,7 @@ def option(key, required):
         annotation, settings = int, {'min': 1 if key == 'jobs' else 0}
     elif key in ('dry_run', 'rebuild', 'discard_project_changes', 'activate'):
         annotation, settings = int, {'min': 0, 'max': 1}
-    elif key == 'selection':
+    elif key in ('selection', 'output'):
         annotation = Path
     return Parameter('from_' if key == 'from' else key, Parameter.KEYWORD_ONLY,
                      annotation=annotation if required else Optional[annotation],

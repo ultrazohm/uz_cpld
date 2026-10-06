@@ -66,6 +66,36 @@ The programmer still requires matching source/build metadata and the identity re
 Registry counters are not coordinated across independent CI runs, and prerelease firmware has no established hardware or board timing acceptance.
 The 14-day retention period applies to Actions diagnostics and preview artifacts; GitHub Release archives are separate downloads.
 
+Downloading branch firmware
+---------------------------
+
+``uz_cpld firmware_download`` downloads the newest published CI firmware for the
+current Git branch. It reads the configured tracking remote and upstream branch,
+or defaults to ``origin`` and the local branch name. ``--remote NAME`` selects a
+different GitHub remote; ``--output FILE`` overrides the ZIP destination.
+GitHub HTTPS and SSH remotes are supported. Git is required, but Diamond, the GitHub
+CLI and programmer tools are not required.
+
+The command searches all release pages, includes prereleases, excludes drafts and
+requires the uploaded ``uz-cpld-firmware.zip`` asset. Only releases whose CI notes
+record the exact matching ``Source ref: refs/heads/<branch>`` are considered.
+The newest is selected by publication time. A local branch may be ahead of its
+last published build; the selected release tag and source commit are printed.
+A detached HEAD or a branch without published firmware produces an error.
+
+Public repositories can be accessed without authentication. Set ``GH_TOKEN`` or
+``GITHUB_TOKEN`` for private repositories or authenticated API access, with repository
+Contents read permission. Tokens are not passed to Git or forwarded to asset storage
+hosts on redirects. The implementation uses the `GitHub Releases API
+<https://docs.github.com/en/rest/releases/releases#list-releases>`_.
+
+By default the ZIP is saved to ``build/downloads/<release-tag>/uz-cpld-firmware.zip``.
+The download is staged and checked before replacing the destination: asset size,
+GitHub SHA-256 digest when supplied, manifest schema/source commit, and every firmware
+checksum must match. Failed downloads preserve any existing destination file.
+The ZIP is not extracted; local builds, selections and ``programs/usercodes.json`` are
+not modified. Downloading does not import the firmware into the managed programmer.
+
 Maintenance
 -----------
 

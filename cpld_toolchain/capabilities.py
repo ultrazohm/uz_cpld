@@ -59,6 +59,8 @@ def requirements(action, options):
                 external('openFPGALoader')
             if action in ('identify', 'program'):
                 external('openocd')
+    if action == 'firmware_download':
+        external('git')
     if action == 'image':
         external(options.get('container_engine', 'docker'))
     if action == 'flasher_build':

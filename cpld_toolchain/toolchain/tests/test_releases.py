@@ -1,4 +1,6 @@
 """Release selection, copying, isolation and Make integration regressions."""
+from contextlib import redirect_stderr
+import io
 import json
 from pathlib import Path
 import shutil
@@ -8,7 +10,7 @@ import unittest
 from unittest.mock import patch
 
 from cpld_toolchain.cpld_vhdl_generator import check
-from cpld_toolchain.toolchain.buildsystem import releases, workflow
+from cpld_toolchain.toolchain.buildsystem import cli, releases, workflow
 from cpld_toolchain.toolchain.buildsystem.model import (BuildError, catalog, load_build, release_cycles,
                                         resolve_release)
 from cpld_toolchain.toolchain.buildsystem.report import catalog_report
@@ -140,8 +142,11 @@ class ReleaseTests(unittest.TestCase):
         releases.create(self.root, 'empty')
         for backend in ('diamond', 'foss'):
             with self.subTest(backend=backend):
-                output = self.make('build_all', f'backend={backend}', success=False)
-                self.assertIn('No programs selected for build_all', output)
+                # Exercise catalog validation without the public CLI's tool checks.
+                with redirect_stderr(io.StringIO()) as output:
+                    status = cli.main(['build_all', '--root', str(self.root), '--backend', backend])
+                self.assertNotEqual(status, 0)
+                self.assertIn('No programs selected for build_all', output.getvalue())
         self.make('report')
         path = self.root / 'build/validation/empty/diamond-catalog/report.json'
         report = json.loads(path.read_text())

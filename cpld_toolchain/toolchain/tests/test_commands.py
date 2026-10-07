@@ -25,9 +25,11 @@ class CommandTests(unittest.TestCase):
         args = self.calls('init_programmer', **options)[0].argv
         for key, value in options.items():
             self.assertEqual(args[args.index('--' + key.replace('_', '-')) + 1], value)
-        args = commands.plan('build_selection', {'selection': 'custom.toml', 'target': 's3c',
-                             'backend': 'foss', 'release_cycle': 'heartbeat_cvg'}, cwd='/tmp')[0].argv
-        self.assertIn('/tmp/custom.toml', args)
+        with tempfile.TemporaryDirectory() as tmp:
+            cwd = Path(tmp).resolve()
+            args = commands.plan('build_selection', {'selection': 'custom.toml', 'target': 's3c',
+                                 'backend': 'foss', 'release_cycle': 'heartbeat_cvg'}, cwd=cwd)[0].argv
+            self.assertIn(str(cwd / 'custom.toml'), args)
         self.assertEqual(args[args.index('--build-backend') + 1], 'foss')
         self.assertEqual(args[args.index('--target') + 1], 's3c')
         self.assertNotIn('--execute', args)

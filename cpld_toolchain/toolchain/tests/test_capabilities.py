@@ -9,6 +9,8 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
+from rich.text import Text
+
 from cpld_toolchain import capabilities, runtime, tools
 from cpld_toolchain.toolchain import commands
 from cpld_toolchain.toolchain.buildsystem.model import BuildError
@@ -26,8 +28,9 @@ class CapabilityTests(unittest.TestCase):
     def test_command_help_and_numeric_validation_are_specific(self):
         with redirect_stdout(io.StringIO()) as output:
             self.assertEqual(commands.main(['scan', '--help']), 0)
-        self.assertIn('--probe-index', output.getvalue())
-        self.assertNotIn('--release-cycle', output.getvalue())
+        help_text = Text.from_ansi(output.getvalue()).plain
+        self.assertIn('--probe-index', help_text)
+        self.assertNotIn('--release-cycle', help_text)
         with patch.object(runtime, 'execute') as execute, redirect_stderr(io.StringIO()):
             self.assertEqual(commands.main(['sim', '--jobs', '0']), 2)
         execute.assert_not_called()
@@ -122,9 +125,11 @@ class ToolDiscoveryTests(unittest.TestCase):
     def test_bundled_tools_win_over_system_tools_and_find_windows_exe(self):
         with tempfile.TemporaryDirectory() as tmp:
             base = Path(tmp)
-            system = self.binary(base / 'system/openocd')
-            bundled = self.binary(base / 'bundle/openocd')
-            with patch.dict(os.environ, {'PATH': str(system.parent), 'CPLD_BUNDLED_TOOLS': str(bundled.parent)}, clear=True):
+            filename = 'openocd.exe' if sys.platform == 'win32' else 'openocd'
+            system = self.binary(base / 'system' / filename)
+            bundled = self.binary(base / 'bundle' / filename)
+            with patch.dict(os.environ, {'PATH': str(system.parent), 'PATHEXT': '.EXE',
+                                        'CPLD_BUNDLED_TOOLS': str(bundled.parent)}, clear=True):
                 self.assertEqual(tools.openocd_path(), bundled)
                 bundled.unlink()
                 self.assertEqual(tools.openocd_path(), system)

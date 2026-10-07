@@ -39,7 +39,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build the license-free toolchain image
         id: image
-        run: make image
+        # The host has no Python dependencies; the image provides them.
+        run: docker build --platform linux/amd64 --target toolchain -f .devcontainer/Dockerfile -t uz-cpld-toolchain .
       - name: Verify the shared Python and uv pins
         run: |
           docker run --rm -i --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain python - <<'PYTHON'

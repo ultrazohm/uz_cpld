@@ -58,7 +58,8 @@ RUN /opt/oss-cad-suite/bin/yosys -V \
     && /opt/oss-cad-suite/bin/openFPGALoader --Version \
     && /opt/oss-cad-suite/native/openfpgaloader/openFPGALoader --Version
 
-FROM ${TOOLCHAIN_BASE} AS toolchain
+# Shared runtime: Diamond CI does not need the FOSS suite or its source builds.
+FROM ${TOOLCHAIN_BASE} AS toolchain-runtime
 ARG DEBIAN_FRONTEND=noninteractive
 RUN test "$(dpkg --print-architecture)" = amd64 || { echo 'This toolchain requires linux/amd64 (native or emulated).' >&2; exit 1; }
 # Synplify batch mode also loads Qt OpenGL and GStreamer runtime libraries.
@@ -82,7 +83,6 @@ ENV PATH="/opt/uz-cpld-env/bin:/opt/diamond/bin/lin64:/opt/ghdl/bin:/home/vscode
     UV_CACHE_DIR=/tmp/uv-cache \
     UV_NO_SYNC=1 \
     PYTHONDONTWRITEBYTECODE=1 \
-    FOSS_ROOT=/opt/oss-cad-suite \
     DIAMOND_ROOT=/opt/diamond
 COPY --from=python-environment /usr/local/bin/uv /usr/local/bin/uv
 COPY --from=python-environment /opt/uv-python /opt/uv-python
@@ -93,7 +93,6 @@ RUN chmod 0755 /usr/local/bin/uz_cpld \
     && uv --no-cache pip check --python /opt/uz-cpld-env/bin/python \
     && ghdl --version && python3 -m sphinx --version \
     && python3 -c 'import tkinter'
-COPY --from=foss-builder /opt/oss-cad-suite /opt/oss-cad-suite
 COPY .devcontainer/diamond-cli /usr/local/bin/diamond-cli
 COPY .devcontainer/check-diamond /usr/local/bin/check-diamond
 COPY .devcontainer/container-entrypoint /usr/local/bin/toolchain-entrypoint
@@ -104,8 +103,16 @@ ARG USER_GID=1000
 RUN groupadd --gid ${USER_GID} vscode \
     && useradd --uid ${USER_UID} --gid ${USER_GID} -m -s /bin/bash vscode
 USER vscode
-RUN python3 -c 'import json; from pathlib import Path; p = Path("/opt/oss-cad-suite/native/openfpgaloader/usercode-support.json"); json.loads(p.read_text())' \
-    && /opt/oss-cad-suite/native/openfpgaloader/openFPGALoader --Version
 WORKDIR /work
 ENTRYPOINT ["/usr/local/bin/toolchain-entrypoint"]
 CMD ["sleep", "infinity"]
+
+# BuildKit skips the unrelated FOSS stages when CI selects this target.
+FROM toolchain-runtime AS diamond-ci
+
+# Keep the full development image as the default final target.
+FROM toolchain-runtime AS toolchain
+ENV FOSS_ROOT=/opt/oss-cad-suite
+COPY --from=foss-builder /opt/oss-cad-suite /opt/oss-cad-suite
+RUN python3 -c 'import json; from pathlib import Path; p = Path("/opt/oss-cad-suite/native/openfpgaloader/usercode-support.json"); json.loads(p.read_text())' \
+    && /opt/oss-cad-suite/native/openfpgaloader/openFPGALoader --Version

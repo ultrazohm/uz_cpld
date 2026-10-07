@@ -69,13 +69,17 @@ It exports intermediate stages as well as the final image, so unchanged Python d
 The first run after this change populates the cache; later runs still need to download and load the cached layers.
 Cache export failures do not fail otherwise successful builds.
 
-The Diamond job imports the same cache for its shared tool stages but does not export its private image layers.
+The Diamond job selects the ``diamond-ci`` Dockerfile target, which shares the Python environment and runtime dependencies but does not build or copy OSS CAD Suite, nextpnr or openFPGALoader.
+It imports the same cache for its shared Python stages but does not export its private image layers.
+The full ``toolchain`` target remains the default for development containers and the ``checks`` job.
 The two jobs remain independent, so a Diamond build can reuse a cache from an earlier run without waiting for the current ``checks`` job.
 The Dockerfile separates nextpnr and flasher inputs; changing a flasher patch or test does not invalidate the suite download or nextpnr compilation.
 Python dependency changes also leave the separate uv bootstrap and native-tool stages reusable.
 
 Local ``uz_cpld image`` builds use Docker's local layer cache with the same Dockerfile.
 Compare a cold and a warm CI run when measuring improvements; cache eviction or changed toolchain inputs can require rebuilding stages.
+The private Diamond base image still has to be pulled, and runtime layers based on it are not restored from the public cache.
+This optimization changes image preparation only; every Diamond catalog is still built and validated before packaging.
 
 Toolchain reference
 -------------------

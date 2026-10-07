@@ -136,12 +136,13 @@ jobs:
         with:
           context: .
           file: .devcontainer/Dockerfile
-          target: toolchain
+          target: diamond-ci
           platforms: linux/amd64
           tags: uz-cpld-toolchain-diamond
           load: true
           build-args: TOOLCHAIN_BASE=${{ env.DIAMOND_IMAGE }}
-          # Reuse public tool stages, but never export private Diamond layers.
+          # Reuse public Python stages; this target does not build/copy FOSS tools.
+          # Never export private Diamond layers to the Actions cache.
           cache-from: type=gha,scope=cpld-toolchain,version=2
       - name: Disable ASLR for the Diamond build
         run: |

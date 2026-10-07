@@ -18,7 +18,7 @@ The workflow runs on pushes, pull requests and manual dispatches.
    * - ``checks``
      - Check out sources; build the license-free Docker toolchain image; run Python tooling tests; build the FOSS-supported ``original`` catalog; build ``heartbeat_cvg/cvg_tx30``; compare the pilot against its RTL reference; generate documentation and run HDL simulations for all release cycles; retain diagnostics and the HTML preview; upload the Pages site on successful ``master`` runs.
    * - ``diamond-build``
-     - On pushes and manual runs, authenticate using ``DIAMOND_GHCR_TOKEN``; build the image from ``DIAMOND_IMAGE`` once; check Diamond startup and synthesis; attempt every release catalog; package all verified Diamond exports into one ZIP; retain firmware and diagnostics.
+     - On pushes and manual runs, authenticate using ``DIAMOND_GHCR_TOKEN``; build the ``diamond-ci`` image target from ``DIAMOND_IMAGE`` without FOSS tools; check Diamond startup and synthesis; attempt every release catalog; package all verified Diamond exports into one ZIP; retain firmware and diagnostics.
    * - ``publish-firmware``
      - On every push, after successful Diamond, Linux and Windows jobs, publish the firmware ZIP as a uniquely named GitHub testing prerelease.
    * - ``deploy``

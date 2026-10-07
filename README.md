@@ -15,6 +15,14 @@ Diamond is the default backend. Commands use tools installed in the calling envi
 
 After cloning, run setup:
 
+Run `./uz_cpld_setup.sh` in Bash (Linux/macOS), run `.\uz_cpld_setup.ps1` in
+PowerShell, or double-click `uz_cpld_setup.bat` in Windows Explorer. These launchers
+find Python 3.8 or newer and run setup from the checkout, regardless of your current
+directory. If PowerShell blocks the `.ps1` script, use the `.bat` launcher; it sets
+the execution policy only for its own PowerShell process.
+
+Alternatively, call Python directly:
+
 ```sh
 python -m cpld_toolchain setup
 uz_cpld help

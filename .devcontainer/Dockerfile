@@ -61,6 +61,7 @@ ENV PATH="/opt/uz-cpld-env/bin:/opt/diamond/bin/lin64:/opt/ghdl/bin:/home/vscode
     CPLD_TOOLCHAIN_CONTAINER=1 \
     UV_PROJECT_ENVIRONMENT=/opt/uz-cpld-env \
     UV_PYTHON_INSTALL_DIR=/opt/uv-python \
+    UV_CACHE_DIR=/tmp/uv-cache \
     UV_NO_SYNC=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     FOSS_ROOT=/opt/oss-cad-suite \

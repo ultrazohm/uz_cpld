@@ -39,9 +39,12 @@ def verify(binary):
     return record
 
 
-def check_file(binary, firmware, usercode):
+def check_file(binary, firmware, usercode, *, expected_idcode=None):
     """Use the actual patched parsers without creating a JTAG connection."""
-    result = subprocess.run([str(binary), '--check-file', '--usercode', usercode, str(firmware)],
+    command = [str(binary), '--check-file', '--usercode', usercode]
+    if expected_idcode is not None:
+        command += ['--expected-idcode', expected_idcode]
+    result = subprocess.run([*command, str(firmware)],
                             capture_output=True, text=True, timeout=30)
     if result.returncode:
         raise ValueError(f'Flasher rejected {firmware} before USB access: {result.stdout}{result.stderr}')

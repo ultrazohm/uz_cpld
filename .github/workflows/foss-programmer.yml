@@ -57,4 +57,4 @@ jobs:
       - name: Exercise the actual Windows executable without USB
         run: |
           python cpld_toolchain/toolchain/foss/tests/native.py native-loader-check/build/openFPGALoader.exe
-          native-loader-check/build/openFPGALoader.exe --Version | grep -F v1.1.1-uz-programmer2
+          native-loader-check/build/openFPGALoader.exe --Version | grep -F v1.1.1-uz-programmer3

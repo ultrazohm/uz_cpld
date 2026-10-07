@@ -2,6 +2,7 @@
 from contextlib import contextmanager
 import json
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -57,11 +58,11 @@ class FossTests(unittest.TestCase):
         process.kill.assert_called_once()
         self.assertEqual(process.wait.call_count, 2)
 
-    def exercise(self, *, count=5, after=None, failure=None, invalid_file=False):
+    def exercise(self, *, count=5, after=None, failure=None, invalid_file=False, extension='.jed'):
         chain = 's3c' if count == 1 else 'dslots'
         steps, builds, identities = [], [], {}
         for i in range(count):
-            path = self.root / f'input{i}.jed'
+            path = self.root / f'input{i}{extension}'
             path.write_bytes(b'fixture')
             label = 's3c' if count == 1 else f'slot{i+1}'
             step = program.Step(label, object(), path, digest(path),
@@ -103,9 +104,12 @@ class FossTests(unittest.TestCase):
             self.assertEqual(snapshot.read_bytes(), b'fixture')
             i = int(command[command.index('--index-chain')+1])
             self.assertEqual(command[command.index('--expected-silicon')+1], f'{i:014X}')
-        def check(*a):
+        def check(binary, snapshot, usercode, **options):
             self.assertFalse(held)
             calls.append('validate')
+            self.assertEqual(usercode, '80000001')
+            self.assertEqual(options, {'expected_idcode': '012BC043' if count == 1 else '012BB043'}
+                             if extension == '.bit' else {})
             if invalid_file:
                 raise ValueError('invalid file')
         with patch.object(program, 'loader_path', return_value=Path('/loader')), \
@@ -136,6 +140,14 @@ class FossTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.exercise(invalid_file=True)
         self.assertEqual(self.calls, ['validate'])
+
+    def test_bitstream_target_is_checked_before_usb_for_both_chains(self):
+        for count in (1, 5):
+            with self.subTest(count=count), self.assertRaises(ValueError):
+                self.exercise(count=count, extension='.bit', invalid_file=True)
+            self.assertEqual(self.calls, ['validate'])
+            # Each exercise owns a fresh run directory.
+            shutil.rmtree(self.root / 'run')
 
     def test_failed_write_releases_lock_and_does_not_retry(self):
         with self.assertRaisesRegex(BuildError, 'write failed'):

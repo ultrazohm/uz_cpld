@@ -42,7 +42,7 @@ class FlasherTests(unittest.TestCase):
             run.assert_not_called()
 
     def test_tracked_patch_matches_pin(self):
-        self.assertEqual(flasher.pin()['capability'], 'v1.1.1-uz-programmer2')
+        self.assertEqual(flasher.pin()['capability'], 'v1.1.1-uz-programmer3')
 
     def test_binary_and_pin_must_match_receipt(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -69,6 +69,10 @@ class FlasherTests(unittest.TestCase):
             self.assertEqual(flasher.check_file('/loader', '/file.jed', '00010001'), 'parsed')
             self.assertEqual(run.call_args.args[0],
                              ['/loader', '--check-file', '--usercode', '00010001', '/file.jed'])
+            flasher.check_file('/loader', '/file.bit', '00010001', expected_idcode='012BC043')
+            self.assertEqual(run.call_args.args[0],
+                             ['/loader', '--check-file', '--usercode', '00010001',
+                              '--expected-idcode', '012BC043', '/file.bit'])
             result.returncode = 1
             result.stderr = 'USERCODE mismatch'
             with self.assertRaisesRegex(ValueError, 'before USB access.*USERCODE mismatch'):

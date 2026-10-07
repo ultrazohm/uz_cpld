@@ -18,6 +18,9 @@
 !cpld_toolchain/toolchain/foss/openfpgaloader-usercode.patch
 !cpld_toolchain/toolchain/foss/tests/
 !cpld_toolchain/toolchain/foss/tests/usercode.cpp
+!cpld_toolchain/toolchain/foss/tests/identity.cpp
+!cpld_toolchain/toolchain/foss/tests/native.py
+!cpld_toolchain/toolchain/foss/tests/fixtures.py
 !.python-version
 !pyproject.toml
 !setup.cfg

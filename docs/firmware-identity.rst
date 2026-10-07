@@ -102,6 +102,10 @@ Stock or modified loaders are rejected before flash writes.
 The patch accepts ``--usercode``, writes the MachXO2 register, waits for completion and verifies it before finishing flash programming.
 JEDEC input must contain the same code; bitstream input uses the code from verified build provenance.
 FOSS builds emit compressed bitstreams, as required by the MachXO2 internal-flash parser.
+Preflight requires 128-bit JEDEC pages with contiguous section offsets.
+For compressed bitstreams it decodes the complete frame structure, checks the device-specific frame count and CRCs, and requires USERCODE and DONE commands.
+The embedded bitstream USERCODE and IDCODE must match the requested firmware identity and target before USB access; the native programming path rechecks IDCODE against the device before Flash erase.
+Unsupported bitstream commands or formats are rejected before programming.
 Plain ``scan`` retains its existing cable options.
 The FTDI interface lock covers the entire managed operation: initial identity read, all writes and final readback.
 On Linux the existing driver guard detaches and restores channel B; on Windows the existing process lock is reused.
@@ -114,7 +118,7 @@ Flasher builds and container rebuilds
 
 ``cpld_toolchain/toolchain/foss/openfpgaloader.json`` pins upstream v1.1.1 and the SHA-256 hashes of its source archive and ``openfpgaloader-usercode.patch``.
 ``flasher.py`` verifies both, applies the patch to a fresh source tree, runs the USERCODE, identity sequencing and transfer-failure tests, compiles Lattice/FTDI support, and runs the real CLI/parser tests without USB.
-It installs a binary reporting ``v1.1.1-uz-programmer2``, its license and a readable ``usercode-support.json`` receipt containing the pin and binary checksum.
+It installs a binary reporting ``v1.1.1-uz-programmer3``, its license and a readable ``usercode-support.json`` receipt containing the pin and binary checksum.
 Concurrent installers serialize publication of the binary and receipt.
 The separate ``foss-programmer.yml`` CI workflow builds the Windows executable with MSYS2 and runs the same native tests without USB.
 That job checks compilation and parser/protocol behavior; it does not establish hardware or driver compatibility.

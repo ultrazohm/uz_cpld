@@ -115,7 +115,8 @@ def execute(root, chain, builds, steps, identities, run_dir, record, cable, seri
         shutil.copyfile(step.artifact, snapshot)
         if digest(snapshot) != step.sha256:
             raise BuildError(f'Firmware changed while snapshotting: {step.artifact}')
-        flasher.check_file(binary, snapshot, identities[step.label]['usercode'])
+        options = {'expected_idcode': expected_chain(chain)[0]} if snapshot.suffix == '.bit' else {}
+        flasher.check_file(binary, snapshot, identities[step.label]['usercode'], **options)
         snapshot.chmod(0o400)
         snapshots.append(snapshot)
     registry = package.registry if package else None

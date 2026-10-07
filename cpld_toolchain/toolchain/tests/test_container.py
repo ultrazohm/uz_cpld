@@ -18,8 +18,9 @@ class ContainerStartupTests(unittest.TestCase):
         self.assertIn('*', rules)
         # This context excludes everything except explicit paths. Both files
         # and their parent directories must be allowed for COPY to see them.
+        test_files = sorted((root / 'cpld_toolchain/toolchain/foss/tests').glob('*'))
         for name in ('flasher.py', 'openfpgaloader.json', 'openfpgaloader-usercode.patch',
-                     'tests/usercode.cpp'):
+                     *(f'tests/{p.name}' for p in test_files if p.suffix in ('.cpp', '.py'))):
             path = Path('cpld_toolchain/toolchain/foss') / name
             self.assertTrue((root / path).is_file())
             self.assertIn('!' + path.as_posix(), rules)

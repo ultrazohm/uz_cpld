@@ -70,8 +70,9 @@ COPY --from=python-environment /usr/local/bin/uv /usr/local/bin/uv
 COPY --from=python-environment /opt/uv-python /opt/uv-python
 COPY --from=python-environment /opt/uz-cpld-env /opt/uz-cpld-env
 COPY .devcontainer/uz_cpld /usr/local/bin/uz_cpld
+# Do not bake a root-owned runtime cache into the image: CI uses its host UID.
 RUN chmod 0755 /usr/local/bin/uz_cpld \
-    && uv pip check --python /opt/uz-cpld-env/bin/python \
+    && uv --no-cache pip check --python /opt/uz-cpld-env/bin/python \
     && ghdl --version && python3 -m sphinx --version \
     && python3 -c 'import tkinter'
 COPY --from=foss-builder /opt/oss-cad-suite /opt/oss-cad-suite

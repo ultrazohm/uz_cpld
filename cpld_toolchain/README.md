@@ -18,7 +18,7 @@ From the checkout, run `python -m cpld_toolchain setup` with Python 3.8 or newer
 Setup downloads uv and the project Python as needed, installs all locked Python dependencies into `.venv`, and opens an activated shell with `uz_cpld` available.
 The `cpld-toolchain` executable and module entry point remain available.
 Source builds and local-artifact programming require the checkout and their external tools.
-Release ZIP programming and identification can use an installed package without matching sources or a local catalog; use the programmer module's explicit writable workspace as described in the [programmer reference](../docs/programmer.rst).
+Release ZIP programming and identification can use an installed package without matching sources or a local catalog; use `uz_cpld --workspace DIRECTORY program ...` as described in the [programmer reference](../docs/programmer.rst).
 No self-contained executable or native-tool bundle is currently distributed by this package.
 The standalone generator also runs outside a checkout:
 

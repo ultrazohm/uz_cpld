@@ -65,7 +65,9 @@ def make_app(style='python'):
                       help='Build, simulate, document and program UltraZohm CPLDs.')
 
     @app.callback(invoke_without_command=True)
-    def root(ctx: typer.Context):
+    def root(ctx: typer.Context, workspace: Optional[Path] = typer.Option(
+            None, '--workspace', help='Writable workspace; defaults to the discovered checkout.')):
+        ctx.obj = workspace
         if ctx.invoked_subcommand is None:
             print(commands.help_text(style))
 
@@ -83,11 +85,13 @@ def make_app(style='python'):
 
     def register(name, contract):
         def callback(**values):
+            ctx = values.pop('ctx')
             options = {('from' if key == 'from_' else key):
                        str(value.value if isinstance(value, Enum) else value)
                        for key, value in values.items() if value is not None}
-            commands.run(name, options)
+            commands.run(name, options, workspace=ctx.obj)
         callback.__signature__ = Signature(
+            [Parameter('ctx', Parameter.POSITIONAL_OR_KEYWORD, annotation=typer.Context)] +
             [option(key, key in contract.required) for key in commands.ARGUMENT_VALUES
              if key in contract.options])
         callback.__name__ = name

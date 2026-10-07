@@ -206,6 +206,71 @@ class CommandTests(unittest.TestCase):
 
 
 class UnifiedEntryPointTests(unittest.TestCase):
+    def test_workspace_selection_is_written_outside_checkout_and_does_not_leak(self):
+        from cpld_toolchain.runtime import working_directory
+        from cpld_toolchain.workspace import current
+        with tempfile.TemporaryDirectory() as tmp:
+            caller = Path(tmp)
+            workspace = caller / 'new workspace'
+            previous = current()
+            with working_directory(caller), redirect_stdout(io.StringIO()):
+                self.assertEqual(commands.main(['--workspace', 'new workspace', 'init_programmer']), 0)
+                self.assertTrue((workspace / 'selection.toml').is_file())
+                self.assertFalse((caller / 'selection.toml').exists())
+                self.assertEqual(current(), previous)
+                self.assertEqual(commands.main(['init_programmer']), 0)
+                self.assertTrue((caller / 'selection.toml').is_file())
+
+    def test_workspace_preview_preserves_explicit_paths_and_creates_nothing(self):
+        from cpld_toolchain.runtime import working_directory
+        with tempfile.TemporaryDirectory() as tmp:
+            caller = Path(tmp).resolve()
+            workspace = caller / 'absent'
+            with working_directory(caller), redirect_stdout(io.StringIO()) as output:
+                self.assertEqual(commands.main(['--workspace', 'absent', 'program', '--target', 's3c',
+                    '--source', 'zip', '--firmware', 'firmware.zip', '--selection', 'custom.toml',
+                    '--dry-run', '1']), 0)
+            self.assertIn(str(workspace), output.getvalue())
+            self.assertIn(str(caller / 'firmware.zip'), output.getvalue())
+            self.assertIn(str(caller / 'custom.toml'), output.getvalue())
+            self.assertEqual(list(caller.iterdir()), [])
+
+    def test_workspace_is_forwarded_to_workflows_and_loader_lookup(self):
+        from cpld_toolchain import tools
+        from cpld_toolchain.workspace import use
+        with tempfile.TemporaryDirectory() as tmp:
+            workspace = Path(tmp).resolve()
+            for action, options in [('program', {'target': 's3c'}), ('identify', {}), ('scan', {}),
+                                    ('doctor', {}), ('build_all', {}), ('firmware_download', {})]:
+                call, = commands.plan(action, options, workspace=workspace)
+                self.assertEqual(call.arguments[call.arguments.index('--root') + 1], str(workspace))
+                self.assertEqual(call.cwd, workspace)
+            with use(workspace), patch.object(tools, 'executable') as resolve:
+                tools.loader_path()
+                self.assertIn(workspace / 'build/openfpgaloader/openFPGALoader',
+                              resolve.call_args.kwargs['candidates'])
+
+    def test_invalid_or_unwritable_workspace_stops_before_hardware(self):
+        from cpld_toolchain import workspace
+        with tempfile.TemporaryDirectory() as tmp:
+            invalid = Path(tmp) / 'file'
+            invalid.write_text('occupied')
+            with patch('cpld_toolchain.runtime.execute') as execute, \
+                    redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
+                self.assertEqual(commands.main(['--workspace', str(invalid), 'scan']), 2)
+                with patch.object(workspace.tempfile, 'TemporaryFile', side_effect=PermissionError('read-only')):
+                    self.assertEqual(commands.main(['--workspace', tmp, 'scan']), 2)
+                execute.assert_not_called()
+
+    def test_repository_only_commands_reject_workspace_before_creating_it(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            workspace = Path(tmp) / 'absent'
+            for action in ('setup', 'image', 'sim', 'docs', 'docs_assets', 'netlist', 'test'):
+                with redirect_stderr(io.StringIO()) as error:
+                    self.assertEqual(commands.main(['--workspace', str(workspace), action]), 2)
+                self.assertIn('omit --workspace', error.getvalue())
+            self.assertFalse(workspace.exists())
+
     def test_standalone_generator_creates_and_checks_outputs(self):
         from cpld_toolchain.__main__ import main
         with tempfile.TemporaryDirectory() as temporary:

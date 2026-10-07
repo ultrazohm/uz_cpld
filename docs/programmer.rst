@@ -115,7 +115,19 @@ Installed package outside a checkout
 
 The ZIP supplies the firmware and identity registry; a source checkout, local catalog and synthesis tools are unnecessary for this path.
 The Python package and the selected programmer's native dependencies must already be installed.
-Use the programmer module's ``--root`` option to select an existing writable directory for staged firmware, locks and logs::
+Place the global ``--workspace`` option before the command to select a directory for staged firmware, locks and logs::
+
+   uz_cpld --workspace /path/to/workspace init_programmer
+   uz_cpld --workspace /path/to/workspace program --target s3c --source zip --firmware /path/to/uz-cpld-firmware.zip --release heartbeat_cvg --s3c-program s3c_heartbeat --dry-run 1
+
+The preview writes nothing and does not access hardware; omit ``--dry-run 1`` to program and verify Flash.
+Execution creates the workspace if needed and checks that it is writable before accessing hardware.
+The default selection file is ``selection.toml`` in the workspace.
+Explicit relative ``--selection``, ``--firmware`` and download ``--output`` paths remain relative to the caller's current directory.
+Packaged templates and bundled tools remain in the application installation; a workspace loader can be installed under ``build/openfpgaloader/``.
+Omitting ``--workspace`` preserves existing repository usage, including the caller-relative default selection file.
+
+The lower-level programmer module also retains its explicit ``--root`` option::
 
    python -m cpld_toolchain.programmer_helper.program program --root /path/to/workspace --target s3c --source zip --firmware /path/to/uz-cpld-firmware.zip --release heartbeat_cvg --s3c-program s3c_heartbeat
 
@@ -124,9 +136,10 @@ Add ``--execute`` to program and verify Flash.
 Unlike the top-level CLI's ``--dry-run 1``, module planning creates files and validates the firmware.
 Use ``--programmer-backend foss`` to select the patched loader; Diamond Programmer is the default.
 
-The top-level ``uz_cpld`` CLI does not expose ``--root``.
-Without a discoverable checkout, its workspace defaults to the installed package's parent directory, which may be unwritable.
-Use the explicit module command above for a separate programming workspace.
+Local build/catalog commands require project sources in the selected workspace; ZIP programming does not.
+``setup``, ``image``, ``test``, ``sim``, ``netlist``, ``docs`` and ``docs_assets`` require repository usage and reject ``--workspace``.
+Run those commands from the checkout without the option.
+The standalone generator continues to use its explicit config and output paths.
 There is currently no self-contained executable or installer bundling Python and the native programmer.
 
 Backends and probes

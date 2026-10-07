@@ -8,7 +8,7 @@ from pathlib import Path
 import shutil
 import sys
 
-from cpld_toolchain import repository_root
+from cpld_toolchain.workspace import current
 from cpld_toolchain.toolchain.buildsystem.model import BuildError
 
 
@@ -37,7 +37,7 @@ def executable(name, *, override=None, candidates=(), required=False):
 def loader_path():
     suite = Path(os.environ.get('FOSS_ROOT', '/opt/oss-cad-suite'))
     return executable('openFPGALoader', override='CPLD_OPENFPGALOADER', candidates=(
-        repository_root() / 'build/openfpgaloader/openFPGALoader',
+        current() / 'build/openfpgaloader/openFPGALoader',
         suite / 'native/openfpgaloader/openFPGALoader', suite / 'bin/openFPGALoader'))
 
 

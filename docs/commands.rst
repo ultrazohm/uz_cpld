@@ -10,6 +10,10 @@ Command names use lowercase letters and underscores, for example ``build_all`` a
 Options use hyphens, for example ``--release-cycle original`` and ``--dry-run 1``.
 See :doc:`windows` for native Windows setup and :doc:`environments` for Linux and container setup.
 
+Use the global ``--workspace DIRECTORY`` option before the action for a separate writable workspace, for example ``uz_cpld --workspace ./station init_programmer``.
+Omitting it preserves repository usage.
+Workspace selection, relative paths and supported commands are described in :doc:`programmer`.
+
 The shared definitions in ``cpld_toolchain/toolchain/commands.py`` drive the Typer command options, help, validation and planning.
 ``uz_cpld ACTION --help`` also shows command-specific help.
 All commands are always present; execution checks only the dependencies needed by the selected command.

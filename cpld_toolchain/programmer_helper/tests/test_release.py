@@ -21,6 +21,20 @@ COMMIT = 'a' * 40
 
 
 class ReleaseTests(unittest.TestCase):
+    def test_top_level_workspace_stages_zip_without_using_checkout(self):
+        from cpld_toolchain.__main__ import main
+        workspace = self.root / 'standalone workspace'
+        with working_directory(self.root), \
+                patch('cpld_toolchain.capabilities.require'), \
+                patch.object(program, 'execute') as execute, redirect_stdout(io.StringIO()):
+            self.assertEqual(main(['--workspace', str(workspace), 'program', '--target', 's3c',
+                '--source', 'zip', '--firmware', self.zip.name, '--release', 'published',
+                '--s3c-program', 'controller', '--programmer-backend', 'foss']), 0)
+        self.assertEqual(execute.call_args.args[0], workspace)
+        self.assertTrue(list((workspace / 'build/programmer/packages').glob('package-*/s3c.jed')))
+        self.assertFalse((self.root / 'build').exists())
+        self.assertFalse((workspace / 'programs').exists())
+
     def test_direct_cli_selection_uses_zip_without_reading_or_creating_a_file(self):
         for target, assignments in [('s3c', ['--s3c-program', 'controller']),
                                     ('dslot', [arg for i in range(1, 6) for arg in (f'--dslot{i}', 'adapter')])]:

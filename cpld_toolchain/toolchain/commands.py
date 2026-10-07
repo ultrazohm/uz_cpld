@@ -128,6 +128,8 @@ def command_help(action, style='make'):
 def shared_help(style='make'):
     return '\n'.join([
         'Argument defaults and rules:',
+        '  Global --workspace DIRECTORY before the action selects a writable workspace; omitted keeps repository usage.',
+        '  With --workspace, selection.toml defaults there; explicit file paths remain caller-relative.',
         '  backend=diamond; build_backend and programmer_backend inherit backend.',
         '  compare requires explicit backend=foss; Diamond and combined comparisons are unsupported.',
         '  release_cycle defaults to the current release (docs default to all); programmer actions consult',
@@ -270,11 +272,15 @@ class Invocation:
     arguments: tuple[str, ...] = ()
 
 
-def plan(action, options, *, root=ROOT, cwd=None):
+def plan(action, options, *, root=ROOT, cwd=None, workspace=None):
     """Resolve a command without writes, tool startup, or hardware access."""
     action, options = normalize(action, options)
     root = Path(root).resolve()
     cwd = Path(cwd or Path.cwd()).resolve()
+    if workspace is not None:
+        root = (cwd / Path(workspace).expanduser()).resolve()
+        if action in ('setup', 'image', 'test', 'sim', 'netlist', 'docs', 'docs_assets'):
+            raise BuildError(f'{action} requires repository usage; omit --workspace and run from the checkout')
     backend = options.get('backend', 'diamond')
     build_backend = options.get('build_backend', backend)
     programmer_backend = options.get('programmer_backend', backend)
@@ -303,14 +309,14 @@ def plan(action, options, *, root=ROOT, cwd=None):
             args += ['--output', str((cwd / options['output']).absolute())]
         return [invoke('cpld_toolchain.toolchain.firmware_download', args)]
     if action == 'doctor':
-        return [invoke('cpld_toolchain.toolchain.doctor', ['--backend', build_backend, *flags('target', 'release_cycle')])]
+        return [invoke('cpld_toolchain.toolchain.doctor', ['--root', str(root), '--backend', build_backend, *flags('target', 'release_cycle')])]
     if action == 'setup':
         return [invoke('cpld_toolchain.bootstrap', ['--activate', options.get('activate', '1')])]
     if action in ('init_programmer', 'build_selection', 'scan', 'identify', 'program', 'diamond_xcf_programming_chain'):
-        selection = Path(options.get('selection', 'selection.toml'))
+        selection = Path(options.get('selection', str(root / 'selection.toml') if workspace is not None else 'selection.toml'))
         if not selection.is_absolute():
             selection = cwd / selection
-        args = []
+        args = ['--root', str(root)]
         if action in ('init_programmer', 'build_selection', 'program', 'diamond_xcf_programming_chain') and not (
                 action == 'program' and DIRECT_SELECTION.intersection(options)):
             args += ['--selection', str(selection)]
@@ -344,7 +350,8 @@ def plan(action, options, *, root=ROOT, cwd=None):
             args += ['--execute']
         return [invoke('cpld_toolchain.programmer_helper.program', [action, *args])]
     if action == 'flasher_build':
-        return [invoke('cpld_toolchain.toolchain.foss.flasher', ['--jobs', options.get('jobs', '4')])]
+        return [invoke('cpld_toolchain.toolchain.foss.flasher', ['--jobs', options.get('jobs', '4'),
+                       '--output', str(root / 'build/openfpgaloader')])]
     if action == 'test':
         if sys.platform == 'win32':
             return [invoke('unittest', [*WINDOWS_TESTS, '-v'])]
@@ -372,18 +379,30 @@ def plan(action, options, *, root=ROOT, cwd=None):
         args += ['--backend', build_backend]
     if options.get('discard_project_changes') == '1':
         args += ['--discard-project-changes']
-    return [invoke('cpld_toolchain.toolchain.buildsystem', [action, *args])]
+    return [invoke('cpld_toolchain.toolchain.buildsystem', [action, '--root', str(root), *args])]
 
 
-def run(action, options):
+def run(action, options, *, workspace=None):
+    from cpld_toolchain import workspace as workspace_state
+    if workspace is None:
+        return _run(action, options)
+    path = Path(workspace).expanduser().resolve()
+    with workspace_state.use(path):
+        return _run(action, options, workspace=path)
+
+
+def _run(action, options, *, workspace=None):
     """Plan, check only this command's dependencies, then execute lazily."""
     from cpld_toolchain import capabilities, runtime
     canonical, normalized = normalize(action, options)
-    calls = plan(canonical, normalized)
+    calls = plan(canonical, normalized, workspace=workspace)
     preview = normalized.get('dry_run') == '1'
     if preview:
         print('Preview only: no commands will be executed.')
     else:
+        if workspace is not None:
+            from cpld_toolchain.workspace import prepare
+            prepare(workspace)
         capabilities.require(canonical, normalized)
     for call in calls:
         print(f'[{call.cwd}] {shlex.join(call.argv)}', flush=True)

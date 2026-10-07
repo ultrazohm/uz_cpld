@@ -95,7 +95,8 @@ To create a CSV-based program::
 Use ``--release-cycle NAME`` when selecting a cycle other than the repository current cycle.
 Generated manifests use forward slashes, and generated files use UTF-8 with LF line endings.
 Git attributes preserve tracked bytes across platforms because generation receipts hash the exact source contents.
-Rebuild firmware on the programming station: existing build receipts and XCFs may contain machine-specific paths and tool identities.
+For ``source=local``, rebuild firmware on the programming station: existing build receipts and XCFs may contain machine-specific paths and tool identities.
+Alternatively, use a published release ZIP as described below.
 
 Program hardware
 ----------------
@@ -115,10 +116,19 @@ After checking the selection and preparing the hardware::
 
 The last command erases, programs and verifies Flash.
 Use ``--target s3c`` only when the hardware is prepared for S3C access.
-The selection's programs must have successful, current Diamond builds.
+With the default ``source=local``, the selection's programs must have successful, current Diamond builds.
 Source hashes, firmware snapshots, JTAG checks and post-programming USERCODE readback remain mandatory.
 ``--dry-run 1`` only previews the command; it does not validate firmware or contact hardware.
 ``diamond_xcf_programming_chain`` exports XCFs without accessing USB.
+
+To program a downloaded release without local builds::
+
+   uz_cpld program --target dslot --source zip --firmware C:\releases\uz-cpld-firmware.zip
+
+Select programs and a release cycle present in the archive using ``selection.toml``.
+The ZIP's manifest and registry supply the firmware checksums and expected identities;
+the local registry is preserved. See :doc:`programmer` for ZIP validation and backend rules.
+This option still requires the installed programmer and its cable driver.
 
 Windows uses the installed vendor driver and invokes ``pgrcmd.exe`` directly.
 Linux-only USB bus checks and FTDI driver detachment are not used on Windows.
@@ -156,9 +166,9 @@ Point the programmer override at its actual executable::
 
 The report can show Programmer as FOUND and the Diamond build CLI as MISSING.
 Generation needs Python only; ``build`` and ``build_all`` require full Diamond.
-Managed programming still requires the current build artifacts and provenance described above.
-Copying a JEDEC file alone does not satisfy those checks.
-For a Programmer-only station, an XCF and its referenced firmware can instead be prepared on the build station for use with the vendor Programmer; this is outside the repository's managed programming validation.
+Managed programming with ``source=local`` still requires the current build artifacts and provenance described above.
+For a Programmer-only station, use ``source=zip`` with a published release archive.
+Copying a JEDEC file alone does not satisfy the managed checks.
 
 ``DIAMOND_ROOT`` must name an existing installation.
 Setting it to a 3.14 path does not install or upgrade Diamond 3.13.

@@ -23,7 +23,7 @@ These program names belong to ``original``; edit the release and assignments bef
 ``--release-cycle`` takes precedence over the selection's ``release``, then the current cycle in ``programs/releases.toml``.
 ``build_selection`` reads the selection and builds every distinct assignment in its release.
 ``build`` and ``build_all`` use their command-line release or the current release; they do not read the selection.
-Programming requires current successful builds and never builds automatically.
+Local programming requires current successful builds and never builds automatically.
 If the selection is absent, ``program`` creates a template and exits without accessing hardware.
 
 D-slot programming requires all five ``[slots]`` entries (keys ``"1"`` through ``"5"``).
@@ -31,10 +31,50 @@ S3C programming requires only ``s3c``; the unused chain may be omitted.
 Slots identify physical JTAG positions, not catalog order.
 All selected programs come from one release.
 
+Program a downloaded release ZIP
+--------------------------------
+
+``program`` defaults to ``source=local``, retaining the local-build checks above.
+Use ``source=zip`` with an explicit firmware archive to program a published release without local firmware builds or matching source files::
+
+   make firmware_download
+   # Use the ZIP path printed by the downloader:
+   make program target=s3c source=zip firmware=build/downloads/<release-tag>/uz-cpld-firmware.zip
+   make program target=dslot source=zip firmware=/path/to/uz-cpld-firmware.zip programmer_backend=foss
+
+The equivalent native command (including Windows) is::
+
+   uz_cpld program --target s3c --source zip --firmware /path/to/uz-cpld-firmware.zip
+
+``selection.toml`` still supplies the program assignments.
+The release cycle is chosen from ``release_cycle``, then the selection's ``release``, then the checkout's current release.
+Without a checkout default, a ZIP containing exactly one cycle can supply that default; otherwise select a cycle explicitly.
+The selected names and device targets must exist in the ZIP manifest, not in the local catalog.
+
+The firmware build backend comes from the ZIP.
+An explicit ``build_backend`` must match it.
+``backend`` sets the programmer default for ZIP programming; ``programmer_backend`` overrides it.
+Diamond-built JEDEC releases can use either programmer; FOSS bitstream releases require the FOSS programmer.
+Programmer tools, USB drivers and permissions remain prerequisites; downloading firmware does not install them.
+
+The archive must use the repository's release format: ``manifest.json``, declared firmware files, checksums, successful build provenance and an identity registry.
+Validation rejects malformed archives, inconsistent targets or identities, changed payloads and JEDEC USERCODE mismatches before hardware access.
+Only the selected firmware is extracted into a private directory under ``build/programmer/packages/``.
+The manifest is retained there, and the run record includes the ZIP path and SHA-256, release commit, selected programs and readback.
+These checks establish package consistency; use release ZIPs from a trusted source.
+
+The ZIP registry is used for this run's identity validation and readback.
+Conflicts with local identities are reported and recorded; ``programs/usercodes.json`` is never overwritten.
+Subsequent standalone ``identify`` commands still use the local registry and may report different or unknown labels until it is reconciled.
+
+``firmware`` is rejected with ``source=local``.
+No ZIP is selected or downloaded implicitly.
+``dry_run=1`` remains a command preview: it does not open or validate the ZIP, extract files, or access hardware.
+
 Backends and probes
 -------------------
 
-``--backend`` defaults to ``diamond`` and sets both firmware and programmer defaults.
+For local programming, ``--backend`` defaults to ``diamond`` and sets both firmware and programmer defaults.
 ``--build-backend`` and ``--programmer-backend`` override them independently on programming commands.
 Selection files do not select backends.
 
@@ -86,7 +126,7 @@ Diamond scans check expected XCF device positions; FOSS scans report discovered 
 The expected D-slot chain has five LCMXO2-2000HC devices (``0x012BB043``); S3C has one LCMXO2-4000HC (``0x012BC043``).
 FOSS programming checks the whole chain before writing.
 Diamond execution validates its XCF positions and verified JEDEC snapshots.
-Both paths check build provenance and verify the registered USERCODE after programming.
+Both paths check the selected source's provenance and verify its expected USERCODE after programming.
 A readback failure marks the run failed even if the Flash write completed.
 
 Export Diamond projects

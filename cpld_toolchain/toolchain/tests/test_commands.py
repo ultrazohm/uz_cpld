@@ -12,6 +12,27 @@ from cpld_toolchain.toolchain.buildsystem.model import BuildError
 
 
 class CommandTests(unittest.TestCase):
+    def test_zip_source_routes_explicit_path_and_infers_build_backend(self):
+        with tempfile.TemporaryDirectory(prefix='ZIP command ') as tmp:
+            cwd = Path(tmp).resolve()
+            options = {'target': 's3c', 'source': 'zip', 'firmware': 'release package.zip', 'backend': 'foss'}
+            call, = commands.plan('program', options, cwd=cwd)
+            self.assertIn(str(cwd / 'release package.zip'), call.arguments)
+            self.assertNotIn('--build-backend', call.arguments)
+            self.assertEqual(call.arguments[call.arguments.index('--programmer-backend') + 1], 'foss')
+            call, = commands.plan('program', dict(options, build_backend='diamond'), cwd=cwd)
+            self.assertEqual(call.arguments[call.arguments.index('--build-backend') + 1], 'diamond')
+            for invalid in ({'source': 'zip'}, {'firmware': 'x.zip'}, {'source': 'invalid'}):
+                with self.assertRaises(BuildError):
+                    commands.plan('program', dict(target='s3c', **invalid), cwd=cwd)
+            for argv in (['program', '--target', 's3c', '--source', 'zip', '--firmware', str(cwd / 'missing.zip'), '--dry-run', '1'],
+                         ['--make-help', 'program', '--option', 'target=s3c', '--option', 'source=zip',
+                          '--option', 'firmware=' + str(cwd / 'missing.zip'), '--option', 'dry_run=1']):
+                with patch('cpld_toolchain.runtime.execute') as run, redirect_stdout(io.StringIO()):
+                    self.assertEqual(commands.main(argv), 0)
+                run.assert_not_called()
+            self.assertEqual(list(cwd.iterdir()), [])
+
     def calls(self, action, **options):
         return commands.plan(action, options)
 

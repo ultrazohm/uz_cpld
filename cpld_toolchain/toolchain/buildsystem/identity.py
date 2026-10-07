@@ -29,6 +29,14 @@ def read_registry(root):
         raise BuildError('USERCODE registry must not be a symlink')
     try:
         data = json.loads(path.read_text(), object_pairs_hook=_object)
+        return validate_registry(data)
+    except (BuildError, OSError, ValueError, KeyError, TypeError, AttributeError) as exc:
+        raise BuildError(f'{path}: invalid or missing USERCODE registry: {exc}. Restore/merge the tracked registry; never reset its counters.') from exc
+
+
+def validate_registry(data):
+    """Validate a registry from a checkout or a release manifest."""
+    try:
         if data['schema_version'] != 1 or not isinstance(data['programs'], dict):
             raise ValueError('unsupported schema')
         numbers = set()
@@ -57,8 +65,8 @@ def read_registry(root):
         if type(data['next_program']) is not int or not max(numbers, default=0) < data['next_program'] <= LIMIT + 1:
             raise ValueError('invalid program counter')
         return data
-    except (OSError, ValueError, KeyError, TypeError, AttributeError) as exc:
-        raise BuildError(f'{path}: invalid or missing USERCODE registry: {exc}. Restore/merge the tracked registry; never reset its counters.') from exc
+    except (ValueError, KeyError, TypeError, AttributeError) as exc:
+        raise BuildError(f'Invalid USERCODE registry: {exc}') from exc
 
 
 @contextmanager
@@ -137,9 +145,10 @@ def reserve_build(build):
                 'usercode': f'{(entry["number"] << 16) | revision:08X}', 'fingerprint': source_hash}
 
 
-def resolve_usercode(root, usercode):
+def resolve_usercode(root, usercode, *, registry=None):
     number, revision = usercode >> 16, usercode & LIMIT
-    for name, entry in read_registry(root)['programs'].items():
+    data = read_registry(root) if registry is None else registry
+    for name, entry in data['programs'].items():
         if entry['number'] == number:
             build = entry['builds'].get(str(revision))
             return {'program': name, 'program_number': number, 'revision': revision,

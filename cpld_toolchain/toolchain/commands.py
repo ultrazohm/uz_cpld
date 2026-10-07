@@ -25,6 +25,7 @@ WINDOWS_TESTS = (
     'cpld_toolchain.toolchain.tests.test_identity.IdentityTests.test_concurrent_allocations_are_unique_and_repeated_allocation_is_stable',
     'cpld_toolchain.toolchain.tests.test_identity.IdentityTests.test_concurrent_same_build_reuses_one_revision',
     'cpld_toolchain.cpld_vhdl_generator.tests.test_generator', 'cpld_toolchain.programmer_helper.tests.test_program',
+    'cpld_toolchain.programmer_helper.tests.test_release',
     'cpld_toolchain.programmer_helper.tests.test_identify', 'cpld_toolchain.programmer_helper.tests.test_helper',
 )
 
@@ -75,7 +76,7 @@ COMMANDS = {
     'diamond_xcf_programming_chain': spec('Programmer', 'diamond_xcf_programming_chain', 'Export both Diamond XCFs from the edited selection', {'selection', 'release_cycle', 'backend', 'build_backend', 'programmer_backend', 'probe_index', 'rebuild'}),
     'scan': spec('Programmer', 'scan target=dslot', 'Check JTAG IDs (target defaults to dslot)', PROBE),
     'identify': spec('Programmer', 'identify target=dslot', 'Read firmware identity and silicon TraceID', PROBE),
-    'program': spec('Programmer', 'program target=dslot', 'Program one physical chain from selection.toml', PROBE | {'selection', 'release_cycle', 'build_backend'}, {'target'}),
+    'program': spec('Programmer', 'program target=dslot', 'Program one physical chain from local builds or a release ZIP', PROBE | {'selection', 'release_cycle', 'build_backend', 'source', 'firmware'}, {'target'}),
     'flasher_build': spec('Programmer', 'flasher_build', 'Compile the optional FOSS programmer utility locally', {'jobs'}),
 }
 
@@ -84,6 +85,7 @@ COMMANDS = {
 # Argument spellings are shared by overview and focused help; applicability and
 # required/optional status always come from the command's validated option sets.
 ARGUMENT_VALUES = {
+    'source': 'local|zip', 'firmware': 'FILE.zip',
     'remote': 'NAME', 'output': 'FILE',
     'release': 'NAME', 's3c': 'NAME', **{f'dslot_{i}': 'NAME' for i in range(1, 6)},
     'program': 'NAME', 'name': 'NAME', 'template': 'NAME|generator',
@@ -133,6 +135,8 @@ def shared_help(style='make'):
         '  discard_project_changes=0; setup activate=1. Omit an option to use its default.',
         '  Build targets are inferred when unambiguous; scan/identify default to dslot.',
         '  program requires target. probe_index: Diamond defaults to 1, FOSS to 0.',
+        '  program source=local by default; source=zip requires firmware=FILE.zip.',
+        '  ZIP firmware backend comes from its manifest; explicit build_backend must match.',
         '  jobs must be positive; seed and probe_index must be nonnegative.',
         '  gui requires Diamond builds; diamond_xcf_programming_chain requires both backends to be Diamond.',
         '  Diamond programming requires Diamond builds. cable and usb_serial are FOSS-only.',
@@ -212,11 +216,20 @@ def normalize(action, options):
     backend = options.get('backend', 'diamond')
     build_backend = options.get('build_backend', backend)
     programmer_backend = options.get('programmer_backend', backend)
+    if action == 'program':
+        source = options.get('source', 'local')
+        if source not in ('local', 'zip'):
+            raise BuildError('source must be local or zip')
+        if source == 'zip' and not options.get('firmware'):
+            raise BuildError('source=zip requires firmware=FILE.zip')
+        if source == 'local' and 'firmware' in options:
+            raise BuildError('firmware requires source=zip')
     if action == 'gui' and build_backend != 'diamond':
         raise BuildError('gui requires build_backend=diamond')
     if action == 'diamond_xcf_programming_chain' and (build_backend != 'diamond' or programmer_backend != 'diamond'):
         raise BuildError('diamond_xcf_programming_chain exports Diamond XCFs; both backends must be diamond')
-    if action == 'program' and programmer_backend == 'diamond' and build_backend != 'diamond':
+    if action == 'program' and programmer_backend == 'diamond' and build_backend != 'diamond' and (
+            options.get('source', 'local') == 'local' or 'build_backend' in options):
         raise BuildError('Diamond programming requires Diamond builds; choose programmer_backend=foss')
     if action in ('scan', 'identify', 'program'):
         if 'usb_serial' in options and 'probe_index' in options:
@@ -293,7 +306,11 @@ def plan(action, options, *, root=ROOT, cwd=None):
         if action != 'init_programmer':
             args += ['--programmer-backend', programmer_backend]
             if action == 'program':
-                args += ['--build-backend', build_backend]
+                if options.get('source', 'local') == 'local' or 'build_backend' in options:
+                    args += ['--build-backend', build_backend]
+                args += flags('source')
+                if 'firmware' in options:
+                    args += ['--firmware', str((cwd / options['firmware']).absolute())]
                 if 'target' not in options:
                     raise BuildError('program requires target=dslot or target=s3c; use uz_cpld init_programmer to create a selection')
             args += ['--target', options.get('target', 'dslot')]

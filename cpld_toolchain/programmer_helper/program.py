@@ -16,11 +16,12 @@ import tempfile
 import xml.etree.ElementTree as ET
 
 from cpld_toolchain.toolchain.buildsystem.model import BuildError, identifier, load_build, resolve_release
-from cpld_toolchain.toolchain.buildsystem.workflow import build_program, digest, locked, safe_directory, write_json
+from cpld_toolchain.toolchain.buildsystem.workflow import build_program, digest, locked, safe_directory, workspace_lock, write_json
 from .helper import (DEFAULT_DIAMOND_PORT, SLOT_TEMPLATE, S3C_TEMPLATE, render_xcf,
                      jedec_metadata, read_selection, verified_firmware)
 from .usb import diamond_usb
 from .diamond import command as diamond_command, environment as diamond_environment
+from .release import ReleaseFirmware
 
 
 # UltraZohm: one FT4232, channel B for either physical CPLD chain.
@@ -46,6 +47,24 @@ class Step:
     command: tuple[str, ...]
     firmware: tuple[FirmwareSnapshot, ...] = ()
     port: int | None = None
+
+
+def firmware_input(build, extension):
+    return build.verify(extension) if isinstance(build, ReleaseFirmware) else verified_firmware(build, extension)
+
+
+def firmware_identity(build, *, validate=False):
+    if isinstance(build, ReleaseFirmware):
+        return build.identity
+    identity = json.loads((build.directory / 'metadata/build.json').read_text())['identity']
+    if validate:
+        from cpld_toolchain.toolchain.buildsystem.identity import validate_identity
+        return validate_identity(build, identity)
+    return identity
+
+
+def firmware_lock(build):
+    return workspace_lock(build.root) if isinstance(build, ReleaseFirmware) else locked(build)
 
 
 def create_selection(destination: Path, *, release=None, s3c=None, slots=None):
@@ -278,8 +297,8 @@ def diamond_plan(root, cycle, chain, builds, probe_index):
     unique = {build.directory: build for _, _, build in builds}
     with ExitStack() as stack:
         for build in sorted(unique.values(), key=lambda item: str(item.directory)):
-            stack.enter_context(locked(build))
-        current = {label: verified_firmware(build, 'jed') for label, _, build in builds}
+            stack.enter_context(firmware_lock(build))
+        current = {label: firmware_input(build, 'jed') for label, _, build in builds}
         base = safe_directory(builds[0][2], root / 'build/programmer' / cycle / chain / 'plans')
         base.mkdir(parents=True, exist_ok=True)
         output = Path(tempfile.mkdtemp(prefix='plan-', dir=base))
@@ -317,26 +336,33 @@ def diamond_plan(root, cycle, chain, builds, probe_index):
 
 def plan(root: Path, selection: Path, cycle_name: str | None, chain: str, programmer_backend: str,
          cable: str | None, serial: str | None, probe_index: int | None = None,
-         *, build_backend: str | None = None):
+         *, build_backend: str | None = None, source='local', firmware=None):
     """Validate authored selection and existing build evidence; touch no hardware."""
     root = root.resolve()
-    slots, s3c, selection_release, _ = read_selection(selection, chain=chain)
-    build_backend = build_backend or 'diamond'
+    if source not in ('local', 'zip') or (source == 'zip') != (firmware is not None):
+        raise BuildError('Use source=local without firmware, or source=zip with firmware=FILE.zip')
+    if source == 'zip':
+        from .release import stage
+        cycle, output, builds = stage(root, selection, cycle_name, chain, programmer_backend, firmware, build_backend)
+        build_backend = builds[0][2].backend
+    else:
+        slots, s3c, selection_release, _ = read_selection(selection, chain=chain)
+        build_backend = build_backend or 'diamond'
+        cycle = resolve_release(root, cycle_name if cycle_name is not None else selection_release)
+        builds = selected_chain_builds(root, cycle, slots, s3c, chain, build_backend)
+        output = root / 'build/programmer' / cycle
     if build_backend not in ('diamond', 'foss'):
         raise BuildError('build_backend must be diamond or foss')
     if programmer_backend == 'diamond' and build_backend != 'diamond':
         raise BuildError('Diamond programming requires Diamond JEDEC builds; '
                          'use programmer_backend=foss to program FOSS builds, or select build_backend=diamond')
-    cycle = resolve_release(root, cycle_name if cycle_name is not None else selection_release)
-    builds = selected_chain_builds(root, cycle, slots, s3c, chain, build_backend)
     if programmer_backend == 'diamond':
         output, steps = diamond_plan(root, cycle, chain, builds, probe_index)
     else:
-        output = root / 'build/programmer' / cycle
         steps = []
         for label, index, build in builds:
-            firmware, sha256 = verified_firmware(build, 'jed' if build_backend == 'diamond' else 'bit')
-            identity = json.loads((build.directory / 'metadata/build.json').read_text())['identity']
+            firmware, sha256 = firmware_input(build, 'jed' if build_backend == 'diamond' else 'bit')
+            identity = firmware_identity(build)
             command = (str(loader_path()), *cable_args(chain, cable, serial, probe_index),
                        '--index-chain', str(index), '--write-flash', '--verify',
                        '--usercode', identity['usercode'], str(firmware))
@@ -351,19 +377,18 @@ def execute(root: Path, cycle: str, chain: str, programmer_backend: str, output:
     if programmer_backend == 'foss' and not loader_path().is_file():
         raise BuildError(f'openFPGALoader is missing: {loader_path()}')
     from .identify import programming_preflight, identify
-    from cpld_toolchain.toolchain.buildsystem.identity import validate_identity
     programmer_provenance = programming_preflight(programmer_backend, cable, serial, probe_index)
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
     run_dir = output / 'runs' / stamp
     unique = {build.directory: build for _, _, build in builds}
     with ExitStack() as stack:
         for build in sorted(unique.values(), key=lambda item: str(item.directory)):
-            stack.enter_context(locked(build))
+            stack.enter_context(firmware_lock(build))
         current, identities = {}, {}
         for label, _, build in builds:
             extension = 'jed' if build.backend == 'diamond' else 'bit'
-            current[label] = verified_firmware(build, extension)
-            identities[label] = validate_identity(build, json.loads((build.directory / 'metadata/build.json').read_text()).get('identity'))
+            current[label] = firmware_input(build, extension)
+            identities[label] = firmware_identity(build, validate=True)
         if programmer_backend == 'foss':
             from cpld_toolchain.toolchain.foss.flasher import check_file
             if [(step.label, step.build) for step in steps] != [(label, build) for label, _, build in builds]:
@@ -386,6 +411,13 @@ def execute(root: Path, cycle: str, chain: str, programmer_backend: str, output:
                   'build_backend': builds[0][2].backend,
                   'expected_identities': identities, 'programmer_provenance': programmer_provenance,
                   'steps': [], 'status': 'running'}
+        package = builds[0][2].package if isinstance(builds[0][2], ReleaseFirmware) else None
+        record['source'] = 'zip' if package else 'local'
+        if package:
+            record['release_package'] = dict(package.evidence,
+                                            manifest=str(package.directory / 'manifest.json'),
+                                            manifest_sha256=package.manifest_sha256)
+            record['programs'] = {label: build.name for label, _, build in builds}
         write_json(run_dir / 'result.json', record)
         try:
             if programmer_backend == 'foss':
@@ -407,8 +439,9 @@ def execute(root: Path, cycle: str, chain: str, programmer_backend: str, output:
                                                       'sha256': f.sha256} for f in step.firmware],
                                         'log': str(log)})
                 write_json(run_dir / 'result.json', record)
+            readback_options = {'registry': package.registry} if package else {}
             record['devices'] = identify(root, chain, programmer_backend, cable, serial, probe_index,
-                                         output=run_dir / 'readback')
+                                         output=run_dir / 'readback', **readback_options)
             write_json(run_dir / 'result.json', record)
             for device in record['devices']:
                 if device['usercode'] != identities[device['label']]['usercode']:
@@ -439,12 +472,18 @@ def main(argv=None) -> int:
                         help='Programming/scan tool, independent of the firmware build backend')
     parser.add_argument('--build-backend', choices=('diamond', 'foss'),
                         help='Firmware build backend (default: diamond); ignored for scans')
+    parser.add_argument('--source', choices=('local', 'zip'), default='local')
+    parser.add_argument('--firmware', type=Path, help='Verified release ZIP (requires --source zip)')
     parser.add_argument('--cable', help=f'openFPGALoader cable name; default: {DEFAULT_FOSS_CABLE}')
     parser.add_argument('--usb-serial', help='Select one USB probe by its serial number')
     parser.add_argument('--probe-index', type=int, help='Select an FTDI USB probe by index')
     parser.add_argument('--execute', action='store_true', help='Contact hardware (scan reads IDs; program writes Flash)')
     args = parser.parse_args(argv)
     try:
+        if args.action != 'program' and (args.source != 'local' or args.firmware is not None):
+            raise BuildError('source and firmware options apply only to program')
+        if (args.source == 'zip') != (args.firmware is not None):
+            raise BuildError('Use source=local without firmware, or source=zip with firmware=FILE.zip')
         if args.action == 'init_programmer':
             create_selection(args.selection, release=args.release, s3c=args.s3c,
                              slots={i: getattr(args, f'dslot_{i}') for i in range(1, 6)
@@ -519,13 +558,17 @@ def main(argv=None) -> int:
         cycle, output, builds, steps = plan(args.root, args.selection, args.release_cycle,
                                                   args.chain, args.programmer_backend,
                                                   args.cable, args.usb_serial, args.probe_index,
-                                                  build_backend=args.build_backend)
+                                                  build_backend=args.build_backend, source=args.source, firmware=args.firmware)
         print(f'Programming selection (release: {cycle}):')
         for _, index, build in builds:
             target_label = 'S3C' if args.chain == 's3c' else f'D-slot {index + 1}'
-            identity = json.loads((build.directory / 'metadata/build.json').read_text())['identity']
+            identity = firmware_identity(build)
             print(f'  {target_label}: {build.name}, revision {identity["revision"]}, USERCODE 0x{identity["usercode"]}')
         print(f'Firmware build backend: {builds[0][2].backend}; programmer backend: {args.programmer_backend}')
+        if args.source == 'zip':
+            evidence = builds[0][2].package.evidence
+            print(f'Release ZIP: {evidence["archive"]} (sha256 {evidence["archive_sha256"]})')
+            print(f'Release commit: {evidence["git_revision"]}')
         for step in steps:
             print(f'{step.label}: {step.artifact} (sha256 {step.sha256})')
             print('  ' + shlex.join(step.command))

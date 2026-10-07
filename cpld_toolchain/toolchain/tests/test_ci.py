@@ -1,6 +1,7 @@
 """Release archives reject stale or incomplete firmware and retain identity evidence."""
 import hashlib
 import json
+import shutil
 from pathlib import Path
 from unittest.mock import patch
 import unittest
@@ -51,6 +52,32 @@ class FirmwareArchiveTests(unittest.TestCase):
             for name, digest in entry['files'].items():
                 self.assertTrue(name.startswith('original/tx30/uz_dslot_xo2/'))
                 self.assertEqual(hashlib.sha256(archive.read(name)).hexdigest(), digest)
+
+    def test_published_archive_can_be_programmed_without_its_checkout_or_builds(self):
+        from cpld_toolchain.programmer_helper import program
+        from cpld_toolchain.toolchain.buildsystem.identity import record_artifacts
+        self.prepare()
+        # The build fixture only emits USERCODE; the programmer also requires
+        # the JEDEC fuse-checksum field. Publish a complete parser fixture.
+        jed = self.build.firmware_path('jed')
+        jed.write_bytes(jed.read_bytes() + b'\nC1234*\n')
+        self.record['outputs'][jed.name] = hashlib.sha256(jed.read_bytes()).hexdigest()
+        self.record_path.write_text(json.dumps(self.record))
+        record_artifacts(self.build, self.record)
+        self.package()
+        identity = self.record['identity']
+        shutil.rmtree(self.root / 'programs')
+        shutil.rmtree(self.build.directory)
+        selection = self.root / 'zip-selection.toml'
+        selection.write_text('release="original"\n[slots]\n' +
+                             ''.join(f'"{i}"="tx30"\n' for i in range(1, 6)))
+        cycle, _, builds, steps = program.plan(self.root, selection, None, 'dslots', 'foss', None, None,
+                                             source='zip', firmware=self.output)
+        self.assertEqual(cycle, 'original')
+        self.assertEqual(len(steps), 5)
+        self.assertEqual([build.identity for _, _, build in builds], [identity] * 5)
+        self.assertTrue(all(step.artifact.is_file() for step in steps))
+        self.assertFalse((self.root / 'programs').exists())
 
     def test_missing_tampered_and_unrecorded_exports_are_rejected(self):
         self.prepare()

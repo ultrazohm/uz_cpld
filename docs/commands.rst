@@ -94,6 +94,7 @@ It includes CI prereleases and matches the exact ``Source ref`` in the release n
 it never falls back to another branch. Detached HEAD and missing releases are errors.
 ``--dry-run 1`` previews the command without Git or network access.
 See :doc:`publishing` for authentication, verification and the downloaded archive's scope.
+To program it, use ``uz_cpld program --target s3c --source zip --firmware PATH.zip`` with the desired programs in ``selection.toml``; see :doc:`programmer`.
 
 Create the programming selection and project::
 

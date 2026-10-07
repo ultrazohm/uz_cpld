@@ -189,7 +189,8 @@ Build and programmer backends
      - Unsupported; rejected before programming.
 
 ``--backend`` sets both defaults; ``--build-backend`` and ``--programmer-backend`` override them separately.
-Programming requires current successful builds and does not build firmware automatically.
+Local programming requires current successful builds and does not build firmware automatically.
+``program --source zip --firmware PATH.zip`` instead validates a published release package without local builds; its manifest determines the firmware backend.
 A command preview using ``--dry-run 1`` starts no vendor tools and contacts no hardware; it does not demonstrate that the required tools, builds or hardware are available.
 
 Setup entry points

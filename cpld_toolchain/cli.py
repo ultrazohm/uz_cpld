@@ -20,6 +20,11 @@ class Backend(str, Enum):
     foss = 'foss'
 
 
+class FirmwareSource(str, Enum):
+    local = 'local'
+    zip = 'zip'
+
+
 class Target(str, Enum):
     dslot = 'dslot'
     s3c = 's3c'
@@ -37,6 +42,8 @@ def option(key, required):
     annotation, settings = str, {}
     if key in ('backend', 'build_backend', 'programmer_backend'):
         annotation = Backend
+    elif key == 'source':
+        annotation = FirmwareSource
     elif key == 'target':
         annotation = Target
     elif key == 'wave_format':
@@ -45,7 +52,7 @@ def option(key, required):
         annotation, settings = int, {'min': 1 if key == 'jobs' else 0}
     elif key in ('dry_run', 'rebuild', 'discard_project_changes', 'activate'):
         annotation, settings = int, {'min': 0, 'max': 1}
-    elif key in ('selection', 'output'):
+    elif key in ('selection', 'output', 'firmware'):
         annotation = Path
     return Parameter('from_' if key == 'from' else key, Parameter.KEYWORD_ONLY,
                      annotation=annotation if required else Optional[annotation],

@@ -8,6 +8,7 @@ import os
 from pathlib import Path, PurePosixPath
 import re
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
@@ -116,36 +117,50 @@ def verify(path, commit, asset):
     if expected and expected != 'sha256:' + digest.hexdigest():
         raise BuildError('Downloaded firmware SHA-256 does not match the GitHub asset')
     with ZipFile(path) as archive:
-        names = archive.namelist()
-        if len(names) != len(set(names)) or 'manifest.json' not in names:
-            raise BuildError('Firmware archive has duplicate entries or no manifest.json')
-        manifest = json.loads(archive.read('manifest.json'))
-        if (not isinstance(manifest, dict) or manifest.get('schema_version') != 1 or manifest.get('git_revision') != commit or
-                manifest.get('backend') not in ('diamond', 'foss') or
-                not isinstance(manifest.get('builds'), list) or not manifest['builds'] or
-                not isinstance(manifest.get('identity_registry'), dict)):
-            raise BuildError('Firmware manifest has an unsupported schema or does not match the release commit')
-        declared = {'manifest.json'}
-        for build in manifest['builds']:
-            if not isinstance(build, dict):
-                raise BuildError('Firmware manifest contains an invalid build entry')
-            files = build.get('files')
-            if not isinstance(files, dict) or not files:
-                raise BuildError('Firmware manifest contains a build without files')
-            for name, expected in files.items():
-                parts = PurePosixPath(name)
-                if (parts.is_absolute() or '..' in parts.parts or '\\' in name or
-                        parts.as_posix() != name or parts.suffix not in ('.bit', '.jed') or name in declared):
-                    raise BuildError('Firmware manifest contains an invalid or duplicate path')
-                digest = hashlib.sha256()
-                with archive.open(name) as stream:
-                    for block in iter(lambda: stream.read(1024 * 1024), b''):
-                        digest.update(block)
-                if digest.hexdigest() != expected:
-                    raise BuildError(f'Firmware checksum mismatch: {name}')
-                declared.add(name)
-        if set(names) != declared:
-            raise BuildError('Firmware archive contains files not declared in its manifest')
+        return verify_archive(archive, commit=commit)
+
+
+def verify_archive(archive, *, commit=None):
+    """Check archive paths and payloads; callers validate workflow-specific metadata."""
+    entries = archive.infolist()
+    if len(entries) > 10000 or sum(item.file_size for item in entries) > 512 * 1024 * 1024:
+        raise BuildError('Firmware archive exceeds the supported size')
+    if any(stat.S_IFMT(item.external_attr >> 16) not in (0, stat.S_IFREG) or item.is_dir() for item in entries):
+        raise BuildError('Firmware archive must contain regular files only')
+    names = archive.namelist()
+    if len(names) != len(set(names)) or 'manifest.json' not in names:
+        raise BuildError('Firmware archive has duplicate entries or no manifest.json')
+    if archive.getinfo('manifest.json').file_size > 16 * 1024 * 1024:
+        raise BuildError('Firmware manifest exceeds the supported size')
+    from .buildsystem.identity import _object
+    manifest = json.loads(archive.read('manifest.json'), object_pairs_hook=_object)
+    if (not isinstance(manifest, dict) or manifest.get('schema_version') != 1 or (commit is not None and manifest.get('git_revision') != commit) or
+            manifest.get('backend') not in ('diamond', 'foss') or
+            not isinstance(manifest.get('builds'), list) or not manifest['builds'] or
+            not isinstance(manifest.get('identity_registry'), dict)):
+        raise BuildError('Firmware manifest has an unsupported schema or does not match the release commit')
+    declared = {'manifest.json'}
+    for build in manifest['builds']:
+        if not isinstance(build, dict):
+            raise BuildError('Firmware manifest contains an invalid build entry')
+        files = build.get('files')
+        if not isinstance(files, dict) or not files:
+            raise BuildError('Firmware manifest contains a build without files')
+        for name, expected in files.items():
+            parts = PurePosixPath(name)
+            if (parts.is_absolute() or '..' in parts.parts or '\\' in name or ':' in name or
+                    parts.as_posix() != name or parts.suffix not in ('.bit', '.jed') or name in declared):
+                raise BuildError('Firmware manifest contains an invalid or duplicate path')
+            digest = hashlib.sha256()
+            with archive.open(name) as stream:
+                for block in iter(lambda: stream.read(1024 * 1024), b''):
+                    digest.update(block)
+            if digest.hexdigest() != expected:
+                raise BuildError(f'Firmware checksum mismatch: {name}')
+            declared.add(name)
+    if set(names) != declared:
+        raise BuildError('Firmware archive contains files not declared in its manifest')
+    return manifest
 
 
 def download(root, *, remote=None, output=None):

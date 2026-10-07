@@ -37,7 +37,8 @@ The workflow uploads only the generated HTML site for deployment, retaining buil
 FOSS firmware and reports are retained as workflow artifacts and excluded from the Pages site.
 The diagnostics artifact includes the updated ``programs/usercodes.json`` registry so CI-allocated identities can be resolved alongside the firmware.
 CI does not commit allocations back to Git or coordinate counters between independent runs.
-Before programming CI firmware, reconcile its registry with the shared branch; artifact retention alone does not guarantee globally unique revisions.
+Reconcile CI allocations with the shared branch to maintain globally unique revisions; artifact retention alone does not guarantee uniqueness.
+ZIP programming uses the archive's registry for that run and reports conflicts with the local registry.
 A configured workflow is not evidence of a successful hosted deployment; verify the GitHub Actions run after pushing the workflow to the deployment branch.
 
 Firmware downloads
@@ -61,8 +62,9 @@ Packaging rejects missing, failed or stale builds, mismatched firmware hashes, a
 An incomplete catalog never produces a published archive.
 All release catalogs share one Diamond image build and one checkout, so identity allocations from that run are retained together.
 
-This archive is a firmware download, not an import command for the managed programmer.
-The programmer still requires matching source/build metadata and the identity registry; the archive does not change those checks.
+Use ``uz_cpld program --target s3c --source zip --firmware PATH.zip`` to program directly from a verified archive, using the assignments in ``selection.toml``.
+This validates the archive's provenance and identity registry without matching local sources or builds; the default ``source=local`` retains local-build validation.
+See :doc:`programmer` for release selection, backend compatibility and run records.
 Registry counters are not coordinated across independent CI runs, and prerelease firmware has no established hardware or board timing acceptance.
 The 14-day retention period applies to Actions diagnostics and preview artifacts; GitHub Release archives are separate downloads.
 
@@ -94,7 +96,7 @@ The download is staged and checked before replacing the destination: asset size,
 GitHub SHA-256 digest when supplied, manifest schema/source commit, and every firmware
 checksum must match. Failed downloads preserve any existing destination file.
 The ZIP is not extracted; local builds, selections and ``programs/usercodes.json`` are
-not modified. Downloading does not import the firmware into the managed programmer.
+not modified. Programming from that ZIP is a separate explicit ``program --source zip --firmware PATH.zip`` command.
 
 Maintenance
 -----------

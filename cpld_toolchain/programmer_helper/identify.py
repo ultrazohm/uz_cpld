@@ -145,7 +145,7 @@ def diamond_read(root, chain, directory, probe_index):
                        values['idcode'], values['usercode'], values['traceid'])))
 
 
-def parse(root, chain, output):
+def parse(root, chain, output, *, registry=None):
     count, expected = (5, 0x012BB043) if chain == 'dslots' else (1, 0x012BC043)
     found = re.findall(r'^UZ_IDENTITY (\d+) ([0-9a-fA-F]{8}) ([0-9a-fA-F]{8}) ([0-9a-fA-F]{16})\s*$', output, re.M)
     if [int(row[0]) for row in found] != list(range(count)):
@@ -154,14 +154,14 @@ def parse(root, chain, output):
     for index, idcode, usercode, traceid in found:
         if int(idcode, 16) != expected:
             raise BuildError(f'Unexpected device IDCODE at JTAG index {index}')
-        resolved = resolve_usercode(root, int(usercode, 16))
+        resolved = resolve_usercode(root, int(usercode, 16), registry=registry)
         devices.append({'index': int(index), 'label': 's3c' if chain == 's3c' else f'slot{int(index) + 1}',
                         'idcode': idcode.upper(), 'usercode': usercode.upper(), 'traceid': traceid.upper(),
                         'silicon_id': traceid[-14:].upper(), 'identity': resolved})
     return devices
 
 
-def identify(root, chain, backend='diamond', cable=None, serial=None, probe_index=None, *, output=None):
+def identify(root, chain, backend='diamond', cable=None, serial=None, probe_index=None, *, output=None, registry=None):
     from .program import run_command
     preflight(backend, cable, serial, probe_index)
     root = Path(root).resolve()
@@ -183,7 +183,7 @@ def identify(root, chain, backend='diamond', cable=None, serial=None, probe_inde
             command = (str(openocd_path()), '-f', str(config))
             with diamond_usb(DEFAULT_DIAMOND_PORT, serial=serial):
                 raw = run_command(command, directory / 'identify.log')
-        devices = parse(root, chain, raw)
+        devices = parse(root, chain, raw, registry=registry)
         write_json(directory / 'identity.json', {'chain': chain, 'programmer_backend': backend, 'devices': devices,
                    'read_at': datetime.now(timezone.utc).isoformat()})
         for device in devices:

@@ -160,7 +160,7 @@ def check_chain(chain: str, output: str):
 
 def diamond_scan_xcf(root: Path, chain: str, destination: Path, port: int | None = None):
     """Build an XCF containing only MachXO2's read-only FLASH Display ID operation."""
-    template = root / (SLOT_TEMPLATE if chain == 'dslots' else S3C_TEMPLATE)
+    template = SLOT_TEMPLATE if chain == 'dslots' else S3C_TEMPLATE
     tree = ET.parse(template)
     project = tree.getroot()
     if (project.findtext('./ProjectOptions/OperationOverride') != 'No Override' or
@@ -310,7 +310,7 @@ def diamond_plan(root, cycle, chain, builds, probe_index):
                 snapshot = output / 'firmware' / f'{label}.jed'
                 shutil.copy2(source, snapshot)
                 firmware.append(FirmwareSnapshot(label, index, source, snapshot, sha256))
-            template = root / (S3C_TEMPLATE if chain == 's3c' else SLOT_TEMPLATE)
+            template = S3C_TEMPLATE if chain == 's3c' else SLOT_TEMPLATE
             device, idcode = (('LCMXO2-4000HC', '0x012bc043') if chain == 's3c'
                               else ('LCMXO2-2000HC', '0x012bb043'))
             xcf = output / f'{chain}.xcf'

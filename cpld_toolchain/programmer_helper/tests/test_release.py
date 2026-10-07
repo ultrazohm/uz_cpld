@@ -5,18 +5,15 @@ import hashlib
 import io
 import json
 from pathlib import Path
-import shutil
 import tempfile
 import unittest
 from unittest.mock import patch
 from zipfile import ZipFile, ZipInfo
 
 from cpld_toolchain.programmer_helper import identify, program, release
-from cpld_toolchain.programmer_helper.helper import SLOT_TEMPLATE, S3C_TEMPLATE
 from cpld_toolchain.toolchain.buildsystem.model import BuildError
 from cpld_toolchain.toolchain.buildsystem.workflow import digest
 
-ROOT = Path(__file__).resolve().parents[3]
 COMMIT = 'a' * 40
 
 
@@ -28,10 +25,6 @@ class ReleaseTests(unittest.TestCase):
         self.selection = self.root / 'selection.toml'
         self.selection.write_text('release="published"\ns3c="controller"\n[slots]\n' +
                                   ''.join(f'"{i}"="adapter"\n' for i in range(1, 6)))
-        for relative in (SLOT_TEMPLATE, S3C_TEMPLATE):
-            destination = self.root / relative
-            destination.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(ROOT / relative, destination)
         self.zip = self.root / 'release firmware.zip'
         self.manifest, self.payloads = self.package()
         self.write_zip()

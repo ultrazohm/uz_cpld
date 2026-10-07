@@ -19,7 +19,7 @@ class ProgramTests(unittest.TestCase):
                                           '--release', 'heartbeat_cvg', '--s3c', 's3c_heartbeat',
                                           '--dslot-1', 'cvg_tx30', '--dslot-5', 'cvg_rx30']), 0)
             slots, s3c, release, _ = read_selection(selection)
-            self.assertEqual(slots, {1: 'cvg_tx30', 2: 'tx30', 3: 'tx30', 4: 'tx30', 5: 'cvg_rx30'})
+            self.assertEqual(slots, {1: 'cvg_tx30', 2: 'cvg_tx30', 3: 'cvg_tx30', 4: 'cvg_tx30', 5: 'cvg_rx30'})
             self.assertEqual((s3c, release), ('s3c_heartbeat', 'heartbeat_cvg'))
             before = selection.read_bytes()
             program.create_selection(selection, release='', s3c='other')
@@ -117,8 +117,10 @@ class ProgramTests(unittest.TestCase):
                     run.assert_not_called()
 
     def test_diamond_scan_xcf_contains_only_read_operations(self):
-        root = Path(__file__).resolve().parents[3]
         with tempfile.TemporaryDirectory() as directory:
+            # Runtime templates must come from the installed package, even when
+            # the programming workspace has no archive or source checkout.
+            root = Path(directory)
             for chain, count, expected_id in [('dslots', 5, '0x012bb043'),
                                               ('s3c', 1, '0x012bc043')]:
                 xcf = Path(directory) / f'{chain}.xcf'
@@ -135,6 +137,7 @@ class ProgramTests(unittest.TestCase):
                 self.assertIsNone(project.find('./CableOptions/USBID'))
                 program.diamond_scan_xcf(root, chain, xcf)
                 self.assertEqual(ET.parse(xcf).findtext('./CableOptions/PortAdd'), 'FTUSB-1')
+            self.assertFalse((root / 'archive').exists())
 
     def test_foss_scan_reports_unexpected_id_without_programming(self):
         output = 'index 0:\n  idcode 0x12345678\n'

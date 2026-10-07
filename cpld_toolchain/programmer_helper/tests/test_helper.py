@@ -120,13 +120,6 @@ class ProgrammerHelperTests(unittest.TestCase):
                             ignore=shutil.ignore_patterns('__pycache__'))
         for name in ('diamond.py', 'locking.py'):
             shutil.copy2(ROOT / 'cpld_toolchain/toolchain' / name, self.root / 'cpld_toolchain/toolchain' / name)
-        for template in (
-            'archive/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/Programm_All_5_Slots.xcf',
-            'archive/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/s3c_programmer.xcf',
-        ):
-            destination = self.root / template
-            destination.parent.mkdir(parents=True)
-            shutil.copy2(ROOT / template, destination)
         (self.root / 'programs').mkdir()
         shutil.copy2(ROOT / 'programs/usercodes.json', self.root / 'programs/usercodes.json')
         def mock_readback(root, chain, backend, cable, serial, probe_index, *, output):

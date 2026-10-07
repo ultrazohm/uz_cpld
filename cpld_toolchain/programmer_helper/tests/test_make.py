@@ -82,7 +82,7 @@ class ProgrammerMakeTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         selection = self.cwd / 'selection.toml'
         self.assertEqual(read_selection(selection),
-                         ({i: 'tx30' for i in range(1, 6)}, 's3c_power_on_debounce', None, 'diamond'))
+                         ({i: 'cvg_tx30' for i in range(1, 6)}, 's3c_heartbeat', None, 'diamond'))
         self.assertNotIn('build_backend =', selection.read_text())
         selection.write_text('s3c = "custom"\n')
         self.assertEqual(self.make('init_programmer').returncode, 0)

@@ -16,8 +16,8 @@ from cpld_toolchain.toolchain.buildsystem.report import _row
 from cpld_toolchain.toolchain.buildsystem.workflow import build_program, digest, locked, write_json
 
 
-SLOT_TEMPLATE = Path('archive/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/Programm_All_5_Slots.xcf')
-S3C_TEMPLATE = Path('archive/MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/s3c_programmer.xcf')
+SLOT_TEMPLATE = Path(__file__).resolve().parent / 'templates/dslots.xcf'
+S3C_TEMPLATE = Path(__file__).resolve().parent / 'templates/s3c.xcf'
 DEFAULT_DIAMOND_PORT = 1
 
 
@@ -203,13 +203,13 @@ def generate(root: Path, slots: dict[int, str], s3c: str,
             hashes[label] = sha256
         xcfs, templates = {}, {}
         if chain != 's3c':
-            templates['dslots'] = digest(root / SLOT_TEMPLATE)
-            xcfs['dslots.xcf'] = render_xcf(root / SLOT_TEMPLATE,
+            templates['dslots'] = digest(SLOT_TEMPLATE)
+            xcfs['dslots.xcf'] = render_xcf(SLOT_TEMPLATE,
                               {position: jed_paths[f'slot{position}'] for position in range(1, 6)},
                               device_name='LCMXO2-2000HC', idcode='0x012bb043', port=port)
         if chain != 'dslots':
-            templates['s3c'] = digest(root / S3C_TEMPLATE)
-            xcfs['s3c.xcf'] = render_xcf(root / S3C_TEMPLATE, {1: jed_paths['s3c']},
+            templates['s3c'] = digest(S3C_TEMPLATE)
+            xcfs['s3c.xcf'] = render_xcf(S3C_TEMPLATE, {1: jed_paths['s3c']},
                              device_name='LCMXO2-4000HC', idcode='0x012bc043', port=port)
         output = root / 'build/programmer' / cycle
         if chain:

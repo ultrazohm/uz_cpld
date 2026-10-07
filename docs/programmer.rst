@@ -4,6 +4,7 @@ Programmer reference
 For the build/select/program workflow, see :doc:`user/index`.
 Run from the checkout with Diamond Programmer and its cable driver, or the pinned FOSS tools.
 Containers also need USB access and device permissions; see :doc:`environments`.
+Diamond chain templates are shipped in ``cpld_toolchain/programmer_helper/templates/``; programming does not require ``archive/``.
 S3C and D-slots require different physical UltraZohm access states.
 
 Selection and release

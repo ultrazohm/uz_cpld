@@ -25,11 +25,59 @@ class USBTests(unittest.TestCase):
         self.interface = usb.diamond_interface(self.sysfs)
         self.mock_usb = Mock()
         self.mock_usb.active.return_value = True
+        self.mock_usb.detach.side_effect = lambda: (self.interface.path / 'driver').unlink()
+        self.mock_usb.attach.side_effect = self.restore_driver
         for p in [patch.object(usb, 'diamond_interface', return_value=self.interface),
                   patch.object(usb, 'LibUSB', return_value=self.mock_usb),
                   patch.object(usb.tempfile, 'gettempdir', return_value=str(self.root))]:
             p.start()
             self.addCleanup(p.stop)
+
+    def restore_driver(self):
+        (self.interface.path / 'driver').symlink_to(self.root / 'ftdi_sio', target_is_directory=True)
+
+    def test_loader_already_restored_driver(self):
+        with usb.diamond_usb(1):
+            self.restore_driver()
+        self.mock_usb.attach.assert_not_called()
+        self.mock_usb.close.assert_called_once_with()
+
+    def test_driver_rebind_between_check_and_attach_is_success(self):
+        def rebind():
+            self.restore_driver()
+            raise BuildError('LIBUSB_ERROR_BUSY')
+        self.mock_usb.attach.side_effect = rebind
+        with usb.diamond_usb(1):
+            pass
+        self.mock_usb.close.assert_called_once_with()
+
+    def test_busy_without_restored_driver_is_still_failure(self):
+        self.mock_usb.attach.side_effect = BuildError('LIBUSB_ERROR_BUSY')
+        with self.assertRaisesRegex(BuildError, 'Could not restore'):
+            with usb.diamond_usb(1):
+                pass
+        self.mock_usb.close.assert_called_once_with()
+
+    def test_cleanup_failure_keeps_original_error_in_diagnostic(self):
+        self.mock_usb.attach.side_effect = BuildError('LIBUSB_ERROR_BUSY')
+        with self.assertRaisesRegex(BuildError, 'scan failed.*Could not restore'):
+            with usb.diamond_usb(1):
+                raise BuildError('scan failed; see scan.log')
+
+    def test_unexpected_driver_does_not_count_as_restored(self):
+        self.mock_usb.attach.side_effect = BuildError('LIBUSB_ERROR_BUSY')
+        other = self.root / 'other_driver'
+        other.mkdir()
+        with self.assertRaisesRegex(BuildError, 'Could not restore'):
+            with usb.diamond_usb(1):
+                (self.interface.path / 'driver').symlink_to(other, target_is_directory=True)
+
+    def test_restored_driver_does_not_hide_loader_failure(self):
+        with self.assertRaisesRegex(BuildError, 'scan failed'):
+            with usb.diamond_usb(1):
+                self.restore_driver()
+                raise BuildError('scan failed')
+        self.mock_usb.attach.assert_not_called()
 
     def device(self, name, pid='6011'):
         device = self.sysfs / name

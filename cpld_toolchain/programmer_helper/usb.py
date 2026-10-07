@@ -132,7 +132,7 @@ def _interrupt(signum, frame):
 
 @contextmanager
 def diamond_usb(port: int, *, serial=None):
-    """Restore only the driver we detached, after the Diamond process has exited."""
+    """Restore only the driver we detached, after the programmer has exited."""
     if not sys.platform.startswith('linux'):
         # Windows uses the vendor driver. Serialize access without Linux sysfs.
         lock_path = Path(tempfile.gettempdir()) / 'uz-cpld-diamond-usb.lock'
@@ -162,6 +162,7 @@ def diamond_usb(port: int, *, serial=None):
             raise BuildError(f'{interface.path.name} is owned by {driver}; refusing to detach it')
         old_term = signal.signal(signal.SIGTERM, _interrupt)
         usb, detached = None, False
+        operation_error = None
         try:
             if driver == 'ftdi_sio':
                 usb = LibUSB(interface)
@@ -171,14 +172,24 @@ def diamond_usb(port: int, *, serial=None):
                     print(f'Detached ftdi_sio: {interface.path.name} '
                           f'(serial {interface.serial}, channel {chr(65 + interface.number)})', flush=True)
             yield
+        except BaseException as exc:
+            operation_error = exc
+            raise
         finally:
             try:
                 if detached:
                     try:
-                        usb.attach()
+                        # libftdi/openFPGALoader can restore the driver on close.
+                        # Attaching twice returns BUSY even though cleanup succeeded.
+                        if interface.driver != driver:
+                            usb.attach()
                     except BuildError as exc:
-                        raise BuildError(f'Could not restore ftdi_sio on {interface.path.name}: {exc}. '
-                                         'Reconnect the USB device to restore its driver.') from exc
+                        # Allow a rebind between the check and attach, but never
+                        # hide a busy userspace claim or an unexpected driver.
+                        if interface.driver != driver:
+                            original = f'Programmer operation failed: {operation_error}. ' if operation_error is not None else ''
+                            raise BuildError(original + f'Could not restore ftdi_sio on {interface.path.name}: {exc}. '
+                                             'Reconnect the USB device to restore its driver.') from exc
                     print(f'Restored ftdi_sio: {interface.path.name}', flush=True)
             finally:
                 if usb is not None:

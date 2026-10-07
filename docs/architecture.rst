@@ -105,5 +105,8 @@ Companion libraries, scripts and the patched flasher receipt must accompany any 
 The pinned FOSS build installation and its receipt checks remain separate and unchanged.
 
 This establishes discovery and execution boundaries for future distributions; it does not produce a standalone executable or bundle native tools.
-Repository workflows still require the checkout and existing build provenance.
-Consuming CI firmware independently of a checkout, packaging simulation workers, and producing OS-specific executable distributions remain future work.
+Source builds and local-artifact programming still require the checkout and build provenance.
+ZIP programming and identification use the archive's manifest and identity registry without requiring matching source files or a local catalog.
+For an installed package outside a checkout, the programmer module accepts ``--root`` to select a writable workspace; see :doc:`programmer`.
+The top-level CLI has no workspace override: root discovery prefers the source checkout, then a checkout at or above the current directory, and otherwise falls back to the package's parent directory.
+Packaging simulation workers and producing OS-specific executable distributions remain future work.

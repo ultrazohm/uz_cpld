@@ -208,6 +208,6 @@ and ``release=""``. Existing files are preserved even when options are supplied.
 
 For example, initialize a new file with optional assignments::
 
-   uz_cpld init_programmer --selection custom.toml --release original --s3c s3c_power_on_debounce --dslot-1 rx30
+   uz_cpld init_programmer --selection custom.toml --release original --s3c s3c_power_on_debounce --dslot-1 rx30 --dslot-2 tx30 --dslot-3 tx30 --dslot-4 tx30 --dslot-5 tx30
 
-The other four slots retain ``tx30`` in this example.
+This overrides all template assignments for ``original``; omitted slots would retain ``cvg_tx30`` from ``heartbeat_cvg``.

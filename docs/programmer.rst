@@ -2,7 +2,8 @@ Programmer reference
 ====================
 
 For the build/select/program workflow, see :doc:`user/index`.
-Run from the checkout with Diamond Programmer and its cable driver, or the pinned FOSS tools.
+Use Diamond Programmer and its cable driver, or the verified patched openFPGALoader with its USB dependencies.
+Local-build workflows run from the checkout; release ZIPs also support a separate writable workspace as described below.
 Containers also need USB access and device permissions; see :doc:`environments`.
 Diamond chain templates are shipped in ``cpld_toolchain/programmer_helper/templates/``; programming does not require ``archive/``.
 S3C and D-slots require different physical UltraZohm access states.
@@ -109,6 +110,25 @@ checksum alongside the identification results. No selection file is needed.
 No ZIP is selected or downloaded implicitly.
 ``dry_run=1`` remains a command preview: it does not open or validate the ZIP, extract files, or access hardware.
 
+Installed package outside a checkout
+------------------------------------
+
+The ZIP supplies the firmware and identity registry; a source checkout, local catalog and synthesis tools are unnecessary for this path.
+The Python package and the selected programmer's native dependencies must already be installed.
+Use the programmer module's ``--root`` option to select an existing writable directory for staged firmware, locks and logs::
+
+   python -m cpld_toolchain.programmer_helper.program program --root /path/to/workspace --target s3c --source zip --firmware /path/to/uz-cpld-firmware.zip --release heartbeat_cvg --s3c-program s3c_heartbeat
+
+This module command validates and stages the selected firmware and prints its programming plan without accessing hardware.
+Add ``--execute`` to program and verify Flash.
+Unlike the top-level CLI's ``--dry-run 1``, module planning creates files and validates the firmware.
+Use ``--programmer-backend foss`` to select the patched loader; Diamond Programmer is the default.
+
+The top-level ``uz_cpld`` CLI does not expose ``--root``.
+Without a discoverable checkout, its workspace defaults to the installed package's parent directory, which may be unwritable.
+Use the explicit module command above for a separate programming workspace.
+There is currently no self-contained executable or installer bundling Python and the native programmer.
+
 Backends and probes
 -------------------
 
@@ -175,7 +195,8 @@ Export Diamond projects
    uz_cpld diamond_xcf_programming_chain
    uz_cpld diamond_xcf_programming_chain --selection selection.toml --rebuild 1
 
-XCF export requires Diamond for both backends, all six assignments, and current JEDEC builds.
+XCF export requires Diamond-built firmware, all six assignments, and current JEDEC build evidence.
+Export alone does not launch Diamond; rebuilding requires the full Diamond installation and license.
 ``--rebuild 1`` builds the selected programs before exporting.
 It writes ``dslots.xcf``, ``s3c.xcf`` and ``selection.json`` under ``build/programmer/<release>/`` without contacting hardware.
 XCFs reference absolute firmware paths; regenerate them after moving the checkout or rebuilding firmware.
@@ -198,7 +219,8 @@ Outputs are relative to ``build/programmer/``:
 * FOSS scans: ``scan.log``, replaced by the next scan.
 * Identity reads: ``identification/read-*/``.
 * Diamond programming: ``<release>/<chain>/plans/plan-*/runs/<timestamp>/`` with logs and ``result.json``.
-* FOSS programming: ``<release>/runs/<timestamp>/`` with detection/programming logs and ``result.json``.
+* FOSS programming from local builds: ``<release>/runs/<timestamp>/`` with detection/programming logs and ``result.json``.
+* FOSS programming from a ZIP: ``packages/package-*/runs/<timestamp>/`` with the same logs and result record.
 * XCF export: ``<release>/`` with both XCFs and ``selection.json``.
 
 The internal chain names are ``dslots`` and ``s3c``.
@@ -228,6 +250,6 @@ and ``release=""``. Existing files are preserved even when options are supplied.
 
 For example, initialize a new file with optional assignments::
 
-   uz_cpld init_programmer --selection custom.toml --release original --s3c s3c_power_on_debounce --dslot-1 rx30
+   uz_cpld init_programmer --selection custom.toml --release original --s3c s3c_power_on_debounce --dslot-1 rx30 --dslot-2 tx30 --dslot-3 tx30 --dslot-4 tx30 --dslot-5 tx30
 
-The other four slots retain ``tx30`` in this example.
+This overrides all template assignments for ``original``; omitted slots would retain ``cvg_tx30`` from ``heartbeat_cvg``.

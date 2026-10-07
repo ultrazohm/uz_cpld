@@ -75,7 +75,7 @@ Edit ``selection.toml`` to match your adapters (this example uses TX30 in all fi
 
 ``init_programmer`` preserves an existing file.
 For a new file, optional ``--release NAME``, ``--s3c NAME`` and ``--dslot-1 NAME`` through ``--dslot-5 NAME`` set initial values.
-Omitted assignments retain the template defaults (``tx30`` and ``s3c_power_on_debounce`` from ``original``); edit or override all assignments when using ``heartbeat_cvg``.
+Omitted assignments retain the template defaults (``cvg_tx30`` and ``s3c_heartbeat`` from ``heartbeat_cvg``); edit or override all assignments when using another release.
 An empty ``--release ""`` follows the current release in ``programs/releases.toml``.
 With Make, the equivalent options are ``release=NAME``, ``s3c=NAME`` and ``dslot_1=NAME`` through ``dslot_5=NAME``.
 

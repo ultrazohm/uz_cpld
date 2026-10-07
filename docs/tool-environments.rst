@@ -43,7 +43,8 @@ The Docker column describes execution *inside a running container*; start that c
 
 Native Windows entries describe implemented support.
 Windows CI has been configured, but a successful Windows CI run and real Diamond/USB validation are not established by the Linux regression results.
-Native Windows FOSS, simulation and analysis integrations are outside the current validation scope.
+Native Windows FOSS hardware programming, simulation and analysis integrations are outside the current validation scope.
+The separate FOSS programmer CI job compiles the patched Windows loader and runs native tests without USB; it does not validate drivers or physical programming.
 Tool availability also does not establish hardware equivalence or timing acceptance; the FOSS MachXO2 flow remains experimental.
 See :doc:`windows`, :doc:`foss` and :doc:`validation` for the limits.
 

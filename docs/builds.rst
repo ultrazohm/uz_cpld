@@ -126,7 +126,8 @@ CI invokes the same catalog build command once per release with the Diamond back
 It then archives the selected verified firmware and manifest as ``build/uz-cpld-firmware.zip``.
 Inside the ZIP, paths start with ``<release>/<program>/<target>/``; projects, logs and
 intermediates are excluded. No additional publication directory is created.
-Importing this ZIP without a checkout remains future work.
+Managed programming and identification can consume this ZIP without matching source files or local builds.
+For use outside a checkout, select a writable workspace through the programmer module's ``--root`` option; see :doc:`programmer`.
 
 Documentation HTML and generated documentation assets retain ``docs/_build/`` and ``docs/_generated/``.
 

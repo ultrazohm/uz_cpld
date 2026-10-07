@@ -30,7 +30,7 @@ class ReleaseTests(unittest.TestCase):
             self.assertEqual(main(['--workspace', str(workspace), 'program', '--target', 's3c',
                 '--source', 'zip', '--firmware', self.zip.name, '--release', 'published',
                 '--s3c-program', 'controller', '--programmer-backend', 'foss']), 0)
-        self.assertEqual(execute.call_args.args[0], workspace)
+        self.assertEqual(execute.call_args.args[0], workspace.resolve())
         self.assertTrue(list((workspace / 'build/programmer/packages').glob('package-*/s3c.jed')))
         self.assertFalse((self.root / 'build').exists())
         self.assertFalse((workspace / 'programs').exists())

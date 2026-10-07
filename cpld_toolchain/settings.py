@@ -14,10 +14,16 @@ def user_directory(kind):
     if override:
         return Path(override).expanduser().resolve()
     if sys.platform == 'win32':
-        base = Path(os.environ.get('LOCALAPPDATA', Path.home() / 'AppData/Local'))
+        name, default = 'LOCALAPPDATA', 'AppData/Local'
     else:
         name, default = ('XDG_CONFIG_HOME', '.config') if kind == 'config' else ('XDG_DATA_HOME', '.local/share')
-        base = Path(os.environ.get(name, Path.home() / default))
+    # Do not evaluate the home-directory fallback when an explicit base exists.
+    value = os.environ.get(name)
+    try:
+        base = Path(value) if value else Path.home() / default
+    except RuntimeError as exc:
+        raise BuildError(f'Cannot determine the user {kind} directory; set '
+                         f'UZ_CPLD_{kind.upper()}_DIR or {name}') from exc
     return base / 'uz_cpld'
 
 

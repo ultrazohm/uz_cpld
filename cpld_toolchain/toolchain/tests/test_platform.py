@@ -73,7 +73,8 @@ class WindowsDispatchTests(unittest.TestCase):
                 path.write_bytes(b'fake executable')
                 path.chmod(0o755)
             with patch.object(sys, 'platform', 'win32'), patch.dict(os.environ,
-                    {'DIAMOND_ROOT': str(root), 'PATH': 'original', 'LM_LICENSE_FILE': '27000@server'}, clear=True):
+                    {'DIAMOND_ROOT': str(root), 'PATH': 'original', 'LM_LICENSE_FILE': '27000@server',
+                     'UZ_CPLD_CONFIG_DIR': str(root / 'config')}, clear=True):
                 binary = diamond.executable()
                 self.assertEqual(binary, root / 'bin/nt64/pnmainc.exe')
                 self.assertEqual(diamond.executable('gui').name, 'pnmain.exe')

@@ -21,7 +21,7 @@ class StandaloneTests(unittest.TestCase):
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory(prefix='standalone CLI ')
         self.addCleanup(self.temporary.cleanup)
-        self.root = Path(self.temporary.name)
+        self.root = Path(self.temporary.name).resolve()
         self.config = self.root / 'config'
         self.data = self.root / 'data'
         self.env = patch.dict(os.environ, UZ_CPLD_CONFIG_DIR=str(self.config), UZ_CPLD_DATA_DIR=str(self.data))
@@ -35,6 +35,31 @@ class StandaloneTests(unittest.TestCase):
     def run_cli(self, *args):
         with redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
             return standalone.main(list(args))
+
+    def test_user_directories_use_explicit_bases_without_a_home(self):
+        for platform, kind, variable in (
+            ('win32', 'config', 'LOCALAPPDATA'), ('win32', 'data', 'LOCALAPPDATA'),
+            ('linux', 'config', 'XDG_CONFIG_HOME'), ('linux', 'data', 'XDG_DATA_HOME'),
+        ):
+            with self.subTest(platform=platform, kind=kind), \
+                    patch.object(sys, 'platform', platform), \
+                    patch.dict(os.environ, {variable: str(self.root)}, clear=True), \
+                    patch.object(Path, 'home', side_effect=RuntimeError('No home')):
+                self.assertEqual(settings.user_directory(kind), self.root / 'uz_cpld')
+                os.environ[variable] = ''
+                with self.assertRaisesRegex(BuildError, f'UZ_CPLD_{kind.upper()}_DIR'):
+                    settings.user_directory(kind)
+
+    def test_user_directories_fall_back_to_home(self):
+        for platform, kind, suffix in (
+            ('win32', 'config', 'AppData/Local'), ('win32', 'data', 'AppData/Local'),
+            ('linux', 'config', '.config'), ('linux', 'data', '.local/share'),
+        ):
+            with self.subTest(platform=platform, kind=kind), \
+                    patch.object(sys, 'platform', platform), \
+                    patch.dict(os.environ, {}, clear=True), \
+                    patch.object(Path, 'home', return_value=self.root):
+                self.assertEqual(settings.user_directory(kind), self.root / suffix / 'uz_cpld')
 
     def test_persistent_programmer_and_authoritative_override(self):
         binary = Path(sys.executable).resolve()

@@ -100,6 +100,7 @@ class DoctorTests(unittest.TestCase):
                 patch.object(doctor.platform, 'system', return_value='Windows'), \
                 patch.object(doctor.platform, 'machine', return_value='AMD64'), \
                 patch.dict(os.environ, {'FOSS_ROOT': tmp, 'DIAMOND_ROOT': tmp}, clear=True), \
+                patch.object(Path, 'home', side_effect=RuntimeError('Could not determine home directory.')), \
                 patch.object(doctor, 'package', side_effect=lambda name, module=None: doctor.Finding(name, 'MISSING', 'not installed')), \
                 patch.object(doctor, 'locate', return_value=None), \
                 patch.object(doctor, 'diamond_executable', side_effect=BuildError('no vendor tools')), \

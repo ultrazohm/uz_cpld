@@ -55,10 +55,7 @@ def requirements(action, options):
             if sys.platform != 'win32':
                 external('bash')
         else:
-            if action in ('scan', 'program'):
-                external('openFPGALoader')
-            if action in ('identify', 'program'):
-                external('openocd')
+            external('openFPGALoader')
     if action == 'firmware_download' and not (options.get('git_url') and options.get('branch')):
         external('git')
     if action == 'image':
@@ -82,7 +79,7 @@ def missing(requirement):
             from .toolchain.buildsystem.backends.foss import tool
             tool(name.split(':', 1)[1])
             return None
-        resolver = {'openFPGALoader': tools.loader_path, 'openocd': tools.openocd_path,
+        resolver = {'openFPGALoader': tools.loader_path,
                     'yosys': tools.yosys_path}.get(name)
         candidate = resolver() if resolver else name
         return None if tools.installed(candidate) else f'{requirement.name} ({candidate})'

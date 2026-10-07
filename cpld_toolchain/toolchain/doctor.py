@@ -151,7 +151,7 @@ def report(root, *, backend='diamond', release_cycle=None, target=None):
         vendor.append(Finding('Diamond builds', 'UNAVAILABLE', 'Full Diamond build CLI is missing. Standalone Programmer can program hardware but cannot compile firmware.'))
 
     suite = Path(os.environ.get('FOSS_ROOT', '/opt/oss-cad-suite'))
-    from cpld_toolchain.tools import yosys_path as yosys_executable, loader_path, openocd_path
+    from cpld_toolchain.tools import yosys_path as yosys_executable, loader_path
     specs = [
         ('GHDL', 'ghdl', ['--version']),
         ('Yosys (RTL diagrams)', yosys_executable(), ['-V']),
@@ -161,7 +161,6 @@ def report(root, *, backend='diamond', release_cycle=None, target=None):
         ('nextpnr-machxo2', suite / 'native/nextpnr-machxo2', ['--version']),
         ('Trellis ecppack', suite / 'bin/ecppack', ['--version']),
         ('openFPGALoader', loader_path(), ['--Version']),
-        ('OpenOCD', openocd_path(), ['--version']),
         ('Git', 'git', ['--version']),
         ('Make (optional wrapper)', 'make', ['--version']),
         ('Docker client', 'docker', ['--version']),

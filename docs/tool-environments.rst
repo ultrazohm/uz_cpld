@@ -106,7 +106,7 @@ See :doc:`windows`, :doc:`foss` and :doc:`validation` for the limits.
      - Python dependencies included; vendor tools and USB access remain external
      - Mount Diamond/license and expose USB with permissions
    * - FOSS hardware: ``scan``, ``identify``, ``program`` with ``--programmer-backend foss``
-     - openFPGALoader for scans; OpenOCD for identity; verified patched loader plus identity reader for programming
+     - openFPGALoader for scans; verified patched openFPGALoader for identity and programming
      - Additional native tools and USB setup
      - Outside current validation scope
      - Native tools and USB access not included
@@ -225,6 +225,6 @@ Use ``uz_cpld doctor`` to see located prerequisites; availability is not a licen
 Missing documentation or simulation tools never prevent help, catalog listing or programmer selection initialization.
 ``--dry-run 1`` remains usable without the selected command's tools.
 
-A future distribution can supply openFPGALoader and OpenOCD through the common tool resolver while leaving Diamond as a system installation.
+A future distribution can supply the patched openFPGALoader through the common tool resolver while leaving Diamond as a system installation.
 No external tools are bundled by this change, and the native driver and USB access requirements still apply.
 See :doc:`architecture` for the module boundaries and future packaging limitations.

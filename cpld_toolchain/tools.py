@@ -41,13 +41,6 @@ def loader_path():
         suite / 'native/openfpgaloader/openFPGALoader', suite / 'bin/openFPGALoader'))
 
 
-def openocd_path():
-    suite = Path(os.environ.get('FOSS_ROOT', '/opt/oss-cad-suite'))
-    # Preserve PATH preference for existing OpenOCD installations.
-    return executable('openocd', override='CPLD_OPENOCD', candidates=(
-        shutil.which('openocd') or 'openocd', suite / 'bin/openocd'))
-
-
 def yosys_path():
     suite = Path(os.environ.get('FOSS_ROOT', '/opt/oss-cad-suite'))
     filename = 'yosys.exe' if sys.platform == 'win32' else 'yosys'

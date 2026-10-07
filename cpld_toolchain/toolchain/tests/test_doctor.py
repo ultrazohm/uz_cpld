@@ -106,7 +106,7 @@ class DoctorTests(unittest.TestCase):
                 patch.object(doctor.subprocess, 'run') as run, redirect_stdout(io.StringIO()) as output:
             self.assertEqual(doctor.report(Path(tmp)), 0)
         text = output.getvalue()
-        for name in ('Python:', 'Virtual environment:', 'Diamond build CLI', 'GHDL', 'OpenOCD', 'Docker client', 'Catalog'):
+        for name in ('Python:', 'Virtual environment:', 'Diamond build CLI', 'GHDL', 'openFPGALoader', 'Docker client', 'Catalog'):
             self.assertIn(name, text)
         self.assertIn('MISSING', text)
         self.assertIn('INVALID', text)
@@ -123,8 +123,7 @@ class DoctorTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             result = subprocess.run([sys.executable, '-S', '-m', 'cpld_toolchain.toolchain.doctor', '--root', tmp],
                                     cwd=commands.ROOT, env={**os.environ, 'PATH': '', 'DIAMOND_ROOT': tmp,
-                                                          'FOSS_ROOT': tmp, 'CPLD_OPENFPGALOADER': tmp + '/missing',
-                                                          'CPLD_OPENOCD': tmp + '/missing'},
+                                                          'FOSS_ROOT': tmp, 'CPLD_OPENFPGALOADER': tmp + '/missing'},
                                     text=True, capture_output=True, timeout=20)
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertIn('Environment report', result.stdout)

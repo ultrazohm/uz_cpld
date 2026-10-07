@@ -27,7 +27,7 @@ WINDOWS_TESTS = (
     'cpld_toolchain.toolchain.tests.test_identity.IdentityTests.test_concurrent_same_build_reuses_one_revision',
     'cpld_toolchain.cpld_vhdl_generator.tests.test_generator', 'cpld_toolchain.programmer_helper.tests.test_program',
     'cpld_toolchain.programmer_helper.tests.test_release',
-    'cpld_toolchain.programmer_helper.tests.test_identify', 'cpld_toolchain.programmer_helper.tests.test_helper',
+    'cpld_toolchain.programmer_helper.tests.test_identify', 'cpld_toolchain.programmer_helper.tests.test_foss', 'cpld_toolchain.programmer_helper.tests.test_helper',
 )
 
 

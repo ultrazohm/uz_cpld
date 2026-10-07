@@ -1,4 +1,6 @@
 """Keep physical programming behind explicit execution and Flash verification."""
+from contextlib import nullcontext
+from cpld_toolchain.programmer_helper import foss
 from pathlib import Path
 import tempfile
 from types import SimpleNamespace
@@ -155,7 +157,8 @@ class ProgramTests(unittest.TestCase):
 
     def test_foss_scan_reports_unexpected_id_without_programming(self):
         output = 'index 0:\n  idcode 0x12345678\n'
-        with patch.object(program, 'require_usb_bus'), patch.object(program, 'run_command', return_value=output):
+        with patch.object(program, 'require_usb_bus'), patch.object(foss, 'run', return_value=output), \
+                patch.object(program, 'diamond_usb', return_value=nullcontext()):
             self.assertEqual(program.main(['scan', '--target', 's3c', '--programmer-backend', 'foss', '--execute']), 0)
 
     def test_foss_targets_use_same_ft4232_channel_and_first_probe(self):
@@ -169,7 +172,7 @@ class ProgramTests(unittest.TestCase):
         self.assertEqual(program.cable_args('dslots', 'ft2232', None, 2),
                          ['--cable', 'ft2232', '--freq', '1000000', '--cable-index', '2'])
         self.assertEqual(program.cable_args('dslots', None, 'probe123', None)[-2:],
-                         ['--usb-serial-num', 'probe123'])
+                         ['--ftdi-serial', 'probe123'])
 
 
 if __name__ == '__main__':

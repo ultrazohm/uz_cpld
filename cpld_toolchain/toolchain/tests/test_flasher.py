@@ -42,7 +42,7 @@ class FlasherTests(unittest.TestCase):
             run.assert_not_called()
 
     def test_tracked_patch_matches_pin(self):
-        self.assertEqual(flasher.pin()['capability'], 'v1.1.1-uz-usercode1')
+        self.assertEqual(flasher.pin()['capability'], 'v1.1.1-uz-programmer2')
 
     def test_binary_and_pin_must_match_receipt(self):
         with tempfile.TemporaryDirectory() as directory:

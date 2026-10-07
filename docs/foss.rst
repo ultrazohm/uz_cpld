@@ -158,7 +158,7 @@ Programming and CI
 ------------------
 
 Firmware builds do not access a device or select a cable, JTAG chain or programming mode.
-Managed FOSS programming uses the patched loader to write and verify USERCODE and then checks device identities using OpenOCD.
+Managed FOSS programming uses the patched loader for the complete operation: identity reads, flash writes, verification, and Flash/SRAM USERCODE readback. OpenOCD is not a runtime dependency.
 The stock loader remains usable for scans but is rejected by managed flash programming; see :doc:`programmer`.
 The CI workflow builds catalog programs that support ``backend=foss`` and retains their artifacts alongside simulation and documentation diagnostics.
 GitHub Pages publishes documentation after successful checks; firmware is retained as a workflow artifact rather than published to Pages.

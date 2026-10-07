@@ -1,7 +1,7 @@
 """Plan and explicitly execute CPLD programming from a container or native host."""
 from cpld_toolchain import repository_root
 import argparse
-from contextlib import ExitStack
+from contextlib import ExitStack, nullcontext
 from dataclasses import dataclass
 from datetime import datetime, timezone
 import json
@@ -121,7 +121,7 @@ def cable_args(chain: str, cable: str | None, serial: str | None,
     # interfaces of one FTDI chip and must be checked separately.
     args = ['--cable', cable or DEFAULT_FOSS_CABLE, '--freq', '1000000']
     if serial:
-        args += ['--usb-serial-num', serial]
+        args += ['--ftdi-serial', serial]
     else:
         args += ['--cable-index', str(probe_index if probe_index is not None else
                                       DEFAULT_FOSS_PROBE_INDEX)]
@@ -390,7 +390,6 @@ def execute(root: Path, cycle: str, chain: str, programmer_backend: str, output:
             current[label] = firmware_input(build, extension)
             identities[label] = firmware_identity(build, validate=True)
         if programmer_backend == 'foss':
-            from cpld_toolchain.toolchain.foss.flasher import check_file
             if [(step.label, step.build) for step in steps] != [(label, build) for label, _, build in builds]:
                 raise BuildError('FOSS plan does not match the requested selection')
             for step, (label, index, build) in zip(steps, builds):
@@ -401,7 +400,6 @@ def execute(root: Path, cycle: str, chain: str, programmer_backend: str, output:
                             '--usercode', identities[label]['usercode'], str(current[label][0]))
                 if step.command != expected or (step.artifact, step.sha256) != current[label]:
                     raise BuildError('FOSS plan command or firmware does not match its registered identity')
-                check_file(loader_path(), step.artifact, identities[label]['usercode'])
         if programmer_backend == 'diamond':
             if len(steps) != 1:
                 raise BuildError('Diamond programming requires exactly one chain plan')
@@ -421,10 +419,11 @@ def execute(root: Path, cycle: str, chain: str, programmer_backend: str, output:
         write_json(run_dir / 'result.json', record)
         try:
             if programmer_backend == 'foss':
-                scan = scan_command(chain, cable, serial, probe_index)
-                scan_output = run_command(scan, run_dir / 'detect.log')
-                record['detected_chain'] = check_chain(chain, scan_output)
-                write_json(run_dir / 'result.json', record)
+                from .foss import execute as execute_foss
+                execute_foss(root, chain, builds, steps, identities, run_dir, record,
+                             cable, serial, probe_index, package)
+                record['status'] = 'success'
+                return run_dir
             for step in steps:
                 log = run_dir / f'{step.label}.log'
                 command = (step.command[:-1] + (str(run_dir / f'{step.label}-pgrcmd.log'),)
@@ -527,10 +526,11 @@ def main(argv=None) -> int:
         if args.programmer_backend == 'diamond' and (args.cable or args.usb_serial):
             raise BuildError('Diamond uses the USB2 cable; select its port with --probe-index')
         if args.action == 'identify':
-            from .identify import identify, script, DIAMOND_READS
+            from .identify import identify, DIAMOND_READS
             if not args.execute:
                 if args.programmer_backend == 'foss':
-                    print(script(args.chain, args.usb_serial))
+                    from .foss import identity_command
+                    print(shlex.join(identity_command(loader_path(), args.chain, args.cable, args.usb_serial, args.probe_index)))
                 else:
                     port = DEFAULT_DIAMOND_PORT if args.probe_index is None else args.probe_index
                     print(f'Diamond identify: {args.chain} on FTUSB-{port}')
@@ -548,7 +548,12 @@ def main(argv=None) -> int:
                     return 0
                 if not args.cable or args.cable.startswith(('ft2232', 'ft4232')):
                     require_usb_bus()
-                output = run_command(command, args.root.resolve() / 'build/programmer/scan.log')
+                from .foss import run
+                guard = (diamond_usb(DEFAULT_DIAMOND_PORT, serial=args.usb_serial)
+                         if args.cable in (None, DEFAULT_FOSS_CABLE) and args.probe_index in (None, 0)
+                         else nullcontext())
+                with guard:
+                    output = run(command, args.root.resolve() / 'build/programmer/scan.log')
                 print('Detected:', parse_scan(output))
             else:
                 port = args.probe_index if args.probe_index is not None else DEFAULT_DIAMOND_PORT

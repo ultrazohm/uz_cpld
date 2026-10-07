@@ -134,7 +134,7 @@ Selection files do not select backends.
 
 Diamond cannot program FOSS exports.
 Missing tools never cause an automatic backend change.
-FOSS identity reads use OpenOCD; managed FOSS programming requires the verified USERCODE-capable loader, supplied in the image or built with ``flasher_build``.
+FOSS identity reads and managed FOSS programming require the verified identity/USERCODE-capable loader, supplied in the image or built with ``flasher_build``.
 See :doc:`firmware-identity` for installation and identity checks.
 
 Both chains use FT4232 channel B.

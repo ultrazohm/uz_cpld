@@ -7,6 +7,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import tempfile
+import sys
 
 BASE = Path(__file__).resolve().parent
 # Also runs as a standalone Docker build script under /tmp/foss-setup.
@@ -100,9 +101,10 @@ def build(output, jobs=2, archive=None):
             raise ValueError('openFPGALoader source checksum mismatch')
         subprocess.run(['tar', '-xzf', str(archive), '--strip-components=1', '--no-same-owner', '-C', str(source)], check=True)
         subprocess.run(['patch', '-p1', '--batch', '--forward', '-i', str(BASE / 'openfpgaloader-usercode.patch')], cwd=source, check=True)
-        subprocess.run(['c++', '-std=c++11', '-I', str(source / 'src'), str(BASE / 'tests/usercode.cpp'),
-                        '-o', str(work / 'usercode-test')], check=True)
-        subprocess.run([str(work / 'usercode-test')], check=True)
+        for test in ('usercode', 'identity'):
+            subprocess.run(['c++', '-std=c++11', '-I', str(source / 'src'), str(BASE / f'tests/{test}.cpp'),
+                            '-o', str(work / f'{test}-test')], check=True)
+            subprocess.run([str(work / f'{test}-test')], check=True)
         build_dir = work / 'build'
         subprocess.run(['cmake', '-S', str(source), '-B', str(build_dir), '-DENABLE_CABLE_ALL=OFF',
                         '-DENABLE_FTDI_BASED_CABLE=ON', '-DENABLE_VENDORS_ALL=OFF',
@@ -112,6 +114,7 @@ def build(output, jobs=2, archive=None):
         version = subprocess.check_output([str(binary), '--Version'], text=True)
         if data['capability'] not in version:
             raise ValueError('Compiled flasher does not report the required capability version')
+        subprocess.run([sys.executable, str(BASE / 'tests/native.py'), str(binary)], check=True)
         # Readers reject a replaced binary until its matching receipt is installed.
         publish(binary, source / 'LICENSE', output, data)
     print(output / 'openFPGALoader')

@@ -1,4 +1,6 @@
 """Release packages program through the shared executor without local builds."""
+from cpld_toolchain.programmer_helper import foss
+from cpld_toolchain.programmer_helper.tests.foss_fixture import loader_output
 from contextlib import nullcontext, redirect_stdout
 import copy
 import hashlib
@@ -61,10 +63,10 @@ class ReleaseTests(unittest.TestCase):
         self.assertEqual(path.read_bytes(), original)
 
     def test_foss_identify_needs_no_local_registry(self):
-        raw = 'UZ_IDENTITY 0 012BC043 00010001 0100000000000001'
-        with patch.object(identify, 'preflight'), patch.object(identify, 'openocd_path', return_value='openocd'), \
-                patch.object(identify, 'diamond_usb', return_value=nullcontext()), \
-                patch.object(program, 'run_command', return_value=raw), redirect_stdout(io.StringIO()):
+        raw = 'UZ_IDENTITY_V1 0 012BC043 00010001 00010001 0100000000000001\nUZ_IDENTITY_END_V1 1'
+        with patch.object(identify, 'preflight'), patch.object(foss.flasher, 'verify', return_value={}), \
+                patch.object(foss, 'diamond_usb', return_value=nullcontext()), \
+                patch.object(foss, 'run', return_value=raw), redirect_stdout(io.StringIO()):
             devices = identify.identify(self.root, 's3c', 'foss', firmware=self.zip)
         self.assertEqual(devices[0]['identity']['program'], 'published/controller')
         self.assertFalse((self.root / 'programs/usercodes.json').exists())
@@ -148,7 +150,9 @@ class ReleaseTests(unittest.TestCase):
         with patch.object(program, 'loader_path', return_value=Path(__file__)), \
                 patch('cpld_toolchain.programmer_helper.identify.programming_preflight', return_value=None), \
                 patch('cpld_toolchain.toolchain.foss.flasher.check_file') as check, \
-                patch.object(program, 'run_command', return_value=scan) as run, \
+                patch.object(foss.flasher, 'verify', return_value={}), \
+                patch.object(foss, 'diamond_usb', return_value=nullcontext()), \
+                patch.object(foss, 'run', side_effect=lambda *a, **k: loader_output(*a, **k).replace('00010001', '00000000') if mismatch else loader_output(*a, **k)) as run, \
                 patch.object(program, 'run_diamond', return_value='success') as diamond, \
                 patch.object(identify, 'identify', side_effect=readback):
             directory = program.execute(self.root, cycle, chain, backend, output, builds, steps, None, None)
@@ -164,7 +168,7 @@ class ReleaseTests(unittest.TestCase):
                     self.assertEqual(len(builds), count)
                     directory, checks, runs, diamonds = self.execute(planned, backend, chain)
                     self.assertEqual((checks, runs, diamonds),
-                                     (count, count + 1, 0) if backend == 'foss' else (0, 0, 1))
+                                     (count, count + 2, 0) if backend == 'foss' else (0, 0, 1))
                     record = json.loads((directory / 'result.json').read_text())
                     self.assertEqual(record['status'], 'success')
                     self.assertEqual(record['source'], 'zip')
@@ -297,7 +301,7 @@ class ReleaseTests(unittest.TestCase):
     def test_readback_mismatch_marks_run_failed(self):
         with patch.object(program, 'loader_path', return_value=Path(__file__)):
             planned = self.plan()
-            with self.assertRaisesRegex(BuildError, 'readback USERCODE'):
+            with self.assertRaisesRegex(BuildError, 'Flash USERCODE'):
                 self.execute(planned, mismatch=True)
         record = json.loads(next((planned[1] / 'runs').glob('*/result.json')).read_text())
         self.assertEqual(record['status'], 'failed')

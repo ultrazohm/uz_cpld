@@ -1,4 +1,7 @@
 """Check chain selection, release isolation, and stale firmware refusal."""
+from cpld_toolchain.programmer_helper import foss
+from cpld_toolchain.programmer_helper.tests.foss_fixture import loader_output
+from contextlib import nullcontext
 import json
 from pathlib import Path
 import shutil
@@ -142,6 +145,11 @@ class ProgrammerHelperTests(unittest.TestCase):
         self.addCleanup(reader.stop)
         # These orchestration fixtures contain synthetic firmware; real parser
         # and binary provenance checks have separate integration regressions.
+        for target, options in (("cpld_toolchain.programmer_helper.foss.flasher.verify", {'return_value': {}}),
+                                ("cpld_toolchain.programmer_helper.foss.diamond_usb", {'return_value': nullcontext()})):
+            mock = patch(target, **options)
+            mock.start()
+            self.addCleanup(mock.stop)
         checker = patch('cpld_toolchain.toolchain.foss.flasher.check_file')
         checker.start()
         self.addCleanup(checker.stop)
@@ -296,14 +304,14 @@ class ProgrammerHelperTests(unittest.TestCase):
                     self.publish('old', 'tx30', backend)
                 selection = self.write_backend_selection(backend)
                 with patch.object(programmer, 'loader_path', return_value=Path(__file__)), \
-                        patch.object(programmer, 'run_command', return_value=scan) as run:
+                        patch.object(foss, 'run', side_effect=loader_output) as run:
                     cycle, output, builds, steps = plan(self.root, selection, None, 'dslots', 'foss', None, None, build_backend=backend)
                     result = programmer.execute(self.root, cycle, 'dslots', 'foss', output,
                                                 builds, steps, None, None)
-                self.assertEqual(run.call_count, 6)
-                self.assertIn('--detect', run.call_args_list[0].args[0])
-                self.assertEqual([call.args[0] for call in run.call_args_list[1:]],
-                                 [step.command for step in steps])
+                self.assertEqual(run.call_count, 7)
+                self.assertIn('--read-identity', run.call_args_list[0].args[0])
+                self.assertEqual([call.args[0][1:-5] for call in run.call_args_list[1:-1]],
+                                 [step.command[1:-1] for step in steps])
                 receipt = json.loads((result / 'result.json').read_text())
                 self.assertEqual(receipt['status'], 'success')
                 self.assertEqual(receipt['programmer_backend'], 'foss')
@@ -317,8 +325,7 @@ class ProgrammerHelperTests(unittest.TestCase):
             with self.subTest(build=build_backend, programmer=programmer_backend):
                 selection = self.write_backend_selection(build_backend, 's3c')
                 with patch.object(programmer, 'loader_path', return_value=Path(__file__)), \
-                        patch.object(programmer, 'run_command',
-                                     return_value='index 0:\n  idcode 0x012bc043\n') as run, \
+                        patch.object(foss, 'run', side_effect=loader_output) as run, \
                         patch.object(programmer, 'run_diamond', return_value='success') as diamond:
                     self.assertEqual(programmer.main([
                         'program', '--root', str(self.root), '--selection', str(selection),
@@ -329,8 +336,8 @@ class ProgrammerHelperTests(unittest.TestCase):
                     run.assert_not_called()
                 else:
                     diamond.assert_not_called()
-                    self.assertEqual(run.call_count, 2)
-                    self.assertIn('--detect', run.call_args_list[0].args[0])
+                    self.assertEqual(run.call_count, 3)
+                    self.assertIn('--read-identity', run.call_args_list[0].args[0])
                     self.assertIn('--write-flash', run.call_args_list[1].args[0])
                     self.assertIn('--verify', run.call_args_list[1].args[0])
 

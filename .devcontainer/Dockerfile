@@ -45,7 +45,7 @@ RUN python3 /tmp/foss-setup/build_nextpnr.py --suite /opt/oss-cad-suite --jobs $
 
 FROM foss-build-base AS flasher-builder
 COPY cpld_toolchain/toolchain/foss/flasher.py cpld_toolchain/toolchain/foss/openfpgaloader.json cpld_toolchain/toolchain/foss/openfpgaloader-usercode.patch /tmp/foss-setup/
-COPY cpld_toolchain/toolchain/foss/tests/usercode.cpp /tmp/foss-setup/tests/
+COPY cpld_toolchain/toolchain/foss/tests/ /tmp/foss-setup/tests/
 ARG FOSS_BUILD_JOBS=2
 RUN python3 /tmp/foss-setup/flasher.py --output /opt/openfpgaloader --jobs ${FOSS_BUILD_JOBS}
 
@@ -56,8 +56,7 @@ RUN /opt/oss-cad-suite/bin/yosys -V \
     && /opt/oss-cad-suite/native/nextpnr-machxo2 --version \
     && /opt/oss-cad-suite/bin/ecppack --version \
     && /opt/oss-cad-suite/bin/openFPGALoader --Version \
-    && /opt/oss-cad-suite/native/openfpgaloader/openFPGALoader --Version \
-    && /opt/oss-cad-suite/bin/openocd --version
+    && /opt/oss-cad-suite/native/openfpgaloader/openFPGALoader --Version
 
 FROM ${TOOLCHAIN_BASE} AS toolchain
 ARG DEBIAN_FRONTEND=noninteractive

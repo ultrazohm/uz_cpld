@@ -118,7 +118,7 @@ CLI programming creates its own project, so this export is optional.
 Diamond firmware uses ``.jed`` files; FOSS firmware uses ``.bit`` files.
 ``--backend foss`` selects FOSS for builds and programming where the program supports it.
 To program Diamond firmware using FOSS tools, use ``--programmer-backend foss``.
-FOSS programming requires the repository's patched openFPGALoader and OpenOCD; see :doc:`../firmware-identity`.
+FOSS programming requires the repository's patched openFPGALoader; see :doc:`../firmware-identity`.
 
 Simulation and successful exports do not establish board timing or hardware qualification.
 See :doc:`../s3c` for controller compatibility and :doc:`../validation` for verification limits.

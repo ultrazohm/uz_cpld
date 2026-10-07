@@ -62,9 +62,9 @@ class CapabilityTests(unittest.TestCase):
         self.assertIn('programmer', [r.value for r in diamond])
         self.assertNotIn('cli', [r.value for r in diamond])
         foss = capabilities.requirements('program', {'programmer_backend': 'foss'})
-        self.assertEqual({r.value for r in foss}, {'openFPGALoader', 'openocd'})
+        self.assertEqual({r.value for r in foss}, {'openFPGALoader'})
         self.assertEqual({r.value for r in capabilities.requirements('scan', {'backend': 'foss'})}, {'openFPGALoader'})
-        self.assertEqual({r.value for r in capabilities.requirements('identify', {'backend': 'foss'})}, {'openocd'})
+        self.assertEqual({r.value for r in capabilities.requirements('identify', {'backend': 'foss'})}, {'openFPGALoader'})
         self.assertEqual(capabilities.requirements('diamond_xcf_programming_chain', {}), ())
         self.assertEqual({r.value for r in capabilities.requirements('project', {})}, {'cli'})
         self.assertEqual({r.value for r in capabilities.requirements('gui', {})}, {'cli', 'gui'})
@@ -125,14 +125,14 @@ class ToolDiscoveryTests(unittest.TestCase):
     def test_bundled_tools_win_over_system_tools_and_find_windows_exe(self):
         with tempfile.TemporaryDirectory() as tmp:
             base = Path(tmp)
-            filename = 'openocd.exe' if sys.platform == 'win32' else 'openocd'
+            filename = 'testtool.exe' if sys.platform == 'win32' else 'testtool'
             system = self.binary(base / 'system' / filename)
             bundled = self.binary(base / 'bundle' / filename)
             with patch.dict(os.environ, {'PATH': str(system.parent), 'PATHEXT': '.EXE',
                                         'CPLD_BUNDLED_TOOLS': str(bundled.parent)}, clear=True):
-                self.assertEqual(tools.openocd_path(), bundled)
+                self.assertEqual(tools.executable('testtool'), bundled)
                 bundled.unlink()
-                self.assertEqual(tools.openocd_path(), system)
-                windows = self.binary(base / 'bundle/openocd.exe')
+                self.assertEqual(tools.executable('testtool'), system)
+                windows = self.binary(base / 'bundle/testtool.exe')
                 with patch.object(sys, 'platform', 'win32'):
-                    self.assertEqual(tools.openocd_path(), windows)
+                    self.assertEqual(tools.executable('testtool'), windows)

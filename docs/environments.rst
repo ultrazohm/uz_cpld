@@ -284,7 +284,7 @@ Without an interactive terminal, setup prints the activation command.
 
 All Python packages for simulation, analysis and documentation are included.
 Diamond, licenses, USB drivers, GHDL, Yosys, Graphviz and other native tools must be installed separately.
-FOSS hardware programming requires the patched openFPGALoader and OpenOCD described in :doc:`firmware-identity`.
+FOSS hardware programming requires the patched openFPGALoader described in :doc:`firmware-identity`.
 
 The container builds its Python environment with the same uv release and ``uv sync --locked --all-groups --managed-python``.
 Its environment lives at ``/opt/uz-cpld-env`` and is already on PATH, independently of any host ``.venv`` mounted with the checkout.

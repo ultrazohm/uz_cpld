@@ -8,16 +8,10 @@ import xml.etree.ElementTree as ET
 
 from cpld_toolchain.toolchain.buildsystem.identity import resolve_usercode
 from cpld_toolchain.toolchain.buildsystem.model import BuildError
-from cpld_toolchain.toolchain.buildsystem.backends.diamond import tcl
 from cpld_toolchain.toolchain.buildsystem.workflow import workspace_lock, write_json
 from .helper import DEFAULT_DIAMOND_PORT
 from .usb import diamond_usb
 from .diamond import command as diamond_command, environment as diamond_environment
-
-
-def openocd_path():
-    from cpld_toolchain.tools import openocd_path as locate
-    return locate()
 
 
 def preflight(backend, cable=None, serial=None, probe_index=None):
@@ -33,8 +27,12 @@ def preflight(backend, cable=None, serial=None, probe_index=None):
         if cable is not None or serial is not None:
             raise BuildError('Diamond uses the USB2 cable; select its port with --probe-index')
         return
-    if not openocd_path().is_file():
-        raise BuildError(f'Identity readback requires OpenOCD: {openocd_path()}; set CPLD_OPENOCD')
+    from cpld_toolchain.toolchain.foss.flasher import verify
+    from .program import loader_path
+    try:
+        verify(loader_path())
+    except ValueError as exc:
+        raise BuildError(str(exc)) from exc
 
 
 def programming_preflight(backend, cable=None, serial=None, probe_index=None):
@@ -48,31 +46,6 @@ def programming_preflight(backend, cable=None, serial=None, probe_index=None):
             raise BuildError(str(exc)) from exc
     preflight(backend, cable, serial, probe_index)
     return record
-
-
-def script(chain, serial=None):
-    if chain not in ('dslots', 's3c'):
-        raise BuildError('Choose the dslots or s3c chain')
-    count, expected = (5, 0x012BB043) if chain == 'dslots' else (1, 0x012BC043)
-    lines = ['adapter driver ftdi', 'ftdi vid_pid 0x0403 0x6011', 'ftdi channel 1',
-             'ftdi layout_init 0x0008 0x000b', 'transport select jtag',
-             'adapter speed 1000', 'reset_config none',
-             'gdb_port disabled', 'tcl_port disabled', 'telnet_port disabled']
-    if serial:
-        lines.append(f'adapter serial {tcl(serial)}')
-    for index in range(count):
-        lines.append(f'jtag newtap cpld{index} tap -irlen 8 -ircapture 0x01 -irmask 0x03 -expected-id 0x{expected:08x}')
-    lines += ['init', 'jtag arp_init',
-              f'if {{[llength [jtag names]] != {count}}} {{error "Unexpected JTAG chain length"}}']
-    for index in range(count):
-        tap = f'cpld{index}.tap'
-        lines += [f'irscan {tap} 0xe0', f'set id [drscan {tap} 32 0]',
-                  f'if {{[expr 0x$id] != {expected}}} {{error "Unexpected device at position {index}"}}',
-                  f'irscan {tap} 0xc0', f'set user [drscan {tap} 32 0]',
-                  f'irscan {tap} 0x19', f'set trace [drscan {tap} 32 0 32 0]',
-                  f'puts "UZ_IDENTITY {index} $id $user [lindex $trace 1][lindex $trace 0]"', f'irscan {tap} 0xff']
-    # Turn any chain/read error into a nonzero process result.
-    return 'if {[catch {\n' + '\n'.join(lines) + '\n} message]} {\nputs stderr $message\nshutdown error\n}\nshutdown\n'
 
 
 # Transparent USERCODE access avoids FLASH Display USERCODE's SRAM erase.
@@ -162,7 +135,6 @@ def parse(root, chain, output, *, registry=None):
 
 
 def identify(root, chain, backend='diamond', cable=None, serial=None, probe_index=None, *, output=None, registry=None, firmware=None):
-    from .program import run_command
     manifest = None
     evidence = {}
     if firmware is not None:
@@ -187,13 +159,11 @@ def identify(root, chain, backend='diamond', cable=None, serial=None, probe_inde
             write_json(directory / 'manifest.json', manifest)
         if backend == 'diamond':
             raw = diamond_read(root, chain, directory, probe_index)
+            devices = parse(root, chain, raw, registry=registry)
         else:
-            config = directory / 'identify.cfg'
-            config.write_text(script(chain, serial))
-            command = (str(openocd_path()), '-f', str(config))
-            with diamond_usb(DEFAULT_DIAMOND_PORT, serial=serial):
-                raw = run_command(command, directory / 'identify.log')
-        devices = parse(root, chain, raw, registry=registry)
+            from .foss import session
+            with session(chain, cable, serial, probe_index) as active:
+                devices = active.read(root, directory, registry)
         write_json(directory / 'identity.json', {**evidence, 'chain': chain, 'programmer_backend': backend, 'devices': devices,
                    'read_at': datetime.now(timezone.utc).isoformat()})
         for device in devices:

@@ -94,10 +94,10 @@ Lazy imports isolate commands and reduce startup work; they do not define separa
 ``doctor`` reports located command prerequisites without claiming that licenses, tool versions, drivers or hardware have passed validation.
 Missing dependencies affect only commands that need them, and the requested backend is never changed automatically.
 Diamond build tools and Diamond Programmer are independent requirements.
-FOSS programming requires both the patched openFPGALoader and OpenOCD for identity readback.
+FOSS programming requires the patched openFPGALoader for programming and identity readback.
 
 ``tools.py`` resolves programmer executables and the RTL Yosys executable without importing workflows.
-An explicit ``CPLD_OPENFPGALOADER`` or ``CPLD_OPENOCD`` takes priority and does not silently fall back if invalid.
+An explicit ``CPLD_OPENFPGALOADER`` takes priority and does not silently fall back if invalid.
 Then the resolver checks packaged tool resources, existing tool installation locations and PATH.
 The packaged resource directory defaults to ``cpld_toolchain/bundled_tools`` and may be supplied with ``CPLD_BUNDLED_TOOLS``.
 It accepts executables directly in that directory or under a tool-named subdirectory, including Windows ``.exe`` names.

@@ -2,14 +2,12 @@
 from contextlib import nullcontext, redirect_stdout
 import io
 import json
-import shutil
-import subprocess
 from pathlib import Path
 import tempfile
 import unittest
 from unittest.mock import patch
 
-from cpld_toolchain.programmer_helper import identify, program
+from cpld_toolchain.programmer_helper import identify, program, foss
 from cpld_toolchain.toolchain.buildsystem.identity import reserve_program
 from cpld_toolchain.toolchain.buildsystem.model import BuildError
 
@@ -22,59 +20,6 @@ class IdentifyTests(unittest.TestCase):
         (self.root / 'programs').mkdir()
         (self.root / 'programs/usercodes.json').write_text('{"schema_version":1,"next_program":1,"programs":{}}')
         reserve_program(self.root, 'example', 'original')
-
-    def test_script_only_reads_registers_and_leaves_bypass(self):
-        text = identify.script('dslots', 'serial $x [exec nope]')
-        self.assertEqual(text.count('jtag newtap '), 5)
-        for index in range(5):
-            for instruction in ('0xe0', '0xc0', '0x19', '0xff'):
-                self.assertIn(f'irscan cpld{index}.tap {instruction}', text)
-        self.assertNotIn('0xc2', text)
-        self.assertNotIn('reset run', text)
-        self.assertIn(r'\$x \[exec nope\]', text)
-        self.assertIn('shutdown error', text)
-
-    @unittest.skipUnless(shutil.which('tclsh') or identify.openocd_path().is_file(), 'Tcl interpreter required')
-    def test_tcl_script_combines_trace_halves_and_checks_every_position(self):
-        stubs = r'''proc adapter {args} {}
-proc ftdi {args} {}
-proc transport {args} {}
-proc reset_config {args} {}
-proc gdb_port {args} {}
-proc tcl_port {args} {}
-proc telnet_port {args} {}
-proc init {} {}
-proc shutdown {args} {if {[llength $args]} {exit 1}}
-set taps {}
-proc jtag {command args} {
-    global taps
-    if {$command eq "newtap"} {lappend taps "[lindex $args 0].[lindex $args 1]"}
-    if {$command eq "names"} {return $taps}
-}
-proc irscan {tap instruction} {global active; set active $instruction}
-proc drscan {tap args} {
-    global active
-    if {$active eq "0xe0"} {return 012bb043}
-    if {$active eq "0xc0"} {return 00010001}
-    if {$active eq "0x19" && $args eq "32 0 32 0"} {return {89abcdef 12012345}}
-    error "Unexpected JTAG operation"
-}
-'''
-        if shutil.which('tclsh'):
-            result = subprocess.run(['tclsh'], input=stubs + identify.script('dslots'),
-                                    text=True, capture_output=True, timeout=10)
-        else:
-            config = self.root / 'mock-jtag.cfg'
-            stubs = 'rename shutdown real_shutdown\n' + stubs.replace(
-                'proc shutdown {args} {if {[llength $args]} {exit 1}}',
-                'proc shutdown {args} {real_shutdown {*}$args}')
-            config.write_text(stubs + identify.script('dslots'))
-            result = subprocess.run([str(identify.openocd_path()), '-f', str(config)],
-                                    text=True, capture_output=True, timeout=10)
-        self.assertEqual(result.returncode, 0, result.stderr)
-        devices = identify.parse(self.root, 'dslots', result.stdout + result.stderr)
-        self.assertEqual(len(devices), 5)
-        self.assertEqual(devices[0]['traceid'], '1201234589ABCDEF')
 
     def test_parser_records_raw_identity_and_unknown_firmware(self):
         raw = 'UZ_IDENTITY 0 012bc043 00010001 120123456789abcd\n'
@@ -89,10 +34,10 @@ proc drscan {tap args} {
                 identify.parse(self.root, 's3c', invalid)
 
     def test_readback_writes_receipt_and_uses_interface_lock(self):
-        raw = 'UZ_IDENTITY 0 012bc043 00010001 120123456789abcd\n'
-        with patch.object(identify, 'preflight'), \
-                patch.object(identify, 'diamond_usb', return_value=nullcontext()) as usb, \
-                patch.object(program, 'run_command', return_value=raw) as run:
+        raw = 'UZ_IDENTITY_V1 0 012bc043 00010001 00010001 120123456789abcd\nUZ_IDENTITY_END_V1 1\n'
+        with patch.object(identify, 'preflight'), patch.object(foss.flasher, 'verify', return_value={}), \
+                patch.object(foss, 'diamond_usb', return_value=nullcontext()) as usb, \
+                patch.object(foss, 'run', return_value=raw) as run:
             devices = identify.identify(self.root, 's3c', backend='foss')
         usb.assert_called_once_with(1, serial=None)
         run.assert_called_once()
@@ -107,9 +52,9 @@ proc drscan {tap args} {
         self.assertIn('XFLASH Display USERCODE', output.getvalue())
         self.assertNotIn('irscan', output.getvalue())
 
-    def test_diamond_never_requires_or_invokes_openocd(self):
+    def test_diamond_never_requires_or_invokes_foss(self):
         raw = 'UZ_IDENTITY 0 012bc043 00010001 120123456789abcd\n'
-        with patch.object(identify, 'openocd_path', side_effect=AssertionError('FOSS tool')), \
+        with patch.object(foss, 'session', side_effect=AssertionError('FOSS tool')), \
                 patch.object(identify, 'diamond_read', return_value=raw) as read:
             identify.programming_preflight('diamond')
             devices = identify.identify(self.root, 's3c')
@@ -129,7 +74,7 @@ proc drscan {tap args} {
             return text  # Deliberately duplicated on stdout, as pgrcmd does.
         with patch.object(identify, 'diamond_usb', return_value=nullcontext()) as usb, \
                 patch.object(program, 'run_command', side_effect=run) as command, \
-                patch.object(identify, 'openocd_path', side_effect=AssertionError('FOSS tool')):
+                patch.object(foss, 'session', side_effect=AssertionError('FOSS tool')):
             raw = identify.diamond_read(root, 'dslots', self.root, None)
         usb.assert_called_once_with(1)
         self.assertEqual(command.call_count, 3)
@@ -170,7 +115,7 @@ proc drscan {tap args} {
         for flag in ('--programmer-backend',):
             with redirect_stdout(io.StringIO()) as output:
                 program.main(['identify', flag, 'foss'])
-            self.assertIn('irscan', output.getvalue())
+            self.assertIn('--read-identity', output.getvalue())
 
     def test_unsupported_probe_is_rejected_before_hardware(self):
         for backend, index in (('diamond', 0), ('foss', 1)):

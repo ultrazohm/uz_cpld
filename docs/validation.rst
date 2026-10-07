@@ -41,3 +41,9 @@ The 18 combinational D-slot programs in ``original`` use combinational equivalen
 ``make report backend=foss`` or ``make report backend=diamond`` checks existing build evidence for stale inputs and outputs without rebuilding.
 Neither command establishes hardware behavior or a timing acceptance limit.
 The authored LPFs contain no timing budget, so inspect the reports and board-specific electrical settings before using firmware on hardware.
+
+Recorded hardware test
+----------------------
+
+See :doc:`hardware-test-2026-10-07` for the completed Diamond/FOSS programming,
+identity cross-reading and power-cycle checks on one UltraZohm system.

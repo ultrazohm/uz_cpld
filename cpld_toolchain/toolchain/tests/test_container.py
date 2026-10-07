@@ -33,7 +33,7 @@ class ContainerStartupTests(unittest.TestCase):
         self.assertIn('ARG TOOLCHAIN_BASE=ubuntu:${UBUNTU_VERSION}', dockerfile)
         self.assertIn('FROM ${TOOLCHAIN_BASE} AS toolchain', dockerfile)
         # FOSS compilation still uses its independent Ubuntu builder.
-        self.assertIn('FROM ubuntu:${UBUNTU_VERSION} AS foss-builder', dockerfile)
+        self.assertIn('FROM ubuntu:${UBUNTU_VERSION} AS foss-build-base', dockerfile)
         for relative, embedded, usb in (
             ('.devcontainer/devcontainer.json', False, False),
             ('.devcontainer/usb/devcontainer.json', False, True),

@@ -61,6 +61,22 @@ Native setup and the container share these files.
 After changing dependencies, run ``uv lock`` with the pinned uv executable under ``.tools/uv/`` and commit the updated lockfile.
 Run setup again and rebuild the container to verify both environments.
 
+CI image caching
+----------------
+
+The ``checks`` job imports and exports the license-free toolchain's BuildKit cache using the GitHub Actions ``cpld-toolchain`` scope.
+It exports intermediate stages as well as the final image, so unchanged Python dependencies, OSS CAD Suite downloads, nextpnr and openFPGALoader builds can be reused on fresh runners.
+The first run after this change populates the cache; later runs still need to download and load the cached layers.
+Cache export failures do not fail otherwise successful builds.
+
+The Diamond job imports the same cache for its shared tool stages but does not export its private image layers.
+The two jobs remain independent, so a Diamond build can reuse a cache from an earlier run without waiting for the current ``checks`` job.
+The Dockerfile separates nextpnr and flasher inputs; changing a flasher patch or test does not invalidate the suite download or nextpnr compilation.
+Python dependency changes also leave the separate uv bootstrap and native-tool stages reusable.
+
+Local ``uz_cpld image`` builds use Docker's local layer cache with the same Dockerfile.
+Compare a cold and a warm CI run when measuring improvements; cache eviction or changed toolchain inputs can require rebuilding stages.
+
 Toolchain reference
 -------------------
 

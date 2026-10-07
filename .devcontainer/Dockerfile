@@ -2,15 +2,19 @@
 ARG UBUNTU_VERSION=22.04
 # Default: host-mounted Diamond. Override to inherit an image with Diamond installed.
 ARG TOOLCHAIN_BASE=ubuntu:${UBUNTU_VERSION}
-# Shared Python environment; the same manifest, interpreter pin and lock are used natively.
-FROM ubuntu:${UBUNTU_VERSION} AS python-environment
+# Bootstrap uv independently of Python dependencies and project metadata.
+FROM ubuntu:${UBUNTU_VERSION} AS uv-bootstrap
 RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates python3 \
     && rm -rf /var/lib/apt/lists/*
 WORKDIR /opt/python-project
-COPY pyproject.toml setup.cfg uv.lock .python-version ./
-COPY cpld_toolchain/__init__.py cpld_toolchain/bootstrap.py cpld_toolchain/uv-bootstrap.json cpld_toolchain/README.md ./cpld_toolchain/
+COPY cpld_toolchain/__init__.py cpld_toolchain/bootstrap.py cpld_toolchain/uv-bootstrap.json ./cpld_toolchain/
 RUN python3 -c 'from pathlib import Path; import shutil; from cpld_toolchain.bootstrap import ensure_uv; shutil.copy2(ensure_uv(Path("/tmp/uv-bootstrap")), "/usr/local/bin/uv")' \
     && rm -rf /tmp/uv-bootstrap
+
+# Shared Python environment; the same manifest, interpreter pin and lock are used natively.
+FROM uv-bootstrap AS python-environment
+COPY pyproject.toml setup.cfg uv.lock .python-version ./
+COPY cpld_toolchain/README.md ./cpld_toolchain/
 ENV UV_PYTHON_INSTALL_DIR=/opt/uv-python \
     UV_PROJECT_ENVIRONMENT=/opt/uz-cpld-env \
     UV_LINK_MODE=copy
@@ -18,22 +22,37 @@ ENV UV_PYTHON_INSTALL_DIR=/opt/uv-python \
 RUN uv sync --locked --all-groups --no-install-project --managed-python --python "$(cat .python-version)" \
     && uv cache clean
 
-FROM ubuntu:${UBUNTU_VERSION} AS foss-builder
+FROM ubuntu:${UBUNTU_VERSION} AS foss-build-base
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates curl python3 python3-dev build-essential \
     libboost-filesystem-dev libboost-program-options-dev libboost-iostreams-dev libboost-thread-dev \
     libeigen3-dev pybind11-dev pkg-config patch libftdi1-dev libusb-1.0-0-dev zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
-COPY --from=python-environment /usr/local/bin/uv /usr/local/bin/uv
+COPY --from=uv-bootstrap /usr/local/bin/uv /usr/local/bin/uv
 RUN uv tool install --python /usr/bin/python3 cmake==3.31.6
 ENV PATH="/root/.local/bin:${PATH}"
-COPY cpld_toolchain/toolchain/foss/ /tmp/foss-setup/
+
+# Keep suite downloads, nextpnr and the patched flasher independently cacheable.
+FROM foss-build-base AS foss-suite
+COPY cpld_toolchain/toolchain/foss/install.py cpld_toolchain/toolchain/foss/toolchain.json /tmp/foss-setup/
+RUN python3 /tmp/foss-setup/install.py --prefix /opt/oss-cad-suite
+
+FROM foss-suite AS nextpnr-builder
+COPY cpld_toolchain/toolchain/foss/build_nextpnr.py cpld_toolchain/toolchain/foss/sources.json /tmp/foss-setup/
 ARG FOSS_BUILD_JOBS=2
-RUN python3 /tmp/foss-setup/install.py --prefix /opt/oss-cad-suite \
-    && python3 /tmp/foss-setup/build_nextpnr.py --suite /opt/oss-cad-suite --jobs ${FOSS_BUILD_JOBS} \
-    && python3 /tmp/foss-setup/flasher.py --output /opt/oss-cad-suite/native/openfpgaloader --jobs ${FOSS_BUILD_JOBS} \
-    && /opt/oss-cad-suite/bin/yosys -V \
+RUN python3 /tmp/foss-setup/build_nextpnr.py --suite /opt/oss-cad-suite --jobs ${FOSS_BUILD_JOBS}
+
+FROM foss-build-base AS flasher-builder
+COPY cpld_toolchain/toolchain/foss/flasher.py cpld_toolchain/toolchain/foss/openfpgaloader.json cpld_toolchain/toolchain/foss/openfpgaloader-usercode.patch /tmp/foss-setup/
+COPY cpld_toolchain/toolchain/foss/tests/usercode.cpp /tmp/foss-setup/tests/
+ARG FOSS_BUILD_JOBS=2
+RUN python3 /tmp/foss-setup/flasher.py --output /opt/openfpgaloader --jobs ${FOSS_BUILD_JOBS}
+
+FROM foss-suite AS foss-builder
+COPY --from=nextpnr-builder /opt/oss-cad-suite/native /opt/oss-cad-suite/native
+COPY --from=flasher-builder /opt/openfpgaloader /opt/oss-cad-suite/native/openfpgaloader
+RUN /opt/oss-cad-suite/bin/yosys -V \
     && /opt/oss-cad-suite/native/nextpnr-machxo2 --version \
     && /opt/oss-cad-suite/bin/ecppack --version \
     && /opt/oss-cad-suite/bin/openFPGALoader --Version \

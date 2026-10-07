@@ -10,6 +10,9 @@ from cpld_toolchain.toolchain.buildsystem.model import Source, load_build
 
 ROOT = Path(__file__).resolve().parents[3]
 HDL = Path(__file__).parent / 'hdl'
+# Real firmware startup requires millions of clock cycles. Allow slower CI CPUs
+# enough wall time while retaining the simulated-time limits and pass markers.
+SIMULATION_TIMEOUT = 300
 
 
 class S3CInteractionTests(unittest.TestCase):
@@ -25,7 +28,8 @@ class S3CInteractionTests(unittest.TestCase):
             for command in (['ghdl', '-e', '--std=93', *search, 'pair'],
                             ['ghdl', '-r', '--std=93', *search, 'pair',
                              '--assert-level=error', '--stop-time=23ms']):
-                result = subprocess.run(command, cwd=output, capture_output=True, text=True, timeout=60)
+                timeout = SIMULATION_TIMEOUT if command[1] == '-r' else 60
+                result = subprocess.run(command, cwd=output, capture_output=True, text=True, timeout=timeout)
                 self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertIn('S3C PAIR PASSED', result.stdout + result.stderr)
 
@@ -49,6 +53,7 @@ class S3CInteractionTests(unittest.TestCase):
             for command in (['ghdl', '-e', '--std=08', *search, 'heartbeat_pair'],
                             ['ghdl', '-r', '--std=08', *search, 'heartbeat_pair',
                              '--assert-level=error', '--stop-time=25ms']):
-                result = subprocess.run(command, cwd=output, capture_output=True, text=True, timeout=60)
+                timeout = SIMULATION_TIMEOUT if command[1] == '-r' else 60
+                result = subprocess.run(command, cwd=output, capture_output=True, text=True, timeout=timeout)
                 self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertIn('HEARTBEAT PAIR PASSED', result.stdout + result.stderr)

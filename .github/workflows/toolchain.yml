@@ -37,10 +37,20 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v4
       - name: Build the license-free toolchain image
         id: image
         # The host has no Python dependencies; the image provides them.
-        run: docker build --platform linux/amd64 --target toolchain -f .devcontainer/Dockerfile -t uz-cpld-toolchain .
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: .devcontainer/Dockerfile
+          target: toolchain
+          platforms: linux/amd64
+          tags: uz-cpld-toolchain
+          load: true
+          cache-from: type=gha,scope=cpld-toolchain,version=2
+          cache-to: type=gha,scope=cpld-toolchain,version=2,mode=max,ignore-error=true
       - name: Verify the shared Python and uv pins
         run: |
           docker run --rm -i --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain python - <<'PYTHON'
@@ -120,11 +130,19 @@ jobs:
           fi
           printf '%s' "$GHCR_TOKEN" |
             docker login ghcr.io -u SchindlerTo --password-stdin
+      - uses: docker/setup-buildx-action@v4
       - name: Build the Diamond toolchain image
-        run: |
-          docker build --platform linux/amd64 --target toolchain \
-            --build-arg "TOOLCHAIN_BASE=$DIAMOND_IMAGE" \
-            -f .devcontainer/Dockerfile -t uz-cpld-toolchain-diamond .
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: .devcontainer/Dockerfile
+          target: toolchain
+          platforms: linux/amd64
+          tags: uz-cpld-toolchain-diamond
+          load: true
+          build-args: TOOLCHAIN_BASE=${{ env.DIAMOND_IMAGE }}
+          # Reuse public tool stages, but never export private Diamond layers.
+          cache-from: type=gha,scope=cpld-toolchain,version=2
       - name: Disable ASLR for the Diamond build
         run: |
           sysctl -n kernel.randomize_va_space > "$RUNNER_TEMP/diamond-original-aslr"

@@ -19,8 +19,8 @@ Selection and release
    uz_cpld program --target dslot --selection selection.toml
 
 ``init_programmer`` creates ``selection.toml`` and preserves an existing file.
-The template contains ``release = ""``, ``s3c = "s3c_power_on_debounce"`` and ``tx30`` for slots 1 through 5.
-These program names belong to ``original``; edit the release and assignments before using another cycle.
+The template contains ``release = ""``, ``s3c = "s3c_heartbeat"`` and ``cvg_tx30`` for slots 1 through 5.
+These program names belong to ``heartbeat_cvg``; edit the release and assignments before using another cycle.
 ``--release-cycle`` takes precedence over the selection's ``release``, then the current cycle in ``programs/releases.toml``.
 ``build_selection`` reads the selection and builds every distinct assignment in its release.
 ``build`` and ``build_all`` use their command-line release or the current release; they do not read the selection.
@@ -31,6 +31,34 @@ D-slot programming requires all five ``[slots]`` entries (keys ``"1"`` through `
 S3C programming requires only ``s3c``; the unused chain may be omitted.
 Slots identify physical JTAG positions, not catalog order.
 All selected programs come from one release.
+
+Selection file or command-line assignments
+------------------------------------------
+
+Use ``selection=PATH`` to choose a file; relative paths are resolved from the directory where you run Make::
+
+   make program target=s3c selection=/path/to/selection.toml
+
+Alternatively, provide the programs directly, without reading or creating ``selection.toml``::
+
+   make program target=s3c release=heartbeat_cvg s3c_program=s3c_heartbeat
+   make program target=dslot release=heartbeat_cvg dslot1=cvg_tx30 dslot2=cvg_tx30 dslot3=cvg_tx30 dslot4=cvg_tx30 dslot5=cvg_tx30
+
+Assignments are separate space-delimited Make arguments, not a comma-separated list.
+For S3C use ``s3c_program``; for D-slots supply all five ``dslot1`` through ``dslot5`` values.
+Partial D-slot selections, assignments for the other target, and mixing direct assignments with ``selection=PATH`` are rejected.
+``release`` is an alias for ``release_cycle`` on ``program``; conflicting values are rejected.
+Omitting the release uses the existing release default rules, without consulting a selection file when programs are supplied directly.
+With no direct assignments, the default remains ``selection.toml`` in your current directory.
+
+The same options work with ZIP firmware::
+
+   make program target=s3c source=zip firmware=/path/to/release.zip release=heartbeat_cvg s3c_program=s3c_heartbeat
+
+Native CLI equivalents use flags::
+
+   uz_cpld program --target s3c --release heartbeat_cvg --s3c-program s3c_heartbeat
+   uz_cpld program --target dslot --release heartbeat_cvg --dslot1 cvg_tx30 --dslot2 cvg_tx30 --dslot3 cvg_tx30 --dslot4 cvg_tx30 --dslot5 cvg_tx30
 
 Program a downloaded release ZIP
 --------------------------------
@@ -47,7 +75,7 @@ The equivalent native command (including Windows) is::
 
    uz_cpld program --target s3c --source zip --firmware /path/to/uz-cpld-firmware.zip
 
-``selection.toml`` still supplies the program assignments.
+The selection file or direct command-line assignments supply the program names.
 The release cycle is chosen from ``release_cycle``, then the selection's ``release``, then the checkout's current release.
 Without a checkout default, a ZIP containing exactly one cycle can supply that default; otherwise select a cycle explicitly.
 The selected names and device targets must exist in the ZIP manifest, not in the local catalog.
@@ -66,7 +94,16 @@ These checks establish package consistency; use release ZIPs from a trusted sour
 
 The ZIP registry is used for this run's identity validation and readback.
 Conflicts with local identities are reported and recorded; ``programs/usercodes.json`` is never overwritten.
-Subsequent standalone ``identify`` commands still use the local registry and may report different or unknown labels until it is reconciled.
+To identify devices using the same ZIP registry later::
+
+   make identify target=s3c source=zip firmware=/path/to/uz-cpld-firmware.zip
+   make identify target=dslot source=zip firmware=/path/to/uz-cpld-firmware.zip programmer_backend=foss
+
+``identify`` defaults to ``source=local``, which uses ``programs/usercodes.json``.
+With ``source=zip``, it validates the archive before accessing hardware, uses its
+registry without changing the local registry, and saves the manifest and archive
+checksum alongside the identification results. No selection file is needed.
+``scan`` only reads device IDs, so it does not accept ``source`` or ``firmware``.
 
 ``firmware`` is rejected with ``source=local``.
 No ZIP is selected or downloaded implicitly.

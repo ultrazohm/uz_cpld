@@ -85,13 +85,19 @@ Download the newest published CI firmware for the current Git branch::
    # Optional remote and destination overrides:
    uz_cpld firmware_download --remote origin --output build/firmware.zip
    make firmware_download
+   # Explicit repository and branch: no Git executable or checkout needed.
+   make firmware_download git_url=https://github.com/ultrazohm/uz_cpld.git branch=master
+   uz_cpld firmware_download --git-url https://github.com/ultrazohm/uz_cpld.git --branch master
 
 The default destination is ``build/downloads/<release-tag>/uz-cpld-firmware.zip``.
 The command uses the branch's tracking remote and branch, or ``origin`` and the local
 branch name when no upstream is configured. An explicit ``--remote`` uses the local
 branch name unless it is the configured tracking remote.
+``git_url`` overrides the repository URL; ``branch`` overrides the branch, accepting a name or ``refs/heads/NAME``.
+With only one override, the other value comes from the checkout using the rules above; with both, Git is not used.
+``git_url`` and ``remote`` cannot be combined.
 It includes CI prereleases and matches the exact ``Source ref`` in the release notes;
-it never falls back to another branch. Detached HEAD and missing releases are errors.
+it never falls back to another branch. Detached HEAD requires an explicit branch; missing releases are errors.
 ``--dry-run 1`` previews the command without Git or network access.
 See :doc:`publishing` for authentication, verification and the downloaded archive's scope.
 To program it, use ``uz_cpld program --target s3c --source zip --firmware PATH.zip`` with the desired programs in ``selection.toml``; see :doc:`programmer`.
@@ -112,6 +118,7 @@ Prepare the hardware for one physical chain, then::
 
    uz_cpld scan --target dslot
    uz_cpld identify --target dslot
+   uz_cpld identify --target s3c --source zip --firmware PATH.zip
    uz_cpld program --target dslot --dry-run 1
    uz_cpld program --target dslot
 

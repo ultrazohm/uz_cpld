@@ -1,5 +1,5 @@
 """Release packages program through the shared executor without local builds."""
-from contextlib import redirect_stdout
+from contextlib import nullcontext, redirect_stdout
 import copy
 import hashlib
 import io
@@ -11,6 +11,7 @@ from unittest.mock import patch
 from zipfile import ZipFile, ZipInfo
 
 from cpld_toolchain.programmer_helper import identify, program, release
+from cpld_toolchain.runtime import working_directory
 from cpld_toolchain.toolchain.buildsystem.model import BuildError
 from cpld_toolchain.toolchain.buildsystem.workflow import digest
 
@@ -18,6 +19,66 @@ COMMIT = 'a' * 40
 
 
 class ReleaseTests(unittest.TestCase):
+    def test_direct_cli_selection_uses_zip_without_reading_or_creating_a_file(self):
+        for target, assignments in [('s3c', ['--s3c-program', 'controller']),
+                                    ('dslot', [arg for i in range(1, 6) for arg in (f'--dslot{i}', 'adapter')])]:
+            for existing in (False, True):
+                with self.subTest(target=target, existing=existing):
+                    self.selection.unlink(missing_ok=True)
+                    if existing:
+                        self.selection.write_text('invalid TOML: must not be read')
+                    with working_directory(self.root), \
+                            patch.object(program, 'execute') as execute, redirect_stdout(io.StringIO()):
+                        self.assertEqual(program.main(['program', '--root', str(self.root), '--target', target,
+                            '--release', 'published', '--source', 'zip', '--firmware', str(self.zip),
+                            '--programmer-backend', 'foss', *assignments]), 0)
+                    execute.assert_not_called()
+                    self.assertEqual(self.selection.exists(), existing)
+                    if existing:
+                        self.assertEqual(self.selection.read_text(), 'invalid TOML: must not be read')
+
+    def test_identify_uses_zip_registry_and_records_source(self):
+        raw = 'UZ_IDENTITY 0 012BC043 00010001 0100000000000001'
+        # A conflicting local label must not affect the ZIP interpretation.
+        local = copy.deepcopy(self.manifest['identity_registry'])
+        local['programs']['local/controller'] = local['programs'].pop('published/controller')
+        path = self.root / 'programs/usercodes.json'
+        path.parent.mkdir()
+        path.write_text(json.dumps(local))
+        original = path.read_bytes()
+        with patch.object(identify, 'preflight'), patch.object(identify, 'diamond_read', return_value=raw), \
+                redirect_stdout(io.StringIO()):
+            result = program.main(['identify', '--root', str(self.root), '--target', 's3c',
+                                   '--source', 'zip', '--firmware', str(self.zip), '--execute'])
+        self.assertEqual(result, 0)
+        receipt, = self.root.glob('build/programmer/identification/read-*/identity.json')
+        record = json.loads(receipt.read_text())
+        self.assertEqual(record['devices'][0]['identity']['program'], 'published/controller')
+        self.assertEqual(record['source'], 'zip')
+        self.assertEqual(record['archive_sha256'], digest(self.zip))
+        self.assertEqual(record['git_revision'], COMMIT)
+        self.assertEqual(json.loads(receipt.with_name('manifest.json').read_text()), self.manifest)
+        self.assertEqual(path.read_bytes(), original)
+
+    def test_foss_identify_needs_no_local_registry(self):
+        raw = 'UZ_IDENTITY 0 012BC043 00010001 0100000000000001'
+        with patch.object(identify, 'preflight'), patch.object(identify, 'openocd_path', return_value='openocd'), \
+                patch.object(identify, 'diamond_usb', return_value=nullcontext()), \
+                patch.object(program, 'run_command', return_value=raw), redirect_stdout(io.StringIO()):
+            devices = identify.identify(self.root, 's3c', 'foss', firmware=self.zip)
+        self.assertEqual(devices[0]['identity']['program'], 'published/controller')
+        self.assertFalse((self.root / 'programs/usercodes.json').exists())
+
+    def test_identify_rejects_corrupt_zip_before_hardware(self):
+        self.payloads[next(iter(self.payloads))] = b'corrupt firmware'
+        self.write_zip()
+        with patch.object(identify, 'preflight') as preflight, patch.object(identify, 'diamond_read') as read:
+            with self.assertRaises(BuildError):
+                identify.identify(self.root, 's3c', firmware=self.zip)
+        preflight.assert_not_called()
+        read.assert_not_called()
+        self.assertFalse((self.root / 'build/programmer/identification').exists())
+
     def setUp(self):
         temporary = tempfile.TemporaryDirectory(prefix='release programmer ')
         self.addCleanup(temporary.cleanup)

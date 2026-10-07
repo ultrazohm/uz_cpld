@@ -17,6 +17,7 @@ CONTAINER = {'container_engine', 'container_platform', 'toolchain_image'}
 FIRMWARE = {'backend', 'build_backend', 'target', 'release_cycle'}
 SELECTION_DEFAULTS = {'release', 's3c', *(f'dslot_{i}' for i in range(1, 6))}
 PROBE = {'backend', 'programmer_backend', 'target', 'probe_index', 'cable', 'usb_serial'}
+DIRECT_SELECTION = {'s3c_program', *(f'dslot{i}' for i in range(1, 6))}
 
 # The native Windows suite excludes Linux-only tool and shell integrations.
 WINDOWS_TESTS = (
@@ -61,7 +62,7 @@ COMMANDS = {
     'build_selection': spec('Toolchain', 'build_selection', 'Build each distinct program in selection.toml', FIRMWARE | {'selection'}),
     'build_all': spec('Toolchain', 'build_all', 'Build every catalog program for the selected backend', FIRMWARE),
     'gui': spec('Toolchain', 'gui program=NAME', 'Open the Diamond firmware project', FIRMWARE | {'program'}, {'program'}),
-    'firmware_download': spec('Toolchain', 'firmware_download', 'Download the latest GitHub CI firmware for the current branch', {'remote', 'output'}),
+    'firmware_download': spec('Toolchain', 'firmware_download', 'Download the latest GitHub CI firmware for the selected repository and branch', {'remote', 'output', 'git_url', 'branch'}),
     'report': spec('Toolchain', 'report', 'Summarize existing catalog build evidence', FIRMWARE),
     'test': spec('Toolchain', 'test', 'Run Python utility tests; sim runs HDL tests'),
     'release_list': spec('Toolchain', 'release_list', 'List releases and the current selection'),
@@ -75,8 +76,8 @@ COMMANDS = {
     'init_programmer': spec('Programmer', 'init_programmer', 'Create selection.toml; preserve an existing file', {'selection'} | SELECTION_DEFAULTS),
     'diamond_xcf_programming_chain': spec('Programmer', 'diamond_xcf_programming_chain', 'Export both Diamond XCFs from the edited selection', {'selection', 'release_cycle', 'backend', 'build_backend', 'programmer_backend', 'probe_index', 'rebuild'}),
     'scan': spec('Programmer', 'scan target=dslot', 'Check JTAG IDs (target defaults to dslot)', PROBE),
-    'identify': spec('Programmer', 'identify target=dslot', 'Read firmware identity and silicon TraceID', PROBE),
-    'program': spec('Programmer', 'program target=dslot', 'Program one physical chain from local builds or a release ZIP', PROBE | {'selection', 'release_cycle', 'build_backend', 'source', 'firmware'}, {'target'}),
+    'identify': spec('Programmer', 'identify target=dslot', 'Read firmware identity and silicon TraceID', PROBE | {'source', 'firmware'}),
+    'program': spec('Programmer', 'program target=dslot', 'Program one physical chain from a selection file or explicit program assignments', PROBE | DIRECT_SELECTION | {'selection', 'release', 'release_cycle', 'build_backend', 'source', 'firmware'}, {'target'}),
     'flasher_build': spec('Programmer', 'flasher_build', 'Compile the optional FOSS programmer utility locally', {'jobs'}),
 }
 
@@ -85,8 +86,9 @@ COMMANDS = {
 # Argument spellings are shared by overview and focused help; applicability and
 # required/optional status always come from the command's validated option sets.
 ARGUMENT_VALUES = {
+    's3c_program': 'NAME', **{f'dslot{i}': 'NAME' for i in range(1, 6)},
     'source': 'local|zip', 'firmware': 'FILE.zip',
-    'remote': 'NAME', 'output': 'FILE',
+    'remote': 'NAME', 'output': 'FILE', 'git_url': 'URL', 'branch': 'NAME',
     'release': 'NAME', 's3c': 'NAME', **{f'dslot_{i}': 'NAME' for i in range(1, 6)},
     'program': 'NAME', 'name': 'NAME', 'template': 'NAME|generator',
     'target': 'dslot|s3c', 'release_cycle': 'NAME', 'template_release_cycle': 'NAME',
@@ -135,7 +137,10 @@ def shared_help(style='make'):
         '  discard_project_changes=0; setup activate=1. Omit an option to use its default.',
         '  Build targets are inferred when unambiguous; scan/identify default to dslot.',
         '  program requires target. probe_index: Diamond defaults to 1, FOSS to 0.',
-        '  program source=local by default; source=zip requires firmware=FILE.zip.',
+        '  program accepts selection=FILE or s3c_program=NAME / all dslot1..dslot5 assignments.',
+        '  Direct assignments do not read or create selection.toml; do not combine them with selection.',
+        '  program release=NAME is an alias for release_cycle=NAME.',
+        '  program and identify use source=local by default; source=zip requires firmware=FILE.zip.',
         '  ZIP firmware backend comes from its manifest; explicit build_backend must match.',
         '  jobs must be positive; seed and probe_index must be nonnegative.',
         '  gui requires Diamond builds; diamond_xcf_programming_chain requires both backends to be Diamond.',
@@ -190,6 +195,18 @@ def normalize(action, options):
     for key, value in options.items():
         if not value and not (action == 'init_programmer' and key == 'release'):
             raise BuildError(f'{key} must not be empty; omit it to use the default')
+    if action == 'program' and 'release' in options:
+        if 'release_cycle' in options and options['release_cycle'] != options['release']:
+            raise BuildError('release and release_cycle must agree; use one release option')
+        options['release_cycle'] = options.pop('release')
+    if action == 'firmware_download':
+        from .firmware_download import github_repository, branch_ref
+        if 'git_url' in options and 'remote' in options:
+            raise BuildError('Use git_url or remote, not both')
+        if 'git_url' in options:
+            github_repository(options['git_url'])
+        if 'branch' in options:
+            branch_ref(options['branch'])
     for key in ('backend', 'build_backend', 'programmer_backend'):
         if key in options and options[key] not in ('diamond', 'foss'):
             raise BuildError(f'{key} must be diamond or foss')
@@ -217,6 +234,12 @@ def normalize(action, options):
     build_backend = options.get('build_backend', backend)
     programmer_backend = options.get('programmer_backend', backend)
     if action == 'program':
+        from cpld_toolchain.programmer_helper.helper import direct_selection
+        assignments = direct_selection(options['target'], options.get('s3c_program'),
+                                       {i: options[f'dslot{i}'] for i in range(1, 6) if f'dslot{i}' in options})
+        if assignments is not None and 'selection' in options:
+            raise BuildError('Use selection=FILE or direct program assignments, not both')
+    if action in ('program', 'identify'):
         source = options.get('source', 'local')
         if source not in ('local', 'zip'):
             raise BuildError('source must be local or zip')
@@ -275,7 +298,7 @@ def plan(action, options, *, root=ROOT, cwd=None):
                 result += ['--' + key.replace('_', '-'), value]
         return result
     if action == 'firmware_download':
-        args = ['--root', str(root), *flags('remote')]
+        args = ['--root', str(root), *flags('remote', 'git_url', 'branch')]
         if 'output' in options:
             args += ['--output', str((cwd / options['output']).absolute())]
         return [invoke('cpld_toolchain.toolchain.firmware_download', args)]
@@ -288,7 +311,8 @@ def plan(action, options, *, root=ROOT, cwd=None):
         if not selection.is_absolute():
             selection = cwd / selection
         args = []
-        if action in ('init_programmer', 'build_selection', 'program', 'diamond_xcf_programming_chain'):
+        if action in ('init_programmer', 'build_selection', 'program', 'diamond_xcf_programming_chain') and not (
+                action == 'program' and DIRECT_SELECTION.intersection(options)):
             args += ['--selection', str(selection)]
         args += flags('release_cycle', 'probe_index')
         if action == 'init_programmer':
@@ -306,13 +330,15 @@ def plan(action, options, *, root=ROOT, cwd=None):
         if action != 'init_programmer':
             args += ['--programmer-backend', programmer_backend]
             if action == 'program':
+                args += flags('s3c_program', *(f'dslot{i}' for i in range(1, 6)))
                 if options.get('source', 'local') == 'local' or 'build_backend' in options:
                     args += ['--build-backend', build_backend]
+                if 'target' not in options:
+                    raise BuildError('program requires target=dslot or target=s3c; use uz_cpld init_programmer to create a selection')
+            if action in ('program', 'identify'):
                 args += flags('source')
                 if 'firmware' in options:
                     args += ['--firmware', str((cwd / options['firmware']).absolute())]
-                if 'target' not in options:
-                    raise BuildError('program requires target=dslot or target=s3c; use uz_cpld init_programmer to create a selection')
             args += ['--target', options.get('target', 'dslot')]
             args += flags('cable', 'usb_serial')
             args += ['--execute']

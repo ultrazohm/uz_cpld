@@ -23,6 +23,17 @@ SLOTS = {1: 'rx30', 2: 'tx30', 3: 'tx30',
 
 
 class ProgrammerHelperTests(unittest.TestCase):
+    def test_direct_local_assignments_resolve_the_same_builds_as_file_selection(self):
+        for chain, values in [('s3c', {'s3c': 's3c_power_on_debounce'}),
+                              ('dslots', {'slots': {str(i): name for i, name in SLOTS.items()}})]:
+            with self.subTest(chain=chain):
+                cycle, _, builds, steps = plan(self.root, values, 'original', chain, 'foss', None, None)
+                self.assertEqual(cycle, 'original')
+                self.assertEqual([build.name for _, _, build in builds],
+                                 ['s3c_power_on_debounce'] if chain == 's3c' else list(SLOTS.values()))
+                self.assertEqual(len(steps), 1 if chain == 's3c' else 5)
+                self.assertFalse((self.root / 'selection.toml').exists())
+
     def test_xcf_export_honors_probe_index_for_both_chains(self):
         selection = self.root / 'selection.toml'
         selection.write_text('s3c="s3c_power_on_debounce"\n[slots]\n' +

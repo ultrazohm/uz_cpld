@@ -5,9 +5,12 @@ Read the firmware currently reported by each device without erasing or programmi
 
    make identify target=dslot
    make identify target=s3c
+   make identify target=s3c source=zip firmware=/path/to/uz-cpld-firmware.zip
 
 These commands read the device IDCODE, 32-bit USERCODE and 64-bit TraceID over JTAG.
-They resolve the USERCODE through the tracked ``programs/usercodes.json`` registry and print the program, release cycle and build revision.
+They resolve the USERCODE through the tracked ``programs/usercodes.json`` registry by default
+(``source=local``), or through the validated archive registry with ``source=zip firmware=PATH.zip``,
+and print the program, release cycle and build revision. The ZIP option does not modify the local registry.
 No selection file or local firmware exports are required.
 Unknown codes and unregistered revisions are reported explicitly.
 ``dry_run=1`` previews the selected backend’s read operations without accessing USB.

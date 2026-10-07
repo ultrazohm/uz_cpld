@@ -59,7 +59,7 @@ def requirements(action, options):
                 external('openFPGALoader')
             if action in ('identify', 'program'):
                 external('openocd')
-    if action == 'firmware_download':
+    if action == 'firmware_download' and not (options.get('git_url') and options.get('branch')):
         external('git')
     if action == 'image':
         external(options.get('container_engine', 'docker'))

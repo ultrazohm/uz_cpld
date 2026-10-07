@@ -18,7 +18,7 @@ import xml.etree.ElementTree as ET
 from cpld_toolchain.toolchain.buildsystem.model import BuildError, identifier, load_build, resolve_release
 from cpld_toolchain.toolchain.buildsystem.workflow import build_program, digest, locked, safe_directory, workspace_lock, write_json
 from .helper import (DEFAULT_DIAMOND_PORT, SLOT_TEMPLATE, S3C_TEMPLATE, render_xcf,
-                     jedec_metadata, read_selection, verified_firmware)
+                     jedec_metadata, read_selection, verified_firmware, direct_selection)
 from .usb import diamond_usb
 from .diamond import command as diamond_command, environment as diamond_environment
 from .release import ReleaseFirmware
@@ -334,7 +334,7 @@ def diamond_plan(root, cycle, chain, builds, probe_index):
     return output, [step]
 
 
-def plan(root: Path, selection: Path, cycle_name: str | None, chain: str, programmer_backend: str,
+def plan(root: Path, selection: Path | dict, cycle_name: str | None, chain: str, programmer_backend: str,
          cable: str | None, serial: str | None, probe_index: int | None = None,
          *, build_backend: str | None = None, source='local', firmware=None):
     """Validate authored selection and existing build evidence; touch no hardware."""
@@ -461,12 +461,14 @@ def main(argv=None) -> int:
     parser.add_argument('action', choices=('init_programmer', 'build_selection', 'scan', 'identify', 'program'))
     parser.add_argument('--root', type=Path, default=repository_root())
     parser.add_argument('--target', choices=('dslot', 's3c'), help='Physical target; scans default to dslot')
-    parser.add_argument('--selection', type=Path, default=Path('selection.toml'),
+    parser.add_argument('--selection', type=Path,
                         help='Program selection file (default: selection.toml in the current directory)')
-    parser.add_argument('--release', help='Initial selection release; empty uses the current release')
+    parser.add_argument('--release', help='Release cycle for program, or initial release for init_programmer')
+    parser.add_argument('--s3c-program', help='S3C firmware program (instead of a selection file)')
     parser.add_argument('--s3c', help='Initial S3C program')
     for position in range(1, 6):
         parser.add_argument(f'--dslot-{position}', dest=f'dslot_{position}', help=f'Initial program for D-slot {position}')
+        parser.add_argument(f'--dslot{position}', help=f'Firmware for D-slot {position} (supply all five)')
     parser.add_argument('--release-cycle', help='Override the release in the selection file')
     parser.add_argument('--programmer-backend', choices=('diamond', 'foss'), default='diamond',
                         help='Programming/scan tool, independent of the firmware build backend')
@@ -480,8 +482,24 @@ def main(argv=None) -> int:
     parser.add_argument('--execute', action='store_true', help='Contact hardware (scan reads IDs; program writes Flash)')
     args = parser.parse_args(argv)
     try:
-        if args.action != 'program' and (args.source != 'local' or args.firmware is not None):
-            raise BuildError('source and firmware options apply only to program')
+        slots = {i: getattr(args, f'dslot{i}') for i in range(1, 6) if getattr(args, f'dslot{i}') is not None}
+        if args.action != 'program' and (args.s3c_program is not None or slots):
+            raise BuildError('Direct program assignments apply only to program')
+        if args.action == 'program':
+            if args.s3c is not None or any(getattr(args, f'dslot_{i}') is not None for i in range(1, 6)):
+                raise BuildError('For program use s3c_program or dslot1..dslot5')
+            assignments = direct_selection(args.target, args.s3c_program, slots)
+            if assignments is not None and args.selection is not None:
+                raise BuildError('Use selection=FILE or direct program assignments, not both')
+            if args.release is not None:
+                if args.release_cycle is not None and args.release_cycle != args.release:
+                    raise BuildError('release and release_cycle must agree; use one release option')
+                args.release_cycle = identifier(args.release)
+            args.selection = assignments if assignments is not None else args.selection
+        if args.selection is None:
+            args.selection = Path('selection.toml')
+        if args.action not in ('program', 'identify') and (args.source != 'local' or args.firmware is not None):
+            raise BuildError('source and firmware options apply only to program and identify')
         if (args.source == 'zip') != (args.firmware is not None):
             raise BuildError('Use source=local without firmware, or source=zip with firmware=FILE.zip')
         if args.action == 'init_programmer':
@@ -493,7 +511,7 @@ def main(argv=None) -> int:
             build_selection(args.root, args.selection, args.release_cycle,
                             target=args.target, backend=args.build_backend or 'diamond')
             return 0
-        if args.action == 'program' and not args.selection.exists():
+        if args.action == 'program' and isinstance(args.selection, Path) and not args.selection.exists():
             create_selection(args.selection)
             print('Review the selection before programming; no hardware was accessed.')
             return 0
@@ -519,7 +537,8 @@ def main(argv=None) -> int:
                     for _, _, operation, _, _ in DIAMOND_READS:
                         print(f'  {operation}')
             else:
-                identify(args.root, args.chain, args.programmer_backend, args.cable, args.usb_serial, args.probe_index)
+                identify(args.root, args.chain, args.programmer_backend, args.cable, args.usb_serial, args.probe_index,
+                         **({"firmware": args.firmware} if args.source == "zip" else {}))
             return 0
         if args.action == 'scan':
             if args.programmer_backend == 'foss':
@@ -553,7 +572,7 @@ def main(argv=None) -> int:
                 if not output.strip() and not vendor_log.exists():
                     raise BuildError('Diamond produced no scan output')
             return 0
-        if not args.selection.is_file():
+        if isinstance(args.selection, Path) and not args.selection.is_file():
             raise BuildError(f'{args.selection} is missing; run uz_cpld init_programmer, then fill in the target programs')
         cycle, output, builds, steps = plan(args.root, args.selection, args.release_cycle,
                                                   args.chain, args.programmer_backend,

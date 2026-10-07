@@ -12,6 +12,40 @@ from cpld_toolchain.toolchain.buildsystem.model import BuildError
 
 
 class CommandTests(unittest.TestCase):
+    def test_download_source_flags_forward_and_reject_conflicts(self):
+        call, = commands.plan('firmware_download', {'git_url': 'https://github.com/owner/repo',
+                                                  'branch': 'feature/programmer'})
+        self.assertEqual(call.arguments[call.arguments.index('--git-url') + 1], 'https://github.com/owner/repo')
+        self.assertEqual(call.arguments[call.arguments.index('--branch') + 1], 'feature/programmer')
+        with self.assertRaisesRegex(BuildError, 'git_url or remote'):
+            commands.plan('firmware_download', {'git_url': 'https://github.com/owner/repo', 'remote': 'origin'})
+
+    def test_direct_program_selection_routes_without_a_selection_file(self):
+        for target, assignments in [('s3c', {'s3c_program': 's3c_heartbeat'}),
+                                    ('dslot', {f'dslot{i}': 'cvg_tx30' for i in range(1, 6)})]:
+            options = dict(target=target, release='heartbeat_cvg', **assignments)
+            call, = commands.plan('program', options)
+            self.assertNotIn('--selection', call.arguments)
+            self.assertEqual(call.arguments[call.arguments.index('--release-cycle') + 1], 'heartbeat_cvg')
+            for key, value in assignments.items():
+                self.assertEqual(call.arguments[call.arguments.index('--' + key.replace('_', '-')) + 1], value)
+            with patch('cpld_toolchain.runtime.execute') as run, redirect_stdout(io.StringIO()):
+                args = ['--make-help', 'program', '--option', 'dry_run=1']
+                for key, value in options.items():
+                    args += ['--option', f'{key}={value}']
+                self.assertEqual(commands.main(args), 0)
+            run.assert_not_called()
+
+    def test_direct_selection_rejects_partial_mixed_or_wrong_target_assignments(self):
+        for options in ({'target': 'dslot', 'dslot1': 'tx30'},
+                        {'target': 's3c', 'dslot1': 'tx30'},
+                        {'target': 'dslot', 's3c_program': 's3c_heartbeat'},
+                        {'target': 's3c', 's3c_program': 's3c_heartbeat', 'selection': 'custom.toml'},
+                        {'target': 's3c', 's3c_program': '../invalid'},
+                        {'target': 's3c', 'release': 'original', 'release_cycle': 'heartbeat'}):
+            with self.subTest(options=options), self.assertRaises(BuildError):
+                commands.plan('program', options)
+
     def test_zip_source_routes_explicit_path_and_infers_build_backend(self):
         with tempfile.TemporaryDirectory(prefix='ZIP command ') as tmp:
             cwd = Path(tmp).resolve()
@@ -32,6 +66,28 @@ class CommandTests(unittest.TestCase):
                     self.assertEqual(commands.main(argv), 0)
                 run.assert_not_called()
             self.assertEqual(list(cwd.iterdir()), [])
+
+    def test_identify_source_routes_and_validates(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            cwd = Path(tmp).resolve()
+            call, = commands.plan('identify', {'target': 's3c', 'source': 'zip',
+                                               'firmware': 'release.zip'}, cwd=cwd)
+            self.assertIn(str(cwd / 'release.zip'), call.arguments)
+            self.assertIn('--source', call.arguments)
+            self.assertNotIn('--selection', call.arguments)
+            self.assertNotIn('--build-backend', call.arguments)
+            call, = commands.plan('identify', {'source': 'local'})
+            self.assertNotIn('--firmware', call.arguments)
+            for options in ({'source': 'zip'}, {'firmware': 'x.zip'}, {'source': 'invalid'},
+                            {'source': 'local', 'firmware': 'x.zip'}):
+                with self.assertRaises(BuildError):
+                    commands.plan('identify', options)
+            with self.assertRaises(BuildError):
+                commands.plan('scan', {'source': 'zip', 'firmware': 'x.zip'})
+            with patch('cpld_toolchain.runtime.execute') as run, redirect_stdout(io.StringIO()):
+                self.assertEqual(commands.main(['identify', '--source', 'zip', '--firmware',
+                                                str(cwd / 'missing.zip'), '--dry-run', '1']), 0)
+            run.assert_not_called()
 
     def calls(self, action, **options):
         return commands.plan(action, options)

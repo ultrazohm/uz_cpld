@@ -38,9 +38,30 @@ def slot_assignments(values: list[str]) -> dict[int, str]:
     return assignments
 
 
-def read_selection(path: Path, chain: str | None = None) -> tuple[dict[int, str], str, str | None, str]:
-    """Read assignments, release and build backend; validate the requested chain."""
-    data = read_toml(path)
+def direct_selection(target, s3c_program=None, slots=None):
+    """Validate a complete command-line selection without consulting a file."""
+    slots = slots or {}
+    if s3c_program is None and not slots:
+        return None
+    if target == 's3c':
+        if slots:
+            raise BuildError('target=s3c does not accept dslot1..dslot5')
+        data = {'s3c': s3c_program}
+    elif target == 'dslot':
+        if s3c_program is not None:
+            raise BuildError('target=dslot does not accept s3c_program')
+        data = {'slots': {str(position): name for position, name in slots.items()}}
+    else:
+        raise BuildError('Direct program selection requires target=s3c or target=dslot')
+    read_selection(data, 's3c' if target == 's3c' else 'dslots')
+    return data
+
+
+def read_selection(path: Path | dict, chain: str | None = None) -> tuple[dict[int, str], str, str | None, str]:
+    """Validate assignments from a TOML path or an in-memory CLI selection."""
+    data = path if isinstance(path, dict) else read_toml(path)
+    if isinstance(path, dict):
+        path = 'command-line selection'
     required = {'s3c'} if chain == 's3c' else {'slots'} if chain == 'dslots' else {'slots', 's3c'}
     if set(data) - {'slots', 's3c', 'release', 'build_backend'} or not required <= set(data):
         raise BuildError(f'{path}: expected [slots] and s3c for the selected target, plus optional release and build_backend')

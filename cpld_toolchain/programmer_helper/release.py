@@ -144,6 +144,31 @@ def registry_conflicts(root, selected):
     return sorted(conflicts)
 
 
+def read_package(firmware):
+    """Validate an archive for identification without extracting firmware."""
+    path = Path(firmware).absolute()
+    try:
+        with path.open('rb') as stream:
+            def checksum():
+                stream.seek(0)
+                value = hashlib.sha256()
+                for block in iter(lambda: stream.read(1024 * 1024), b''):
+                    value.update(block)
+                return value.hexdigest()
+
+            before = checksum()
+            stream.seek(0)
+            with ZipFile(stream) as archive:
+                manifest = verify_archive(archive)
+                validate_manifest(manifest)
+            if checksum() != before:
+                raise BuildError('Firmware ZIP changed while reading')
+        return manifest, {'source': 'zip', 'archive': str(path), 'archive_sha256': before,
+                          'git_revision': manifest['git_revision']}
+    except (BadZipFile, KeyError, TypeError, AttributeError, ValueError, RuntimeError) as exc:
+        raise BuildError(f'Invalid firmware ZIP: {exc}') from exc
+
+
 def stage(root, selection, cycle_name, chain, programmer_backend, firmware, build_backend=None):
     """Validate first, then extract only selected artifacts to a private directory."""
     root = Path(root).resolve()

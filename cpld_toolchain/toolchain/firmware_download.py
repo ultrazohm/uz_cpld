@@ -1,4 +1,4 @@
-"""Download the newest CI firmware release for the checkout's Git branch."""
+"""Download the newest CI firmware release for a GitHub repository and branch."""
 import argparse
 from datetime import datetime
 import hashlib
@@ -31,24 +31,46 @@ def git(root, *args, optional=False):
     return result.stdout.strip() if result.returncode == 0 else ''
 
 
-def source(root, remote=None):
-    branch = git(root, 'symbolic-ref', '--quiet', '--short', 'HEAD', optional=True)
-    if not branch:
-        raise BuildError('Firmware download requires a checked-out Git branch; HEAD is detached or this is not a Git checkout')
-    tracking_remote = git(root, 'config', '--get', f'branch.{branch}.remote', optional=True)
-    selected_remote = remote or tracking_remote or 'origin'
-    if selected_remote == '.':
-        raise BuildError('The current branch tracks a local branch; select a GitHub remote with --remote')
-    ref = f'refs/heads/{branch}'
-    if selected_remote == tracking_remote:
-        ref = git(root, 'config', '--get', f'branch.{branch}.merge', optional=True) or ref
-    if not ref.startswith('refs/heads/'):
-        raise BuildError('The current branch must track a remote branch, not a tag')
-    url = git(root, 'remote', 'get-url', selected_remote)
+def github_repository(url):
     match = re.fullmatch(r'(?:git@github\.com:|https://github\.com/|ssh://git@github\.com/)([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+?)(?:\.git)?/?', url)
     if not match:
-        raise BuildError(f'Remote {selected_remote!r} must reference a github.com repository using HTTPS or SSH')
-    return match[1], ref
+        raise BuildError('git_url or remote URL must reference a github.com repository using HTTPS or SSH')
+    return match[1]
+
+
+def branch_ref(branch):
+    name = branch.removeprefix('refs/heads/')
+    if (not name or name.startswith(('-', 'refs/')) or name.endswith('.') or
+            re.search(r'[\s\x00-\x1f\x7f~^:?*\[\\]', name) or '..' in name or '@{' in name or
+            any(not part or part.startswith('.') or part.endswith('.lock') for part in name.split('/'))):
+        raise BuildError('branch must be a branch name or refs/heads/NAME, not a tag or invalid ref')
+    return f'refs/heads/{name}'
+
+
+def source(root, remote=None, *, git_url=None, branch=None):
+    if git_url is not None and remote is not None:
+        raise BuildError('Use git_url or remote, not both')
+    repository = github_repository(git_url) if git_url is not None else None
+    ref = branch_ref(branch) if branch is not None else None
+    if repository is not None and ref is not None:
+        return repository, ref
+    local_branch = git(root, 'symbolic-ref', '--quiet', '--short', 'HEAD', optional=True)
+    if not local_branch and ref is None:
+        raise BuildError('Firmware download requires a checked-out Git branch; '
+                         'supply git_url and branch to download without a checkout')
+    tracking_remote = git(root, 'config', '--get', f'branch.{local_branch}.remote', optional=True) if local_branch else ''
+    selected_remote = remote or tracking_remote or 'origin'
+    if selected_remote == '.' and repository is None:
+        raise BuildError('The current branch tracks a local branch; select a GitHub remote with --remote')
+    if ref is None:
+        ref = branch_ref(local_branch)
+        if selected_remote == tracking_remote:
+            ref = git(root, 'config', '--get', f'branch.{local_branch}.merge', optional=True) or ref
+    if not ref.startswith('refs/heads/'):
+        raise BuildError('The current branch must track a remote branch, not a tag')
+    if repository is None:
+        repository = github_repository(git(root, 'remote', 'get-url', selected_remote))
+    return repository, branch_ref(ref)
 
 
 class AssetRedirect(HTTPRedirectHandler):
@@ -163,8 +185,8 @@ def verify_archive(archive, *, commit=None):
     return manifest
 
 
-def download(root, *, remote=None, output=None):
-    repository, ref = source(root, remote)
+def download(root, *, remote=None, output=None, git_url=None, branch=None):
+    repository, ref = source(root, remote, git_url=git_url, branch=branch)
     release, asset, commit = latest(repository, ref)
     destination = Path(output) if output else Path(root) / 'build/downloads' / release['tag_name'] / ASSET
     if destination.is_symlink():
@@ -185,10 +207,12 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root', type=Path, default=repository_root())
     parser.add_argument('--remote')
+    parser.add_argument('--git-url', help='GitHub repository URL; with --branch, no Git checkout is needed')
+    parser.add_argument('--branch', help='Branch to match instead of the checkout default')
     parser.add_argument('--output', type=Path)
     args = parser.parse_args(argv)
     try:
-        download(args.root.resolve(), remote=args.remote, output=args.output)
+        download(args.root.resolve(), remote=args.remote, output=args.output, git_url=args.git_url, branch=args.branch)
         return 0
     except (BuildError, OSError, ValueError, KeyError, TypeError, BadZipFile, HTTPException, RuntimeError) as exc:
         print(f'Firmware download failed: {exc}', file=sys.stderr)

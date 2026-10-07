@@ -11,6 +11,20 @@ from cpld_toolchain.toolchain.buildsystem.model import BuildError
 
 
 class ProgramTests(unittest.TestCase):
+    def test_invalid_direct_selection_fails_without_creating_a_file_or_accessing_usb(self):
+        from cpld_toolchain.runtime import working_directory
+        with tempfile.TemporaryDirectory() as directory, working_directory(Path(directory)):
+            for arguments in (['--target', 'dslot', '--dslot1', 'tx30'],
+                              ['--target', 's3c', '--dslot1', 'tx30'],
+                              ['--target', 's3c', '--s3c-program', 's3c_heartbeat', '--selection', 'custom.toml'],
+                              ['--target', 's3c', '--s3c-program', 's3c_heartbeat', '--release', 'original', '--release-cycle', 'heartbeat']):
+                with self.subTest(arguments=arguments), patch.object(program, 'execute') as execute:
+                    with self.assertRaises(SystemExit) as error:
+                        program.main(['program', '--execute', *arguments])
+                    self.assertEqual(error.exception.code, 2)
+                    execute.assert_not_called()
+                    self.assertEqual(list(Path(directory).iterdir()), [])
+
     def test_initial_selection_overrides_defaults_and_preserves_existing_file(self):
         from cpld_toolchain.programmer_helper.helper import read_selection
         with tempfile.TemporaryDirectory() as directory:

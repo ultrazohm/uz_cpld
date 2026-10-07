@@ -54,6 +54,51 @@ class DownloadTests(unittest.TestCase):
             self.assertEqual(firmware.source(self.root), ('owner/repo', 'refs/heads/topic/firmware'))
         subprocess.run(['git', '-C', str(self.root), 'config', 'remote.origin.url', 'https://github.com/fork/repo'], check=True)
         self.assertEqual(firmware.source(self.root, 'origin'), ('fork/repo', 'refs/heads/local-topic'))
+        self.assertEqual(firmware.source(self.root, branch='release/candidate'),
+                         ('owner/repo', 'refs/heads/release/candidate'))
+        self.assertEqual(firmware.source(self.root, git_url='https://github.com/other/firmware'),
+                         ('other/firmware', 'refs/heads/topic/firmware'))
+
+    def test_explicit_url_and_branch_do_not_consult_git(self):
+        for url in ('https://github.com/owner/repo.git', 'git@github.com:owner/repo.git',
+                    'ssh://git@github.com/owner/repo'):
+            for branch in ('feature/programmer', 'refs/heads/feature/programmer'):
+                with self.subTest(url=url, branch=branch), patch.object(firmware, 'git') as git:
+                    self.assertEqual(firmware.source(self.root, git_url=url, branch=branch),
+                                     ('owner/repo', 'refs/heads/feature/programmer'))
+                git.assert_not_called()
+
+    def test_branch_override_works_in_detached_checkout(self):
+        with patch.object(firmware, 'git', side_effect=['', 'https://github.com/owner/repo']) as git:
+            self.assertEqual(firmware.source(self.root, branch='master'), ('owner/repo', 'refs/heads/master'))
+        self.assertEqual(git.call_args.args[1:], ('remote', 'get-url', 'origin'))
+
+    def test_invalid_overrides_fail_before_git_or_network(self):
+        for options in ({'git_url': 'https://example.com/owner/repo', 'branch': 'master'},
+                        {'git_url': 'https://github.com/owner/repo', 'remote': 'origin'},
+                        *({'branch': branch} for branch in ('', '../bad', 'refs/tags/v1', 'bad\nbranch', 'foo..bar'))):
+            with self.subTest(options=options), patch.object(firmware, 'git') as git, \
+                    patch.object(firmware, 'request') as network, self.assertRaises(BuildError):
+                firmware.download(self.root, **options)
+            git.assert_not_called()
+            network.assert_not_called()
+
+    def test_public_download_with_explicit_source_needs_no_git(self):
+        from cpld_toolchain.toolchain import commands
+        from cpld_toolchain import tools
+        payload = archive_bytes()
+        selected = release(1)
+        asset = dict(selected['assets'][0], size=len(payload))
+        destination = self.root / 'firmware.zip'
+        with patch.object(firmware, 'git', side_effect=AssertionError('Git must not run')), \
+                patch.object(tools, 'installed', side_effect=AssertionError('No external tool is required')), \
+                patch.object(firmware, 'latest', return_value=(selected, asset, COMMIT)) as latest, \
+                patch.object(firmware, 'request', return_value=io.BytesIO(payload)):
+            self.assertEqual(commands.main(['--make-help', 'firmware_download',
+                '--option', 'git_url=https://github.com/owner/repo.git', '--option', 'branch=topic',
+                '--option', f'output={destination}']), 0)
+        latest.assert_called_once_with('owner/repo', 'refs/heads/topic')
+        self.assertEqual(destination.read_bytes(), payload)
 
     def test_detached_head_fails_before_network_access(self):
         with patch.object(firmware, 'git', return_value=''), patch.object(firmware, 'request') as network:

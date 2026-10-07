@@ -75,15 +75,25 @@ Downloading branch firmware
 current Git branch. It reads the configured tracking remote and upstream branch,
 or defaults to ``origin`` and the local branch name. ``--remote NAME`` selects a
 different GitHub remote; ``--output FILE`` overrides the ZIP destination.
-GitHub HTTPS and SSH remotes are supported. Git is required, but Diamond, the GitHub
-CLI and programmer tools are not required.
+GitHub HTTPS and SSH repository URLs are supported.
+Git is required when repository or branch information must be discovered from the checkout; Diamond, the GitHub CLI and programmer tools are not required.
+
+Supply both overrides to download without Git or a checkout::
+
+   make firmware_download git_url=https://github.com/ultrazohm/uz_cpld.git branch=master
+   uz_cpld firmware_download --git-url https://github.com/ultrazohm/uz_cpld.git --branch master
+
+``git_url`` replaces the remote URL and cannot be combined with ``remote``.
+``branch`` overrides branch selection and accepts either a branch name or ``refs/heads/NAME``; tags are not accepted.
+When only one override is supplied, checkout discovery supplies the other value.
+Existing root discovery and output locations are unchanged; ``output=PATH`` can select the destination explicitly.
 
 The command searches all release pages, includes prereleases, excludes drafts and
 requires the uploaded ``uz-cpld-firmware.zip`` asset. Only releases whose CI notes
 record the exact matching ``Source ref: refs/heads/<branch>`` are considered.
 The newest is selected by publication time. A local branch may be ahead of its
 last published build; the selected release tag and source commit are printed.
-A detached HEAD or a branch without published firmware produces an error.
+A detached HEAD without an explicit branch, or a branch without published firmware, produces an error.
 
 Public repositories can be accessed without authentication. Set ``GH_TOKEN`` or
 ``GITHUB_TOKEN`` for private repositories or authenticated API access, with repository

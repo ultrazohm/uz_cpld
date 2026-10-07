@@ -161,8 +161,16 @@ def parse(root, chain, output, *, registry=None):
     return devices
 
 
-def identify(root, chain, backend='diamond', cable=None, serial=None, probe_index=None, *, output=None, registry=None):
+def identify(root, chain, backend='diamond', cable=None, serial=None, probe_index=None, *, output=None, registry=None, firmware=None):
     from .program import run_command
+    manifest = None
+    evidence = {}
+    if firmware is not None:
+        if registry is not None:
+            raise BuildError('Use either a firmware ZIP or an explicit registry')
+        from .release import read_package
+        manifest, evidence = read_package(firmware)
+        registry = manifest['identity_registry']
     preflight(backend, cable, serial, probe_index)
     root = Path(root).resolve()
     with workspace_lock(root):
@@ -175,6 +183,8 @@ def identify(root, chain, backend='diamond', cable=None, serial=None, probe_inde
         base.mkdir(parents=True, exist_ok=True)
         directory = Path(tempfile.mkdtemp(prefix='read-', dir=base)) if output is None else output
         directory.mkdir(parents=True, exist_ok=True)
+        if manifest is not None:
+            write_json(directory / 'manifest.json', manifest)
         if backend == 'diamond':
             raw = diamond_read(root, chain, directory, probe_index)
         else:
@@ -184,7 +194,7 @@ def identify(root, chain, backend='diamond', cable=None, serial=None, probe_inde
             with diamond_usb(DEFAULT_DIAMOND_PORT, serial=serial):
                 raw = run_command(command, directory / 'identify.log')
         devices = parse(root, chain, raw, registry=registry)
-        write_json(directory / 'identity.json', {'chain': chain, 'programmer_backend': backend, 'devices': devices,
+        write_json(directory / 'identity.json', {**evidence, 'chain': chain, 'programmer_backend': backend, 'devices': devices,
                    'read_at': datetime.now(timezone.utc).isoformat()})
         for device in devices:
             identity = device['identity']

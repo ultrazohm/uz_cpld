@@ -205,7 +205,7 @@ def require_usb_bus():
         return  # Native Windows driver access is checked by the vendor tools.
     bus = Path('/dev/bus/usb')
     if not bus.is_dir() or not any(bus.glob('*/*')):
-        raise BuildError('No USB device nodes are visible at /dev/bus/usb. Reopen with the USB Dev Container profile and check that the programmer is connected to the Docker host.')
+        raise BuildError('No USB device nodes are visible at /dev/bus/usb. Connect the programmer and check USB permissions; containers also need USB forwarding.')
 
 
 def run_command(command: tuple[str, ...], log: Path, *, env=None) -> str:
@@ -245,10 +245,9 @@ def run_diamond(command: tuple[str, ...], log: Path, xcf: Path) -> str:
     port = re.fullmatch(r'FTUSB-(\d+)', project.findtext('./CableOptions/PortAdd', ''))
     if project.findtext('./CableOptions/CableName') != 'USB2' or port is None:
         raise BuildError(f'{xcf}: expected a USB2 FTUSB port')
-    with diamond_usb(int(port[1])):
-        if sys.platform == 'win32':
-            return run_command(command, log, env=diamond_environment(command))
-        return run_command(command, log)
+    from cpld_toolchain.external import system_libraries
+    with diamond_usb(int(port[1])), system_libraries():
+        return run_command(command, log, env=diamond_environment(command))
 
 
 def selected_chain_builds(root: Path, cycle: str, slots: dict[int, str], s3c: str,

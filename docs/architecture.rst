@@ -104,9 +104,10 @@ It accepts executables directly in that directory or under a tool-named subdirec
 Companion libraries, scripts and the patched flasher receipt must accompany any future bundled tools.
 The pinned FOSS build installation and its receipt checks remain separate and unchanged.
 
-This establishes discovery and execution boundaries for future distributions; it does not produce a standalone executable or bundle native tools.
+The focused :doc:`standalone` entry point packages download, selection and Diamond programming commands as native CLI archives.
+It shares the managed programmer with repository usage and ships its own Python runtime; Diamond remains a system installation and openFPGALoader bundling remains future work.
 Source builds and local-artifact programming still require the checkout and build provenance.
 ZIP programming and identification use the archive's manifest and identity registry without requiring matching source files or a local catalog.
 Use ``uz_cpld --workspace DIRECTORY`` to select a writable workspace for programming, identification, firmware downloads and local build/catalog commands; see :doc:`programmer`.
 Without this option, root discovery still prefers the source checkout, then a checkout at or above the current directory, and otherwise falls back to the package's parent directory.
-Packaging simulation workers and producing OS-specific executable distributions remain future work.
+Packaging simulation workers remains separate from this programming-only distribution.

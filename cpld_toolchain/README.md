@@ -19,7 +19,7 @@ Setup downloads uv and the project Python as needed, installs all locked Python 
 The `cpld-toolchain` executable and module entry point remain available.
 Source builds and local-artifact programming require the checkout and their external tools.
 Release ZIP programming and identification can use an installed package without matching sources or a local catalog; use `uz_cpld --workspace DIRECTORY program ...` as described in the [programmer reference](../docs/programmer.rst).
-No self-contained executable or native-tool bundle is currently distributed by this package.
+The separate [standalone CLI](../docs/standalone.rst) release bundles Python for Windows and Ubuntu and uses the system's Diamond Programmer.
 The standalone generator also runs outside a checkout:
 
 ```sh

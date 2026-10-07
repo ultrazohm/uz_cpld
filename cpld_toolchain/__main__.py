@@ -16,6 +16,9 @@ def main(argv=None):
             file=sys.stderr,
         )
         return 2
+    if len(args) == 1 and args[0].startswith('programmer_path='):
+        from .standalone import main as programmer
+        return programmer(args)
     from .toolchain.commands import main as run
     return run(args)
 

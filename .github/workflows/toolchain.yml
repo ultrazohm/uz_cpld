@@ -8,6 +8,45 @@ permissions:
   contents: read
 
 jobs:
+  standalone:
+    name: Standalone CLI (${{ matrix.platform }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            platform: ubuntu-24.04-x64
+            executable: uz_cpld
+          # GitHub's x64 Windows runners use Server; the application targets Windows 11.
+          - os: windows-2025
+            platform: windows-x64
+            executable: uz_cpld.exe
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: distribution/requirements.txt
+      - name: Install pinned packaging tools
+        run: python -m pip install -r distribution/requirements.txt
+      - name: Test standalone behavior
+        run: python -m unittest cpld_toolchain.toolchain.tests.test_standalone -v
+      - name: Build native CLI
+        run: python distribution/build.py
+      - name: Test the executable outside the checkout
+        run: python distribution/smoke.py build/standalone/dist/uz_cpld/${{ matrix.executable }}
+      - name: Archive the tested application
+        run: python distribution/archive.py pack --application build/standalone/dist/uz_cpld --output build/standalone/assets
+      - uses: actions/upload-artifact@v4
+        with:
+          name: standalone-${{ matrix.platform }}
+          path: build/standalone/assets/*
+          if-no-files-found: error
+          retention-days: 14
+
   windows-python:
     runs-on: windows-latest
     timeout-minutes: 15
@@ -192,17 +231,27 @@ jobs:
   publish-firmware:
     name: Publish testing firmware
     if: github.event_name == 'push'
-    needs: [diamond-build, checks, windows-python]
-    runs-on: ubuntu-22.04
+    needs: [diamond-build, checks, windows-python, standalone]
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
       contents: write
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
           name: diamond-firmware
           path: firmware
-      - name: Publish firmware ZIP as a testing prerelease
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: standalone-*
+          path: standalone-tools
+          merge-multiple: true
+      - name: Assemble tool-only, combined and firmware-only downloads
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: python3 distribution/archive.py assemble --tools standalone-tools --firmware firmware/uz-cpld-firmware.zip --output release-assets --commit "$SOURCE_SHA"
+      - name: Publish CLI and firmware as a testing prerelease
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
@@ -215,18 +264,22 @@ jobs:
           from pathlib import Path
 
           Path('release-notes.txt').write_text(
-              'Testing firmware from a push build.\n\n'
+              'Standalone CLI and testing firmware from a push build.\n\n'
               f'Source commit: {os.environ["SOURCE_SHA"]}\n'
               f'Source ref: {os.environ["SOURCE_REF"]}\n\n'
-              'The ZIP contains Diamond .bit/.jed exports for all release catalogs and manifest.json '
+              'Downloads: tool only or tool + firmware for Windows 11 x64 and Ubuntu 24.04 x64; '
+              'firmware only is the platform-independent uz-cpld-firmware.zip. '
+              'The application includes Python; install Diamond Programmer 3.14.0.75.2 and cable drivers separately. '
+              'Configure it with uz_cpld programmer_path=PATH. See the included README.txt.\n\n'
+              'The firmware ZIP contains Diamond .bit/.jed exports for all release catalogs and manifest.json '
               'with checksums, build provenance and the identity registry from this run.\n'
               'These builds do not establish hardware or board timing acceptance. '
-              'Identity allocations remain local to this CI checkout; reconcile the included '
-              'registry before using the managed programmer.\n'
+              'ZIP programming uses the included identity registry. '
+              'Windows executables are unsigned and tested on GitHub Windows Server runners.\n'
           )
           PYTHON
-          gh release create "$tag" firmware/uz-cpld-firmware.zip \
-            --target "$SOURCE_SHA" --title "Testing firmware $tag" \
+          gh release create "$tag" release-assets/* \
+            --target "$SOURCE_SHA" --title "CPLD tools and testing firmware $tag" \
             --prerelease --latest=false --notes-file release-notes.txt
 
   deploy:

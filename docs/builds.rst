@@ -13,6 +13,8 @@ The workflow runs on pushes, pull requests and manual dispatches.
 
    * - Job
      - Tasks, in execution order
+   * - ``standalone``
+     - Build the focused native CLI on Ubuntu 24.04 and Windows Server 2025; run standalone tests and executable smoke checks; retain tool-only archives for Ubuntu and Windows 11 x64.
    * - ``windows-python``
      - Check out sources; install Python 3.10; preview environment bootstrap without third-party packages; create the native venv; run the Windows tooling test subset; check tracked generated files for ``heartbeat_cvg/cvg_tx30``; preview catalog builds; preview D-slot programming.
    * - ``checks``
@@ -20,7 +22,7 @@ The workflow runs on pushes, pull requests and manual dispatches.
    * - ``diamond-build``
      - On pushes and manual runs, authenticate using ``DIAMOND_GHCR_TOKEN``; build the ``diamond-ci`` image target from ``DIAMOND_IMAGE`` without FOSS tools; check Diamond startup and synthesis; attempt every release catalog; package all verified Diamond exports into one ZIP; retain firmware and diagnostics.
    * - ``publish-firmware``
-     - On every push, after successful Diamond, Linux and Windows jobs, publish the firmware ZIP as a uniquely named GitHub testing prerelease.
+     - On every push, after successful Diamond, Linux, Windows and standalone jobs, publish tool-only and tool-plus-firmware archives for both platforms, the unchanged firmware ZIP and checksums as a uniquely named GitHub testing prerelease.
    * - ``deploy``
      - After successful Linux and Windows checks on ``master``, configure Pages and deploy the uploaded HTML through the ``github-pages`` environment.
 

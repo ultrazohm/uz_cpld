@@ -9,6 +9,7 @@ Each guide includes a quick start reference.
    :maxdepth: 2
 
    user/index
+   standalone
    developer/toolchain
    developer/hdl
    _generated/programs/index

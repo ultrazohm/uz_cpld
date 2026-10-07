@@ -4,6 +4,7 @@ Build, simulate and program UltraZohm MachXO2 D-slot and S3C firmware.
 Start setup from this checkout with Python 3.8 or newer.
 
 - [User guide](docs/user/index.rst): setup, select firmware, build and program.
+- [Standalone CLI](docs/standalone.rst): Windows/Ubuntu tool-only, tool-plus-firmware and firmware-only downloads, with system Diamond Programmer.
 - [Toolchain contribution](docs/developer/toolchain.rst): tooling setup, implementation, tests and CI.
 - [HDL developer](docs/developer/hdl.rst): handwritten and generated programs, simulation and validation.
 - [Releases](docs/releases.rst): compare program families, protocols and build support.

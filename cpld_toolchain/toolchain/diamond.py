@@ -34,8 +34,12 @@ def executable(kind='cli', *, required=True):
         candidates.insert(0, str(root / 'programmer/bin' / platform_dir / names[kind]))
     if 'DIAMOND_ROOT' not in os.environ:
         candidates.append(names[kind])
-    if os.environ.get(variable):
-        candidates = [os.environ[variable]]
+    override = os.environ.get(variable)
+    if kind == 'programmer':
+        from cpld_toolchain.settings import programmer_override
+        override, _ = programmer_override()
+    if override:
+        candidates = [override]
     for candidate in candidates:
         found = shutil.which(candidate)
         if found:
@@ -54,7 +58,8 @@ def executable(kind='cli', *, required=True):
 
 def environment(executable_path):
     """Windows tools need DLL/search paths; Linux launchers set their own environment."""
-    env = dict(os.environ)
+    from cpld_toolchain.external import environment as external_environment
+    env = external_environment()
     if sys.platform != 'win32':
         return env
     binary = Path(executable_path).resolve()

@@ -140,7 +140,7 @@ Local build/catalog commands require project sources in the selected workspace; 
 ``setup``, ``image``, ``test``, ``sim``, ``netlist``, ``docs`` and ``docs_assets`` require repository usage and reject ``--workspace``.
 Run those commands from the checkout without the option.
 The standalone generator continues to use its explicit config and output paths.
-There is currently no self-contained executable or installer bundling Python and the native programmer.
+The :doc:`standalone` CLI bundles Python and provides a programming-only interface; native Diamond Programmer remains externally installed.
 
 Backends and probes
 -------------------

@@ -228,4 +228,5 @@ Missing documentation or simulation tools never prevent help, catalog listing or
 
 A future distribution can supply the patched openFPGALoader through the common tool resolver while leaving Diamond as a system installation.
 No external tools are bundled by this change, and the native driver and USB access requirements still apply.
-See :doc:`architecture` for the module boundaries and future packaging limitations.
+The :doc:`standalone` programming CLI bundles Python for Windows and Ubuntu while using the system Diamond Programmer.
+See :doc:`architecture` for the module boundaries and :doc:`standalone` for release and validation scope.

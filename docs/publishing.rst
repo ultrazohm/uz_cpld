@@ -67,16 +67,19 @@ This validates the archive's provenance and identity registry without matching l
 See :doc:`programmer` for release selection, backend compatibility and run records.
 Registry counters are not coordinated across independent CI runs, and prerelease firmware has no established hardware or board timing acceptance.
 The 14-day retention period applies to Actions diagnostics and preview artifacts; GitHub Release archives are separate downloads.
+The publication job also waits for native standalone CLI builds, then attaches tool-only and tool-plus-firmware archives for Windows and Ubuntu alongside the unchanged firmware-only ZIP and checksums.
+See :doc:`standalone` for the application downloads and persistent configuration.
 
 Downloading branch firmware
 ---------------------------
 
-``uz_cpld firmware_download`` downloads the newest published CI firmware for the
+In the repository CLI, ``uz_cpld firmware_download`` downloads the newest published CI firmware for the
 current Git branch. It reads the configured tracking remote and upstream branch,
 or defaults to ``origin`` and the local branch name. ``--remote NAME`` selects a
 different GitHub remote; ``--output FILE`` overrides the ZIP destination.
 GitHub HTTPS and SSH repository URLs are supported.
 Git is required when repository or branch information must be discovered from the checkout; Diamond, the GitHub CLI and programmer tools are not required.
+The standalone application instead defaults to ``ultrazohm/uz_cpld`` on ``master`` and never needs Git; its repository and branch overrides are optional and independent.
 
 Supply both overrides to download without Git or a checkout::
 

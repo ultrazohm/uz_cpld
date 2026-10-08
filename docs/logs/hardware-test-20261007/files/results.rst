@@ -1,5 +1,5 @@
 MachXO2 hardware test — 2026-10-07
-========================================
+=================================
 
 Result: PASS for Diamond builds, Diamond programming, FOSS programming,
 independent identity cross-reading, and power-cycle identity persistence.
@@ -51,7 +51,7 @@ USERCODE against the Flash USERCODE. Post-cycle persistence here means identity
 persistence; a separate post-cycle full-flash byte comparison was not performed.
 
 Distinct D-slot assignments
-----------------------------------------
+--------------------------
 
 Diamond wrote assignment A. After both readers confirmed A and its persistence,
 FOSS wrote assignment B. Every slot changed firmware. Both readers confirmed B
@@ -112,12 +112,13 @@ the retry passed. The failed attempt is retained with the successful results.
 Evidence and limitations
 ------------------------
 
-The :doc:`Logs section <logs/hardware-test-20261007/index>` provides the session
-records, build and simulation logs, successful and failed programming logs,
-identity cross-checks, selections and scripts as individual downloads.
-These files are preserved under ``docs/logs/hardware-test-20261007/`` in the
-repository. The same section includes the complete evidence archive and its
-SHA-256 checksum, including firmware, build metadata and detailed reports.
+Detailed session record and logs: ``build/hardware-test-20261007/``.
+Portable evidence archive: ``build/hardware-test-20261007-evidence.zip``;
+its SHA-256 is stored beside it in the matching ``.sha256`` file.
+The archive includes cross-check scripts and results, selections, firmware,
+build metadata, relevant reports, and the successful and failed programming logs.
+These generated files are ignored by Git; preserve the archive separately from
+cleanup commands. This report is saved in repository documentation.
 
 No oscilloscope/logic-analyzer measurements, physical routing tests, heartbeat
 boundary measurements, power-control/fault-recovery acceptance, board-level

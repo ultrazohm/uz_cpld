@@ -1,0 +1,22 @@
+{
+  "A": [
+    "cvg_tx30",
+    "cvg_rx30",
+    "cvg_tx16_14rx",
+    "cvg_tx20_10rx",
+    "cvg_optical_14tx_4rx"
+  ],
+  "B": [
+    "cvg_rx30",
+    "cvg_tx16_14rx",
+    "cvg_tx20_10rx",
+    "cvg_optical_14tx_4rx",
+    "cvg_tx30"
+  ],
+  "purpose": "Distinct identities in all slots; cyclic permutation changes every slot, including center slot.",
+  "matrix": [
+    "Diamond writes A; Diamond and FOSS read A; power cycle; both read A",
+    "FOSS writes B; FOSS and Diamond read B; power cycle; both read B"
+  ],
+  "status": "complete: A and B programming, both-reader cross-checks and power-cycle persistence passed"
+}

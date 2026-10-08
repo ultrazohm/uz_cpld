@@ -1,0 +1,37 @@
+{
+  "chain": "s3c",
+  "devices": [
+    {
+      "idcode": "012BC043",
+      "identity": {
+        "build": {
+          "artifacts": [
+            {
+              "completed_at": "2026-10-07T16:38:11.227275+00:00",
+              "firmware_sha256": {
+                "bit": "829d4be0b1b300e4c2051ae012aa4efdf990ca6f6c88cc4fda9526656536a1a3",
+                "jed": "efe659bfa53141e85faef0303fd1ad2263b52e28e2572e637e27868375449339"
+              },
+              "git_revision": "febf4f13df55f02232735afc17fab7a00f2d354c"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "ab28077ec0b0c36d49a72cc02e8cc5aa9b317434fb45970d0837ac92f7eedc0d",
+          "target": "uz_s3c_xo2"
+        },
+        "known_build": true,
+        "program": "heartbeat_cvg/s3c_heartbeat",
+        "program_number": 81,
+        "revision": 9
+      },
+      "index": 0,
+      "label": "s3c",
+      "silicon_id": "4437468658443B",
+      "sram_usercode": "00510009",
+      "traceid": "014437468658443B",
+      "usercode": "00510009"
+    }
+  ],
+  "programmer_backend": "foss",
+  "read_at": "2026-10-07T20:19:31.722056+00:00"
+}

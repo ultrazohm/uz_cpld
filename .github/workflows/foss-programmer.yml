@@ -1,13 +1,7 @@
 name: FOSS programmer native Windows checks
 on:
   push:
-    paths:
-      - 'cpld_toolchain/toolchain/foss/**'
-      - '.github/workflows/foss-programmer.yml'
   pull_request:
-    paths:
-      - 'cpld_toolchain/toolchain/foss/**'
-      - '.github/workflows/foss-programmer.yml'
   workflow_dispatch:
 permissions:
   contents: read
@@ -45,7 +39,10 @@ jobs:
           patch -p1 --batch --forward -i ../../cpld_toolchain/toolchain/foss/openfpgaloader-usercode.patch
       - name: Compile the native Windows loader and protocol tests
         run: |
+          # libftdi's CMake export can contain /ucrt64 library paths that native
+          # Windows Ninja cannot resolve. Use upstream's pkg-config fallback.
           cmake -S native-loader-check/openFPGALoader-1.1.1 -B native-loader-check/build -G Ninja \
+            -DCMAKE_DISABLE_FIND_PACKAGE_LibFTDI1=TRUE \
             -DENABLE_CABLE_ALL=OFF -DENABLE_FTDI_BASED_CABLE=ON \
             -DENABLE_VENDORS_ALL=OFF -DENABLE_LATTICE_SUPPORT=ON -DENABLE_UDEV=OFF
           cmake --build native-loader-check/build --parallel 2

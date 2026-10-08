@@ -14,21 +14,6 @@ All three guides include a **Quick start reference** with executable commands.
 The selected release is recorded in `programs/releases.toml`; use `--release-cycle NAME` to override it for one command.
 Diamond is the default backend. Commands use tools installed in the calling environment.
 
-To run the Linux CI checks locally, use:
-
-```sh
-bash ci.sh
-```
-
-On a Linux host (or WSL with Docker available), this builds the shared toolchain
-image and runs the checks inside it; only Bash and Docker are needed on the host.
-Inside the Dev Container, the same command runs directly. It checks the Python
-environment, tooling tests, FOSS firmware, heartbeat comparison, HDL simulations
-and documentation, using the same script as GitHub Actions. Logs are in
-`build/ci-*.log` and the summary is `build/ci-summary.md`.
-Diamond and target OS application checks remain separate; see
-[the CI task inventory](docs/builds.rst).
-
 After cloning, run setup:
 
 Run `./uz_cpld_setup.sh` in Bash (Linux/macOS), run `.\uz_cpld_setup.ps1` in
@@ -57,3 +42,18 @@ The container uses the same pinned Python, uv release and dependency lockfile, w
 The `python -m cpld_toolchain` and `cpld-toolchain` entry points remain available.
 To build the full documentation in a configured development environment, run
 `uz_cpld docs --release-cycle all` and open `docs/_build/html/index.html`.
+
+To run the Linux CI checks locally, use:
+
+```sh
+bash ci.sh
+```
+
+On a Linux host (or WSL with Docker available), this builds the shared toolchain
+image and runs the checks inside it; only Bash and Docker are needed on the host.
+Inside the Dev Container, the same command runs directly. It checks the Python
+environment, tooling tests, FOSS firmware, heartbeat comparison, HDL simulations
+and documentation, using the same script as GitHub Actions. Logs are in
+`build/ci-*.log` and the summary is `build/ci-summary.md`.
+Diamond and target OS application checks remain separate; see
+[the CI task inventory](docs/builds.rst).

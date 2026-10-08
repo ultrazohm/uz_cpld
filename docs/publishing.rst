@@ -29,6 +29,7 @@ Pull requests and pushes to other branches produce documentation review artifact
 Successful Linux checks on pushes or manual runs on ``master`` upload a Pages artifact; deployment through the ``github-pages`` environment also requires successful Windows checks.
 Both the artifact upload and deployment conditions select this branch explicitly.
 See :doc:`builds` for the complete CI and firmware pipeline task inventory.
+See :doc:`developer/ci-review` for known CI gaps, log explanations and suggested fixes.
 
 Enable **Settings → Pages → Build and deployment → Source: GitHub Actions** once in the GitHub repository.
 Allow ``master`` in the ``github-pages`` environment deployment branch rules and satisfy any repository approval rules.

@@ -98,4 +98,5 @@ Toolchain reference
    ../foss
    ../program-documentation
    ../publishing
+   ci-review
    ../api

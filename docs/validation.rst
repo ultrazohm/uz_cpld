@@ -68,6 +68,12 @@ identity cross-reading and power-cycle checks on one UltraZohm system.
 CI coverage and release gates
 ----------------------------------------
 
+``bash ci.sh`` runs the Linux checks locally and in GitHub Actions. On a Linux
+host it builds and enters the shared container; inside the Dev Container it runs
+directly. It requires no native Python setup on the host. It retains each check's
+log and attempts independent checks after failures, but returns failure if any
+check fails. See :doc:`builds` for coverage and the checks that need other environments.
+
 The main workflow calls the native Windows FOSS programmer workflow on every
 push, pull request and manual run. The programmer workflow can also be dispatched
 manually. Testing release publication requires its success alongside Diamond,

@@ -4,7 +4,23 @@ Build and author programs
 Pipeline task inventory
 -----------------------
 
-The automation is defined in ``.github/workflows/toolchain.yml``; the Makefile forwards commands to ``python -m cpld_toolchain``.
+Run the Linux CI checks from the repository root with::
+
+   bash ci.sh
+
+On a Linux host, or WSL with Docker available, this builds the shared toolchain
+image and runs the checks inside it. The host needs only Bash and Docker, with
+network access for the first image build. Inside the Dev Container, the same
+script runs directly. Later image builds reuse Docker's layer cache.
+The script runs the same commands as the GitHub ``checks`` job and returns a
+nonzero status if any check fails, while still attempting independent checks.
+Logs are written to ``build/ci-*.log`` and the summary to ``build/ci-summary.md``.
+It uses the normal checkout and build directories; firmware builds can update
+``programs/usercodes.json`` just as individual local build commands do.
+
+The GitHub orchestration is defined in ``.github/workflows/toolchain.yml``;
+``ci.sh`` owns the Linux check sequence. The Makefile forwards individual commands
+to ``python -m cpld_toolchain``.
 The workflow runs on pushes, pull requests and manual dispatches.
 
 .. list-table:: CI tasks
@@ -17,20 +33,27 @@ The workflow runs on pushes, pull requests and manual dispatches.
      - Build the focused native CLI on Ubuntu 24.04 and Windows Server 2025; run standalone tests and executable smoke checks; retain tool-only archives for Ubuntu and Windows 11 x64.
    * - ``windows-python``
      - Check out sources; install Python 3.10; preview environment bootstrap without third-party packages; create the native venv; run the Windows tooling test subset; check tracked generated files for ``heartbeat_cvg/cvg_tx30``; preview catalog builds; preview D-slot programming.
+   * - ``windows-foss``
+     - Call the native Windows programmer workflow to compile and test the patched loader in MSYS2 without USB hardware.
    * - ``checks``
-     - Check out sources; build the license-free Docker toolchain image; run Python tooling tests; build the FOSS-supported ``original`` catalog; build ``heartbeat_cvg/cvg_tx30``; compare the pilot against its RTL reference; generate documentation and run HDL simulations for all release cycles; retain diagnostics and the HTML preview; upload the Pages site on successful ``master`` runs.
+     - Check out sources; build the license-free Docker toolchain image; run ``bash ci.sh`` inside it to verify the Python environment, run tooling tests, build the FOSS-supported ``original`` catalog and ``heartbeat_cvg/cvg_tx30``, compare the pilot, and generate documentation with HDL simulations for all releases; retain diagnostics and the HTML preview; upload the Pages site on successful ``master`` runs.
    * - ``diamond-build``
      - On pushes and manual runs, authenticate using ``DIAMOND_GHCR_TOKEN``; build the ``diamond-ci`` image target from ``DIAMOND_IMAGE`` without FOSS tools; check Diamond startup and synthesis; attempt every release catalog; package all verified Diamond exports into one ZIP; retain firmware and diagnostics.
    * - ``publish-firmware``
-     - On every push, after successful Diamond, Linux, Windows and standalone jobs, publish tool-only and tool-plus-firmware archives for both platforms, the unchanged firmware ZIP and checksums as a uniquely named GitHub testing prerelease.
+     - On branch pushes, after successful Diamond, Linux, Windows Python, Windows programmer and standalone jobs, check that the commit is still the branch head and publish tool-only and tool-plus-firmware archives for both platforms, the unchanged firmware ZIP and checksums as a uniquely named GitHub testing prerelease.
    * - ``deploy``
      - After successful Linux and Windows checks on ``master``, configure Pages and deploy the uploaded HTML through the ``github-pages`` environment.
 
 Diamond jobs require the private image credentials and its bundled license and run independently of the documentation deployment gate.
+The public container does not contain Diamond. Its licensed CI job remains
+separate. Native Windows checks require Windows, and standalone applications are
+built and tested in their target OS environments (Ubuntu 24.04 and Windows).
+These checks and publication are outside ``ci.sh``; passing it confirms the Linux
+``checks`` job's coverage.
 Pull requests omit Diamond builds, firmware publication and Pages deployment.
 Manual runs build and retain Diamond firmware without publishing a GitHub Release.
 Release catalogs are attempted sequentially even if an earlier catalog fails; any failure prevents ZIP publication.
-After the license-free image succeeds, independent firmware and documentation steps still run if an earlier check fails, so their diagnostics are available.
+Inside ``ci.sh``, independent firmware and documentation checks still run if an earlier check fails, so their diagnostics are available.
 The pilot comparison runs only after its firmware build succeeds.
 Artifact retention is attempted even after failures, with a 14-day retention period.
 

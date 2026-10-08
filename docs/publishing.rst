@@ -22,7 +22,9 @@ The build checks local page, image, iframe and download links for missing files 
 GitHub Pages
 ------------
 
-The repository workflow ``.github/workflows/toolchain.yml`` builds the image, runs tooling tests, compiles the FOSS firmware catalog and generates documentation in separate steps.
+The repository workflow ``.github/workflows/toolchain.yml`` builds the image and
+runs ``bash ci.sh`` inside it for tooling tests, FOSS firmware, simulations and
+documentation. The same command runs the Linux CI checks locally.
 Pull requests and pushes to other branches produce documentation review artifacts without deploying Pages.
 Successful Linux checks on pushes or manual runs on ``master`` upload a Pages artifact; deployment through the ``github-pages`` environment also requires successful Windows checks.
 Both the artifact upload and deployment conditions select this branch explicitly.
@@ -44,7 +46,7 @@ A configured workflow is not evidence of a successful hosted deployment; verify 
 Firmware downloads
 ------------------
 
-Every push, including feature branches and tags, requests publication of ``uz-cpld-firmware.zip`` through GitHub Releases after Diamond, Linux and Windows checks succeed.
+Branch pushes, including feature branches, request publication of ``uz-cpld-firmware.zip`` through GitHub Releases after Diamond, Linux and Windows checks succeed. Tag pushes do not publish testing releases.
 The release is marked as a testing prerelease, never as the latest stable release.
 Its tag is ``firmware-ci-<run_id>-<run_attempt>`` and points to the pushed commit; reruns receive a new tag rather than replacing a previous archive.
 The workflow uses ``GITHUB_TOKEN`` with ``contents: write`` for publication; the private Diamond image still requires ``DIAMOND_GHCR_TOKEN``.

@@ -8,6 +8,9 @@ permissions:
   contents: read
 
 jobs:
+  windows-foss:
+    uses: ./.github/workflows/foss-programmer.yml
+
   standalone:
     name: Standalone CLI (${{ matrix.platform }})
     strategy:
@@ -62,7 +65,13 @@ jobs:
       - name: Create the native environment
         run: python -m cpld_toolchain setup --activate 0
       - name: Check Python tooling and native Windows locking
-        run: .venv\Scripts\python.exe -m cpld_toolchain test
+        run: |
+          New-Item -ItemType Directory -Force build | Out-Null
+          .venv\Scripts\python.exe -m cpld_toolchain test 2>&1 | Tee-Object -FilePath build/ci-tests.log
+          exit $LASTEXITCODE
+      - name: Summarize skipped tests and validation limits
+        if: always()
+        run: python cpld_toolchain/toolchain/ci_summary.py --test-log build/ci-tests.log
       - name: Verify the CLI and tracked generated programs
         run: |
           .venv\Scripts\python.exe -m cpld_toolchain check --program cvg_tx30 --release-cycle heartbeat_cvg
@@ -106,7 +115,10 @@ jobs:
           subprocess.run(["uv", "run", "python", "-c", "import sys; assert sys.prefix == '/opt/uz-cpld-env'"], check=True)
           PYTHON
       - name: Run tooling tests
-        run: docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make test
+        shell: bash
+        run: |
+          mkdir -p build
+          docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make test 2>&1 | tee build/ci-tests.log
       - name: Build original FOSS firmware
         if: ${{ !cancelled() && steps.image.outcome == 'success' }}
         run: docker run --rm --user "$(id -u):$(id -g)" --mount "type=bind,source=$PWD,target=/work" -w /work uz-cpld-toolchain make build_all backend=foss release_cycle=original
@@ -124,6 +136,7 @@ jobs:
         with:
           name: program-diagnostics
           path: |
+            build/ci-tests.log
             programs/usercodes.json
             build/analysis/
             build/foss/
@@ -131,6 +144,9 @@ jobs:
             build/validation/
           if-no-files-found: warn
           retention-days: 14
+      - name: Summarize skipped tests and validation limits
+        if: always()
+        run: python3 cpld_toolchain/toolchain/ci_summary.py --backend foss --test-log build/ci-tests.log
       - name: Retain the documentation preview
         if: always()
         uses: actions/upload-artifact@v4
@@ -208,6 +224,9 @@ jobs:
             sudo sysctl -w "kernel.randomize_va_space=$original_aslr"
             test "$(sysctl -n kernel.randomize_va_space)" = "$original_aslr"
           fi
+      - name: Summarize Diamond validation limits
+        if: always()
+        run: python3 cpld_toolchain/toolchain/ci_summary.py --backend diamond
       - name: Retain Diamond firmware and diagnostics
         if: always()
         uses: actions/upload-artifact@v4
@@ -231,7 +250,7 @@ jobs:
   publish-firmware:
     name: Publish testing firmware
     if: github.event_name == 'push'
-    needs: [diamond-build, checks, windows-python, standalone]
+    needs: [diamond-build, checks, windows-python, standalone, windows-foss]
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:

@@ -11,6 +11,32 @@ import subprocess
 from ..model import BuildError
 
 
+# These legacy controllers leave outputs unspecified before startup assignments.
+# This exception accepts only their documented output counterexamples, not tool
+# errors or internal match-point failures. See docs/validation.rst.
+STARTUP_EXCEPTIONS = {
+    ('original/s3c_power_on_debounce', 'uz_s3c_xo2'): 'Unspecified initial RTL outputs; hardware startup is not qualified.',
+    ('original/s3c_rev6_beta', 'uz_s3c_xo2'): 'Unspecified initial RTL outputs; hardware startup is not qualified.',
+}
+
+
+def enforce_startup_proof(build, proof_record, report):
+    """Retain proof evidence and reject counterexamples outside explicit exceptions."""
+    rejected = False
+    if not proof_record['initial_alignment_proven']:
+        reason = STARTUP_EXCEPTIONS.get((build.qualified_name, build.target))
+        if reason and proof_record['initial_alignment'] == 'output counterexample':
+            proof_record['startup_exception'] = reason
+            print(f'WARNING: {build.qualified_name}: startup proof exception: {reason}', flush=True)
+        else:
+            rejected = True
+            proof_record['result'] = 'failed startup acceptance'
+    report.write_text(json.dumps(proof_record, indent=2) + '\n')
+    if rejected:
+        raise BuildError(f'{build.qualified_name}: unexpected startup proof failure '
+                         f'({proof_record["initial_alignment"]}); see {report}')
+
+
 def suite_root():
     return Path(os.environ.get('FOSS_ROOT', '/opt/oss-cad-suite')).resolve()
 
@@ -354,7 +380,7 @@ class FossBackend:
                     proof_record['initial_alignment_proven'] = True
         else:
             proof_record['initial_alignment'] = 'not applicable: combinational design'
-        (project.parent / 'metadata/reports/equivalence.json').write_text(json.dumps(proof_record, indent=2) + '\n')
+        enforce_startup_proof(build, proof_record, project.parent / 'metadata/reports/equivalence.json')
         from ..foss_config import package_lpf
         netlist = mapped
         module = netlist['modules'][plan['top']]

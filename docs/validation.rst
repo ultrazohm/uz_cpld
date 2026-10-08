@@ -36,6 +36,12 @@ The sequential FOSS induction check alone does not prove startup alignment.
 The initialized-state miter passes for ``cvg_tx30_stateful`` and records output counterexamples for both ``s3c_power_on_debounce`` and ``s3c_rev6_beta``; a successful export does not establish initial-state equivalence for either controller.
 Both controllers leave some output registers unspecified before their startup assignments execute.
 The strict startup comparison allows arbitrary binary values for uninitialized reference registers, while mapped flip-flop models supply definite initial values.
+FOSS builds reject unexpected startup counterexamples before exporting firmware.
+The only accepted exceptions are output counterexamples for
+``original/s3c_power_on_debounce`` and ``original/s3c_rev6_beta`` on
+``uz_s3c_xo2``. Tool errors and internal match-point counterexamples still fail,
+including for these controllers. Accepted exceptions are recorded explicitly in
+``equivalence.json`` and printed as warnings; they do not establish startup equivalence.
 An eight-step diagnostic comparison that marks unspecified initial registers unknown and ignores undefined reference outputs passes for both controllers; it does not replace the strict check or establish hardware startup behavior.
 The 18 combinational D-slot programs in ``original`` use combinational equivalence checks and have no sequential startup check.
 ``make report backend=foss`` or ``make report backend=diamond`` checks existing build evidence for stale inputs and outputs without rebuilding.
@@ -47,3 +53,23 @@ Recorded hardware test
 
 See :doc:`hardware-test-2026-10-07` for the completed Diamond/FOSS programming,
 identity cross-reading and power-cycle checks on one UltraZohm system.
+
+CI coverage and release gates
+----------------------------
+
+The main workflow calls the native Windows FOSS programmer workflow on every
+push, pull request and manual run. The programmer workflow can also be dispatched
+manually. Testing release publication requires its success alongside Diamond,
+Linux checks, Windows Python and standalone packaging jobs.
+
+Job summaries list skipped tooling tests, firmware warnings, startup exceptions
+and validation limits. Linux retains the tooling test log in program diagnostics.
+Four optional browser tests require Playwright/Chromium and ``CPLD_BROWSER_TESTS=1``;
+the normal Linux job does not enable them. Windows skips HDL tests when GHDL is
+unavailable; those checks run in the Linux toolchain environment.
+Summaries describe coverage and do not replace job exit-status checks.
+
+Timing acceptance has no gate until program timing budgets are defined.
+Standalone smoke checks use fixtures and dry runs. Native programmer tests run
+inside MSYS2 without USB hardware; they do not qualify Windows hardware drivers
+or a redistributable programmer bundle.

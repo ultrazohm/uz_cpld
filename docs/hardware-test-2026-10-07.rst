@@ -1,5 +1,5 @@
 MachXO2 hardware test — 2026-10-07
-=================================
+========================================
 
 Result: PASS for Diamond builds, Diamond programming, FOSS programming,
 independent identity cross-reading, and power-cycle identity persistence.
@@ -51,7 +51,7 @@ USERCODE against the Flash USERCODE. Post-cycle persistence here means identity
 persistence; a separate post-cycle full-flash byte comparison was not performed.
 
 Distinct D-slot assignments
---------------------------
+----------------------------------------
 
 Diamond wrote assignment A. After both readers confirmed A and its persistence,
 FOSS wrote assignment B. Every slot changed firmware. Both readers confirmed B

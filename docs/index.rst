@@ -14,3 +14,4 @@ Each guide includes a quick start reference.
    developer/hdl
    _generated/programs/index
    Release comparison <releases>
+   hardware-test-2026-10-07

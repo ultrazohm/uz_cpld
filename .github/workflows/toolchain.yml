@@ -249,8 +249,11 @@ jobs:
 
   publish-firmware:
     name: Publish testing firmware
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' && github.ref_type == 'branch'
     needs: [diamond-build, checks, windows-python, standalone, windows-foss]
+    concurrency:
+      group: firmware-release-${{ github.ref }}
+      cancel-in-progress: false
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
@@ -270,7 +273,13 @@ jobs:
         env:
           SOURCE_SHA: ${{ github.sha }}
         run: python3 distribution/archive.py assemble --tools standalone-tools --firmware firmware/uz-cpld-firmware.zip --output release-assets --commit "$SOURCE_SHA"
+      - name: Check branch head before publication
+        id: freshness
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 cpld_toolchain/toolchain/ci_freshness.py
       - name: Publish CLI and firmware as a testing prerelease
+        if: steps.freshness.outputs.current == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
@@ -307,6 +316,7 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 10
     permissions:
+      contents: read
       pages: write
       id-token: write
     concurrency:
@@ -316,7 +326,15 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - uses: actions/checkout@v4
+      - name: Check branch head before deployment
+        id: freshness
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 cpld_toolchain/toolchain/ci_freshness.py
       - uses: actions/configure-pages@v5
+        if: steps.freshness.outputs.current == 'true'
       - name: Deploy documentation
         id: deployment
+        if: steps.freshness.outputs.current == 'true'
         uses: actions/deploy-pages@v4

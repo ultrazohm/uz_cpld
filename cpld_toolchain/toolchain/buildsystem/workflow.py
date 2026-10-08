@@ -37,8 +37,10 @@ def hashes(build: Build) -> dict:
     paths.add(build.root / 'cpld_toolchain/toolchain/locking.py')
     if build.backend == 'diamond':
         paths.add(build.root / 'cpld_toolchain/toolchain/diamond.py')
+        paths.add(code / 'timing.py')
     if build.backend == 'foss':
         paths |= {code / 'ghdl.py', code / 'foss_config.py'}
+        paths.add(build.root / 'cpld_toolchain/toolchain/foss/startup-exceptions.json')
         paths |= set((build.root / 'cpld_toolchain/toolchain/hdl').rglob('*.v'))
         paths |= set((build.root / 'cpld_toolchain/toolchain/hdl').rglob('*.vhdl'))
     return {str(p.relative_to(build.root)): digest(p) for p in sorted(paths)}
@@ -210,6 +212,10 @@ def build_program(build: Build) -> Path:
                 values = re.findall(rb'(?m)^UH([0-9A-Fa-f]{8})\*\r?$', exports['jed'].read_bytes())
                 if values != [identity['usercode'].encode()]:
                     raise BuildError('Exported JEDEC USERCODE does not match the registered build identity')
+                from .timing import check_final_timing
+                timing = check_final_timing(proj / 'impl/firmware_impl.twr')
+                (metadata / 'reports').mkdir(exist_ok=True)
+                write_json(metadata / 'reports/timing.json', timing)
             published = []
             for ext, path in exports.items():
                 destination = build.firmware_path(ext)
@@ -231,7 +237,9 @@ def build_program(build: Build) -> Path:
                       'options': build.options,
                       'generated_configuration': configuration(proj),
                       'warnings': [line for line in output.splitlines() if 'WARNING' in line.upper()],
-                      'timing_acceptance': 'not evaluated: no program timing budget defined',
+                      'timing_acceptance': ('final routed constraints passed; board timing budgets not defined'
+                                            if build.backend == 'diamond' else
+                                            'not evaluated: no program timing budget defined'),
                       'git_revision': git('rev-parse', 'HEAD'),
                       'git_status': git('status', '--porcelain', '--untracked-files=all'),
                       'inputs': before, 'completed_at': datetime.now(timezone.utc).isoformat(),

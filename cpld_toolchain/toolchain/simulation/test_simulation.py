@@ -83,9 +83,15 @@ def run_simulation(build, request):
     assert (output / "waves.vcd").stat().st_size > 0
     cases = [case for result in output.glob('*.result.xml')
              for case in ET.parse(result).iter('testcase')]
-    assert cases, 'Cocotb produced no test result metadata'
+    if not cases:
+        raise BuildError('Cocotb produced no test result metadata')
+    incomplete = [case.get('name', '<unnamed>') for case in cases
+                  if any(case.find(tag) is not None for tag in ('skipped', 'failure', 'error'))]
+    if incomplete:
+        raise BuildError('HDL cases did not pass (skipped, failed or errored): ' + ', '.join(incomplete))
     if before != {str(path.relative_to(build.root)): hashlib.sha256(path.read_bytes()).hexdigest()
                   for path in inputs}:
         raise BuildError('Simulation inputs changed during the run; rerun simulation')
     provenance['simulation_duration_ns'] = sum(float(case.attrib['sim_time_ns']) for case in cases)
+    provenance['test_cases_passed'] = len(cases)
     (metadata / 'run.json').write_text(json.dumps(provenance, indent=2) + '\n')

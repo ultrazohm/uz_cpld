@@ -80,6 +80,17 @@ testbench = "probe_tb.py"
                 recovered = simulate()
                 self.assertEqual(recovered.returncode, 0, recovered.stdout + recovered.stderr)
 
+                # A passing case must not conceal another case skipped by cocotb.
+                testbench = program / 'probe_tb.py'
+                baseline = testbench.read_text()
+                testbench.write_text(baseline + '\n@cocotb.test(skip=True)\n'
+                                     'async def skipped_case(dut):\n    assert False\n')
+                skipped = simulate()
+                self.assertNotEqual(skipped.returncode, 0, skipped.stdout + skipped.stderr)
+                self.assertIn('HDL cases did not pass', skipped.stdout + skipped.stderr)
+                self.assertNotIn('simulation_duration_ns', json.loads((output / 'metadata/run.json').read_text()))
+                testbench.write_text(baseline)
+
                 # A passing HDL test must not publish success if its authored input changes mid-run.
                 testbench = program / 'probe_tb.py'
                 testbench.write_text(testbench.read_text() +

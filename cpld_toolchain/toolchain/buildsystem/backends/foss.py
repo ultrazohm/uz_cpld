@@ -11,30 +11,49 @@ import subprocess
 from ..model import BuildError
 
 
-# These legacy controllers leave outputs unspecified before startup assignments.
-# This exception accepts only their documented output counterexamples, not tool
-# errors or internal match-point failures. See docs/validation.rst.
-STARTUP_EXCEPTIONS = {
-    ('original/s3c_power_on_debounce', 'uz_s3c_xo2'): 'Unspecified initial RTL outputs; hardware startup is not qualified.',
-    ('original/s3c_rev6_beta', 'uz_s3c_xo2'): 'Unspecified initial RTL outputs; hardware startup is not qualified.',
-}
+STARTUP_POLICY = 'cpld_toolchain/toolchain/foss/startup-exceptions.json'
+
+
+def startup_fingerprint(build):
+    """Bind waivers to the reviewed sources, proof implementation and tool pins."""
+    from ..workflow import hashes
+    inputs = hashes(build)
+    # The policy contains this digest; including it would make the hash circular.
+    inputs.pop(STARTUP_POLICY, None)
+    value = {'program': build.qualified_name, 'target': build.target, 'inputs': inputs}
+    return hashlib.sha256(json.dumps(value, sort_keys=True).encode()).hexdigest()
+
+
+def proof_tool_fingerprint(record):
+    value = {name: {key: record['executables'][name][key] for key in ('version', 'binary_sha256')}
+             for name in ('ghdl', 'yosys')}
+    return hashlib.sha256(json.dumps(value, sort_keys=True).encode()).hexdigest()
 
 
 def enforce_startup_proof(build, proof_record, report):
     """Retain proof evidence and reject counterexamples outside explicit exceptions."""
     rejected = False
     if not proof_record['initial_alignment_proven']:
-        reason = STARTUP_EXCEPTIONS.get((build.qualified_name, build.target))
-        if reason and proof_record['initial_alignment'] == 'output counterexample':
-            proof_record['startup_exception'] = reason
-            print(f'WARNING: {build.qualified_name}: startup proof exception: {reason}', flush=True)
+        policy = json.loads((build.root / STARTUP_POLICY).read_text())
+        exception = policy.get(build.qualified_name, {})
+        fingerprint = startup_fingerprint(build)
+        proof_record['startup_input_fingerprint'] = fingerprint
+        if (exception.get('target') == build.target
+                and exception.get('input_fingerprint') == fingerprint
+                and exception.get('tool_fingerprint')
+                and exception['tool_fingerprint'] == proof_record.get('proof_tool_fingerprint')
+                and exception.get('outcome') == proof_record['initial_alignment']
+                and exception.get('reason')):
+            proof_record['startup_exception'] = exception['reason']
+            print(f'WARNING: {build.qualified_name}: startup proof exception: {exception["reason"]}', flush=True)
         else:
             rejected = True
             proof_record['result'] = 'failed startup acceptance'
     report.write_text(json.dumps(proof_record, indent=2) + '\n')
     if rejected:
         raise BuildError(f'{build.qualified_name}: unexpected startup proof failure '
-                         f'({proof_record["initial_alignment"]}); see {report}')
+                         f'({proof_record["initial_alignment"]}); see {report}. '
+                         'Changed exception inputs require review; do not refresh the waiver automatically.')
 
 
 def suite_root():
@@ -341,6 +360,7 @@ class FossBackend:
         shutil.copy2(project / 'rtl.v', project / 'impl/reference.v')
         mapped = json.loads((project.parent / 'metadata/reports/synth.json').read_text())
         proof, proof_record = equivalence_script(build, mapped)
+        proof_record['proof_tool_fingerprint'] = proof_tool_fingerprint(record)
         (project / 'equivalence.ys').write_text(proof)
         if build.foss_equivalence_blacklist:
             shutil.copy2(build.foss_equivalence_blacklist, project / 'equivalence-blacklist.txt')

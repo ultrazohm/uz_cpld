@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 import re
+import xml.etree.ElementTree as ET
 
 
 def render(root, backend=None, test_log=None):
@@ -37,8 +38,12 @@ def render(root, backend=None, test_log=None):
         if not records:
             lines += ['- **No completed build records; this does not establish firmware validation.**']
         warnings = sum(len(record.get('warnings', [])) for record in records)
-        lines += [f'- {warnings} recorded warning lines; inspect the retained build reports.',
-                  '- **Timing acceptance is not evaluated:** no program timing budgets are defined.']
+        lines += [f'- {warnings} recorded warning lines; inspect the retained build reports.']
+        if backend == 'diamond':
+            lines += ['- Final routed timing constraints must pass before firmware is exported.']
+        else:
+            lines += ['- **Timing acceptance is not evaluated** for FOSS builds.']
+        lines += ['- **Board timing budgets are not defined; tool timing checks do not qualify the board.**']
         for path in sorted(base.glob('*/*/*/metadata/reports/equivalence.json')):
             record = json.loads(path.read_text())
             if record.get('initial_alignment_proven') is False:
@@ -47,6 +52,24 @@ def render(root, backend=None, test_log=None):
                 label = 'Accepted startup exception' if exception else 'STARTUP PROOF NOT ACCEPTED'
                 lines += [f'- **{label}:** `{name}` — {record.get("initial_alignment")}. '
                           + (exception or 'This must block the build.')]
+        lines += ['']
+    if backend == 'foss':
+        results = sorted((root / 'build/analysis').glob('*/*/simulation/*.result.xml'))
+        counts = dict(passed=0, skipped=0, failed=0, errored=0)
+        details = []
+        for result in results:
+            for case in ET.parse(result).iter('testcase'):
+                state = ('failed' if case.find('failure') is not None else
+                         'errored' if case.find('error') is not None else
+                         'skipped' if case.find('skipped') is not None else 'passed')
+                counts[state] += 1
+                if state != 'passed':
+                    details.append(f'- **{state}:** `{result.relative_to(root)}` / `{case.get("name")}`')
+        lines += ['### HDL simulations', '',
+                  f'- {len(results)} result files: ' + ', '.join(f'{n} {state}' for state, n in counts.items()) + '.',
+                  '- Skipped, failed or errored HDL cases block simulation and documentation builds.', *details]
+        if not results:
+            lines += ['- **No HDL result files available; execution cannot be confirmed.**']
         lines += ['']
     lines += ['### Scope limits', '',
               '- CI does not test USB drivers or program real CPLD hardware.',

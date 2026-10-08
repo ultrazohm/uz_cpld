@@ -42,11 +42,22 @@ The only accepted exceptions are output counterexamples for
 ``uz_s3c_xo2``. Tool errors and internal match-point counterexamples still fail,
 including for these controllers. Accepted exceptions are recorded explicitly in
 ``equivalence.json`` and printed as warnings; they do not establish startup equivalence.
+Each exception in ``cpld_toolchain/toolchain/foss/startup-exceptions.json`` is tied
+to SHA-256 fingerprints of the reviewed sources, manifests, build/proof code,
+pinned tool inputs and the GHDL/Yosys versions and binaries. Changing those inputs
+invalidates the waiver. Review the new proof and counterexample before updating
+a fingerprint; CI never refreshes it.
 An eight-step diagnostic comparison that marks unspecified initial registers unknown and ignores undefined reference outputs passes for both controllers; it does not replace the strict check or establish hardware startup behavior.
 The 18 combinational D-slot programs in ``original`` use combinational equivalence checks and have no sequential startup check.
 ``make report backend=foss`` or ``make report backend=diamond`` checks existing build evidence for stale inputs and outputs without rebuilding.
 Neither command establishes hardware behavior or a timing acceptance limit.
-The authored LPFs contain no timing budget, so inspect the reports and board-specific electrical settings before using firmware on hardware.
+Diamond builds require a recognizable final routed ``firmware_impl.twr`` report
+with scored paths and no timing errors. Missing reports, unrecognized reports or
+failed final constraints prevent firmware publication. Intermediate synthesis
+estimates are not used for this gate. The result is saved in
+``metadata/reports/timing.json``. This validates the tool's routed constraints;
+the authored LPFs contain no board timing budget, so inspect board-specific
+electrical settings and define those budgets before hardware acceptance.
 
 Recorded hardware test
 ----------------------
@@ -55,12 +66,16 @@ See :doc:`hardware-test-2026-10-07` for the completed Diamond/FOSS programming,
 identity cross-reading and power-cycle checks on one UltraZohm system.
 
 CI coverage and release gates
-----------------------------
+----------------------------------------
 
 The main workflow calls the native Windows FOSS programmer workflow on every
 push, pull request and manual run. The programmer workflow can also be dispatched
 manually. Testing release publication requires its success alongside Diamond,
 Linux checks, Windows Python and standalone packaging jobs.
+Release publication is serialized per branch and Pages deployment is serialized
+for the site. Immediately before publishing, each job checks the current branch
+head through the GitHub API. An obsolete commit is skipped; an API failure blocks
+publication. Testing releases are published from branch pushes, not tag pushes.
 
 Job summaries list skipped tooling tests, firmware warnings, startup exceptions
 and validation limits. Linux retains the tooling test log in program diagnostics.
@@ -68,8 +83,12 @@ Four optional browser tests require Playwright/Chromium and ``CPLD_BROWSER_TESTS
 the normal Linux job does not enable them. Windows skips HDL tests when GHDL is
 unavailable; those checks run in the Linux toolchain environment.
 Summaries describe coverage and do not replace job exit-status checks.
+HDL simulation summaries read cocotb XML results separately from tooling tests.
+Every HDL case must pass; skipped, failed and errored cases block simulation and
+documentation generation. Successful simulation metadata records the case count.
 
-Timing acceptance has no gate until program timing budgets are defined.
+Board timing acceptance still requires program timing budgets; the Diamond gate
+checks only the constraints already present in the final routed report.
 Standalone smoke checks use fixtures and dry runs. Native programmer tests run
 inside MSYS2 without USB hardware; they do not qualify Windows hardware drivers
 or a redistributable programmer bundle.

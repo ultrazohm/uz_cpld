@@ -1,0 +1,16 @@
+{
+  "original/s3c_power_on_debounce": {
+    "target": "uz_s3c_xo2",
+    "outcome": "output counterexample",
+    "input_fingerprint": "d5c7cb8b810134e0e8fef51361397938ddfde0d7a12995fced513d9bb2f4a6f6",
+    "reason": "Reviewed legacy RTL leaves outputs unspecified before startup assignments; hardware startup is not qualified.",
+    "tool_fingerprint": "47b75b51c2319147f1b4fe2b61f1e1efe9894cce208417c373edf853ed0fe49c"
+  },
+  "original/s3c_rev6_beta": {
+    "target": "uz_s3c_xo2",
+    "outcome": "output counterexample",
+    "input_fingerprint": "62606bc0c077c4746a78e645e123b41e831b59d192c880f2a04237b8b02f55e8",
+    "reason": "Reviewed legacy RTL leaves outputs unspecified before startup assignments; hardware startup is not qualified.",
+    "tool_fingerprint": "47b75b51c2319147f1b4fe2b61f1e1efe9894cce208417c373edf853ed0fe49c"
+  }
+}

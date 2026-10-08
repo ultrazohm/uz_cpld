@@ -136,6 +136,8 @@ class FrontendTests(unittest.TestCase):
             (project / 'impl' / f'firmware_impl.{suffix}').write_text(
                 f'UH{identity["usercode"]}*\n' if suffix == 'jed' else 'new firmware')
         log.write_text('Diamond 3.14.0.75.2')
+        (project / 'impl/firmware_impl.twr').write_text(
+            'Lattice TRACE Report - Setup\n10 items scored, 0 timing errors detected.\nReport Summary\n')
         return log.read_text()
 
     def run_build(self, action=None):
@@ -472,6 +474,18 @@ class FrontendTests(unittest.TestCase):
             return 'Diamond 3.13'
         with self.assertRaisesRegex(BuildError, 'Expected Diamond'):
             self.run_build(version)
+
+    def test_failed_final_timing_prevents_firmware_publication(self):
+        self.run_build()
+        def timing_failure(project, log):
+            output = self.fake_build(project, log)
+            (project / 'impl/firmware_impl.twr').write_text(
+                'Lattice TRACE Report - Setup\n10 items scored, 1 timing errors detected.\nReport Summary\n')
+            return output
+        with self.assertRaisesRegex(BuildError, 'Final routed timing requirements failed'):
+            self.run_build(timing_failure)
+        self.assertFalse(self.build.firmware_path('jed').exists())
+        self.assertFalse((self.build.directory / 'metadata/build.json').exists())
 
     def test_catalog_report_detects_changed_inputs_and_outputs(self):
         report = catalog_report([self.build])

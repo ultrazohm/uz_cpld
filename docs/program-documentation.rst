@@ -4,21 +4,22 @@ Program diagrams and waveforms
 ::
 
    make docs jobs=4
-   make netlist program=tx26_w_enable
+   make netlist program=tx26_w_enable release_cycle=original
 
-``make docs`` discovers complete program manifests in the current release, generates RTL schematics, runs its testbench with seed 1 and builds a Sphinx page.
-Use ``release_cycle=all`` for all releases, or ``program=NAME`` and ``target=dslot|s3c`` to filter.
+``make docs`` discovers complete program manifests across all releases, generates RTL schematics, runs its testbench with seed 1 and builds a Sphinx page.
+Use ``release_cycle=NAME`` for a single release, or ``program=NAME`` and ``target=dslot|s3c`` to filter.
+The navigation groups program pages under ``Programs``, then the release name.
 An explicit filter matching no programs fails before replacing existing assets.
 Each page includes ``programs/<release_cycle>/<name>/description.rst`` when present, SVG/PDF diagrams, an interactive waveform and downloads.
 Up to ``jobs`` programs run concurrently (default: 4; ``jobs=1`` runs sequentially).
 For each program, RTL schematics, state diagrams, simulation, waveform assets and its page are generated in order.
 After every program succeeds, the complete page index is written and the main Sphinx build runs sequentially.
 Failed analysis or simulation stops the build; generated page sources are replaced before generation.
-A documentation lock covers asset generation, HTML cleanup, Sphinx rendering and site validation for ``make docs`` and ``make docs runner=local``.
-It rejects concurrent managed documentation builds and prevents ``clean-all`` or program creation throughout those stages.
+A documentation lock covers asset generation, HTML cleanup, Sphinx rendering and site validation for ``make docs``.
+It rejects concurrent managed documentation builds and prevents ``clean_all`` or program creation throughout those stages.
 The assets-only command holds the same lock for its generation stage.
-The same worker limit applies to ``make docs-assets runner=local`` and ``make docs runner=local``.
-Firmware builds, including Diamond ``make build-all``, run sequentially.
+The same worker limit applies to ``make docs_assets`` and ``make docs``.
+Firmware builds, including Diamond ``make build_all``, run sequentially.
 ``make netlist`` exports diagrams for the firmware catalog without simulation; ``program`` selects one program.
 
 RTL netlists
@@ -32,7 +33,7 @@ Conditional routing appears as a mux at this stage; for example, choosing an FPG
 The firmware tools can map that function into device LUTs.
 Vendor attributes such as ``syn_keep`` can be ignored; sources in the manifest are compiled in their declared libraries, while unsupported primitives require explicit models.
 
-``programs/<release_cycle>/<name>/build/netlist/`` contains ``netlist.svg``, ``netlist.pdf``, intermediates and diagnostic logs; ``metadata/`` contains netlist provenance and the Yosys JSON export.
+``build/analysis/<release_cycle>/<name>/netlist/`` contains ``netlist.svg``, ``netlist.pdf``, intermediates and diagnostic logs; ``metadata/`` contains netlist provenance and the Yosys JSON export.
 Netlist exports use the managed program/target lock and remove stale diagrams on failure.
 
 State diagrams
@@ -46,7 +47,7 @@ The extractor supports named ``when`` branches, grouped choices such as ``when r
 Unsupported or duplicate state choices fail diagram generation instead of publishing a partial graph.
 Reset assignments outside that statement, enclosing process guards, and implicit holds are omitted.
 The diagram is a source navigation aid and does not establish transition reachability or safety.
-Generated files and source hashes are under ``programs/<release_cycle>/<name>/build/state-diagrams/``.
+Generated files and source hashes are under ``build/analysis/<release_cycle>/<name>/state-diagrams/``.
 TerosHDL offers an interactive state-machine viewer in VS Code; Sphinx's headless export uses the repository's own extractor.
 
 Interactive waveforms
@@ -73,7 +74,7 @@ Authoring and publishing
 Write release-wide prose in ``programs/<release_cycle>/description.rst``, program-specific prose in ``programs/<release_cycle>/<name>/description.rst``, and shared guides in ``docs/*.rst``.
 Use one sentence per source line without manual wrapping or a line-length limit; preserve the required layout of directives, tables and code blocks.
 Generated pages follow the same prose rule.
-``make docs runner=local`` uses installed tools; ``make docs-assets runner=local`` generates pages/assets without Sphinx.
+``make docs`` uses installed tools; ``make docs_assets`` generates pages/assets without Sphinx.
 Direct Sphinx invocation renders existing assets without refreshing simulation or netlists.
 See :doc:`publishing` for GitHub Pages deployment and :doc:`architecture` for source/output ownership.
 
@@ -82,10 +83,11 @@ Browser checks
 
 The optional browser tests exercise schematic navigation and full-screen mode, waveform selection, keyboard focus and Plotly zoom/reset in Chromium::
 
-   python3 -m pip install playwright
-   python3 -m playwright install chromium
-   CPLD_BROWSER_TESTS=1 python3 -m unittest toolchain.tests.test_viewers_browser -v
+   uv run --with playwright python -m playwright install chromium
+   CPLD_BROWSER_TESTS=1 uv run --with playwright python -m unittest cpld_toolchain.toolchain.tests.test_viewers_browser -v
 
+For native setup, use the pinned uv executable under ``.tools/uv/``.
+The optional Playwright package is added to a temporary environment for these commands.
 Set ``CPLD_CHROMIUM_EXECUTABLE`` to use an existing Chromium executable.
 These tests are skipped during normal tooling tests unless ``CPLD_BROWSER_TESTS=1`` is set.
 
@@ -97,10 +99,10 @@ References
 * `Plotly HTML export <https://plotly.com/python/interactive-html-export/>`_
 * `UltraZohm documentation dependencies <https://github.com/ultrazohm/ultrazohm_sw/blob/main/docs/requirements.txt>`_
 
-Preserved historical HDL
-------------------------
+Declared netlist omissions
+--------------------------
 
-A program can declare ``netlist_skip_reason`` in its manifest when unchanged historical HDL cannot be synthesized by GHDL.
+A program can declare ``netlist_skip_reason`` in its manifest when its HDL cannot be synthesized by GHDL.
 The value must be a nonempty explanation and is displayed in place of the RTL schematic on the program page.
 Simulation remains mandatory, and unexpected netlist failures for other programs still fail documentation generation.
 Catalog netlist export reports the declared omission; explicitly requesting that program's netlist fails with the explanation.

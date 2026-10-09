@@ -7,5 +7,16 @@ __pycache__/
 .pytest_cache/
 docs/_generated/
 selection.toml
+# Preserve the selection used by the recorded hardware test.
+!docs/logs/hardware-test-20261007/files/selection.toml
 # Standalone Python package metadata.
 *.egg-info/
+
+# Persistent Windows workspace and registry locks.
+.cpld.lock
+
+# Host-specific Diamond selection and mount link; never include the installation.
+.devcontainer/.local/
+
+# Repository-local setup tools
+.tools/

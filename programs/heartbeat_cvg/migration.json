@@ -1,0 +1,255 @@
+{
+  "source_release": "heartbeat",
+  "source_commit": "4eb6c81d82ea4381a56f9991b11516cd226c0ae9",
+  "omitted_programs": {
+    "tx30_hearbeattesting": "Diagnostic CarrierReady passthrough excluded at user request."
+  },
+  "programs": [
+    {
+      "source": "optical_14tx_4rx",
+      "generated": "cvg_optical_14tx_4rx",
+      "source_sha256": "68741d69f510d3712b3ba21f658c209e87cd3daa1e59dfb521f3119655987032",
+      "undriven_outputs_changed_to_inputs": [],
+      "pre_system_error_source_sha256": "e54d9df4b504bbc4899bc178208ad84848b3f72fbb5709c30eef3196b43033db"
+    },
+    {
+      "source": "rx30",
+      "generated": "cvg_rx30",
+      "source_sha256": "d4c06e12c632037d984b685e47cbb8cac879ee15b5ecf92e518c182e59bf7c81",
+      "undriven_outputs_changed_to_inputs": [],
+      "pre_system_error_source_sha256": "a04743db7292c1c9904208130aec69a561a751959799f0ad4a5b6eede348497b"
+    },
+    {
+      "source": "template_dslots",
+      "generated": "cvg_template_dslots",
+      "source_sha256": "36a089310b99883563f6de2b52999f00fb33e2e426b970531121ab077a9859db",
+      "undriven_outputs_changed_to_inputs": [
+        "d_26",
+        "d_27",
+        "d_28",
+        "d_29"
+      ],
+      "pre_system_error_source_sha256": "ad01705fd5305fa266d1cca8373ff024da57239f2578f4d5ccade1f0c984c52f"
+    },
+    {
+      "source": "tx16_14rx",
+      "generated": "cvg_tx16_14rx",
+      "source_sha256": "6a871c5c8dbfeb759bd744fdfb0a1f8e5884f0668a062e0d1d5671d03106fe57",
+      "undriven_outputs_changed_to_inputs": [],
+      "pre_system_error_source_sha256": "8dc5359f28cfb23f5007e532bcadd56827844a36f072163873fc8e65e550213c"
+    },
+    {
+      "source": "tx20_10rx",
+      "generated": "cvg_tx20_10rx",
+      "source_sha256": "18e92a6f53ebdf7ebc23e3b42b1841e9b5b31a6ec5690b91cde6a5439806f1ce",
+      "undriven_outputs_changed_to_inputs": [],
+      "pre_system_error_source_sha256": "8eeee79ecd00b318fdcfc4ff7e249cf8becc898890c410577833056982d59ea5"
+    },
+    {
+      "source": "tx26_w_enable",
+      "generated": "cvg_tx26_w_enable",
+      "source_sha256": "7800923e60554c1df5793443c35e55a0db0edb7f236eeba14607e3b5fafb0085",
+      "undriven_outputs_changed_to_inputs": [
+        "d_26",
+        "d_27",
+        "d_28",
+        "d_29"
+      ],
+      "pre_system_error_source_sha256": "4257c50e2f832ee022e77ca2fba70321ec4eb34e2f8c80b3341c8e8234c6b7d5"
+    },
+    {
+      "source": "tx30",
+      "generated": "cvg_tx30",
+      "source_sha256": "0bc625f164e1cfffd1b9f80e3bd59003d6425e236a0fe741cce313e8f7671e6b",
+      "undriven_outputs_changed_to_inputs": [],
+      "pre_system_error_source_sha256": "42fbeb1a1a687fa65557289c66487775cf2a050b118d1e03d885385b12924218"
+    },
+    {
+      "source": "uz_d_3ph_inverter",
+      "generated": "cvg_uz_d_3ph_inverter",
+      "source_sha256": "e7ef31ff20486d69c7758bd063625869f9b6678de938ffdba9cf4f48ab2cab9d",
+      "undriven_outputs_changed_to_inputs": [],
+      "pre_system_error_source_sha256": "cca9fede8bfdd9f86711a98a4fa74f5ec59b23c6c27e47f927c72be897d85905"
+    },
+    {
+      "source": "uz_d_abs_encoder",
+      "generated": "cvg_uz_d_abs_encoder",
+      "source_sha256": "55c77833b7ab1a74500fefb639624ddbba8bf244f5b460ce3845838b8b3383ed",
+      "undriven_outputs_changed_to_inputs": [],
+      "pre_system_error_source_sha256": "204c716fbeed64ddb408fc7ce78efd9892d94ccc1868f5e9c54bb21da869c01b"
+    },
+    {
+      "source": "uz_d_resolver_d1_to_d4",
+      "generated": "cvg_uz_d_resolver_d1_to_d4",
+      "source_sha256": "963470cbe6e97768610ee4c0efa22d8d2fdb080a5b42153e3bc24c130aa1bae9",
+      "undriven_outputs_changed_to_inputs": [],
+      "pre_system_error_source_sha256": "b149f293e2e3fcb660262146ed93bc1a7f12cb70d5d416bbef2704fa64902fc2"
+    },
+    {
+      "source": "uz_d_resolver_d5",
+      "generated": "cvg_uz_d_resolver_d5",
+      "source_sha256": "d27f267afd31e738794bb1fcbe74ef69cfe0982a305cef254e99859f1614683e",
+      "undriven_outputs_changed_to_inputs": [
+        "d_18",
+        "d_19",
+        "d_20",
+        "d_21",
+        "d_22",
+        "d_23",
+        "d_24",
+        "d_25",
+        "d_27",
+        "d_28",
+        "d_29",
+        "fpga_00",
+        "fpga_01",
+        "fpga_02",
+        "fpga_03",
+        "fpga_04",
+        "fpga_05",
+        "fpga_24",
+        "fpga_25",
+        "fpga_26",
+        "fpga_27",
+        "fpga_28",
+        "fpga_29"
+      ],
+      "pre_system_error_source_sha256": "713b7cabcaf8a6aa47f53c4a3d106e90e0fdec9cbea7f33c40f01242d6d42e7e"
+    },
+    {
+      "source": "uz_d_temperature_ltc2983",
+      "generated": "cvg_uz_d_temperature_ltc2983",
+      "source_sha256": "582787c0ef0e6334ff680cff86f32b3426884138cd515f3bada97ec3e87349de",
+      "undriven_outputs_changed_to_inputs": [],
+      "pre_system_error_source_sha256": "d02b186f6c0b61616c19c35c3d8d4c11b03f7bed287272f7c4da20bafbb5eaa0"
+    },
+    {
+      "source": "voltage_8rx_8rx_8rx_6rx",
+      "generated": "cvg_voltage_8rx_8rx_8rx_6rx",
+      "source_sha256": "db5dec91a02cf07a1f1f031d9641313c3939ccdeea11a694d7e2f865697b5abf",
+      "undriven_outputs_changed_to_inputs": [],
+      "pre_system_error_source_sha256": "4aa78f65172e9fcb6c8f10e5f3261a4d2980d9646ab5be3406afd12ad83efe52"
+    },
+    {
+      "source": "voltage_8rx_8rx_8rx_6tx",
+      "generated": "cvg_voltage_8rx_8rx_8rx_6tx",
+      "source_sha256": "d46716fdf818b4c8a497ca03b8f981623d1c09099ecb809f41fda8223f845592",
+      "undriven_outputs_changed_to_inputs": [],
+      "pre_system_error_source_sha256": "a7cb705d3847639420cb6a854fc1c553df65040db973d55bbdfe9897fe9ae03f"
+    },
+    {
+      "source": "voltage_8rx_8rx_8tx_6rx",
+      "generated": "cvg_voltage_8rx_8rx_8tx_6rx",
+      "source_sha256": "a70f3b26e9ef6c44ae9692eeb48381f1a071651c306b94fadf8799fb138bb9d4",
+      "undriven_outputs_changed_to_inputs": [],
+      "pre_system_error_source_sha256": "f3e037afc9164fee3e97d9bc52f4a221e80133653bbfa4fc35be4ce6b1d3ecfd"
+    },
+    {
+      "source": "voltage_8rx_8rx_8tx_6tx",
+      "generated": "cvg_voltage_8rx_8rx_8tx_6tx",
+      "source_sha256": "3d4353925547f8b02062af897f074becbcbd6bf169d55a1aaff25b336ebd85aa",
+      "undriven_outputs_changed_to_inputs": [],
+      "pre_system_error_source_sha256": "3c89364ef4757dc0bc8e0c50c6849d05c02970d19b2ca8b6311bb3d900bb3a2a"
+    },
+    {
+      "source": "voltage_8rx_8tx_8rx_6rx",
+      "generated": "cvg_voltage_8rx_8tx_8rx_6rx",
+      "source_sha256": "15557a0f6e3ab30a33079736f3ea0d186de4e939760f9624532db1c07fc7ea2d",
+      "undriven_outputs_changed_to_inputs": [],
+      "pre_system_error_source_sha256": "8191bee7cdb1db941fbd9e63db0a8f77cd574709444cdbae9d405d6b8210d048"
+    },
+    {
+      "source": "voltage_8rx_8tx_8rx_6tx",
+      "generated": "cvg_voltage_8rx_8tx_8rx_6tx",
+      "source_sha256": "a23d8bbd714c7e8218833a0b3a5ea100523679b72841e14c9966db4a61f96d7e",
+      "undriven_outputs_changed_to_inputs": [],
+      "pre_system_error_source_sha256": "e4db3f4a3511f5bd2c34552f2d94863e0d347c33d03e02556e069341576fbae5"
+    },
+    {
+      "source": "voltage_8rx_8tx_8tx_6rx",
+      "generated": "cvg_voltage_8rx_8tx_8tx_6rx",
+      "source_sha256": "d9c67d8f6a140942561ec352a46d10633c4c3a5a0235675099c536f4d322fc79",
+      "undriven_outputs_changed_to_inputs": [],
+      "pre_system_error_source_sha256": "fe6d2a6348a083186e695875267bf52850fb30073e47653e82bf7eead33c6639"
+    },
+    {
+      "source": "voltage_8rx_8tx_8tx_6tx",
+      "generated": "cvg_voltage_8rx_8tx_8tx_6tx",
+      "source_sha256": "8ae3f9364e01feaec90dd214c0cb82b9d81e14f60ac0b093249695790b3f0d21",
+      "undriven_outputs_changed_to_inputs": [],
+      "pre_system_error_source_sha256": "0e916f8919e0209a21826bddafa453642f3699175f52a9c0a0683af70c6efd58"
+    },
+    {
+      "source": "voltage_8tx_8rx_8rx_6rx",
+      "generated": "cvg_voltage_8tx_8rx_8rx_6rx",
+      "source_sha256": "87a566ef4440f655dfbde3360596bf3f44ba74a468bf41fdeab5b320faa412cb",
+      "undriven_outputs_changed_to_inputs": [],
+      "pre_system_error_source_sha256": "0a6a39dab19910ee4e5688c7c03f52bccf7c1648e26cb41a1a2b08831f8cc9cd"
+    },
+    {
+      "source": "voltage_8tx_8rx_8rx_6tx",
+      "generated": "cvg_voltage_8tx_8rx_8rx_6tx",
+      "source_sha256": "5fd42083ec87d5d02b95ac1d38b8994557165f50ff1ab67000b1122a1929e492",
+      "undriven_outputs_changed_to_inputs": [],
+      "pre_system_error_source_sha256": "f47219661cfead9ffe1804607be4951be708a8c31ede4f9261567b9a0b2e92d3"
+    },
+    {
+      "source": "voltage_8tx_8rx_8tx_6rx",
+      "generated": "cvg_voltage_8tx_8rx_8tx_6rx",
+      "source_sha256": "d7c7a4fb3b4cb9cda42dec53e1e4231582f154fe7d17315b33971e632948db3f",
+      "undriven_outputs_changed_to_inputs": [],
+      "pre_system_error_source_sha256": "6c1736e1c887079a4f73fd9cb7ec379a369bc01a3cc8bf88bcf5985271283e1d"
+    },
+    {
+      "source": "voltage_8tx_8rx_8tx_6tx",
+      "generated": "cvg_voltage_8tx_8rx_8tx_6tx",
+      "source_sha256": "09b678488630dfd7db23b441c9a89e0acf353575b59c87d9bd8005d475be436a",
+      "undriven_outputs_changed_to_inputs": [],
+      "pre_system_error_source_sha256": "ab4cc4a0cdaf81e7267fca502b168faae89e31daa9a8898f52ebe15ec0293faf"
+    },
+    {
+      "source": "voltage_8tx_8tx_8rx_6rx",
+      "generated": "cvg_voltage_8tx_8tx_8rx_6rx",
+      "source_sha256": "83dcceab10518a93e42305de21b1f05a6c5805a39355a5d6cdd711239e860aa7",
+      "undriven_outputs_changed_to_inputs": [],
+      "pre_system_error_source_sha256": "247fa7225c05da62c900250be2199b716b9b0eb2502421cc4ec1457f770d3e3e"
+    },
+    {
+      "source": "voltage_8tx_8tx_8rx_6tx",
+      "generated": "cvg_voltage_8tx_8tx_8rx_6tx",
+      "source_sha256": "f446f00f27cbf268198a7f2814c293ae6570e11dfe20f3d467a89380ca47b997",
+      "undriven_outputs_changed_to_inputs": [],
+      "pre_system_error_source_sha256": "6526697aee7934ee2be65a287ac96551b9e7fd8aadd0ba991f46a316bbda85fe"
+    },
+    {
+      "source": "voltage_8tx_8tx_8tx_6rx",
+      "generated": "cvg_voltage_8tx_8tx_8tx_6rx",
+      "source_sha256": "dc3750f232ba2d76a8e0428f25ddae0815e8c54529b7e2018b3ac31623eec8c0",
+      "undriven_outputs_changed_to_inputs": [],
+      "pre_system_error_source_sha256": "47a155a44e99ae92b393c5c62e25ee5d81c7d828799fe795ae2e319e6b98c988"
+    },
+    {
+      "source": "voltage_8tx_8tx_8tx_6tx",
+      "generated": "cvg_voltage_8tx_8tx_8tx_6tx",
+      "source_sha256": "60bce28e91717735b9c3458e27e0a73b7a453d27700d4775c8ab6b41fc434196",
+      "undriven_outputs_changed_to_inputs": [],
+      "pre_system_error_source_sha256": "a1b0e2eba1ca9ed3712b8f66c5fb3efb966624f308a18f7c0a6e96266abc8750"
+    }
+  ],
+  "copied_programs": [
+    {
+      "source": "heartbeat/s3c_heartbeat",
+      "destination": "heartbeat_cvg/s3c_heartbeat",
+      "files_sha256": {
+        "s3c_heartbeat.vhdl": "073c92b851df2404edeef1becb052f0443095b521bb9e324c374b6411353f119",
+        "s3c_heartbeat_fsm.vhdl": "2a238cbe24626a12f795a1656cc263dbe7b6e59597cc5b86fe3184e3a52e30f6",
+        "s3c_heartbeat_lib.vhdl": "9678bf6360b52296a6ca69e3f087f97f02159e944fe3d30aac2d6b0d6794a9ef",
+        "s3c_heartbeat_constraints.lpf": "9c85cca0e13bb292b6b44633ea4a63b2f7557ef497ba0393547a36b3af50d9ab",
+        "s3c_heartbeat.toml": "ae4d4a05324818f73d531d83ea2db98f3e484560efe95a410ea5c30e95261c55",
+        "s3c_heartbeat_tb.py": "a0110457f4d1ed470aa70f8f73e88023efddf2b7d954e83e5747886e4a1e3ace",
+        "upstream.json": "06b55ffab8464ad0c42ff0e24abb9993a984f5d1f30258b36ad395f2753d7150"
+      }
+    }
+  ],
+  "system_error_policy": "After first qualification, heartbeat faults latch until D-slot power-on initialization. All declared outputs, SlotOK and ReqOE are zero in system_error. source_commit describes the initial normal/safe migration; source_sha256 includes this update."
+}

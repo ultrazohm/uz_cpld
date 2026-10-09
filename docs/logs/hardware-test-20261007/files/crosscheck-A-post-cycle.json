@@ -1,0 +1,57 @@
+{
+  "variant": "A",
+  "phase": "post-cycle",
+  "expected": [
+    {
+      "label": "slot1",
+      "traceid": "0144381228405816",
+      "idcode": "012BB043",
+      "usercode": "003B0011",
+      "program": "heartbeat_cvg/cvg_tx30"
+    },
+    {
+      "label": "slot2",
+      "traceid": "014438122840581A",
+      "idcode": "012BB043",
+      "usercode": "0036000A",
+      "program": "heartbeat_cvg/cvg_rx30"
+    },
+    {
+      "label": "slot3",
+      "traceid": "01443812283C5E02",
+      "idcode": "012BB043",
+      "usercode": "0038000A",
+      "program": "heartbeat_cvg/cvg_tx16_14rx"
+    },
+    {
+      "label": "slot4",
+      "traceid": "01443812283C6005",
+      "idcode": "012BB043",
+      "usercode": "0039000A",
+      "program": "heartbeat_cvg/cvg_tx20_10rx"
+    },
+    {
+      "label": "slot5",
+      "traceid": "01443812283C6003",
+      "idcode": "012BB043",
+      "usercode": "0035000A",
+      "program": "heartbeat_cvg/cvg_optical_14tx_4rx"
+    }
+  ],
+  "status": "pass",
+  "readers": {
+    "diamond": {
+      "status": "pass",
+      "source": "/workspaces/uz_cpld/build/programmer/identification/read-9nkmknjf/identity.json",
+      "read_at": "2026-10-07T20:03:56.459670+00:00",
+      "log": "/workspaces/uz_cpld/build/hardware-test-20261007/crosscheck-A-post-cycle-diamond.log"
+    },
+    "foss": {
+      "status": "pass",
+      "source": "/workspaces/uz_cpld/build/programmer/identification/read-3nq0jb7u/identity.json",
+      "read_at": "2026-10-07T20:03:57.047452+00:00",
+      "log": "/workspaces/uz_cpld/build/hardware-test-20261007/crosscheck-A-post-cycle-foss.log"
+    }
+  },
+  "completed_at": "2026-10-07T20:03:57.071030+00:00"
+}

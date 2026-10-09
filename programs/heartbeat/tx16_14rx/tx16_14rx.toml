@@ -1,0 +1,13 @@
+name = "tx16_14rx"
+top = "SignalRouter"
+standard = "2008"
+synthesis = "synplify"
+targets = ["uz_dslot_xo2"]
+backends = ["diamond"]
+constraints = ["tx16_14rx_constraints.lpf"]
+sources = [
+    {path = "../../../xo2_library/s3c/s3c_logic.vhdl", library = "s3c"},
+    {path = "../../../xo2_library/s3c/heartbeat.vhdl", library = "s3c"},
+    {path = "tx16_14rx.vhdl", library = "work"},
+]
+testbench = "tx16_14rx_tb.py"

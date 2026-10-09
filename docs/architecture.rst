@@ -8,32 +8,38 @@ Source layout
 
    repository root/
    ├── Makefile
-   ├── cpld_vhdl_generator/    standalone generator, contracts and board profiles
-   ├── xo2_library/            standalone shared HDL components and behavioral tests
+   ├── cpld_toolchain/         unified Python package and CLI
+   │   ├── cpld_vhdl_generator/ standalone generator, contracts and board profiles
+   │   ├── programmer_helper/ selection, JTAG identification and programming
+   │   └── toolchain/
+   │       ├── buildsystem/    validated model, lifecycle and firmware backends
+   │       ├── foss/           pinned installers and device-specific source build
+   │       ├── simulation/     pytest/GHDL runner
+   │       ├── analysis/       RTL export, VCD viewer and Sphinx page generation
+   │       ├── targets/        board manifests and strategy inputs
+   │       └── tests/          tooling regressions and integration checks
+   ├── xo2_library/            shared HDL components and behavioral tests
    ├── .devcontainer/          shared image and Dev Container configuration
-   ├── toolchain/
-   │   ├── buildsystem/        validated model, CLI, lifecycle and firmware backends
-   │   ├── foss/               pinned tool installers and device-specific source build
-   │   ├── simulation/         pytest/GHDL runner
-   │   ├── analysis/           RTL export, VCD viewer and Sphinx page generation
-   │   ├── targets/            board manifests and strategy inputs
-   │   └── tests/              tooling regressions and licensed integration check
    ├── programs/
    │   ├── releases.toml      current release cycle
    │   ├── usercodes.json     permanent program numbers and build identities
    │   └── <release_cycle>/
    │       ├── catalog.toml   firmware catalog
    │       └── <name>/        TOML, VHDL, LPF, testbench and description.rst
-   ├── docs/                  shared Sphinx source
-   └── archive/               vendor reference projects and material
+   └── docs/                  user guide, developer guide and Sphinx references
 
+Run ``uz_cpld`` in the activated environment.
+``python -m cpld_toolchain`` and ``cpld-toolchain`` remain equivalent entry points.
+The three components retain separate modules and tests within one package.
 The workspace can be copied or renamed.
 Manually maintained programs contain editable HDL, constraints, manifests and testbenches.
 Generator-managed projects use editable CSV/TOML inputs to produce the VHDL, testbench, board constraints, manifest and generation receipt.
 Generated VHDL references the shared S3C entity and selected architecture in ``xo2_library/s3c``.
 The build system validates generated files through the standalone package, while the generator itself has no build-system dependency.
-Firmware build artifacts live under each program's ignored ``build/`` directory, while aggregate reports use ``toolchain/build/`` and documentation uses ``docs/_generated/`` and ``docs/_build/``.
-The repository has one Makefile and one Dockerfile, with a default Dev Container configuration and an optional Linux USB configuration.
+Firmware artifacts live under ``build/<backend>/<release>/<program>/<target>/``, with a shared ``build/<backend>/manifest.json`` and no separate publication copy.
+Analysis, reports, programmer outputs and tool builds also use the top-level ``build/`` directory.
+Documentation uses ``docs/_generated/`` and ``docs/_build/``.
+The repository has one Makefile and one Dockerfile, with host-mounted and Diamond-image Dev Container profiles, each with an optional Linux USB configuration.
 
 Design decisions
 ----------------
@@ -59,12 +65,51 @@ Python integration
 ::
 
    from pathlib import Path
-   from toolchain.buildsystem.model import load_build
-   from toolchain.buildsystem.workflow import build_program
+   from cpld_toolchain.toolchain.buildsystem.model import load_build
+   from cpld_toolchain.toolchain.buildsystem.workflow import build_program
 
-   config = load_build(Path("/path/to/uz_cpld"), "tx30")
+   config = load_build(Path("/path/to/uz_cpld"), "cvg_tx30", release_cycle="heartbeat_cvg")
    output_dir = build_program(config)
 
 Use workflow functions to retain locking and provenance checks; backend methods are lower-level interfaces.
 Importing build modules does not launch Diamond, and expected configuration failures raise ``BuildError``.
 See :doc:`api` for signatures.
+
+CLI and command availability
+----------------------------
+
+The repository CLI exposes the complete command set.
+``cpld_toolchain/cli.py`` uses Typer to parse command-specific options, including numeric ranges and backend choices.
+The shared contract in ``toolchain/commands.py`` supplies the option signatures and retains Make-compatible help, cross-option validation, and side-effect-free command planning.
+``uz_cpld ACTION --help`` shows the options for that action; ``uz_cpld help --command ACTION`` also explains shared defaults and rules.
+Make translates its ``key=value`` options into the same CLI options.
+
+``capabilities.py`` checks only the selected command's prerequisites before execution.
+``runtime.py`` lazily imports the selected component and invokes its callable entry point in-process, restoring the caller's working directory afterward.
+The component entry points remain usable independently and retain their workflow validation and locking.
+External tools and isolated pytest/unittest runners still use subprocesses; documentation also retains its worker processes.
+Help, listing and selection initialization do not import the simulation or documentation dependencies.
+Dry runs do not check tool availability, start tools, or import the selected workflow.
+
+The normal Python package includes the dependencies for the complete application, including simulation and documentation.
+Lazy imports isolate commands and reduce startup work; they do not define separate reduced-functionality editions.
+``doctor`` reports located command prerequisites without claiming that licenses, tool versions, drivers or hardware have passed validation.
+Missing dependencies affect only commands that need them, and the requested backend is never changed automatically.
+Diamond build tools and Diamond Programmer are independent requirements.
+FOSS programming requires the patched openFPGALoader for programming and identity readback.
+
+``tools.py`` resolves programmer executables and the RTL Yosys executable without importing workflows.
+An explicit ``CPLD_OPENFPGALOADER`` takes priority and does not silently fall back if invalid.
+Then the resolver checks packaged tool resources, existing tool installation locations and PATH.
+The packaged resource directory defaults to ``cpld_toolchain/bundled_tools`` and may be supplied with ``CPLD_BUNDLED_TOOLS``.
+It accepts executables directly in that directory or under a tool-named subdirectory, including Windows ``.exe`` names.
+Companion libraries, scripts and the patched flasher receipt must accompany any future bundled tools.
+The pinned FOSS build installation and its receipt checks remain separate and unchanged.
+
+The focused :doc:`standalone` entry point packages download, selection and Diamond programming commands as native CLI archives.
+It shares the managed programmer with repository usage and ships its own Python runtime; Diamond remains a system installation and openFPGALoader bundling remains future work.
+Source builds and local-artifact programming still require the checkout and build provenance.
+ZIP programming and identification use the archive's manifest and identity registry without requiring matching source files or a local catalog.
+Use ``uz_cpld --workspace DIRECTORY`` to select a writable workspace for programming, identification, firmware downloads and local build/catalog commands; see :doc:`programmer`.
+Without this option, root discovery still prefers the source checkout, then a checkout at or above the current directory, and otherwise falls back to the package's parent directory.
+Packaging simulation workers remains separate from this programming-only distribution.

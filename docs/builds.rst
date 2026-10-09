@@ -1,6 +1,154 @@
 Build and author programs
 =========================
 
+Pipeline task inventory
+-----------------------
+
+Run the Linux CI checks from the repository root with::
+
+   bash ci.sh
+
+On a Linux host, or WSL with Docker available, this builds the shared toolchain image and runs the checks inside it.
+The host needs only Bash and Docker, with network access for the first image build.
+Inside the Dev Container, the same script runs directly.
+Later image builds reuse Docker's layer cache.
+The script runs the same commands as the GitHub ``checks`` job and returns a nonzero status if any check fails, while still attempting independent checks.
+Logs are written to ``build/ci-*.log`` and the summary to ``build/ci-summary.md``.
+It uses the normal checkout and build directories; firmware builds can update ``programs/usercodes.json`` just as individual local build commands do.
+
+The GitHub orchestration is defined in ``.github/workflows/toolchain.yml``; ``ci.sh`` owns the Linux check sequence.
+The Makefile forwards individual commands to ``python -m cpld_toolchain``.
+The workflow runs on pushes, pull requests and manual dispatches.
+
+.. list-table:: CI tasks
+   :header-rows: 1
+   :widths: 24 76
+
+   * - Job
+     - Tasks, in execution order
+   * - ``standalone``
+     - Build the focused native CLI on Ubuntu 24.04 and Windows Server 2025; run standalone tests and executable smoke checks; retain tool-only archives for Ubuntu and Windows 11 x64.
+   * - ``windows-python``
+     - Check out sources; install Python 3.10; preview environment bootstrap without third-party packages; create the native venv; run the Windows tooling test subset; check tracked generated files for ``heartbeat_cvg/cvg_tx30``; preview catalog builds; preview D-slot programming.
+   * - ``windows-foss``
+     - Call the native Windows programmer workflow to compile and test the patched loader in MSYS2 without USB hardware.
+   * - ``checks``
+     - Check out sources; build the license-free Docker toolchain image; run ``bash ci.sh`` inside it to verify the Python environment, run tooling tests, build the FOSS-supported ``original`` catalog and ``heartbeat_cvg/cvg_tx30``, compare the pilot, and generate documentation with HDL simulations for all releases; retain diagnostics and the HTML preview; upload the Pages site on successful ``master`` runs.
+   * - ``diamond-build``
+     - On pushes and manual runs, authenticate using ``DIAMOND_GHCR_TOKEN``; build the ``diamond-ci`` image target from ``DIAMOND_IMAGE`` without FOSS tools; check Diamond startup and synthesis; attempt every release catalog; package all verified Diamond exports into one ZIP; retain firmware and diagnostics.
+   * - ``publish-firmware``
+     - On branch pushes, after successful Diamond, Linux, Windows Python, Windows programmer and standalone jobs, check that the commit is still the branch head and publish tool-only and tool-plus-firmware archives for both platforms, the unchanged firmware ZIP and checksums as a uniquely named GitHub testing prerelease.
+   * - ``deploy``
+     - After successful Linux and Windows checks on ``master``, configure Pages and deploy the uploaded HTML through the ``github-pages`` environment.
+
+Diamond jobs require the private image credentials and its bundled license and run independently of the documentation deployment gate.
+The public container does not contain Diamond.
+Its licensed CI job remains separate.
+Native Windows checks require Windows, and standalone applications are built and tested in their target OS environments (Ubuntu 24.04 and Windows).
+These checks and publication are outside ``ci.sh``; passing it confirms the Linux ``checks`` job's coverage.
+Pull requests omit Diamond builds, firmware publication and Pages deployment.
+Manual runs build and retain Diamond firmware without publishing a GitHub Release.
+Release catalogs are attempted sequentially even if an earlier catalog fails; any failure prevents ZIP publication.
+Inside ``ci.sh``, independent firmware and documentation checks still run if an earlier check fails, so their diagnostics are available.
+The pilot comparison runs only after its firmware build succeeds.
+Artifact retention is attempted even after failures, with a 14-day retention period.
+
+Each firmware build performs these shared tasks:
+
+#. Resolve the release, catalog entry, manifest, target, sources, constraints and backend; validate inputs and check generator-managed files for drift.
+#. Obtain workspace and build locks, reload the configuration and protect externally edited generated project settings.
+#. Clear previous published firmware and reports, mark the attempt running and hash the inputs and build implementation.
+#. Reserve the registered firmware identity and prepare the backend project with generated constraints containing its USERCODE.
+#. Execute the backend stages listed below and retain tool logs.
+#. Check that inputs stayed unchanged and fresh, nonempty firmware exports exist; for Diamond, verify the tool version and JEDEC USERCODE.
+#. Publish firmware and reports, record artifact hashes, tool information, identity, warnings and source provenance, and mark success.
+#. On failure, remove published outputs and record the error while retaining logs and intermediates.
+
+Diamond compilation performs these tasks in order:
+
+#. Synthesize VHDL with the configured LSE or Synplify engine.
+#. Translate and map the design; export and retain the mapped Verilog simulation netlist.
+#. Place and route, then run ``PARTrace`` for timing reports.
+#. Export routed Verilog and SDF using ``TimingSimFileVlg``.
+#. Export the ``.bit`` and ``.jed`` firmware files using ``Bitgen`` and ``Jedecgen``.
+
+FOSS compilation performs these tasks in order:
+
+#. Check tool versions and device support; analyze VHDL libraries with GHDL and synthesize Verilog.
+#. Run Yosys MachXO2 synthesis and retain the RTL reference and mapped JSON netlist.
+#. Prove RTL-to-mapped equivalence; for sequential designs, run eight-cycle initialized-output and retained-match-point checks and record their results.
+#. Remove unused input ports from the routing copy, normalize oscillator configuration and translate LPF/package constraints.
+#. Run ``nextpnr-machxo2`` placement, routing and timing reporting.
+#. Complete device, bank and electrical configuration, including open-drain settings.
+#. Pack a compressed bitstream with USERCODE using ``ecppack``; unpack it with ``ecpunpack`` to check format/CRC and verify open-drain configuration.
+
+Startup counterexamples are recorded by the FOSS build; the pilot ``compare`` command requires passing initialized-state checks as well as equivalence and six event-driven heartbeat scenarios.
+This CI comparison uses only the FOSS backend and does not establish Diamond equivalence.
+
+The documentation command performs these tasks for each selected program:
+
+#. Validate program inputs, export generic RTL schematics where supported and extract state diagrams.
+#. Run GHDL/cocotb simulations through pytest and verify that analysis and simulation used the same HDL inputs.
+#. Generate interactive waveform and RTL viewers, copy SVG/PDF/VCD files and provenance, and assemble program pages grouped by release.
+#. Clear the previous HTML output, build Sphinx with warnings treated as errors and check local page, image, iframe and download links.
+
+The retained diagnostics include firmware projects, logs, reports and metadata, simulation traces, netlists, state diagrams, comparison evidence, catalog summaries and the CI identity registry.
+These tasks do not program hardware or establish board timing acceptance; see :doc:`validation` and :doc:`foss` for qualification limits.
+
+Unified build directory
+-----------------------
+
+All firmware and toolchain outputs live under the repository's top-level ``build/``::
+
+   build/
+     diamond/
+       manifest.json
+       <release>/<program>/<target>/
+         <program>_<target>_diamond.bit
+         <program>_<target>_diamond.jed
+         project/
+         logs/
+         reports/
+         metadata/
+     foss/
+       manifest.json
+       <release>/<program>/<target>/...
+     analysis/<release>/<program>/
+       simulation/
+       netlist/
+       state-diagrams/
+       comparison/
+     validation/<release>/...
+     simulation/<release>/junit.xml
+     programmer/...
+     locks/
+     openfpgaloader/
+     downloads/<release-tag>/uz-cpld-firmware.zip
+     uz-cpld-firmware.zip
+
+Diamond exports both firmware formats; FOSS exports only ``.bit``.
+There is one canonical exported copy of each firmware file.
+The managed programmer, reports and CI packaging all use it directly.
+Vendor intermediates remain in ``project/``.
+Successful ``build``, ``build_all`` and ``build_selection`` update ``build/<backend>/manifest.json`` in place, using the same schema and relative firmware paths as the CI ZIP.
+Release defaults, backend selection and target/program filters are unchanged.
+
+The manifest indexes the requested successful builds together with other existing builds for that backend that still pass source, identity, Git revision and checksum validation.
+Building another program or release therefore preserves valid earlier entries without copying or rebuilding their firmware.
+Unverified files and stale builds are not indexed.
+The manifest records identities, firmware SHA-256 checksums, build provenance and a snapshot of the identity registry.
+Once a rebuild begins replacing exports, or ``clean`` removes a build, the backend manifest is invalidated.
+A successful build command regenerates it; a failed rebuild leaves it absent rather than advertising removed firmware.
+
+CI invokes the same catalog build command once per release with the Diamond backend.
+It then archives the selected verified firmware and manifest as ``build/uz-cpld-firmware.zip``.
+Inside the ZIP, paths start with ``<release>/<program>/<target>/``; projects, logs and intermediates are excluded.
+No additional publication directory is created.
+Managed programming and identification can consume this ZIP without matching source files or local builds.
+For use outside a checkout, select a writable workspace with ``uz_cpld --workspace DIRECTORY program``; see :doc:`programmer`.
+
+Documentation HTML and generated documentation assets retain ``docs/_build/`` and ``docs/_generated/``.
+
 Firmware commands
 -----------------
 
@@ -8,27 +156,27 @@ Firmware commands
 
    make help
    make list
-   make check program=tx30
+   make check program=tx30 release_cycle=original
    make doctor
-   make program=tx30
-   make build-all
+   make build program=tx30 release_cycle=original
+   make build_all
    make report backend=foss
-   make build program=tx30 backend=foss
+   make build program=tx30 backend=foss release_cycle=original
 
-``check`` validates manifests and files; ``doctor`` also checks the selected tools.
-The FOSS doctor requires a selected cycle containing at least one FOSS program so it can check the declared device and tool version.
-``build-all`` processes the explicit ``programs/<release_cycle>/catalog.toml`` list and fails if any entry fails.
-It also writes ``toolchain/build/validation/<release_cycle>/<backend>-catalog/report.md`` and ``report.json`` after attempting every valid selected build, even if a tool fails. Invalid program manifests appear as failed report rows and do not prevent other programs from building.
+``check`` validates manifests and files.
+``doctor`` inventories every tool group and the selected catalog; missing tools do not make it fail and no license checkout is attempted.
+``build_all`` processes the explicit ``programs/<release_cycle>/catalog.toml`` list and fails if any entry fails.
+It also writes ``build/validation/<release_cycle>/<backend>-catalog/report.md`` and ``report.json`` after attempting every valid selected build, even if a tool fails.
+Invalid program manifests appear as failed report rows and do not prevent other programs from building.
 ``make report backend=diamond|foss`` refreshes the selected catalog report from existing build records without invoking firmware tools.
 Invalid manifests and stale generator outputs appear as failed rows; the report includes the other programs, and the command exits with a failure status after writing the report.
 The report checks recorded input and output hashes, lists missing or failed builds, proof and startup results, warning counts, and the recorded timing acceptance status.
 Use ``target=...`` to write a separate target-filtered report.
-Bare ``make`` shows the command overview; ``make program=tx30`` builds one program.
-The target is inferred from each program manifest; ``target=uz_dslot_xo2`` or
-``target=uz_s3c_xo2`` selects or filters it explicitly. ``backend`` selects
-``diamond`` (default) or ``foss``.
+Bare ``make`` shows the command overview; ``make build program=tx30 release_cycle=original`` builds one program.
+The target is inferred from each program manifest; ``target=uz_dslot_xo2`` or ``target=uz_s3c_xo2`` selects or filters it explicitly.
+``backend`` selects ``diamond`` (default) or ``foss``.
 See :doc:`foss` for open-source setup, artifacts and validation limits.
-Diamond commands run in the calling environment; FOSS compilation uses the toolchain container on hosts.
+Diamond and FOSS commands use installed tools in the calling environment.
 Firmware commands never flash a device.
 
 Create a program
@@ -39,11 +187,11 @@ See :doc:`vhdl-generator` for routing, configuration and generated-file ownershi
 
 To clone a program for manual logic and testbench editing::
 
-   make new name=my_adapter template=tx30
+   make new name=my_adapter template=tx30 release_cycle=original
 
 Edit the cloned VHDL, LPF, cocotb testbench and optional ``description.rst``, then validate, simulate and build as shown in :doc:`quick-start`.
 ``template`` defaults to ``tx30``.
-For an S3C program, use ``template=s3c_toolchain_test_program``; its starter logic holds carrier power and slot output enables inactive.
+For an S3C program, use ``template=s3c_toolchain_test_program template_release_cycle=original``; its starter logic holds carrier power and slot output enables inactive.
 Cloning copies the selected program's current files, preserves entity names and libraries, and excludes generated ``build/`` directories and Python caches.
 The source declaring the top entity in library ``work`` becomes ``<name>.vhdl``; its original filename can differ from the template name.
 Cloning requires a program-local top-level source, constraints and testbench, and no authored symlinks, and refuses an existing destination.
@@ -53,17 +201,17 @@ The shared S3C HDL and selected contract retain their configured locations.
 A clone owns its local files and continues to use the shared dependencies declared by the template.
 It is added to ``programs/<release_cycle>/catalog.toml`` after its manifest validates.
 It also receives a new permanent program number in ``programs/usercodes.json``; commit that registry with the new program.
-Catalog registration includes the program in ``build-all``, netlist export and firmware CI for the selected cycle.
+Catalog registration includes the program in ``build_all``, netlist export and firmware CI for the selected cycle.
 Simulation and documentation discover complete program manifests independently of catalog membership.
 Documentation groups program manifests by release cycle, including programs created outside ``make new``.
 
 Outputs and failures
 --------------------
 
-``programs/<release_cycle>/<name>/build/<target>_<backend>/`` contains the generated ``project/``, retained ``logs/``, published ``reports/`` and ``metadata/`` directories.
+``build/<backend>/<release_cycle>/<name>/<target>/`` contains the generated ``project/``, retained ``logs/``, published ``reports/`` and ``metadata/`` directories.
 Diamond publishes ``<name>_<target>_diamond.jed`` and ``<name>_<target>_diamond.bit`` at this directory level; FOSS publishes ``<name>_<target>_foss.bit``.
 ``metadata/`` contains ``build.json``, ``identity.json``, ``configuration.json``, ``status.json``, the FOSS build plan and generated JSON reports.
-The backend directory itself contains only the named firmware files; ``project/`` retains other tool inputs and intermediates.
+The target directory has only the named firmware files at its top level; ``project/`` retains other tool inputs and intermediates.
 
 A build that passes the lock/configuration guards removes previous firmware, reports and provenance before invoking the selected backend.
 Preparation or compilation failure preserves logs without publishing stale firmware.
@@ -75,9 +223,9 @@ GUI and cleanup
 
 With a native Diamond installation and display::
 
-   make project program=tx30
-   make gui program=tx30
-   make clean program=tx30
+   make project program=tx30 release_cycle=original
+   make gui program=tx30 release_cycle=original
+   make clean program=tx30 release_cycle=original
 
 Diamond projects reference authored HDL and a generated copy of the LPF containing the allocated USERCODE.
 For manually maintained programs, edit the authored HDL and LPF, then regenerate the project.
@@ -86,17 +234,19 @@ For generator-managed programs, edit the CSV or generator configuration and run 
 Check the destination when saving from Spreadsheet View, because an exported LPF does not replace the authored input automatically.
 Transfer useful project/strategy changes into manifests or the target strategy before regenerating.
 ``gui`` preserves an existing project, while ``project``, ``build`` and ordinary ``clean`` reject edited generated settings.
-After preserving useful changes, ``make clean program=tx30 discard_project_changes=1`` explicitly discards them.
-``clean`` removes only the selected backend firmware directory and preserves simulation, netlist and shared lock files in ``toolchain/build/locks/``.
+After preserving useful changes, ``make clean program=tx30 discard_project_changes=1 release_cycle=original`` explicitly discards them.
+``clean`` removes only the selected backend firmware directory and preserves simulation, netlist and shared lock files in ``build/locks/``.
 Cleanup does not require fresh generated VHDL or present HDL input files; it still validates the output location, obtains the build lock and protects edited generated project settings.
-Build, GUI, simulation and netlist operations use advisory locks in ``toolchain/build/locks/`` to prevent concurrent changes to one program; independently launched GUI sessions cannot honor them and must be closed before a build.
+Build, GUI, simulation and netlist operations use advisory locks in ``build/locks/`` to prevent concurrent changes to one program; independently launched GUI sessions cannot honor them and must be closed before a build.
 
 Remove all generated files
 --------------------------
 
-Run ``make clean-all`` from the repository root.
-It removes every program ``build/`` directory, ``toolchain/build/``, ``docs/_build/``, ``docs/_generated/``, ``.venv/`` and Python caches within the repository.
-It refuses to run while a managed build, project, GUI, simulation, netlist or clean operation is active. A lock on the checkout directory also prevents new operations from starting during cleanup, even while generated lock files are removed.
+Run ``make clean_all`` from the repository root.
+It removes ``build/``, ``docs/_build/``, ``docs/_generated/``, ``.venv/`` and Python caches within the repository.
+It refuses to run while a managed build, project, GUI, simulation, netlist or clean operation is active.
+A lock on the checkout directory also prevents new operations from starting during cleanup, even while generated lock files are removed.
+The active virtual environment is preserved when its interpreter is running the cleanup command.
 It discards generated project edits and validation evidence; authored HDL, constraints, manifests and testbenches remain.
 The tracked identity registry remains, including allocated numbers and recorded build revisions.
-Cleanup removes a local ``make flasher-build`` installation under ``toolchain/build/``; the container's installed patched loader is unaffected.
+Cleanup removes a local ``make flasher_build`` installation under ``build/``; the container's installed patched loader is unaffected.

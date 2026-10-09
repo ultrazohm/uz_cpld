@@ -1,0 +1,49 @@
+{
+  "build_backend": "diamond",
+  "chain": "dslots",
+  "error": "Programmer failed with exit code 254; see /workspaces/uz_cpld/build/programmer/heartbeat_cvg/dslots/plans/plan-i82tdwls/runs/20261007T194442807404Z/dslots.log",
+  "expected_identities": {
+    "slot1": {
+      "fingerprint": "12a14b0bd9f11744e73a894b1497c1ed5bda59ebc547dca6137e2d6c10a7ce56",
+      "program": "heartbeat_cvg/cvg_tx30",
+      "program_number": 59,
+      "revision": 17,
+      "usercode": "003B0011"
+    },
+    "slot2": {
+      "fingerprint": "d8909bf53d509196e50cbb41f00292e86fc0d0c8ee38a74c7ca5c7686be572c6",
+      "program": "heartbeat_cvg/cvg_rx30",
+      "program_number": 54,
+      "revision": 10,
+      "usercode": "0036000A"
+    },
+    "slot3": {
+      "fingerprint": "977280fd81fdc1476dad0cb35042880f15f89f406253357c1c42adc067bab429",
+      "program": "heartbeat_cvg/cvg_tx16_14rx",
+      "program_number": 56,
+      "revision": 10,
+      "usercode": "0038000A"
+    },
+    "slot4": {
+      "fingerprint": "3055a1e3282222a07c778eccc8a7c6d338bb99f673eae3127d9a95867c21681b",
+      "program": "heartbeat_cvg/cvg_tx20_10rx",
+      "program_number": 57,
+      "revision": 10,
+      "usercode": "0039000A"
+    },
+    "slot5": {
+      "fingerprint": "af3466babad24fd1c21465cec4709db63d217784c386a872dbf0fcced6a58a7c",
+      "program": "heartbeat_cvg/cvg_optical_14tx_4rx",
+      "program_number": 53,
+      "revision": 10,
+      "usercode": "0035000A"
+    }
+  },
+  "mode": "flash",
+  "programmer_backend": "diamond",
+  "programmer_provenance": null,
+  "release_cycle": "heartbeat_cvg",
+  "source": "local",
+  "status": "failed",
+  "steps": []
+}

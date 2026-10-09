@@ -1,0 +1,534 @@
+{
+  "before_devices": [
+    {
+      "idcode": "012BB043",
+      "identity": {
+        "build": {
+          "artifacts": [
+            {
+              "completed_at": "2026-10-07T16:37:43.004236+00:00",
+              "firmware_sha256": {
+                "bit": "9c9255d2481867812994abe7e0640a3f6fcc5a380a7b8360bf32d346978e8e0d",
+                "jed": "2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914"
+              },
+              "git_revision": "febf4f13df55f02232735afc17fab7a00f2d354c"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "12a14b0bd9f11744e73a894b1497c1ed5bda59ebc547dca6137e2d6c10a7ce56",
+          "target": "uz_dslot_xo2"
+        },
+        "known_build": true,
+        "program": "heartbeat_cvg/cvg_tx30",
+        "program_number": 59,
+        "revision": 17
+      },
+      "index": 0,
+      "label": "slot1",
+      "silicon_id": "44381228405816",
+      "sram_usercode": "003B0011",
+      "traceid": "0144381228405816",
+      "usercode": "003B0011"
+    },
+    {
+      "idcode": "012BB043",
+      "identity": {
+        "build": {
+          "artifacts": [
+            {
+              "completed_at": "2026-10-07T16:37:43.004236+00:00",
+              "firmware_sha256": {
+                "bit": "9c9255d2481867812994abe7e0640a3f6fcc5a380a7b8360bf32d346978e8e0d",
+                "jed": "2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914"
+              },
+              "git_revision": "febf4f13df55f02232735afc17fab7a00f2d354c"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "12a14b0bd9f11744e73a894b1497c1ed5bda59ebc547dca6137e2d6c10a7ce56",
+          "target": "uz_dslot_xo2"
+        },
+        "known_build": true,
+        "program": "heartbeat_cvg/cvg_tx30",
+        "program_number": 59,
+        "revision": 17
+      },
+      "index": 1,
+      "label": "slot2",
+      "silicon_id": "4438122840581A",
+      "sram_usercode": "003B0011",
+      "traceid": "014438122840581A",
+      "usercode": "003B0011"
+    },
+    {
+      "idcode": "012BB043",
+      "identity": {
+        "build": {
+          "artifacts": [
+            {
+              "completed_at": "2026-10-07T16:37:43.004236+00:00",
+              "firmware_sha256": {
+                "bit": "9c9255d2481867812994abe7e0640a3f6fcc5a380a7b8360bf32d346978e8e0d",
+                "jed": "2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914"
+              },
+              "git_revision": "febf4f13df55f02232735afc17fab7a00f2d354c"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "12a14b0bd9f11744e73a894b1497c1ed5bda59ebc547dca6137e2d6c10a7ce56",
+          "target": "uz_dslot_xo2"
+        },
+        "known_build": true,
+        "program": "heartbeat_cvg/cvg_tx30",
+        "program_number": 59,
+        "revision": 17
+      },
+      "index": 2,
+      "label": "slot3",
+      "silicon_id": "443812283C5E02",
+      "sram_usercode": "003B0011",
+      "traceid": "01443812283C5E02",
+      "usercode": "003B0011"
+    },
+    {
+      "idcode": "012BB043",
+      "identity": {
+        "build": {
+          "artifacts": [
+            {
+              "completed_at": "2026-10-07T16:37:43.004236+00:00",
+              "firmware_sha256": {
+                "bit": "9c9255d2481867812994abe7e0640a3f6fcc5a380a7b8360bf32d346978e8e0d",
+                "jed": "2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914"
+              },
+              "git_revision": "febf4f13df55f02232735afc17fab7a00f2d354c"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "12a14b0bd9f11744e73a894b1497c1ed5bda59ebc547dca6137e2d6c10a7ce56",
+          "target": "uz_dslot_xo2"
+        },
+        "known_build": true,
+        "program": "heartbeat_cvg/cvg_tx30",
+        "program_number": 59,
+        "revision": 17
+      },
+      "index": 3,
+      "label": "slot4",
+      "silicon_id": "443812283C6005",
+      "sram_usercode": "003B0011",
+      "traceid": "01443812283C6005",
+      "usercode": "003B0011"
+    },
+    {
+      "idcode": "012BB043",
+      "identity": {
+        "build": {
+          "artifacts": [
+            {
+              "completed_at": "2026-10-07T16:37:43.004236+00:00",
+              "firmware_sha256": {
+                "bit": "9c9255d2481867812994abe7e0640a3f6fcc5a380a7b8360bf32d346978e8e0d",
+                "jed": "2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914"
+              },
+              "git_revision": "febf4f13df55f02232735afc17fab7a00f2d354c"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "12a14b0bd9f11744e73a894b1497c1ed5bda59ebc547dca6137e2d6c10a7ce56",
+          "target": "uz_dslot_xo2"
+        },
+        "known_build": true,
+        "program": "heartbeat_cvg/cvg_tx30",
+        "program_number": 59,
+        "revision": 17
+      },
+      "index": 4,
+      "label": "slot5",
+      "silicon_id": "443812283C6003",
+      "sram_usercode": "003B0011",
+      "traceid": "01443812283C6003",
+      "usercode": "003B0011"
+    }
+  ],
+  "build_backend": "diamond",
+  "chain": "dslots",
+  "detected_chain": [
+    "012BB043",
+    "012BB043",
+    "012BB043",
+    "012BB043",
+    "012BB043"
+  ],
+  "devices": [
+    {
+      "idcode": "012BB043",
+      "identity": {
+        "build": {
+          "artifacts": [
+            {
+              "completed_at": "2026-10-07T16:37:43.004236+00:00",
+              "firmware_sha256": {
+                "bit": "9c9255d2481867812994abe7e0640a3f6fcc5a380a7b8360bf32d346978e8e0d",
+                "jed": "2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914"
+              },
+              "git_revision": "febf4f13df55f02232735afc17fab7a00f2d354c"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "12a14b0bd9f11744e73a894b1497c1ed5bda59ebc547dca6137e2d6c10a7ce56",
+          "target": "uz_dslot_xo2"
+        },
+        "known_build": true,
+        "program": "heartbeat_cvg/cvg_tx30",
+        "program_number": 59,
+        "revision": 17
+      },
+      "index": 0,
+      "label": "slot1",
+      "silicon_id": "44381228405816",
+      "sram_usercode": "003B0011",
+      "traceid": "0144381228405816",
+      "usercode": "003B0011"
+    },
+    {
+      "idcode": "012BB043",
+      "identity": {
+        "build": {
+          "artifacts": [
+            {
+              "completed_at": "2026-10-07T16:37:43.004236+00:00",
+              "firmware_sha256": {
+                "bit": "9c9255d2481867812994abe7e0640a3f6fcc5a380a7b8360bf32d346978e8e0d",
+                "jed": "2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914"
+              },
+              "git_revision": "febf4f13df55f02232735afc17fab7a00f2d354c"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "12a14b0bd9f11744e73a894b1497c1ed5bda59ebc547dca6137e2d6c10a7ce56",
+          "target": "uz_dslot_xo2"
+        },
+        "known_build": true,
+        "program": "heartbeat_cvg/cvg_tx30",
+        "program_number": 59,
+        "revision": 17
+      },
+      "index": 1,
+      "label": "slot2",
+      "silicon_id": "4438122840581A",
+      "sram_usercode": "003B0011",
+      "traceid": "014438122840581A",
+      "usercode": "003B0011"
+    },
+    {
+      "idcode": "012BB043",
+      "identity": {
+        "build": {
+          "artifacts": [
+            {
+              "completed_at": "2026-10-07T16:37:43.004236+00:00",
+              "firmware_sha256": {
+                "bit": "9c9255d2481867812994abe7e0640a3f6fcc5a380a7b8360bf32d346978e8e0d",
+                "jed": "2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914"
+              },
+              "git_revision": "febf4f13df55f02232735afc17fab7a00f2d354c"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "12a14b0bd9f11744e73a894b1497c1ed5bda59ebc547dca6137e2d6c10a7ce56",
+          "target": "uz_dslot_xo2"
+        },
+        "known_build": true,
+        "program": "heartbeat_cvg/cvg_tx30",
+        "program_number": 59,
+        "revision": 17
+      },
+      "index": 2,
+      "label": "slot3",
+      "silicon_id": "443812283C5E02",
+      "sram_usercode": "003B0011",
+      "traceid": "01443812283C5E02",
+      "usercode": "003B0011"
+    },
+    {
+      "idcode": "012BB043",
+      "identity": {
+        "build": {
+          "artifacts": [
+            {
+              "completed_at": "2026-10-07T16:37:43.004236+00:00",
+              "firmware_sha256": {
+                "bit": "9c9255d2481867812994abe7e0640a3f6fcc5a380a7b8360bf32d346978e8e0d",
+                "jed": "2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914"
+              },
+              "git_revision": "febf4f13df55f02232735afc17fab7a00f2d354c"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "12a14b0bd9f11744e73a894b1497c1ed5bda59ebc547dca6137e2d6c10a7ce56",
+          "target": "uz_dslot_xo2"
+        },
+        "known_build": true,
+        "program": "heartbeat_cvg/cvg_tx30",
+        "program_number": 59,
+        "revision": 17
+      },
+      "index": 3,
+      "label": "slot4",
+      "silicon_id": "443812283C6005",
+      "sram_usercode": "003B0011",
+      "traceid": "01443812283C6005",
+      "usercode": "003B0011"
+    },
+    {
+      "idcode": "012BB043",
+      "identity": {
+        "build": {
+          "artifacts": [
+            {
+              "completed_at": "2026-10-07T16:37:43.004236+00:00",
+              "firmware_sha256": {
+                "bit": "9c9255d2481867812994abe7e0640a3f6fcc5a380a7b8360bf32d346978e8e0d",
+                "jed": "2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914"
+              },
+              "git_revision": "febf4f13df55f02232735afc17fab7a00f2d354c"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "12a14b0bd9f11744e73a894b1497c1ed5bda59ebc547dca6137e2d6c10a7ce56",
+          "target": "uz_dslot_xo2"
+        },
+        "known_build": true,
+        "program": "heartbeat_cvg/cvg_tx30",
+        "program_number": 59,
+        "revision": 17
+      },
+      "index": 4,
+      "label": "slot5",
+      "silicon_id": "443812283C6003",
+      "sram_usercode": "003B0011",
+      "traceid": "01443812283C6003",
+      "usercode": "003B0011"
+    }
+  ],
+  "expected_identities": {
+    "slot1": {
+      "fingerprint": "12a14b0bd9f11744e73a894b1497c1ed5bda59ebc547dca6137e2d6c10a7ce56",
+      "program": "heartbeat_cvg/cvg_tx30",
+      "program_number": 59,
+      "revision": 17,
+      "usercode": "003B0011"
+    },
+    "slot2": {
+      "fingerprint": "12a14b0bd9f11744e73a894b1497c1ed5bda59ebc547dca6137e2d6c10a7ce56",
+      "program": "heartbeat_cvg/cvg_tx30",
+      "program_number": 59,
+      "revision": 17,
+      "usercode": "003B0011"
+    },
+    "slot3": {
+      "fingerprint": "12a14b0bd9f11744e73a894b1497c1ed5bda59ebc547dca6137e2d6c10a7ce56",
+      "program": "heartbeat_cvg/cvg_tx30",
+      "program_number": 59,
+      "revision": 17,
+      "usercode": "003B0011"
+    },
+    "slot4": {
+      "fingerprint": "12a14b0bd9f11744e73a894b1497c1ed5bda59ebc547dca6137e2d6c10a7ce56",
+      "program": "heartbeat_cvg/cvg_tx30",
+      "program_number": 59,
+      "revision": 17,
+      "usercode": "003B0011"
+    },
+    "slot5": {
+      "fingerprint": "12a14b0bd9f11744e73a894b1497c1ed5bda59ebc547dca6137e2d6c10a7ce56",
+      "program": "heartbeat_cvg/cvg_tx30",
+      "program_number": 59,
+      "revision": 17,
+      "usercode": "003B0011"
+    }
+  },
+  "mode": "flash",
+  "programmer_backend": "foss",
+  "programmer_provenance": {
+    "binary_sha256": "b56933ff41ba2d3c2b17c702295cb8e3ef0ed7f25fed2aca805b436ca91d7227",
+    "pin": {
+      "capability": "v1.1.1-uz-programmer3",
+      "patch_sha256": "3233af66e1e573020c783d54cb322b69babc0aa3f12e58cbb0422ad437c86e7e",
+      "sha256": "ca965f933c52a2a9dbb318df4d4de70fac5f095a8e64523f81036ab467a4b567",
+      "url": "https://codeload.github.com/trabucayre/openFPGALoader/tar.gz/refs/tags/v1.1.1",
+      "version": "v1.1.1"
+    }
+  },
+  "release_cycle": "heartbeat_cvg",
+  "source": "local",
+  "status": "success",
+  "steps": [
+    {
+      "artifact": "/workspaces/uz_cpld/build/diamond/heartbeat_cvg/cvg_tx30/uz_dslot_xo2/cvg_tx30_uz_dslot_xo2_diamond.jed",
+      "command": [
+        "/opt/oss-cad-suite/native/openfpgaloader/openFPGALoader",
+        "--cable",
+        "ft4232_b",
+        "--freq",
+        "1000000",
+        "--cable-index",
+        "0",
+        "--index-chain",
+        "0",
+        "--write-flash",
+        "--verify",
+        "--usercode",
+        "003B0011",
+        "--expected-chain",
+        "012BB043,012BB043,012BB043,012BB043,012BB043",
+        "--expected-silicon",
+        "44381228405816",
+        "/workspaces/uz_cpld/build/programmer/heartbeat_cvg/runs/20261007T171243910255Z/firmware/slot1.jed"
+      ],
+      "firmware": [
+        {
+          "label": "slot1",
+          "sha256": "2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914",
+          "snapshot": "/workspaces/uz_cpld/build/programmer/heartbeat_cvg/runs/20261007T171243910255Z/firmware/slot1.jed"
+        }
+      ],
+      "label": "slot1",
+      "log": "/workspaces/uz_cpld/build/programmer/heartbeat_cvg/runs/20261007T171243910255Z/slot1.log",
+      "sha256": "2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914"
+    },
+    {
+      "artifact": "/workspaces/uz_cpld/build/diamond/heartbeat_cvg/cvg_tx30/uz_dslot_xo2/cvg_tx30_uz_dslot_xo2_diamond.jed",
+      "command": [
+        "/opt/oss-cad-suite/native/openfpgaloader/openFPGALoader",
+        "--cable",
+        "ft4232_b",
+        "--freq",
+        "1000000",
+        "--cable-index",
+        "0",
+        "--index-chain",
+        "1",
+        "--write-flash",
+        "--verify",
+        "--usercode",
+        "003B0011",
+        "--expected-chain",
+        "012BB043,012BB043,012BB043,012BB043,012BB043",
+        "--expected-silicon",
+        "4438122840581A",
+        "/workspaces/uz_cpld/build/programmer/heartbeat_cvg/runs/20261007T171243910255Z/firmware/slot2.jed"
+      ],
+      "firmware": [
+        {
+          "label": "slot2",
+          "sha256": "2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914",
+          "snapshot": "/workspaces/uz_cpld/build/programmer/heartbeat_cvg/runs/20261007T171243910255Z/firmware/slot2.jed"
+        }
+      ],
+      "label": "slot2",
+      "log": "/workspaces/uz_cpld/build/programmer/heartbeat_cvg/runs/20261007T171243910255Z/slot2.log",
+      "sha256": "2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914"
+    },
+    {
+      "artifact": "/workspaces/uz_cpld/build/diamond/heartbeat_cvg/cvg_tx30/uz_dslot_xo2/cvg_tx30_uz_dslot_xo2_diamond.jed",
+      "command": [
+        "/opt/oss-cad-suite/native/openfpgaloader/openFPGALoader",
+        "--cable",
+        "ft4232_b",
+        "--freq",
+        "1000000",
+        "--cable-index",
+        "0",
+        "--index-chain",
+        "2",
+        "--write-flash",
+        "--verify",
+        "--usercode",
+        "003B0011",
+        "--expected-chain",
+        "012BB043,012BB043,012BB043,012BB043,012BB043",
+        "--expected-silicon",
+        "443812283C5E02",
+        "/workspaces/uz_cpld/build/programmer/heartbeat_cvg/runs/20261007T171243910255Z/firmware/slot3.jed"
+      ],
+      "firmware": [
+        {
+          "label": "slot3",
+          "sha256": "2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914",
+          "snapshot": "/workspaces/uz_cpld/build/programmer/heartbeat_cvg/runs/20261007T171243910255Z/firmware/slot3.jed"
+        }
+      ],
+      "label": "slot3",
+      "log": "/workspaces/uz_cpld/build/programmer/heartbeat_cvg/runs/20261007T171243910255Z/slot3.log",
+      "sha256": "2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914"
+    },
+    {
+      "artifact": "/workspaces/uz_cpld/build/diamond/heartbeat_cvg/cvg_tx30/uz_dslot_xo2/cvg_tx30_uz_dslot_xo2_diamond.jed",
+      "command": [
+        "/opt/oss-cad-suite/native/openfpgaloader/openFPGALoader",
+        "--cable",
+        "ft4232_b",
+        "--freq",
+        "1000000",
+        "--cable-index",
+        "0",
+        "--index-chain",
+        "3",
+        "--write-flash",
+        "--verify",
+        "--usercode",
+        "003B0011",
+        "--expected-chain",
+        "012BB043,012BB043,012BB043,012BB043,012BB043",
+        "--expected-silicon",
+        "443812283C6005",
+        "/workspaces/uz_cpld/build/programmer/heartbeat_cvg/runs/20261007T171243910255Z/firmware/slot4.jed"
+      ],
+      "firmware": [
+        {
+          "label": "slot4",
+          "sha256": "2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914",
+          "snapshot": "/workspaces/uz_cpld/build/programmer/heartbeat_cvg/runs/20261007T171243910255Z/firmware/slot4.jed"
+        }
+      ],
+      "label": "slot4",
+      "log": "/workspaces/uz_cpld/build/programmer/heartbeat_cvg/runs/20261007T171243910255Z/slot4.log",
+      "sha256": "2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914"
+    },
+    {
+      "artifact": "/workspaces/uz_cpld/build/diamond/heartbeat_cvg/cvg_tx30/uz_dslot_xo2/cvg_tx30_uz_dslot_xo2_diamond.jed",
+      "command": [
+        "/opt/oss-cad-suite/native/openfpgaloader/openFPGALoader",
+        "--cable",
+        "ft4232_b",
+        "--freq",
+        "1000000",
+        "--cable-index",
+        "0",
+        "--index-chain",
+        "4",
+        "--write-flash",
+        "--verify",
+        "--usercode",
+        "003B0011",
+        "--expected-chain",
+        "012BB043,012BB043,012BB043,012BB043,012BB043",
+        "--expected-silicon",
+        "443812283C6003",
+        "/workspaces/uz_cpld/build/programmer/heartbeat_cvg/runs/20261007T171243910255Z/firmware/slot5.jed"
+      ],
+      "firmware": [
+        {
+          "label": "slot5",
+          "sha256": "2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914",
+          "snapshot": "/workspaces/uz_cpld/build/programmer/heartbeat_cvg/runs/20261007T171243910255Z/firmware/slot5.jed"
+        }
+      ],
+      "label": "slot5",
+      "log": "/workspaces/uz_cpld/build/programmer/heartbeat_cvg/runs/20261007T171243910255Z/slot5.log",
+      "sha256": "2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914"
+    }
+  ]
+}

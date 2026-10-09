@@ -1,0 +1,13 @@
+name = "optical_14tx_4rx"
+top = "SignalRouter"
+standard = "2008"
+synthesis = "synplify"
+targets = ["uz_dslot_xo2"]
+backends = ["diamond"]
+constraints = ["optical_14tx_4rx_constraints.lpf"]
+sources = [
+    {path = "../../../xo2_library/s3c/s3c_logic.vhdl", library = "s3c"},
+    {path = "../../../xo2_library/s3c/heartbeat.vhdl", library = "s3c"},
+    {path = "optical_14tx_4rx.vhdl", library = "work"},
+]
+testbench = "optical_14tx_4rx_tb.py"

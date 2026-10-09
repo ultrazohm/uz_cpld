@@ -13,7 +13,8 @@ S3C slot controller
 Compile the entity first, then the architecture, both into VHDL library ``s3c``.
 Compile your top level afterward into ``work``.
 The directory name ``xo2_library`` is the shared source collection; ``s3c`` is the VHDL compilation library for this component.
-This component is not the S3C board's power sequencer and does not implement a heartbeat receiver.
+This component runs on the D-slot, not on the S3C power-sequencer board.
+The alternative ``heartbeat.vhdl`` architecture implements the heartbeat protocol described below.
 
 For a handwritten program under ``programs/<cycle>/<name>/``, include these entries in its manifest:
 
@@ -62,6 +63,102 @@ The default status outputs assert SlotOK only in normal state and keep ReqOE hig
 Generics configure request/readiness polarity, readiness and pilot requirements, and normal/safe status levels.
 Data routing and the electrical definition of a safe output remain the consuming program's responsibility.
 
+Heartbeat implementation
+------------------------
+
+Compile ``s3c_logic.vhdl`` followed by ``heartbeat.vhdl`` into library ``s3c`` and instantiate ``entity s3c.s3c_logic(heartbeat)``.
+The ports and state/status outputs are identical to ``level_signals``, including ``state_system_error``.
+The level-based architecture holds that output low because it has no heartbeat fault source.
+The heartbeat receiver pairs with ``s3c_heartbeat`` in the ``heartbeat`` and ``heartbeat_cvg`` releases:
+
+* ``carrierrdy`` receives the toggling digital CarrierReady signal.
+  It is not interpreted as a static ready level.
+* ``reqsafestate`` remains an independent static request, active high by default.
+  The S3C may keep sending heartbeat while requesting safe state.
+* Normal operation requires a qualified heartbeat, a released safety gate, synchronized ``card_enable='1'``, and the configured pilot condition.
+* Before the first complete qualification, missing or malformed heartbeat asserts ``system_error`` and inhibits all outputs.
+  This startup inhibition clears automatically on the first complete qualification; it is not a latched fault.
+* After qualification, an active or unknown request, reset, or unmet enable/pilot condition selects safe state, with automatic recovery while heartbeat remains healthy.
+* The first qualified sequence permanently arms fault detection.
+  A later timeout, malformed edge interval or unknown heartbeat value latches ``system_error``, including during reset or a static safe request.
+
+The default outputs are ``state_normal/SlotOK=1`` only in normal state, ``state_safe=1`` only in safe state, and ``ReqOE=1`` in normal and safe states.
+Keeping ReqOE high lets the program drive its selected safe values; safe state does not inherently mean high impedance.
+To retain an RX path in safe state, use the same source in both CSV columns.
+In system_error, only ``state_system_error`` is high; ``state_normal``, ``state_safe``, ``SlotOK`` and ``ReqOE`` are all zero, regardless of configured normal/safe status levels.
+Every consuming slot must override all its data outputs to zero in this state.
+CVG always generates this override, including for RX, constant-one and high-impedance routes.
+ReqOE low asks the S3C to disable the physical output drivers; the RTL zero values do not imply a driven-low level beyond a disabled buffer.
+
+Heartbeat recovery, runtime reset, safe requests, pilot and card enable cannot clear the fault or disarm detection.
+Only CPLD power-on initialization clears the sticky flags.
+Reconfiguration can also reinitialize them.
+A local latch cannot distinguish a full-system power cycle from independent D-slot power loss: full-system-only recovery requires the appropriate supply/retention arrangement.
+Verify initialization in the fitted design.
+The S3C intentionally stops heartbeat during shutdown, which latches a fault in slots still powered.
+
+Example instantiation:
+
+.. code-block:: vhdl
+
+   controller: entity s3c.s3c_logic(heartbeat)
+       generic map (
+           REQUEST_SAFE_LEVEL => '1', REQUIRE_PILOT => false,
+           HB_TIMEOUT_CLKS => 208,
+           HB_MIN_EDGE_CLKS => 10, HB_MAX_EDGE_CLKS => 52,
+           HB_VALID_EDGES_REQUIRED => 16
+       )
+       port map (
+           clk => clk, reset => reset,
+           reqsafestate => request_safe, carrierrdy => carrier_ready,
+           pilot_in => pilot, card_enable => enable,
+           state_normal => normal_state, state_safe => safe_state,
+           state_system_error => system_error,
+           slotok => slot_ok, reqoe => request_oe
+       );
+
+   adapter_output <= '0' when system_error = '1' else
+                     fpga_input when normal_state = '1' else '0';
+
+Heartbeat is always required by this architecture, regardless of the ``USE_CARRIER_READY`` generic; ``CARRIER_READY_LEVEL`` is also ignored because both rising and falling edges count.
+The other polarity, pilot and status configuration generics retain their meanings.
+``level_signals`` ignores the ``HB_*`` generics.
+
+Timing and qualification
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The defaults assume a 2.08 MHz receiver clock and the S3C's nominal 21-clock heartbeat half-period (approximately 10.1 microseconds).
+Timing parameters count receiver clocks; an external clock at another frequency requires corresponding contract/generic values.
+The receiver uses a two-register input synchronizer.
+
+An initial edge starts a sequence at count one.
+Sixteen edges with all fifteen intervening intervals in the inclusive 10--52-clock window qualify it.
+Normal operation also requires the safety gate to be released and the other controls to permit forwarding.
+The release synchronizer and initial heartbeat qualification provide startup protection without a separate state register or warmup counter.
+Heartbeat monitoring continues during a static safe-state request, including initial qualification, malformed-edge rejection and timeout.
+
+Asserting ``ReqSafeState`` asynchronously clears both stages of the release synchronizer.
+After initial qualification, unless system_error is latched, state/status outputs select their safe values without waiting for a clock edge.
+An unknown request also forces safe outputs in simulation.
+A latched error always takes priority.
+Deasserting the request releases the gate on the second rising clock edge, without requiring a new heartbeat qualification if the monitor is still valid.
+An assertion entirely between clock edges still closes the gate and requires two subsequent edges after deassertion to reopen it.
+Assertion therefore works with a stopped clock, while deassertion cannot resume forwarding until the clock runs again.
+Asynchronous assertion still has physical propagation delay.
+
+A missing edge revokes qualification on clock 208 after the last observed edge (approximately 100 microseconds), whether CarrierReady is stuck high or low.
+Out-of-window edges revoke qualification immediately when observed and start a new sequence at count one.
+Unknown heartbeat values clear qualification.
+Before arming, reset clears heartbeat history.
+After arming, the monitor keeps running through reset, and any fault is permanent until power-on initialization; a fresh qualified sequence cannot restore permission.
+Enable and pilot inputs retain their two-register synchronizers; their state/status effects occur on the second sampling edge because output selection is combinational.
+``level_signals`` retains its three-edge control latency.
+
+Clock-dependent monitoring does not detect a failure of the receiver's own clock.
+When that clock stops, qualification and timeout counters freeze.
+After the clock resumes, a previously qualified heartbeat can temporarily remain valid until the monitor observes a malformed edge or reaches its timeout.
+There is deliberately no fresh-qualification requirement on safe-state request release.
+
 Standalone compilation and tests
 --------------------------------
 
@@ -75,6 +172,6 @@ With GHDL, run from the repository root:
    # Add -P/tmp/xo2-s3c-work when analyzing/elaborating your consuming top level.
    python3 -m unittest discover -s xo2_library/tests -v
 
-The handwritten testbench exercises startup, reset, state/status outputs, synchronization, polarity, readiness, pilot and enable behavior without invoking the generator.
+The handwritten testbenches exercise both architectures, including heartbeat qualification, exact interval and timeout boundaries, malformed pulses, reset, state/status outputs, synchronization, polarity, pilot and enable behavior without invoking the generator.
 ``make test`` includes these library tests.
 Generated programs use these same sources; ``s3c_library`` can select another source directory in their generator configuration.

@@ -76,64 +76,18 @@ The launcher and environment conventions follow Lattice's `Scripting Lattice FPG
 It does not start Diamond or validate a license; a successful build is still required to validate synthesis, licensing and firmware exports.
 See :doc:`commands` for the report states and exit behavior.
 
-Generate and build
-------------------
+Download and program firmware
+-----------------------------
 
-For an existing program::
+Follow :doc:`user/index` for the clone-to-programming quick start, including the PowerShell programmer path and downloaded firmware workflow.
+Downloaded ZIP programming needs Diamond Programmer and its driver; local synthesis additionally needs full Diamond and its license.
+For ``source=local``, rebuild firmware on the programming station because build receipts and XCFs can contain machine-specific paths and tool identities.
+Generated files use UTF-8 with LF line endings; Git attributes preserve the bytes hashed by generation receipts.
 
-   uz_cpld list
-   uz_cpld build --program cvg_tx30 --release-cycle heartbeat_cvg
-   uz_cpld build_all
-
-To create a CSV-based program::
-
-   uz_cpld new --name my_slot --template generator
-   # Edit the new program's routing.csv and generator.toml.
-   uz_cpld generate --program cvg_my_slot
-   uz_cpld build --program cvg_my_slot
-
-Use ``--release-cycle NAME`` when selecting a cycle other than the repository current cycle.
-Generated manifests use forward slashes, and generated files use UTF-8 with LF line endings.
-Git attributes preserve tracked bytes across platforms because generation receipts hash the exact source contents.
-For ``source=local``, rebuild firmware on the programming station: existing build receipts and XCFs may contain machine-specific paths and tool identities.
-Alternatively, use a published release ZIP as described below.
-
-Program hardware
-----------------
-
-Create and edit the selection, then inspect the connected D-slot chain::
-
-   uz_cpld init_programmer
-   # Edit selection.toml.
-   uz_cpld build_selection
-   uz_cpld scan --target dslot
-   uz_cpld identify --target dslot
-   uz_cpld program --target dslot --dry-run 1
-
-After checking the selection and preparing the hardware::
-
-   uz_cpld program --target dslot
-
-The last command erases, programs and verifies Flash.
-Use ``--target s3c`` only when the hardware is prepared for S3C access.
-With the default ``source=local``, the selection's programs must have successful, current Diamond builds.
-Source hashes, firmware snapshots, JTAG checks and post-programming USERCODE readback remain mandatory.
-``--dry-run 1`` only previews the command; it does not validate firmware or contact hardware.
-``diamond_xcf_programming_chain`` exports XCFs without accessing USB.
-
-To program a downloaded release without local builds::
-
-   uz_cpld program --target dslot --source zip --firmware C:\releases\uz-cpld-firmware.zip
-
-Select programs and a release cycle present in the archive using ``selection.toml``.
-The ZIP's manifest and registry supply the firmware checksums and expected identities;
-the local registry is preserved. See :doc:`programmer` for ZIP validation and backend rules.
-This option still requires the installed programmer and its cable driver.
-
-Windows uses the installed vendor driver and invokes ``pgrcmd.exe`` directly.
-Linux-only USB bus checks and FTDI driver detachment are not used on Windows.
-Concurrent managed Diamond USB operations are serialized.
-Confirm the actual programmer port with a read-only scan: the existing managed identity/programming mapping is ``FTUSB-1`` and must be validated on the Windows station.
+Windows invokes ``pgrcmd.exe`` with the installed vendor driver.
+Managed Diamond USB operations are serialized.
+Linux USB bus checks and FTDI driver detachment do not apply on Windows.
+Validate the managed ``FTUSB-1`` channel mapping with a scan on your station.
 
 Scope and validation
 --------------------
@@ -148,7 +102,6 @@ Windows CI uses this same command.
 It checks generation, shared/exclusive process locks, concurrent identity allocation and mocked programmer behavior.
 It does not install licensed Diamond or connect physical hardware.
 Before using a Windows station, validate one Diamond build, scan, identity read and program/verify cycle there.
-The implementation was developed and regression tested on Linux; Windows CI and vendor/hardware results must be reviewed on Windows before claiming end-to-end validation.
 
 ``clean_all`` preserves the virtual environment when its Python interpreter is currently running the command.
 Exit that environment before deleting it.

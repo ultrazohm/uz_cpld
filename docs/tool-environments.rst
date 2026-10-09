@@ -3,7 +3,6 @@ Tools and execution environments
 
 Use ``uz_cpld ACTION`` in the activated environment from the repository root on Linux or Windows.
 The Makefile is an optional Linux wrapper around the same commands.
-This page separates the Python environment, the external tools, and the choice of where a command executes.
 
 What each environment provides
 ------------------------------
@@ -216,17 +215,10 @@ For the bundled simulation, FOSS and documentation tools, start with::
 See :doc:`environments` for Linux tools, container mounts and USB permissions; :doc:`windows` for native Windows setup; :doc:`foss` for pinned native FOSS tools; and :doc:`commands` for the complete command contract.
 Setup includes Python packages for native Linux analysis and simulation; GHDL, Yosys, Graphviz and other external executables must still be installed separately.
 
-One application, environment-dependent capabilities
----------------------------------------------------
+Command availability
+--------------------
 
-Every installation exposes the full command set and installs the full Python dependency set.
-External tools remain environment-dependent: ``docs`` needs its HDL analysis/simulation tools, while ``program`` needs the explicitly selected programming backend.
-The dispatcher checks prerequisites before executing a command.
-Use ``uz_cpld doctor`` to see located prerequisites; availability is not a license, pin, USB or hardware verification result.
-Missing documentation or simulation tools never prevent help, catalog listing or programmer selection initialization.
-``--dry-run 1`` remains usable without the selected command's tools.
-
-A future distribution can supply the patched openFPGALoader through the common tool resolver while leaving Diamond as a system installation.
-No external tools are bundled by this change, and the native driver and USB access requirements still apply.
-The :doc:`standalone` programming CLI bundles Python for Windows and Ubuntu while using the system Diamond Programmer.
-See :doc:`architecture` for the module boundaries and :doc:`standalone` for release and validation scope.
+The repository CLI exposes the full command set; execution checks the prerequisites of the chosen workflow.
+Missing simulation or documentation tools do not prevent help, catalog listing or programmer selection initialization.
+The :doc:`standalone` application bundles Python and exposes only the programming workflow, using the system Diamond Programmer.
+See :doc:`architecture` for module boundaries.

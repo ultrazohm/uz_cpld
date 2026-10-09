@@ -1,7 +1,7 @@
 Programmer reference
 ====================
 
-For the build/select/program workflow, see :doc:`user/index`.
+For the recommended download/select/program workflow, see :doc:`user/index`.
 Use Diamond Programmer and its cable driver, or the verified patched openFPGALoader with its USB dependencies.
 Local-build workflows run from the checkout; release ZIPs also support a separate writable workspace as described below.
 Containers also need USB access and device permissions; see :doc:`environments`.
@@ -26,7 +26,7 @@ These program names belong to ``heartbeat_cvg``; edit the release and assignment
 ``build_selection`` reads the selection and builds every distinct assignment in its release.
 ``build`` and ``build_all`` use their command-line release or the current release; they do not read the selection.
 Local programming requires current successful builds and never builds automatically.
-If the selection is absent, ``program`` creates a template and exits without accessing hardware.
+If the selection is absent, ``program`` fails without accessing hardware; run ``init_programmer`` first.
 
 D-slot programming requires all five ``[slots]`` entries (keys ``"1"`` through ``"5"``).
 S3C programming requires only ``s3c``; the unused chain may be omitted.
@@ -101,9 +101,8 @@ To identify devices using the same ZIP registry later::
    make identify target=dslot source=zip firmware=/path/to/uz-cpld-firmware.zip programmer_backend=foss
 
 ``identify`` defaults to ``source=local``, which uses ``programs/usercodes.json``.
-With ``source=zip``, it validates the archive before accessing hardware, uses its
-registry without changing the local registry, and saves the manifest and archive
-checksum alongside the identification results. No selection file is needed.
+With ``source=zip``, it validates the archive before accessing hardware, uses its registry without changing the local registry, and saves the manifest and archive checksum alongside the identification results.
+No selection file is needed.
 ``scan`` only reads device IDs, so it does not accept ``source`` or ``firmware``.
 
 ``firmware`` is rejected with ``source=local``.
@@ -243,26 +242,5 @@ A firmware rebuild that changes a snapshot's inputs or artifact invalidates its 
 Build selected firmware
 -----------------------
 
-``build_selection`` builds only the programs in ``selection.toml``, once per distinct
-program and target, without programming hardware.
-It uses the selection's release, or the current release when that field is empty.
-``--release-cycle NAME`` overrides it.
-``--backend foss`` selects FOSS builds; Diamond is the default, and ``--build-backend`` overrides the firmware backend.
-By default all six assignments are required.
-An optional ``--target dslot|s3c`` restricts the build and required assignments to that chain.
-For example::
-
-   uz_cpld build_selection
-   uz_cpld build_selection --selection custom.toml --target s3c
-   make build_selection selection=custom.toml
-
-``init_programmer`` accepts ``--s3c NAME``, ``--dslot-1 NAME`` through
-``--dslot-5 NAME``, and ``--release NAME``. ``--release ""`` uses the current
-release. With Make, use ``s3c=NAME``, ``dslot_1=NAME`` through ``dslot_5=NAME``,
-and ``release=""``. Existing files are preserved even when options are supplied.
-
-For example, initialize a new file with optional assignments::
-
-   uz_cpld init_programmer --selection custom.toml --release original --s3c s3c_power_on_debounce --dslot-1 rx30 --dslot-2 tx30 --dslot-3 tx30 --dslot-4 tx30 --dslot-5 tx30
-
-This overrides all template assignments for ``original``; omitted slots would retain ``cvg_tx30`` from ``heartbeat_cvg``.
+See :doc:`commands` for ``build_selection`` and ``init_programmer`` options.
+Local builds require full Diamond and its license; programming a release ZIP requires only the selected programmer and its native dependencies.

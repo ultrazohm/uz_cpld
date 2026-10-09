@@ -36,7 +36,9 @@ Manually maintained programs contain editable HDL, constraints, manifests and te
 Generator-managed projects use editable CSV/TOML inputs to produce the VHDL, testbench, board constraints, manifest and generation receipt.
 Generated VHDL references the shared S3C entity and selected architecture in ``xo2_library/s3c``.
 The build system validates generated files through the standalone package, while the generator itself has no build-system dependency.
-Firmware artifacts live under ``build/<backend>/<release>/<program>/<target>/``, with a shared ``build/<backend>/manifest.json`` and no separate publication copy. Analysis, reports, programmer outputs and tool builds also use the top-level ``build/`` directory. Documentation uses ``docs/_generated/`` and ``docs/_build/``.
+Firmware artifacts live under ``build/<backend>/<release>/<program>/<target>/``, with a shared ``build/<backend>/manifest.json`` and no separate publication copy.
+Analysis, reports, programmer outputs and tool builds also use the top-level ``build/`` directory.
+Documentation uses ``docs/_generated/`` and ``docs/_build/``.
 The repository has one Makefile and one Dockerfile, with host-mounted and Diamond-image Dev Container profiles, each with an optional Linux USB configuration.
 
 Design decisions
@@ -76,7 +78,7 @@ See :doc:`api` for signatures.
 CLI and command availability
 ----------------------------
 
-The application always exposes the complete command set.
+The repository CLI exposes the complete command set.
 ``cpld_toolchain/cli.py`` uses Typer to parse command-specific options, including numeric ranges and backend choices.
 The shared contract in ``toolchain/commands.py`` supplies the option signatures and retains Make-compatible help, cross-option validation, and side-effect-free command planning.
 ``uz_cpld ACTION --help`` shows the options for that action; ``uz_cpld help --command ACTION`` also explains shared defaults and rules.

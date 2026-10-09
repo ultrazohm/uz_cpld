@@ -22,9 +22,8 @@ The build checks local page, image, iframe and download links for missing files 
 GitHub Pages
 ------------
 
-The repository workflow ``.github/workflows/toolchain.yml`` builds the image and
-runs ``bash ci.sh`` inside it for tooling tests, FOSS firmware, simulations and
-documentation. The same command runs the Linux CI checks locally.
+The repository workflow ``.github/workflows/toolchain.yml`` builds the image and runs ``bash ci.sh`` inside it for tooling tests, FOSS firmware, simulations and documentation.
+The same command runs the Linux CI checks locally.
 Pull requests and pushes to other branches produce documentation review artifacts without deploying Pages.
 Successful Linux checks on pushes or manual runs on ``master`` upload a Pages artifact; deployment through the ``github-pages`` environment also requires successful Windows checks.
 Both the artifact upload and deployment conditions select this branch explicitly.
@@ -47,7 +46,8 @@ A configured workflow is not evidence of a successful hosted deployment; verify 
 Firmware downloads
 ------------------
 
-Branch pushes, including feature branches, request publication of ``uz-cpld-firmware.zip`` through GitHub Releases after Diamond, Linux and Windows checks succeed. Tag pushes do not publish testing releases.
+Branch pushes, including feature branches, request publication of ``uz-cpld-firmware.zip`` through GitHub Releases after Diamond, Linux, Windows Python, Windows FOSS programmer and standalone packaging checks succeed.
+Tag pushes do not publish testing releases.
 The release is marked as a testing prerelease, never as the latest stable release.
 Its tag is ``firmware-ci-<run_id>-<run_attempt>`` and points to the pushed commit; reruns receive a new tag rather than replacing a previous archive.
 The workflow uses ``GITHUB_TOKEN`` with ``contents: write`` for publication; the private Diamond image still requires ``DIAMOND_GHCR_TOKEN``.
@@ -55,9 +55,7 @@ Tags created by this token do not recursively trigger push workflows.
 Manual runs retain the archive as an Actions artifact but do not publish it.
 
 The ZIP contains ``<release>/<program>/<target>/*.bit``, matching ``.jed`` files, and ``manifest.json``.
-Local ``build``, ``build_all`` and ``build_selection`` use the same exporter and manifest schema,
-writing firmware directly to ``build/<backend>/<release>/<program>/<target>/``
-and updating ``build/<backend>/manifest.json`` without a second firmware copy.
+Local ``build``, ``build_all`` and ``build_selection`` use the same exporter and manifest schema, writing firmware directly to ``build/<backend>/<release>/<program>/<target>/`` and updating ``build/<backend>/manifest.json`` without a second firmware copy.
 CI writes its combined archive to ``build/uz-cpld-firmware.zip``.
 See :doc:`builds` for manifest indexing and the unified output layout.
 The manifest records the source commit, all selected releases, firmware checksums, build provenance and a snapshot of the existing identity registry.
@@ -76,10 +74,9 @@ See :doc:`standalone` for the application downloads and persistent configuration
 Downloading branch firmware
 ---------------------------
 
-In the repository CLI, ``uz_cpld firmware_download`` downloads the newest published CI firmware for the
-current Git branch. It reads the configured tracking remote and upstream branch,
-or defaults to ``origin`` and the local branch name. ``--remote NAME`` selects a
-different GitHub remote; ``--output FILE`` overrides the ZIP destination.
+In the repository CLI, ``uz_cpld firmware_download`` downloads the newest published CI firmware for the current Git branch.
+It reads the configured tracking remote and upstream branch, or defaults to ``origin`` and the local branch name.
+``--remote NAME`` selects a different GitHub remote; ``--output FILE`` overrides the ZIP destination.
 GitHub HTTPS and SSH repository URLs are supported.
 Git is required when repository or branch information must be discovered from the checkout; Diamond, the GitHub CLI and programmer tools are not required.
 The standalone application instead defaults to ``ultrazohm/uz_cpld`` on ``master`` and never needs Git; its repository and branch overrides are optional and independent.
@@ -94,25 +91,22 @@ Supply both overrides to download without Git or a checkout::
 When only one override is supplied, checkout discovery supplies the other value.
 Existing root discovery and output locations are unchanged; ``output=PATH`` can select the destination explicitly.
 
-The command searches all release pages, includes prereleases, excludes drafts and
-requires the uploaded ``uz-cpld-firmware.zip`` asset. Only releases whose CI notes
-record the exact matching ``Source ref: refs/heads/<branch>`` are considered.
-The newest is selected by publication time. A local branch may be ahead of its
-last published build; the selected release tag and source commit are printed.
+The command searches all release pages, includes prereleases, excludes drafts and requires the uploaded ``uz-cpld-firmware.zip`` asset.
+Only releases whose CI notes record the exact matching ``Source ref: refs/heads/<branch>`` are considered.
+The newest is selected by publication time.
+A local branch may be ahead of its last published build; the selected release tag and source commit are printed.
 A detached HEAD without an explicit branch, or a branch without published firmware, produces an error.
 
-Public repositories can be accessed without authentication. Set ``GH_TOKEN`` or
-``GITHUB_TOKEN`` for private repositories or authenticated API access, with repository
-Contents read permission. Tokens are not passed to Git or forwarded to asset storage
-hosts on redirects. The implementation uses the `GitHub Releases API
-<https://docs.github.com/en/rest/releases/releases#list-releases>`_.
+Public repositories can be accessed without authentication.
+Set ``GH_TOKEN`` or ``GITHUB_TOKEN`` for private repositories or authenticated API access, with repository Contents read permission.
+Tokens are not passed to Git or forwarded to asset storage hosts on redirects.
+The implementation uses the `GitHub Releases API <https://docs.github.com/en/rest/releases/releases#list-releases>`_.
 
 By default the ZIP is saved to ``build/downloads/<release-tag>/uz-cpld-firmware.zip``.
-The download is staged and checked before replacing the destination: asset size,
-GitHub SHA-256 digest when supplied, manifest schema/source commit, and every firmware
-checksum must match. Failed downloads preserve any existing destination file.
-The ZIP is not extracted; local builds, selections and ``programs/usercodes.json`` are
-not modified. Programming from that ZIP is a separate explicit ``program --source zip --firmware PATH.zip`` command.
+The download is staged and checked before replacing the destination: asset size, GitHub SHA-256 digest when supplied, manifest schema/source commit, and every firmware checksum must match.
+Failed downloads preserve any existing destination file.
+The ZIP is not extracted; local builds, selections and ``programs/usercodes.json`` are not modified.
+Programming from that ZIP is a separate explicit ``program --source zip --firmware PATH.zip`` command.
 
 Maintenance
 -----------

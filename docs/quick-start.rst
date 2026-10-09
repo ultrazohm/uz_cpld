@@ -1,7 +1,8 @@
 Program authoring walkthrough
 =============================
 
-This guide follows a D-slot program from authored files through RTL simulation to a firmware export.
+This guide covers authoring and building a D-slot program.
+To download binaries and program with Diamond, follow :doc:`user/index`.
 Run every command from the repository root.
 For native Windows setup, see :doc:`windows`.
 Examples explicitly use the ``original`` cycle; they do not depend on the tracked default.
@@ -10,28 +11,6 @@ Use ``--release-cycle NAME`` to choose another; see :doc:`releases`.
 Choose CSV generation or clone a program for manual VHDL editing.
 Simulation checks the behavior exercised by the testbench; a firmware build implements the design for the device.
 Neither step programs hardware.
-
-Project flow
-------------
-
-.. mermaid::
-
-   flowchart LR
-      csv[CSV routing and generator TOML] --> gen[cpld_vhdl_generator]
-      gen --> files[Program VHDL, LPF, manifest and cocotb testbench]
-      manual[Cloned program files edited by hand] --> files
-      description[Authored description.rst] --> docs
-      files --> check[make check: validate inputs]
-      files --> sim[make sim: pytest, cocotb and GHDL]
-      sim --> waves[Simulation results and VCD waveform]
-      files --> build[make build: Diamond or FOSS backend]
-      build --> firmware[Firmware export, reports and metadata]
-      files --> docs[make docs: pytest, cocotb, GHDL, Yosys, Graphviz, Plotly and Sphinx]
-      docs --> waves
-      docs --> site[Program pages, RTL diagrams and interactive waveforms]
-
-The same authored program can be simulated, exported as firmware, and included in the generated documentation.
-See :doc:`program-documentation` for the documentation stages and :doc:`foss` for the open-source firmware path.
 
 .. _generator-quickstart:
 
@@ -109,11 +88,8 @@ That directory also contains logs, reports and metadata.
 ``metadata/status.json`` records the outcome; ``metadata/build.json`` records the inputs, tools and output hashes of a successful build.
 See :doc:`validation` for what these checks establish.
 
-Next steps
+References
 ----------
 
-* Run ``make`` for the command overview and ``uz_cpld list`` for catalog programs.
-* Use :doc:`builds` for catalog builds, reports, the Diamond GUI and cleanup.
-* Use :doc:`simulation` for test coverage, seeds and waveform formats.
-* Use :doc:`program-documentation` for RTL diagrams and generated program pages.
-* Use :doc:`foss` for the alternative firmware backend and its supported programs.
+See :doc:`configuration` for manifests, :doc:`vhdl-generator` for generator options, and :doc:`builds` for reports and the Diamond GUI.
+Use :doc:`simulation` for test coverage and waveforms, :doc:`program-documentation` for generated program pages, and :doc:`foss` for alternative builds.

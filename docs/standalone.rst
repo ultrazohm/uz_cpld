@@ -6,7 +6,6 @@ It includes Python and does not require Git, a source checkout or synthesis tool
 The initial targets are Windows 11 x64 and Ubuntu 24.04 x64, using Diamond Programmer 3.14.0.75.2 as the validation baseline.
 Install Diamond Programmer, its runtime dependencies and cable drivers separately.
 Ubuntu also requires Bash, libusb-1.0 and access to the programmer's USB device nodes.
-OpenFPGALoader and a GUI are reserved for later releases.
 The repository CLI retains generation, builds, simulation, documentation and existing programming commands.
 
 Downloads
@@ -100,7 +99,8 @@ Create and edit ``selection.toml`` in the workspace shown by ``doctor``::
 Choose program names and a release cycle present in ``firmware_list``.
 The last command immediately erases, writes and verifies Flash after the managed preflight checks; there is no confirmation prompt.
 S3C uses ``--target s3c`` and its own physical JTAG access state.
-Both managed chains default to Diamond port ``FTUSB-1``; ``--probe-index`` overrides the port subject to the existing wiring checks.
+Managed programming and identification require Diamond port ``FTUSB-1`` (``--probe-index 1``).
+Scans accept other probe indices.
 ``scan`` reads device IDs without requiring a firmware selection.
 ``identify`` and ``program`` use the saved ZIP; ``--firmware FILE`` overrides it for one invocation without changing the saved selection.
 An altered saved ZIP is rejected before hardware access.

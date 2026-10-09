@@ -8,9 +8,8 @@ Read the firmware currently reported by each device without erasing or programmi
    make identify target=s3c source=zip firmware=/path/to/uz-cpld-firmware.zip
 
 These commands read the device IDCODE, 32-bit USERCODE and 64-bit TraceID over JTAG.
-They resolve the USERCODE through the tracked ``programs/usercodes.json`` registry by default
-(``source=local``), or through the validated archive registry with ``source=zip firmware=PATH.zip``,
-and print the program, release cycle and build revision. The ZIP option does not modify the local registry.
+They resolve the USERCODE through the tracked ``programs/usercodes.json`` registry by default (``source=local``), or through the validated archive registry with ``source=zip firmware=PATH.zip``, and print the program, release cycle and build revision.
+The ZIP option does not modify the local registry.
 No selection file or local firmware exports are required.
 Unknown codes and unregistered revisions are reported explicitly.
 ``dry_run=1`` previews the selected backend’s read operations without accessing USB.
@@ -137,8 +136,7 @@ The loader lookup order is:
 #. ``FOSS_ROOT/bin/openFPGALoader``, then ``PATH``.
 
 An explicit override is authoritative; an unavailable override does not fall back to another loader.
-Managed programming verifies the selected executable's receipt regardless of its location;
-stock executables can be used for scans but fail managed programming verification.
+Managed programming verifies the selected executable's receipt regardless of its location; stock executables can be used for scans but fail managed programming verification.
 A stale selected installation is rejected rather than silently skipped.
 Rebuild it, or select another verified installation using ``CPLD_OPENFPGALOADER``.
 ``make clean_all`` removes the workspace installation along with other generated outputs.
@@ -160,7 +158,8 @@ The receipt stores both the full TraceID and its immutable part as ``silicon_id`
 After managed programming, the reader checks every device's USERCODE against the selected build and stores the observed identifiers in ``result.json``.
 For FOSS, success additionally requires the SRAM code to match and every lower-56-bit silicon identity to remain unchanged.
 A bounded ten-second retry window allows the active SRAM code to settle; a Flash mismatch, changed silicon or read error fails immediately.
-Each native read also has a process timeout. USB reads, writes and busy polling have bounded timeouts and incomplete transfers fail.
+Each native read also has a process timeout.
+USB reads, writes and busy polling have bounded timeouts and incomplete transfers fail.
 No flash write is automatically retried.
 A mismatch or read failure marks the run failed even if the flash write already completed; inspect the logs before retrying.
 Exports without registered identity provenance must be rebuilt before managed programming.

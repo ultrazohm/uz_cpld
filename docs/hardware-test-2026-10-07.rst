@@ -1,8 +1,7 @@
 MachXO2 hardware test — 2026-10-07
 ========================================
 
-Result: PASS for Diamond builds, Diamond programming, FOSS programming,
-independent identity cross-reading, and power-cycle identity persistence.
+Result: PASS for Diamond builds, Diamond programming, FOSS programming, independent identity cross-reading, and power-cycle identity persistence.
 Application-level hardware behavior was not tested.
 
 Environment and scope
@@ -23,39 +22,35 @@ Environment and scope
 Build and simulation results
 ----------------------------
 
-Diamond builds and corresponding HDL simulations passed for:
-``cvg_tx30``, ``cvg_rx30``, ``cvg_tx16_14rx``, ``cvg_tx20_10rx``,
-``cvg_optical_14tx_4rx`` and ``s3c_heartbeat`` in ``heartbeat_cvg``.
+Diamond builds and corresponding HDL simulations passed for: ``cvg_tx30``, ``cvg_rx30``, ``cvg_tx16_14rx``, ``cvg_tx20_10rx``, ``cvg_optical_14tx_4rx`` and ``s3c_heartbeat`` in ``heartbeat_cvg``.
 Fresh JEDEC and bitstream checksums and build provenance were recorded.
 The initial tooling audit ran 432 tests: 428 passed and four were skipped.
-Build warnings are retained in the evidence, including optimized-away ports and
-S3C's JTAGENB-dependent access configuration. Successful builds do not establish
-board I/O timing acceptance.
+Build warnings are retained in the evidence, including optimized-away ports and S3C's JTAGENB-dependent access configuration.
+Successful builds do not establish board I/O timing acceptance.
 
 Programming matrix
 ------------------
 
-All four programmer/reader combinations passed independently for both chains,
-before and after the operator-confirmed power cycles:
+All four programmer/reader combinations passed independently for both chains, before and after the operator-confirmed power cycles:
 
 * Diamond writes, Diamond reads: PASS.
 * Diamond writes, FOSS reads: PASS.
 * FOSS writes, Diamond reads: PASS.
 * FOSS writes, FOSS reads: PASS.
 
-This comprises eight cross-check records, each containing two reader results:
-16 reader checks in total. Managed writes performed flash erase/program/verify.
-Independent reads checked device ID, chain position, original silicon TraceID,
-and expected firmware USERCODE. Every FOSS read additionally checked the SRAM
-USERCODE against the Flash USERCODE. Post-cycle persistence here means identity
-persistence; a separate post-cycle full-flash byte comparison was not performed.
+This comprises eight cross-check records, each containing two reader results: 16 reader checks in total.
+Managed writes performed flash erase/program/verify.
+Independent reads checked device ID, chain position, original silicon TraceID, and expected firmware USERCODE.
+Every FOSS read additionally checked the SRAM USERCODE against the Flash USERCODE.
+Post-cycle persistence here means identity persistence; a separate post-cycle full-flash byte comparison was not performed.
 
 Distinct D-slot assignments
 ----------------------------------------
 
-Diamond wrote assignment A. After both readers confirmed A and its persistence,
-FOSS wrote assignment B. Every slot changed firmware. Both readers confirmed B
-immediately and again after power cycling.
+Diamond wrote assignment A.
+After both readers confirmed A and its persistence, FOSS wrote assignment B.
+Every slot changed firmware.
+Both readers confirmed B immediately and again after power cycling.
 
 .. list-table:: Firmware by chain position
    :header-rows: 1
@@ -81,8 +76,7 @@ immediately and again after power cycling.
 
 The mapping is verified against recorded silicon identities at JTAG positions.
 Physical connector labels were not independently checked with electrical probes.
-Earlier identical-image tests passed but were insufficient to establish ordering;
-the distinct-image matrix above provides the ordering evidence.
+Earlier identical-image tests passed but were insufficient to establish ordering; the distinct-image matrix above provides the ordering evidence.
 
 Final firmware identities
 -------------------------
@@ -97,30 +91,24 @@ Final firmware identities
 S3C initially contained the same s3c_heartbeat identity used in these tests.
 Both programmers rewrote and verified it; no S3C identity transition was tested.
 The system was left in the operator-selected S3C programming mode.
-The repository's default selection.toml was not changed to match the distinct
-final D-slot assignment; use the recorded selection-B.toml to reproduce it.
+The repository's default selection.toml was not changed to match the distinct final D-slot assignment; use the recorded selection-B.toml to reproduce it.
 
 Observed failure and recovery
 -----------------------------
 
-The first distinct-image Diamond attempt failed chain preflight because S3C was
-visible instead of D-slots (012BC043 instead of 012BB043). It stopped before
-erase/program. An independent FOSS scan confirmed the mode mismatch. After the
-operator selected D-slot mode, all five original silicon identities matched and
-the retry passed. The failed attempt is retained with the successful results.
+The first distinct-image Diamond attempt failed chain preflight because S3C was visible instead of D-slots (012BC043 instead of 012BB043).
+It stopped before erase/program.
+An independent FOSS scan confirmed the mode mismatch.
+After the operator selected D-slot mode, all five original silicon identities matched and the retry passed.
+The failed attempt is retained with the successful results.
 
 Evidence and limitations
 ------------------------
 
-The :doc:`Logs section <logs/hardware-test-20261007/index>` provides the session
-records, build and simulation logs, successful and failed programming logs,
-identity cross-checks, selections and scripts as individual downloads.
-These files are preserved under ``docs/logs/hardware-test-20261007/`` in the
-repository. The same section includes the complete evidence archive and its
-SHA-256 checksum, including firmware, build metadata and detailed reports.
+The :doc:`Logs section <logs/hardware-test-20261007/index>` provides the session records, build and simulation logs, successful and failed programming logs, identity cross-checks, selections and scripts as individual downloads.
+These files are preserved under ``docs/logs/hardware-test-20261007/`` in the repository.
+The same section includes the complete evidence archive and its SHA-256 checksum, including firmware, build metadata and detailed reports.
 
-No oscilloscope/logic-analyzer measurements, physical routing tests, heartbeat
-boundary measurements, power-control/fault-recovery acceptance, board-level
-startup qualification, or comprehensive electrical/timing qualification were
-performed. No operator LED/behavior observations were supplied. Functional HDL
-simulation and flash verification do not establish those hardware properties.
+No oscilloscope/logic-analyzer measurements, physical routing tests, heartbeat boundary measurements, power-control/fault-recovery acceptance, board-level startup qualification, or comprehensive electrical/timing qualification were performed.
+No operator LED/behavior observations were supplied.
+Functional HDL simulation and flash verification do not establish those hardware properties.

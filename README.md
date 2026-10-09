@@ -1,59 +1,16 @@
 # UltraZohm CPLD
 
-Build, simulate and program UltraZohm MachXO2 D-slot and S3C firmware.
-Start setup from this checkout with Python 3.8 or newer.
+Firmware and tooling for UltraZohm MachXO2 D-slot and S3C devices.
 
-- [User guide](docs/user/index.rst): setup, select firmware, build and program.
-- [Standalone CLI](docs/standalone.rst): Windows/Ubuntu tool-only, tool-plus-firmware and firmware-only downloads, with system Diamond Programmer.
-- [Toolchain contribution](docs/developer/toolchain.rst): tooling setup, implementation, tests and CI.
-- [HDL developer](docs/developer/hdl.rst): handwritten and generated programs, simulation and validation.
-- [Releases](docs/releases.rst): compare program families, protocols and build support.
-- [Program catalog](programs/): source, constraints and testbenches grouped by release.
+Follow the [user guide and quick start](docs/user/index.rst) to clone the repository, download firmware binaries and program them with Diamond Programmer.
+This path requires Git, Python 3.8+ for setup, and Diamond Programmer with its cable drivers; no local firmware build is needed.
 
-All three guides include a **Quick start reference** with executable commands.
-The selected release is recorded in `programs/releases.toml`; use `--release-cycle NAME` to override it for one command.
-Diamond is the default backend. Commands use tools installed in the calling environment.
+- [Standalone CLI](docs/standalone.rst): Windows and Ubuntu application downloads with Python included.
+- [HDL developer guide](docs/developer/hdl.rst): create, simulate and build programs.
+- [Toolchain contribution guide](docs/developer/toolchain.rst): tooling, tests and CI.
+- [Release comparison](docs/releases.rst): program families and S3C/D-slot compatibility.
+- [Program catalog](programs/): firmware sources, constraints and testbenches.
 
-After cloning, run setup:
-
-Run `./uz_cpld_setup.sh` in Bash (Linux/macOS), run `.\uz_cpld_setup.ps1` in
-PowerShell, or double-click `uz_cpld_setup.bat` in Windows Explorer. These launchers
-find Python 3.8 or newer and run setup from the checkout, regardless of your current
-directory. If PowerShell blocks the `.ps1` script, use the `.bat` launcher; it sets
-the execution policy only for its own PowerShell process.
-
-Alternatively, call Python directly:
-
-```sh
-python -m cpld_toolchain setup
-uz_cpld help
-uz_cpld release_list
-uz_cpld list
-```
-
-Use `python3` if your Linux installation has no `python` command.
-Setup downloads a pinned uv into `.tools/`, obtains Python 3.10.12, and creates `.venv` with all locked Python dependencies, including simulation and documentation packages.
-It opens an activated shell with `uz_cpld` available; no prior uv, pip or modern Python installation is needed.
-Internet access is required for the initial downloads.
-In a new shell, run `source .venv/bin/activate` (PowerShell: `& .\.venv\Scripts\Activate.ps1`).
-Use `--activate 0` to install without opening a shell.
-Diamond, HDL tools and hardware drivers need separate installation.
-The container uses the same pinned Python, uv release and dependency lockfile, with its environment under `/opt/uz-cpld-env`.
-The `python -m cpld_toolchain` and `cpld-toolchain` entry points remain available.
-To build the full documentation in a configured development environment, run
-`uz_cpld docs --release-cycle all` and open `docs/_build/html/index.html`.
-
-To run the Linux CI checks locally, use:
-
-```sh
-bash ci.sh
-```
-
-On a Linux host (or WSL with Docker available), this builds the shared toolchain
-image and runs the checks inside it; only Bash and Docker are needed on the host.
-Inside the Dev Container, the same command runs directly. It checks the Python
-environment, tooling tests, FOSS firmware, heartbeat comparison, HDL simulations
-and documentation, using the same script as GitHub Actions. Logs are in
-`build/ci-*.log` and the summary is `build/ci-summary.md`.
-Diamond and target OS application checks remain separate; see
-[the CI task inventory](docs/builds.rst).
+Run `uz_cpld help` after setup for the command overview.
+To build the full documentation in a configured development environment, run `uz_cpld docs --release-cycle all` and open `docs/_build/html/index.html`.
+To run Linux CI checks locally with Bash and Docker, run `bash ci.sh`; see the [CI task inventory](docs/builds.rst) for coverage and logs.

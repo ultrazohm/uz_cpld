@@ -66,7 +66,7 @@ CI image caching
 
 The ``checks`` job imports and exports the license-free toolchain's BuildKit cache using the GitHub Actions ``cpld-toolchain`` scope.
 It exports intermediate stages as well as the final image, so unchanged Python dependencies, OSS CAD Suite downloads, nextpnr and openFPGALoader builds can be reused on fresh runners.
-The first run after this change populates the cache; later runs still need to download and load the cached layers.
+A cold run populates the cache; subsequent runs still download and load cached layers.
 Cache export failures do not fail otherwise successful builds.
 
 The Diamond job selects the ``diamond-ci`` Dockerfile target, which shares the Python environment and runtime dependencies but does not build or copy OSS CAD Suite, nextpnr or openFPGALoader.

@@ -8,19 +8,16 @@ Run the Linux CI checks from the repository root with::
 
    bash ci.sh
 
-On a Linux host, or WSL with Docker available, this builds the shared toolchain
-image and runs the checks inside it. The host needs only Bash and Docker, with
-network access for the first image build. Inside the Dev Container, the same
-script runs directly. Later image builds reuse Docker's layer cache.
-The script runs the same commands as the GitHub ``checks`` job and returns a
-nonzero status if any check fails, while still attempting independent checks.
+On a Linux host, or WSL with Docker available, this builds the shared toolchain image and runs the checks inside it.
+The host needs only Bash and Docker, with network access for the first image build.
+Inside the Dev Container, the same script runs directly.
+Later image builds reuse Docker's layer cache.
+The script runs the same commands as the GitHub ``checks`` job and returns a nonzero status if any check fails, while still attempting independent checks.
 Logs are written to ``build/ci-*.log`` and the summary to ``build/ci-summary.md``.
-It uses the normal checkout and build directories; firmware builds can update
-``programs/usercodes.json`` just as individual local build commands do.
+It uses the normal checkout and build directories; firmware builds can update ``programs/usercodes.json`` just as individual local build commands do.
 
-The GitHub orchestration is defined in ``.github/workflows/toolchain.yml``;
-``ci.sh`` owns the Linux check sequence. The Makefile forwards individual commands
-to ``python -m cpld_toolchain``.
+The GitHub orchestration is defined in ``.github/workflows/toolchain.yml``; ``ci.sh`` owns the Linux check sequence.
+The Makefile forwards individual commands to ``python -m cpld_toolchain``.
 The workflow runs on pushes, pull requests and manual dispatches.
 
 .. list-table:: CI tasks
@@ -45,11 +42,10 @@ The workflow runs on pushes, pull requests and manual dispatches.
      - After successful Linux and Windows checks on ``master``, configure Pages and deploy the uploaded HTML through the ``github-pages`` environment.
 
 Diamond jobs require the private image credentials and its bundled license and run independently of the documentation deployment gate.
-The public container does not contain Diamond. Its licensed CI job remains
-separate. Native Windows checks require Windows, and standalone applications are
-built and tested in their target OS environments (Ubuntu 24.04 and Windows).
-These checks and publication are outside ``ci.sh``; passing it confirms the Linux
-``checks`` job's coverage.
+The public container does not contain Diamond.
+Its licensed CI job remains separate.
+Native Windows checks require Windows, and standalone applications are built and tested in their target OS environments (Ubuntu 24.04 and Windows).
+These checks and publication are outside ``ci.sh``; passing it confirms the Linux ``checks`` job's coverage.
 Pull requests omit Diamond builds, firmware publication and Pages deployment.
 Manual runs build and retain Diamond firmware without publishing a GitHub Release.
 Release catalogs are attempted sequentially even if an earlier catalog fails; any failure prevents ZIP publication.
@@ -131,26 +127,23 @@ All firmware and toolchain outputs live under the repository's top-level ``build
      uz-cpld-firmware.zip
 
 Diamond exports both firmware formats; FOSS exports only ``.bit``.
-There is one canonical exported copy of each firmware file. The managed programmer,
-reports and CI packaging all use it directly. Vendor intermediates remain in ``project/``.
-Successful ``build``, ``build_all`` and ``build_selection`` update ``build/<backend>/manifest.json``
-in place, using the same schema and relative firmware paths as the CI ZIP.
+There is one canonical exported copy of each firmware file.
+The managed programmer, reports and CI packaging all use it directly.
+Vendor intermediates remain in ``project/``.
+Successful ``build``, ``build_all`` and ``build_selection`` update ``build/<backend>/manifest.json`` in place, using the same schema and relative firmware paths as the CI ZIP.
 Release defaults, backend selection and target/program filters are unchanged.
 
-The manifest indexes the requested successful builds together with other existing builds
-for that backend that still pass source, identity, Git revision and checksum validation.
-Building another program or release therefore preserves valid earlier entries without
-copying or rebuilding their firmware. Unverified files and stale builds are not indexed.
-The manifest records identities, firmware SHA-256 checksums, build provenance and a
-snapshot of the identity registry.
-Once a rebuild begins replacing exports, or ``clean`` removes a build, the backend
-manifest is invalidated. A successful build command regenerates it; a failed rebuild
-leaves it absent rather than advertising removed firmware.
+The manifest indexes the requested successful builds together with other existing builds for that backend that still pass source, identity, Git revision and checksum validation.
+Building another program or release therefore preserves valid earlier entries without copying or rebuilding their firmware.
+Unverified files and stale builds are not indexed.
+The manifest records identities, firmware SHA-256 checksums, build provenance and a snapshot of the identity registry.
+Once a rebuild begins replacing exports, or ``clean`` removes a build, the backend manifest is invalidated.
+A successful build command regenerates it; a failed rebuild leaves it absent rather than advertising removed firmware.
 
 CI invokes the same catalog build command once per release with the Diamond backend.
 It then archives the selected verified firmware and manifest as ``build/uz-cpld-firmware.zip``.
-Inside the ZIP, paths start with ``<release>/<program>/<target>/``; projects, logs and
-intermediates are excluded. No additional publication directory is created.
+Inside the ZIP, paths start with ``<release>/<program>/<target>/``; projects, logs and intermediates are excluded.
+No additional publication directory is created.
 Managed programming and identification can consume this ZIP without matching source files or local builds.
 For use outside a checkout, select a writable workspace with ``uz_cpld --workspace DIRECTORY program``; see :doc:`programmer`.
 

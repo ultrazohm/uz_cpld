@@ -64,70 +64,18 @@ To inspect container tools, enter the container and run ``uz_cpld doctor`` there
 To inspect a venv, activate it first or run its Python executable directly.
 Creating a venv alone does not change the interpreter running ``doctor``.
 
-From a clean clone to programmed hardware
------------------------------------------
+Download and program firmware
+-----------------------------
 
-Configure the Diamond installation and license as described in :doc:`environments`, or reopen in the configured Dev Container.
-Then::
-
-   uz_cpld doctor
-   uz_cpld list
-   uz_cpld build_all
-   uz_cpld report
-
-``build_all`` compiles every supported catalog program in the current release.
-Successful ``build``, ``build_all`` and ``build_selection`` write firmware directly under
-``build/<backend>/<release>/<program>/<target>/`` and update ``build/<backend>/manifest.json``.
-The programmer and CI use these same files; see :doc:`builds` for indexing and cleanup behavior.
-It does not flash hardware.
-Install the tools required for simulation, diagrams, documentation and FOSS builds, or enter the toolchain container before running those commands.
-Rebuild the image explicitly when its tool dependencies change.
-
-Download the newest published CI firmware for the current Git branch::
-
-   uz_cpld firmware_download
-   # Optional remote and destination overrides:
-   uz_cpld firmware_download --remote origin --output build/firmware.zip
-   make firmware_download
-   # Explicit repository and branch: no Git executable or checkout needed.
-   make firmware_download git_url=https://github.com/ultrazohm/uz_cpld.git branch=master
-   uz_cpld firmware_download --git-url https://github.com/ultrazohm/uz_cpld.git --branch master
-
-The default destination is ``build/downloads/<release-tag>/uz-cpld-firmware.zip``.
-The command uses the branch's tracking remote and branch, or ``origin`` and the local
-branch name when no upstream is configured. An explicit ``--remote`` uses the local
-branch name unless it is the configured tracking remote.
-``git_url`` overrides the repository URL; ``branch`` overrides the branch, accepting a name or ``refs/heads/NAME``.
-With only one override, the other value comes from the checkout using the rules above; with both, Git is not used.
-``git_url`` and ``remote`` cannot be combined.
-It includes CI prereleases and matches the exact ``Source ref`` in the release notes;
-it never falls back to another branch. Detached HEAD requires an explicit branch; missing releases are errors.
-``--dry-run 1`` previews the command without Git or network access.
-See :doc:`publishing` for authentication, verification and the downloaded archive's scope.
-To program it, use ``uz_cpld program --target s3c --source zip --firmware PATH.zip`` with the desired programs in ``selection.toml``; see :doc:`programmer`.
-
-Create the programming selection and project::
-
-   uz_cpld init_programmer
-   # Edit selection.toml: choose the release and programs for S3C and all five slots.
-   uz_cpld build_selection
-   uz_cpld diamond_xcf_programming_chain
-
-``init_programmer`` preserves existing selections.
-``diamond_xcf_programming_chain`` exports both Diamond XCF files from current firmware builds without accessing hardware.
-It is optional for command-line programming, which creates its own verified project and firmware snapshots.
-``--rebuild 1`` rebuilds the selected firmware before exporting XCFs; it is specific to ``diamond_xcf_programming_chain``.
-
-Prepare the hardware for one physical chain, then::
-
-   uz_cpld scan --target dslot
-   uz_cpld identify --target dslot
-   uz_cpld identify --target s3c --source zip --firmware PATH.zip
-   uz_cpld program --target dslot --dry-run 1
-   uz_cpld program --target dslot
-
-Use ``--target s3c`` when the hardware is prepared for S3C access.
-Programming requires an explicit target; scanning and identification default to D-slots.
+Follow :doc:`user/index` for the recommended clone, setup, download and Diamond programming workflow.
+``firmware_download`` downloads the newest published CI firmware for the checkout's tracking branch; it never falls back to another branch.
+Use ``--output FILE`` to choose a destination; the default is ``build/downloads/<release-tag>/uz-cpld-firmware.zip``.
+Use ``--remote NAME`` to select a GitHub remote, or ``--git-url URL --branch NAME`` to download without Git discovery.
+``--git-url`` and ``--remote`` cannot be combined.
+See :doc:`publishing` for branch resolution, authentication and archive verification.
+Programming a download requires explicit ``--source zip --firmware FILE``; the repository CLI does not save a selected ZIP.
+The :doc:`standalone` application instead provides ``firmware_list`` and ``firmware_select`` with persistent package selection.
+See :doc:`programmer` for assignments, backend compatibility, identity reads and XCF export.
 
 Shared option rules
 -------------------
@@ -192,8 +140,7 @@ The optional ``flasher_build`` action compiles openFPGALoader locally; it never 
 Build selected firmware
 -----------------------
 
-``build_selection`` builds only the programs in ``selection.toml``, once per distinct
-program and target, without programming hardware.
+``build_selection`` builds only the programs in ``selection.toml``, once per distinct program and target, without programming hardware.
 It uses the selection's release, or the current release when that field is empty.
 ``--release-cycle NAME`` overrides it.
 ``--backend foss`` selects FOSS builds; Diamond is the default, and ``--build-backend`` overrides the firmware backend.
@@ -205,10 +152,10 @@ For example::
    uz_cpld build_selection --selection custom.toml --target s3c
    make build_selection selection=custom.toml
 
-``init_programmer`` accepts ``--s3c NAME``, ``--dslot-1 NAME`` through
-``--dslot-5 NAME``, and ``--release NAME``. ``--release ""`` uses the current
-release. With Make, use ``s3c=NAME``, ``dslot_1=NAME`` through ``dslot_5=NAME``,
-and ``release=""``. Existing files are preserved even when options are supplied.
+``init_programmer`` accepts ``--s3c NAME``, ``--dslot-1 NAME`` through ``--dslot-5 NAME``, and ``--release NAME``.
+``--release ""`` uses the current release.
+With Make, use ``s3c=NAME``, ``dslot_1=NAME`` through ``dslot_5=NAME``, and ``release=""``.
+Existing files are preserved even when options are supplied.
 
 For example, initialize a new file with optional assignments::
 

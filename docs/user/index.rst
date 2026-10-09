@@ -1,67 +1,48 @@
 User guide
 ==========
 
-Run commands from the repository root with Python 3.8+ for setup (``python3`` on Linux if ``python`` is unavailable).
-Use firmware for your adapter wiring and a matching S3C/D-slot protocol; compare the available :doc:`releases </releases>` before selecting programs.
-The example below uses ``heartbeat_cvg``.
+The recommended path downloads published firmware binaries and programs them with Diamond Programmer, without local synthesis.
+Choose firmware for your adapter wiring and a matching S3C/D-slot protocol; see :doc:`../releases`.
+For an application with Python included and no checkout, use :doc:`../standalone`.
 
 Quick start reference
 ---------------------
 
-Install Diamond 3.14.0.75.2, its license and programming cable drivers, then create the Python environment::
+Install Git, Python 3.8+ for setup, and Diamond Programmer 3.14.0.75.2 with its cable drivers and runtime dependencies.
+Linux also needs Bash, libusb-1.0 and USB device permissions; see :doc:`../environments` for USB/container setup or :doc:`../windows` for native Windows setup.
+Run these commands in Bash or PowerShell::
 
+   git clone https://github.com/ultrazohm/uz_cpld.git
+   cd uz_cpld
    python -m cpld_toolchain setup
 
-Setup downloads uv and Python 3.10.12 as needed, installs all locked Python dependencies into ``.venv``, and opens an activated shell with ``uz_cpld`` available.
-Internet access is required for initial downloads.
-In a new Bash shell, run ``source .venv/bin/activate``; in PowerShell, run ``& .\.venv\Scripts\Activate.ps1``.
-Use ``--activate 0`` to install without opening a shell.
-Set ``DIAMOND_ROOT`` in the activated terminal to your actual Diamond installation directory, not its ``bin`` directory or an executable.
-The following are example paths; adjust them to match your installation.
+Use ``python3`` if Linux has no ``python`` command.
+Setup downloads pinned uv and Python 3.10.12, installs locked dependencies into ``.venv``, and opens an activated shell with ``uz_cpld`` available.
+Initial setup and firmware downloads require internet access.
+In later shells, activate with ``source .venv/bin/activate`` in Bash or ``& .\.venv\Scripts\Activate.ps1`` in PowerShell.
 
-On Ubuntu (Bash)::
+Set ``CPLD_PGRCMD`` to your installed Programmer executable, adjusting the example path.
+In Bash::
 
-   export DIAMOND_ROOT="$HOME/lscc/diamond/3.14"
-   echo "$DIAMOND_ROOT"
-   ls "$DIAMOND_ROOT/bin/lin64/diamondc"
+   export CPLD_PGRCMD="$HOME/lscc/programmer/diamond/3.14/bin/lin64/pgrcmd"
 
-Bash uses ``export NAME=value`` to make a variable available to commands started from that shell.
-``set DIAMOND_ROOT=...`` sets a positional argument instead of the environment variable.
-Use ``$HOME`` inside double quotes: ``"~/lscc/diamond/3.14"`` contains a literal ``~`` and will not resolve to your home directory.
-To keep this setting for new interactive Bash terminals, add the same ``export`` line to ``~/.bashrc`` and run ``source ~/.bashrc``.
-The native Linux default, when no root is set, is ``/opt/diamond``.
+In PowerShell::
 
-On Windows (PowerShell)::
+   $env:CPLD_PGRCMD = 'C:\lscc\programmer\diamond\3.14\bin\nt64\pgrcmd.exe'
 
-   $env:DIAMOND_ROOT = 'C:\lscc\diamond\3.14'
-   echo $env:DIAMOND_ROOT
-   Test-Path "$env:DIAMOND_ROOT\bin\nt64\pnmainc.exe"
-
-For Windows Command Prompt (``cmd.exe``), use its own syntax::
-
-   set "DIAMOND_ROOT=C:\lscc\diamond\3.14"
-   echo %DIAMOND_ROOT%
-
-These Windows assignments apply to the current terminal and commands started from it.
-For a persistent user setting, see :doc:`../windows`.
-The native Windows default is ``C:/lscc/diamond/3.14``.
-
-A path such as ``$HOME/lscc/programmer/diamond/3.14`` may be a standalone Programmer installation.
-Check that the build executable shown above exists: ``build`` and ``build_all`` require full Diamond; standalone Programmer only provides programming tools.
-For licensing, container paths and USB access, see :doc:`../windows` or :doc:`../environments`.
-
-Check discovery after setting the path::
+For full Diamond installations, the executable is normally under ``programmer/bin/lin64`` or ``programmer/bin/nt64`` within the installation root.
+Check discovery and download the newest published CI firmware for the checkout's branch::
 
    uz_cpld doctor
-   uz_cpld list --release-cycle heartbeat_cvg
+   uz_cpld firmware_download --output build/firmware.zip
+   uz_cpld init_programmer --release heartbeat_cvg
 
-``doctor`` reports available tools; it does not test the license or hardware and missing tools do not make it fail.
+``doctor`` reports tool discovery without testing the license or hardware.
+The download validates the ZIP and checksums; it does not install Programmer or program hardware.
+If your branch has no published firmware, explicitly choose a published branch with ``--branch master``; see :doc:`../publishing` for repository and authentication options.
 
-Create the programming selection::
-
-   uz_cpld init_programmer
-
-Edit ``selection.toml`` to match your adapters (this example uses TX30 in all five slots)::
+Edit ``selection.toml`` for your adapters and a release present in the downloaded ZIP.
+This example uses the ``heartbeat_cvg`` release and TX30 firmware in all five D-slots::
 
    release = "heartbeat_cvg"
    s3c = "s3c_heartbeat"
@@ -73,53 +54,35 @@ Edit ``selection.toml`` to match your adapters (this example uses TX30 in all fi
    "4" = "cvg_tx30"
    "5" = "cvg_tx30"
 
-``init_programmer`` preserves an existing file.
-For a new file, optional ``--release NAME``, ``--s3c NAME`` and ``--dslot-1 NAME`` through ``--dslot-5 NAME`` set initial values.
-Omitted assignments retain the template defaults (``cvg_tx30`` and ``s3c_heartbeat`` from ``heartbeat_cvg``); edit or override all assignments when using another release.
-An empty ``--release ""`` follows the current release in ``programs/releases.toml``.
-With Make, the equivalent options are ``release=NAME``, ``s3c=NAME`` and ``dslot_1=NAME`` through ``dslot_5=NAME``.
-
-Build the selected programs::
-
-   uz_cpld build_selection
-
-This reads ``selection.toml`` and builds each distinct program and target once.
-Use ``--selection FILE`` for another file, ``--target dslot|s3c`` to build one chain, or ``--release-cycle NAME`` to override its release.
-Diamond builds require full Diamond and its license.
-``build --program NAME`` builds an individual program; ``build_all`` builds the entire catalog in the selected release.
-Those two commands use the command-line or current release and do not read ``selection.toml``.
-
+``init_programmer`` preserves existing files, so always check the selection.
+Slot numbers are physical JTAG chain positions.
 Prepare the UltraZohm for D-slot JTAG access, then run::
 
    uz_cpld scan --target dslot
-   uz_cpld identify --target dslot
-   uz_cpld program --target dslot --dry-run 1
+   uz_cpld program --target dslot --source zip --firmware build/firmware.zip
+
+``program`` immediately erases, writes and verifies Flash, then checks firmware identity readback.
+It validates the selected package and assignments before hardware access.
+Both chains use FT4232 channel B; Diamond uses ``FTUSB-1``.
+For S3C, change the hardware to its S3C JTAG access state and run::
+
+   uz_cpld scan --target s3c
+   uz_cpld program --target s3c --source zip --firmware build/firmware.zip
+
+Add ``--dry-run 1`` to preview a programming command without validating firmware or contacting hardware.
+To read identities later against the same package, use ``uz_cpld identify --target dslot --source zip --firmware build/firmware.zip`` (or ``--target s3c``).
+
+Build firmware locally
+----------------------
+
+Install full Diamond 3.14.0.75.2 and its synthesis license only if you need local builds.
+Set ``DIAMOND_ROOT`` to the installation directory; see :doc:`../environments` or :doc:`../windows`.
+After editing ``selection.toml``::
+
+   uz_cpld build_selection
    uz_cpld program --target dslot
 
-``program`` immediately erases, writes and verifies Flash, including firmware identity readback.
-``--dry-run 1`` only previews the command; firmware freshness and hardware checks happen during execution.
-To program S3C, change the UltraZohm to its S3C access state and use ``--target s3c``.
-Both targets use FT4232 channel B; Diamond defaults to ``FTUSB-1``.
-
-Useful commands
----------------
-
-::
-
-   uz_cpld release_list
-   uz_cpld build_all --release-cycle heartbeat_cvg
-   uz_cpld report --release-cycle heartbeat_cvg
-   uz_cpld diamond_xcf_programming_chain
-   uz_cpld help --command program
-
-``diamond_xcf_programming_chain`` optionally exports both Diamond XCF files and requires all six assignments and current builds.
-CLI programming creates its own project, so this export is optional.
-
-Diamond firmware uses ``.jed`` files; FOSS firmware uses ``.bit`` files.
-``--backend foss`` selects FOSS for builds and programming where the program supports it.
-To program Diamond firmware using FOSS tools, use ``--programmer-backend foss``.
-FOSS programming requires the repository's patched openFPGALoader; see :doc:`../firmware-identity`.
-
-Simulation and successful exports do not establish board timing or hardware qualification.
-See :doc:`../s3c` for controller compatibility and :doc:`../validation` for verification limits.
-Detailed options are in :doc:`../commands` and :doc:`../programmer`.
+``build_selection`` builds each distinct assignment once.
+Programming defaults to local firmware and requires current successful builds; it never builds automatically.
+Use ``--target s3c`` after preparing the S3C chain.
+See :doc:`../quick-start` to author programs, :doc:`../commands` for command options, and :doc:`../programmer` for programming details.

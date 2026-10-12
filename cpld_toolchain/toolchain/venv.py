@@ -14,8 +14,14 @@ def environment_python(environment):
 def activation_command(environment):
     if sys.platform == 'win32':
         script = str(environment / 'Scripts/Activate.ps1').replace("'", "''")
-        return "& '" + script + "'"
-    return 'source ' + shlex.quote(str(environment / 'bin/activate'))
+        return ("& '" + script + "'; "
+                "$uzCpldPreviousCompletion = $env:_UZ_CPLD_COMPLETE; "
+                "try { $env:_UZ_CPLD_COMPLETE = 'source_powershell'; "
+                "uz_cpld | Out-String | Invoke-Expression } "
+                "finally { $env:_UZ_CPLD_COMPLETE = $uzCpldPreviousCompletion; "
+                "Remove-Variable uzCpldPreviousCompletion }")
+    return ('source ' + shlex.quote(str(environment / 'bin/activate')) +
+            '; source <(_UZ_CPLD_COMPLETE=source_bash uz_cpld)')
 
 
 def shell_command(environment):

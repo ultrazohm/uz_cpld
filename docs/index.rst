@@ -10,6 +10,7 @@ Each guide includes a quick start reference.
 
    user/index
    standalone
+   windows_native_docker_usb
    developer/toolchain
    developer/hdl
    _generated/programs/index

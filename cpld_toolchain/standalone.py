@@ -1,15 +1,13 @@
 """Standalone firmware downloader and Diamond programmer; no checkout required."""
 import argparse
 from http.client import HTTPException
-import json
 from pathlib import Path
-import shutil
 import sys
-import tempfile
 from zipfile import BadZipFile
 
 from . import __version__, settings, workspace
-from .programmer_helper import program, release
+from .firmware_choice import selected_firmware
+from .programmer_helper import release
 from .toolchain import diamond, firmware_download
 from .toolchain.buildsystem.model import BuildError
 
@@ -24,26 +22,6 @@ def application_directory():
 
 def included_firmware():
     return application_directory() / 'firmware' / firmware_download.ASSET
-
-
-def selected_firmware(root):
-    path = root / 'firmware.json'
-    if not path.is_file():
-        raise BuildError('No firmware selected. Run firmware_download, then firmware_select --firmware FILE; '
-                         'or firmware_select --included for a combined download.')
-    try:
-        data = json.loads(path.read_text(encoding='utf-8'))
-        if data['schema_version'] != 1 or not isinstance(data['path'], str):
-            raise ValueError('unsupported selection format')
-        firmware = Path(data['path'])
-        if not firmware.is_absolute():
-            raise ValueError('selection path must be absolute')
-        _, evidence = release.read_package(firmware)
-        if evidence['archive_sha256'] != data['sha256']:
-            raise BuildError('Selected firmware changed. Inspect and select it again before programming.')
-        return firmware
-    except (KeyError, TypeError, ValueError) as exc:
-        raise BuildError(f'Invalid firmware selection {path}: {exc}') from exc
 
 
 def inspect_firmware(path):
@@ -104,11 +82,11 @@ def parser():
         init.add_argument(f'--dslot-{i}')
     for name in ('scan', 'identify', 'program'):
         item = actions.add_parser(name, help='Program and verify Flash immediately' if name == 'program' else name.capitalize() + ' the connected chain')
-        item.add_argument('--target', choices=('dslot', 's3c'), required=name == 'program', default=None if name == 'program' else 'dslot')
+        item.add_argument('--target', choices=('dslot', 's3c'), default=None if name == 'program' else 'dslot')
         item.add_argument('--probe-index', type=int)
         item.add_argument('--dry-run', type=int, choices=(0, 1), default=0)
         if name != 'scan':
-            item.add_argument('--firmware', type=Path, help='Use this ZIP for this invocation instead of the saved selection')
+            item.add_argument('--firmware', type=Path, help='ZIP path or latest-downloaded; overrides the saved selection for this invocation')
         if name == 'program':
             item.add_argument('--selection', type=Path)
             item.add_argument('--release', '--release-cycle', dest='release_cycle')
@@ -145,30 +123,26 @@ def main(argv=None):
                 path = included_firmware()
             else:
                 path = selected_firmware(root)
-            _, evidence = inspect_firmware(path)
+            inspect_firmware(path)
             if options.action == 'firmware_select':
-                workspace.prepare(root)
-                # Keep selections usable after the application/download directory is replaced.
-                destination = root / 'firmware' / evidence['archive_sha256'] / firmware_download.ASSET
-                destination.parent.mkdir(parents=True, exist_ok=True)
-                with tempfile.TemporaryDirectory(prefix='.select-', dir=destination.parent) as temporary:
-                    staged = Path(temporary) / firmware_download.ASSET
-                    shutil.copyfile(path, staged)
-                    _, snapshot = release.read_package(staged)
-                    if snapshot['archive_sha256'] != evidence['archive_sha256']:
-                        raise BuildError('Firmware changed while selecting; previous selection preserved.')
-                    staged.replace(destination)
-                settings.atomic_json(root / 'firmware.json', dict(schema_version=1, path=str(destination),
-                                     source=str(path), sha256=evidence['archive_sha256']))
+                from .firmware_choice import select
+                select(root, path)
                 print(f'Selected firmware in {root / "firmware.json"}; slot assignments are unchanged.')
             return 0
         # Preserve the shared CLI's validation, snapshots, USB locking and readback.
         from .toolchain.commands import run
         values = {key: str(value) for key, value in vars(options).items()
                   if key not in ('workspace', 'action') and value is not None}
+        if options.action == 'init_programmer':
+            from .firmware_choice import guide_init
+            values = guide_init(root, values, standalone=True, included=included_firmware())
+        if options.action == 'program' and not options.target:
+            return run('program', values, workspace=root, standalone=True, included=included_firmware())
         if options.action in ('identify', 'program'):
             # A dry run can preview an explicit ZIP without opening it.
-            path = options.firmware.expanduser().absolute() if options.firmware else selected_firmware(root)
+            from .firmware_choice import resolve
+            path = resolve(root, options.firmware, included=included_firmware(), standalone=True,
+                           prompt=options.action == 'program' and not options.dry_run)
             values.update(source='zip', firmware=str(path))
         return run(options.action, values, workspace=root)
     except (BuildError, OSError, ValueError, KeyError, TypeError, BadZipFile, HTTPException, RuntimeError) as exc:

@@ -199,6 +199,11 @@ def download(root, *, remote=None, output=None, git_url=None, branch=None):
             shutil.copyfileobj(response, stream)
         verify(staged, commit, asset)
         staged.replace(destination)
+    from cpld_toolchain.settings import atomic_json
+    atomic_json(destination.with_name(destination.name + '.json'), dict(
+        schema_version=1, repository=repository, ref=ref, tag=release['tag_name'],
+        release_id=release['id'], published_at=release['published_at'], git_revision=commit,
+        sha256=hashlib.sha256(destination.read_bytes()).hexdigest()))
     print(f'Downloaded: {destination}')
     return destination
 

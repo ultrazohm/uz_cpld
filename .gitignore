@@ -7,6 +7,9 @@ __pycache__/
 .pytest_cache/
 docs/_generated/
 selection.toml
+# Per-workspace selected firmware snapshots and their receipt.
+/firmware.json
+/firmware/
 # Preserve the selection used by the recorded hardware test.
 !docs/logs/hardware-test-20261007/files/selection.toml
 # Standalone Python package metadata.

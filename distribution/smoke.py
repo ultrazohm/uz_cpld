@@ -73,7 +73,7 @@ def main():
             firmware.unlink()
             run('firmware_list')  # Selected snapshot survives removal of the original.
             selected = json.loads((root / 'data/workspace/firmware.json').read_text())
-            Path(selected['path']).write_bytes(b'corrupt')
+            (root / 'data/workspace' / selected['path']).write_bytes(b'corrupt')
             run('program', '--target', 's3c', success=False)
             for resource in ('templates/s3c.xcf', 'templates/dslots.xcf', 'diamond_program.sh'):
                 assert (executable.parent / '_internal/cpld_toolchain/programmer_helper' / resource).is_file(), resource

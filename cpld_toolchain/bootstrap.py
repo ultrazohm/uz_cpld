@@ -94,7 +94,7 @@ def main(argv=None):
         from .toolchain.venv import activation_command, shell_command
         print('Python environment ready. Native HDL tools, Diamond and drivers are installed separately.', flush=True)
         if args.activate == '1' and sys.stdin.isatty():
-            print('Opening an activated shell. Use exit to return.', flush=True)
+            print('Opening an activated shell with uz_cpld completion. Use exit to return.', flush=True)
             return subprocess.call(shell_command(environment), cwd=str(ROOT))
         print('To activate: {}'.format(activation_command(environment)))
         return 0

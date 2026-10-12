@@ -106,8 +106,37 @@ No selection file is needed.
 ``scan`` only reads device IDs, so it does not accept ``source`` or ``firmware``.
 
 ``firmware`` is rejected with ``source=local``.
-No ZIP is selected or downloaded implicitly.
-``dry_run=1`` remains a command preview: it does not open or validate the ZIP, extract files, or access hardware.
+For ``program --source zip`` without ``--firmware``, the top-level CLI reuses a
+previously saved workspace package. If none is selected, an interactive terminal
+offers local downloads, downloading the newest published firmware, or entering a
+ZIP path. The chosen package is validated and saved independently of slot assignments.
+Noninteractive invocations without a saved package fail with instructions.
+Saved snapshot paths are workspace-relative and work across native/container mount
+locations. Legacy absolute-path selections also resolve their checksum-addressed
+snapshot in the current workspace. If the snapshot is missing, interactive
+programming offers package selection again; corrupt packages remain errors.
+
+``--firmware latest-downloaded`` explicitly uses the newest recorded download for
+the checkout's repository and branch, without network access or changing the saved
+selection. A workspace without a checkout defaults to ``ultrazohm/uz_cpld`` and
+``master``. Explicit paths always override the saved selection for one invocation.
+Interactive programming also offers missing release/program choices from the ZIP;
+valid selection-file assignments are reused. Guided assignments are not written to
+the selection file and require an explicit choice to proceed with programming.
+Fully specified commands retain immediate execution. The lower-level programmer
+module still requires an explicit ZIP path.
+
+Download directories use ``build/downloads/firmware-ci-<run-id>-<attempt>/``.
+The suffix identifies the GitHub Actions run and attempt, not a timestamp or hash.
+``firmware_download`` records the repository, branch, source commit, release ID,
+publication time and archive checksum in ``uz-cpld-firmware.zip.json`` beside the ZIP.
+Newest-download selection compares publication time, then release ID, within the
+matching repository/branch. It does not use filesystem modification times.
+Downloads made before these receipts were introduced can be chosen interactively
+or by path, but are excluded from automatic newest-download selection.
+``dry_run=1`` never prompts, downloads, extracts firmware or accesses hardware.
+An explicit ZIP path is previewed without opening it; resolving a saved selection
+or ``latest-downloaded`` validates the package used for that preview.
 
 Installed package outside a checkout
 ------------------------------------
@@ -187,7 +216,12 @@ Scan, identify and program
 ``scan`` and ``identify`` default to D-slots and execute immediately.
 Neither needs firmware builds or a selection file.
 They do not accept release or build-backend options.
-``program`` requires an explicit target and immediately erases, programs and verifies Flash; it has no SRAM mode.
+``program`` without a target first asks for manual assignments or a selection
+file, then target and source. Manual mode asks for the release and programs;
+file mode reuses the file's values. Both end with an explicit choice to program.
+With a complete explicit target/selection, it immediately erases, programs and
+verifies Flash; it has no SRAM mode. Noninteractive commands and dry runs require
+an explicit target. See :doc:`commands` for guided initialization and programming.
 After changing the hardware access state, use ``--target s3c`` for S3C.
 ``--dry-run 1`` validates CLI options and prints the resolved invocation without writes or hardware access.
 It does not validate selection contents, firmware freshness or hardware readiness.

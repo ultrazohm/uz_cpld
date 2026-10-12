@@ -142,7 +142,12 @@ class DownloadTests(unittest.TestCase):
         self.assertEqual(result, self.root / 'build/downloads/firmware-ci-1-1' / firmware.ASSET)
         self.assertEqual(result.read_bytes(), payload)
         self.assertFalse((self.root / 'build/diamond').exists())
-        self.assertEqual(list(result.parent.iterdir()), [result])
+        receipt = result.with_name(result.name + '.json')
+        self.assertEqual(set(result.parent.iterdir()), {result, receipt})
+        info = json.loads(receipt.read_text())
+        self.assertEqual(info['published_at'], selected['published_at'])
+        self.assertEqual(info['ref'], 'refs/heads/topic')
+        self.assertEqual(info['sha256'], hashlib.sha256(payload).hexdigest())
 
     def test_bad_download_preserves_existing_output(self):
         destination = self.root / 'download.zip'

@@ -22,6 +22,7 @@ DIRECT_SELECTION = {'s3c_program', *(f'dslot{i}' for i in range(1, 6))}
 # The native Windows suite excludes Linux-only tool and shell integrations.
 WINDOWS_TESTS = (
     'cpld_toolchain.toolchain.tests.test_firmware_download',
+    'cpld_toolchain.toolchain.tests.test_firmware_choice',
     'cpld_toolchain.toolchain.tests.test_capabilities', 'cpld_toolchain.toolchain.tests.test_doctor', 'cpld_toolchain.toolchain.tests.test_platform', 'cpld_toolchain.toolchain.tests.test_commands', 'cpld_toolchain.toolchain.tests.test_venv',
     'cpld_toolchain.toolchain.tests.test_identity.IdentityTests.test_concurrent_allocations_are_unique_and_repeated_allocation_is_stable',
     'cpld_toolchain.toolchain.tests.test_identity.IdentityTests.test_concurrent_same_build_reuses_one_revision',
@@ -77,7 +78,7 @@ COMMANDS = {
     'diamond_xcf_programming_chain': spec('Programmer', 'diamond_xcf_programming_chain', 'Export both Diamond XCFs from the edited selection', {'selection', 'release_cycle', 'backend', 'build_backend', 'programmer_backend', 'probe_index', 'rebuild'}),
     'scan': spec('Programmer', 'scan target=dslot', 'Check JTAG IDs (target defaults to dslot)', PROBE),
     'identify': spec('Programmer', 'identify target=dslot', 'Read firmware identity and silicon TraceID', PROBE | {'source', 'firmware'}),
-    'program': spec('Programmer', 'program target=dslot', 'Program one physical chain from a selection file or explicit program assignments', PROBE | DIRECT_SELECTION | {'selection', 'release', 'release_cycle', 'build_backend', 'source', 'firmware'}, {'target'}),
+    'program': spec('Programmer', 'program target=dslot', 'Program one physical chain from a selection file or explicit program assignments', PROBE | DIRECT_SELECTION | {'selection', 'release', 'release_cycle', 'build_backend', 'source', 'firmware'}),
     'flasher_build': spec('Programmer', 'flasher_build', 'Compile the optional FOSS programmer utility locally', {'jobs'}),
 }
 
@@ -134,7 +135,7 @@ def shared_help(style='make'):
         '  compare requires explicit backend=foss; Diamond and combined comparisons are unsupported.',
         '  release_cycle defaults to the current release (docs default to all); programmer actions consult',
         '  the selection file first. selection=selection.toml; template=tx30.',
-        '  init_programmer: omitted assignments keep template defaults; release="" uses the current release.',
+        '  init_programmer: no assignments opens a terminal wizard; noninteractive use keeps template defaults.',
         '  jobs=4; seed=1; wave_format=vcd; dry_run=0; rebuild=0;',
         '  discard_project_changes=0; setup activate=1. Omit an option to use its default.',
         '  Build targets are inferred when unambiguous; scan/identify default to dslot.',
@@ -142,7 +143,7 @@ def shared_help(style='make'):
         '  program accepts selection=FILE or s3c_program=NAME / all dslot1..dslot5 assignments.',
         '  Direct assignments do not read or create selection.toml; do not combine them with selection.',
         '  program release=NAME is an alias for release_cycle=NAME.',
-        '  program and identify use source=local by default; source=zip requires firmware=FILE.zip.',
+        '  program and identify default to source=local; program source=zip can reuse or interactively select a ZIP.',
         '  ZIP firmware backend comes from its manifest; explicit build_backend must match.',
         '  jobs must be positive; seed and probe_index must be nonnegative.',
         '  gui requires Diamond builds; diamond_xcf_programming_chain requires both backends to be Diamond.',
@@ -236,6 +237,8 @@ def normalize(action, options):
     build_backend = options.get('build_backend', backend)
     programmer_backend = options.get('programmer_backend', backend)
     if action == 'program':
+        if not options.get('target'):
+            raise BuildError('program requires target=dslot|s3c')
         from cpld_toolchain.programmer_helper.helper import direct_selection
         assignments = direct_selection(options['target'], options.get('s3c_program'),
                                        {i: options[f'dslot{i}'] for i in range(1, 6) if f'dslot{i}' in options})
@@ -245,7 +248,7 @@ def normalize(action, options):
         source = options.get('source', 'local')
         if source not in ('local', 'zip'):
             raise BuildError('source must be local or zip')
-        if source == 'zip' and not options.get('firmware'):
+        if source == 'zip' and not options.get('firmware') and action != 'program':
             raise BuildError('source=zip requires firmware=FILE.zip')
         if source == 'local' and 'firmware' in options:
             raise BuildError('firmware requires source=zip')
@@ -275,6 +278,9 @@ class Invocation:
 def plan(action, options, *, root=ROOT, cwd=None, workspace=None):
     """Resolve a command without writes, tool startup, or hardware access."""
     action, options = normalize(action, options)
+    if action == 'program' and options.get('source') == 'zip' and (
+            not options.get('firmware') or options['firmware'] == 'latest-downloaded'):
+        raise BuildError('Resolve a firmware package before planning; run program or supply firmware=FILE.zip')
     root = Path(root).resolve()
     cwd = Path(cwd or Path.cwd()).resolve()
     if workspace is not None:
@@ -382,19 +388,40 @@ def plan(action, options, *, root=ROOT, cwd=None, workspace=None):
     return [invoke('cpld_toolchain.toolchain.buildsystem', [action, '--root', str(root), *args])]
 
 
-def run(action, options, *, workspace=None):
+def run(action, options, *, workspace=None, standalone=False, included=None):
     from cpld_toolchain import workspace as workspace_state
     if workspace is None:
-        return _run(action, options)
+        return _run(action, options, standalone=standalone, included=included)
     path = Path(workspace).expanduser().resolve()
     with workspace_state.use(path):
-        return _run(action, options, workspace=path)
+        return _run(action, options, workspace=path, standalone=standalone, included=included)
 
 
-def _run(action, options, *, workspace=None):
+def _run(action, options, *, workspace=None, standalone=False, included=None):
     """Plan, check only this command's dependencies, then execute lazily."""
     from cpld_toolchain import capabilities, runtime
+    guided_start = action == 'program' and not options.get('target')
+    selection_mode = None
+    if action == 'program':
+        from cpld_toolchain.firmware_choice import start_program
+        options, selection_mode = start_program(options,
+            selection_base=Path(workspace) if workspace is not None else Path.cwd(), standalone=standalone)
     canonical, normalized = normalize(action, options)
+    if canonical == 'init_programmer':
+        from cpld_toolchain.firmware_choice import guide_init
+        root = Path(workspace or ROOT).resolve()
+        normalized = guide_init(root, normalized, selection_base=root if workspace is not None else Path.cwd())
+    if canonical == 'program' and normalized.get('source') == 'zip':
+        from cpld_toolchain.firmware_choice import resolve
+        root = Path(workspace or ROOT).resolve()
+        normalized['firmware'] = str(resolve(root, normalized.get('firmware'),
+                                            prompt=normalized.get('dry_run') != '1',
+                                            standalone=standalone, included=included))
+    if canonical == 'program':
+        from cpld_toolchain.firmware_choice import guide_program
+        root = Path(workspace or ROOT).resolve()
+        normalized = guide_program(root, normalized, selection_base=root if workspace is not None else Path.cwd(),
+                                   confirm=guided_start, selection_mode=selection_mode)
     calls = plan(canonical, normalized, workspace=workspace)
     preview = normalized.get('dry_run') == '1'
     if preview:

@@ -105,6 +105,8 @@ class WindowsDispatchTests(unittest.TestCase):
             self.assertIn('-NoExit', argv)
             self.assertIn("workspace''s files", argv[-1])
             self.assertIn('Activate.ps1', argv[-1])
+            self.assertIn("'source_powershell'", argv[-1])
+            self.assertIn('Invoke-Expression', argv[-1])
 
     def test_windows_usb_uses_vendor_driver_without_linux_sysfs(self):
         with tempfile.TemporaryDirectory() as tmp, patch.object(sys, 'platform', 'win32'), \

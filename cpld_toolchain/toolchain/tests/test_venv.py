@@ -5,6 +5,8 @@ import io
 import os
 from pathlib import Path
 import subprocess
+import shlex
+import shutil
 import sys
 import tarfile
 import tempfile
@@ -12,10 +14,54 @@ import unittest
 from unittest.mock import patch
 
 from cpld_toolchain import bootstrap
-from cpld_toolchain.toolchain import commands
+from cpld_toolchain.toolchain import commands, venv
 
 
 class VenvTests(unittest.TestCase):
+    @unittest.skipIf(sys.platform == 'win32' or not shutil.which('bash'), 'Bash session test')
+    def test_setup_shell_and_activation_command_enable_real_completion(self):
+        with tempfile.TemporaryDirectory(prefix="uz setup's session ") as tmp:
+            root = Path(tmp)
+            scripts = root / 'cpld_toolchain/toolchain'
+            scripts.mkdir(parents=True)
+            startup = scripts / 'venv-shell.bash'
+            shutil.copyfile(commands.ROOT / 'cpld_toolchain/toolchain/venv-shell.bash', startup)
+            environment = root / '.venv'
+            binary = environment / 'bin'
+            binary.mkdir(parents=True)
+            (binary / 'activate').write_text('export PATH=' + shlex.quote(str(binary)) + ':"$PATH"\n')
+            cli = binary / 'uz_cpld'
+            cli.write_text('#!/usr/bin/env bash\nexec ' + shlex.quote(sys.executable) +
+                           ' -m cpld_toolchain "$@"\n')
+            cli.chmod(0o755)
+            env = dict(os.environ, PYTHONPATH=str(commands.ROOT))
+            exercise = '''
+complete -p uz_cpld
+COMP_WORDS=(uz_cpld pro)
+COMP_CWORD=1
+_uz_cpld_completion uz_cpld
+printf '%s\\n' "${COMPREPLY[@]}"
+COMP_WORDS=(uz_cpld program --sou)
+COMP_CWORD=2
+_uz_cpld_completion uz_cpld
+printf '%s\\n' "${COMPREPLY[@]}"
+COMP_WORDS=(uz_cpld program --target s)
+COMP_CWORD=3
+_uz_cpld_completion uz_cpld
+printf '%s\\n' "${COMPREPLY[@]}"
+'''
+            for invocation in (
+                ['bash', '--noprofile', '--rcfile', str(startup), '-ic', exercise],
+                ['bash', '--noprofile', '--norc', '-c', venv.activation_command(environment) + '\n' + exercise],
+            ):
+                with self.subTest(invocation=invocation[:4]):
+                    result = subprocess.run(invocation, env=env, cwd=root, capture_output=True, text=True, timeout=30)
+                    self.assertEqual(result.returncode, 0, result.stderr)
+                    lines = result.stdout.splitlines()
+                    for expected in ('program', 'project', '--source', 's3c'):
+                        self.assertIn(expected, lines)
+                    self.assertTrue(any('complete -o default -F' in line for line in lines))
+
     def test_old_python_setup_needs_no_site_packages_or_modern_imports(self):
         for action in ('setup',):
             script = (

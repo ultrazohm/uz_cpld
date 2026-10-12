@@ -1,6 +1,9 @@
 Native Windows setup
 ====================
 
+For Linux containers on Docker Desktop's Hyper-V backend, see
+:doc:`windows_native_docker_usb` for USB programmer forwarding without WSL2.
+
 The primary interface after setup is ``uz_cpld`` on Windows and Linux.
 Use ``python -m cpld_toolchain setup`` from a fresh checkout to install and activate it.
 Run setup from the checkout root with Python 3.8 or later; setup downloads the selected modern Python as needed.
@@ -22,6 +25,8 @@ From PowerShell in the checkout::
    python -m cpld_toolchain setup
 
 This creates or updates ``.venv``, installs the editable project and all locked Python dependencies, and opens PowerShell with the environment activated.
+The new session automatically registers ``uz_cpld`` Tab completion without changing
+your PowerShell profile.
 Type ``exit`` to return to the original terminal.
 Without an interactive terminal, setup prints an activation command instead.
 

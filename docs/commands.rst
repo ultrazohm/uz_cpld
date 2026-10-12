@@ -73,7 +73,11 @@ Use ``--output FILE`` to choose a destination; the default is ``build/downloads/
 Use ``--remote NAME`` to select a GitHub remote, or ``--git-url URL --branch NAME`` to download without Git discovery.
 ``--git-url`` and ``--remote`` cannot be combined.
 See :doc:`publishing` for branch resolution, authentication and archive verification.
-Programming a download requires explicit ``--source zip --firmware FILE``; the repository CLI does not save a selected ZIP.
+Use ``--source zip --firmware FILE`` to program an explicit download. Without a path,
+``program --source zip`` reuses a saved workspace package or offers an interactive
+selection. ``--firmware latest-downloaded`` uses the newest recorded download for
+the repository/branch without network access. See :doc:`programmer` for selection
+precedence, publication metadata and noninteractive behavior.
 The :doc:`standalone` application instead provides ``firmware_list`` and ``firmware_select`` with persistent package selection.
 See :doc:`programmer` for assignments, backend compatibility, identity reads and XCF export.
 
@@ -153,6 +157,14 @@ For example::
    make build_selection selection=custom.toml
 
 ``init_programmer`` accepts ``--s3c NAME``, ``--dslot-1 NAME`` through ``--dslot-5 NAME``, and ``--release NAME``.
+In a terminal, omitting these assignment arguments opens a guided selection of
+release cycle, S3C program, and D1 through D5. Choices come from the saved firmware
+package when present, otherwise the checkout's catalogs. Without either, it offers
+firmware package selection first. ``--selection PATH`` can choose a new output file.
+The wizard writes the completed selection only after all choices are made and never
+accesses hardware. Cancel with ``q`` or Ctrl+C.
+Existing files are preserved without prompting. Noninteractive invocations and
+invocations with explicit assignment arguments retain template-default behavior.
 ``--release ""`` uses the current release.
 With Make, use ``s3c=NAME``, ``dslot_1=NAME`` through ``dslot_5=NAME``, and ``release=""``.
 Existing files are preserved even when options are supplied.
@@ -162,3 +174,18 @@ For example, initialize a new file with optional assignments::
    uz_cpld init_programmer --selection custom.toml --release original --s3c s3c_power_on_debounce --dslot-1 rx30 --dslot-2 tx30 --dslot-3 tx30 --dslot-4 tx30 --dslot-5 tx30
 
 This overrides all template assignments for ``original``; omitted slots would retain ``cvg_tx30`` from ``heartbeat_cvg``.
+
+For guided programming, run ``uz_cpld program`` without a target in a terminal.
+First choose ``Manual selection`` or ``Use selection.toml``, then D1–D5 or S3C,
+and ZIP firmware or local builds. Manual mode asks for a release cycle and the
+program at each position without reading the selection file. File mode uses the
+file's release and assignments without repeating those questions; an unavailable
+release/program is an error, not a fallback to manual selection. An empty release
+retains the normal current-release or single-cycle ZIP resolution.
+Use ``--selection PATH`` to name a different file. The wizard
+shows the resulting assignments and requires an explicit ``Program`` choice;
+Enter at the final prompt cancels. Local mode requires existing current builds,
+and ZIP mode uses the package selection described in :doc:`programmer`.
+The wizard does not rewrite ``selection.toml``. Explicit target/assignment commands
+retain their existing execution behavior. Without a terminal or during a dry run,
+the target must be supplied explicitly.

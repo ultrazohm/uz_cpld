@@ -82,11 +82,60 @@ Included firmware is found beside the executable, independently of the terminal'
 ``firmware_list`` without a path inspects the selected package, or the included package if none is selected.
 It prints the source commit, ZIP checksum, release/program names, targets and expected USERCODEs.
 Selection copies the validated ZIP into the workspace and records its checksum in ``firmware.json``.
+Snapshot paths are relative to the workspace, so the selection also works when
+the workspace is mounted at a different path inside a container. Older absolute-path
+selections locate the same checksum-addressed snapshot under the current workspace.
+If the saved ZIP is missing, interactive programming opens the package chooser;
+noninteractive commands fail with instructions. Invalid or modified packages remain
+errors and are never silently replaced.
 This snapshot remains usable after the original download or application directory is replaced.
 Selecting a package does not change slot assignments.
 
+Alternatively, run ``uz_cpld program --target dslot`` in an interactive terminal.
+If no package is selected, it offers downloaded packages, included firmware when
+available, a new download (with a branch prompt), or a ZIP path. The chosen package
+is validated and saved as a workspace snapshot. Subsequent invocations reuse that
+selection; downloading another package does not replace it.
+
+To explicitly use the newest recorded local download from the default repository
+and ``master`` branch for one invocation::
+
+   uz_cpld program --target dslot --firmware latest-downloaded
+
+This does not contact GitHub or change the saved selection. It uses publication
+metadata recorded by ``firmware_download``, not file modification times. Older
+downloads without that metadata remain selectable in the interactive list or by
+path, but cannot be chosen by ``latest-downloaded``.
+
+Missing release/program choices are offered interactively from the validated ZIP.
+Valid existing ``selection.toml`` assignments are reused. Guided assignments apply
+to this invocation only and require an explicit choice to proceed with programming;
+the selection file is not rewritten. Choices are filtered by cycle and device target,
+not by the S3C firmware currently installed on the board.
+
+Prompts require both terminal input and output (use ``docker run -it`` in a container).
+Without a terminal, supply a ZIP path, a saved selection, or ``latest-downloaded``
+and complete program assignments. ``--dry-run 1`` never prompts or downloads.
+
 Programming
 -----------
+
+Run ``uz_cpld init_programmer`` without assignment arguments in a terminal to
+choose the release cycle, S3C program and D1 through D5 from the selected firmware
+package. If no package is selected, the package chooser opens first, including
+bundled firmware when available. The completed choices are saved to
+``selection.toml`` without accessing hardware. An existing file is kept unchanged;
+use ``--selection another.toml`` to create another configuration.
+
+Run ``uz_cpld program`` without a target for guided programming. First choose
+``Manual selection`` or ``Use selection.toml``, then D1–D5 or S3C and the firmware
+source (ZIP firmware in the standalone application). Package selection follows
+when needed. Manual mode asks for the release and program assignments; file mode
+reuses them from ``selection.toml`` without asking again. Missing files or
+assignments incompatible with the package cause an error. ``--selection PATH``
+can name another selection file. Review the summary and explicitly choose
+``Program`` to proceed; the default final choice is ``Cancel``. These assignments
+apply to this invocation and do not rewrite the selection file.
 
 Create and edit ``selection.toml`` in the workspace shown by ``doctor``::
 
@@ -97,7 +146,8 @@ Create and edit ``selection.toml`` in the workspace shown by ``doctor``::
    uz_cpld program --target dslot
 
 Choose program names and a release cycle present in ``firmware_list``.
-The last command immediately erases, writes and verifies Flash after the managed preflight checks; there is no confirmation prompt.
+With complete selections, the last command immediately erases, writes and verifies
+Flash after the managed preflight checks; there is no additional confirmation prompt.
 S3C uses ``--target s3c`` and its own physical JTAG access state.
 Managed programming and identification require Diamond port ``FTUSB-1`` (``--probe-index 1``).
 Scans accept other probe indices.

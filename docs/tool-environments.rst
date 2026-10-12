@@ -4,6 +4,19 @@ Tools and execution environments
 Use ``uz_cpld ACTION`` in the activated environment from the repository root on Linux or Windows.
 The Makefile is an optional Linux wrapper around the same commands.
 
+Setup automatically enables ``uz_cpld`` Tab completion in the activated Bash or
+PowerShell session it opens. Completion covers command names, options and enum
+values; it does not yet suggest catalog program or release names. No shell profile
+is modified. Exiting the setup shell returns to the original shell.
+
+To enable activation and completion in an already open Bash shell without opening
+another shell, run from the repository root::
+
+   source cpld_toolchain/toolchain/venv-shell.bash
+
+The environment must already have been created by setup. For example, type
+``uz_cpld pro`` then press Tab, or ``uz_cpld program --`` then press Tab twice.
+
 What each environment provides
 ------------------------------
 

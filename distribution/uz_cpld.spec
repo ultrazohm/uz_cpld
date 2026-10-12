@@ -7,7 +7,8 @@ a = Analysis(
     datas=[(str(data / 'templates'), 'cpld_toolchain/programmer_helper/templates'),
            (str(data / 'selection.example.toml'), 'cpld_toolchain/programmer_helper'),
            (str(data / 'diamond_program.sh'), 'cpld_toolchain/programmer_helper')],
-    hiddenimports=['tomli'],
+    # runtime.execute imports this entry point by name, outside static analysis.
+    hiddenimports=['tomli', 'cpld_toolchain.programmer_helper.program'],
     excludes=['typer', 'sphinx', 'plotly', 'cocotb', 'pytest', 'tkinter',
               'cpld_toolchain.cli', 'cpld_toolchain.bootstrap',
               'cpld_toolchain.toolchain.analysis', 'cpld_toolchain.toolchain.simulation'],

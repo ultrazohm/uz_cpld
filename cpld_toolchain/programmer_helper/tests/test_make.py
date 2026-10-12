@@ -38,6 +38,9 @@ class ProgrammerMakeTests(unittest.TestCase):
                   'target': 'dslot', 'release_cycle': 'heartbeat_cvg', 'backend': 'foss'}
         for action in COMMANDS:
             options = {key: values[key] for key in COMMANDS[action].required}
+            # Interactive programming can prompt for a target; previews cannot.
+            if action == 'program':
+                options['target'] = values['target']
             options['dry_run'] = '1'
             with self.subTest(action=action):
                 made = self.make(action, *(f'{key}={value}' for key, value in options.items()))
@@ -166,7 +169,8 @@ class ProgrammerMakeTests(unittest.TestCase):
         self.assertLessEqual(len(help_text.splitlines()), len(COMMANDS) + 20)
         self.assertNotIn('Required:', help_text)
         result = self.make('help', 'command=program')
-        self.assertIn('Required: target=dslot|s3c', result.stdout)
+        self.assertIn('Required: none', result.stdout)
+        self.assertIn('target=dslot|s3c', result.stdout)
         self.assertIn('programmer_backend=diamond|foss', result.stdout)
         self.assertNotIn('make sim', result.stdout)
 

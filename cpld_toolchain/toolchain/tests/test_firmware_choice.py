@@ -19,7 +19,8 @@ class FirmwareChoiceTests(unittest.TestCase):
         self.fixture = test_release.ReleaseTests()
         self.fixture.setUp()
         self.addCleanup(self.fixture.doCleanups)
-        self.root = self.fixture.root / 'workspace'
+        # Windows temp paths may use an 8.3 alias; match the CLI's resolved paths.
+        self.root = self.fixture.root.resolve() / 'workspace'
         self.root.mkdir()
         self.output = redirect_stdout(io.StringIO())
         self.output.__enter__()
@@ -312,7 +313,7 @@ class FirmwareChoiceTests(unittest.TestCase):
         data = json.loads((self.root / 'firmware.json').read_text())
         self.assertEqual(data['schema_version'], 2)
         self.assertFalse(Path(data['path']).is_absolute())
-        moved = self.fixture.root / 'container mount'
+        moved = self.fixture.root.resolve() / 'container mount'
         shutil.copytree(self.root, moved)
         # Even while the old native path exists, use the current workspace.
         self.assertEqual(choice.selected_firmware(moved), moved / data['path'])

@@ -37,6 +37,8 @@ def inspect_firmware(path):
 
 
 def doctor(root, backend='foss'):
+    from .driver_status import report as driver_report
+    driver_report()
     if backend == 'foss':
         from .tools import loader_path
         from .toolchain.foss import flasher

@@ -104,6 +104,7 @@ class DoctorTests(unittest.TestCase):
                 patch.object(doctor, 'package', side_effect=lambda name, module=None: doctor.Finding(name, 'MISSING', 'not installed')), \
                 patch.object(doctor, 'locate', return_value=None), \
                 patch.object(doctor, 'diamond_executable', side_effect=BuildError('no vendor tools')), \
+                patch('cpld_toolchain.driver_status.report') as driver_report, \
                 patch.object(doctor.subprocess, 'run') as run, redirect_stdout(io.StringIO()) as output:
             self.assertEqual(doctor.report(Path(tmp)), 0)
         text = output.getvalue()
@@ -112,6 +113,7 @@ class DoctorTests(unittest.TestCase):
         self.assertIn('MISSING', text)
         self.assertIn('INVALID', text)
         run.assert_not_called()
+        driver_report.assert_called_once_with()
 
     def test_doctor_stays_local_regardless_of_backend(self):
         for backend in ('diamond', 'foss'):

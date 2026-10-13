@@ -149,3 +149,22 @@ Review ``git status`` and your intended generator inputs, then regenerate the af
 Review the generated diff.
 Regeneration refreshes generated outputs and their receipt; it does not install missing tools.
 Avoid deleting receipts or weakening version checks to suppress these diagnostics.
+
+Windows USB driver diagnostics
+------------------------------
+
+Both the standalone and repository ``uz_cpld doctor`` inspect Windows PnP
+metadata for connected FT4232 channel B / Interface 1 devices
+(``VID_0403&PID_6011&MI_01``), regardless of the selected backend.
+The report assesses compatibility with the FOSS backend: ``CONFIGURED`` means
+WinUSB is bound with no Windows device error; ``INCOMPATIBLE`` identifies the
+ordinary FTDI driver. Other bindings are marked ``CHECK DRIVER``.
+It lists each matching device separately, including its driver service and
+Windows problem code. ``ABSENT`` means no matching connected interface was
+found; ``UNKNOWN`` means the query failed or required metadata is missing.
+
+The check uses built-in Windows PowerShell and CIM, requires no extra Python
+packages, and does not change drivers or open USB interfaces. If system policy
+blocks the query, doctor reports that limitation and continues. Driver findings
+are informational and do not change doctor's exit status. Use ``scan`` to test
+actual USB access and JTAG communication. Linux and macOS skip this Windows check.

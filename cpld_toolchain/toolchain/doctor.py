@@ -118,6 +118,8 @@ def report(root, *, backend='diamond', release_cycle=None, target=None):
         print('  Repository .venv exists but is not used by this interpreter.')
     print(f'  Checkout: {root}')
     print(f'  Selected build backend: {backend} (all tool groups are listed)')
+    from cpld_toolchain.driver_status import report as driver_report
+    driver_report()
 
     groups = []
     packages = [package('cpld-toolchain', 'cpld_toolchain')]

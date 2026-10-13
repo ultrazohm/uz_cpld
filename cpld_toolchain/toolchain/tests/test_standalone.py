@@ -152,13 +152,15 @@ class StandaloneTests(unittest.TestCase):
                       runtime_sha256={'runtime.so': flasher.digest(binary)})
         (self.root / 'runtime.so').write_bytes(binary.read_bytes())
         (self.root / flasher.RECEIPT).write_text(json.dumps(record))
-        with patch.object(tools, 'loader_path', return_value=binary), \
+        with patch('cpld_toolchain.driver_status.report') as driver_report, \
+                patch.object(tools, 'loader_path', return_value=binary), \
                 patch.object(flasher, 'version', return_value=record['pin']['capability']) as version, \
                 patch.object(diamond, 'executable', side_effect=AssertionError('No Diamond')):
             self.assertEqual(self.run_cli('doctor'), 0)
             (self.root / 'runtime.so').write_bytes(b'changed')
             self.assertEqual(self.run_cli('doctor'), 1)
             self.assertEqual(version.call_count, 1)
+            self.assertEqual(driver_report.call_count, 2)
 
     def test_linux_wrapper_is_a_resource_not_a_workspace_file(self):
         with patch.object(sys, 'platform', 'linux'):

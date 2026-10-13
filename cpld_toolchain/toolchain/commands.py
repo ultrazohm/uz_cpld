@@ -52,8 +52,6 @@ def spec(group, example, description, options=(), required=()):
 COMMANDS = {
     'image': spec('Environment', 'image', 'Build the container tools (optional for native Diamond)', CONTAINER),
     'setup': spec('Environment', 'setup [activate=0|1]', 'Create the locked Python environment, downloading Python as needed', {'activate'}),
-    'setup_foss_drivers': spec('Programmer', 'setup_foss_drivers', 'Bind WinUSB to the selected Windows programmer channel B', {'device_id'}),
-    'setup_diamond_driver': spec('Programmer', 'setup_diamond_driver', 'Restore the selected Windows programmer channel B to its FTDI driver', {'device_id'}),
     'doctor': spec('Environment', 'doctor', 'Report this environment and installed/missing tools; no hardware access', FIRMWARE),
     'docs': spec('Documentation', 'docs [release_cycle=all]', 'Generate assets and HTML; defaults to all releases', {'program', 'target', 'release_cycle', 'jobs'}),
     'docs_assets': spec('Documentation', 'docs_assets [program=NAME]', 'Generate documentation assets without rendering HTML', {'program', 'target', 'release_cycle', 'jobs'}),
@@ -84,6 +82,8 @@ COMMANDS = {
     'scan': spec('Programmer', 'scan target=dslot', 'Check JTAG IDs (target defaults to dslot)', PROBE),
     'identify': spec('Programmer', 'identify target=dslot', 'Read firmware identity and silicon TraceID', PROBE | {'source', 'firmware'}),
     'program': spec('Programmer', 'program target=dslot', 'Program one physical chain from a selection file or explicit program assignments', PROBE | DIRECT_SELECTION | {'selection', 'release', 'release_cycle', 'build_backend', 'source', 'firmware'}),
+    'setup_foss_drivers': spec('Programmer', 'setup_foss_drivers', 'Bind WinUSB to the selected Windows programmer channel B', {'device_id'}),
+    'setup_diamond_driver': spec('Programmer', 'setup_diamond_driver', 'Restore the selected Windows programmer channel B to its FTDI driver', {'device_id'}),
     'flasher_build': spec('Programmer', 'flasher_build', 'Compile the optional FOSS programmer utility locally', {'jobs'}),
 }
 

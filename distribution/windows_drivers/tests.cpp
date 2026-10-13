@@ -6,7 +6,27 @@
 #include <cassert>
 #include <filesystem>
 
-int wmain() {
+int wmain(int argc, wchar_t** argv) {
+    if (argc == 4 && same(argv[1], L"--signed-package")) {
+        if (!admin()) { std::cerr << "Signing test requires an elevated disposable Windows runner.\n"; return 1; }
+        wdi_device_info device = {};
+        device.vid=0x0403; device.pid=0x6011; device.mi=1; device.is_composite=TRUE;
+        char description[]="UltraZohm CI synthetic interface"; device.desc=description;
+        auto subject=utf8(argv[3]);
+        wdi_options_prepare_driver options = {}; options.driver_type=WDI_WINUSB;
+        options.cert_subject=subject.data();
+        int code=wdi_prepare_driver(&device, utf8(argv[2]).c_str(), "test.inf", &options);
+        if (code) { std::cerr << wdi_strerror(code) << "\n"; return 1; }
+        return std::filesystem::is_regular_file(std::filesystem::path(argv[2]) / "test.cat") ? 0 : 1;
+    }
+    if (argc != 1) return 2;
+    // A saved package wins while valid; stale backups fall back to the best rank.
+    Driver saved = {}, newer = {};
+    saved.inf=LR"(C:\Windows\INF\oem1.inf)"; saved.rank=20;
+    newer.inf=LR"(C:\Windows\INF\oem2.inf)"; newer.rank=10;
+    assert(same(preferredDriver({saved, newer}, L"OEM1.INF").inf, saved.inf));
+    assert(same(preferredDriver({newer}, L"oem1.inf").inf, newer.inf));
+    assert(same(preferredDriver({saved, newer}, L"").inf, newer.inf));
     wdi_device_info info = {};
     info.vid = 0x0403; info.pid = 0x6011; info.is_composite = TRUE;
     for (int i=0; i<4; i++) { info.mi=i; assert(target(&info) == (i==1)); }

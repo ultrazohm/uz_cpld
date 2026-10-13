@@ -28,9 +28,9 @@ To use Diamond again:
   uz_cpld setup_diamond_driver
   uz_cpld scan --target dslot --programmer-backend diamond
 This restores the saved original FTDI driver, or a compatible installed FTDI
-package when the device was previously changed with Zadig. If no suitable package
-is installed, install Diamond's cable drivers first. Removed original packages
-must be installed again. Driver setup does not install Diamond itself.
+package when the saved package is unavailable/incompatible or the device was
+previously changed with Zadig. If no suitable package is installed, install
+Diamond's cable drivers first. Driver setup does not install Diamond itself.
 Both setup commands support --dry-run 1 and skip an already matching binding.
 If a restart is requested, restart Windows before programming.
 Driver packages remain in Windows' driver store and may affect the default driver

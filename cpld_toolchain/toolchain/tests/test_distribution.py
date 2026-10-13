@@ -39,6 +39,18 @@ libudev.so.1 => /lib/libudev.so.1 (0x00)
 
 
 class LicenseInventoryTests(unittest.TestCase):
+    def test_windows_python_license_accepts_unlabelled_apache_but_not_missing_terms(self):
+        from distribution import licensing
+        apache = (licensing.ROOT / 'LICENSE').read_text()
+        text = 'Microsoft Distributable Code\nlibffi\n' + apache
+        self.assertNotIn('OpenSSL', text)
+        licensing.validate_windows_python_license(text.replace('\n', '\r\n'))
+        for incomplete in ('Microsoft Distributable Code libffi OpenSSL',
+                           text.replace('END OF TERMS AND CONDITIONS', ''),
+                           text.replace('libffi', '')):
+            with self.assertRaises(RuntimeError):
+                licensing.validate_windows_python_license(incomplete)
+
     def test_inventory_rejects_missing_sources_and_new_native_files(self):
         import json
         import tempfile

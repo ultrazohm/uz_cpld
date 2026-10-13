@@ -170,7 +170,7 @@ are informational and do not change doctor's exit status. Use ``scan`` to test
 actual USB access and JTAG communication. Linux and macOS skip this Windows check.
 
 Switching programmer drivers
----------------------------
+----------------------------
 
 Both repository and standalone CLIs provide::
 
@@ -188,13 +188,12 @@ Only the selected channel B changes. With multiple devices, pass ``--device-id``
 using an ID printed by the command. Windows requests administrator approval.
 ``setup_foss_drivers`` saves the original FTDI INF reference before binding WinUSB.
 ``setup_diamond_driver`` restores that original package, or finds a compatible
-installed FTDI package when no reference exists (for example, after Zadig).
+installed FTDI package when the saved package is missing or incompatible, or no reference exists (for example, after Zadig).
 A missing FTDI package requires installing Diamond's cable drivers first.
 Neither command downloads Diamond or disables Windows driver-signing policy.
 
-The static helper is built from pinned libwdi and Microsoft WDK archives with
+The static helper is built from pinned libwdi sources and our inbox-WinUSB patch with
 ``python distribution/windows_drivers/build.py`` on Ubuntu 24.04 with MinGW-w64,
-GCC, make, autoconf, automake, libtool and msitools. The distribution retains
-licenses, libwdi source and relinking objects. CI checks native enumeration and
-packaging; actual driver replacement, restoration and programming require a
+GCC, make, autoconf, automake, libtool and patch. No WDK coinstallers are included. The distribution retains
+licenses, libwdi source and relinking objects. CI checks native enumeration, packaging, and signed catalog generation with a temporary test certificate; actual driver replacement, restoration and programming require a
 Windows workstation with a connected programmer.

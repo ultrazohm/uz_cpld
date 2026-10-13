@@ -123,11 +123,25 @@ static bool ftdiService(const Driver& driver) {
     }
     SetupCloseInfFile(inf); return found;
 }
-static Driver choose(Device& device, const std::wstring& onlyInf, bool diamond) {
+static Driver preferredDriver(std::vector<Driver> candidates, const std::wstring& preferred) {
+    std::sort(candidates.begin(), candidates.end(), [&](const Driver& a, const Driver& b) {
+        bool aSaved = !preferred.empty() && same(base(a.inf), preferred);
+        bool bSaved = !preferred.empty() && same(base(b.inf), preferred);
+        if (aSaved != bSaved) return aSaved;
+        if (a.rank != b.rank) return a.rank < b.rank;
+        auto date = CompareFileTime(&a.info.DriverDate, &b.info.DriverDate);
+        if (date) return date > 0;
+        return a.info.DriverVersion > b.info.DriverVersion;
+    });
+    return candidates.at(0);
+}
+static Driver choose(Device& device, const std::wstring& onlyInf, bool diamond, const std::wstring& preferred = L"") {
     SetupDiDestroyDriverInfoList(device.set, &device.data, SPDIT_COMPATDRIVER);
     SP_DEVINSTALL_PARAMS_W params = {}; params.cbSize = sizeof params;
     if (!SetupDiGetDeviceInstallParamsW(device.set, &device.data, &params)) throw error("Get install parameters");
     params.Flags |= DI_QUIETINSTALL;
+    // PnP packages commonly use ExcludeFromSelect; they still must be selectable.
+    params.FlagsEx |= DI_FLAGSEX_ALLOWEXCLUDEDDRVS;
     if (!onlyInf.empty()) {
         if (onlyInf.size() >= MAX_PATH) throw std::runtime_error("INF path too long");
         params.Flags |= DI_ENUMSINGLEINF;
@@ -157,13 +171,7 @@ static Driver choose(Device& device, const std::wstring& onlyInf, bool diamond) 
     if (candidates.empty()) throw std::runtime_error(diamond ?
         "No compatible FTDI driver in the Windows driver store. Install the Diamond/FTDI driver package first; no driver was changed." :
         "Prepared WinUSB driver does not match the selected interface; no driver was changed.");
-    std::sort(candidates.begin(), candidates.end(), [](const Driver& a, const Driver& b) {
-        if (a.rank != b.rank) return a.rank < b.rank;
-        auto date = CompareFileTime(&a.info.DriverDate, &b.info.DriverDate);
-        if (date) return date > 0;
-        return a.info.DriverVersion > b.info.DriverVersion;
-    });
-    return candidates.front();
+    return preferredDriver(candidates, preferred);
 }
 static bool install(Device& device, Driver driver) {
     BOOL reboot = FALSE;
@@ -209,13 +217,13 @@ static int change(const std::wstring& mode, const std::wstring& id) {
     if (same(service, diamond ? L"FTDIBUS" : L"WinUSB")) { std::cout << "Requested driver is already bound.\n"; return 0; }
     if (diamond) {
         auto original = device.backup();
-        std::wstring inf;
-        if (!original.empty()) {
-            if (base(original) != original || original.find(L':') != std::wstring::npos) throw std::runtime_error("Invalid saved INF name");
-            wchar_t windows[MAX_PATH]; GetWindowsDirectoryW(windows, MAX_PATH);
-            inf = std::wstring(windows) + L"\\INF\\" + original;
-        }
-        Driver chosen = choose(device, inf, true);
+        if (!original.empty() && (base(original) != original || original.find(L':') != std::wstring::npos))
+            throw std::runtime_error("Invalid saved INF name");
+        // Enumerate compatible FTDI packages even when the saved OEM INF is stale.
+        // Prefer the exact saved package if it remains compatible and installed.
+        Driver chosen = choose(device, L"", true, original);
+        if (!original.empty() && !same(base(chosen.inf), original))
+            std::cout << "Saved FTDI package is no longer available/compatible; using an installed compatible FTDI package.\n";
         std::cout << "Restoring FTDI driver: " << utf8(chosen.inf) << "\n";
         return install(device, chosen) ? 3010 : 0;
     }
@@ -254,7 +262,7 @@ int wmain(int argc, wchar_t** argv) {
     try {
         if (argc == 2 && same(argv[1], L"--version")) {
             if (!wdi_is_driver_supported(WDI_WINUSB, nullptr)) throw std::runtime_error("WinUSB resources missing");
-            std::cout << "uz-cpld-driver-helper 2; libwdi 1.5.1; inbox WinUSB; per-instance SetupAPI\n"; return 0;
+            std::cout << "uz-cpld-driver-helper 3; libwdi 1.5.1; inbox WinUSB; per-instance SetupAPI\n"; return 0;
         }
         if (argc == 2 && same(argv[1], L"--list")) {
             wdi_set_log_level(WDI_LOG_LEVEL_NONE);

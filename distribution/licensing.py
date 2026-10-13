@@ -25,6 +25,20 @@ def command(args):
     return subprocess.check_output(args, text=True).strip()
 
 
+def validate_windows_python_license(text):
+    # CPython appends OpenSSL 3's Apache-2.0 text without an "OpenSSL" label.
+    # Check the license terms themselves, retaining the complete original file.
+    for required in ('Microsoft Distributable Code', 'libffi'):
+        if required not in text:
+            raise RuntimeError(f'Windows Python license is missing {required} terms')
+    start, end = 'TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION', 'END OF TERMS AND CONDITIONS'
+    apache = (ROOT / 'LICENSE').read_text(encoding='utf-8')
+    terms = apache[apache.index(start):apache.index(end) + len(end)]
+    normalize = lambda value: ' '.join(value.replace('https://', 'http://').split())
+    if normalize(terms) not in normalize(text):
+        raise RuntimeError('Windows Python license is missing complete Apache-2.0 terms for OpenSSL 3')
+
+
 def system_dll(name):
     name = Path(name).name.lower()
     return name == 'ucrtbase.dll' or name.startswith(('api-ms-win-', 'ext-ms-win-'))
@@ -116,10 +130,7 @@ def collect(application, inputs):
                                  'sources': [sources / 'uz-cpld-source.tar.gz']}
     if sys.platform == 'win32':
         text = license_file.read_text(encoding='utf-8')
-        # Official Windows Python's combined license covers its native dependencies.
-        for required in ('Microsoft Distributable Code', 'OpenSSL', 'libffi'):
-            if required not in text:
-                raise RuntimeError(f'Windows Python license is missing {required} terms')
+        validate_windows_python_license(text)
         shutil.copy2(ROOT / 'distribution/WINDOWS-RUNTIME-TERMS.txt', notices)
         components['python']['notices'].append(notices / 'WINDOWS-RUNTIME-TERMS.txt')
     else:

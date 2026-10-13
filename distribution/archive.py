@@ -25,6 +25,8 @@ def digest(path):
 
 
 def pack(application, output, *, combined=False):
+    from distribution.licensing import verify
+    verify(application)
     info = json.loads((application / 'application.json').read_text())
     platform = info['platform']
     if platform not in ('windows-x64', 'ubuntu-24.04-x64'):

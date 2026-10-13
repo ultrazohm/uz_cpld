@@ -14,3 +14,5 @@ This path requires Git, Python 3.8+ for setup, and Diamond Programmer with its c
 Run `uz_cpld help` after setup for the command overview.
 To build the full documentation in a configured development environment, run `uz_cpld docs --release-cycle all` and open `docs/_build/html/index.html`.
 To run Linux CI checks locally with Bash and Docker, run `bash ci.sh`; see the [CI task inventory](docs/builds.rst) for coverage and logs.
+
+Original project code is licensed under [Apache-2.0](LICENSE). See [licensing scope](LICENSING.md) and [third-party notices](THIRD_PARTY_NOTICES.txt) for exceptions and dependency terms.

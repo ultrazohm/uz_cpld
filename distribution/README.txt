@@ -19,6 +19,7 @@ Diamond and other programmer applications, then run:
   uz_cpld scan --target dslot
 Approve the Windows administrator prompt. The included static libwdi helper
 binds WinUSB to FT4232 channel B / Interface 1 only (0403:6011, MI_01).
+It uses the WinUSB supplied by Windows, without WDK coinstaller binaries.
 No additional download or manual driver selection is required. A, C and D stay
 unchanged. If multiple programmers are present, use --device-id "ID" with an ID
 printed by the command.
@@ -95,3 +96,10 @@ versions are in _internal/cpld_toolchain/bundled_tools/openFPGALoader/.
 
 The static Windows loader also includes dependency sources, static archives and
 object files for relinking; see RELINK.txt in its bundled_tools directory.
+
+Licenses: our original code is Apache-2.0; third-party components retain their
+own licenses. Read LICENSE, NOTICE, LICENSING.md and THIRD_PARTY_NOTICES.txt.
+Keep licenses/ and sources/ and the native bundles' source/relinking files when
+redistributing. licenses/inventory.json identifies runtime files and materials.
+Use or redistribution of the Windows Microsoft runtime requires agreement to
+licenses/WINDOWS-RUNTIME-TERMS.txt; these terms only apply to Microsoft's code.

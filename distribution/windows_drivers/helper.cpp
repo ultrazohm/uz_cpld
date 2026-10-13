@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: Apache-2.0
 // Targeted Windows driver switching. libwdi prepares/signs WinUSB packages;
 // SetupAPI installs only the selected device instance (never a hardware-ID sweep).
 #ifndef UNICODE
@@ -253,7 +254,7 @@ int wmain(int argc, wchar_t** argv) {
     try {
         if (argc == 2 && same(argv[1], L"--version")) {
             if (!wdi_is_driver_supported(WDI_WINUSB, nullptr)) throw std::runtime_error("WinUSB resources missing");
-            std::cout << "uz-cpld-driver-helper 1; libwdi 1.5.1; WinUSB; per-instance SetupAPI\n"; return 0;
+            std::cout << "uz-cpld-driver-helper 2; libwdi 1.5.1; inbox WinUSB; per-instance SetupAPI\n"; return 0;
         }
         if (argc == 2 && same(argv[1], L"--list")) {
             wdi_set_log_level(WDI_LOG_LEVEL_NONE);

@@ -1,4 +1,7 @@
 from pathlib import Path
+import json
+import sys
+from PyInstaller.config import CONF
 
 root = Path(SPECPATH).parent
 data = root / 'cpld_toolchain/programmer_helper'
@@ -16,6 +19,13 @@ a = Analysis(
               'cpld_toolchain.toolchain.analysis', 'cpld_toolchain.toolchain.simulation'],
     noarchive=False,
 )
+# Windows 10/11 already supplies UCRT and API-set forwarding DLLs.
+# Keep the Python VC runtime, with its separate redistribution terms.
+if sys.platform == 'win32':
+    a.binaries = [entry for entry in a.binaries if not (
+        Path(entry[0]).name.lower() == 'ucrtbase.dll' or
+        Path(entry[0]).name.lower().startswith(('api-ms-win-', 'ext-ms-win-')))]
+Path(CONF['workpath'], 'runtime-inputs.json').write_text(json.dumps(list(a.binaries) + list(a.pure)))
 pyz = PYZ(a.pure)
 exe = EXE(pyz, a.scripts, [], exclude_binaries=True, name='uz_cpld',
           debug=False, strip=False, upx=False, console=True)

@@ -68,6 +68,8 @@ def main():
 
 
 def smoke(executable):
+    from distribution.licensing import verify
+    verify(executable.parent)
     fixture = ReleaseTests()
     fixture.setUp()
     try:

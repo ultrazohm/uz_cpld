@@ -10,7 +10,7 @@ import sys
 from . import external, tools, repository_root
 from .toolchain.buildsystem.model import BuildError
 
-CAPABILITY = 'uz-cpld-driver-helper 1'
+CAPABILITY = 'uz-cpld-driver-helper 2'
 ACTIONS = ('setup_foss_drivers', 'setup_diamond_driver')
 
 

@@ -1,6 +1,5 @@
 """Build one native standalone application. Run separately on each OS."""
 import argparse
-import importlib.metadata
 import json
 from pathlib import Path
 import platform
@@ -56,24 +55,9 @@ def main():
                 python=sys.version.split()[0], diamond_version='3.14.0.75.2', firmware_schema=1,
                 default_programmer_backend='foss', openfpgaloader=provenance, windows_drivers=driver_provenance)
     (application / 'application.json').write_text(json.dumps(info, indent=2) + '\n')
-    notices = application / 'licenses'
-    notices.mkdir(exist_ok=True)
-    # Retain notices supplied by the actual build environment.
-    for name in ('pyinstaller', 'tomli'):
-        dist = importlib.metadata.distribution(name)
-        for file in dist.files or ():
-            if 'license' in Path(file).name.lower() or 'copying' in Path(file).name.lower():
-                source = Path(dist.locate_file(file))
-                if source.is_file():
-                    shutil.copy2(source, notices / (name + '-' + source.name))
-    import sysconfig
-    candidates = [Path(sys.base_prefix) / 'LICENSE.txt',
-                  Path(sysconfig.get_path('stdlib')) / 'LICENSE.txt',
-                  Path(f'/usr/share/doc/python{sys.version_info.major}.{sys.version_info.minor}/copyright')]
-    license_file = next((path for path in candidates if path.is_file()), None)
-    if license_file is None:
-        raise RuntimeError('Python LICENSE.txt is required for the standalone distribution')
-    shutil.copy2(license_file, notices / 'Python-LICENSE.txt')
+    from distribution.licensing import collect
+    inputs = json.loads((output / 'work/uz_cpld/runtime-inputs.json').read_text())
+    collect(application, inputs)
     print(application)
 
 

@@ -36,7 +36,12 @@ jobs:
           cache-dependency-path: distribution/requirements.txt
       - name: Install Linux programmer build dependencies
         if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y cmake g++ pkg-config patch libftdi1-dev libusb-1.0-0-dev zlib1g-dev patchelf
+        run: |
+          sudo sed -i 's/^Types: deb$/Types: deb deb-src/' /etc/apt/sources.list.d/ubuntu.sources
+          sudo apt-get update
+          sudo apt-get install -y cmake g++ pkg-config patch libftdi1-dev libusb-1.0-0-dev zlib1g-dev patchelf
+          # Refresh shipped runtimes so matching source versions remain in the indexes.
+          sudo apt-get install -y libbz2-1.0 libcap2 libexpat1 libffi8 liblzma5 libssl3t64 libudev1 libgcc-s1 libstdc++6
       - name: Build and test the portable Linux programmer
         if: runner.os == 'Linux'
         run: python distribution/loader.py

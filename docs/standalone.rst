@@ -287,20 +287,21 @@ To build the current platform locally in an isolated packaging environment::
 Use ``uz_cpld.exe`` in the smoke-test path on Windows.
 Build the Windows loader on Ubuntu/WSL using the upstream MinGW-w64 toolchain::
 
-   sudo apt-get install mingw-w64 libz-mingw-w64-dev cmake pkg-config p7zip-full g++ patch
+   sudo apt-get install mingw-w64 libz-mingw-w64-dev cmake pkg-config p7zip-full g++ patch autoconf automake libtool
    python distribution/loader.py --target windows-x64 --output build/windows-loader --work build/windows-loader-work
+   python distribution/windows_drivers/build.py
 
 The recipe verifies our source and patch pins before configuring upstream CMake.
 It uses the pinned source's libusb 1.0.27 and libftdi 1.5 dependency builds and
 sets libftdi's version components explicitly for the v1.1.1 cross-module workaround.
-Copy ``build/windows-loader`` to Windows, then run native Windows Python::
+Copy ``build/windows-loader`` and ``build/windows-drivers`` to Windows, then run native Windows Python::
 
    python -m pip install -r distribution/requirements.txt
-   python distribution/build.py --loader path/to/windows-loader
+   python distribution/build.py --loader path/to/windows-loader --drivers path/to/windows-drivers
    python distribution/smoke.py build/standalone/dist/uz_cpld/uz_cpld.exe
 
 The earlier ``distribution/loader.py`` command is the native Linux loader build.
-Windows application packaging remains native; only the loader is cross-compiled.
+Windows application packaging remains native; the loader and driver helper are cross-compiled.
 Ubuntu builds need CMake, g++, pkg-config, patch, libftdi1/libusb/zlib development packages and patchelf.
 These commands produce directory application bundles (the executable and ``_internal``), not a single-file executable; no Python wheel or PyPI publication is part of this distribution.
 
@@ -322,3 +323,33 @@ packages, and does not change drivers or open USB interfaces. If system policy
 blocks the query, doctor reports that limitation and continues. Driver findings
 are informational and do not change doctor's exit status. Use ``scan`` to test
 actual USB access and JTAG communication. Linux and macOS skip this Windows check.
+
+Licenses and redistribution
+---------------------------
+
+Our original application, driver helper and HDL are Apache-2.0; see ``LICENSE``, ``NOTICE`` and ``LICENSING.md`` in the repository and programmer archive.
+Third-party components retain their licenses, including LGPL libwdi, libusb and libftdi.
+Historical vendor/IEEE files are excluded from the programmer source archive and retain their existing terms.
+The archive includes ``THIRD_PARTY_NOTICES.txt``, ``licenses/inventory.json``, component notices and exact corresponding sources.
+The inventory maps runtime files to providers and hashes both binaries and licensing/source materials; archive assembly and extracted-archive smoke tests validate it.
+Missing or unattributed native dependencies fail the build.
+Keep this material when redistributing the application.
+
+Windows driver setup uses our pinned LGPL libwdi patch and Microsoft's Windows 10/11 inbox WinUSB INF pattern.
+It does not download or redistribute WDK coinstallers, and no Zadig download is needed.
+The static helper retains libwdi source, our patch, helper source/object files and the static library under ``_internal/cpld_toolchain/bundled_tools/windows-drivers``.
+See its ``relink/RELINK.txt`` to rebuild with a modified library and update the local integrity receipt.
+The Microsoft INF reference is https://learn.microsoft.com/en-us/windows-hardware/drivers/usbcon/winusb-installation.
+Windows provides UCRT and API-set DLLs; these are excluded from the ZIP.
+Python's required Visual C runtime has separate Microsoft terms in ``licenses/Python-LICENSE.txt`` and ``licenses/WINDOWS-RUNTIME-TERMS.txt`` that apply only to Microsoft's code.
+Use and redistribution of that Windows runtime require agreement to those terms; they do not restrict modification of our Apache code or LGPL dependencies.
+
+On Ubuntu, the packaging step downloads exact source packages, including distribution patches, for the shipped native libraries.
+Enable ``deb-src`` for the same repositories as the installed binary packages before building (CI does this automatically)::
+
+   sudo sed -i 's/^Types: deb$/Types: deb deb-src/' /etc/apt/sources.list.d/ubuntu.sources
+   sudo apt-get update
+
+If the exact installed version has left the configured repositories, update the build environment to available versions and rebuild.
+The build deliberately fails instead of substituting a different source version.
+Source material increases download size but keeps redistribution self-contained.

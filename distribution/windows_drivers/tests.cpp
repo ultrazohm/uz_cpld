@@ -4,6 +4,7 @@
 #undef wmain
 #include <fstream>
 #include <cassert>
+#include <filesystem>
 
 int wmain() {
     wdi_device_info info = {};
@@ -30,6 +31,29 @@ int wmain() {
     driver.section=L"Other"; assert(!ftdiService(driver));
     driver.section=L"Missing"; assert(!ftdiService(driver));
     DeleteFileW(filename);
+    // Generate a package without signing, certificates, or touching any device.
+    assert(wdi_is_driver_supported(WDI_WINUSB, nullptr));
+    assert(!wdi_is_file_embedded(nullptr, "winusbcoinstaller2.dll"));
+    assert(!wdi_is_file_embedded(nullptr, "WdfCoInstaller01011.dll"));
+    assert(CreateDirectoryW(filename, nullptr));
+    info.pid=0x6011; info.mi=1; info.is_composite=TRUE;
+    char description[] = "UltraZohm test channel B";
+    info.desc=description;
+    wdi_options_prepare_driver options = {};
+    options.driver_type=WDI_WINUSB; options.disable_cat=TRUE;
+    int result=wdi_prepare_driver(&info, utf8(filename).c_str(), "test.inf", &options);
+    assert(result == WDI_SUCCESS);
+    std::ifstream generated(std::filesystem::path(filename) / "test.inf", std::ios::binary);
+    std::string bytes((std::istreambuf_iterator<char>(generated)), {});
+    std::string inf;
+    for (size_t i=2; i+1<bytes.size(); i+=2) inf+=bytes[i]; // UTF-16LE ASCII template
+    assert(inf.find("Needs = WINUSB.NT.Services") != std::string::npos);
+    assert(inf.find("VID_0403&PID_6011&MI_01") != std::string::npos);
+    assert(inf.find("CopyFiles") == std::string::npos);
+    assert(inf.find("CoInstallers") == std::string::npos);
+    assert(inf.find(".dll") == std::string::npos);
+    generated.close();
+    std::filesystem::remove_all(filename);
     std::cout << "Native driver helper read-only tests passed.\n";
     return 0;
 }

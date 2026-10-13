@@ -209,6 +209,14 @@ class StandaloneTests(unittest.TestCase):
                 default_programmer_backend='foss')))
             (application / 'uz_cpld').write_bytes(b'exact application bytes')
             (application / 'uz_cpld').chmod(0o755)
+            from distribution.licensing import digest, native_file
+            (application / 'licenses').mkdir()
+            (application / 'LICENSE').write_text('fixture license')
+            inventory = dict(schema_version=1, components={'fixture': dict(notices=['LICENSE'], sources=[])},
+                             materials={'LICENSE': digest(application / 'LICENSE')},
+                             files={p.relative_to(application).as_posix(): dict(components=['fixture'], sha256=digest(p))
+                                    for p in application.rglob('*') if p.is_file() and native_file(p)})
+            (application / 'licenses/inventory.json').write_text(json.dumps(inventory))
             pack(application, tools)
         source_application = application
         output = self.root / 'release'
@@ -241,9 +249,8 @@ class StandaloneTests(unittest.TestCase):
         pack(windows, tools)
         # The application metadata alone must not allow a replaced loader to be released.
         binary.write_bytes(b'changed loader')
-        pack(source_application, tools)
-        with self.assertRaisesRegex(BuildError, 'verified USERCODE'):
-            assemble(tools, self.fixture.zip, self.root / 'modified', 'a' * 40)
+        with self.assertRaisesRegex(RuntimeError, 'Missing or changed distribution material'):
+            pack(source_application, tools)
 
 
 if __name__ == '__main__':

@@ -59,8 +59,8 @@ def run(command, log, *, timeout=60):
                     'If Diamond works but FOSS does not, check the driver for FT4232 channel B / Interface 1 '
                     '(VID 0403, PID 6011, MI_01). This libusb backend needs a compatible driver such as WinUSB; '
                     'the ordinary FTDI VCP/D2XX driver alone does not provide that access. '
-                    'Use Zadig to install WinUSB on Interface 1 only, leaving A, C and D unchanged. '
-                    'Restore the vendor driver on Interface 1 before using Diamond again. '
+                    'Run uz_cpld setup_foss_drivers to install WinUSB on Interface 1 only, leaving A, C and D unchanged. '
+                    'Run uz_cpld setup_diamond_driver to restore the vendor driver before using Diamond again. '
                     'Static linking does not install or replace USB drivers.')
         raise BuildError(f'FOSS programmer failed with exit code {returncode}; see {log}{hint}')
     return output

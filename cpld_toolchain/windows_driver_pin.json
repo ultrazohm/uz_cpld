@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "capability": "uz-cpld-driver-helper 1",
+  "libwdi": {
+    "version": "1.5.1",
+    "url": "https://codeload.github.com/pbatard/libwdi/tar.gz/refs/tags/v1.5.1",
+    "sha256": "a695e93db0977dfdc5c6a99a4ea91b22f9027547d0177b2a0f3075078643c929"
+  },
+  "wdk": {
+    "url": "https://go.microsoft.com/fwlink/p/?LinkID=253170",
+    "sha256": "29314207814ce9d5d73695f7e9239539cf37c79e750b9d5ea5a5ef5487a583d6"
+  }
+}

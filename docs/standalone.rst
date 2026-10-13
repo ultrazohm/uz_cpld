@@ -42,24 +42,41 @@ USB setup
 ---------
 
 On Windows, first try ``.\uz_cpld.exe scan --target dslot`` with the correct physical JTAG access state.
-If the expected chain is detected, keep the existing driver; Zadig is unnecessary.
-Our FTDI backend uses libftdi/libusb and needs a compatible USB driver rather than
-the standard FTDI VCP/D2XX driver. If driver setup is needed, install WinUSB for
-**only FT4232 channel B / Interface 1** using
-`Zadig <https://zadig.akeo.ie/>`_: enable Options → List All Devices, match the
-UltraZohm VID ``0403``, PID ``6011`` and interface ``MI_01`` in Device Manager,
-and select WinUSB. Leave channels A, C and D with their existing drivers.
-Restore the FTDI/vendor driver on Interface 1 before using Diamond again.
-Static linking includes libftdi, libusb, zlib and compiler runtimes in ``openFPGALoader.exe``.
-It does not install the Windows driver for the USB interface. Zadig is only needed
-when that interface lacks a compatible driver (WinUSB is recommended); a standard
-FTDI VCP/D2XX driver alone is insufficient for this libusb backend.
-If a FOSS scan reports ``unable to open ftdi device: -4 (usb_open() failed)``,
-close Diamond and other probe users, then check the driver on Interface 1.
-Diamond working on the same machine is consistent with a vendor-driver binding
-that libusb cannot use. Install WinUSB for Interface 1 when needed; reconnect USB
-and scan again. This is a USB-open error, before any JTAG device-ID read.
-The application never installs or changes Windows drivers automatically.
+If the expected chain is detected, keep the existing driver. Otherwise, close
+Diamond and other programmer applications and run::
+
+   uz_cpld setup_foss_drivers
+   uz_cpld doctor
+   uz_cpld scan --target dslot
+
+Approve the Windows administrator prompt. The download includes a static libwdi
+helper that prepares the WinUSB package and binds it to the selected FT4232
+channel B / Interface 1 (``VID_0403&PID_6011&MI_01``). No Zadig download or manual
+Device Manager selection is needed. Channels A, C and D are left unchanged.
+With multiple programmers connected, the command lists their instance IDs and
+requires ``--device-id "ID"`` to select one.
+
+To switch the same interface back to Diamond::
+
+   uz_cpld setup_diamond_driver
+   uz_cpld scan --target dslot --programmer-backend diamond
+
+The FOSS setup preserves the original FTDI INF reference in the device's Windows
+registry key. Diamond setup restores that exact package; for devices previously
+changed using Zadig, it selects a compatible FTDI package already in Windows'
+driver store. It does not download or install Diamond. If the saved package was
+removed, or no compatible FTDI package exists, install the Diamond/FTDI driver
+package first. Setup reports failure instead of claiming the driver was restored.
+
+These are explicit setup commands; ``doctor``, ``scan`` and ``program`` never
+change Windows driver bindings. Both setup commands are idempotent and support
+``--dry-run 1``. If Windows requests a restart, restart before programming.
+Driver packages remain in Windows' driver store; they may influence the default
+binding of newly connected devices with the same hardware ID.
+
+Static linking includes application libraries; WinUSB is the Windows USB driver.
+If a FOSS scan reports ``usb_open() failed``, close other probe users, run
+``doctor``, and use ``setup_foss_drivers`` if the driver is incompatible.
 See the `libusb Windows guide <https://github.com/libusb/libusb/wiki/Windows>`_.
 
 On Ubuntu, use the included upstream rules as described in the
@@ -98,7 +115,7 @@ A missing explicitly configured executable fails rather than falling back to ano
 The shared repository programmer also honors this setting.
 ``doctor --programmer-backend diamond`` prints Diamond discovery and the saved configuration.
 Plain ``doctor`` verifies the bundled FOSS loader, runtime checksums and capability version without USB access.
-Neither establishes driver compatibility or physical hardware readiness.
+The Windows driver report checks the binding; neither command establishes physical hardware readiness.
 
 Firmware download and selection
 -------------------------------

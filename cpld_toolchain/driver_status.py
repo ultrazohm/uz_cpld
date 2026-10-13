@@ -75,9 +75,9 @@ def report():
     for state, detail in rows:
         print(f'  {state}: {detail}')
     if any(state == 'INCOMPATIBLE' for state, _ in rows):
-        print('  FTDI VCP/D2XX is incompatible with this FOSS backend. Use Zadig or a WinUSB driver package')
+        print('  FTDI VCP/D2XX is incompatible with this FOSS backend. Run uz_cpld setup_foss_drivers')
         print('  to bind WinUSB to Interface 1 only; leave A, C and D unchanged.')
-        print('  Diamond may require restoring its vendor driver on Interface 1.')
+        print('  Switch back with uz_cpld setup_diamond_driver.')
     if any(state == 'CHECK DRIVER' for state, _ in rows):
         print('  This driver is not verified here; WinUSB is the recommended binding for this FOSS backend.')
     print('  Driver metadata only: USB access, exclusive availability and JTAG communication were not tested.')

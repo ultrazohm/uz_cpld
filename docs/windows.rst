@@ -168,3 +168,33 @@ packages, and does not change drivers or open USB interfaces. If system policy
 blocks the query, doctor reports that limitation and continues. Driver findings
 are informational and do not change doctor's exit status. Use ``scan`` to test
 actual USB access and JTAG communication. Linux and macOS skip this Windows check.
+
+Switching programmer drivers
+---------------------------
+
+Both repository and standalone CLIs provide::
+
+   uz_cpld setup_foss_drivers
+   uz_cpld setup_diamond_driver
+
+The Windows standalone download includes the static libwdi helper. In a checkout,
+place the ``windows-drivers`` CI artifact in ``build/windows-drivers`` or set
+``CPLD_DRIVER_HELPER`` to the verified ``uz-cpld-driver-helper.exe`` inside the
+standalone application's ``_internal/cpld_toolchain/bundled_tools/windows-drivers``
+directory. Keep its adjacent receipt, licenses and sources together. The repository
+commands use the same helper and verification as the standalone application.
+
+Only the selected channel B changes. With multiple devices, pass ``--device-id``
+using an ID printed by the command. Windows requests administrator approval.
+``setup_foss_drivers`` saves the original FTDI INF reference before binding WinUSB.
+``setup_diamond_driver`` restores that original package, or finds a compatible
+installed FTDI package when no reference exists (for example, after Zadig).
+A missing FTDI package requires installing Diamond's cable drivers first.
+Neither command downloads Diamond or disables Windows driver-signing policy.
+
+The static helper is built from pinned libwdi and Microsoft WDK archives with
+``python distribution/windows_drivers/build.py`` on Ubuntu 24.04 with MinGW-w64,
+GCC, make, autoconf, automake, libtool and msitools. The distribution retains
+licenses, libwdi source and relinking objects. CI checks native enumeration and
+packaging; actual driver replacement, restoration and programming require a
+Windows workstation with a connected programmer.

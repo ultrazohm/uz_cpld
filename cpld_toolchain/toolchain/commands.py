@@ -21,6 +21,7 @@ DIRECT_SELECTION = {'s3c_program', *(f'dslot{i}' for i in range(1, 6))}
 
 # The native Windows suite excludes Linux-only tool and shell integrations.
 WINDOWS_TESTS = (
+    'cpld_toolchain.toolchain.tests.test_driver_setup',
     'cpld_toolchain.toolchain.tests.test_driver_status',
     'cpld_toolchain.toolchain.tests.test_windows_terminal',
     'cpld_toolchain.toolchain.tests.test_firmware_download',
@@ -51,6 +52,8 @@ def spec(group, example, description, options=(), required=()):
 COMMANDS = {
     'image': spec('Environment', 'image', 'Build the container tools (optional for native Diamond)', CONTAINER),
     'setup': spec('Environment', 'setup [activate=0|1]', 'Create the locked Python environment, downloading Python as needed', {'activate'}),
+    'setup_foss_drivers': spec('Programmer', 'setup_foss_drivers', 'Bind WinUSB to the selected Windows programmer channel B', {'device_id'}),
+    'setup_diamond_driver': spec('Programmer', 'setup_diamond_driver', 'Restore the selected Windows programmer channel B to its FTDI driver', {'device_id'}),
     'doctor': spec('Environment', 'doctor', 'Report this environment and installed/missing tools; no hardware access', FIRMWARE),
     'docs': spec('Documentation', 'docs [release_cycle=all]', 'Generate assets and HTML; defaults to all releases', {'program', 'target', 'release_cycle', 'jobs'}),
     'docs_assets': spec('Documentation', 'docs_assets [program=NAME]', 'Generate documentation assets without rendering HTML', {'program', 'target', 'release_cycle', 'jobs'}),
@@ -102,7 +105,7 @@ ARGUMENT_VALUES = {
     'discard_project_changes': '0|1', 'dry_run': '0|1',
     'container_engine': 'docker|podman', 'container_platform': 'OS/ARCH',
     'toolchain_image': 'NAME', 'activate': '0|1',
-    'override': '0|1',
+    'override': '0|1', 'device_id': 'WINDOWS_DEVICE_ID',
 }
 
 
@@ -319,6 +322,8 @@ def plan(action, options, *, root=ROOT, cwd=None, workspace=None):
         if 'output' in options:
             args += ['--output', str((cwd / options['output']).absolute())]
         return [invoke('cpld_toolchain.toolchain.firmware_download', args)]
+    if action in ('setup_foss_drivers', 'setup_diamond_driver'):
+        return [invoke('cpld_toolchain.driver_setup', [action, *flags('device_id')])]
     if action == 'doctor':
         return [invoke('cpld_toolchain.toolchain.doctor', ['--root', str(root), '--backend', build_backend, *flags('target', 'release_cycle')])]
     if action == 'setup':

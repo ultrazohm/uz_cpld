@@ -45,10 +45,15 @@ jobs:
         with:
           name: portable-loader-windows-x64
           path: build/portable-loader
+      - uses: actions/download-artifact@v4
+        if: runner.os == 'Windows'
+        with:
+          name: windows-drivers
+          path: build/windows-drivers
       - name: Install pinned packaging tools
         run: python -m pip install -r distribution/requirements.txt
       - name: Test standalone behavior
-        run: python -m unittest cpld_toolchain.toolchain.tests.test_standalone cpld_toolchain.toolchain.tests.test_distribution cpld_toolchain.toolchain.tests.test_windows_terminal cpld_toolchain.toolchain.tests.test_driver_status -v
+        run: python -m unittest cpld_toolchain.toolchain.tests.test_standalone cpld_toolchain.toolchain.tests.test_distribution cpld_toolchain.toolchain.tests.test_windows_terminal cpld_toolchain.toolchain.tests.test_driver_status cpld_toolchain.toolchain.tests.test_driver_setup -v
       - name: Build native CLI
         run: python distribution/build.py
       - name: Test the executable outside the checkout

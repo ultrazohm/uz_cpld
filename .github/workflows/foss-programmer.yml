@@ -14,9 +14,23 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install upstream MinGW-w64 build prerequisites
-        run: sudo apt-get update && sudo apt-get install -y mingw-w64 libz-mingw-w64-dev cmake pkg-config p7zip-full g++ patch
+        run: sudo apt-get update && sudo apt-get install -y mingw-w64 libz-mingw-w64-dev cmake pkg-config p7zip-full g++ patch autoconf automake libtool msitools
       - name: Build the pinned static Windows programmer with upstream's toolchain
         run: python distribution/loader.py --target windows-x64
+      - name: Build the pinned static Windows driver setup helper
+        run: python distribution/windows_drivers/build.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-driver-tests
+          path: build/windows-drivers-work/tests/
+          if-no-files-found: error
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-drivers
+          path: build/windows-drivers/
+          if-no-files-found: error
+          retention-days: 14
       - uses: actions/upload-artifact@v4
         with:
           name: portable-loader-windows-x64
@@ -46,6 +60,22 @@ jobs:
         with:
           name: windows-loader-protocol-tests
           path: build/protocol-tests
+      - uses: actions/download-artifact@v4
+        with:
+          name: windows-drivers
+          path: build/windows-drivers
+      - uses: actions/download-artifact@v4
+        with:
+          name: windows-driver-tests
+          path: build/driver-tests
+      - name: Verify and enumerate with the native driver helper (no driver changes)
+        run: |
+          & ./build/driver-tests/driver-tests.exe
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m unittest cpld_toolchain.toolchain.tests.test_driver_setup -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -c "from cpld_toolchain.driver_setup import helper_path, devices, invoke; binary = helper_path(); result = invoke(binary, '--version'); assert result.returncode == 0, result.stderr; print(result.stdout); print(devices(binary))"
+          exit $LASTEXITCODE
       - name: Execute the cross-built loader and protocol tests on Windows
         run: |
           python -c "from pathlib import Path; from cpld_toolchain.toolchain.foss import flasher; binary = Path('build/portable-loader/openFPGALoader.exe').resolve(); record = flasher.verify(binary); assert record['linkage'] == 'static' and not record['runtime_sha256']; assert record['pin']['capability'] in flasher.version(binary)"

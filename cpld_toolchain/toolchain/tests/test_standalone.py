@@ -194,8 +194,18 @@ class StandaloneTests(unittest.TestCase):
             provenance = dict(pin=flasher.pin(), binary_sha256=flasher.digest(binary),
                               git_revision='a' * 40, runtime_sha256={}, linkage='static')
             (loader / flasher.RECEIPT).write_text(json.dumps(provenance))
+            driver_provenance = None
+            if platform == 'windows-x64':
+                from cpld_toolchain import driver_setup
+                helper = loader.parent / 'windows-drivers/uz-cpld-driver-helper.exe'
+                helper.parent.mkdir()
+                helper.write_bytes(b'exact helper bytes')
+                driver_provenance = dict(schema_version=1, linkage='static', git_revision='a' * 40,
+                    pin=json.loads(Path(driver_setup.__file__).with_name('windows_driver_pin.json').read_text()),
+                    files={helper.name: flasher.digest(helper)})
+                helper.with_name('driver-helper.json').write_text(json.dumps(driver_provenance))
             (application / 'application.json').write_text(json.dumps(dict(application_version='0.5.0',
-                platform=platform, git_revision='a' * 40, openfpgaloader=provenance,
+                platform=platform, git_revision='a' * 40, openfpgaloader=provenance, windows_drivers=driver_provenance,
                 default_programmer_backend='foss')))
             (application / 'uz_cpld').write_bytes(b'exact application bytes')
             (application / 'uz_cpld').chmod(0o755)

@@ -77,7 +77,7 @@ def smoke(executable):
             env = dict(os.environ, UZ_CPLD_CONFIG_DIR=str(root / 'config'), UZ_CPLD_DATA_DIR=str(root / 'data'),
                        PYTHONPATH='', PATH=os.environ.get('SystemRoot', 'C:\\Windows') + '\\System32' if os.name == 'nt' else '/usr/bin:/bin')
             env.pop('CPLD_PGRCMD', None)
-            for variable in ('CPLD_OPENFPGALOADER', 'CPLD_BUNDLED_TOOLS', 'FOSS_ROOT',
+            for variable in ('CPLD_OPENFPGALOADER', 'CPLD_BUNDLED_TOOLS', 'CPLD_DRIVER_HELPER', 'FOSS_ROOT',
                              'LD_LIBRARY_PATH', 'LD_LIBRARY_PATH_ORIG'):
                 env.pop(variable, None)
             firmware = root / 'release firmware.zip'
@@ -90,6 +90,10 @@ def smoke(executable):
                 return result.stdout + result.stderr
             run('--version')
             run('--help')
+            for action in ('setup_foss_drivers', 'setup_diamond_driver'):
+                run(action, '--dry-run', '1')
+                output = run(action, '--device-id', 'UZ-CPLD-SMOKE-NONEXISTENT-DEVICE', success=False)
+                assert ('No matching connected' if os.name == 'nt' else 'native Windows only') in output, output
             run()  # Redirected/noninteractive no-argument launches must not open a shell.
             # Validate config without executing this stand-in programmer.
             run('programmer_path=' + str(executable))

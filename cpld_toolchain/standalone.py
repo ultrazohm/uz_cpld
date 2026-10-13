@@ -88,6 +88,10 @@ def parser():
     health = actions.add_parser('doctor', help='Verify programmer availability without accessing USB')
     health.add_argument('--programmer-backend', choices=('foss', 'diamond'), default='foss',
                         help='Default: foss (bundled patched openFPGALoader)')
+    for name in ('setup_foss_drivers', 'setup_diamond_driver'):
+        item = actions.add_parser(name, help='Configure the Windows programmer driver; requests administrator approval')
+        item.add_argument('--device-id', help='Windows device instance ID; required when multiple programmers are connected')
+        item.add_argument('--dry-run', type=int, choices=(0, 1), default=0)
     download = actions.add_parser('firmware_download', help='Download newest published master firmware; does not select it')
     download.add_argument('--git-url', default=DEFAULT_REPOSITORY)
     download.add_argument('--branch', default=DEFAULT_BRANCH)

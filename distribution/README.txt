@@ -12,22 +12,29 @@ shared runtime libraries.
 
 One-time USB setup:
 Windows: first try uz_cpld scan --target dslot with the correct JTAG access state.
-If the expected chain is detected, keep the existing driver; Zadig is unnecessary.
-The bundled FTDI backend uses libftdi/libusb and needs a compatible USB driver.
-Static linking removes application DLL dependencies; it does not install that
-USB driver. A standard FTDI VCP/D2XX driver alone does not provide libusb access.
-If driver setup is needed, use Zadig (https://zadig.akeo.ie/),
-Options > List All Devices, and select
-ONLY the UltraZohm FT4232 channel B / Interface 1 (USB VID 0403, PID 6011,
-interface MI_01). Install WinUSB for that interface. Verify the device and
-interface in Device Manager before changing the driver. Leave channels A, C and
-D with their existing drivers. Restoring the FTDI/vendor driver on Interface 1
-is necessary before using Diamond on that interface again.
-If scan.log reports usb_open() failed (-4), close Diamond and other probe users
-and check Interface 1's driver. Diamond working while FOSS fails is consistent
-with a vendor driver that libusb cannot use. Install WinUSB there if needed,
-reconnect USB and retry scan.
-No driver is installed or replaced automatically by this application.
+If the expected chain is detected, keep the existing driver. Otherwise close
+Diamond and other programmer applications, then run:
+  uz_cpld setup_foss_drivers
+  uz_cpld doctor
+  uz_cpld scan --target dslot
+Approve the Windows administrator prompt. The included static libwdi helper
+binds WinUSB to FT4232 channel B / Interface 1 only (0403:6011, MI_01).
+No additional download or manual driver selection is required. A, C and D stay
+unchanged. If multiple programmers are present, use --device-id "ID" with an ID
+printed by the command.
+
+To use Diamond again:
+  uz_cpld setup_diamond_driver
+  uz_cpld scan --target dslot --programmer-backend diamond
+This restores the saved original FTDI driver, or a compatible installed FTDI
+package when the device was previously changed with Zadig. If no suitable package
+is installed, install Diamond's cable drivers first. Removed original packages
+must be installed again. Driver setup does not install Diamond itself.
+Both setup commands support --dry-run 1 and skip an already matching binding.
+If a restart is requested, restart Windows before programming.
+Driver packages remain in Windows' driver store and may affect the default driver
+for newly connected devices with the same hardware ID.
+Doctor, scan and program do not change driver bindings.
 
 Ubuntu: install the included 99-openfpgaloader.rules from
 _internal/cpld_toolchain/bundled_tools/openFPGALoader/ into /etc/udev/rules.d/.

@@ -78,6 +78,19 @@ class FlasherTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'before USB access.*USERCODE mismatch'):
                 flasher.check_file('/loader', '/file.jed', '00010001')
 
+    def test_runtime_receipt_rejects_missing_files_and_invalid_paths(self):
+        with tempfile.TemporaryDirectory() as directory:
+            binary = Path(directory) / 'openFPGALoader'
+            binary.write_bytes(b'fixture binary')
+            record = dict(pin=flasher.pin(), binary_sha256=flasher.digest(binary))
+            for runtime in ({'missing.dll': 'a' * 64}, {'../outside': 'a' * 64},
+                            {'..\\outside': 'a' * 64}, ['malformed']):
+                with self.subTest(runtime=runtime):
+                    record['runtime_sha256'] = runtime
+                    (binary.parent / flasher.RECEIPT).write_text(json.dumps(record))
+                    with self.assertRaisesRegex(ValueError, 'verified USERCODE-capable'):
+                        flasher.verify(binary)
+
 
 if __name__ == '__main__':
     unittest.main()

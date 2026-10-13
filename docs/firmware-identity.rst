@@ -120,7 +120,8 @@ Flasher builds and container rebuilds
 It installs a binary reporting ``v1.1.1-uz-programmer3``, its license and a readable ``usercode-support.json`` receipt containing the pin and binary checksum.
 Concurrent installers serialize publication of the binary and receipt.
 The separate ``foss-programmer.yml`` CI workflow builds the Windows executable with MSYS2 and runs the same native tests without USB.
-That job checks compilation and parser/protocol behavior; it does not establish hardware or driver compatibility.
+That job also collects and tests the portable DLL dependency closure and publishes it for standalone packaging.
+The frozen CLI and extracted archives are tested with a clean PATH; physical hardware and driver compatibility still require workstation acceptance.
 
 The Docker builder stage runs this automatically and copies the installation into the runtime image.
 Rebuilding the image reapplies the patch and recompiles when the source pin or patch changes; unchanged inputs can reuse Docker's cached layer.

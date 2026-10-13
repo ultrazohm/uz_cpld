@@ -1,5 +1,6 @@
 """Smoke the actual parser/CLI with no USB access; called by flasher_build."""
 from pathlib import Path
+import os
 import subprocess
 import sys
 import tempfile
@@ -7,9 +8,13 @@ import tempfile
 from fixtures import bitstream, jedec
 
 
-def check(binary):
+def check(binary, *, portable=False):
+    env = dict(os.environ)
+    if portable:
+        env['PATH'] = str(Path(os.environ['SystemRoot']) / 'System32') if os.name == 'nt' else '/usr/bin:/bin'
+        env.pop('LD_LIBRARY_PATH', None)
     def invoke(args, success=False, error=None):
-        p = subprocess.run([str(binary), *args], capture_output=True, text=True, timeout=10)
+        p = subprocess.run([str(binary), *args], env=env, capture_output=True, text=True, timeout=10)
         assert (p.returncode == 0) == success, (args, p.returncode, p.stdout, p.stderr)
         assert p.returncode in (0, 1), ('native crash', p.returncode, p.stderr)
         assert 'JTAG init' not in p.stdout + p.stderr, 'unexpected USB access'
@@ -91,4 +96,4 @@ def check(binary):
 
 
 if __name__ == '__main__':
-    check(Path(sys.argv[1]))
+    check(Path(sys.argv[1]), portable='--portable' in sys.argv[2:])

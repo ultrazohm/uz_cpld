@@ -36,7 +36,10 @@ def run(command, log, *, timeout=60):
     log = Path(log)
     log.parent.mkdir(parents=True, exist_ok=True)
     with log.open('w') as stream:
-        process = subprocess.Popen(command, stdout=stream, stderr=subprocess.STDOUT)
+        from cpld_toolchain import external
+        with external.system_libraries():
+            process = subprocess.Popen(command, stdout=stream, stderr=subprocess.STDOUT,
+                                       env=external.environment())
         try:
             returncode = process.wait(timeout=timeout)
         except subprocess.TimeoutExpired as exc:

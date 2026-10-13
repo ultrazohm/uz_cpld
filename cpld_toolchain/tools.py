@@ -1,7 +1,7 @@
 """Tool discovery without importing workflows or starting external processes.
 
-Explicit overrides are authoritative. A future distribution can populate
-``bundled_tools`` with platform-specific executables and their companion files.
+Explicit overrides are authoritative. Standalone distributions populate ``bundled_tools`` with platform-specific
+executables, runtime libraries and their provenance receipts.
 """
 import os
 from pathlib import Path

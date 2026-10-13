@@ -1,8 +1,9 @@
-"""Standalone firmware downloader and Diamond programmer; no checkout required."""
+"""Standalone firmware downloader and programmer; defaults to bundled FOSS tools."""
 import argparse
 from http.client import HTTPException
 from pathlib import Path
 import sys
+import subprocess
 from zipfile import BadZipFile
 
 from . import __version__, settings, workspace
@@ -26,8 +27,6 @@ def included_firmware():
 
 def inspect_firmware(path):
     manifest, evidence = release.read_package(path)
-    if manifest['backend'] != 'diamond':
-        raise BuildError('This standalone release requires Diamond JEDEC firmware; FOSS support will be added later.')
     print(f'Firmware: {path}')
     print(f'Source commit: {manifest["git_revision"]}')
     print(f'SHA-256: {evidence["archive_sha256"]}')
@@ -37,7 +36,27 @@ def inspect_firmware(path):
     return manifest, evidence
 
 
-def doctor(root):
+def doctor(root, backend='foss'):
+    if backend == 'foss':
+        from .tools import loader_path
+        from .toolchain.foss import flasher
+        print(f'Application: {__version__}')
+        print(f'Workspace: {root}')
+        try:
+            binary = loader_path()
+            record = flasher.verify(binary)
+            version = flasher.version(binary)
+            if record['pin']['capability'] not in version:
+                raise ValueError('Loader does not report its pinned capability')
+            print(f'FOSS programmer: {binary}')
+            print(f'Capability: {record["pin"]["capability"]}; {version.strip()}')
+        except (OSError, ValueError, subprocess.SubprocessError) as exc:
+            print(f'MISSING or INVALID: {exc}')
+            return 1
+        print('Loader verified without USB access. See README.txt for USB driver/permission setup.')
+        if included_firmware().is_file():
+            print(f'Included firmware: {included_firmware()} (use firmware_select --included)')
+        return 0
     override, origin = settings.programmer_override()
     print(f'Application: {__version__}')
     print(f'Workspace: {root}')
@@ -64,7 +83,9 @@ def parser():
     result.add_argument('--version', action='version', version=f'uz_cpld {__version__}')
     result.add_argument('--workspace', type=Path, help='Writable data directory; defaults to the user-data workspace')
     actions = result.add_subparsers(dest='action')
-    actions.add_parser('doctor', help='Show paths and Diamond discovery; does not access USB')
+    health = actions.add_parser('doctor', help='Verify programmer availability without accessing USB')
+    health.add_argument('--programmer-backend', choices=('foss', 'diamond'), default='foss',
+                        help='Default: foss (bundled patched openFPGALoader)')
     download = actions.add_parser('firmware_download', help='Download newest published master firmware; does not select it')
     download.add_argument('--git-url', default=DEFAULT_REPOSITORY)
     download.add_argument('--branch', default=DEFAULT_BRANCH)
@@ -84,6 +105,10 @@ def parser():
         item = actions.add_parser(name, help='Program and verify Flash immediately' if name == 'program' else name.capitalize() + ' the connected chain')
         item.add_argument('--target', choices=('dslot', 's3c'), default=None if name == 'program' else 'dslot')
         item.add_argument('--probe-index', type=int)
+        item.add_argument('--programmer-backend', choices=('foss', 'diamond'), default='foss',
+                          help='Default: foss (bundled patched openFPGALoader)')
+        item.add_argument('--cable', help='FOSS cable; managed operations require ft4232_b')
+        item.add_argument('--usb-serial', help='Select one FT4232 by serial number (FOSS)')
         item.add_argument('--dry-run', type=int, choices=(0, 1), default=0)
         if name != 'scan':
             item.add_argument('--firmware', type=Path, help='ZIP path or latest-downloaded; overrides the saved selection for this invocation')
@@ -109,7 +134,7 @@ def main(argv=None):
             return 0
         root = (options.workspace or settings.user_directory('data') / 'workspace').expanduser().resolve()
         if options.action == 'doctor':
-            return doctor(root)
+            return doctor(root, options.programmer_backend)
         if options.action == 'firmware_download':
             workspace.prepare(root)
             path = firmware_download.download(root, git_url=options.git_url, branch=options.branch,

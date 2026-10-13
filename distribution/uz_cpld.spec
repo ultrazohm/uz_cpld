@@ -6,7 +6,9 @@ a = Analysis(
     [str(root / 'distribution/entry.py')], pathex=[str(root)],
     datas=[(str(data / 'templates'), 'cpld_toolchain/programmer_helper/templates'),
            (str(data / 'selection.example.toml'), 'cpld_toolchain/programmer_helper'),
-           (str(data / 'diamond_program.sh'), 'cpld_toolchain/programmer_helper')],
+           (str(data / 'diamond_program.sh'), 'cpld_toolchain/programmer_helper'),
+           (str(root / 'cpld_toolchain/toolchain/foss/openfpgaloader.json'), 'cpld_toolchain/toolchain/foss'),
+           (str(root / 'cpld_toolchain/toolchain/foss/openfpgaloader-usercode.patch'), 'cpld_toolchain/toolchain/foss')],
     # runtime.execute imports this entry point by name, outside static analysis.
     hiddenimports=['tomli', 'cpld_toolchain.programmer_helper.program'],
     excludes=['typer', 'sphinx', 'plotly', 'cocotb', 'pytest', 'tkinter',

@@ -126,7 +126,39 @@ class StandaloneTests(unittest.TestCase):
         self.assertEqual(values['source'], 'zip')
         self.assertEqual(values['dry_run'], '0')
         self.assertEqual(values['release_cycle'], 'published')
+        self.assertEqual(values['programmer_backend'], 'foss')
         self.assertEqual(execute.call_args.kwargs['workspace'], self.data / 'workspace')
+
+    def test_backend_and_serial_options_reach_the_shared_programmer(self):
+        with patch('cpld_toolchain.toolchain.commands.run', return_value=0) as execute:
+            self.assertEqual(self.run_cli('scan', '--usb-serial', 'UZ123', '--probe-index', '0'), 0)
+            self.assertEqual(execute.call_args.args[1]['programmer_backend'], 'foss')
+            self.assertEqual(execute.call_args.args[1]['usb_serial'], 'UZ123')
+            self.assertEqual(self.run_cli('scan', '--programmer-backend', 'diamond', '--probe-index', '1'), 0)
+            self.assertEqual(execute.call_args.args[1]['programmer_backend'], 'diamond')
+
+    def test_foss_bitstream_package_can_be_selected_and_inspected(self):
+        self.fixture.manifest, self.fixture.payloads = self.fixture.package('foss')
+        self.fixture.write_zip()
+        self.assertEqual(self.run_cli('firmware_select', '--firmware', str(self.fixture.zip)), 0)
+        self.assertEqual(self.run_cli('firmware_list'), 0)
+
+    def test_doctor_verifies_foss_without_diamond_or_usb(self):
+        from cpld_toolchain.toolchain.foss import flasher
+        from cpld_toolchain import tools
+        binary = self.root / 'openFPGALoader'
+        binary.write_bytes(b'loader bytes')
+        record = dict(pin=flasher.pin(), binary_sha256=flasher.digest(binary),
+                      runtime_sha256={'runtime.so': flasher.digest(binary)})
+        (self.root / 'runtime.so').write_bytes(binary.read_bytes())
+        (self.root / flasher.RECEIPT).write_text(json.dumps(record))
+        with patch.object(tools, 'loader_path', return_value=binary), \
+                patch.object(flasher, 'version', return_value=record['pin']['capability']) as version, \
+                patch.object(diamond, 'executable', side_effect=AssertionError('No Diamond')):
+            self.assertEqual(self.run_cli('doctor'), 0)
+            (self.root / 'runtime.so').write_bytes(b'changed')
+            self.assertEqual(self.run_cli('doctor'), 1)
+            self.assertEqual(version.call_count, 1)
 
     def test_linux_wrapper_is_a_resource_not_a_workspace_file(self):
         with patch.object(sys, 'platform', 'linux'):
@@ -150,13 +182,23 @@ class StandaloneTests(unittest.TestCase):
         from distribution.archive import assemble, pack, unpack
         tools = self.root / 'tools'
         for platform in ('windows-x64', 'ubuntu-24.04-x64'):
+            from cpld_toolchain.toolchain.foss import flasher
             application = self.root / platform
             application.mkdir()
+            loader = application / '_internal/cpld_toolchain/bundled_tools/openFPGALoader'
+            loader.mkdir(parents=True)
+            binary = loader / ('openFPGALoader.exe' if platform == 'windows-x64' else 'openFPGALoader')
+            binary.write_bytes(b'exact loader bytes')
+            provenance = dict(pin=flasher.pin(), binary_sha256=flasher.digest(binary),
+                              git_revision='a' * 40, runtime_sha256={})
+            (loader / flasher.RECEIPT).write_text(json.dumps(provenance))
             (application / 'application.json').write_text(json.dumps(dict(application_version='0.5.0',
-                platform=platform, git_revision='a' * 40)))
+                platform=platform, git_revision='a' * 40, openfpgaloader=provenance,
+                default_programmer_backend='foss')))
             (application / 'uz_cpld').write_bytes(b'exact application bytes')
             (application / 'uz_cpld').chmod(0o755)
             pack(application, tools)
+        source_application = application
         output = self.root / 'release'
         assemble(tools, self.fixture.zip, output, 'a' * 40)
         self.assertEqual(len(list(output.iterdir())), 6)
@@ -169,6 +211,11 @@ class StandaloneTests(unittest.TestCase):
             self.assertEqual((application / 'firmware/uz-cpld-firmware.zip').read_bytes(), self.fixture.zip.read_bytes())
         with self.assertRaises(BuildError):
             assemble(tools, self.fixture.zip, self.root / 'wrong', 'b' * 40)
+        # The application metadata alone must not allow a replaced loader to be released.
+        binary.write_bytes(b'changed loader')
+        pack(source_application, tools)
+        with self.assertRaisesRegex(BuildError, 'verified USERCODE'):
+            assemble(tools, self.fixture.zip, self.root / 'modified', 'a' * 40)
 
 
 if __name__ == '__main__':

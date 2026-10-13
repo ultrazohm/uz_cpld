@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from cpld_toolchain.programmer_helper.release import read_package
 from cpld_toolchain.toolchain.buildsystem.model import BuildError
+from cpld_toolchain.toolchain.foss import flasher
 
 
 def digest(path):
@@ -79,6 +80,16 @@ def assemble(tools, firmware, output, commit):
             info = json.loads((application / 'application.json').read_text())
             if info['git_revision'] != commit or info['platform'] in platforms:
                 raise BuildError('Application artifacts must have distinct platforms and match the workflow commit')
+            filename = 'openFPGALoader.exe' if info['platform'] == 'windows-x64' else 'openFPGALoader'
+            loader = application / '_internal/cpld_toolchain/bundled_tools/openFPGALoader' / filename
+            try:
+                provenance = flasher.verify(loader)
+            except ValueError as exc:
+                raise BuildError(str(exc)) from exc
+            if provenance.get('git_revision') != commit or info.get('openfpgaloader') != provenance:
+                raise BuildError('Bundled loader must match application provenance and workflow commit')
+            if info.get('default_programmer_backend') != 'foss':
+                raise BuildError('Standalone release must default to the bundled FOSS programmer')
             platforms.add(info['platform'])
             included = application / 'firmware/uz-cpld-firmware.zip'
             if included.parent.exists() or (application / 'bundle.json').exists():

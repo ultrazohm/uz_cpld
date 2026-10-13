@@ -34,9 +34,24 @@ def verify(binary):
         record = json.loads((binary.parent / RECEIPT).read_text())
         if record['pin'] != pin() or record['binary_sha256'] != digest(binary):
             raise ValueError('flasher provenance does not match the current pin and binary')
+        runtime = record.get('runtime_sha256', {})
+        if not isinstance(runtime, dict):
+            raise ValueError('invalid runtime dependency manifest')
+        for name, checksum in runtime.items():
+            if Path(name).name != name or name in ('.', '..') or '\\' in name:
+                raise ValueError('invalid runtime dependency path')
+            if digest(binary.parent / name) != checksum:
+                raise ValueError(f'flasher runtime checksum mismatch: {name}')
     except (OSError, ValueError, KeyError, TypeError) as exc:
         raise ValueError(f'{binary}: a verified USERCODE-capable flasher is required; run make flasher_build or rebuild the container ({exc})') from exc
     return record
+
+
+def version(binary):
+    from cpld_toolchain import external
+    with external.system_libraries():
+        return subprocess.check_output([str(binary), '--Version'], text=True,
+                                       env=external.environment(), timeout=30)
 
 
 def check_file(binary, firmware, usercode, *, expected_idcode=None):
@@ -44,8 +59,10 @@ def check_file(binary, firmware, usercode, *, expected_idcode=None):
     command = [str(binary), '--check-file', '--usercode', usercode]
     if expected_idcode is not None:
         command += ['--expected-idcode', expected_idcode]
-    result = subprocess.run([*command, str(firmware)],
-                            capture_output=True, text=True, timeout=30)
+    from cpld_toolchain import external
+    with external.system_libraries():
+        result = subprocess.run([*command, str(firmware)], env=external.environment(),
+                                capture_output=True, text=True, timeout=30)
     if result.returncode:
         raise ValueError(f'Flasher rejected {firmware} before USB access: {result.stdout}{result.stderr}')
     return result.stdout

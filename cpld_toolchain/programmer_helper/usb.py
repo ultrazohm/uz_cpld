@@ -60,7 +60,9 @@ def diamond_interface(sysfs: Path = Path('/sys/bus/usb/devices'), serial=None):
 class LibUSB:
     """Minimal libusb interface; use the existing USB node permissions."""
     def __init__(self, interface):
-        name = find_library('usb-1.0')
+        from cpld_toolchain.tools import bundled_directory
+        bundled = bundled_directory() / 'openFPGALoader/libusb-1.0.so.0'
+        name = str(bundled) if bundled.is_file() else find_library('usb-1.0')
         if not name:
             raise BuildError('Automatic FTDI detachment requires libusb-1.0')
         self.lib = C.CDLL(name)

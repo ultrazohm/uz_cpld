@@ -1,11 +1,11 @@
 Standalone programming CLI
 ==========================
 
-The standalone ``uz_cpld`` application downloads and programs published CPLD firmware using the system's Diamond Programmer.
+The standalone ``uz_cpld`` application downloads and programs published CPLD firmware using the included patched openFPGALoader by default.
 It includes Python and does not require Git, a source checkout or synthesis tools.
 The initial targets are Windows 11 x64 and Ubuntu 24.04 x64, using Diamond Programmer 3.14.0.75.2 as the validation baseline.
-Install Diamond Programmer, its runtime dependencies and cable drivers separately.
-Ubuntu also requires Bash, libusb-1.0 and access to the programmer's USB device nodes.
+The FOSS download includes the native loader and its runtime libraries; MSYS2 and Diamond are unnecessary on the workstation.
+USB drivers/permissions require the one-time setup below. Diamond remains an optional backend.
 The repository CLI retains generation, builds, simulation, documentation and existing programming commands.
 
 Downloads
@@ -31,13 +31,40 @@ Use ``.\uz_cpld.exe`` in PowerShell or ``./uz_cpld`` on Ubuntu when it is not on
 Ubuntu TAR archives preserve executable permissions and internal symbolic links.
 The Windows executable is currently unsigned.
 
+USB setup
+---------
+
+On Windows, install WinUSB for **only FT4232 channel B / Interface 1** using
+`Zadig <https://zadig.akeo.ie/>`_: enable Options → List All Devices, match the
+UltraZohm VID ``0403``, PID ``6011`` and interface ``MI_01`` in Device Manager,
+and select WinUSB. Leave channels A, C and D with their existing drivers.
+Restore the FTDI/vendor driver on Interface 1 before using Diamond again.
+The application never installs or changes Windows drivers automatically.
+See the `libusb Windows guide <https://github.com/libusb/libusb/wiki/Windows>`_.
+
+On Ubuntu, use the included upstream rules as described in the
+`openFPGALoader installation guide <https://trabucayre.github.io/openFPGALoader/guide/install.html>`_::
+
+   # Run from the extracted uz_cpld directory:
+   getent group plugdev || sudo groupadd --system plugdev
+   sudo cp _internal/cpld_toolchain/bundled_tools/openFPGALoader/99-openfpgaloader.rules /etc/udev/rules.d/
+   sudo usermod -aG plugdev "$USER"
+   sudo udevadm control --reload-rules
+   sudo udevadm trigger
+
+Log out/in after changing groups, then unplug/replug USB. Programming runs as
+your normal user. The FOSS bundle includes libusb for the channel-B driver guard;
+no system libusb installation is needed. Physical JTAG access states still differ
+between S3C and D-slots; see :doc:`programmer`.
+
 Persistent programmer configuration
 -----------------------------------
 
+For the optional Diamond backend, install Diamond Programmer and its drivers separately.
 Set the path to the actual ``pgrcmd`` executable, not the Diamond installation directory::
 
    uz_cpld programmer_path="C:\lscc\diamond\3.14\programmer\bin\nt64\pgrcmd.exe"
-   uz_cpld doctor
+   uz_cpld doctor --programmer-backend diamond
 
 On Ubuntu, for example::
 
@@ -49,8 +76,9 @@ The path persists per user across application upgrades and workspaces.
 ``CPLD_PGRCMD`` takes precedence over the saved setting, followed by normal Diamond discovery.
 A missing explicitly configured executable fails rather than falling back to another installation.
 The shared repository programmer also honors this setting.
-``doctor`` prints the effective configuration source, executable, installation version when available, and workspace.
-It does not validate the license, cable driver or physical hardware.
+``doctor --programmer-backend diamond`` prints Diamond discovery and the saved configuration.
+Plain ``doctor`` verifies the bundled FOSS loader, runtime checksums and capability version without USB access.
+Neither establishes driver compatibility or physical hardware readiness.
 
 Firmware download and selection
 -------------------------------
@@ -149,8 +177,10 @@ Choose program names and a release cycle present in ``firmware_list``.
 With complete selections, the last command immediately erases, writes and verifies
 Flash after the managed preflight checks; there is no additional confirmation prompt.
 S3C uses ``--target s3c`` and its own physical JTAG access state.
-Managed programming and identification require Diamond port ``FTUSB-1`` (``--probe-index 1``).
-Scans accept other probe indices.
+FOSS is the default for scan, identify and program: FT4232 channel B, ``--probe-index 0``, at 1 MHz.
+Use ``--usb-serial SERIAL`` to select a probe explicitly.
+``--programmer-backend diamond`` uses Diamond port ``FTUSB-1`` (``--probe-index 1``).
+Managed identification/programming enforce these supported mappings; scans accept other probe indices.
 ``scan`` reads device IDs without requiring a firmware selection.
 ``identify`` and ``program`` use the saved ZIP; ``--firmware FILE`` overrides it for one invocation without changing the saved selection.
 An altered saved ZIP is rejected before hardware access.
@@ -181,8 +211,17 @@ Build and validation
 --------------------
 
 GitHub Actions builds native PyInstaller directory bundles on ``ubuntu-24.04`` and ``windows-2025`` using the pinned tools in ``distribution/requirements.txt``.
+The loader build verifies the upstream archive and patch pins, runs protocol tests,
+collects the dependency closure and notices, and tests the portable executable with a clean PATH.
+Windows uses upstream's native MSYS2 UCRT64 route with DLLs beside the executable.
+Linux bundles shared libraries with ``$ORIGIN`` runpaths and uses Ubuntu's glibc.
+The receipt covers the executable and every bundled runtime library.
+Upstream source, our patch, library notices and package versions are retained with the loader.
 Windows Server hosts the x64 CI job; passing that job is not a Windows 11 hardware test.
-The executable smoke test runs outside the checkout, selects fixture firmware, exercises persistent settings and checks rejection of modified firmware without USB access.
+The executable smoke test runs outside the checkout with Python/MSYS2 absent from PATH.
+It verifies loader discovery, executes the native parser, checks rejection of modified
+loader/runtime/firmware files, selects fixture firmware and exercises persistent settings.
+CI also extracts and tests the tool archives on each platform and both combined archives.
 The release publication job waits for both standalone jobs and the existing Diamond, Linux and Windows checks.
 Pull requests and manual workflow runs retain tool archives as CI artifacts without publishing a release.
 Physical programming and driver behavior still need acceptance testing on the intended workstation and boards.
@@ -190,9 +229,12 @@ Physical programming and driver behavior still need acceptance testing on the in
 To build the current platform locally in an isolated packaging environment::
 
    python -m pip install -r distribution/requirements.txt
+   python distribution/loader.py
    python distribution/build.py
    python distribution/smoke.py build/standalone/dist/uz_cpld/uz_cpld
    python distribution/archive.py pack --application build/standalone/dist/uz_cpld --output build/standalone/assets
 
 Use ``uz_cpld.exe`` in the smoke-test path on Windows.
-These commands produce application archives; no Python wheel or PyPI publication is part of this distribution.
+Run ``distribution/loader.py`` under MSYS2 UCRT64 on Windows with GCC, CMake, Ninja, pkgconf, patch, libftdi, libusb, zlib and Python installed.
+Ubuntu builds need CMake, g++, pkg-config, patch, libftdi1/libusb/zlib development packages and patchelf.
+These commands produce directory application bundles (the executable and ``_internal``), not a single-file executable; no Python wheel or PyPI publication is part of this distribution.

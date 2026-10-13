@@ -16,21 +16,33 @@ from cpld_toolchain import __version__
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, default=ROOT / 'build/standalone')
+    parser.add_argument('--loader', type=Path, default=ROOT / 'build/portable-loader',
+                        help='Tested portable loader directory from distribution/loader.py')
     args = parser.parse_args()
     if sys.platform not in ('win32', 'linux') or platform.machine().lower() not in ('amd64', 'x86_64'):
         raise RuntimeError('Standalone release builds currently require Windows or Linux x64')
     output = args.output.resolve()
+    from cpld_toolchain.toolchain.foss import flasher
+    loader = args.loader.resolve()
+    filename = 'openFPGALoader.exe' if sys.platform == 'win32' else 'openFPGALoader'
+    provenance = flasher.verify(loader / filename)
+    commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
+    if provenance.get('git_revision') != commit:
+        raise RuntimeError('Portable loader must come from this application commit')
     subprocess.run([sys.executable, '-m', 'PyInstaller', '--noconfirm', '--clean',
                     '--distpath', str(output / 'dist'), '--workpath', str(output / 'work'),
                     str(ROOT / 'distribution/uz_cpld.spec')], cwd=ROOT, check=True)
     application = output / 'dist/uz_cpld'
+    # Keep the portable native runtime separate from PyInstaller's Python libraries.
+    bundled = application / '_internal/cpld_toolchain/bundled_tools/openFPGALoader'
+    shutil.copytree(loader, bundled)
     shutil.copy2(ROOT / 'distribution/README.txt', application / 'README.txt')
-    commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     info = dict(schema_version=1, application_version=__version__, git_revision=commit,
                 platform='windows-x64' if sys.platform == 'win32' else 'ubuntu-24.04-x64',
                 build_system=platform.platform(),
                 git_dirty=bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT)),
-                python=sys.version.split()[0], diamond_version='3.14.0.75.2', firmware_schema=1)
+                python=sys.version.split()[0], diamond_version='3.14.0.75.2', firmware_schema=1,
+                default_programmer_backend='foss', openfpgaloader=provenance)
     (application / 'application.json').write_text(json.dumps(info, indent=2) + '\n')
     notices = application / 'licenses'
     notices.mkdir(exist_ok=True)
@@ -44,7 +56,8 @@ def main():
                     shutil.copy2(source, notices / (name + '-' + source.name))
     import sysconfig
     candidates = [Path(sys.base_prefix) / 'LICENSE.txt',
-                  Path(sysconfig.get_path('stdlib')) / 'LICENSE.txt']
+                  Path(sysconfig.get_path('stdlib')) / 'LICENSE.txt',
+                  Path(f'/usr/share/doc/python{sys.version_info.major}.{sys.version_info.minor}/copyright')]
     license_file = next((path for path in candidates if path.is_file()), None)
     if license_file is None:
         raise RuntimeError('Python LICENSE.txt is required for the standalone distribution')

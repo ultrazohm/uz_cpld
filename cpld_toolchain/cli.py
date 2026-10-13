@@ -50,6 +50,8 @@ def option(key, required):
         annotation = WaveFormat
     elif key in ('jobs', 'seed', 'probe_index'):
         annotation, settings = int, {'min': 1 if key == 'jobs' else 0}
+    elif key == 'override':
+        annotation, settings = bool, {'is_flag': True}
     elif key in ('dry_run', 'rebuild', 'discard_project_changes', 'activate'):
         annotation, settings = int, {'min': 0, 'max': 1}
     elif key in ('selection', 'output', 'firmware'):
@@ -57,6 +59,7 @@ def option(key, required):
     return Parameter('from_' if key == 'from' else key, Parameter.KEYWORD_ONLY,
                      annotation=annotation if required else Optional[annotation],
                      default=typer.Option(... if required else None,
+                                          '--override/--no-override' if key == 'override' else
                                           '--' + key.replace('_', '-'), **settings))
 
 
@@ -87,7 +90,7 @@ def make_app(style='python'):
         def callback(**values):
             ctx = values.pop('ctx')
             options = {('from' if key == 'from_' else key):
-                       str(value.value if isinstance(value, Enum) else value)
+                       str(int(value) if isinstance(value, bool) else value.value if isinstance(value, Enum) else value)
                        for key, value in values.items() if value is not None}
             commands.run(name, options, workspace=ctx.obj)
         callback.__signature__ = Signature(
@@ -120,10 +123,15 @@ def translate_make_options(argv):
             if not separator:
                 raise BuildError('Options must have the form key=value')
             flag = '--' + key.replace('_', '-')
-            if flag in seen or flag in argv:
+            if flag in seen or flag in argv or key == 'override' and '--no-override' in argv:
                 raise BuildError(f'Duplicate option {key}')
             seen.add(flag)
-            result += [flag, value]
+            if key == 'override':
+                if value not in ('0', '1'):
+                    raise BuildError('override must be 0 or 1')
+                result.append(flag if value == '1' else '--no-override')
+            else:
+                result += [flag, value]
         else:
             result.append(item)
     return result

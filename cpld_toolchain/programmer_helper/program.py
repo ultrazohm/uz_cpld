@@ -67,8 +67,8 @@ def firmware_lock(build):
     return workspace_lock(build.root) if isinstance(build, ReleaseFirmware) else locked(build)
 
 
-def create_selection(destination: Path, *, release=None, s3c=None, slots=None):
-    """Create an editable selection in the caller's directory without overwriting."""
+def create_selection(destination: Path, *, release=None, s3c=None, slots=None, override=False):
+    """Validate assignments, then create or atomically replace the selection."""
     template = Path(__file__).with_name('selection.example.toml').read_text()
     replacements = {}
     if release is not None:
@@ -82,14 +82,29 @@ def create_selection(destination: Path, *, release=None, s3c=None, slots=None):
     for key, value in replacements.items():
         template = re.sub(rf'(?m)^{re.escape(key)} = .*$',
                           lambda match: f'{key} = {json.dumps(value)}', template)
-    try:
-        with destination.open('x') as stream:
-            stream.write(template)
-    except FileExistsError:
-        print(f'{destination} already exists; kept your selection.')
-        return
-    print(f'Created {destination} with selected programs. Edit the programs and release as needed.')
-    print('Use uz_cpld list to see programs, then uz_cpld program --target s3c or dslot.')
+    existed = destination.exists()
+    if override:
+        if destination.is_symlink() or existed and not destination.is_file():
+            raise BuildError(f'Cannot override a symlink or non-file selection: {destination}')
+        temporary = None
+        try:
+            with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8', dir=destination.parent,
+                                             prefix=f'.{destination.name}-', delete=False) as stream:
+                temporary = Path(stream.name)
+                stream.write(template)
+            os.replace(temporary, destination)
+        finally:
+            if temporary is not None:
+                temporary.unlink(missing_ok=True)
+    else:
+        try:
+            with destination.open('x', encoding='utf-8') as stream:
+                stream.write(template)
+        except FileExistsError:
+            print(f'{destination} already exists; kept your selection. Use init_programmer --override to replace it.')
+            return
+    print(f'{"Replaced" if existed else "Created"} {destination} with selected programs. Edit the programs and release as needed.')
+    print('Review the selection before using uz_cpld program --target s3c or dslot.')
 
 
 def build_selection(root: Path, selection: Path, release_cycle=None, *, target=None,
@@ -461,6 +476,7 @@ def main(argv=None) -> int:
     parser.add_argument('--target', choices=('dslot', 's3c'), help='Physical target; scans default to dslot')
     parser.add_argument('--selection', type=Path,
                         help='Program selection file (default: selection.toml in the current directory)')
+    parser.add_argument('--override', action='store_true', help='Replace an existing selection during init_programmer')
     parser.add_argument('--release', help='Release cycle for program, or initial release for init_programmer')
     parser.add_argument('--s3c-program', help='S3C firmware program (instead of a selection file)')
     parser.add_argument('--s3c', help='Initial S3C program')
@@ -480,6 +496,8 @@ def main(argv=None) -> int:
     parser.add_argument('--execute', action='store_true', help='Contact hardware (scan reads IDs; program writes Flash)')
     args = parser.parse_args(argv)
     try:
+        if args.override and args.action != 'init_programmer':
+            raise BuildError('--override applies only to init_programmer')
         slots = {i: getattr(args, f'dslot{i}') for i in range(1, 6) if getattr(args, f'dslot{i}') is not None}
         if args.action != 'program' and (args.s3c_program is not None or slots):
             raise BuildError('Direct program assignments apply only to program')
@@ -503,7 +521,7 @@ def main(argv=None) -> int:
         if args.action == 'init_programmer':
             create_selection(args.selection, release=args.release, s3c=args.s3c,
                              slots={i: getattr(args, f'dslot_{i}') for i in range(1, 6)
-                                    if getattr(args, f'dslot_{i}') is not None})
+                                    if getattr(args, f'dslot_{i}') is not None}, override=args.override)
             return 0
         if args.action == 'build_selection':
             build_selection(args.root, args.selection, args.release_cycle,

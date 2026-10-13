@@ -8,6 +8,7 @@ from pathlib import Path
 import re
 import shutil
 import subprocess
+import sys
 import time
 
 from cpld_toolchain.toolchain.buildsystem.model import BuildError
@@ -52,7 +53,16 @@ def run(command, log, *, timeout=60):
             raise
     output = log.read_text(errors='replace')
     if returncode:
-        raise BuildError(f'FOSS programmer failed with exit code {returncode}; see {log}')
+        hint = ''
+        if sys.platform == 'win32' and 'usb_open() failed' in output:
+            hint = ('\nWindows could not open the FTDI USB interface. Close Diamond and other probe users. '
+                    'If Diamond works but FOSS does not, check the driver for FT4232 channel B / Interface 1 '
+                    '(VID 0403, PID 6011, MI_01). This libusb backend needs a compatible driver such as WinUSB; '
+                    'the ordinary FTDI VCP/D2XX driver alone does not provide that access. '
+                    'Use Zadig to install WinUSB on Interface 1 only, leaving A, C and D unchanged. '
+                    'Restore the vendor driver on Interface 1 before using Diamond again. '
+                    'Static linking does not install or replace USB drivers.')
+        raise BuildError(f'FOSS programmer failed with exit code {returncode}; see {log}{hint}')
     return output
 
 

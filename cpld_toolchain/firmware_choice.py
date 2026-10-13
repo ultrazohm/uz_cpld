@@ -249,11 +249,12 @@ def guide_program(root, options, *, selection_base=None, confirm=False, selectio
 
 
 def guide_init(root, options, *, selection_base=None, standalone=False, included=None):
-    """Choose a complete selection, leaving exclusive file creation to the writer."""
+    """Choose a complete selection before the writer creates or replaces it."""
     options = dict(options)
     fields = {'release', 's3c', *(f'dslot_{i}' for i in range(1, 6))}
     destination = Path(options.get('selection', str((selection_base or root) / 'selection.toml'))).expanduser()
-    if fields.intersection(options) or options.get('dry_run') == '1' or not interactive() or destination.exists():
+    if (fields.intersection(options) or options.get('dry_run') == '1' or not interactive()
+            or destination.exists() and options.get('override') != '1'):
         return options
     from .toolchain.buildsystem.model import catalog, program_targets, release_cycles
     if standalone or (root / 'firmware.json').exists() or not (root / 'programs/releases.toml').exists():
@@ -283,7 +284,7 @@ def guide_init(root, options, *, selection_base=None, standalone=False, included
         options[f'dslot_{i}'] = slots[choose(f'Choose D{i} program (JTAG position {i}):', slots)]
     print(f'Save to {destination}: release={cycle}, S3C={options["s3c"]}, ' +
           ', '.join(f'D{i}={options[f"dslot_{i}"]}' for i in range(1, 6)))
-    print('This creates a selection file only; no hardware is accessed.')
+    print('This saves a selection file only; no hardware is accessed.')
     return options
 
 

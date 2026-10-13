@@ -95,8 +95,9 @@ def parser():
         choice = item.add_mutually_exclusive_group(required=name == 'firmware_select')
         choice.add_argument('--firmware', type=Path)
         choice.add_argument('--included', action='store_true')
-    init = actions.add_parser('init_programmer', help='Create a program/slot selection file without overwriting an existing one')
+    init = actions.add_parser('init_programmer', help='Initialize program/slot assignments; --override replaces an existing selection')
     init.add_argument('--selection', type=Path)
+    init.add_argument('--override', action='store_true', help='Replace the existing selection with new assignments')
     init.add_argument('--release')
     init.add_argument('--s3c')
     for i in range(1, 6):
@@ -157,7 +158,9 @@ def main(argv=None):
         # Preserve the shared CLI's validation, snapshots, USB locking and readback.
         from .toolchain.commands import run
         values = {key: str(value) for key, value in vars(options).items()
-                  if key not in ('workspace', 'action') and value is not None}
+                  if key not in ('workspace', 'action', 'override') and value is not None}
+        if getattr(options, 'override', False):
+            values['override'] = '1'
         if options.action == 'init_programmer':
             from .firmware_choice import guide_init
             values = guide_init(root, values, standalone=True, included=included_firmware())

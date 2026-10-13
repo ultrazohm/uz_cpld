@@ -90,6 +90,7 @@ def smoke(executable):
                 return result.stdout + result.stderr
             run('--version')
             run('--help')
+            run()  # Redirected/noninteractive no-argument launches must not open a shell.
             # Validate config without executing this stand-in programmer.
             run('programmer_path=' + str(executable))
             run('doctor')
@@ -103,6 +104,12 @@ def smoke(executable):
             run('firmware_select', '--firmware', str(firmware))
             run('firmware_list')
             run('init_programmer', '--release', 'published', '--s3c', 'controller')
+            selection_path = root / 'data/workspace/selection.toml'
+            selection_path.write_text('previous selection')
+            run('init_programmer', '--release', 'published', '--s3c', 'controller')
+            assert selection_path.read_text() == 'previous selection'
+            run('init_programmer', '--override', '--release', 'published', '--s3c', 'controller')
+            assert 'controller' in selection_path.read_text()
             run('program', '--target', 's3c', '--dry-run', '1')
             run('program', '--target', 's3c', '--programmer-backend', 'diamond', '--dry-run', '1')
             assert (root / 'data/workspace/selection.toml').is_file()

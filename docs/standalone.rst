@@ -27,7 +27,13 @@ The combined archives reuse the exact application files and firmware ZIP offered
 Application and firmware versions are independent; firmware-only updates do not require replacing the application.
 Release assembly rejects application or firmware artifacts from a different workflow commit.
 
-Extract the complete application archive and run it from a terminal.
+Extract the complete application archive. On Windows, double-click ``uz_cpld.exe``
+to open a persistent PowerShell programmer terminal in the application folder.
+You can type commands such as ``uz_cpld doctor`` and ``uz_cpld init_programmer``
+there; type ``exit`` to close it. No separate launcher is needed.
+Invocations from an existing PowerShell/cmd terminal retain normal CLI behavior,
+including printing help and returning immediately when no command is supplied.
+Redirected/noninteractive invocations never open another shell.
 Use ``.\uz_cpld.exe`` in PowerShell or ``./uz_cpld`` on Ubuntu when it is not on PATH.
 Ubuntu TAR archives preserve executable permissions and internal symbolic links.
 The Windows executable is currently unsigned.
@@ -48,6 +54,11 @@ Static linking includes libftdi, libusb, zlib and compiler runtimes in ``openFPG
 It does not install the Windows driver for the USB interface. Zadig is only needed
 when that interface lacks a compatible driver (WinUSB is recommended); a standard
 FTDI VCP/D2XX driver alone is insufficient for this libusb backend.
+If a FOSS scan reports ``unable to open ftdi device: -4 (usb_open() failed)``,
+close Diamond and other probe users, then check the driver on Interface 1.
+Diamond working on the same machine is consistent with a vendor-driver binding
+that libusb cannot use. Install WinUSB for Interface 1 when needed; reconnect USB
+and scan again. This is a USB-open error, before any JTAG device-ID read.
 The application never installs or changes Windows drivers automatically.
 See the `libusb Windows guide <https://github.com/libusb/libusb/wiki/Windows>`_.
 
@@ -162,7 +173,11 @@ choose the release cycle, S3C program and D1 through D5 from the selected firmwa
 package. If no package is selected, the package chooser opens first, including
 bundled firmware when available. The completed choices are saved to
 ``selection.toml`` without accessing hardware. An existing file is kept unchanged;
-use ``--selection another.toml`` to create another configuration.
+use ``--selection another.toml`` to create another configuration, or
+``uz_cpld init_programmer --override`` to choose assignments again and replace it.
+The complete new selection is collected and validated before an atomic replacement.
+Cancellation or write failure leaves the existing file intact.
+``--override --selection PATH`` replaces only that specified selection; it never programs hardware.
 
 Run ``uz_cpld program`` without a target for guided programming. First choose
 ``Manual selection`` or ``Use selection.toml``, then D1–D5 or S3C and the firmware

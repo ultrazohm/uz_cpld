@@ -50,6 +50,22 @@ class FossTests(unittest.TestCase):
         with self.assertRaisesRegex(BuildError, 'timed out'):
             foss.run([sys.executable, '-c', 'import time; time.sleep(60)'], log, timeout=0.05)
 
+    def test_windows_usb_open_failure_explains_driver_setup_and_keeps_the_log(self):
+        log = self.root / 'scan.log'
+        process = Mock()
+        process.wait.return_value = 1
+        def start(*args, **kwargs):
+            kwargs['stdout'].write('unable to open ftdi device: -4 (usb_open() failed)')
+            kwargs['stdout'].flush()
+            return process
+        with patch.object(foss.sys, 'platform', 'win32'), \
+                patch.object(foss.subprocess, 'Popen', side_effect=start), \
+                self.assertRaisesRegex(BuildError, 'Interface 1.*WinUSB') as error:
+            foss.run(['/loader', '--detect'], log)
+        self.assertIn('Close Diamond', str(error.exception))
+        self.assertIn('Static linking', str(error.exception))
+        self.assertIn('usb_open() failed', log.read_text())
+
     def test_interrupt_reaps_the_process_before_returning_to_the_usb_guard(self):
         process = Mock()
         process.wait.side_effect = [KeyboardInterrupt(), 0]

@@ -2,6 +2,9 @@ UltraZohm CPLD programmer (standalone CLI)
 
 Windows 11 x64 / Ubuntu 24.04 x64.
 Extract the complete archive before use; the executable needs its _internal directory.
+On Windows, double-click uz_cpld.exe to open a PowerShell programmer terminal
+that stays open. Type commands such as uz_cpld doctor, and type exit to close it.
+Running the executable from an existing terminal keeps ordinary CLI behavior.
 Python, Git, MSYS2 and Diamond are not required for the default FOSS backend.
 The application includes our pinned patched openFPGALoader. On Windows the loader
 is statically linked and imports only Windows system DLLs. Ubuntu bundles its
@@ -20,6 +23,10 @@ interface MI_01). Install WinUSB for that interface. Verify the device and
 interface in Device Manager before changing the driver. Leave channels A, C and
 D with their existing drivers. Restoring the FTDI/vendor driver on Interface 1
 is necessary before using Diamond on that interface again.
+If scan.log reports usb_open() failed (-4), close Diamond and other probe users
+and check Interface 1's driver. Diamond working while FOSS fails is consistent
+with a vendor driver that libusb cannot use. Install WinUSB there if needed,
+reconnect USB and retry scan.
 No driver is installed or replaced automatically by this application.
 
 Ubuntu: install the included 99-openfpgaloader.rules from
@@ -45,6 +52,9 @@ Use --included with a tool+firmware download. For a tool-only download:
   uz_cpld firmware_select --firmware "path/to/uz-cpld-firmware.zip"
 
 init_programmer guides release/program selection in a terminal.
+An existing selection is preserved by default. Run init_programmer --override
+to select assignments again and replace it, or use --selection PATH --override
+to replace a specific selection. Cancellation/failure preserves the old file.
 The final program command erases, programs and verifies Flash immediately when
 all assignments are provided; there is no additional confirmation prompt.
 Prepare the correct physical JTAG access state first. Use --target s3c for S3C.

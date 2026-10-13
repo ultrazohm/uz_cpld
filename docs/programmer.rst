@@ -20,6 +20,10 @@ Selection and release
    uz_cpld program --target dslot --selection selection.toml
 
 ``init_programmer`` creates ``selection.toml`` and preserves an existing file.
+Use ``uz_cpld init_programmer --override`` (``make init_programmer override=1``)
+to initialize assignments again and replace it atomically after validation.
+Cancellation or write failure preserves the existing selection.
+``--selection PATH --override`` replaces only the specified file.
 The template contains ``release = ""``, ``s3c = "s3c_heartbeat"`` and ``cvg_tx30`` for slots 1 through 5.
 These program names belong to ``heartbeat_cvg``; edit the release and assignments before using another cycle.
 ``--release-cycle`` takes precedence over the selection's ``release``, then the current cycle in ``programs/releases.toml``.

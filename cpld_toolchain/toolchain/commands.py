@@ -21,6 +21,7 @@ DIRECT_SELECTION = {'s3c_program', *(f'dslot{i}' for i in range(1, 6))}
 
 # The native Windows suite excludes Linux-only tool and shell integrations.
 WINDOWS_TESTS = (
+    'cpld_toolchain.toolchain.tests.test_windows_terminal',
     'cpld_toolchain.toolchain.tests.test_firmware_download',
     'cpld_toolchain.toolchain.tests.test_firmware_choice',
     'cpld_toolchain.toolchain.tests.test_capabilities', 'cpld_toolchain.toolchain.tests.test_doctor', 'cpld_toolchain.toolchain.tests.test_platform', 'cpld_toolchain.toolchain.tests.test_commands', 'cpld_toolchain.toolchain.tests.test_venv',
@@ -74,7 +75,7 @@ COMMANDS = {
     'clean': spec('Toolchain', 'clean program=NAME', 'Remove one backend build; preserve simulation and diagrams', FIRMWARE | {'program', 'discard_project_changes'}, {'program'}),
     'clean_all': spec('Toolchain', 'clean_all', 'Remove all generated builds, assets, and caches'),
     'generate': spec('cpld_vhdl_generator', 'generate program=NAME', 'Generate VHDL and register a CSV-based program', FIRMWARE | {'program'}, {'program'}),
-    'init_programmer': spec('Programmer', 'init_programmer', 'Create selection.toml; preserve an existing file', {'selection'} | SELECTION_DEFAULTS),
+    'init_programmer': spec('Programmer', 'init_programmer', 'Create selection.toml; --override replaces an existing file', {'selection', 'override'} | SELECTION_DEFAULTS),
     'diamond_xcf_programming_chain': spec('Programmer', 'diamond_xcf_programming_chain', 'Export both Diamond XCFs from the edited selection', {'selection', 'release_cycle', 'backend', 'build_backend', 'programmer_backend', 'probe_index', 'rebuild'}),
     'scan': spec('Programmer', 'scan target=dslot', 'Check JTAG IDs (target defaults to dslot)', PROBE),
     'identify': spec('Programmer', 'identify target=dslot', 'Read firmware identity and silicon TraceID', PROBE | {'source', 'firmware'}),
@@ -100,10 +101,13 @@ ARGUMENT_VALUES = {
     'discard_project_changes': '0|1', 'dry_run': '0|1',
     'container_engine': 'docker|podman', 'container_platform': 'OS/ARCH',
     'toolchain_image': 'NAME', 'activate': '0|1',
+    'override': '0|1',
 }
 
 
 def argument_text(action, keys, style='make'):
+    if style != 'make' and 'override' in keys:
+        return (argument_text(action, keys - {'override'}, style) + ' --override').removeprefix('none ')
     return ' '.join((f'{key}=' if style == 'make' else '--' + key.replace('_', '-') + ' ') + ('foss' if action == 'compare' and key == 'backend' else 'NAME|all' if key == 'release_cycle' and
                         action in ('docs', 'docs_assets') else values)
                     for key, values in ARGUMENT_VALUES.items() if key in keys) or 'none'
@@ -213,7 +217,7 @@ def normalize(action, options):
     for key in ('backend', 'build_backend', 'programmer_backend'):
         if key in options and options[key] not in ('diamond', 'foss'):
             raise BuildError(f'{key} must be diamond or foss')
-    for key in ('dry_run', 'rebuild', 'discard_project_changes', 'activate'):
+    for key in ('dry_run', 'rebuild', 'discard_project_changes', 'activate', 'override'):
         if key in options and options[key] not in ('0', '1'):
             raise BuildError(f'{key} must be 0 or 1')
     for key in ('jobs', 'seed', 'probe_index'):
@@ -329,6 +333,8 @@ def plan(action, options, *, root=ROOT, cwd=None, workspace=None):
         args += flags('release_cycle', 'probe_index')
         if action == 'init_programmer':
             args += flags('release', 's3c', *(f'dslot_{i}' for i in range(1, 6)))
+            if options.get('override') == '1':
+                args += ['--override']
         if action == 'build_selection':
             args += ['--build-backend', build_backend]
             if 'target' in options:

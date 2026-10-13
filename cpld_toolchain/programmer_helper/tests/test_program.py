@@ -48,6 +48,24 @@ class ProgramTests(unittest.TestCase):
                 program.create_selection(invalid, slots={1: '../bad'})
             self.assertFalse(invalid.exists())
 
+    def test_override_replaces_selection_and_preserves_it_on_validation_or_write_failure(self):
+        with tempfile.TemporaryDirectory() as directory:
+            selection = Path(directory) / 'selection.toml'
+            selection.write_text('previous selection')
+            with self.assertRaises(BuildError):
+                program.create_selection(selection, override=True, slots={1: '../invalid'})
+            self.assertEqual(selection.read_text(), 'previous selection')
+            with patch.object(program.os, 'replace', side_effect=OSError('write failed')):
+                with self.assertRaises(OSError):
+                    program.create_selection(selection, override=True, s3c='controller')
+            self.assertEqual(selection.read_text(), 'previous selection')
+            self.assertEqual(list(Path(directory).iterdir()), [selection])
+            self.assertEqual(program.main(['init_programmer', '--selection', str(selection), '--override',
+                                          '--release', 'published', '--s3c', 'controller',
+                                          '--dslot-1', 'adapter']), 0)
+            slots, s3c, release, _ = program.read_selection(selection)
+            self.assertEqual((s3c, release, slots[1]), ('controller', 'published', 'adapter'))
+
     def test_build_selection_deduplicates_and_honors_release_backend_and_target(self):
         root = Path(__file__).resolve().parents[3]
         with tempfile.TemporaryDirectory() as directory:

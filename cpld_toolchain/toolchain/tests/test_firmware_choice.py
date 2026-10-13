@@ -191,6 +191,37 @@ class FirmwareChoiceTests(unittest.TestCase):
         with patch.object(choice, 'interactive', return_value=False):
             self.assertEqual(choice.guide_init(self.root, {}), {})
 
+    def test_override_reopens_wizard_and_cancellation_keeps_the_selection(self):
+        from cpld_toolchain import standalone
+        choice.select(self.root, self.fixture.zip)
+        path = self.root / 'selection.toml'
+        path.write_text('previous selection')
+        with patch.object(choice, 'interactive', return_value=True), patch('builtins.input', side_effect=['1', 'q']):
+            self.assertEqual(standalone.main(['--workspace', str(self.root), 'init_programmer', '--override']), 2)
+        self.assertEqual(path.read_text(), 'previous selection')
+        with patch.object(choice, 'interactive', return_value=True), patch('builtins.input', side_effect=['1'] * 7):
+            self.assertEqual(standalone.main(['--workspace', str(self.root), 'init_programmer', '--override']), 0)
+        selection = choice.read_toml(path)
+        self.assertEqual(selection['s3c'], 'controller')
+        self.assertEqual(selection['slots'], {str(i): 'adapter' for i in range(1, 6)})
+
+    def test_repository_and_make_override_flags_reach_the_writer(self):
+        from cpld_toolchain.__main__ import main
+        path = self.root / 'custom.toml'
+        for flags in (['--override'], ['--option', 'override=1']):
+            path.write_text('previous selection')
+            with patch.object(choice, 'interactive', return_value=False):
+                self.assertEqual(main(['--workspace', str(self.root), 'init_programmer',
+                    '--selection', str(path), '--s3c', 'controller', *flags]), 0)
+            self.assertEqual(choice.read_toml(path)['s3c'], 'controller')
+        before = path.read_bytes()
+        with patch.object(choice, 'interactive', return_value=False):
+            self.assertEqual(main(['--workspace', str(self.root), 'init_programmer',
+                '--selection', str(path), '--s3c', 'other', '--option', 'override=0']), 0)
+        self.assertEqual(path.read_bytes(), before)
+        # A disabled flag still must not silently pass through an unsupported command.
+        self.assertEqual(main(['scan', '--option', 'override=0', '--dry-run', '1']), 2)
+
     def test_init_cancel_does_not_create_selection(self):
         self.local_catalog()
         with patch.object(choice, 'interactive', return_value=True), patch('builtins.input', side_effect=['1', 'q']):

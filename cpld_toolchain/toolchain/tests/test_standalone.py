@@ -190,7 +190,7 @@ class StandaloneTests(unittest.TestCase):
             binary = loader / ('openFPGALoader.exe' if platform == 'windows-x64' else 'openFPGALoader')
             binary.write_bytes(b'exact loader bytes')
             provenance = dict(pin=flasher.pin(), binary_sha256=flasher.digest(binary),
-                              git_revision='a' * 40, runtime_sha256={})
+                              git_revision='a' * 40, runtime_sha256={}, linkage='static')
             (loader / flasher.RECEIPT).write_text(json.dumps(provenance))
             (application / 'application.json').write_text(json.dumps(dict(application_version='0.5.0',
                 platform=platform, git_revision='a' * 40, openfpgaloader=provenance,
@@ -211,6 +211,22 @@ class StandaloneTests(unittest.TestCase):
             self.assertEqual((application / 'firmware/uz-cpld-firmware.zip').read_bytes(), self.fixture.zip.read_bytes())
         with self.assertRaises(BuildError):
             assemble(tools, self.fixture.zip, self.root / 'wrong', 'b' * 40)
+        windows = self.root / 'windows-x64'
+        receipt = windows / '_internal/cpld_toolchain/bundled_tools/openFPGALoader/usercode-support.json'
+        info_path = windows / 'application.json'
+        info = json.loads(info_path.read_text())
+        provenance = json.loads(receipt.read_text())
+        provenance['linkage'] = 'shared'
+        info['openfpgaloader'] = provenance
+        receipt.write_text(json.dumps(provenance))
+        info_path.write_text(json.dumps(info))
+        pack(windows, tools)
+        with self.assertRaisesRegex(BuildError, 'statically linked'):
+            assemble(tools, self.fixture.zip, self.root / 'dynamic-windows', 'a' * 40)
+        provenance['linkage'] = 'static'
+        receipt.write_text(json.dumps(provenance))
+        info_path.write_text(json.dumps(info))
+        pack(windows, tools)
         # The application metadata alone must not allow a replaced loader to be released.
         binary.write_bytes(b'changed loader')
         pack(source_application, tools)

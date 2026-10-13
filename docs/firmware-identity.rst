@@ -119,8 +119,10 @@ Flasher builds and container rebuilds
 ``flasher.py`` verifies both, applies the patch to a fresh source tree, runs the USERCODE, identity sequencing and transfer-failure tests, compiles Lattice/FTDI support, and runs the real CLI/parser tests without USB.
 It installs a binary reporting ``v1.1.1-uz-programmer3``, its license and a readable ``usercode-support.json`` receipt containing the pin and binary checksum.
 Concurrent installers serialize publication of the binary and receipt.
-The separate ``foss-programmer.yml`` CI workflow builds the Windows executable with MSYS2 and runs the same native tests without USB.
-That job also collects and tests the portable DLL dependency closure and publishes it for standalone packaging.
+The separate ``foss-programmer.yml`` CI workflow cross-compiles a static Windows executable
+with upstream's MinGW-w64 CMake toolchain, static zlib and automatic libusb/libftdi dependency builds.
+It rejects non-system DLL imports, retains source/license/relinking files, and runs
+the exact executable and protocol tests on a native Windows runner before standalone packaging.
 The frozen CLI and extracted archives are tested with a clean PATH; physical hardware and driver compatibility still require workstation acceptance.
 
 The Docker builder stage runs this automatically and copies the installation into the runtime image.

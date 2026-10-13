@@ -31,7 +31,7 @@ The workflow runs on pushes, pull requests and manual dispatches.
    * - ``windows-python``
      - Check out sources; install Python 3.10; preview environment bootstrap without third-party packages; create the native venv; run the Windows tooling test subset; check tracked generated files for ``heartbeat_cvg/cvg_tx30``; preview catalog builds; preview D-slot programming.
    * - ``windows-foss``
-     - Call the native Windows programmer workflow to compile the patched loader in MSYS2 UCRT64, package its DLL closure and notices, and test the portable executable with a clean PATH without USB hardware.
+     - Cross-compile the patched loader on Ubuntu with upstream's static MinGW-w64 toolchain, reject non-system DLL imports, retain sources/notices/relinking files, then execute that exact loader and protocol tests on Windows without USB hardware.
    * - ``checks``
      - Check out sources; build the license-free Docker toolchain image; run ``bash ci.sh`` inside it to verify the Python environment, run tooling tests, build the FOSS-supported ``original`` catalog and ``heartbeat_cvg/cvg_tx30``, compare the pilot, and generate documentation with HDL simulations for all releases; retain diagnostics and the HTML preview; upload the Pages site on successful ``master`` runs.
    * - ``diamond-build``

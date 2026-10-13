@@ -90,6 +90,8 @@ def assemble(tools, firmware, output, commit):
                 raise BuildError('Bundled loader must match application provenance and workflow commit')
             if info.get('default_programmer_backend') != 'foss':
                 raise BuildError('Standalone release must default to the bundled FOSS programmer')
+            if info['platform'] == 'windows-x64' and (provenance.get('linkage') != 'static' or provenance.get('runtime_sha256')):
+                raise BuildError('Windows release requires a statically linked loader without runtime DLLs')
             platforms.add(info['platform'])
             included = application / 'firmware/uz-cpld-firmware.zip'
             if included.parent.exists() or (application / 'bundle.json').exists():

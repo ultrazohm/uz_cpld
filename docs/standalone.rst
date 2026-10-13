@@ -4,7 +4,8 @@ Standalone programming CLI
 The standalone ``uz_cpld`` application downloads and programs published CPLD firmware using the included patched openFPGALoader by default.
 It includes Python and does not require Git, a source checkout or synthesis tools.
 The initial targets are Windows 11 x64 and Ubuntu 24.04 x64, using Diamond Programmer 3.14.0.75.2 as the validation baseline.
-The FOSS download includes the native loader and its runtime libraries; MSYS2 and Diamond are unnecessary on the workstation.
+The Windows FOSS download includes a statically linked native loader; the Ubuntu download bundles its shared runtime libraries.
+MSYS2 and Diamond are unnecessary on the workstation.
 USB drivers/permissions require the one-time setup below. Diamond remains an optional backend.
 The repository CLI retains generation, builds, simulation, documentation and existing programming commands.
 
@@ -34,11 +35,19 @@ The Windows executable is currently unsigned.
 USB setup
 ---------
 
-On Windows, install WinUSB for **only FT4232 channel B / Interface 1** using
+On Windows, first try ``.\uz_cpld.exe scan --target dslot`` with the correct physical JTAG access state.
+If the expected chain is detected, keep the existing driver; Zadig is unnecessary.
+Our FTDI backend uses libftdi/libusb and needs a compatible USB driver rather than
+the standard FTDI VCP/D2XX driver. If driver setup is needed, install WinUSB for
+**only FT4232 channel B / Interface 1** using
 `Zadig <https://zadig.akeo.ie/>`_: enable Options → List All Devices, match the
 UltraZohm VID ``0403``, PID ``6011`` and interface ``MI_01`` in Device Manager,
 and select WinUSB. Leave channels A, C and D with their existing drivers.
 Restore the FTDI/vendor driver on Interface 1 before using Diamond again.
+Static linking includes libftdi, libusb, zlib and compiler runtimes in ``openFPGALoader.exe``.
+It does not install the Windows driver for the USB interface. Zadig is only needed
+when that interface lacks a compatible driver (WinUSB is recommended); a standard
+FTDI VCP/D2XX driver alone is insufficient for this libusb backend.
 The application never installs or changes Windows drivers automatically.
 See the `libusb Windows guide <https://github.com/libusb/libusb/wiki/Windows>`_.
 
@@ -213,9 +222,18 @@ Build and validation
 GitHub Actions builds native PyInstaller directory bundles on ``ubuntu-24.04`` and ``windows-2025`` using the pinned tools in ``distribution/requirements.txt``.
 The loader build verifies the upstream archive and patch pins, runs protocol tests,
 collects the dependency closure and notices, and tests the portable executable with a clean PATH.
-Windows uses upstream's native MSYS2 UCRT64 route with DLLs beside the executable.
+Windows uses upstream's ``Toolchain-x86_64-w64-mingw32.cmake`` cross-compilation
+route on Ubuntu, with ``WINDOWS_CROSSCOMPILE=ON``, ``CROSS_COMPILE_DEPS=ON``,
+``BUILD_STATIC=ON`` and ``WINDOWS_STATIC_ZLIB=ON``.
+The build checks the x64 PE import table and rejects every non-system DLL, including
+libusb, libftdi, zlib and MinGW runtime DLLs. The exact cross-built executable and
+protocol tests then run on a native Windows CI runner without MSYS2.
+Release assembly rejects Windows loaders with a dynamic runtime receipt.
 Linux bundles shared libraries with ``$ORIGIN`` runpaths and uses Ubuntu's glibc.
-The receipt covers the executable and every bundled runtime library.
+The receipt covers the executable and every bundled Linux runtime library, and
+records the Windows system DLL imports and static linkage.
+Windows bundles also retain LGPL dependency sources, licenses, static archives and
+loader object files with relinking instructions.
 Upstream source, our patch, library notices and package versions are retained with the loader.
 Windows Server hosts the x64 CI job; passing that job is not a Windows 11 hardware test.
 The executable smoke test runs outside the checkout with Python/MSYS2 absent from PATH.
@@ -235,6 +253,21 @@ To build the current platform locally in an isolated packaging environment::
    python distribution/archive.py pack --application build/standalone/dist/uz_cpld --output build/standalone/assets
 
 Use ``uz_cpld.exe`` in the smoke-test path on Windows.
-Run ``distribution/loader.py`` under MSYS2 UCRT64 on Windows with GCC, CMake, Ninja, pkgconf, patch, libftdi, libusb, zlib and Python installed.
+Build the Windows loader on Ubuntu/WSL using the upstream MinGW-w64 toolchain::
+
+   sudo apt-get install mingw-w64 libz-mingw-w64-dev cmake pkg-config p7zip-full g++ patch
+   python distribution/loader.py --target windows-x64 --output build/windows-loader --work build/windows-loader-work
+
+The recipe verifies our source and patch pins before configuring upstream CMake.
+It uses the pinned source's libusb 1.0.27 and libftdi 1.5 dependency builds and
+sets libftdi's version components explicitly for the v1.1.1 cross-module workaround.
+Copy ``build/windows-loader`` to Windows, then run native Windows Python::
+
+   python -m pip install -r distribution/requirements.txt
+   python distribution/build.py --loader path/to/windows-loader
+   python distribution/smoke.py build/standalone/dist/uz_cpld/uz_cpld.exe
+
+The earlier ``distribution/loader.py`` command is the native Linux loader build.
+Windows application packaging remains native; only the loader is cross-compiled.
 Ubuntu builds need CMake, g++, pkg-config, patch, libftdi1/libusb/zlib development packages and patchelf.
 These commands produce directory application bundles (the executable and ``_internal``), not a single-file executable; no Python wheel or PyPI publication is part of this distribution.

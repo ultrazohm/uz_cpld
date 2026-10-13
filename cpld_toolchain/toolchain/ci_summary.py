@@ -74,7 +74,7 @@ def render(root, backend=None, test_log=None):
     lines += ['### Scope limits', '',
               '- CI does not test USB drivers or program real CPLD hardware.',
               '- Standalone smoke checks exercise packaging, fixtures and dry runs, not vendor programming.',
-              '- Windows portable loader and frozen CLI checks use a clean PATH; they do not qualify USB driver or hardware behavior.',
+              '- Windows static loader imports are checked and native loader/frozen CLI tests use a clean PATH; they do not qualify USB driver or hardware behavior.',
               '- Build success does not establish board routing, startup, fault recovery or electrical timing acceptance.', '']
     return '\n'.join(lines)
 

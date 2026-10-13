@@ -26,6 +26,8 @@ def main():
     loader = args.loader.resolve()
     filename = 'openFPGALoader.exe' if sys.platform == 'win32' else 'openFPGALoader'
     provenance = flasher.verify(loader / filename)
+    if sys.platform == 'win32' and (provenance.get('linkage') != 'static' or provenance.get('runtime_sha256')):
+        raise RuntimeError('Windows releases require the static MinGW-w64 loader with no runtime DLLs')
     commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     if provenance.get('git_revision') != commit:
         raise RuntimeError('Portable loader must come from this application commit')

@@ -3,10 +3,18 @@ UltraZohm CPLD programmer (standalone CLI)
 Windows 11 x64 / Ubuntu 24.04 x64.
 Extract the complete archive before use; the executable needs its _internal directory.
 Python, Git, MSYS2 and Diamond are not required for the default FOSS backend.
-The application includes our pinned patched openFPGALoader and runtime libraries.
+The application includes our pinned patched openFPGALoader. On Windows the loader
+is statically linked and imports only Windows system DLLs. Ubuntu bundles its
+shared runtime libraries.
 
 One-time USB setup:
-Windows: use Zadig (https://zadig.akeo.ie/), Options > List All Devices, and select
+Windows: first try uz_cpld scan --target dslot with the correct JTAG access state.
+If the expected chain is detected, keep the existing driver; Zadig is unnecessary.
+The bundled FTDI backend uses libftdi/libusb and needs a compatible USB driver.
+Static linking removes application DLL dependencies; it does not install that
+USB driver. A standard FTDI VCP/D2XX driver alone does not provide libusb access.
+If driver setup is needed, use Zadig (https://zadig.akeo.ie/),
+Options > List All Devices, and select
 ONLY the UltraZohm FT4232 channel B / Interface 1 (USB VID 0403, PID 6011,
 interface MI_01). Install WinUSB for that interface. Verify the device and
 interface in Device Manager before changing the driver. Leave channels A, C and
@@ -67,3 +75,6 @@ Upstream build guidance: https://trabucayre.github.io/openFPGALoader/guide/insta
 Application provenance: application.json; combined firmware provenance: bundle.json.
 Loader provenance, upstream source, patch, license notices and runtime package
 versions are in _internal/cpld_toolchain/bundled_tools/openFPGALoader/.
+
+The static Windows loader also includes dependency sources, static archives and
+object files for relinking; see RELINK.txt in its bundled_tools directory.

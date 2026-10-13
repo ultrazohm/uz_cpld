@@ -1,29 +1,58 @@
-name: FOSS programmer native Windows checks
+name: Static Windows FOSS programmer checks
 on:
   workflow_call:
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
-  windows-loader:
-    runs-on: windows-latest
-    timeout-minutes: 20
-    defaults:
-      run:
-        shell: msys2 {0}
+  cross-build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
-      - uses: msys2/setup-msys2@v2
+      - uses: actions/setup-python@v5
         with:
-          msystem: UCRT64
-          update: true
-          install: patch
-          pacboy: gcc:p cmake:p ninja:p pkgconf:p libftdi:p libusb:p zlib:p python:p
-      - name: Build and test the portable patched programmer
-        run: python distribution/loader.py
+          python-version: '3.12'
+      - name: Install upstream MinGW-w64 build prerequisites
+        run: sudo apt-get update && sudo apt-get install -y mingw-w64 libz-mingw-w64-dev cmake pkg-config p7zip-full g++ patch
+      - name: Build the pinned static Windows programmer with upstream's toolchain
+        run: python distribution/loader.py --target windows-x64
       - uses: actions/upload-artifact@v4
         with:
           name: portable-loader-windows-x64
           path: build/portable-loader/
           if-no-files-found: error
           retention-days: 14
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-loader-protocol-tests
+          path: build/portable-loader-work/protocol-tests/
+          if-no-files-found: error
+          retention-days: 14
+  windows-loader:
+    needs: [cross-build]
+    runs-on: windows-2025
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: portable-loader-windows-x64
+          path: build/portable-loader
+      - uses: actions/download-artifact@v4
+        with:
+          name: windows-loader-protocol-tests
+          path: build/protocol-tests
+      - name: Execute the cross-built loader and protocol tests on Windows
+        run: |
+          python -c "from pathlib import Path; from cpld_toolchain.toolchain.foss import flasher; binary = Path('build/portable-loader/openFPGALoader.exe').resolve(); record = flasher.verify(binary); assert record['linkage'] == 'static' and not record['runtime_sha256']; assert record['pin']['capability'] in flasher.version(binary)"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python cpld_toolchain/toolchain/foss/tests/native.py build/portable-loader/openFPGALoader.exe --portable
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          & ./build/protocol-tests/usercode.exe
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          & ./build/protocol-tests/identity.exe
+          exit $LASTEXITCODE

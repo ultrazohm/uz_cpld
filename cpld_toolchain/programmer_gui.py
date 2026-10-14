@@ -65,7 +65,7 @@ class ProgrammerWindow:
         self.status = tk.StringVar(value='Loading workspace…')
         self.source_text = tk.StringVar(value='No firmware selected')
         self.workspace_text = tk.StringVar(value=str(self.workspace))
-        root.title('UltraZohm · CPLD Programmer')
+        root.title('UltraZohm CPLD programmer')
         self.scale = max(1, root.winfo_fpixels('1i') / 96)
         width = min(self.px(1060), root.winfo_screenwidth() - self.px(40))
         height = min(self.px(680), root.winfo_screenheight() - self.px(80))
@@ -161,8 +161,7 @@ class ProgrammerWindow:
                 self.canvas.yview_scroll(steps, 'units')
         for event in ('<MouseWheel>', '<Button-4>', '<Button-5>'):
             self.root.bind(event, wheel, add='+')
-        ttk.Label(page, text='CPLD Programmer', style='Title.TLabel').pack(anchor='w')
-        ttk.Label(page, text='ULTRAZOHM  /  Firmware & device management', style='Subtitle.TLabel').pack(anchor='w', pady=(2, 8))
+        ttk.Label(page, text='UltraZohm CPLD programmer', style='Title.TLabel').pack(anchor='w', pady=(0, 8))
         device = self.card(page, '00  Programmer')
         device.pack(fill='x', pady=(0, 8))
         bar = ttk.Frame(device)
@@ -198,20 +197,18 @@ class ProgrammerWindow:
         choices.grid(row=0, column=1, sticky='nsew')
         grid = ttk.Frame(choices)
         grid.pack(fill='x')
-        for column in (1, 3, 5):
-            grid.columnconfigure(column, weight=1, uniform='programs')
+        grid.columnconfigure(1, weight=1)
         ttk.Label(grid, text='Release').grid(row=0, column=0, sticky='w', padx=(0, 8), pady=3)
         self.release_box = self.combo(grid, self.release)
-        self.release_box.grid(row=0, column=1, columnspan=5, sticky='ew', pady=3)
+        self.release_box.grid(row=0, column=1, sticky='ew', pady=3)
         self.release_box.bind('<<ComboboxSelected>>', lambda event: self.refresh_choices())
         self.program_boxes = {}
-        for index, (key, variable) in enumerate(self.assignments.items()):
-            row, column = 1 + index // 3, 2 * (index % 3)
+        for row, (key, variable) in enumerate(self.assignments.items(), 1):
             ttk.Label(grid, text='S3C' if key == 's3c' else f'D{key}').grid(
-                row=row, column=column, sticky='w', padx=(12 if column else 0, 8), pady=3)
+                row=row, column=0, sticky='w', padx=(0, 8), pady=3)
             box = self.combo(grid, variable)
             box.configure(width=12)
-            box.grid(row=row, column=column + 1, sticky='ew', pady=3)
+            box.grid(row=row, column=1, sticky='ew', pady=3)
             self.program_boxes[key] = box
         actions = ttk.Frame(choices)
         actions.pack(fill='x', pady=(6, 0))

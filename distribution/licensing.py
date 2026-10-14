@@ -7,6 +7,7 @@ that downstream distributors must keep alive.
 import hashlib
 import importlib.metadata
 import json
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -92,6 +93,47 @@ def project_source(destination):
                 archive.add(ROOT / path, arcname='uz_cpld/' + name, recursive=False)
 
 
+def windows_tk_materials(application, notices):
+    """Official Windows Python omits notices from its Tcl/Tk script folders.
+
+    Prefer installed notices; otherwise use exact, checksum-pinned upstream
+    notices for the version required by the bundled library scripts.
+    """
+    directory = ROOT / 'distribution/tcltk'
+    pins = json.loads((directory / 'licenses.json').read_text(encoding='utf-8'))
+    if pins.get('schema_version') != 1:
+        raise RuntimeError('Unsupported Tcl/Tk license pins')
+    materials, versions, origins = [], {}, {}
+    for library, data, script, package in (
+            ('tcl', '_tcl_data', 'init.tcl', 'Tcl'), ('tk', '_tk_data', 'tk.tcl', 'Tk')):
+        text = (application / '_internal' / data / script).read_text(encoding='utf-8', errors='replace')
+        match = re.search(r'package\s+require\s+-exact\s+' + package + r'\s+(\d+\.\d+\.\d+)\b', text)
+        if match is None:
+            raise RuntimeError(f'Cannot determine bundled {library} version for license attribution')
+        version = match[1]
+        paths = list((Path(sys.base_prefix) / 'tcl').glob(library + '*/license.terms'))
+        paths += list((Path(sys.base_prefix) / 'tcl').glob(library + '*/license*'))
+        source = next((p for p in paths if p.is_file()), None)
+        origin = str(source) if source else None
+        if source is None:
+            pin = pins['libraries'][library]
+            if version not in pin['releases']:
+                raise RuntimeError(f'Missing pinned upstream notice for {library} {version}; update distribution/tcltk/licenses.json')
+            source = directory / pin['file']
+            if digest(source) != pin['sha256']:
+                raise RuntimeError(f'Pinned {library} notice checksum mismatch')
+            origin = pin['releases'][version]
+        target = notices / (library + '-LICENSE.txt')
+        shutil.copy2(source, target)
+        materials.append(target)
+        versions[library] = version
+        origins[library] = dict(version=version, source=origin, sha256=digest(target))
+    provenance = notices / 'Tcl-Tk-SOURCES.json'
+    provenance.write_text(json.dumps(origins, indent=2) + '\n', encoding='utf-8')
+    materials.append(provenance)
+    return dict(provider='Tcl/Tk', versions=versions, notices=materials, sources=[])
+
+
 def collect(application, inputs):
     notices = application / 'licenses'
     sources = application / 'sources'
@@ -134,17 +176,7 @@ def collect(application, inputs):
         shutil.copy2(ROOT / 'distribution/WINDOWS-RUNTIME-TERMS.txt', notices)
         components['python']['notices'].append(notices / 'WINDOWS-RUNTIME-TERMS.txt')
         if (application / 'uz_cpld_gui.exe').is_file():
-            tk_notices = []
-            for library in ('tcl', 'tk'):
-                paths = list((Path(sys.base_prefix) / 'tcl').glob(library + '*/license.terms'))
-                paths += list((Path(sys.base_prefix) / 'tcl').glob(library + '*/license*'))
-                license_path = next((p for p in paths if p.is_file()), None)
-                if license_path is None:
-                    raise RuntimeError(f'Missing bundled {library} license; build with --without-gui or install Python with Tcl/Tk notices')
-                target = notices / (library + '-LICENSE.txt')
-                shutil.copy2(license_path, target)
-                tk_notices.append(target)
-            components['tcl-tk'] = {'provider': 'Tcl/Tk', 'notices': tk_notices, 'sources': []}
+            components['tcl-tk'] = windows_tk_materials(application, notices)
     else:
         shutil.copytree('/usr/share/common-licenses', notices / 'common-licenses', dirs_exist_ok=True)
     native_inputs = {name.replace('\\', '/'): Path(source) for name, source, kind in inputs

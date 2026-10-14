@@ -371,6 +371,10 @@ GUI availability is recorded in ``application.json``. Linux GUI packaging also
 requires ``python3-tk``, ``tcl8.6-dev`` and ``tk8.6-dev``; Windows requires Python
 with its Tcl/Tk feature installed. The dependency inventory retains Tcl/Tk
 license notices and, on Ubuntu, corresponding distribution sources.
+When Windows Python omits Tcl/Tk notices, packaging uses the exact upstream
+notices pinned in ``distribution/tcltk/licenses.json`` for the versions recorded
+by the bundled Tcl/Tk scripts. Unknown versions and modified notice files fail
+the build. ``licenses/Tcl-Tk-SOURCES.json`` records notice origins and checksums.
 
 Windows USB driver diagnostics
 ------------------------------

@@ -39,6 +39,63 @@ libudev.so.1 => /lib/libudev.so.1 (0x00)
 
 
 class LicenseInventoryTests(unittest.TestCase):
+    def tk_fixture(self, root, version='8.6.14'):
+        application, notices = root / 'application', root / 'licenses'
+        notices.mkdir()
+        for data, script, package in (('_tcl_data', 'init.tcl', 'Tcl'), ('_tk_data', 'tk.tcl', 'Tk')):
+            path = application / '_internal' / data / script
+            path.parent.mkdir(parents=True)
+            path.write_text(f'package require -exact {package}  {version}\n')
+        return application, notices
+
+    def test_windows_tk_notices_use_exact_pinned_upstream_material_when_python_omits_it(self):
+        import json
+        import tempfile
+        from distribution import licensing
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            application, notices = self.tk_fixture(root)
+            with patch.object(licensing.sys, 'base_prefix', str(root / 'python-without-notices')):
+                component = licensing.windows_tk_materials(application, notices)
+            self.assertEqual(component['versions'], {'tcl': '8.6.14', 'tk': '8.6.14'})
+            origins = json.loads((notices / 'Tcl-Tk-SOURCES.json').read_text())
+            for library in ('tcl', 'tk'):
+                self.assertIn(f'/core-8-6-14/license.terms', origins[library]['source'])
+                self.assertEqual(origins[library]['sha256'], licensing.digest(notices / f'{library}-LICENSE.txt'))
+                self.assertEqual((notices / f'{library}-LICENSE.txt').read_bytes(),
+                                 (licensing.ROOT / f'distribution/tcltk/{library}-LICENSE.txt').read_bytes())
+
+    def test_windows_tk_notices_prefer_the_installed_license(self):
+        import tempfile
+        from distribution import licensing
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            application, notices = self.tk_fixture(root)
+            source = root / 'python/tcl/tcl8.6/license.terms'
+            source.parent.mkdir(parents=True)
+            source.write_text('Installed runtime notice fixture')
+            with patch.object(licensing.sys, 'base_prefix', str(root / 'python')):
+                licensing.windows_tk_materials(application, notices)
+            self.assertEqual((notices / 'tcl-LICENSE.txt').read_bytes(), source.read_bytes())
+
+    def test_windows_tk_notices_reject_unknown_versions_and_modified_material(self):
+        import tempfile
+        import shutil
+        from distribution import licensing
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            application, notices = self.tk_fixture(root, '9.0.0')
+            with patch.object(licensing.sys, 'base_prefix', str(root / 'python')):
+                with self.assertRaisesRegex(RuntimeError, 'Missing pinned upstream notice'):
+                    licensing.windows_tk_materials(application, notices)
+            pins = root / 'distribution/tcltk'
+            shutil.copytree(licensing.ROOT / 'distribution/tcltk', pins)
+            (pins / 'tcl-LICENSE.txt').write_text('modified')
+            (application / '_internal/_tcl_data/init.tcl').write_text('package require -exact Tcl 8.6.14\n')
+            with patch.object(licensing, 'ROOT', root), patch.object(licensing.sys, 'base_prefix', str(root / 'python')):
+                with self.assertRaisesRegex(RuntimeError, 'checksum mismatch'):
+                    licensing.windows_tk_materials(application, notices)
+
     def test_windows_python_license_accepts_unlabelled_apache_but_not_missing_terms(self):
         from distribution import licensing
         apache = (licensing.ROOT / 'LICENSE').read_text()

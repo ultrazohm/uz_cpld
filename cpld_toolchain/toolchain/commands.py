@@ -148,7 +148,7 @@ def shared_help(style='make'):
         '  init_programmer: no assignments opens a terminal wizard; noninteractive use keeps template defaults.',
         '  jobs=4; seed=1; wave_format=vcd; dry_run=0; rebuild=0;',
         '  discard_project_changes=0; setup activate=1. Omit an option to use its default.',
-        '  Build targets are inferred when unambiguous; scan/identify default to dslot.',
+        '  Build targets are inferred when unambiguous; scan defaults to dslot; identify discovers the chain.',
         '  program requires target. probe_index: Diamond defaults to 1, FOSS to 0.',
         '  program accepts selection=FILE or s3c_program=NAME / all dslot1..dslot5 assignments.',
         '  Direct assignments do not read or create selection.toml; do not combine them with selection.',
@@ -365,7 +365,8 @@ def plan(action, options, *, root=ROOT, cwd=None, workspace=None):
                 args += flags('source')
                 if 'firmware' in options:
                     args += ['--firmware', str((cwd / options['firmware']).absolute())]
-            args += ['--target', options.get('target', 'dslot')]
+            if action != 'identify' or 'target' in options:
+                args += ['--target', options.get('target', 'dslot')]
             args += flags('cable', 'usb_serial')
             args += ['--execute']
         return [invoke('cpld_toolchain.programmer_helper.program', [action, *args])]

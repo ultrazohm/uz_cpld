@@ -220,6 +220,31 @@ class DownloadTests(unittest.TestCase):
         with self.assertRaisesRegex(BuildError, 'non-HTTPS'):
             firmware.AssetRedirect().redirect_request(request, None, 302, '', {}, 'http://example.com/file')
 
+    def test_frozen_tls_adds_packaged_roots_without_disabling_system_trust(self):
+        import sys
+        from unittest.mock import Mock
+        import ssl
+        context = ssl.create_default_context()
+        certifi = Mock()
+        certifi.where.return_value = '/bundle/certifi/cacert.pem'
+        with patch.object(firmware.sys, 'frozen', True, create=True), \
+                patch.dict(sys.modules, certifi=certifi), \
+                patch.object(firmware.ssl, 'create_default_context', return_value=context), \
+                patch.object(context, 'load_verify_locations') as load:
+            self.assertIs(firmware.tls_context(), context)
+        load.assert_called_once_with(cafile='/bundle/certifi/cacert.pem')
+        self.assertTrue(context.check_hostname)
+        self.assertEqual(context.verify_mode, ssl.CERT_REQUIRED)
+
+    def test_certificate_failure_has_actionable_message_and_never_retries_insecurely(self):
+        import ssl
+        from urllib.error import URLError
+        with patch.object(firmware, 'build_opener') as opener:
+            opener.return_value.open.side_effect = URLError(ssl.SSLCertVerificationError('untrusted issuer'))
+            with self.assertRaisesRegex(BuildError, 'certificate verification failed'):
+                firmware.request('/repos/owner/repo/releases')
+            opener.return_value.open.assert_called_once()
+
 
     def test_malformed_manifest_is_a_download_error(self):
         destination = self.root / 'firmware.zip'

@@ -112,7 +112,8 @@ def parser():
         init.add_argument(f'--dslot-{i}')
     for name in ('scan', 'identify', 'program'):
         item = actions.add_parser(name, help='Program and verify Flash immediately' if name == 'program' else name.capitalize() + ' the connected chain')
-        item.add_argument('--target', choices=('dslot', 's3c'), default=None if name == 'program' else 'dslot')
+        item.add_argument('--target', choices=('dslot', 's3c'), default='dslot' if name == 'scan' else None,
+                          help='Identify discovers the connected chain when omitted; program requires an explicit target')
         item.add_argument('--probe-index', type=int)
         item.add_argument('--programmer-backend', choices=('foss', 'diamond'), default='foss',
                           help='Default: foss (bundled patched openFPGALoader)')
@@ -183,11 +184,13 @@ def main(argv=None):
             values = guide_init(root, values, standalone=True, included=included_firmware())
         if options.action == 'program' and not options.target:
             return run('program', values, workspace=root, standalone=True, included=included_firmware())
-        if options.action in ('identify', 'program'):
+        if options.action == 'program' or (options.action == 'identify' and (
+                options.firmware or (root / 'firmware.json').exists() or included_firmware().is_file())):
             # A dry run can preview an explicit ZIP without opening it.
             from .firmware_choice import resolve
-            path = resolve(root, options.firmware, included=included_firmware(), standalone=True,
-                           prompt=options.action == 'program' and not options.dry_run)
+            path = included_firmware() if options.action == 'identify' and not options.firmware and not (root / 'firmware.json').exists() else resolve(
+                root, options.firmware, included=included_firmware(), standalone=True,
+                prompt=options.action == 'program' and not options.dry_run)
             values.update(source='zip', firmware=str(path))
         return run(options.action, values, workspace=root)
     except (BuildError, OSError, ValueError, KeyError, TypeError, BadZipFile, HTTPException, RuntimeError) as exc:

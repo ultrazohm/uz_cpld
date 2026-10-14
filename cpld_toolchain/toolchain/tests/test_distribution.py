@@ -39,6 +39,44 @@ libudev.so.1 => /lib/libudev.so.1 (0x00)
 
 
 class LicenseInventoryTests(unittest.TestCase):
+    def test_packaged_ca_bundle_has_notices_sources_and_verified_runtime_bytes(self):
+        import tempfile
+        from types import SimpleNamespace
+        from distribution import licensing
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            application, packages, python = root / 'app', root / 'packages', root / 'python'
+            python.mkdir()
+            (python / 'LICENSE.txt').write_text('Microsoft Distributable Code libffi\n' +
+                                               (licensing.ROOT / 'LICENSE').read_text(), encoding='utf-8')
+            (application / '_internal/cpld_toolchain/bundled_tools').mkdir(parents=True)
+            (application / 'uz_cpld.exe').write_bytes(b'executable fixture')
+            def distribution(name):
+                files = [Path(name + '.dist-info/LICENSE')]
+                if name == 'certifi':
+                    files += [Path('certifi/core.py'), Path('certifi/cacert.pem')]
+                for file in files:
+                    target = packages / file
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    target.write_bytes(b'upstream source fixture')
+                return SimpleNamespace(version='fixture', files=files, locate_file=lambda file: packages / file)
+            ca = application / '_internal/certifi/cacert.pem'
+            ca.parent.mkdir()
+            ca.write_bytes(b'upstream source fixture')
+            with patch.object(licensing.sys, 'platform', 'win32'), \
+                    patch.object(licensing.sys, 'base_prefix', str(python)), \
+                    patch.object(licensing.sysconfig, 'get_path', return_value=str(python)), \
+                    patch.object(licensing.importlib.metadata, 'distribution', side_effect=distribution), \
+                    patch.object(licensing, 'project_source', side_effect=lambda path: path.write_bytes(b'project source')):
+                inventory = licensing.collect(application, [])
+            self.assertEqual(inventory['files']['_internal/certifi/cacert.pem']['components'], ['certifi'])
+            self.assertIn('sources/certifi/certifi/core.py', inventory['materials'])
+            self.assertIn('sources/certifi/certifi/cacert.pem', inventory['materials'])
+            self.assertIn('licenses/certifi-MPL-2.0.txt', inventory['materials'])
+            ca.write_bytes(b'modified trust roots')
+            with self.assertRaisesRegex(RuntimeError, 'Missing or changed'):
+                licensing.verify(application)
+
     def test_windows_zlib_notice_matches_the_dll_version_and_records_origin(self):
         import json
         import tempfile

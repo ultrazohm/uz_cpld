@@ -217,7 +217,10 @@ Scan, identify and program
    uz_cpld program --target dslot --dry-run 1
    uz_cpld program --target dslot
 
-``scan`` and ``identify`` default to D-slots and execute immediately.
+``scan`` defaults to D-slots and executes immediately. ``identify`` discovers
+the connected S3C or five D-slot chain when ``--target`` is omitted. It can
+read raw IDs and USERCODEs before selecting firmware; known program names
+require a repository identity registry or a selected firmware ZIP.
 Neither needs firmware builds or a selection file.
 They do not accept release or build-backend options.
 ``program`` without a target first asks for manual assignments or a selection

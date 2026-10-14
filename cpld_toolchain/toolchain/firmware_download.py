@@ -8,13 +8,14 @@ import os
 from pathlib import Path, PurePosixPath
 import re
 import shutil
+import ssl
 import stat
 import subprocess
 import sys
 import tempfile
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlparse
-from urllib.request import HTTPRedirectHandler, Request, build_opener
+from urllib.request import HTTPRedirectHandler, HTTPSHandler, Request, build_opener
 from zipfile import BadZipFile, ZipFile
 
 from cpld_toolchain import repository_root
@@ -84,6 +85,15 @@ class AssetRedirect(HTTPRedirectHandler):
         return redirected
 
 
+def tls_context():
+    """Keep OS trust and add packaged Mozilla roots in frozen distributions."""
+    context = ssl.create_default_context()
+    if getattr(sys, 'frozen', False):
+        import certifi
+        context.load_verify_locations(cafile=certifi.where())
+    return context
+
+
 def request(path, *, binary=False):
     headers = {'Accept': 'application/octet-stream' if binary else 'application/vnd.github+json',
                'User-Agent': 'uz_cpld', 'X-GitHub-Api-Version': '2022-11-28'}
@@ -91,11 +101,16 @@ def request(path, *, binary=False):
     if token:
         headers['Authorization'] = f'Bearer {token}'
     try:
-        return build_opener(AssetRedirect()).open(Request(API + path, headers=headers), timeout=60)
+        return build_opener(AssetRedirect(), HTTPSHandler(context=tls_context())).open(
+            Request(API + path, headers=headers), timeout=60)
     except HTTPError as exc:
         raise BuildError(f'GitHub API returned HTTP {exc.code}; check repository access and API rate limits. '
                          'For authenticated access set GH_TOKEN or GITHUB_TOKEN with repository contents read access.') from None
     except URLError as exc:
+        if isinstance(exc.reason, ssl.SSLCertVerificationError):
+            raise BuildError('GitHub HTTPS certificate verification failed. Check the Windows clock and trusted '
+                             'certificates. If your network inspects HTTPS, install its CA in Windows or set '
+                             f'SSL_CERT_FILE to its PEM certificate bundle. Details: {exc.reason}') from None
         raise BuildError(f'GitHub request failed: {exc.reason}') from None
 
 

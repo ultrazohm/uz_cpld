@@ -64,10 +64,18 @@ selected. D-slot programming operates on the complete five-device chain.
 Select included or downloaded firmware, choose assignments, and click
 ``Save assignments`` to initialize or update ``selection.toml`` and persist a
 firmware snapshot. Replacing existing assignments requires confirmation.
-Choose the target chain and prepare its physical JTAG access state, then scan,
-identify, or program. ``Program & verify`` always asks for confirmation of the
+The programmer panel is at the top: configure the backend, use step 0 to set up
+Windows drivers, then step 1 to scan the physically connected chain. Separate
+``Identify S3C`` and ``Identify D-slots`` buttons read identities even before
+a firmware package is selected. Without a registry, raw IDs and USERCODEs are
+shown with unknown firmware names. CLI ``identify`` discovers the chain when
+``--target`` is omitted. Prepare the physical JTAG access state before reading.
+``Program S3C`` and ``Program D-slots`` always ask for confirmation of the
 displayed assignments and defaults to cancellation. Programming uses the
 displayed choices; saving them is optional.
+The compact window sizes itself to the display and Windows DPI. Its page and
+result table can scroll on small displays. Frozen downloads retain system trust
+and ship a Mozilla CA bundle; HTTPS certificate verification remains enabled.
 
 The result table shows device positions, IDCODEs, installed programs, revisions
 and USERCODEs. Unknown identities remain explicitly unknown. Full operation

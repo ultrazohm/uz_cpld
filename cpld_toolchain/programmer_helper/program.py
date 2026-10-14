@@ -474,7 +474,7 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description='Inspect and program the selected CPLD JTAG chain.')
     parser.add_argument('action', choices=('init_programmer', 'build_selection', 'scan', 'identify', 'program'))
     parser.add_argument('--root', type=Path, default=repository_root())
-    parser.add_argument('--target', choices=('dslot', 's3c'), help='Physical target; scans default to dslot')
+    parser.add_argument('--target', choices=('dslot', 's3c'), help='Physical target; scans default to dslot, identify discovers the chain')
     parser.add_argument('--selection', type=Path,
                         help='Program selection file (default: selection.toml in the current directory)')
     parser.add_argument('--override', action='store_true', help='Replace an existing selection during init_programmer')
@@ -536,7 +536,7 @@ def main(argv=None) -> int:
         if not args.chain:
             if args.action == 'program':
                 raise BuildError('Choose target=s3c or target=dslot; program one physical chain at a time')
-            args.chain = 'dslots'
+            args.chain = None if args.action == 'identify' and args.execute else 'dslots'
         if args.probe_index is not None and args.probe_index < 0:
             raise BuildError('--probe-index must be nonnegative')
         if args.probe_index is not None and args.usb_serial:

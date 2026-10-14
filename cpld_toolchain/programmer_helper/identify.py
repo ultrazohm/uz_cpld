@@ -134,7 +134,40 @@ def parse(root, chain, output, *, registry=None):
     return devices
 
 
-def identify(root, chain, backend='diamond', cable=None, serial=None, probe_index=None, *, output=None, registry=None, firmware=None):
+def detect_chain(root, backend, cable, serial, probe_index, directory):
+    """Discover the physically connected chain using read-only ID scans."""
+    from . import program as p
+    p.require_usb_bus()
+    if backend == 'foss':
+        from .foss import run
+        with diamond_usb(DEFAULT_DIAMOND_PORT, serial=serial):
+            raw = run(p.scan_command(None, cable, serial, probe_index), directory / 'detect.log')
+        devices = p.parse_scan(raw)
+        if devices == [(0, 0x012BC043)]:
+            return 's3c'
+        if devices == [(i, 0x012BB043) for i in range(5)]:
+            return 'dslots'
+        raise BuildError('Connected JTAG chain is neither S3C nor the five D-slots. Check physical JTAG access.')
+    # Diamond requires an XCF with a device count for read-only ID operations.
+    # Try both supported chains; each attempt retains its own diagnostics.
+    failures = []
+    for chain in ('dslots', 's3c'):
+        xcf = directory / f'detect-{chain}.xcf'
+        log = directory / f'detect-{chain}-pgrcmd.log'
+        p.diamond_scan_xcf(root, chain, xcf, probe_index)
+        try:
+            raw = p.run_diamond(diamond_command(root, xcf, log), directory / f'detect-{chain}-stdout.log', xcf)
+            codes = parse_diamond(chain, log.read_text(errors='replace') if log.exists() else raw,
+                                  'FLASH Display ID', 'ID', 8)
+            expected = '012BC043' if chain == 's3c' else '012BB043'
+            if all(code.upper() == expected for code in codes):
+                return chain
+        except BuildError as exc:
+            failures.append(str(exc))
+    raise BuildError('Could not discover S3C or D-slot JTAG chain. Check physical JTAG access. ' + '; '.join(failures))
+
+
+def identify(root, chain=None, backend='diamond', cable=None, serial=None, probe_index=None, *, output=None, registry=None, firmware=None):
     manifest = None
     evidence = {}
     if firmware is not None:
@@ -145,6 +178,11 @@ def identify(root, chain, backend='diamond', cable=None, serial=None, probe_inde
         registry = manifest['identity_registry']
     preflight(backend, cable, serial, probe_index)
     root = Path(root).resolve()
+    registry_path = root / 'programs/usercodes.json'
+    if registry is None and not (registry_path.exists() or registry_path.is_symlink() or registry_path.parent.is_symlink()):
+        # A standalone workspace can read raw registers before selecting a ZIP.
+        # Keep unknown firmware explicit; never invent program names.
+        registry = {'schema_version': 1, 'next_program': 1, 'programs': {}}
     with workspace_lock(root):
         base = root / 'build/programmer/identification'
         for path in [base, *base.parents]:
@@ -155,6 +193,8 @@ def identify(root, chain, backend='diamond', cable=None, serial=None, probe_inde
         base.mkdir(parents=True, exist_ok=True)
         directory = Path(tempfile.mkdtemp(prefix='read-', dir=base)) if output is None else output
         directory.mkdir(parents=True, exist_ok=True)
+        if chain is None:
+            chain = detect_chain(root, backend, cable, serial, probe_index, directory)
         if manifest is not None:
             write_json(directory / 'manifest.json', manifest)
         if backend == 'diamond':

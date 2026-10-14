@@ -52,6 +52,43 @@ class IdentifyTests(unittest.TestCase):
         self.assertIn('XFLASH Display USERCODE', output.getvalue())
         self.assertNotIn('irscan', output.getvalue())
 
+    def test_identify_auto_detects_s3c_and_reads_without_a_registry(self):
+        (self.root / 'programs/usercodes.json').unlink()
+        raw = 'UZ_IDENTITY_V1 0 012bc043 00010001 00010001 120123456789abcd\nUZ_IDENTITY_END_V1 1\n'
+        with patch.object(identify, 'preflight'), patch.object(program, 'require_usb_bus'), \
+                patch.object(program, 'loader_path', return_value=Path('/loader')), \
+                patch.object(foss.flasher, 'verify', return_value={}), \
+                patch.object(identify, 'diamond_usb', return_value=nullcontext()), \
+                patch.object(foss, 'diamond_usb', return_value=nullcontext()), \
+                patch.object(foss, 'run', side_effect=['index 0:\n idcode 0x012BC043\n', raw]):
+            devices = identify.identify(self.root, backend='foss')
+        self.assertEqual(devices[0]['label'], 's3c')
+        self.assertIsNone(devices[0]['identity'])
+
+    def test_discovery_rejects_partial_and_unexpected_chains(self):
+        for raw in ('index 0:\n idcode 0x012BB043\n', 'index 0:\n idcode 0xDEADBEEF\n'):
+            with self.subTest(raw=raw), patch.object(program, 'require_usb_bus'), \
+                    patch.object(program, 'loader_path', return_value=Path('/loader')), \
+                    patch.object(identify, 'diamond_usb', return_value=nullcontext()), \
+                    patch.object(foss, 'run', return_value=raw):
+                with self.assertRaisesRegex(BuildError, 'neither S3C'):
+                    identify.detect_chain(self.root, 'foss', None, None, None, self.root)
+
+    def test_execute_identify_without_target_requests_discovery(self):
+        with patch.object(identify, 'identify') as read, redirect_stdout(io.StringIO()):
+            self.assertEqual(program.main(['identify', '--root', str(self.root), '--execute']), 0)
+        self.assertIsNone(read.call_args.args[1])
+
+    def test_diamond_discovery_tries_read_only_s3c_after_dslot_mismatch(self):
+        raw = 'Device1 LCMXO2-4000HC: FLASH Display ID\nID: 0x012BC043\nOperation Done. No errors.\n'
+        with patch.object(program, 'require_usb_bus'), \
+                patch.object(program, 'run_diamond', side_effect=[BuildError('Chain mismatch'), raw]) as run:
+            self.assertEqual(identify.detect_chain(self.root, 'diamond', None, None, None, self.root), 's3c')
+        self.assertEqual(run.call_count, 2)
+        for path in self.root.glob('detect-*.xcf'):
+            self.assertIn('FLASH Display ID', path.read_text())
+            self.assertNotIn('Erase,Program', path.read_text())
+
     def test_diamond_never_requires_or_invokes_foss(self):
         raw = 'UZ_IDENTITY 0 012bc043 00010001 120123456789abcd\n'
         with patch.object(foss, 'session', side_effect=AssertionError('FOSS tool')), \

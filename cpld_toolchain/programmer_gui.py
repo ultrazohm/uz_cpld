@@ -12,6 +12,16 @@ import tempfile
 from . import repository_root, settings
 
 
+def windows_dpi_awareness():
+    """Let Tk use real screen pixels and the Windows font scale."""
+    if sys.platform == 'win32':
+        import ctypes
+        try:
+            ctypes.windll.shcore.SetProcessDpiAwareness(1)
+        except (AttributeError, OSError):
+            ctypes.windll.user32.SetProcessDPIAware()
+
+
 def worker_command(request, result):
     if getattr(sys, 'frozen', False):
         # A windowed launcher shares the console executable's worker entry point.
@@ -51,19 +61,24 @@ class ProgrammerWindow:
         self.release = tk.StringVar()
         self.assignments = {key: tk.StringVar() for key in ('s3c', '1', '2', '3', '4', '5')}
         self.backend = tk.StringVar(value='foss')
-        self.target = tk.StringVar(value='D1–D5 chain')
         self.serial, self.device_id = tk.StringVar(), tk.StringVar()
         self.status = tk.StringVar(value='Loading workspace…')
         self.source_text = tk.StringVar(value='No firmware selected')
         self.workspace_text = tk.StringVar(value=str(self.workspace))
         root.title('UltraZohm · CPLD Programmer')
-        root.geometry(f'1060x{min(940, root.winfo_screenheight() - 80)}')
-        root.minsize(900, 640)
+        self.scale = max(1, root.winfo_fpixels('1i') / 96)
+        width = min(self.px(1060), root.winfo_screenwidth() - self.px(40))
+        height = min(self.px(680), root.winfo_screenheight() - self.px(80))
+        root.geometry(f'{width}x{height}')
+        root.minsize(min(self.px(760), width), min(self.px(480), height))
         root.configure(background='#f5f4f6')
         root.protocol('WM_DELETE_WINDOW', self.close)
         self.style()
         self.build()
         root.after(100, lambda: self.start('load'))
+
+    def px(self, value):
+        return round(value * self.scale)
 
     def style(self):
         from tkinter import font
@@ -76,7 +91,7 @@ class ProgrammerWindow:
         style.configure('Page.TFrame', background='#f5f4f6')
         style.configure('Card.TFrame', background='#ffffff')
         style.configure('TLabel', background='#ffffff')
-        style.configure('Title.TLabel', font=(display, 22, 'bold'), background='#f5f4f6')
+        style.configure('Title.TLabel', font=(display, 20, 'bold'), background='#f5f4f6')
         style.configure('Subtitle.TLabel', foreground='#4b4752', background='#f5f4f6')
         style.configure('Heading.TLabel', font=(display, 12, 'bold'))
         style.configure('Muted.TLabel', foreground='#4b4752')
@@ -91,10 +106,10 @@ class ProgrammerWindow:
                   foreground=[('readonly', '#111111')], bordercolor=[('focus', '#8f00ff')])
         style.configure('TEntry', padding=3, fieldbackground='#faf9fc', bordercolor='#e8e6e6')
         style.map('TEntry', bordercolor=[('focus', '#8f00ff')])
-        style.configure('Treeview', rowheight=25, borderwidth=0, fieldbackground='#ffffff')
+        style.configure('Treeview', rowheight=self.px(23), borderwidth=0, fieldbackground='#ffffff')
         style.configure('Treeview.Heading', font=(family, 10, 'bold'), padding=4, background='#f5f4f6')
         style.map('Treeview', background=[('selected', '#f3ecfa')], foreground=[('selected', '#111111')])
-        style.configure('Horizontal.TProgressbar', background='#8f00ff', troughcolor='#e8e6e6', borderwidth=0)
+        style.configure('Horizontal.TProgressbar', background='#8f00ff', troughcolor='#e8e6e6', borderwidth=0, thickness=self.px(4))
         self.root.option_add('*TCombobox*Listbox.font', (family, 10))
 
     def button(self, parent, text, command, primary=False):
@@ -109,8 +124,8 @@ class ProgrammerWindow:
         return widget
 
     def card(self, parent, title):
-        frame = self.ttk.Frame(parent, style='Card.TFrame', padding=12)
-        self.ttk.Label(frame, text=title, style='Heading.TLabel').pack(anchor='w', pady=(0, 8))
+        frame = self.ttk.Frame(parent, style='Card.TFrame', padding=self.px(8))
+        self.ttk.Label(frame, text=title, style='Heading.TLabel').pack(anchor='w', pady=(0, 6))
         return frame
 
     def build(self):
@@ -122,63 +137,92 @@ class ProgrammerWindow:
         scroll = ttk.Scrollbar(outer, orient='vertical', command=self.canvas.yview)
         scroll.pack(side='right', fill='y')
         self.canvas.configure(yscrollcommand=scroll.set)
-        page = ttk.Frame(self.canvas, style='Page.TFrame', padding=20)
+        page = ttk.Frame(self.canvas, style='Page.TFrame', padding=self.px(10))
         window = self.canvas.create_window(0, 0, anchor='nw', window=page)
         def resize(event=None):
+            if hasattr(self, 'middle'):
+                stacked = self.canvas.winfo_width() < self.px(920)
+                if stacked != getattr(self, 'stacked', None):
+                    self.stacked = stacked
+                    self.source_card.grid_configure(row=0, column=0, columnspan=2 if stacked else 1,
+                                                    padx=(0, 0 if stacked else 8), pady=(0, 8 if stacked else 0))
+                    self.choices_card.grid_configure(row=1 if stacked else 0, column=0 if stacked else 1,
+                                                     columnspan=2 if stacked else 1)
             self.canvas.itemconfigure(window, width=self.canvas.winfo_width(),
                                       height=max(self.canvas.winfo_height(), page.winfo_reqheight()))
             self.canvas.configure(scrollregion=self.canvas.bbox('all'))
         self.canvas.bind('<Configure>', resize)
         page.bind('<Configure>', resize)
+        def wheel(event):
+            if isinstance(event.widget, (ttk.Combobox, ttk.Treeview)):
+                return
+            if self.canvas.bbox('all')[3] > self.canvas.winfo_height():
+                steps = (-1 if event.num == 4 else 1) if event.num in (4, 5) else -int(event.delta / 120)
+                self.canvas.yview_scroll(steps, 'units')
+        for event in ('<MouseWheel>', '<Button-4>', '<Button-5>'):
+            self.root.bind(event, wheel, add='+')
         ttk.Label(page, text='CPLD Programmer', style='Title.TLabel').pack(anchor='w')
-        ttk.Label(page, text='ULTRAZOHM  /  Firmware & device management', style='Subtitle.TLabel').pack(anchor='w', pady=(4, 12))
-        source = self.card(page, '01  Firmware package')
-        source.pack(fill='x', pady=(0, 12))
+        ttk.Label(page, text='ULTRAZOHM  /  Firmware & device management', style='Subtitle.TLabel').pack(anchor='w', pady=(2, 8))
+        device = self.card(page, '00  Programmer')
+        device.pack(fill='x', pady=(0, 8))
+        bar = ttk.Frame(device)
+        bar.pack(fill='x')
+        ttk.Label(bar, text='Backend').pack(side='left', padx=(0, 8))
+        backend = self.combo(bar, self.backend, ('foss', 'diamond'))
+        backend.configure(width=10)
+        backend.pack(side='left', padx=(0, 12))
+        backend.bind('<<ComboboxSelected>>', self.clear_results)
+        self.button(bar, '0  Setup drivers', self.drivers).pack(side='left', padx=(0, 8))
+        self.button(bar, '1  Scan', lambda: self.start('scan')).pack(side='left')
+        self.button(bar, 'Probe options…', self.probe_options).pack(side='right')
+        reads = ttk.Frame(device)
+        reads.pack(fill='x', pady=(6, 0))
+        ttk.Label(reads, text='Set physical JTAG access to S3C or D-slots before reading or programming.',
+                  style='Muted.TLabel', wraplength=self.px(560)).pack(side='left', fill='x', expand=True)
+        self.button(reads, 'Identify S3C', lambda: self.start('identify', target='s3c')).pack(side='left', padx=(8, 8))
+        self.button(reads, 'Identify D-slots', lambda: self.start('identify', target='dslot')).pack(side='left')
+        middle = self.middle = ttk.Frame(page, style='Page.TFrame')
+        middle.pack(fill='x', pady=(0, 8))
+        middle.columnconfigure(0, weight=1)
+        middle.columnconfigure(1, weight=2)
+        source = self.source_card = self.card(middle, '02  Firmware package')
+        source.grid(row=0, column=0, sticky='nsew', padx=(0, 8))
         bar = ttk.Frame(source)
         bar.pack(fill='x')
-        ttk.Label(bar, textvariable=self.source_text, wraplength=570).pack(side='left', fill='x', expand=True)
-        self.button(bar, 'Choose ZIP', self.browse).pack(side='left', padx=(12, 8))
+        ttk.Label(bar, textvariable=self.source_text, wraplength=self.px(280)).pack(anchor='w', fill='x', pady=(0, 8))
+        bar = ttk.Frame(source)
+        bar.pack(fill='x')
+        self.button(bar, 'Choose ZIP', self.browse).pack(side='left', padx=(0, 8))
         self.button(bar, 'Download', self.download).pack(side='left')
-        middle = ttk.Frame(page, style='Page.TFrame')
-        middle.pack(fill='x', pady=(0, 12))
-        middle.columnconfigure(0, weight=3)
-        middle.columnconfigure(1, weight=2)
-        choices = self.card(middle, '02  Program assignments')
-        choices.grid(row=0, column=0, sticky='nsew', padx=(0, 12))
+        choices = self.choices_card = self.card(middle, '03  Program assignments')
+        choices.grid(row=0, column=1, sticky='nsew')
         grid = ttk.Frame(choices)
         grid.pack(fill='x')
-        grid.columnconfigure(1, weight=1)
-        ttk.Label(grid, text='Release').grid(row=0, column=0, sticky='w', padx=(0, 20), pady=4)
+        for column in (1, 3, 5):
+            grid.columnconfigure(column, weight=1, uniform='programs')
+        ttk.Label(grid, text='Release').grid(row=0, column=0, sticky='w', padx=(0, 8), pady=3)
         self.release_box = self.combo(grid, self.release)
-        self.release_box.grid(row=0, column=1, sticky='ew', pady=4)
+        self.release_box.grid(row=0, column=1, columnspan=5, sticky='ew', pady=3)
         self.release_box.bind('<<ComboboxSelected>>', lambda event: self.refresh_choices())
         self.program_boxes = {}
-        for row, (key, variable) in enumerate(self.assignments.items(), 1):
-            ttk.Label(grid, text='S3C' if key == 's3c' else f'D{key}').grid(row=row, column=0, sticky='w', pady=3)
+        for index, (key, variable) in enumerate(self.assignments.items()):
+            row, column = 1 + index // 3, 2 * (index % 3)
+            ttk.Label(grid, text='S3C' if key == 's3c' else f'D{key}').grid(
+                row=row, column=column, sticky='w', padx=(12 if column else 0, 8), pady=3)
             box = self.combo(grid, variable)
-            box.grid(row=row, column=1, sticky='ew', pady=3)
+            box.configure(width=12)
+            box.grid(row=row, column=column + 1, sticky='ew', pady=3)
             self.program_boxes[key] = box
-        self.button(choices, 'Save assignments', self.save).pack(anchor='e', pady=(12, 0))
-        device = self.card(middle, '03  Programmer')
-        device.grid(row=0, column=1, sticky='nsew')
-        for label, var, values in (('Target', self.target, ('D1–D5 chain', 'S3C')),
-                                   ('Backend', self.backend, ('foss', 'diamond'))):
-            ttk.Label(device, text=label, style='Muted.TLabel').pack(anchor='w', pady=(0, 4))
-            box = self.combo(device, var, values)
-            box.pack(fill='x', pady=(0, 8))
-            box.bind('<<ComboboxSelected>>', self.clear_results)
-        self.button(device, 'Setup drivers', self.drivers).pack(fill='x', pady=(0, 10))
-        self.button(device, 'Probe options…', self.probe_options).pack(fill='x', pady=(0, 10))
-        ttk.Label(device, text='Prepare the physical JTAG access state\nfor the selected chain before continuing.',
-                  style='Muted.TLabel', wraplength=310).pack(anchor='w', pady=(3, 0))
-        actions = ttk.Frame(page, style='Page.TFrame')
-        actions.pack(fill='x', pady=(0, 12))
-        self.button(actions, 'Scan chain', lambda: self.start('scan')).pack(side='left')
-        self.button(actions, 'Identify firmware', lambda: self.start('identify')).pack(side='left', padx=8)
-        self.button(actions, 'Program & verify', self.program, primary=True).pack(side='right')
-        results = self.card(page, 'Device results')
+        actions = ttk.Frame(choices)
+        actions.pack(fill='x', pady=(6, 0))
+        self.button(actions, 'Save assignments', self.save).pack(side='left')
+        self.button(actions, 'Program D-slots', lambda: self.program('dslot'), primary=True).pack(side='right')
+        self.button(actions, 'Program S3C', lambda: self.program('s3c'), primary=True).pack(side='right', padx=(0, 8))
+        results = ttk.Frame(page, style='Card.TFrame', padding=self.px(8))
         results.pack(fill='both', expand=True)
-        self.ttk.Label(results, textvariable=self.status, wraplength=900).pack(anchor='w', pady=(0, 8))
+        status_label = self.ttk.Label(results, textvariable=self.status, wraplength=self.px(900))
+        status_label.pack(anchor='w', fill='x', pady=(0, 8))
+        results.bind('<Configure>', lambda event: status_label.configure(wraplength=max(self.px(100), event.width - self.px(16))))
         self.progress = ttk.Progressbar(results, mode='determinate', length=100)
         self.progress.pack(fill='x', pady=(0, 10))
         columns = ('position', 'device', 'program', 'revision', 'usercode')
@@ -188,14 +232,18 @@ class ProgrammerWindow:
         for name, label, width in zip(columns, ('Position', 'Device ID', 'Installed program', 'Revision', 'USERCODE'),
                                        (85, 120, 280, 150, 130)):
             self.table.heading(name, text=label)
-            self.table.column(name, width=width, minwidth=65)
-        self.table.pack(side='left', fill='both', expand=True)
+            self.table.column(name, width=self.px(width), minwidth=self.px(65))
+        table_frame.columnconfigure(0, weight=1)
+        table_frame.rowconfigure(0, weight=1)
+        self.table.grid(row=0, column=0, sticky='nsew')
         scrollbar = ttk.Scrollbar(table_frame, orient='vertical', command=self.table.yview)
-        scrollbar.pack(side='right', fill='y')
-        self.table.configure(yscrollcommand=scrollbar.set)
+        scrollbar.grid(row=0, column=1, sticky='ns')
+        horizontal = ttk.Scrollbar(table_frame, orient='horizontal', command=self.table.xview)
+        horizontal.grid(row=1, column=0, sticky='ew')
+        self.table.configure(yscrollcommand=scrollbar.set, xscrollcommand=horizontal.set)
         footer = ttk.Frame(page, style='Page.TFrame')
         # Reserve the footer before the expanding result panel takes spare space.
-        footer.pack(side='bottom', fill='x', pady=(12, 0), before=results)
+        footer.pack(side='bottom', fill='x', pady=(8, 0), before=results)
         ttk.Label(footer, textvariable=self.workspace_text, style='Subtitle.TLabel', wraplength=560).pack(side='left')
         self.button(footer, 'Workspace', self.change_workspace).pack(side='right', padx=(8, 0))
         self.button(footer, 'Open diagnostics', self.diagnostics).pack(side='right')
@@ -206,7 +254,7 @@ class ProgrammerWindow:
 
     def clear_results(self, event=None):
         self.table.delete(*self.table.get_children())
-        self.status.set('Target or backend changed. Scan to check the selected chain.')
+        self.status.set('Probe settings changed. Scan to check the connected chain.')
 
     def refresh_choices(self):
         targets = self.catalog.get(self.release.get(), {})
@@ -271,9 +319,8 @@ class ProgrammerWindow:
             return
         self.start('save', override=exists)
 
-    def program(self):
+    def program(self, target):
         from .programmer_service import validate_assignments
-        target = 's3c' if self.target.get() == 'S3C' else 'dslot'
         try:
             validate_assignments({'cycles': self.catalog}, self.selection(), target)
         except Exception as exc:
@@ -282,10 +329,10 @@ class ProgrammerWindow:
         names = ['S3C: ' + self.assignments['s3c'].get()] if target == 's3c' else [
             f'D{i}: {self.assignments[str(i)].get()}' for i in range(1, 6)]
         if self.message.askyesno('Program Flash?',
-                f'Target: {self.target.get()}\nRelease: {self.release.get()}\nBackend: {self.backend.get()}\n\n'
+                f'Target: {"S3C" if target == "s3c" else "D1–D5 chain"}\nRelease: {self.release.get()}\nBackend: {self.backend.get()}\n\n'
                 + '\n'.join(names) + '\n\nThis erases, programs and verifies Flash.\n'
                 'Confirm the physical JTAG access state is correct.', default='no', parent=self.root):
-            self.start('program')
+            self.start('program', target=target)
 
     def drivers(self):
         if sys.platform != 'win32':
@@ -322,7 +369,7 @@ class ProgrammerWindow:
     def start(self, action, **extra):
         if self.process is not None:
             return
-        if action in ('save', 'identify', 'program') and not self.firmware:
+        if action in ('save', 'program') and not self.firmware:
             self.message.showinfo('Select firmware', 'Choose or download a firmware ZIP first.', parent=self.root)
             return
         try:
@@ -331,7 +378,7 @@ class ProgrammerWindow:
             directory = Path(tempfile.mkdtemp(prefix=datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S-'), dir=base))
             request = dict(action=action, workspace=str(self.workspace), firmware=self.firmware,
                            expected_sha256=self.firmware_sha,
-                           target='s3c' if self.target.get() == 'S3C' else 'dslot', backend=self.backend.get(),
+                           backend=self.backend.get(),
                            selection=self.selection(), serial=self.serial.get().strip(), device_id=self.device_id.get().strip())
             request.update(extra)
             request_path = directory / 'request.json'
@@ -505,6 +552,7 @@ def main(argv=None, *, standalone=False):
             print(f'Programmer GUI runtime available (Tk {tk.TkVersion}).')
             return 0
         directory = args.workspace or (settings.user_directory('data') / 'workspace' if standalone else repository_root())
+        windows_dpi_awareness()
         root = tk.Tk()
         ProgrammerWindow(root, directory)
         root.mainloop()

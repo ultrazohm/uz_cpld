@@ -51,6 +51,18 @@ class ProgrammerServiceTests(unittest.TestCase):
         self.assertEqual(result['devices'], [{'label': 's3c'}])
         self.assertEqual(identify.call_args.kwargs['firmware'], self.fixture.zip)
 
+    def test_identify_without_package_or_target_uses_read_only_discovery(self):
+        request = dict(self.request, action='identify', firmware='')
+        request.pop('target')
+        with patch('cpld_toolchain.programmer_helper.identify.identify', return_value=[]) as identify:
+            service.operate(request)
+        identify.assert_called_once_with(self.root, None, 'foss', serial=None)
+
+    def test_identify_s3c_without_package_keeps_explicit_target(self):
+        with patch('cpld_toolchain.programmer_helper.identify.identify', return_value=[]) as identify:
+            service.operate(dict(self.request, action='identify', firmware=''))
+        identify.assert_called_once_with(self.root, 's3c', 'foss', serial=None)
+
     def test_package_checksum_matches_the_firmware_reviewed_in_the_window(self):
         with patch('cpld_toolchain.programmer_helper.identify.identify') as identify:
             with self.assertRaisesRegex(BuildError, 'changed after it was displayed'):
@@ -120,6 +132,20 @@ class ProgrammerServiceTests(unittest.TestCase):
             result = service.operate(dict(self.request, action='scan', target='dslot'))
         self.assertFalse(result['chain_matches'])
         self.assertIn('physical JTAG', result['message'])
+
+    def test_foss_scan_without_target_recognizes_s3c(self):
+        from contextlib import nullcontext
+        request = dict(self.request, action='scan')
+        request.pop('target')
+        with patch('cpld_toolchain.programmer_helper.identify.programming_preflight'), \
+                patch('cpld_toolchain.programmer_helper.program.require_usb_bus'), \
+                patch('cpld_toolchain.programmer_helper.program.scan_command', return_value=('loader', '--detect')), \
+                patch('cpld_toolchain.programmer_helper.usb.diamond_usb', return_value=nullcontext()), \
+                patch('cpld_toolchain.programmer_helper.foss.run', return_value='index 0:\n idcode 0x012BC043\n'):
+            result = service.operate(request)
+        self.assertTrue(result['chain_matches'])
+        self.assertEqual(result['devices'][0]['label'], 'S3C')
+        self.assertEqual(result['target'], 's3c')
 
     def test_driver_restart_is_structured(self):
         def setup(*args, **kwargs):
@@ -278,12 +304,31 @@ class ProgrammerWindowTests(unittest.TestCase):
     def test_program_cancel_never_starts_worker_and_confirmation_defaults_no(self):
         self.window.catalog = {'A': {'s3c': ['controller'], 'dslot': ['adapter']}}
         self.window.release.set('A')
-        self.window.target.set('S3C')
         self.window.assignments['s3c'].set('controller')
         with patch.object(self.window.message, 'askyesno', return_value=False) as confirm:
-            self.window.program()
+            self.window.program('s3c')
         self.assertEqual(confirm.call_args.kwargs['default'], 'no')
         self.start.assert_not_called()
+
+    def test_separate_identify_buttons_do_not_need_a_selected_package(self):
+        for text, target in (('Identify S3C', 's3c'), ('Identify D-slots', 'dslot')):
+            self.start.reset_mock()
+            button = next(widget for widget, _ in self.window.controls if widget.cget('text') == text)
+            button.invoke()
+            self.start.assert_called_once_with('identify', target=target)
+
+    def test_program_buttons_keep_target_and_confirmation_assignments_together(self):
+        self.window.catalog = {'A': {'s3c': ['controller'], 'dslot': ['adapter']}}
+        self.window.release.set('A')
+        self.window.assignments['s3c'].set('controller')
+        for i in range(1, 6):
+            self.window.assignments[str(i)].set('adapter')
+        for target, text in (('s3c', 'S3C: controller'), ('dslot', 'D5: adapter')):
+            self.start.reset_mock()
+            with patch.object(self.window.message, 'askyesno', return_value=True) as confirm:
+                self.window.program(target)
+            self.assertIn(text, confirm.call_args.args[1])
+            self.start.assert_called_once_with('program', target=target)
 
     def test_download_fetches_versions_without_prompting_for_branch(self):
         with patch.object(self.window.prompt, 'askstring') as prompt:
@@ -348,6 +393,28 @@ class ProgrammerWindowTests(unittest.TestCase):
         footer_button = self.window.controls[-1][0]
         self.assertLess(footer_button.winfo_rooty() + footer_button.winfo_height(),
                         self.root.winfo_rooty() + self.root.winfo_height())
+
+    def test_high_dpi_rows_fit_fonts_and_small_screen_controls_reflow(self):
+        from tkinter import font
+        self.root.tk.call('tk', 'scaling', 2.0)
+        for timer in self.root.tk.call('after', 'info'):
+            self.root.after_cancel(timer)
+        for child in self.root.winfo_children():
+            child.destroy()
+        self.window = gui.ProgrammerWindow(self.root, self.window.workspace)
+        self.root.geometry(f'{self.window.px(780)}x{self.window.px(520)}')
+        self.root.deiconify()
+        deadline = time.monotonic() + 2
+        while not getattr(self.window, 'stacked', False) and time.monotonic() < deadline:
+            self.root.update()
+            time.sleep(.01)
+        style = self.window.ttk.Style(self.root)
+        rowheight = int(style.lookup('Treeview', 'rowheight'))
+        text_height = font.Font(self.root, font=style.lookup('Treeview', 'font')).metrics('linespace')
+        self.assertGreater(rowheight, text_height)
+        self.assertTrue(self.window.stacked)
+        self.assertEqual(self.window.choices_card.grid_info()['row'], 1)
+        self.assertLessEqual(self.root.winfo_height(), self.root.winfo_screenheight())
 
 
 if __name__ == '__main__':

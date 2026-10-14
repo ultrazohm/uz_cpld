@@ -94,6 +94,13 @@ class StandaloneTests(unittest.TestCase):
             self.assertEqual(download.call_args.kwargs['branch'], branch)
         self.assertFalse((self.data / 'workspace/firmware.json').exists())
 
+    def test_identify_without_target_or_firmware_does_not_prompt_for_a_zip(self):
+        with patch('cpld_toolchain.toolchain.commands.run', return_value=0) as run, \
+                patch.object(standalone, 'included_firmware', return_value=self.root / 'missing.zip'):
+            self.assertEqual(self.run_cli('identify'), 0)
+        self.assertNotIn('target', run.call_args.args[1])
+        self.assertNotIn('firmware', run.call_args.args[1])
+
     def test_selected_firmware_is_persistent_and_changed_files_are_rejected(self):
         self.assertEqual(self.run_cli('firmware_select', '--firmware', str(self.fixture.zip)), 0)
         root = self.data / 'workspace'

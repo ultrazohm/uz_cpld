@@ -52,6 +52,8 @@ def scan(root, chain, backend, serial=None):
         with diamond_usb(p.DEFAULT_DIAMOND_PORT, serial=serial):
             raw = run(p.scan_command(chain, None, serial), directory / 'scan.log')
         devices = p.parse_scan(raw)
+        if chain is None:
+            chain = 's3c' if devices == [(0, 0x012BC043)] else 'dslots'
         expected_id = 0x012BC043 if chain == 's3c' else 0x012BB043
         matches = (len(devices) == (1 if chain == 's3c' else 5)
                    and [i for i, _ in devices] == list(range(len(devices)))
@@ -62,6 +64,9 @@ def scan(root, chain, backend, serial=None):
         from .programmer_helper.diamond import command
         from .programmer_helper.identify import parse_diamond
         p.require_usb_bus()
+        if chain is None:
+            from .programmer_helper.identify import detect_chain
+            chain = detect_chain(root, backend, None, serial, None, directory)
         xcf = directory / 'scan.xcf'
         p.diamond_scan_xcf(root, chain, xcf)
         log = directory / 'pgrcmd.log'
@@ -75,7 +80,7 @@ def scan(root, chain, backend, serial=None):
                 for i, code in enumerate(codes)]
     return dict(message='Expected chain detected.' if matches else
                 'Unexpected chain. Check the physical JTAG access state and scan again.',
-                devices=rows, chain_matches=matches)
+                devices=rows, chain_matches=matches, target='s3c' if chain == 's3c' else 'dslot')
 
 
 def operate(request):
@@ -126,16 +131,22 @@ def operate(request):
                        'Driver already configured. Scan to check readiness.' if state['already_bound'] else
                        'Driver configured. Scan to check readiness.')
             return dict(message=message, driver=state)
-        target = request.get('target', 'dslot')
-        if target not in ('s3c', 'dslot') or request.get('backend', 'foss') not in ('foss', 'diamond'):
+        target = request.get('target')
+        if target not in (None, 's3c', 'dslot') or request.get('backend', 'foss') not in ('foss', 'diamond'):
             raise BuildError('Invalid target or programmer backend.')
         backend = request.get('backend', 'foss')
         serial = request.get('serial') or None
         if backend == 'diamond' and serial:
             raise BuildError('USB serial selection is supported by the FOSS backend only.')
-        chain = 's3c' if target == 's3c' else 'dslots'
+        chain = {'s3c': 's3c', 'dslot': 'dslots'}.get(target)
         if action == 'scan':
             return scan(root, chain, backend, serial)
+        if action == 'identify' and not request.get('firmware'):
+            from .programmer_helper.identify import identify
+            return dict(message='Firmware identities read. Select a firmware package to resolve unknown programs.',
+                        devices=identify(root, chain, backend, serial=serial))
+        if action == 'program' and target is None:
+            raise BuildError('Choose Program S3C or Program D-slots.')
         firmware = Path(request['firmware'])
         info = catalog(firmware)  # Revalidate on every operation, before USB.
         if request.get('expected_sha256') and info['sha256'] != request['expected_sha256']:

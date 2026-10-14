@@ -15,7 +15,7 @@ a = Analysis(
            (str(root / 'cpld_toolchain/toolchain/foss/openfpgaloader.json'), 'cpld_toolchain/toolchain/foss'),
            (str(root / 'cpld_toolchain/toolchain/foss/openfpgaloader-usercode.patch'), 'cpld_toolchain/toolchain/foss')],
     # runtime.execute imports this entry point by name, outside static analysis.
-    hiddenimports=['tomli', 'cpld_toolchain.programmer_helper.program', 'cpld_toolchain.driver_setup'],
+    hiddenimports=['tomli', 'certifi', 'cpld_toolchain.programmer_helper.program', 'cpld_toolchain.driver_setup'],
     excludes=['typer', 'sphinx', 'plotly', 'cocotb', 'pytest',
               *([] if with_gui else ['tkinter']),
               'cpld_toolchain.cli', 'cpld_toolchain.bootstrap',

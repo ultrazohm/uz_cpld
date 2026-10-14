@@ -169,7 +169,7 @@ def collect(application, inputs):
     project_source(sources / 'uz-cpld-source.tar.gz')
     components = {}
     package_files = {}
-    for name in ('pyinstaller', 'tomli'):
+    for name in ('pyinstaller', 'tomli', 'certifi'):
         dist = importlib.metadata.distribution(name)
         files = []
         for file in dist.files or ():
@@ -183,6 +183,22 @@ def collect(application, inputs):
         if not files:
             raise RuntimeError(f'Missing runtime license: {name}')
         components[name] = {'provider': name, 'version': dist.version, 'notices': files, 'sources': []}
+        if name == 'certifi':
+            certificate_bundle = application / '_internal/certifi/cacert.pem'
+            if not certificate_bundle.is_file() or digest(certificate_bundle) != digest(Path(dist.locate_file('certifi/cacert.pem'))):
+                raise RuntimeError('Missing or changed packaged CA certificate bundle')
+            shutil.copy2(ROOT / 'distribution/MPL-2.0.txt', notices / 'certifi-MPL-2.0.txt')
+            components[name]['notices'].append(notices / 'certifi-MPL-2.0.txt')
+            # Retain the unmodified MPL-covered certificate bundle and Python
+            # sources so recipients have the exact corresponding source.
+            folder = sources / 'certifi'
+            for file in dist.files or ():
+                path = Path(file)
+                if path.parts[0] == 'certifi' and path.suffix in ('.py', '.pem'):
+                    destination = folder / path
+                    destination.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copy2(dist.locate_file(file), destination)
+            components[name]['sources'].append(folder)
     candidates = [Path(sys.base_prefix) / 'LICENSE.txt',
                   Path(sysconfig.get_path('stdlib')) / 'LICENSE.txt',
                   Path(f'/usr/share/doc/python{sys.version_info.major}.{sys.version_info.minor}/copyright')]
@@ -208,9 +224,9 @@ def collect(application, inputs):
                      if kind in ('BINARY', 'EXTENSION')}
     for name, source, kind in inputs:
         if kind == 'PYMODULE' and name.split('.')[0] not in (
-                sys.stdlib_module_names | {'cpld_toolchain', 'xo2_library', 'tomli'}):
+                sys.stdlib_module_names | {'cpld_toolchain', 'xo2_library', 'tomli', 'certifi'}):
             raise RuntimeError(f'Unattributed Python runtime dependency: {name} ({source})')
-    file_components = {}
+    file_components = {'_internal/certifi/cacert.pem': ['certifi']}
     for relative, source in native_inputs.items():
         target = application / '_internal' / relative
         if not target.is_file():
@@ -272,10 +288,10 @@ def collect(application, inputs):
                     components[owner]['notices'].append(notices / 'common-licenses')
             file_components[path.relative_to(application).as_posix()] = [owner]
     executable = 'uz_cpld.exe' if sys.platform == 'win32' else 'uz_cpld'
-    file_components[executable] = ['application', 'pyinstaller', 'python', 'tomli']
+    file_components[executable] = ['application', 'pyinstaller', 'python', 'tomli', 'certifi']
     gui_executable = 'uz_cpld_gui.exe' if sys.platform == 'win32' else 'uz_cpld_gui'
     if (application / gui_executable).exists():
-        file_components[gui_executable] = ['application', 'pyinstaller', 'python', 'tomli']
+        file_components[gui_executable] = ['application', 'pyinstaller', 'python', 'tomli', 'certifi']
     # PYZ is inside the executable; base_library.zip contains CPython bytecode.
     for path in application.rglob('base_library.zip'):
         file_components[path.relative_to(application).as_posix()] = ['python']

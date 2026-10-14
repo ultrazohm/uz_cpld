@@ -247,13 +247,20 @@ class ProgrammerWindowTests(unittest.TestCase):
                 self.fail(f'Required Tk display unavailable: {exc}')
             self.skipTest(f'Tk display unavailable: {exc}')
         self.root.withdraw()
-        self.addCleanup(self.root.destroy)
+        self.addCleanup(self.dispose_root)
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)
         self.start_patch = patch.object(gui.ProgrammerWindow, 'start')
         self.start = self.start_patch.start()
         self.addCleanup(self.start_patch.stop)
         self.window = gui.ProgrammerWindow(self.root, temporary.name)
+
+    def dispose_root(self):
+        # Destroying a Tk root does not cancel its timers. A later test's event
+        # loop must not dispatch the previous window's queued startup callback.
+        for timer in self.root.tk.call('after', 'info'):
+            self.root.after_cancel(timer)
+        self.root.destroy()
 
     def test_release_dropdown_filters_programs_without_silent_assignments(self):
         self.window.catalog = {'A': {'s3c': ['controller'], 'dslot': ['adapter']},

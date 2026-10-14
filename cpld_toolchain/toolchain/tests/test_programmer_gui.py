@@ -7,6 +7,7 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+import time
 import unittest
 from unittest.mock import patch
 
@@ -22,7 +23,7 @@ class ProgrammerServiceTests(unittest.TestCase):
         self.addCleanup(self.fixture.doCleanups)
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)
-        self.root = Path(temporary.name)
+        self.root = Path(temporary.name).resolve()
         self.request = dict(workspace=str(self.root), firmware=str(self.fixture.zip),
                             backend='foss', target='s3c', selection={'release': 'published', 's3c': 'controller'})
 
@@ -328,10 +329,15 @@ class ProgrammerWindowTests(unittest.TestCase):
     def test_results_and_footer_remain_accessible_on_small_displays(self):
         self.root.geometry('940x640')
         self.root.deiconify()
-        self.root.update_idletasks()
+        # Windows delivers the canvas Configure event through its window event
+        # queue; flushing idle callbacks alone leaves children at 1x1 pixels.
+        deadline = time.monotonic() + 2
+        while self.window.table.winfo_height() <= 100 and time.monotonic() < deadline:
+            self.root.update()
+            time.sleep(.01)
         self.assertGreater(self.window.table.winfo_height(), 100)
         self.window.canvas.yview_moveto(1)
-        self.root.update_idletasks()
+        self.root.update()
         footer_button = self.window.controls[-1][0]
         self.assertLess(footer_button.winfo_rooty() + footer_button.winfo_height(),
                         self.root.winfo_rooty() + self.root.winfo_height())

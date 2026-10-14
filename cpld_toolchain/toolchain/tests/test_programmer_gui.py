@@ -310,10 +310,12 @@ class ProgrammerWindowTests(unittest.TestCase):
         self.assertEqual(confirm.call_args.kwargs['default'], 'no')
         self.start.assert_not_called()
 
-    def test_identify_button_discovers_the_chain_without_a_selected_package(self):
-        button = next(widget for widget, _ in self.window.controls if widget.cget('text') == 'Identify')
-        button.invoke()
-        self.start.assert_called_once_with('identify')
+    def test_identify_buttons_read_the_explicit_chain_without_a_selected_package(self):
+        for text, target in (('Identify S3C', 's3c'), ('Identify D-slots', 'dslot')):
+            self.start.reset_mock()
+            button = next(widget for widget, _ in self.window.controls if widget.cget('text') == text)
+            button.invoke()
+            self.start.assert_called_once_with('identify', target=target)
 
     def test_program_buttons_keep_target_and_confirmation_assignments_together(self):
         self.window.catalog = {'A': {'s3c': ['controller'], 'dslot': ['adapter']}}
@@ -379,6 +381,7 @@ class ProgrammerWindowTests(unittest.TestCase):
     def test_results_and_footer_remain_accessible_on_small_displays(self):
         self.root.geometry('940x640')
         self.root.deiconify()
+        self.root.update()
         # Windows delivers the canvas Configure event through its window event
         # queue; flushing idle callbacks alone leaves children at 1x1 pixels.
         deadline = time.monotonic() + 2
@@ -431,6 +434,11 @@ class ProgrammerWindowTests(unittest.TestCase):
         self.root.deiconify()
         self.root.update()
         height = self.window.table.winfo_height()
+        self.assertFalse(any(isinstance(widget, self.window.ttk.Scrollbar)
+                             for widget in self.window.table.master.winfo_children()))
+        row = self.window.table.bbox('D5')
+        self.assertTrue(row)
+        self.assertLessEqual(row[1] + row[3], height)
         self.root.geometry('1060x1000')
         self.root.update()
         self.assertEqual(self.window.table.winfo_height(), height)
@@ -441,6 +449,17 @@ class ProgrammerWindowTests(unittest.TestCase):
         self.window.stop_activity()
         self.assertIsNone(self.window.activity_timer)
         self.assertLessEqual(self.root.winfo_height(), self.root.winfo_screenheight())
+
+    def test_action_order_and_startup_size_match_the_layout(self):
+        buttons = [widget.cget('text') for widget in self.window.action_row.winfo_children()
+                   if isinstance(widget, self.window.ttk.Button)]
+        self.assertEqual(buttons, ['Scan', 'Identify S3C', 'Program S3C', 'Identify D-slots', 'Program D-slots'])
+        self.assertFalse(any(widget.cget('text') == 'Probe options…' for widget, _ in self.window.controls))
+        self.root.deiconify()
+        self.root.update()
+        area = self.window.work_area()
+        expected = min(self.window.page.winfo_reqheight(), area[3] - area[1] - self.window.px(60))
+        self.assertEqual(self.root.winfo_height(), expected)
 
 
 if __name__ == '__main__':

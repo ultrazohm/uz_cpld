@@ -66,17 +66,20 @@ Select included or downloaded firmware, choose assignments, and click
 firmware snapshot. Replacing existing assignments requires confirmation.
 The top row contains ``1 Setup`` and ``2 Firmware``; ``3 Program`` with the
 vertical assignment dropdowns is below. Configure the backend and Windows
-drivers, then choose firmware when needed. The action row places ``Identify``,
-``Scan``, ``Program S3C`` and ``Program D-slots`` beside a compact purple
-activity indicator. ``Identify`` detects the connected chain and reads identities
-even before a firmware package is selected. Without a registry, raw IDs and USERCODEs are
+drivers, then choose firmware when needed. The action row places ``Scan``,
+``Identify S3C``, ``Program S3C``, ``Identify D-slots`` and ``Program D-slots``
+in that order beside a compact purple activity indicator. A note below indicates
+the physical access state: S3C uses the blue LED; D-slots use the green LED.
+Identification reads identities even before a firmware package is selected.
+Without a registry, raw IDs and USERCODEs are
 shown with unknown firmware names. CLI ``identify`` discovers the chain when
 ``--target`` is omitted. Prepare the physical JTAG access state before reading.
 ``Program S3C`` and ``Program D-slots`` always ask for confirmation of the
 displayed assignments and default to cancellation. Programming uses the
 displayed choices; saving them is optional.
-The compact window sizes itself to the display and Windows DPI. Its page and
-result table can scroll on small displays. Frozen downloads retain system trust
+The window opens centered at the measured layout size, bounded by the display
+and Windows work area. Its page can scroll on small displays; the fixed-height
+device table has no scrollbars. Frozen downloads retain system trust
 and ship a Mozilla CA bundle; HTTPS certificate verification remains enabled.
 
 The result table reserves a fixed height for S3C and D1 through D5, with empty

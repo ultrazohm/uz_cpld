@@ -68,18 +68,39 @@ class ProgrammerWindow:
         self.workspace_text = tk.StringVar(value=str(self.workspace))
         root.title('UltraZohm CPLD programmer')
         self.scale = max(1, root.winfo_fpixels('1i') / 96)
-        width = min(self.px(1060), root.winfo_screenwidth() - self.px(40))
-        height = min(self.px(680), root.winfo_screenheight() - self.px(80))
+        left, top, right, bottom = self.work_area()
+        self.initial_width = width = min(self.px(980), right - left - self.px(40))
+        height = min(self.px(680), bottom - top - self.px(60))
         root.geometry(f'{width}x{height}')
         root.minsize(min(self.px(760), width), min(self.px(480), height))
         root.configure(background='#f5f4f6')
         root.protocol('WM_DELETE_WINDOW', self.close)
         self.style()
         self.build()
+        self.fit_startup()
         root.after(100, lambda: self.start('load'))
 
     def px(self, value):
         return round(value * self.scale)
+
+    def work_area(self):
+        if sys.platform == 'win32':
+            import ctypes
+            from ctypes import wintypes
+            area = wintypes.RECT()
+            if ctypes.windll.user32.SystemParametersInfoW(0x0030, 0, ctypes.byref(area), 0):
+                return area.left, area.top, area.right, area.bottom
+        return 0, 0, self.root.winfo_screenwidth(), self.root.winfo_screenheight()
+
+    def fit_startup(self):
+        """Fit the measured content, retaining space for screen/window chrome."""
+        self.root.update_idletasks()
+        left, top, right, bottom = self.work_area()
+        width = self.initial_width
+        height = min(self.page.winfo_reqheight(), bottom - top - self.px(60))
+        x = left + (right - left - width) // 2
+        y = top + max(0, (bottom - top - height - self.px(30)) // 2)
+        self.root.geometry(f'{width}x{height}+{x}+{y}')
 
     def style(self):
         from tkinter import font
@@ -142,18 +163,21 @@ class ProgrammerWindow:
         scroll = ttk.Scrollbar(outer, orient='vertical', command=self.canvas.yview)
         scroll.pack(side='right', fill='y')
         self.canvas.configure(yscrollcommand=scroll.set)
-        page = ttk.Frame(self.canvas, style='Page.TFrame', padding=self.px(10))
+        page = self.page = ttk.Frame(self.canvas, style='Page.TFrame', padding=self.px(10))
         window = self.canvas.create_window(0, 0, anchor='nw', window=page)
         def resize(event=None):
+            viewport_width = self.canvas.winfo_width()
+            if viewport_width <= 1:
+                viewport_width = self.initial_width - self.px(18)
             if hasattr(self, 'middle'):
-                stacked = self.canvas.winfo_width() < self.px(920)
+                stacked = viewport_width < self.px(920)
                 if stacked != getattr(self, 'stacked', None):
                     self.stacked = stacked
                     self.setup_card.grid_configure(row=0, column=0, columnspan=2 if stacked else 1,
                                                     padx=(0, 0 if stacked else 8), pady=(0, 8 if stacked else 0))
                     self.source_card.grid_configure(row=1 if stacked else 0, column=0 if stacked else 1,
                                                      columnspan=2 if stacked else 1)
-            self.canvas.itemconfigure(window, width=self.canvas.winfo_width(),
+            self.canvas.itemconfigure(window, width=viewport_width,
                                       height=max(self.canvas.winfo_height(), page.winfo_reqheight()))
             self.canvas.configure(scrollregion=self.canvas.bbox('all'))
         # Reflow changes the page's requested height after Tk's geometry pass.
@@ -188,7 +212,6 @@ class ProgrammerWindow:
         bar = ttk.Frame(device)
         bar.pack(fill='x', pady=(8, 0))
         self.button(bar, 'Setup drivers', self.drivers).pack(side='left', padx=(0, 8))
-        self.button(bar, 'Probe options…', self.probe_options).pack(side='left')
         source = self.source_card = self.card(middle, '2  Firmware')
         source.grid(row=0, column=1, sticky='nsew')
         ttk.Label(source, textvariable=self.source_text, wraplength=self.px(420)).pack(anchor='w', fill='x', pady=(0, 8))
@@ -216,9 +239,10 @@ class ProgrammerWindow:
         self.button(choices, 'Save assignments', self.save).pack(anchor='e', pady=(6, 0))
         actions = self.action_row = ttk.Frame(page, style='Page.TFrame')
         actions.pack(fill='x', pady=(0, 8))
-        self.button(actions, 'Identify', lambda: self.start('identify')).pack(side='left', padx=(0, 8))
         self.button(actions, 'Scan', lambda: self.start('scan')).pack(side='left', padx=(0, 8))
+        self.button(actions, 'Identify S3C', lambda: self.start('identify', target='s3c')).pack(side='left', padx=(0, 8))
         self.button(actions, 'Program S3C', lambda: self.program('s3c'), primary=True).pack(side='left', padx=(0, 8))
+        self.button(actions, 'Identify D-slots', lambda: self.start('identify', target='dslot')).pack(side='left', padx=(0, 8))
         self.button(actions, 'Program D-slots', lambda: self.program('dslot'), primary=True).pack(side='left', padx=(0, 12))
         chip = self.activity_icon = self.tk.Canvas(actions, width=self.px(24), height=self.px(24),
                               background='#f5f4f6', highlightthickness=0)
@@ -231,13 +255,15 @@ class ProgrammerWindow:
                 chip.create_line(*(self.px(v) for v in (x1, y1, x2, y2)), fill='#7600c9', width=self.px(2))
         self.progress = ttk.Progressbar(actions, mode='determinate', length=self.px(64))
         self.progress.pack(side='left')
+        ttk.Label(page, text='S3C: blue LED on   ·   D-slot: green LED on',
+                  style='Subtitle.TLabel').pack(anchor='w', pady=(0, 8))
         results = ttk.Frame(page, style='Card.TFrame', padding=self.px(8))
         results.pack(fill='x')
         status_label = self.ttk.Label(results, textvariable=self.status, wraplength=self.px(900))
         status_label.pack(anchor='w', fill='x', pady=(0, 8))
         results.bind('<Configure>', lambda event: status_label.configure(wraplength=max(self.px(100), event.width - self.px(16))))
         columns = ('position', 'device', 'program', 'revision', 'usercode')
-        table_frame = ttk.Frame(results, height=self.px(6 * 23 + 48))
+        table_frame = ttk.Frame(results, height=self.px(6 * 23 + 32))
         table_frame.pack(fill='x')
         table_frame.grid_propagate(False)
         self.table = ttk.Treeview(table_frame, columns=columns, show='headings', height=6)
@@ -248,11 +274,6 @@ class ProgrammerWindow:
         table_frame.columnconfigure(0, weight=1)
         table_frame.rowconfigure(0, weight=1)
         self.table.grid(row=0, column=0, sticky='nsew')
-        scrollbar = ttk.Scrollbar(table_frame, orient='vertical', command=self.table.yview)
-        scrollbar.grid(row=0, column=1, sticky='ns')
-        horizontal = ttk.Scrollbar(table_frame, orient='horizontal', command=self.table.xview)
-        horizontal.grid(row=1, column=0, sticky='ew')
-        self.table.configure(yscrollcommand=scrollbar.set, xscrollcommand=horizontal.set)
         self.reset_results()
         footer = ttk.Frame(page, style='Page.TFrame')
         footer.pack(fill='x', pady=(8, 0))

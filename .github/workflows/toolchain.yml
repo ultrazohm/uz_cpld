@@ -60,7 +60,7 @@ jobs:
       - name: Test standalone behavior
         env:
           UZ_CPLD_REQUIRE_GUI_TESTS: ${{ runner.os == 'Windows' && '1' || '0' }}
-        run: python -m unittest cpld_toolchain.toolchain.tests.test_standalone cpld_toolchain.toolchain.tests.test_distribution cpld_toolchain.toolchain.tests.test_windows_terminal cpld_toolchain.toolchain.tests.test_driver_status cpld_toolchain.toolchain.tests.test_driver_setup cpld_toolchain.toolchain.tests.test_programmer_gui -v
+        run: python cpld_toolchain/toolchain/ci_summary.py --test-log build/standalone-tests.log --run-tests cpld_toolchain.toolchain.tests.test_standalone cpld_toolchain.toolchain.tests.test_distribution cpld_toolchain.toolchain.tests.test_windows_terminal cpld_toolchain.toolchain.tests.test_driver_status cpld_toolchain.toolchain.tests.test_driver_setup cpld_toolchain.toolchain.tests.test_programmer_gui -v
       - name: Test Linux programmer window with a virtual display
         if: runner.os == 'Linux'
         run: xvfb-run -a env UZ_CPLD_REQUIRE_GUI_TESTS=1 python -m unittest cpld_toolchain.toolchain.tests.test_programmer_gui.ProgrammerWindowTests -v

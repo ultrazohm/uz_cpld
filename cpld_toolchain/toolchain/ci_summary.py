@@ -4,7 +4,34 @@ import json
 import os
 from pathlib import Path
 import re
+import subprocess
+import sys
 import xml.etree.ElementTree as ET
+
+
+def failure_annotations(path):
+    """Expose actual unittest failures, rather than only the step's exit code."""
+    if not path.is_file():
+        return []
+    text = re.sub(r'\x1b\[[0-9;]*m', '', path.read_text(encoding='utf-8', errors='replace'))
+    failures = re.findall(r'(?ms)^(?:FAIL|ERROR): [^\n]+\n-+\n.*?(?=^={5,}\n|^-{5,}\nRan |\Z)', text)
+    if os.environ.get('GITHUB_ACTIONS') == 'true':
+        for failure in failures:
+            message = failure.strip()[:20000].replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
+            print('::error title=Python test failure::' + message)
+    return failures
+
+
+def run_tests(modules, path):
+    result = subprocess.run([sys.executable, '-m', 'unittest', *modules], stdout=subprocess.PIPE,
+                            stderr=subprocess.STDOUT, text=True, encoding='utf-8', errors='replace',
+                            env=dict(os.environ, PYTHONUTF8='1'))
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(result.stdout, encoding='utf-8')
+    if hasattr(sys.stdout, 'reconfigure'):
+        sys.stdout.reconfigure(encoding='utf-8')
+    print(result.stdout, end='')
+    return result.returncode
 
 
 def render(root, backend=None, test_log=None):
@@ -83,13 +110,22 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--backend', choices=('foss', 'diamond'))
     parser.add_argument('--test-log', type=Path)
+    parser.add_argument('--run-tests', nargs=argparse.REMAINDER, help='Run unittest modules and retain their complete output')
     args = parser.parse_args()
+    code = 0
+    if args.run_tests is not None:
+        if not args.run_tests or args.test_log is None:
+            parser.error('--run-tests requires modules and --test-log')
+        code = run_tests(args.run_tests, args.test_log)
+    if args.test_log:
+        failure_annotations(args.test_log)
     summary = render(Path.cwd(), args.backend, args.test_log)
     print(summary)
     if os.environ.get('GITHUB_STEP_SUMMARY'):
         with Path(os.environ['GITHUB_STEP_SUMMARY']).open('a', encoding='utf-8') as stream:
             stream.write(summary + '\n')
+    return code
 
 
 if __name__ == '__main__':
-    main()
+    raise SystemExit(main())

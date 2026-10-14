@@ -7,6 +7,7 @@ import unittest
 from unittest.mock import patch
 
 from cpld_toolchain.toolchain.ci_summary import render
+from cpld_toolchain.toolchain.ci_summary import failure_annotations, run_tests
 from cpld_toolchain.toolchain.buildsystem.backends.foss import enforce_startup_proof, STARTUP_POLICY, startup_fingerprint
 from cpld_toolchain.toolchain import ci_freshness
 from cpld_toolchain.toolchain.buildsystem.timing import check_final_timing
@@ -14,6 +15,36 @@ from cpld_toolchain.toolchain.buildsystem.model import BuildError
 
 
 class CoverageTests(unittest.TestCase):
+    def test_ci_failure_annotations_preserve_tracebacks_and_escape_control_characters(self):
+        from contextlib import redirect_stdout
+        import io
+        import os
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / 'tests.log'
+            path.write_text('FAIL: test_example (ExampleTests)\n' + '-' * 70 + '\n'
+                            'Traceback (most recent call last):\nAssertionError: 100% mismatch\n'
+                            + '-' * 70 + '\nRan 1 test in 0.1s\nFAILED (failures=1)\n')
+            output = io.StringIO()
+            with patch.dict(os.environ, GITHUB_ACTIONS='true'), redirect_stdout(output):
+                failures = failure_annotations(path)
+            self.assertEqual(len(failures), 1)
+            self.assertIn('AssertionError: 100% mismatch', failures[0])
+            self.assertIn('::error title=Python test failure::', output.getvalue())
+            self.assertIn('%0A', output.getvalue())
+            self.assertIn('100%25 mismatch', output.getvalue())
+            self.assertNotIn('Ran 1 test', failures[0])
+
+    def test_test_runner_preserves_failure_exit_code_and_complete_log(self):
+        from contextlib import redirect_stdout
+        import io
+        import subprocess
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / 'build/tests.log'
+            result = subprocess.CompletedProcess([], 1, 'failed test output\n')
+            with patch('cpld_toolchain.toolchain.ci_summary.subprocess.run', return_value=result), redirect_stdout(io.StringIO()):
+                self.assertEqual(run_tests(['example.tests', '-v'], path), 1)
+            self.assertEqual(path.read_text(), result.stdout)
+
     def setUp(self):
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)

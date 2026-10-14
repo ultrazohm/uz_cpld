@@ -4,6 +4,7 @@ Unknown native files fail closed. Linux builders need deb-src indexes matching
 installed packages. Source downloads are retained with the application, not URLs
 that downstream distributors must keep alive.
 """
+import ctypes
 import hashlib
 import importlib.metadata
 import json
@@ -134,6 +135,30 @@ def windows_tk_materials(application, notices):
     return dict(provider='Tcl/Tk', versions=versions, notices=materials, sources=[])
 
 
+def windows_zlib_materials(source, notices):
+    """Attribute the Tcl/Tk compression DLL using its runtime version export."""
+    library = ctypes.CDLL(str(source))
+    library.zlibVersion.argtypes = []
+    library.zlibVersion.restype = ctypes.c_char_p
+    version = library.zlibVersion().decode('ascii')
+    directory = ROOT / 'distribution/zlib'
+    pins = json.loads((directory / 'licenses.json').read_text(encoding='utf-8'))
+    if pins.get('schema_version') != 1:
+        raise RuntimeError('Unsupported zlib license pins')
+    pin = pins['releases'].get(version)
+    if pin is None:
+        raise RuntimeError(f'Missing pinned upstream notice for zlib {version}; update distribution/zlib/licenses.json')
+    license_file = directory / pin['file']
+    if digest(license_file) != pin['sha256']:
+        raise RuntimeError('Pinned zlib notice checksum mismatch')
+    target = notices / 'zlib-LICENSE.txt'
+    shutil.copy2(license_file, target)
+    provenance = notices / 'zlib-SOURCES.json'
+    provenance.write_text(json.dumps(dict(version=version, source=pin['url'],
+                                          sha256=digest(target)), indent=2) + '\n', encoding='utf-8')
+    return dict(provider='zlib', version=version, notices=[target, provenance], sources=[])
+
+
 def collect(application, inputs):
     notices = application / 'licenses'
     sources = application / 'sources'
@@ -198,6 +223,10 @@ def collect(application, inputs):
             if key not in components:
                 components[key] = debian_materials(package, notices, sources)
                 components[key]['notices'].append(notices / 'common-licenses')
+        elif sys.platform == 'win32' and source.is_relative_to(Path(sys.base_prefix)) and source.name.lower() == 'zlib1.dll':
+            key = 'zlib'
+            if key not in components:
+                components[key] = windows_zlib_materials(source, notices)
         elif sys.platform == 'win32' and source.is_relative_to(Path(sys.base_prefix)) and source.name.lower().startswith(('tcl', 'tk')):
             key = 'tcl-tk'
         elif source.is_relative_to(Path(sys.base_prefix)) and (

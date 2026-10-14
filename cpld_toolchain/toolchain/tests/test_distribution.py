@@ -39,6 +39,43 @@ libudev.so.1 => /lib/libudev.so.1 (0x00)
 
 
 class LicenseInventoryTests(unittest.TestCase):
+    def test_windows_zlib_notice_matches_the_dll_version_and_records_origin(self):
+        import json
+        import tempfile
+        from distribution import licensing
+        with tempfile.TemporaryDirectory() as temporary:
+            notices = Path(temporary)
+            source = notices / 'zlib1.dll'
+            with patch.object(licensing.ctypes, 'CDLL') as load:
+                load.return_value.zlibVersion.return_value = b'1.2.13'
+                component = licensing.windows_zlib_materials(source, notices)
+                load.assert_called_once_with(str(source))
+                self.assertEqual(load.return_value.zlibVersion.argtypes, [])
+                self.assertIs(load.return_value.zlibVersion.restype, licensing.ctypes.c_char_p)
+            self.assertEqual(component['version'], '1.2.13')
+            origin = json.loads((notices / 'zlib-SOURCES.json').read_text())
+            self.assertIn('/v1.2.13/LICENSE', origin['source'])
+            self.assertEqual(origin['sha256'], licensing.digest(notices / 'zlib-LICENSE.txt'))
+            self.assertEqual((notices / 'zlib-LICENSE.txt').read_bytes(),
+                             (licensing.ROOT / 'distribution/zlib/zlib-1.2.13-LICENSE.txt').read_bytes())
+
+    def test_windows_zlib_notice_rejects_unknown_versions_and_modified_material(self):
+        import shutil
+        import tempfile
+        from distribution import licensing
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            with patch.object(licensing.ctypes, 'CDLL') as load:
+                load.return_value.zlibVersion.return_value = b'9.0.0'
+                with self.assertRaisesRegex(RuntimeError, 'Missing pinned upstream notice'):
+                    licensing.windows_zlib_materials(root / 'zlib1.dll', root)
+                shutil.copytree(licensing.ROOT / 'distribution/zlib', root / 'distribution/zlib')
+                (root / 'distribution/zlib/zlib-1.2.13-LICENSE.txt').write_text('modified')
+                load.return_value.zlibVersion.return_value = b'1.2.13'
+                with patch.object(licensing, 'ROOT', root):
+                    with self.assertRaisesRegex(RuntimeError, 'checksum mismatch'):
+                        licensing.windows_zlib_materials(root / 'zlib1.dll', root)
+
     def tk_fixture(self, root, version='8.6.14'):
         application, notices = root / 'application', root / 'licenses'
         notices.mkdir()

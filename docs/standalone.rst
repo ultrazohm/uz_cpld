@@ -375,6 +375,9 @@ When Windows Python omits Tcl/Tk notices, packaging uses the exact upstream
 notices pinned in ``distribution/tcltk/licenses.json`` for the versions recorded
 by the bundled Tcl/Tk scripts. Unknown versions and modified notice files fail
 the build. ``licenses/Tcl-Tk-SOURCES.json`` records notice origins and checksums.
+The Windows Tcl/Tk compression DLL is attributed separately to zlib. Packaging
+reads its exported runtime version and retains the matching checksum-pinned
+upstream notice from ``distribution/zlib/licenses.json`` together with its origin.
 
 Windows USB driver diagnostics
 ------------------------------

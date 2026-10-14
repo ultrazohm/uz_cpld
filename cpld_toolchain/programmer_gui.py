@@ -282,19 +282,22 @@ class ProgrammerWindow:
         window.title('Download firmware · GitHub releases')
         window.transient(self.root)
         window.resizable(True, False)
+        width = min(self.px(880), self.root.winfo_screenwidth() - self.px(40))
         frame = self.ttk.Frame(window, padding=22)
         frame.pack(fill='both', expand=True)
         self.ttk.Label(frame, text='Choose a firmware version', style='Heading.TLabel').pack(anchor='w', pady=(0, 6))
         self.ttk.Label(frame, text='ultrazohm/uz_cpld · All published firmware releases · Newest first',
-                       style='Muted.TLabel').pack(anchor='w', pady=(0, 14))
+                       style='Muted.TLabel', wraplength=width - 44).pack(anchor='w', pady=(0, 14))
         labels = [f"{row['published_at'][:10]} {row['published_at'][11:16]} UTC  ·  "
                   f"{row['ref'].removeprefix('refs/heads/').removeprefix('refs/tags/')}  ·  "
                   f"{row['commit'][:8]}  ·  {row['tag']}" for row in releases]
-        box = self.ttk.Combobox(frame, values=labels, state='readonly', width=100)
+        box = self.ttk.Combobox(frame, values=labels, state='readonly', width=1)
         box.current(0)
         box.pack(fill='x', pady=(0, 14))
         detail = self.tk.StringVar()
-        self.ttk.Label(frame, textvariable=detail, wraplength=800, style='Muted.TLabel').pack(anchor='w', pady=(0, 18))
+        detail_label = self.ttk.Label(frame, textvariable=detail, wraplength=width - 44, style='Muted.TLabel')
+        detail_label.pack(anchor='w', fill='x', pady=(0, 18))
+        frame.bind('<Configure>', lambda event: detail_label.configure(wraplength=max(100, event.width - 44)))
         def update(event=None):
             row = releases[box.current()]
             detail.set(f"{row['name']}\n{'Testing prerelease' if row['prerelease'] else 'Published release'}"
@@ -309,6 +312,8 @@ class ProgrammerWindow:
             window.destroy()
             self.start('download', release_id=row['id'], release_commit=row['commit'])
         self.ttk.Button(buttons, text='Download & select', command=select, style='Primary.TButton').pack(side='right')
+        window.update_idletasks()
+        window.geometry(f'{width}x{window.winfo_reqheight()}')
         window.grab_set()
         box.focus_set()
 
@@ -350,20 +355,23 @@ class ProgrammerWindow:
         window.title('Probe options')
         window.transient(self.root)
         window.resizable(False, False)
+        width = min(self.px(620), self.root.winfo_screenwidth() - self.px(40))
         frame = self.ttk.Frame(window, padding=20)
         frame.pack(fill='both', expand=True)
         serial = self.tk.StringVar(value=self.serial.get())
         device_id = self.tk.StringVar(value=self.device_id.get())
         for label, variable in (('USB serial (FOSS; leave empty for the default probe)', serial),
                                 ('Windows driver device ID (required with multiple probes)', device_id)):
-            self.ttk.Label(frame, text=label).pack(anchor='w', pady=(0, 6))
-            self.ttk.Entry(frame, textvariable=variable, width=60).pack(fill='x', pady=(0, 14))
+            self.ttk.Label(frame, text=label, wraplength=width - 40).pack(anchor='w', pady=(0, 6))
+            self.ttk.Entry(frame, textvariable=variable, width=1).pack(fill='x', pady=(0, 14))
         def save():
             self.serial.set(serial.get().strip())
             self.device_id.set(device_id.get().strip())
             self.clear_results()
             window.destroy()
         self.ttk.Button(frame, text='Apply', command=save, style='Primary.TButton').pack(anchor='e')
+        window.update_idletasks()
+        window.geometry(f'{width}x{window.winfo_reqheight()}')
         window.grab_set()
 
     def start(self, action, **extra):

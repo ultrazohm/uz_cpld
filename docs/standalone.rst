@@ -38,6 +38,67 @@ Use ``.\uz_cpld.exe`` in PowerShell or ``./uz_cpld`` on Ubuntu when it is not on
 Ubuntu TAR archives preserve executable permissions and internal symbolic links.
 The Windows executable is currently unsigned.
 
+Optional desktop programmer
+---------------------------
+
+Double-click ``uz_cpld_gui.exe`` on Windows, or run ``uz_cpld programmer_gui``
+from the programmer terminal. Ubuntu also includes ``uz_cpld_gui``.
+The CLI and its existing double-click terminal remain available independently.
+Opening the GUI does not change drivers or program hardware.
+
+The window provides firmware ZIP selection/download, release and program
+dropdowns, assignment saving, driver setup, chain scanning, identification and
+programming. The six program dropdowns represent S3C and D1 through D5.
+``Download`` fetches a list of available GitHub firmware versions and opens a
+dropdown, newest first, with publication date, branch/tag, commit and release
+tag. It includes older versions and testing prereleases across all branches;
+no branch name is required. Only published releases with the firmware ZIP and
+recorded source commit are offered. Selecting ``Download & select`` downloads
+that exact release and validates its commit and checksums before saving the
+workspace snapshot. Cancellation or a failed download preserves selected
+firmware. The CLI's branch-based download behavior is unchanged.
+Available programs come from the validated ZIP and are filtered by release and
+target. Changing release clears incompatible choices; no program is silently
+selected. D-slot programming operates on the complete five-device chain.
+
+Select included or downloaded firmware, choose assignments, and click
+``Save assignments`` to initialize or update ``selection.toml`` and persist a
+firmware snapshot. Replacing existing assignments requires confirmation.
+Choose the target chain and prepare its physical JTAG access state, then scan,
+identify, or program. ``Program & verify`` always asks for confirmation of the
+displayed assignments and defaults to cancellation. Programming uses the
+displayed choices; saving them is optional.
+
+The result table shows device positions, IDCODEs, installed programs, revisions
+and USERCODEs. Unknown identities remain explicitly unknown. Full operation
+logs and structured results are retained in the workspace under
+``build/programmer/gui``; ``Open diagnostics`` opens the operation folder.
+Operations run in an isolated worker process; the window remains responsive,
+but changing settings and closing it are disabled until the operation finishes.
+Driver setup reports restart requirements and retains the CLI's administrator
+prompt, selected-interface restriction and driver restoration behavior.
+With multiple programmers, enter the USB serial for FOSS operations and the
+Windows device instance ID for driver setup.
+
+After repository setup, the same interface is available with::
+
+   uz_cpld programmer_gui
+   uz_cpld --workspace C:/programming-station programmer_gui
+
+Repository usage defaults to the checkout workspace; standalone usage defaults
+to the per-user workspace below. The GUI uses published ZIP firmware in both
+environments. Synthesis and local-build programming remain CLI workflows.
+Tk is imported only when launching the GUI. If repository Python lacks Tk,
+install a Python distribution with Tcl/Tk support (``python3-tk`` on Ubuntu);
+CLI use and repository setup do not require it. No extra Python GUI package is
+installed by setup. ``gui`` continues to open Diamond projects.
+Some managed Python installations expose Tk without its Tcl scripts. The
+repository launcher can use an already installed Python 3.11+ with working Tk
+for the window while keeping the configured checkout interpreter for every
+worker operation. It installs nothing and prints the chosen interpreter.
+``UZ_CPLD_GUI_PYTHON`` can specify that optional UI interpreter explicitly.
+Standalone bundles use their included runtime and do not discover another Python.
+
 USB setup
 ---------
 
@@ -304,6 +365,12 @@ The earlier ``distribution/loader.py`` command is the native Linux loader build.
 Windows application packaging remains native; the loader and driver helper are cross-compiled.
 Ubuntu builds need CMake, g++, pkg-config, patch, libftdi1/libusb/zlib development packages and patchelf.
 These commands produce directory application bundles (the executable and ``_internal``), not a single-file executable; no Python wheel or PyPI publication is part of this distribution.
+The default build includes the optional GUI launcher and Tcl/Tk runtime.
+Use ``python distribution/build.py --without-gui`` to produce a CLI-only bundle.
+GUI availability is recorded in ``application.json``. Linux GUI packaging also
+requires ``python3-tk``, ``tcl8.6-dev`` and ``tk8.6-dev``; Windows requires Python
+with its Tcl/Tk feature installed. The dependency inventory retains Tcl/Tk
+license notices and, on Ubuntu, corresponding distribution sources.
 
 Windows USB driver diagnostics
 ------------------------------

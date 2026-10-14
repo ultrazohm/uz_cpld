@@ -4,6 +4,14 @@ import ctypes
 import os
 from pathlib import Path
 import sys
+import subprocess
+
+
+def process_options():
+    """Keep native console tools quiet only inside a Windows GUI worker."""
+    if sys.platform == 'win32' and os.environ.get('UZ_CPLD_GUI_WORKER') == '1':
+        return {'creationflags': getattr(subprocess, 'CREATE_NO_WINDOW', 0x08000000)}
+    return {}
 
 
 def environment():

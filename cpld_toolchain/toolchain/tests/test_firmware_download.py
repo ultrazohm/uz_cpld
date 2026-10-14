@@ -125,6 +125,46 @@ class DownloadTests(unittest.TestCase):
             with self.assertRaisesRegex(BuildError, 'No published CI firmware'):
                 firmware.latest('owner/repo', 'refs/heads/topic')
 
+    def test_available_versions_include_older_releases_all_branches_and_stable_tags(self):
+        first = [release(1, date='2026-10-01T00:00:00Z')] + [release(2, 'refs/heads/master')] * 99
+        stable = release(3, tag_name='v1.0.0', prerelease=False, body=f'Source commit: {COMMIT}\n')
+        second = [stable, release(4, 'refs/heads/other', date='2026-10-07T00:00:00Z'),
+                  release(5, draft=True), release(6, assets=[]), release(7, body='missing provenance')]
+        with patch.object(firmware, 'request', side_effect=[io.BytesIO(json.dumps(first).encode()),
+                                                          io.BytesIO(json.dumps(second).encode())]) as request:
+            versions = firmware.available('owner/repo')
+        self.assertEqual([row['id'] for row in versions], [4, 3, 2, 1])
+        self.assertEqual(versions[1]['ref'], 'refs/tags/v1.0.0')
+        self.assertFalse(versions[1]['prerelease'])
+        self.assertEqual(versions[-1]['ref'], 'refs/heads/topic')
+        self.assertIn('page=2', request.call_args.args[0])
+
+    def test_specific_version_download_does_not_choose_newest_release(self):
+        payload = archive_bytes()
+        selected = release(12, date='2026-10-01T00:00:00Z')
+        selected['assets'][0]['size'] = len(payload)
+        with patch.object(firmware, 'latest', side_effect=AssertionError('Newest release must not be selected')), \
+                patch.object(firmware, 'request', side_effect=[io.BytesIO(json.dumps(selected).encode()), io.BytesIO(payload)]) as request:
+            result = firmware.download_release(self.root, 'owner/repo', 12, expected_commit=COMMIT)
+        self.assertEqual(request.call_args_list[0].args[0], '/repos/owner/repo/releases/12')
+        self.assertEqual(request.call_args_list[1].args[0], '/repos/owner/repo/releases/assets/12')
+        self.assertEqual(result.read_bytes(), payload)
+        record = json.loads(result.with_name(result.name + '.json').read_text())
+        self.assertEqual(record['release_id'], 12)
+        self.assertEqual(record['published_at'], selected['published_at'])
+
+    def test_changed_or_unpublished_version_stops_before_asset_download(self):
+        for selected in (release(12, body='Source commit: ' + 'b' * 40), release(12, draft=True), release(13)):
+            with self.subTest(release=selected), \
+                    patch.object(firmware, 'request', return_value=io.BytesIO(json.dumps(selected).encode())) as request:
+                with self.assertRaises(BuildError):
+                    firmware.download_release(self.root, 'owner/repo', 12, expected_commit=COMMIT)
+            self.assertEqual(request.call_count, 1)
+        for invalid in (0, -1, '12', True):
+            with patch.object(firmware, 'request') as request, self.assertRaises(BuildError):
+                firmware.download_release(self.root, 'owner/repo', invalid)
+            request.assert_not_called()
+
     def test_crlf_release_notes_match_exact_branch(self):
         selected = release(1)
         selected['body'] = selected['body'].replace('\n', '\r\n')

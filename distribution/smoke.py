@@ -92,6 +92,18 @@ def smoke(executable):
                 return result.stdout + result.stderr
             run('--version')
             run('--help')
+            info = json.loads((executable.parent / 'application.json').read_text())
+            if info.get('programmer_gui'):
+                run('programmer_gui', '--check')
+                gui = executable.with_name('uz_cpld_gui.exe' if os.name == 'nt' else 'uz_cpld_gui')
+                assert gui.is_file(), 'Missing optional GUI launcher'
+                result = subprocess.run([str(gui), '--check'], cwd=root, env=env,
+                                        capture_output=True, text=True, timeout=30)
+                assert result.returncode == 0, result.stdout + result.stderr
+                request, response = root / 'gui-request.json', root / 'gui-response.json'
+                request.write_text(json.dumps(dict(action='load', workspace=str(root / 'gui-workspace'), firmware=str(firmware))))
+                run('--programmer-gui-worker', str(request), str(response))
+                assert json.loads(response.read_text())['ok'], response.read_text()
             for action in ('setup_foss_drivers', 'setup_diamond_driver'):
                 run(action, '--dry-run', '1')
                 output = run(action, '--device-id', 'UZ-CPLD-SMOKE-NONEXISTENT-DEVICE', success=False)

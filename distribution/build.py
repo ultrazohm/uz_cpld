@@ -1,6 +1,7 @@
 """Build one native standalone application. Run separately on each OS."""
 import argparse
 import json
+import os
 from pathlib import Path
 import platform
 import shutil
@@ -19,6 +20,7 @@ def main():
                         help='Tested portable loader directory from distribution/loader.py')
     parser.add_argument('--drivers', type=Path, default=ROOT / 'build/windows-drivers',
                         help='Verified Windows driver helper from distribution/windows_drivers/build.py')
+    parser.add_argument('--without-gui', action='store_true', help='Build the CLI without the optional Tk runtime and launcher')
     args = parser.parse_args()
     if sys.platform not in ('win32', 'linux') or platform.machine().lower() not in ('amd64', 'x86_64'):
         raise RuntimeError('Standalone release builds currently require Windows or Linux x64')
@@ -40,7 +42,8 @@ def main():
             raise RuntimeError('Driver helper must come from this application commit')
     subprocess.run([sys.executable, '-m', 'PyInstaller', '--noconfirm', '--clean',
                     '--distpath', str(output / 'dist'), '--workpath', str(output / 'work'),
-                    str(ROOT / 'distribution/uz_cpld.spec')], cwd=ROOT, check=True)
+                    str(ROOT / 'distribution/uz_cpld.spec')], cwd=ROOT, check=True,
+                   env=dict(os.environ, UZ_CPLD_BUILD_GUI='0' if args.without_gui else '1'))
     application = output / 'dist/uz_cpld'
     # Keep the portable native runtime separate from PyInstaller's Python libraries.
     bundled = application / '_internal/cpld_toolchain/bundled_tools/openFPGALoader'
@@ -54,6 +57,7 @@ def main():
                 git_dirty=bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT)),
                 python=sys.version.split()[0], diamond_version='3.14.0.75.2', firmware_schema=1,
                 default_programmer_backend='foss', openfpgaloader=provenance, windows_drivers=driver_provenance)
+    info['programmer_gui'] = not args.without_gui
     (application / 'application.json').write_text(json.dumps(info, indent=2) + '\n')
     from distribution.licensing import collect
     inputs = json.loads((output / 'work/uz_cpld/runtime-inputs.json').read_text())

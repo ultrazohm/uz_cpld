@@ -133,6 +133,18 @@ def collect(application, inputs):
         validate_windows_python_license(text)
         shutil.copy2(ROOT / 'distribution/WINDOWS-RUNTIME-TERMS.txt', notices)
         components['python']['notices'].append(notices / 'WINDOWS-RUNTIME-TERMS.txt')
+        if (application / 'uz_cpld_gui.exe').is_file():
+            tk_notices = []
+            for library in ('tcl', 'tk'):
+                paths = list((Path(sys.base_prefix) / 'tcl').glob(library + '*/license.terms'))
+                paths += list((Path(sys.base_prefix) / 'tcl').glob(library + '*/license*'))
+                license_path = next((p for p in paths if p.is_file()), None)
+                if license_path is None:
+                    raise RuntimeError(f'Missing bundled {library} license; build with --without-gui or install Python with Tcl/Tk notices')
+                target = notices / (library + '-LICENSE.txt')
+                shutil.copy2(license_path, target)
+                tk_notices.append(target)
+            components['tcl-tk'] = {'provider': 'Tcl/Tk', 'notices': tk_notices, 'sources': []}
     else:
         shutil.copytree('/usr/share/common-licenses', notices / 'common-licenses', dirs_exist_ok=True)
     native_inputs = {name.replace('\\', '/'): Path(source) for name, source, kind in inputs
@@ -154,6 +166,8 @@ def collect(application, inputs):
             if key not in components:
                 components[key] = debian_materials(package, notices, sources)
                 components[key]['notices'].append(notices / 'common-licenses')
+        elif sys.platform == 'win32' and source.is_relative_to(Path(sys.base_prefix)) and source.name.lower().startswith(('tcl', 'tk')):
+            key = 'tcl-tk'
         elif source.is_relative_to(Path(sys.base_prefix)) and (
                 source.name.lower().startswith(('python', 'libpython', 'vcruntime', 'libcrypto-', 'libssl-', 'libffi-'))
                 or source.suffix.lower() == '.pyd' or source.parent.name == 'lib-dynload'):
@@ -198,6 +212,9 @@ def collect(application, inputs):
             file_components[path.relative_to(application).as_posix()] = [owner]
     executable = 'uz_cpld.exe' if sys.platform == 'win32' else 'uz_cpld'
     file_components[executable] = ['application', 'pyinstaller', 'python', 'tomli']
+    gui_executable = 'uz_cpld_gui.exe' if sys.platform == 'win32' else 'uz_cpld_gui'
+    if (application / gui_executable).exists():
+        file_components[gui_executable] = ['application', 'pyinstaller', 'python', 'tomli']
     # PYZ is inside the executable; base_library.zip contains CPython bytecode.
     for path in application.rglob('base_library.zip'):
         file_components[path.relative_to(application).as_posix()] = ['python']
@@ -224,7 +241,7 @@ def collect(application, inputs):
 
 
 def native_file(path):
-    return path.suffix.lower() in ('.dll', '.pyd', '.exe') or '.so' in path.name or path.name in ('uz_cpld', 'openFPGALoader')
+    return path.suffix.lower() in ('.dll', '.pyd', '.exe') or '.so' in path.name or path.name in ('uz_cpld', 'uz_cpld_gui', 'openFPGALoader')
 
 
 def verify(application):

@@ -85,6 +85,8 @@ def parser():
     result.add_argument('--version', action='version', version=f'uz_cpld {__version__}')
     result.add_argument('--workspace', type=Path, help='Writable data directory; defaults to the user-data workspace')
     actions = result.add_subparsers(dest='action')
+    gui = actions.add_parser('programmer_gui', help='Open the optional desktop programmer')
+    gui.add_argument('--check', action='store_true', help='Check Tk availability without opening a window')
     health = actions.add_parser('doctor', help='Verify programmer availability without accessing USB')
     health.add_argument('--programmer-backend', choices=('foss', 'diamond'), default='foss',
                         help='Default: foss (bundled patched openFPGALoader)')
@@ -130,6 +132,9 @@ def parser():
 
 def main(argv=None):
     args = list(sys.argv[1:] if argv is None else argv)
+    if args and args[0] == '--programmer-gui-worker':
+        from .programmer_service import worker
+        return worker(*args[1:])
     cli = parser()
     try:
         if len(args) == 1 and args[0].startswith('programmer_path='):
@@ -139,6 +144,12 @@ def main(argv=None):
         if options.action is None:
             cli.print_help()
             return 0
+        if options.action == 'programmer_gui':
+            from .programmer_gui import main as gui
+            gui_args = ['--workspace', str(options.workspace)] if options.workspace else []
+            if options.check:
+                gui_args.append('--check')
+            return gui(gui_args, standalone=True)
         root = (options.workspace or settings.user_directory('data') / 'workspace').expanduser().resolve()
         if options.action == 'doctor':
             return doctor(root, options.programmer_backend)

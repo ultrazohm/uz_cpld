@@ -6,6 +6,7 @@ Follow the [user guide and quick start](docs/user/index.rst) to clone the reposi
 This path requires Git, Python 3.8+ for setup, and Diamond Programmer with its cable drivers; no local firmware build is needed.
 
 - [Standalone CLI](docs/standalone.rst): Windows and Ubuntu application downloads with Python, the patched FOSS programmer and firmware included.
+- Optional desktop programmer: run `uz_cpld programmer_gui` after setup, or double-click `uz_cpld_gui.exe` in the Windows standalone download. The CLI remains available independently.
 - [HDL developer guide](docs/developer/hdl.rst): create, simulate and build programs.
 - [Toolchain contribution guide](docs/developer/toolchain.rst): tooling, tests and CI.
 - [Release comparison](docs/releases.rst): program families and S3C/D-slot compatibility.

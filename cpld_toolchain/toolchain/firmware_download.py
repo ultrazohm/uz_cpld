@@ -99,7 +99,33 @@ def request(path, *, binary=False):
         raise BuildError(f'GitHub request failed: {exc.reason}') from None
 
 
-def latest(repository, ref):
+def release_metadata(release, ref=None):
+    """Recognize uploaded firmware with a recorded source commit."""
+    if not isinstance(release, dict) or release.get('draft') or not release.get('published_at'):
+        return None
+    tag = release.get('tag_name', '')
+    body = release.get('body') or ''
+    if not isinstance(tag, str) or not tag or not isinstance(body, str):
+        return None
+    refs = re.findall(r'^Source ref: ([^\r\n]+)\r?$', body, re.MULTILINE)
+    if ref is not None and (not re.fullmatch(r'firmware-ci-\d+-\d+', tag) or refs != [ref]):
+        return None
+    commits = re.findall(r'^Source commit: ([0-9a-fA-F]{40})\r?$', body, re.MULTILINE)
+    assets = [asset for asset in release.get('assets', [])
+              if asset.get('name') == ASSET and asset.get('state') == 'uploaded']
+    if len(commits) != 1 or len(assets) != 1 or type(release.get('id')) is not int:
+        return None
+    try:
+        stamp = datetime.fromisoformat(release['published_at'].replace('Z', '+00:00'))
+        if stamp.tzinfo is None:
+            return None
+    except (ValueError, TypeError):
+        return None
+    return release, assets[0], commits[0].lower()
+
+
+def published(repository, ref=None):
+    """All compatible published releases, newest first, across every API page."""
     matches = []
     page = 1
     while True:
@@ -108,23 +134,34 @@ def latest(repository, ref):
         if not isinstance(releases, list):
             raise BuildError('GitHub returned an invalid release listing')
         for release in releases:
-            body = release.get('body') or ''
-            if (release.get('draft') or not release.get('published_at') or
-                    not re.fullmatch(r'firmware-ci-\d+-\d+', release.get('tag_name', '')) or
-                    re.findall(r'^Source ref: ([^\r\n]+)\r?$', body, re.MULTILINE) != [ref]):
-                continue
-            commits = re.findall(r'^Source commit: ([0-9a-fA-F]{40})\r?$', body, re.MULTILINE)
-            assets = [asset for asset in release.get('assets', [])
-                      if asset.get('name') == ASSET and asset.get('state') == 'uploaded']
-            if len(commits) == 1 and len(assets) == 1:
-                matches.append((release, assets[0], commits[0].lower()))
+            metadata = release_metadata(release, ref)
+            if metadata:
+                matches.append(metadata)
         if len(releases) < 100:
             break
         page += 1
+    unique = {item[0]['id']: item for item in matches}
+    return sorted(unique.values(), key=lambda item: (
+        datetime.fromisoformat(item[0]['published_at'].replace('Z', '+00:00')), item[0]['id']), reverse=True)
+
+
+def latest(repository, ref):
+    matches = published(repository, ref)
     if not matches:
         raise BuildError(f'No published CI firmware with {ASSET} found for {repository} on {ref}')
-    return max(matches, key=lambda item: (datetime.fromisoformat(item[0]['published_at'].replace('Z', '+00:00')),
-                                          item[0]['id']))
+    return matches[0]
+
+
+def release_ref(release):
+    refs = re.findall(r'^Source ref: ([^\r\n]+)\r?$', release.get('body') or '', re.MULTILINE)
+    return refs[0] if len(refs) == 1 else 'refs/tags/' + release['tag_name']
+
+
+def available(repository):
+    return [dict(id=release['id'], tag=release['tag_name'], name=release.get('name') or release['tag_name'],
+                 published_at=release['published_at'], commit=commit, ref=release_ref(release),
+                 prerelease=bool(release.get('prerelease')))
+            for release, asset, commit in published(repository)]
 
 
 def verify(path, commit, asset):
@@ -188,7 +225,27 @@ def verify_archive(archive, *, commit=None):
 def download(root, *, remote=None, output=None, git_url=None, branch=None):
     repository, ref = source(root, remote, git_url=git_url, branch=branch)
     release, asset, commit = latest(repository, ref)
-    destination = Path(output) if output else Path(root) / 'build/downloads' / release['tag_name'] / ASSET
+    return download_asset(root, repository, ref, release, asset, commit, output=output)
+
+
+def download_release(root, repository, release_id, *, expected_commit=None):
+    if type(release_id) is not int or release_id <= 0:
+        raise BuildError('Choose a valid published release.')
+    with request(f'/repos/{repository}/releases/{release_id}') as response:
+        selected = json.load(response)
+    metadata = release_metadata(selected)
+    if metadata is None or selected['id'] != release_id:
+        raise BuildError('The selected release no longer contains supported published firmware. Refresh the release list.')
+    release, asset, commit = metadata
+    if expected_commit is not None and commit != expected_commit:
+        raise BuildError('The selected release changed. Refresh the release list and review it again.')
+    return download_asset(root, repository, release_ref(release), release, asset, commit)
+
+
+def download_asset(root, repository, ref, release, asset, commit, *, output=None):
+    tag = release['tag_name']
+    folder = tag if re.fullmatch(r'firmware-ci-\d+-\d+', tag) else f'release-{release["id"]}'
+    destination = Path(output) if output else Path(root) / 'build/downloads' / folder / ASSET
     if destination.is_symlink():
         raise BuildError('Download output must not be a symlink')
     print(f"Firmware: {repository} {ref} — {release['tag_name']} ({commit})")

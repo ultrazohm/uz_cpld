@@ -5,6 +5,22 @@ Extract the complete archive before use; the executable needs its _internal dire
 On Windows, double-click uz_cpld.exe to open a PowerShell programmer terminal
 that stays open. Type commands such as uz_cpld doctor, and type exit to close it.
 Running the executable from an existing terminal keeps ordinary CLI behavior.
+Optional desktop interface: double-click uz_cpld_gui.exe on Windows, run
+./uz_cpld_gui on Ubuntu, or type uz_cpld programmer_gui in the terminal.
+Choose a firmware ZIP (included firmware is offered automatically),
+or use Download to choose an available GitHub firmware version from a dropdown
+showing date, branch/tag, commit and release tag. Older versions and testing
+prereleases are included; no branch name is required. The exact selected
+release is validated before selection, and no hardware is accessed.
+Then choose a release and programs for S3C and D1-D5.
+Save assignments initializes selection.toml;
+replacing an existing file requires confirmation. Choose the target chain,
+prepare its physical JTAG access state, then Scan, Identify or Program & verify.
+The GUI always confirms programming and shows concise results, retaining full
+logs under the workspace's build/programmer/gui directory. Open diagnostics
+opens the operation folder. The complete D-slot chain is programmed together.
+The interface is optional: the existing CLI works without opening a window.
+CLI-only builds made with --without-gui omit the GUI launcher and Tcl/Tk runtime.
 Python, Git, MSYS2 and Diamond are not required for the default FOSS backend.
 The application includes our pinned patched openFPGALoader. On Windows the loader
 is statically linked and imports only Windows system DLLs. Ubuntu bundles its

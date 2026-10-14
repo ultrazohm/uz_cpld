@@ -24,6 +24,7 @@ WINDOWS_TESTS = (
     'cpld_toolchain.toolchain.tests.test_driver_setup',
     'cpld_toolchain.toolchain.tests.test_driver_status',
     'cpld_toolchain.toolchain.tests.test_windows_terminal',
+    'cpld_toolchain.toolchain.tests.test_programmer_gui',
     'cpld_toolchain.toolchain.tests.test_firmware_download',
     'cpld_toolchain.toolchain.tests.test_firmware_choice',
     'cpld_toolchain.toolchain.tests.test_capabilities', 'cpld_toolchain.toolchain.tests.test_doctor', 'cpld_toolchain.toolchain.tests.test_platform', 'cpld_toolchain.toolchain.tests.test_commands', 'cpld_toolchain.toolchain.tests.test_venv',
@@ -66,6 +67,7 @@ COMMANDS = {
     'build_selection': spec('Toolchain', 'build_selection', 'Build each distinct program in selection.toml', FIRMWARE | {'selection'}),
     'build_all': spec('Toolchain', 'build_all', 'Build every catalog program for the selected backend', FIRMWARE),
     'gui': spec('Toolchain', 'gui program=NAME', 'Open the Diamond firmware project', FIRMWARE | {'program'}, {'program'}),
+    'programmer_gui': spec('Programmer', 'programmer_gui', 'Open the optional desktop programmer', set()),
     'firmware_download': spec('Toolchain', 'firmware_download', 'Download the latest GitHub CI firmware for the selected repository and branch', {'remote', 'output', 'git_url', 'branch'}),
     'report': spec('Toolchain', 'report', 'Summarize existing catalog build evidence', FIRMWARE),
     'test': spec('Toolchain', 'test', 'Run Python utility tests; sim runs HDL tests'),
@@ -412,6 +414,15 @@ def run(action, options, *, workspace=None, standalone=False, included=None):
 def _run(action, options, *, workspace=None, standalone=False, included=None):
     """Plan, check only this command's dependencies, then execute lazily."""
     from cpld_toolchain import capabilities, runtime
+    if action == 'programmer_gui':
+        if options.get('dry_run') == '1':
+            print('Preview only: open the optional programmer GUI.')
+            return 0
+        from cpld_toolchain.programmer_gui import main as gui
+        code = gui(['--workspace', str(workspace)] if workspace else [], standalone=standalone)
+        if code:
+            raise BuildError('Programmer GUI could not start; CLI programming remains available.')
+        return 0
     guided_start = action == 'program' and not options.get('target')
     selection_mode = None
     if action == 'program':

@@ -226,11 +226,12 @@ def require_usb_bus():
 def run_command(command: tuple[str, ...], log: Path, *, env=None) -> str:
     """Stream tool output to the terminal and retain a log."""
     log.parent.mkdir(parents=True, exist_ok=True)
+    from cpld_toolchain.external import process_options
     with log.open('w') as stream:
         stream.write('$ ' + shlex.join(command) + '\n')
         stream.flush()
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                                   text=True, errors='replace', env=env)
+                                   text=True, errors='replace', env=env, **process_options())
         lines = []
         try:
             for line in process.stdout:

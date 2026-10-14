@@ -59,10 +59,11 @@ def invoke(binary, *args, capture=True):
         with external.system_libraries():
             if capture:
                 return subprocess.run(argv, env=external.environment(), stdin=subprocess.DEVNULL,
-                                      capture_output=True, text=True, encoding='utf-8', errors='replace', timeout=30)
+                                      capture_output=True, text=True, encoding='utf-8', errors='replace', timeout=30,
+                                      **external.process_options())
             # An elevated helper can outlive its unelevated parent. Do not kill the
             # parent or release the programmer lock while installation is running.
-            with subprocess.Popen(argv, env=external.environment()) as process:
+            with subprocess.Popen(argv, env=external.environment(), **external.process_options()) as process:
                 while True:
                     try:
                         return subprocess.CompletedProcess(argv, process.wait())
@@ -94,7 +95,7 @@ def select(rows, device_id=None):
     return rows[0]
 
 
-def setup(action, *, device_id=None):
+def setup(action, *, device_id=None, report=None):
     if sys.platform != 'win32':
         raise BuildError('Driver switching is supported on native Windows only. Linux uses its existing USB permission setup.')
     if action not in ACTIONS:
@@ -111,6 +112,8 @@ def setup(action, *, device_id=None):
         foss = action == 'setup_foss_drivers'
         expected = 'winusb' if foss else 'ftdibus'
         if selected['service'].casefold() == expected:
+            if report:
+                report(dict(already_bound=True, restart_required=False, device_id=selected['device_id'], service=expected))
             print(f'{selected["device_id"]}: {selected["service"]} is already bound. Run doctor or scan to check readiness.')
             return 0
         print(f'Selected programmer: {selected["device_id"]}', flush=True)
@@ -118,6 +121,8 @@ def setup(action, *, device_id=None):
         print('Close Diamond and other programmer applications. Approve the Windows administrator prompt to continue.', flush=True)
         result = invoke(binary, '--foss' if foss else '--diamond', selected['device_id'], capture=False)
         if result.returncode == 3010:
+            if report:
+                report(dict(already_bound=False, restart_required=True, device_id=selected['device_id'], service=expected))
             print('Driver installed. Restart Windows before scanning or programming.')
             return 0
         if result.returncode:
@@ -128,6 +133,8 @@ def setup(action, *, device_id=None):
         if current['service'].casefold() != expected:
             raise BuildError('Driver installation returned success but the expected binding is not visible. '
                              'Reconnect the programmer and run doctor before programming.')
+        if report:
+            report(dict(already_bound=False, restart_required=False, device_id=selected['device_id'], service=expected))
     print(f'Driver configured for {"FOSS" if foss else "Diamond"}. Run scan with the corresponding programmer backend.')
     return 0
 

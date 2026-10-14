@@ -106,8 +106,15 @@ It accepts executables directly in that directory or under a tool-named subdirec
 Companion libraries, scripts and the patched flasher receipt must accompany any future bundled tools.
 The pinned FOSS build installation and its receipt checks remain separate and unchanged.
 
-The focused :doc:`standalone` entry point packages download, selection and Diamond programming commands as native CLI archives.
-It shares the managed programmer with repository usage and ships its own Python runtime; Diamond remains a system installation and openFPGALoader bundling remains future work.
+The focused :doc:`standalone` entry point packages download, selection and programming commands as native application archives.
+It shares the managed programmer with repository usage and ships Python, the patched openFPGALoader, and the Windows driver helper; Diamond remains an optional system installation.
+The optional ``programmer_gui`` frontend lazily imports Tk, populates dropdowns
+from validated ZIP manifests and dispatches noninteractive requests to isolated
+worker processes. ``programmer_service.py`` invokes shared package validation,
+assignment writing, managed planning/execution and identity readback.
+Structured responses populate the window; detailed output remains in operation
+logs. Existing CLI entry points retain their normal behavior and do not import
+Tk. Packaging supports ``--without-gui`` for CLI-only distributions.
 Source builds and local-artifact programming still require the checkout and build provenance.
 ZIP programming and identification use the archive's manifest and identity registry without requiring matching source files or a local catalog.
 Use ``uz_cpld --workspace DIRECTORY`` to select a writable workspace for programming, identification, firmware downloads and local build/catalog commands; see :doc:`programmer`.

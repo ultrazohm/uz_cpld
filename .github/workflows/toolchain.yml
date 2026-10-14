@@ -39,7 +39,7 @@ jobs:
         run: |
           sudo sed -i 's/^Types: deb$/Types: deb deb-src/' /etc/apt/sources.list.d/ubuntu.sources
           sudo apt-get update
-          sudo apt-get install -y cmake g++ pkg-config patch libftdi1-dev libusb-1.0-0-dev zlib1g-dev patchelf
+          sudo apt-get install -y cmake g++ pkg-config patch libftdi1-dev libusb-1.0-0-dev zlib1g-dev patchelf python3-tk tk8.6-dev tcl8.6-dev xvfb
           # Refresh shipped runtimes so matching source versions remain in the indexes.
           sudo apt-get install -y libbz2-1.0 libcap2 libexpat1 libffi8 liblzma5 libssl3t64 libudev1 libgcc-s1 libstdc++6
       - name: Build and test the portable Linux programmer
@@ -58,7 +58,12 @@ jobs:
       - name: Install pinned packaging tools
         run: python -m pip install -r distribution/requirements.txt
       - name: Test standalone behavior
-        run: python -m unittest cpld_toolchain.toolchain.tests.test_standalone cpld_toolchain.toolchain.tests.test_distribution cpld_toolchain.toolchain.tests.test_windows_terminal cpld_toolchain.toolchain.tests.test_driver_status cpld_toolchain.toolchain.tests.test_driver_setup -v
+        env:
+          UZ_CPLD_REQUIRE_GUI_TESTS: ${{ runner.os == 'Windows' && '1' || '0' }}
+        run: python -m unittest cpld_toolchain.toolchain.tests.test_standalone cpld_toolchain.toolchain.tests.test_distribution cpld_toolchain.toolchain.tests.test_windows_terminal cpld_toolchain.toolchain.tests.test_driver_status cpld_toolchain.toolchain.tests.test_driver_setup cpld_toolchain.toolchain.tests.test_programmer_gui -v
+      - name: Test Linux programmer window with a virtual display
+        if: runner.os == 'Linux'
+        run: xvfb-run -a env UZ_CPLD_REQUIRE_GUI_TESTS=1 python -m unittest cpld_toolchain.toolchain.tests.test_programmer_gui.ProgrammerWindowTests -v
       - name: Build native CLI
         run: python distribution/build.py
       - name: Test the executable outside the checkout

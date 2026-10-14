@@ -40,7 +40,7 @@ def run(command, log, *, timeout=60):
         from cpld_toolchain import external
         with external.system_libraries():
             process = subprocess.Popen(command, stdout=stream, stderr=subprocess.STDOUT,
-                                       env=external.environment())
+                                       env=external.environment(), **external.process_options())
         try:
             returncode = process.wait(timeout=timeout)
         except subprocess.TimeoutExpired as exc:

@@ -1,0 +1,24 @@
+{
+  "phase": "foss-immediate",
+  "expected": {
+    "idcode": "012BC043",
+    "traceid": "014437468658443B",
+    "usercode": "00510009",
+    "label": "s3c",
+    "index": 0
+  },
+  "status": "pass",
+  "readers": {
+    "diamond": {
+      "status": "pass",
+      "source": "/workspaces/uz_cpld/build/programmer/identification/read-iqjio_b4/identity.json",
+      "read_at": "2026-10-07T20:17:27.113677+00:00"
+    },
+    "foss": {
+      "status": "pass",
+      "source": "/workspaces/uz_cpld/build/programmer/identification/read-e48kslbb/identity.json",
+      "read_at": "2026-10-07T20:17:27.625643+00:00"
+    }
+  },
+  "completed_at": "2026-10-07T20:17:27.643323+00:00"
+}

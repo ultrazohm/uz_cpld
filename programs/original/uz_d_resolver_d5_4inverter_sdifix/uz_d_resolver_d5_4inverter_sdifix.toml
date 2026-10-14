@@ -1,6 +1,7 @@
 name = "uz_d_resolver_d5_4inverter_sdifix"
 top = "SignalRouter"
 standard = "1993"
+synthesis = "lse"
 targets = ["uz_dslot_xo2"]
 constraints = ["uz_d_resolver_d5_4inverter_sdifix_constraints.lpf"]
 sources = [{path = "uz_d_resolver_d5_4inverter_sdifix.vhdl", library = "work"}]

@@ -1,0 +1,9 @@
+schema_version = 3
+name = "cvg_uz_d_3ph_inverter"
+routing = "routing.csv"
+contract = "s3c_heartbeat_v1"
+clock = "machxo2"
+pilot_policy = "unused"
+target = "uz_dslot_xo2"
+standard = "2008"
+synthesis = "synplify"

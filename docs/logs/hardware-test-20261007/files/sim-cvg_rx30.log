@@ -1,0 +1,21 @@
+[/workspaces/uz_cpld] /opt/uz-cpld-env/bin/python -m pytest cpld_toolchain/toolchain/simulation/test_simulation.py -v -n 1 --junitxml=build/simulation/heartbeat_cvg/junit.xml --release-cycle heartbeat_cvg --seed 1 --wave-format vcd --program cvg_rx30
+Cannot read termcap database;
+using dumb terminal settings.
+Cannot read termcap database;
+using dumb terminal settings.
+============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.4.2, pluggy-1.6.0 -- /opt/uz-cpld-env/bin/python
+cachedir: .pytest_cache
+rootdir: /workspaces/uz_cpld
+configfile: pyproject.toml
+plugins: xdist-3.8.0
+created: 1/1 worker
+1 worker [1 item]
+
+scheduling tests via LoadScheduling
+
+cpld_toolchain/toolchain/simulation/test_simulation.py::test_routing[heartbeat_cvg-cvg_rx30] 
+[gw0] [100%] PASSED cpld_toolchain/toolchain/simulation/test_simulation.py::test_routing[heartbeat_cvg-cvg_rx30] 
+
+- generated xml file: /workspaces/uz_cpld/build/simulation/heartbeat_cvg/junit.xml -
+============================== 1 passed in 1.97s ===============================

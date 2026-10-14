@@ -8,5 +8,6 @@ if command -v -- "$diamond_launcher" >/dev/null 2>&1; then
     echo "Diamond found: $diamond_launcher (license not checked)." >&2
 else
     echo "Diamond not found: $diamond_launcher. FOSS tools are available; Diamond commands require an installation." >&2
+    echo "For the host-mounted Dev Container, run bash .devcontainer/prepare-host.sh on the host, then Rebuild Container." >&2
 fi
 exec "$@"

@@ -1,0 +1,15 @@
+id = "s3c_heartbeat_v1"
+implementation = "heartbeat"
+compatible_s3c = ["s3c_heartbeat"]
+request_mode = "active_high"
+carrier_ready = "heartbeat"
+slotok = [1, 0]
+# Keep outputs driven so each CSV row determines its safe-state level.
+reqoe = [1, 1]
+
+# Receiver clock counts at nominal 2.08 MHz; sender toggles every 21 clocks.
+[heartbeat]
+timeout_clks = 208
+min_edge_clks = 10
+max_edge_clks = 52
+valid_edges_required = 16

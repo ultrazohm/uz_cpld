@@ -1,6 +1,7 @@
 name = "tx20_10rx"
 top = "SignalRouter"
 standard = "1993"
+synthesis = "lse"
 targets = ["uz_dslot_xo2"]
 constraints = ["tx20_10rx_constraints.lpf"]
 sources = [{path = "tx20_10rx.vhdl", library = "work"}]

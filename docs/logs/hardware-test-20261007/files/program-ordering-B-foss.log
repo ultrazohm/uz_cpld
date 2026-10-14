@@ -1,0 +1,26 @@
+[/workspaces/uz_cpld] /opt/uz-cpld-env/bin/python -m cpld_toolchain.programmer_helper.program program --root /workspaces/uz_cpld --selection /workspaces/uz_cpld/build/hardware-test-20261007/selection-B.toml --programmer-backend foss --build-backend diamond --target dslot --execute
+Programming selection (release: heartbeat_cvg):
+  D-slot 1: cvg_rx30, revision 10, USERCODE 0x0036000A
+  D-slot 2: cvg_tx16_14rx, revision 10, USERCODE 0x0038000A
+  D-slot 3: cvg_tx20_10rx, revision 10, USERCODE 0x0039000A
+  D-slot 4: cvg_optical_14tx_4rx, revision 10, USERCODE 0x0035000A
+  D-slot 5: cvg_tx30, revision 17, USERCODE 0x003B0011
+Firmware build backend: diamond; programmer backend: foss
+slot1: /workspaces/uz_cpld/build/diamond/heartbeat_cvg/cvg_rx30/uz_dslot_xo2/cvg_rx30_uz_dslot_xo2_diamond.jed (sha256 f34aa724f13a6e5840bcdb31e3ab3d1b7df7f9aed0e71ab03a292bcdb31120cf)
+  /opt/oss-cad-suite/native/openfpgaloader/openFPGALoader --cable ft4232_b --freq 1000000 --cable-index 0 --index-chain 0 --write-flash --verify --usercode 0036000A /workspaces/uz_cpld/build/diamond/heartbeat_cvg/cvg_rx30/uz_dslot_xo2/cvg_rx30_uz_dslot_xo2_diamond.jed
+slot2: /workspaces/uz_cpld/build/diamond/heartbeat_cvg/cvg_tx16_14rx/uz_dslot_xo2/cvg_tx16_14rx_uz_dslot_xo2_diamond.jed (sha256 ecfe07b4b0f16e3e06c43c35b736398a5575e9cd792c8c550dbf5cb78dbcbdbd)
+  /opt/oss-cad-suite/native/openfpgaloader/openFPGALoader --cable ft4232_b --freq 1000000 --cable-index 0 --index-chain 1 --write-flash --verify --usercode 0038000A /workspaces/uz_cpld/build/diamond/heartbeat_cvg/cvg_tx16_14rx/uz_dslot_xo2/cvg_tx16_14rx_uz_dslot_xo2_diamond.jed
+slot3: /workspaces/uz_cpld/build/diamond/heartbeat_cvg/cvg_tx20_10rx/uz_dslot_xo2/cvg_tx20_10rx_uz_dslot_xo2_diamond.jed (sha256 95b36a9be04e0b41e68dc21ee85acfe74004b856f780a7eb0673a2d4163cc47e)
+  /opt/oss-cad-suite/native/openfpgaloader/openFPGALoader --cable ft4232_b --freq 1000000 --cable-index 0 --index-chain 2 --write-flash --verify --usercode 0039000A /workspaces/uz_cpld/build/diamond/heartbeat_cvg/cvg_tx20_10rx/uz_dslot_xo2/cvg_tx20_10rx_uz_dslot_xo2_diamond.jed
+slot4: /workspaces/uz_cpld/build/diamond/heartbeat_cvg/cvg_optical_14tx_4rx/uz_dslot_xo2/cvg_optical_14tx_4rx_uz_dslot_xo2_diamond.jed (sha256 3c677f1b742fa91eb087b6a276cf252ac2813df4ab82c7588b9394f0df15bb3c)
+  /opt/oss-cad-suite/native/openfpgaloader/openFPGALoader --cable ft4232_b --freq 1000000 --cable-index 0 --index-chain 3 --write-flash --verify --usercode 0035000A /workspaces/uz_cpld/build/diamond/heartbeat_cvg/cvg_optical_14tx_4rx/uz_dslot_xo2/cvg_optical_14tx_4rx_uz_dslot_xo2_diamond.jed
+slot5: /workspaces/uz_cpld/build/diamond/heartbeat_cvg/cvg_tx30/uz_dslot_xo2/cvg_tx30_uz_dslot_xo2_diamond.jed (sha256 2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914)
+  /opt/oss-cad-suite/native/openfpgaloader/openFPGALoader --cable ft4232_b --freq 1000000 --cable-index 0 --index-chain 4 --write-flash --verify --usercode 003B0011 /workspaces/uz_cpld/build/diamond/heartbeat_cvg/cvg_tx30/uz_dslot_xo2/cvg_tx30_uz_dslot_xo2_diamond.jed
+Detached ftdi_sio: 3-3:1.1 (serial 0100106000045, channel B)
+FOSS: programming slot1; log: /workspaces/uz_cpld/build/programmer/heartbeat_cvg/runs/20261007T200433781624Z/slot1.log
+FOSS: programming slot2; log: /workspaces/uz_cpld/build/programmer/heartbeat_cvg/runs/20261007T200433781624Z/slot2.log
+FOSS: programming slot3; log: /workspaces/uz_cpld/build/programmer/heartbeat_cvg/runs/20261007T200433781624Z/slot3.log
+FOSS: programming slot4; log: /workspaces/uz_cpld/build/programmer/heartbeat_cvg/runs/20261007T200433781624Z/slot4.log
+FOSS: programming slot5; log: /workspaces/uz_cpld/build/programmer/heartbeat_cvg/runs/20261007T200433781624Z/slot5.log
+Restored ftdi_sio: 3-3:1.1
+Programming record: /workspaces/uz_cpld/build/programmer/heartbeat_cvg/runs/20261007T200433781624Z/result.json

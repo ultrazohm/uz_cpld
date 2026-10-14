@@ -11,12 +11,18 @@ entity s3c_logic is
         SLOTOK_NORMAL : std_logic := '1';
         SLOTOK_SAFE : std_logic := '0';
         REQOE_NORMAL : std_logic := '1';
-        REQOE_SAFE : std_logic := '1'
+        REQOE_SAFE : std_logic := '1';
+        -- heartbeat architecture: clock counts, nominally at 2.08 MHz.
+        HB_TIMEOUT_CLKS : positive := 208;
+        HB_MIN_EDGE_CLKS : positive := 10;
+        HB_MAX_EDGE_CLKS : positive := 52;
+        HB_VALID_EDGES_REQUIRED : positive := 16
     );
     port (
         clk, reset : in std_logic;
         reqsafestate, carrierrdy, pilot_in, card_enable : in std_logic;
         state_normal, state_safe : out std_logic;
+        state_system_error : out std_logic;
         slotok, reqoe : out std_logic
     );
 end entity;

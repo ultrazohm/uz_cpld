@@ -1,0 +1,203 @@
+--- a/configure.ac
++++ b/configure.ac
+@@ -17,6 +17,13 @@
+ AM_PROG_CC_C_O
+ AC_DEFINE([_GNU_SOURCE], [], [Use GNU extensions])
+ 
++AC_ARG_ENABLE([inbox-winusb],
++    [AS_HELP_STRING([--enable-inbox-winusb], [use Windows 10/11 inbox WinUSB without WDK redistributables])],
++    [enable_inbox_winusb=$enableval], [enable_inbox_winusb=no])
++if test "x$enable_inbox_winusb" = "xyes"; then
++    AC_DEFINE([UZ_INBOX_WINUSB], [1], [Use Windows inbox WinUSB without coinstallers])
++fi
++
+ AC_ARG_WITH([wdkdir],
+ 	[AS_HELP_STRING([--with-wdkdir], [embed WinUSB driver files from the following WDK location])],
+ 	[WDK_DIR=$withval],
+@@ -55,7 +62,7 @@
+ 	AC_DEFINE_UNQUOTED([USER_DIR], ["${USER_DIR}"], [embed user defined driver files from the following location])
+ fi
+ 
+-if test "x$USER_DIR" == "x" -a "x$WDK_DIR" == "x" -a "x$LIBUSB0_DIR" == "x" -a "x$LIBUSBK_DIR" == "x"; then
++if test "x$enable_inbox_winusb" != "xyes" -a "x$USER_DIR" == "x" -a "x$WDK_DIR" == "x" -a "x$LIBUSB0_DIR" == "x" -a "x$LIBUSBK_DIR" == "x"; then
+ 	AC_MSG_ERROR([One of --with-wdkdir, --with-libusb0, --with-libusbk or --with-userdir options MUST be provided.])
+ fi
+ 
+--- a/libwdi/libwdi.c
++++ b/libwdi/libwdi.c
+@@ -622,6 +622,23 @@
+ 		goto out;
+ 	}
+ 
++#if defined(UZ_INBOX_WINUSB)
++    // UltraZohm modification: package metadata, not the version of an embedded
++    // Microsoft binary. The INF delegates driver/service installation to Windows.
++    if (driver_type == WDI_WINUSB) {
++        SYSTEMTIME date = { 2020, 1, 0, 1, 0, 0, 0, 0 };
++        FILETIME stamp;
++        memset(driver_info, 0, sizeof(*driver_info));
++        driver_info->dwSignature = 0xFEEF04BD;
++        driver_info->dwFileVersionMS = 10 << 16;
++        if (!SystemTimeToFileTime(&date, &stamp)) { r = WDI_ERROR_OTHER; goto out; }
++        driver_info->dwFileDateMS = stamp.dwHighDateTime;
++        driver_info->dwFileDateLS = stamp.dwLowDateTime;
++        r = WDI_SUCCESS;
++        goto out;
++    }
++#endif
++
+ 	// No need to extract the version again if available
+ 	if (driver_version[driver_type].dwSignature != 0) {
+ 		memcpy(driver_info, &driver_version[driver_type], sizeof(VS_FIXEDFILEINFO));
+@@ -723,7 +740,10 @@
+ 
+ 	switch (driver_type) {
+ 	case WDI_WINUSB:
+-#if defined(WDK_DIR)
++#if defined(UZ_INBOX_WINUSB)
++        GET_WINDOWS_VERSION;
++        return nWindowsVersion >= WINDOWS_10;
++#elif defined(WDK_DIR)
+ 		return TRUE;
+ #else
+ 		return FALSE;
+--- a/libwdi/winusb.inf.in
++++ b/libwdi/winusb.inf.in
+@@ -1,100 +1,39 @@
+-; #INF_FILENAME#
+-; Copyright (c) 2010-2023 Pete Batard <pete@akeo.ie> (GNU LGPL)
++; libwdi WinUSB template, modified by UltraZohm contributors.
++; Original copyright (c) 2010-2023 Pete Batard; LGPL-3.0-or-later.
++; Windows 10/11 inbox driver only: no copied binaries or coinstallers.
+ [Strings]
+ DeviceName = "#DEVICE_DESCRIPTION#"
+ VendorName = "#DEVICE_MANUFACTURER#"
+-SourceName = "#DEVICE_DESCRIPTION# Install Disk"
+-DeviceID   = "#DEVICE_HARDWARE_ID#"
++DeviceID = "#DEVICE_HARDWARE_ID#"
+ DeviceGUID = "#DEVICE_INTERFACE_GUID#"
+ 
+ [Version]
+-Signature   = "$Windows NT$"
+-Class       = "USBDevice"
+-ClassGuid   = {88bae032-5a81-49f0-bc3d-a4ff138216d6}
+-Provider    = "libwdi"
++Signature = "$Windows NT$"
++Class = USBDevice
++ClassGuid = {88bae032-5a81-49f0-bc3d-a4ff138216d6}
++Provider = "libwdi"
+ CatalogFile = #CAT_FILENAME#
+-DriverVer   = #DRIVER_DATE#, #DRIVER_VERSION#
+-
+-[ClassInstall32]
+-Addreg = WinUSBDeviceClassReg
+-
+-[WinUSBDeviceClassReg]
+-HKR,,,0,"Universal Serial Bus devices"
+-HKR,,Icon,,-20
++DriverVer = #DRIVER_DATE#, #DRIVER_VERSION#
++PnpLockdown = 1
+ 
+ [Manufacturer]
+-%VendorName% = libusbDevice_WinUSB,NTx86,NTamd64,NTarm64
++%VendorName% = libusbDevice_WinUSB,NTamd64.10.0
+ 
+-[libusbDevice_WinUSB.NTx86]
+-%DeviceName% = USB_Install, USB\%DeviceID%
+-
+-[libusbDevice_WinUSB.NTamd64]
+-%DeviceName% = USB_Install, USB\%DeviceID%
+-
+-[libusbDevice_WinUSB.NTarm64]
++[libusbDevice_WinUSB.NTamd64.10.0]
+ %DeviceName% = USB_Install, USB\%DeviceID%
+ 
+ [USB_Install]
+ Include = winusb.inf
+-Needs   = WINUSB.NT
++Needs = WINUSB.NT
+ 
+ [USB_Install.Services]
+-Include    = winusb.inf
+-AddService = WinUSB,0x00000002,WinUSB_ServiceInstall
+-
+-[WinUSB_ServiceInstall]
+-DisplayName   = "WinUSB - Kernel Driver #DRIVER_DATE# #DRIVER_VERSION#"
+-ServiceType   = 1
+-StartType     = 3
+-ErrorControl  = 1
+-ServiceBinary = %12%\WinUSB.sys
+-
+-[USB_Install.Wdf]
+-KmdfService = WINUSB, WinUsb_Install
+-
+-[WinUSB_Install]
+-KmdfLibraryVersion = #KMDF_VERSION#
++Include = winusb.inf
++Needs = WINUSB.NT.Services
+ 
+ [USB_Install.HW]
+ AddReg = #USE_DEVICE_INTERFACE_GUID#
+ 
+ [NoDeviceInterfaceGUID]
+-; Avoids adding a DeviceInterfaceGUID for generic driver
+ 
+ [AddDeviceInterfaceGUID]
+ HKR,,DeviceInterfaceGUIDs,0x10000,%DeviceGUID%
+-
+-[USB_Install.NTx86.CoInstallers]
+-AddReg    = CoInstallers_AddReg
+-CopyFiles = CoInstallers_CopyFiles
+-
+-[USB_Install.NTamd64.CoInstallers]
+-AddReg    = CoInstallers_AddReg
+-CopyFiles = CoInstallers_CopyFiles
+-
+-[USB_Install.NTarm64.CoInstallers]
+-;
+-
+-[CoInstallers_AddReg]
+-HKR,,CoInstallers32,0x00010000,"WdfCoInstaller#WDF_VERSION#.dll,WdfCoInstaller","WinUSBCoInstaller2.dll"
+-
+-[CoInstallers_CopyFiles]
+-WinUSBCoInstaller2.dll
+-WdfCoInstaller#WDF_VERSION#.dll
+-
+-[DestinationDirs]
+-CoInstallers_CopyFiles = 11
+-
+-[SourceDisksNames]
+-1 = %SourceName%
+-
+-[SourceDisksFiles.x86]
+-WinUSBCoInstaller2.dll = 1,x86
+-WdfCoInstaller#WDF_VERSION#.dll = 1,x86
+-
+-[SourceDisksFiles.amd64]
+-WinUSBCoInstaller2.dll = 1,amd64
+-WdfCoInstaller#WDF_VERSION#.dll = 1,amd64
+-
+-[SourceDisksFiles.arm64]
+-;
+\ No newline at end of file
+--- a/libwdi/winusb.cat.in
++++ b/libwdi/winusb.cat.in
+@@ -1,5 +1 @@
+-# List of the binaries referenced by the WinUSB inf
+-# These are used to generate and self-sign a .cat file
+-
+-WdfCoInstaller#WDF_VERSION#.dll
+-winusbcoinstaller2.dll
+\ No newline at end of file
++# UltraZohm inbox WinUSB package: libwdi adds the generated INF to the catalog.
+--- a/libwdi/embedder.h
++++ b/libwdi/embedder.h
+@@ -23,7 +23,7 @@
+ #error both 32 and 64 bit support have been disabled - check your config.h
+ #endif
+ 
+-#if !defined(WDK_DIR) && !defined(LIBUSB0_DIR) && !defined(USER_DIR) && !defined(LIBUSBK_DIR)
++#if !defined(UZ_INBOX_WINUSB) && !defined(WDK_DIR) && !defined(LIBUSB0_DIR) && !defined(USER_DIR) && !defined(LIBUSBK_DIR)
+ #error at least one of WDK_DIR, LIBUSB0_DIR, LIBUSBK_DIR or USER_DIR must be defined - check your config.h
+ #endif
+ 

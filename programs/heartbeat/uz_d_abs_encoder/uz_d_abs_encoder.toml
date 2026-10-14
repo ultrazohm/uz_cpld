@@ -1,0 +1,13 @@
+name = "uz_d_abs_encoder"
+top = "SignalRouter"
+standard = "2008"
+synthesis = "synplify"
+targets = ["uz_dslot_xo2"]
+backends = ["diamond"]
+constraints = ["uz_d_abs_encoder_constraints.lpf"]
+sources = [
+    {path = "../../../xo2_library/s3c/s3c_logic.vhdl", library = "s3c"},
+    {path = "../../../xo2_library/s3c/heartbeat.vhdl", library = "s3c"},
+    {path = "uz_d_abs_encoder.vhdl", library = "work"},
+]
+testbench = "uz_d_abs_encoder_tb.py"

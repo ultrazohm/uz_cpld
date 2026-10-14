@@ -12,6 +12,8 @@ architecture level_signals of s3c_logic is
     signal warmup : natural range 0 to 3 := 0;
     signal allow_normal : boolean;
 begin
+    -- Level-based contracts have no heartbeat fault source.
+    state_system_error <= '0';
     allow_normal <= request_sync = not REQUEST_SAFE_LEVEL and enable_sync = '1' and
                     (not USE_CARRIER_READY or ready_sync = CARRIER_READY_LEVEL) and
                     (not REQUIRE_PILOT or pilot_sync = '1');

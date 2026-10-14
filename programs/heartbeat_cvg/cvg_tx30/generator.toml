@@ -1,0 +1,11 @@
+schema_version = 3
+name = "cvg_tx30"
+routing = "routing.csv"
+contract = "s3c_heartbeat_v1"
+clock = "machxo2"
+pilot_policy = "unused"
+target = "uz_dslot_xo2"
+standard = "2008"
+synthesis = "synplify"
+backends = ["diamond", "foss"]
+foss_equivalence_blacklist = "cvg_tx30_foss_equivalence_blacklist.txt"

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+# Resolve imports from the mounted checkout, including uninstalled source edits.
+exec /opt/uz-cpld-env/bin/python -m cpld_toolchain "$@"

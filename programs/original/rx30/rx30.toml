@@ -1,6 +1,7 @@
 name = "rx30"
 top = "SignalRouter"
 standard = "1993"
+synthesis = "lse"
 targets = ["uz_dslot_xo2"]
 constraints = ["rx30_constraints.lpf"]
 sources = [{path = "rx30.vhdl", library = "work"}]

@@ -1,0 +1,4 @@
+[/workspaces/uz_cpld] /opt/uz-cpld-env/bin/python -m cpld_toolchain.programmer_helper.program identify --root /workspaces/uz_cpld --programmer-backend foss --target s3c --execute
+Detached ftdi_sio: 3-3:1.1 (serial 0100106000045, channel B)
+Restored ftdi_sio: 3-3:1.1
+s3c: USERCODE 0x00510009, TraceID 0x014437468658443B: heartbeat_cvg/s3c_heartbeat, revision 9

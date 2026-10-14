@@ -7,15 +7,10 @@ Behavior
 --------
 
 The last four adapter outputs are declared but undriven.
-The route logic matches the tx26_w_enable variant, but this program retains its own archived source file.
+The route logic matches the tx26_w_enable variant, but this program retains its own source file.
 ``slotok`` is high when ``reqsafestate`` is low and ``fpga_26..29`` equals ``0011``, and ``reqoe`` is always high.
-The archived design leaves 4 declared outputs undriven, so the testbench does not assign them a defined value.
+The design leaves 4 declared outputs undriven, so the testbench does not assign them a defined value.
 
-Archive source
---------------
-
-The VHDL and LPF are byte-for-byte copies of ``archive/MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/template_dslots/source/``.
-The archive declares an unused ``machxo2`` library, which the simulator supplies as an empty library during analysis.
 
 Verification
 ------------

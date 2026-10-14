@@ -1,0 +1,8 @@
+[/workspaces/uz_cpld] /opt/uz-cpld-env/bin/python -m cpld_toolchain.programmer_helper.program identify --root /workspaces/uz_cpld --programmer-backend foss --target dslot --execute
+Detached ftdi_sio: 3-3:1.1 (serial 0100106000045, channel B)
+Restored ftdi_sio: 3-3:1.1
+slot1: USERCODE 0x0036000A, TraceID 0x0144381228405816: heartbeat_cvg/cvg_rx30, revision 10
+slot2: USERCODE 0x0038000A, TraceID 0x014438122840581A: heartbeat_cvg/cvg_tx16_14rx, revision 10
+slot3: USERCODE 0x0039000A, TraceID 0x01443812283C5E02: heartbeat_cvg/cvg_tx20_10rx, revision 10
+slot4: USERCODE 0x0035000A, TraceID 0x01443812283C6005: heartbeat_cvg/cvg_optical_14tx_4rx, revision 10
+slot5: USERCODE 0x003B0011, TraceID 0x01443812283C6003: heartbeat_cvg/cvg_tx30, revision 17

@@ -1,0 +1,3 @@
+[/workspaces/uz_cpld] /opt/uz-cpld-env/bin/python -m cpld_toolchain.toolchain.buildsystem build --root /workspaces/uz_cpld --program s3c_heartbeat --release-cycle heartbeat_cvg --backend diamond
+/workspaces/uz_cpld/build/diamond
+/workspaces/uz_cpld/build/diamond/heartbeat_cvg/s3c_heartbeat/uz_s3c_xo2

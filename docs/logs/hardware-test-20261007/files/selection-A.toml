@@ -1,0 +1,9 @@
+release = "heartbeat_cvg"
+s3c = "s3c_heartbeat"
+
+[slots]
+"1" = "cvg_tx30"
+"2" = "cvg_rx30"
+"3" = "cvg_tx16_14rx"
+"4" = "cvg_tx20_10rx"
+"5" = "cvg_optical_14tx_4rx"

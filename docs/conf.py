@@ -8,7 +8,7 @@ release = '0.1'
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode', 'sphinx.ext.githubpages',
               'sphinxcontrib.mermaid']
 master_doc = 'index'
-exclude_patterns = ['_build', '_generated/static']
+exclude_patterns = ['_build', '_generated/static', 'logs/hardware-test-20261007/files']
 html_extra_path = ['_generated/static']
 html_theme = 'furo'
 autodoc_member_order = 'bysource'

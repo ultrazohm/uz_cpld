@@ -1,0 +1,4 @@
+[/workspaces/uz_cpld] /opt/uz-cpld-env/bin/python -m cpld_toolchain.programmer_helper.program scan --root /workspaces/uz_cpld --programmer-backend foss --target dslot --execute
+Detached ftdi_sio: 3-3:1.1 (serial 0100106000045, channel B)
+Restored ftdi_sio: 3-3:1.1
+Detected: [(0, 19644483)]

@@ -1,0 +1,14 @@
+name = "s3c_heartbeat"
+top = "S3C"
+standard = "2008"
+synthesis = "synplify"
+targets = ["uz_s3c_xo2"]
+backends = ["diamond"]
+constraints = ["s3c_heartbeat_constraints.lpf"]
+sources = [
+    {path = "s3c_heartbeat_lib.vhdl", library = "work"},
+    {path = "s3c_heartbeat_fsm.vhdl", library = "work"},
+    {path = "s3c_heartbeat.vhdl", library = "work"},
+]
+testbench = "s3c_heartbeat_tb.py"
+netlist_skip_reason = "The byte-identical upstream top level retains two drivers of tristate_signals, which GHDL synthesis does not support. Diamond builds and GHDL simulation use the unchanged sources."

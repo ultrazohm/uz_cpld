@@ -26,12 +26,15 @@
     }
   },
   "init": true,
+  "initializeCommand": ["bash", "${localWorkspaceFolder}/.devcontainer/prepare-host.sh"],
   "postCreateCommand": "bash .devcontainer/setup.sh",
+  "postStartCommand": "bash .devcontainer/setup-network.sh",
+  "waitFor": "postStartCommand",
   "runArgs": [
     "--platform=linux/amd64",
-    "--network=bridge",
-    "--mac-address=10:91:d1:3d:14:ae",
-    "--volume",
-    "${localEnv:DIAMOND_HOST_ROOT:uz-cpld-no-diamond}:/opt/diamond:ro"
+    "--network=name=bridge,mac-address=10:91:d1:3d:14:ae",
+    "--cap-add=NET_ADMIN",
+    "--mount",
+    "type=bind,source=${localWorkspaceFolder}/.devcontainer/.local/diamond,target=/opt/diamond,readonly"
   ]
 }

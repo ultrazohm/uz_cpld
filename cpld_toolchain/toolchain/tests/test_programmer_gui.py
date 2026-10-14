@@ -171,11 +171,23 @@ class ProgrammerServiceTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
 
     def test_frozen_worker_uses_sibling_cli_and_paths_are_arguments(self):
+        directory = self.root / 'programmer folder'
+        request, result = self.root / 'request space.json', self.root / 'result space.json'
         with patch.object(sys, 'frozen', True, create=True), patch.object(sys, 'platform', 'win32'), \
-                patch.object(sys, 'executable', '/tmp/programmer folder/uz_cpld_gui.exe'):
-            command = gui.worker_command(Path('/tmp/request space.json'), Path('/tmp/result space.json'))
-        self.assertEqual(command, ['/tmp/programmer folder/uz_cpld.exe', '--programmer-gui-worker',
-                                   '/tmp/request space.json', '/tmp/result space.json'])
+                patch.object(sys, 'executable', str(directory / 'uz_cpld_gui.exe')):
+            command = gui.worker_command(request, result)
+        self.assertEqual(command, [str(directory / 'uz_cpld.exe'), '--programmer-gui-worker', str(request), str(result)])
+
+    def test_frozen_worker_preserves_native_windows_paths_with_spaces(self):
+        from pathlib import PureWindowsPath
+        request = PureWindowsPath('C:/Programming station/request file.json')
+        result = PureWindowsPath('C:/Programming station/result file.json')
+        directory = PureWindowsPath('C:/Program Files/UltraZohm')
+        with patch.object(gui, 'Path', PureWindowsPath), patch.object(sys, 'frozen', True, create=True), \
+                patch.object(sys, 'platform', 'win32'), \
+                patch.object(sys, 'executable', str(directory / 'uz_cpld_gui.exe')):
+            command = gui.worker_command(request, result)
+        self.assertEqual(command, [str(directory / 'uz_cpld.exe'), '--programmer-gui-worker', str(request), str(result)])
 
     def test_alternate_ui_runtime_retains_worker_interpreter_and_workspace(self):
         from argparse import Namespace

@@ -310,12 +310,10 @@ class ProgrammerWindowTests(unittest.TestCase):
         self.assertEqual(confirm.call_args.kwargs['default'], 'no')
         self.start.assert_not_called()
 
-    def test_separate_identify_buttons_do_not_need_a_selected_package(self):
-        for text, target in (('Identify S3C', 's3c'), ('Identify D-slots', 'dslot')):
-            self.start.reset_mock()
-            button = next(widget for widget, _ in self.window.controls if widget.cget('text') == text)
-            button.invoke()
-            self.start.assert_called_once_with('identify', target=target)
+    def test_identify_button_discovers_the_chain_without_a_selected_package(self):
+        button = next(widget for widget, _ in self.window.controls if widget.cget('text') == 'Identify')
+        button.invoke()
+        self.start.assert_called_once_with('identify')
 
     def test_program_buttons_keep_target_and_confirmation_assignments_together(self):
         self.window.catalog = {'A': {'s3c': ['controller'], 'dslot': ['adapter']}}
@@ -413,7 +411,35 @@ class ProgrammerWindowTests(unittest.TestCase):
         text_height = font.Font(self.root, font=style.lookup('Treeview', 'font')).metrics('linespace')
         self.assertGreater(rowheight, text_height)
         self.assertTrue(self.window.stacked)
-        self.assertEqual(self.window.choices_card.grid_info()['row'], 1)
+        self.assertEqual(self.window.source_card.grid_info()['row'], 1)
+        self.assertEqual(self.window.choices_card.winfo_manager(), 'pack')
+
+    def test_device_positions_stay_visible_and_other_chain_results_are_retained(self):
+        positions = ('S3C', 'D1', 'D2', 'D3', 'D4', 'D5')
+        self.assertEqual(self.window.table.get_children(), positions)
+        for position in positions:
+            self.assertEqual(tuple(self.window.table.item(position, 'values')), (position, '', '', '', ''))
+        self.window.show_devices([dict(label='s3c', idcode='012BC043', usercode='12345678', identity=None)])
+        self.window.show_devices([dict(label='slot1', idcode='012BB043', usercode='ABCDEF01', identity=None)])
+        self.assertEqual(self.window.table.item('S3C', 'values')[4], '12345678')
+        self.assertEqual(self.window.table.item('D1', 'values')[4], 'ABCDEF01')
+        self.window.clear_results()
+        self.assertEqual(self.window.table.get_children(), positions)
+        self.assertEqual(self.window.table.item('S3C', 'values')[4], '')
+
+    def test_table_height_is_fixed_and_activity_is_next_to_actions(self):
+        self.root.deiconify()
+        self.root.update()
+        height = self.window.table.winfo_height()
+        self.root.geometry('1060x1000')
+        self.root.update()
+        self.assertEqual(self.window.table.winfo_height(), height)
+        self.assertEqual(self.window.progress.winfo_parent(), str(self.window.action_row))
+        self.window.process = object()
+        self.window.pulse_activity()
+        self.assertEqual(self.window.activity_icon.itemcget('body', 'fill'), '#7600c9')
+        self.window.stop_activity()
+        self.assertIsNone(self.window.activity_timer)
         self.assertLessEqual(self.root.winfo_height(), self.root.winfo_screenheight())
 
 

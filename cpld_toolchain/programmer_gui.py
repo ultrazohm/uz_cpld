@@ -52,6 +52,7 @@ class ProgrammerWindow:
         self.dialog, self.message, self.prompt = filedialog, messagebox, simpledialog
         self.root, self.workspace = root, Path(directory).resolve()
         self.process = None
+        self.activity_timer = None
         self.log_stream = None
         self.catalog = {}
         self.firmware = ''
@@ -95,11 +96,15 @@ class ProgrammerWindow:
         style.configure('Subtitle.TLabel', foreground='#4b4752', background='#f5f4f6')
         style.configure('Heading.TLabel', font=(display, 12, 'bold'))
         style.configure('Muted.TLabel', foreground='#4b4752')
-        style.configure('TButton', padding=(12, 7), background='#f5f4f6', borderwidth=0)
-        style.map('TButton', background=[('active', '#f3ecfa')])
-        style.configure('Primary.TButton', background='#8f00ff', foreground='#ffffff')
-        style.map('Primary.TButton', background=[('disabled', '#e8e6e6'), ('active', '#7000c8')],
-                  foreground=[('disabled', '#4b4752')])
+        style.configure('TButton', padding=(12, 8), background='#eadcf7', foreground='#32104d',
+                        borderwidth=1, bordercolor='#bca0d4', lightcolor='#eadcf7', darkcolor='#eadcf7',
+                        focuscolor='#7600c9', focusthickness=2)
+        style.map('TButton', background=[('disabled', '#e5e1e8'), ('pressed', '#ceb2e9'), ('active', '#ddc7f0')],
+                  foreground=[('disabled', '#62596b')], bordercolor=[('focus', '#7600c9')])
+        style.configure('Primary.TButton', background='#7600c9', foreground='#ffffff',
+                        bordercolor='#7600c9', lightcolor='#7600c9', darkcolor='#7600c9', focuscolor='#ffffff')
+        style.map('Primary.TButton', background=[('disabled', '#e5e1e8'), ('pressed', '#4f0089'), ('active', '#6300ad')],
+                  foreground=[('disabled', '#62596b')], bordercolor=[('focus', '#32104d')])
         style.configure('TCombobox', padding=3, fieldbackground='#faf9fc', arrowsize=16,
                         bordercolor='#e8e6e6', lightcolor='#e8e6e6', darkcolor='#e8e6e6')
         style.map('TCombobox', fieldbackground=[('readonly', '#faf9fc')],
@@ -144,15 +149,19 @@ class ProgrammerWindow:
                 stacked = self.canvas.winfo_width() < self.px(920)
                 if stacked != getattr(self, 'stacked', None):
                     self.stacked = stacked
-                    self.source_card.grid_configure(row=0, column=0, columnspan=2 if stacked else 1,
+                    self.setup_card.grid_configure(row=0, column=0, columnspan=2 if stacked else 1,
                                                     padx=(0, 0 if stacked else 8), pady=(0, 8 if stacked else 0))
-                    self.choices_card.grid_configure(row=1 if stacked else 0, column=0 if stacked else 1,
+                    self.source_card.grid_configure(row=1 if stacked else 0, column=0 if stacked else 1,
                                                      columnspan=2 if stacked else 1)
             self.canvas.itemconfigure(window, width=self.canvas.winfo_width(),
                                       height=max(self.canvas.winfo_height(), page.winfo_reqheight()))
             self.canvas.configure(scrollregion=self.canvas.bbox('all'))
-        self.canvas.bind('<Configure>', resize)
-        page.bind('<Configure>', resize)
+        # Reflow changes the page's requested height after Tk's geometry pass.
+        # Refresh then, so shorter viewports scroll rather than squeeze the table.
+        def schedule_resize(event=None):
+            self.root.after_idle(resize)
+        self.canvas.bind('<Configure>', schedule_resize)
+        page.bind('<Configure>', schedule_resize)
         def wheel(event):
             if isinstance(event.widget, (ttk.Combobox, ttk.Treeview)):
                 return
@@ -162,39 +171,33 @@ class ProgrammerWindow:
         for event in ('<MouseWheel>', '<Button-4>', '<Button-5>'):
             self.root.bind(event, wheel, add='+')
         ttk.Label(page, text='UltraZohm CPLD programmer', style='Title.TLabel').pack(anchor='w', pady=(0, 8))
-        device = self.card(page, '00  Programmer')
-        device.pack(fill='x', pady=(0, 8))
+        middle = self.middle = ttk.Frame(page, style='Page.TFrame')
+        middle.bind('<Configure>', schedule_resize)
+        middle.pack(fill='x', pady=(0, 8))
+        middle.columnconfigure(0, weight=1, uniform='setup')
+        middle.columnconfigure(1, weight=1, uniform='setup')
+        device = self.setup_card = self.card(middle, '1  Setup')
+        device.grid(row=0, column=0, sticky='nsew', padx=(0, 8))
         bar = ttk.Frame(device)
         bar.pack(fill='x')
         ttk.Label(bar, text='Backend').pack(side='left', padx=(0, 8))
         backend = self.combo(bar, self.backend, ('foss', 'diamond'))
         backend.configure(width=10)
-        backend.pack(side='left', padx=(0, 12))
+        backend.pack(side='left', fill='x', expand=True)
         backend.bind('<<ComboboxSelected>>', self.clear_results)
-        self.button(bar, '0  Setup drivers', self.drivers).pack(side='left', padx=(0, 8))
-        self.button(bar, '1  Scan', lambda: self.start('scan')).pack(side='left')
-        self.button(bar, 'Probe options…', self.probe_options).pack(side='right')
-        reads = ttk.Frame(device)
-        reads.pack(fill='x', pady=(6, 0))
-        ttk.Label(reads, text='Set physical JTAG access to S3C or D-slots before reading or programming.',
-                  style='Muted.TLabel', wraplength=self.px(560)).pack(side='left', fill='x', expand=True)
-        self.button(reads, 'Identify S3C', lambda: self.start('identify', target='s3c')).pack(side='left', padx=(8, 8))
-        self.button(reads, 'Identify D-slots', lambda: self.start('identify', target='dslot')).pack(side='left')
-        middle = self.middle = ttk.Frame(page, style='Page.TFrame')
-        middle.pack(fill='x', pady=(0, 8))
-        middle.columnconfigure(0, weight=1)
-        middle.columnconfigure(1, weight=2)
-        source = self.source_card = self.card(middle, '02  Firmware package')
-        source.grid(row=0, column=0, sticky='nsew', padx=(0, 8))
-        bar = ttk.Frame(source)
-        bar.pack(fill='x')
-        ttk.Label(bar, textvariable=self.source_text, wraplength=self.px(280)).pack(anchor='w', fill='x', pady=(0, 8))
+        bar = ttk.Frame(device)
+        bar.pack(fill='x', pady=(8, 0))
+        self.button(bar, 'Setup drivers', self.drivers).pack(side='left', padx=(0, 8))
+        self.button(bar, 'Probe options…', self.probe_options).pack(side='left')
+        source = self.source_card = self.card(middle, '2  Firmware')
+        source.grid(row=0, column=1, sticky='nsew')
+        ttk.Label(source, textvariable=self.source_text, wraplength=self.px(420)).pack(anchor='w', fill='x', pady=(0, 8))
         bar = ttk.Frame(source)
         bar.pack(fill='x')
         self.button(bar, 'Choose ZIP', self.browse).pack(side='left', padx=(0, 8))
         self.button(bar, 'Download', self.download).pack(side='left')
-        choices = self.choices_card = self.card(middle, '03  Program assignments')
-        choices.grid(row=0, column=1, sticky='nsew')
+        choices = self.choices_card = self.card(page, '3  Program')
+        choices.pack(fill='x', pady=(0, 8))
         grid = ttk.Frame(choices)
         grid.pack(fill='x')
         grid.columnconfigure(1, weight=1)
@@ -210,22 +213,34 @@ class ProgrammerWindow:
             box.configure(width=12)
             box.grid(row=row, column=1, sticky='ew', pady=3)
             self.program_boxes[key] = box
-        actions = ttk.Frame(choices)
-        actions.pack(fill='x', pady=(6, 0))
-        self.button(actions, 'Save assignments', self.save).pack(side='left')
-        self.button(actions, 'Program D-slots', lambda: self.program('dslot'), primary=True).pack(side='right')
-        self.button(actions, 'Program S3C', lambda: self.program('s3c'), primary=True).pack(side='right', padx=(0, 8))
+        self.button(choices, 'Save assignments', self.save).pack(anchor='e', pady=(6, 0))
+        actions = self.action_row = ttk.Frame(page, style='Page.TFrame')
+        actions.pack(fill='x', pady=(0, 8))
+        self.button(actions, 'Identify', lambda: self.start('identify')).pack(side='left', padx=(0, 8))
+        self.button(actions, 'Scan', lambda: self.start('scan')).pack(side='left', padx=(0, 8))
+        self.button(actions, 'Program S3C', lambda: self.program('s3c'), primary=True).pack(side='left', padx=(0, 8))
+        self.button(actions, 'Program D-slots', lambda: self.program('dslot'), primary=True).pack(side='left', padx=(0, 12))
+        chip = self.activity_icon = self.tk.Canvas(actions, width=self.px(24), height=self.px(24),
+                              background='#f5f4f6', highlightthickness=0)
+        chip.pack(side='left', padx=(0, 6))
+        chip.create_rectangle(self.px(6), self.px(6), self.px(18), self.px(18),
+                              outline='#7600c9', fill='#f5f4f6', width=self.px(2), tags='body')
+        for offset in (9, 15):
+            for x1, y1, x2, y2 in ((offset, 3, offset, 6), (offset, 18, offset, 21),
+                                   (3, offset, 6, offset), (18, offset, 21, offset)):
+                chip.create_line(*(self.px(v) for v in (x1, y1, x2, y2)), fill='#7600c9', width=self.px(2))
+        self.progress = ttk.Progressbar(actions, mode='determinate', length=self.px(64))
+        self.progress.pack(side='left')
         results = ttk.Frame(page, style='Card.TFrame', padding=self.px(8))
-        results.pack(fill='both', expand=True)
+        results.pack(fill='x')
         status_label = self.ttk.Label(results, textvariable=self.status, wraplength=self.px(900))
         status_label.pack(anchor='w', fill='x', pady=(0, 8))
         results.bind('<Configure>', lambda event: status_label.configure(wraplength=max(self.px(100), event.width - self.px(16))))
-        self.progress = ttk.Progressbar(results, mode='determinate', length=100)
-        self.progress.pack(fill='x', pady=(0, 10))
         columns = ('position', 'device', 'program', 'revision', 'usercode')
-        table_frame = ttk.Frame(results)
-        table_frame.pack(fill='both', expand=True)
-        self.table = ttk.Treeview(table_frame, columns=columns, show='headings', height=5)
+        table_frame = ttk.Frame(results, height=self.px(6 * 23 + 48))
+        table_frame.pack(fill='x')
+        table_frame.grid_propagate(False)
+        self.table = ttk.Treeview(table_frame, columns=columns, show='headings', height=6)
         for name, label, width in zip(columns, ('Position', 'Device ID', 'Installed program', 'Revision', 'USERCODE'),
                                        (85, 120, 280, 150, 130)):
             self.table.heading(name, text=label)
@@ -238,9 +253,9 @@ class ProgrammerWindow:
         horizontal = ttk.Scrollbar(table_frame, orient='horizontal', command=self.table.xview)
         horizontal.grid(row=1, column=0, sticky='ew')
         self.table.configure(yscrollcommand=scrollbar.set, xscrollcommand=horizontal.set)
+        self.reset_results()
         footer = ttk.Frame(page, style='Page.TFrame')
-        # Reserve the footer before the expanding result panel takes spare space.
-        footer.pack(side='bottom', fill='x', pady=(8, 0), before=results)
+        footer.pack(fill='x', pady=(8, 0))
         ttk.Label(footer, textvariable=self.workspace_text, style='Subtitle.TLabel', wraplength=560).pack(side='left')
         self.button(footer, 'Workspace', self.change_workspace).pack(side='right', padx=(8, 0))
         self.button(footer, 'Open diagnostics', self.diagnostics).pack(side='right')
@@ -249,8 +264,42 @@ class ProgrammerWindow:
         return dict(release=self.release.get(), s3c=self.assignments['s3c'].get(),
                     slots={str(i): self.assignments[str(i)].get() for i in range(1, 6)})
 
+    def pulse_activity(self):
+        if self.process is None:
+            return
+        fill = '#ddc7f0' if self.activity_icon.itemcget('body', 'fill') == '#7600c9' else '#7600c9'
+        self.activity_icon.itemconfigure('body', fill=fill)
+        self.activity_timer = self.root.after(450, self.pulse_activity)
+
+    def stop_activity(self):
+        if self.activity_timer is not None:
+            self.root.after_cancel(self.activity_timer)
+            self.activity_timer = None
+        self.activity_icon.itemconfigure('body', fill='#f5f4f6')
+
+    def reset_results(self, target=None):
+        positions = ('S3C',) if target == 's3c' else tuple(f'D{i}' for i in range(1, 6)) if target == 'dslot' else ('S3C', 'D1', 'D2', 'D3', 'D4', 'D5')
+        for position in positions:
+            values = (position, '', '', '', '')
+            if self.table.exists(position):
+                self.table.item(position, values=values)
+            else:
+                self.table.insert('', 'end', iid=position, values=values)
+
+    def show_devices(self, devices):
+        rows = display_rows(devices)
+        # Refresh the read chain while keeping the other chain's last results.
+        positions = {row[0] for row in rows}
+        if 'S3C' in positions:
+            self.reset_results('s3c')
+        if any(position.startswith('D') for position in positions):
+            self.reset_results('dslot')
+        for row in rows:
+            if self.table.exists(row[0]):
+                self.table.item(row[0], values=row)
+
     def clear_results(self, event=None):
-        self.table.delete(*self.table.get_children())
+        self.reset_results()
         self.status.set('Probe settings changed. Scan to check the connected chain.')
 
     def refresh_choices(self):
@@ -411,8 +460,9 @@ class ProgrammerWindow:
                          'releases': 'Fetching published firmware releases from GitHub…'}.get(action, 'Validating workspace and firmware…'))
         self.progress.configure(mode='indeterminate')
         self.progress.start(12)
-        if action in ('program', 'scan', 'identify'):
-            self.table.delete(*self.table.get_children())
+        self.pulse_activity()
+        if action in ('program', 'scan', 'identify') and extra.get('target'):
+            self.reset_results(extra['target'])
         self.root.after(100, self.poll)
 
     def poll(self):
@@ -424,6 +474,7 @@ class ProgrammerWindow:
         self.log_stream.close()
         self.log_stream = None
         self.progress.stop()
+        self.stop_activity()
         self.progress.configure(mode='determinate', value=0)
         for widget, state in self.controls:
             widget.configure(state=state)
@@ -438,7 +489,7 @@ class ProgrammerWindow:
         if 'releases' in result:
             self.release_picker(result['releases'])
         if 'cycles' in result:
-            self.table.delete(*self.table.get_children())
+            self.reset_results()
             self.firmware = result.get('firmware', '')
             self.firmware_sha = result.get('sha256', '')
             self.catalog = result['cycles']
@@ -452,9 +503,7 @@ class ProgrammerWindow:
             self.refresh_choices()
             self.source_text.set(f"Commit {result.get('commit', '')[:12]} · {Path(self.firmware).name}" if self.firmware else 'No firmware selected')
         if 'devices' in result:
-            self.table.delete(*self.table.get_children())
-            for row in display_rows(result['devices']):
-                self.table.insert('', 'end', values=row)
+            self.show_devices(result['devices'])
 
     def change_workspace(self):
         directory = self.dialog.askdirectory(parent=self.root, title='Choose programmer workspace', initialdir=self.workspace)
@@ -467,7 +516,7 @@ class ProgrammerWindow:
             self.release.set('')
             for var in self.assignments.values():
                 var.set('')
-            self.table.delete(*self.table.get_children())
+            self.reset_results()
             self.start('load')
 
     def diagnostics(self):

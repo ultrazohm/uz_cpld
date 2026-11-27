@@ -33,8 +33,8 @@ class WheelTests(unittest.TestCase):
             project = read_toml(root / 'pyproject.toml')['project']
             self.assertEqual(project['name'], 'ultrazohm-cpld-user')
             self.assertEqual(project['dependencies'], ['certifi==2026.7.22'])
-            self.assertEqual(project['scripts'], {'uz_cpld': 'cpld_toolchain.user:main'})
-            self.assertEqual(project['gui-scripts'], {'uz_cpld_gui': 'cpld_toolchain.user:gui'})
+            self.assertEqual(project['scripts'], {'ultrazohm-cpld-user': 'cpld_toolchain.user:main'})
+            self.assertEqual(project['gui-scripts'], {'ultrazohm-cpld-user-gui': 'cpld_toolchain.user:gui'})
             self.assertFalse(list(root.rglob('test_*.py')))
             self.assertFalse((root / 'programs').exists())
             self.assertIn('0.6.0.dev42', (root / 'cpld_toolchain/__init__.py').read_text())

@@ -71,9 +71,9 @@ def metadata(stage, version):
                   'Program existing UltraZohm CPLD firmware with the included FOSS programmer. '
                   'No checkout, compiler or Diamond installation is required.\n\n'
                   '```console\nuv tool install --managed-python --python 3.12 --prerelease allow ultrazohm-cpld-user\n'
-                  'uz_cpld doctor\nuz_cpld programmer_gui\n```\n\n'
+                  'ultrazohm-cpld-user doctor\nultrazohm-cpld-user programmer_gui\n```\n\n'
                   'Downloads default to stable firmware; explicitly enable testing releases in the GUI '
-                  'or pass `--branch` to `firmware_download`. Use `uz_cpld setup_drivers` for explicit '
+                  'or pass `--branch` to `firmware_download`. Use `ultrazohm-cpld-user setup_drivers` for explicit '
                   'USB setup, which requests host administrator privileges when needed.\n\n'
                   'Windows x64 and Linux x86-64 with glibc 2.28 or newer are supported. '
                   'The optional GUI needs Tcl/Tk; uv-managed Python 3.12 is tested.\n')
@@ -104,10 +104,10 @@ include = ["cpld_toolchain*"]
 "*" = ["**/*"]
 
 [project.scripts]
-uz_cpld = "cpld_toolchain.user:main"
+ultrazohm-cpld-user = "cpld_toolchain.user:main"
 
 [project.gui-scripts]
-uz_cpld_gui = "cpld_toolchain.user:gui"
+ultrazohm-cpld-user-gui = "cpld_toolchain.user:gui"
 '''
     (stage / 'pyproject.toml').write_text(data)
 

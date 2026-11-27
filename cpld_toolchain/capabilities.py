@@ -4,6 +4,8 @@ Availability means dependencies were located, not that a license, tool version,
 USB permissions or hardware connection has been verified. Workflow preflights
 remain responsible for those checks.
 """
+from cpld_toolchain import programmer_command
+
 from dataclasses import dataclass
 from importlib.util import find_spec
 import sys
@@ -96,7 +98,7 @@ def require(action, options):
     problems = unavailable(action, options)
     if problems:
         raise BuildError(f'{action} cannot run; missing requirements:\n  - ' + '\n  - '.join(problems) +
-                         '\nRun uz_cpld doctor for details. Install the requirements for this command, '
+                         f'\nRun {programmer_command()} doctor for details. Install the requirements for this command, '
                          'or use the configured toolchain container. '
                          'For missing Python dependencies, run python -m cpld_toolchain setup.')
 

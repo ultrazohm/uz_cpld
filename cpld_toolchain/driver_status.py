@@ -1,4 +1,6 @@
 """Read Windows PnP metadata without opening or changing USB interfaces."""
+from cpld_toolchain import programmer_command
+
 import base64
 import json
 import os
@@ -75,9 +77,9 @@ def report():
     for state, detail in rows:
         print(f'  {state}: {detail}')
     if any(state == 'INCOMPATIBLE' for state, _ in rows):
-        print('  FTDI VCP/D2XX is incompatible with this FOSS backend. Run uz_cpld setup_foss_drivers')
+        print(f'  FTDI VCP/D2XX is incompatible with this FOSS backend. Run {programmer_command()} setup_foss_drivers')
         print('  to bind WinUSB to Interface 1 only; leave A, C and D unchanged.')
-        print('  Switch back with uz_cpld setup_diamond_driver.')
+        print(f'  Switch back with {programmer_command()} setup_diamond_driver.')
     if any(state == 'CHECK DRIVER' for state, _ in rows):
         print('  This driver is not verified here; WinUSB is the recommended binding for this FOSS backend.')
     print('  Driver metadata only: USB access, exclusive availability and JTAG communication were not tested.')

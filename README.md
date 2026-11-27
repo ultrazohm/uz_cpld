@@ -5,7 +5,7 @@ Firmware and tooling for UltraZohm MachXO2 D-slot and S3C devices.
 Follow the [user guide](docs/user/index.rst) to install `ultrazohm-cpld-user` with uv and program existing firmware. It automatically installs our patched FOSS programmer; firmware downloads default to stable releases.
 
 - [Windows standalone application](docs/standalone.rst): an alternative with Python included, built from the same user wheel. Linux uses the Python package.
-- Run `uz_cpld programmer_gui` for the GUI, or `uz_cpld --help` for programmer commands.
+- Run `ultrazohm-cpld-user programmer_gui` for the GUI, or `ultrazohm-cpld-user --help` for programmer commands.
 - [HDL developer guide](docs/developer/hdl.rst): create, simulate and build programs.
 - [Toolchain contribution guide](docs/developer/toolchain.rst): tooling, tests and CI.
 - [Release comparison](docs/releases.rst): program families and S3C/D-slot compatibility.

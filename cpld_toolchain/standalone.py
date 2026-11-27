@@ -15,6 +15,7 @@ from .toolchain.buildsystem.model import BuildError
 DEFAULT_REPOSITORY = 'https://github.com/ultrazohm/uz_cpld'
 DEFAULT_BRANCH = 'master'
 DIAMOND_VERSION = '3.14.0.75.2'
+COMMAND = 'uz_cpld' if getattr(sys, 'frozen', False) else 'ultrazohm-cpld-user'
 
 
 def application_directory():
@@ -55,7 +56,7 @@ def doctor(root, backend='foss'):
         except (OSError, ValueError, subprocess.SubprocessError) as exc:
             print(f'MISSING or INVALID: {exc}')
             return 1
-        print('Loader verified without USB access. Run uz_cpld setup_drivers if USB access requires setup.')
+        print(f'Loader verified without USB access. Run {COMMAND} setup_drivers if USB access requires setup.')
         if included_firmware().is_file():
             print(f'Included firmware: {included_firmware()} (use firmware_select --included)')
         return 0
@@ -68,7 +69,7 @@ def doctor(root, backend='foss'):
         binary = diamond.executable('programmer')
     except BuildError as exc:
         print(f'MISSING: {exc}')
-        print('Set the executable with uz_cpld programmer_path=PATH')
+        print(f'Set the executable with {COMMAND} programmer_path=PATH')
         return 1
     version = diamond.installed_version(binary)
     print(f'Diamond Programmer: {binary}')
@@ -80,9 +81,9 @@ def doctor(root, backend='foss'):
 
 
 def parser():
-    result = argparse.ArgumentParser(prog='uz_cpld', description=__doc__,
-        epilog='Persist Diamond configuration: uz_cpld programmer_path=PATH (or programmer_path=auto).')
-    result.add_argument('--version', action='version', version=f'uz_cpld {__version__}')
+    result = argparse.ArgumentParser(prog=COMMAND, description=__doc__,
+        epilog=f'Persist Diamond configuration: {COMMAND} programmer_path=PATH (or programmer_path=auto).')
+    result.add_argument('--version', action='version', version=f'{COMMAND} {__version__}')
     result.add_argument('--workspace', type=Path, help='Writable data directory; defaults to the user-data workspace')
     actions = result.add_subparsers(dest='action')
     gui = actions.add_parser('programmer_gui', help='Open the optional desktop programmer')
@@ -203,10 +204,10 @@ def main(argv=None):
             values.update(source='zip', firmware=str(path))
         return run(options.action, values, workspace=root)
     except (BuildError, OSError, ValueError, KeyError, TypeError, BadZipFile, HTTPException, RuntimeError, subprocess.SubprocessError) as exc:
-        print(f'uz_cpld: {exc}', file=sys.stderr)
+        print(f'{COMMAND}: {exc}', file=sys.stderr)
         return 2
     except KeyboardInterrupt:
-        print('uz_cpld: interrupted', file=sys.stderr)
+        print(f'{COMMAND}: interrupted', file=sys.stderr)
         return 130
 
 

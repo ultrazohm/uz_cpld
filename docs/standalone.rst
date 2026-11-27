@@ -5,6 +5,8 @@ The standalone ``uz_cpld`` application downloads and programs published CPLD fir
 It includes Python and does not require Git, a source checkout or synthesis tools.
 Standalone downloads target Windows 11 x64, using Diamond Programmer 3.14.0.75.2 as the validation baseline.
 Windows and Linux users can install the same application through Python packages; see :doc:`user/index`.
+For the Python package, replace ``uz_cpld`` in the commands below with
+``ultrazohm-cpld-user``.
 The Windows FOSS download includes a statically linked native loader.
 Linux uses the Python wheels and their bundled shared runtime libraries; Linux standalone archives are no longer produced.
 MSYS2 and Diamond are unnecessary on the workstation.
@@ -42,7 +44,8 @@ Optional desktop programmer
 ---------------------------
 
 Double-click ``uz_cpld_gui.exe`` on Windows, or run ``uz_cpld programmer_gui``
-from the programmer terminal. The Python package also provides ``uz_cpld_gui``.
+from the programmer terminal. The Python package provides ``ultrazohm-cpld-user-gui`` and
+``ultrazohm-cpld-user programmer_gui``.
 The CLI and its existing double-click terminal remain available independently.
 Opening the GUI does not change drivers or program hardware.
 
@@ -155,7 +158,25 @@ If a FOSS scan reports ``usb_open() failed``, close other probe users, run
 ``doctor``, and use ``setup_foss_drivers`` if the driver is incompatible.
 See the `libusb Windows guide <https://github.com/libusb/libusb/wiki/Windows>`_.
 
-Linux Python-package users run ``uz_cpld setup_drivers`` to install the packaged udev rules, then reconnect USB.
+Linux uses udev rules to grant your account access to the USB programmer.
+The GUI's **Setup driver** button explains how to install these permissions
+from a terminal::
+
+   ultrazohm-cpld-user setup_drivers
+
+Run this in the app's activated virtual environment, or use the command installed
+by ``uv tool install``. For an app launched with ``uvx``, use::
+
+   uvx --prerelease allow ultrazohm-cpld-user setup_drivers
+
+The command installs the bundled rules and reloads udev; ``sudo`` may request
+your administrator password in the terminal. Unplug and reconnect the programmer
+afterward. If access is still denied, add your account to the ``plugdev`` group::
+
+   sudo groupadd -f plugdev
+   sudo usermod -aG plugdev "$(id -un)"
+
+Then log out and back in, and reconnect the programmer.
 See :doc:`user/index`.
 
 Log out/in after changing groups, then unplug/replug USB. Programming runs as

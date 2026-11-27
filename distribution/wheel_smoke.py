@@ -47,8 +47,9 @@ def smoke(python, gui=False):
             assert not Path(info['package']).is_relative_to(ROOT / 'cpld_toolchain')
             assert info['user'] in cli('--version')
             assert info['user'] in run('-m', 'cpld_toolchain', '--version')
-            launcher = Path(python).parent / ('uz_cpld.exe' if os.name == 'nt' else 'uz_cpld')
-            gui_launcher = launcher.with_name('uz_cpld_gui.exe' if os.name == 'nt' else 'uz_cpld_gui')
+            assert run('-c', 'from cpld_toolchain import programmer_command; print(programmer_command())').strip() == 'ultrazohm-cpld-user'
+            launcher = Path(python).parent / ('ultrazohm-cpld-user.exe' if os.name == 'nt' else 'ultrazohm-cpld-user')
+            gui_launcher = launcher.with_name('ultrazohm-cpld-user-gui.exe' if os.name == 'nt' else 'ultrazohm-cpld-user-gui')
             assert gui_launcher.is_file()
             launched = subprocess.run([str(launcher), '--version'], cwd=root, env=env,
                                       capture_output=True, text=True, timeout=30)

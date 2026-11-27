@@ -3,6 +3,8 @@
 Indices are openFPGALoader indices (nearest TDI first), including programming.
 A session owns channel B across discovery, all writes, and readback.
 """
+from cpld_toolchain import programmer_command
+
 from contextlib import contextmanager
 from pathlib import Path
 import re
@@ -59,8 +61,8 @@ def run(command, log, *, timeout=60):
                     'If Diamond works but FOSS does not, check the driver for FT4232 channel B / Interface 1 '
                     '(VID 0403, PID 6011, MI_01). This libusb backend needs a compatible driver such as WinUSB; '
                     'the ordinary FTDI VCP/D2XX driver alone does not provide that access. '
-                    'Run uz_cpld setup_foss_drivers to install WinUSB on Interface 1 only, leaving A, C and D unchanged. '
-                    'Run uz_cpld setup_diamond_driver to restore the vendor driver before using Diamond again. '
+                    f'Run {programmer_command()} setup_foss_drivers to install WinUSB on Interface 1 only, leaving A, C and D unchanged. '
+                    f'Run {programmer_command()} setup_diamond_driver to restore the vendor driver before using Diamond again. '
                     'Static linking does not install or replace USB drivers.')
         raise BuildError(f'FOSS programmer failed with exit code {returncode}; see {log}{hint}')
     return output

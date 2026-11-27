@@ -1,5 +1,5 @@
 """Plan and explicitly execute CPLD programming from a container or native host."""
-from cpld_toolchain import repository_root
+from cpld_toolchain import programmer_command, repository_root
 import argparse
 from contextlib import ExitStack, nullcontext
 from dataclasses import dataclass
@@ -104,7 +104,7 @@ def create_selection(destination: Path, *, release=None, s3c=None, slots=None, o
             print(f'{destination} already exists; kept your selection. Use init_programmer --override to replace it.')
             return
     print(f'{"Replaced" if existed else "Created"} {destination} with selected programs. Edit the programs and release as needed.')
-    print('Review the selection before using uz_cpld program --target s3c or dslot.')
+    print(f'Review the selection before using {programmer_command()} program --target s3c or dslot.')
 
 
 def build_selection(root: Path, selection: Path, release_cycle=None, *, target=None,
@@ -596,7 +596,7 @@ def main(argv=None) -> int:
                     raise BuildError('Diamond produced no scan output')
             return 0
         if isinstance(args.selection, Path) and not args.selection.is_file():
-            raise BuildError(f'{args.selection} is missing; run uz_cpld init_programmer, then fill in the target programs')
+            raise BuildError(f'{args.selection} is missing; run {programmer_command()} init_programmer, then fill in the target programs')
         cycle, output, builds, steps = plan(args.root, args.selection, args.release_cycle,
                                                   args.chain, args.programmer_backend,
                                                   args.cable, args.usb_serial, args.probe_index,

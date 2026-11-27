@@ -423,9 +423,26 @@ class ProgrammerWindow:
             self.start('program', target=target)
 
     def drivers(self):
+        if sys.platform == 'linux':
+            self.message.showinfo('Linux USB permissions',
+                'Linux needs permission to access the USB programmer. '
+                'udev rules grant that access when the programmer is connected.\n\n'
+                'Open a terminal and run:\n'
+                'ultrazohm-cpld-user setup_drivers\n\n'
+                'Use the same activated virtual environment as this app, or the command '
+                'installed by uv tool install. If you launch with uvx, run:\n'
+                'uvx --prerelease allow ultrazohm-cpld-user setup_drivers\n\n'
+                'The command installs the bundled rules and reloads them. '
+                'sudo may ask for your administrator password in the terminal. '
+                'Then unplug and reconnect the programmer.\n\n'
+                'If USB access is still denied, run:\n'
+                'sudo groupadd -f plugdev\n'
+                'sudo usermod -aG plugdev "$(id -un)"\n'
+                'Then log out and back in, and reconnect the programmer.', parent=self.root)
+            return
         if sys.platform != 'win32':
-            self.message.showinfo('Windows driver setup', 'Driver switching is available on Windows.\n'
-                                  'On Linux, configure the openFPGALoader udev rules.', parent=self.root)
+            self.message.showinfo('Driver setup unavailable',
+                                  'Driver setup supports Windows and Linux only.', parent=self.root)
             return
         if self.message.askokcancel('Setup programmer driver',
                 f'Configure channel B for {self.backend.get().upper()}.\nClose other programmer applications.\n'

@@ -12,8 +12,8 @@ Install
 Install uv, then run in PowerShell or a Linux terminal::
 
    uv tool install --managed-python --python 3.12 --prerelease allow ultrazohm-cpld-user
-   uz_cpld --version
-   uz_cpld doctor
+   ultrazohm-cpld-user --version
+   ultrazohm-cpld-user doctor
 
 This branch publishes prereleases only, so ``--prerelease allow`` is currently explicit.
 The wheel bundles the FOSS programmer, its native libraries and USB setup materials directly.
@@ -21,7 +21,7 @@ uv selects the Windows or Linux wheel automatically; no separate programmer pack
 If uv reports that its executable directory is absent from PATH, run ``uv tool update-shell`` and open a new terminal.
 For a one-off invocation::
 
-   uvx --managed-python --python 3.12 --prerelease allow --from ultrazohm-cpld-user uz_cpld programmer_gui
+   uvx --managed-python --python 3.12 --prerelease allow ultrazohm-cpld-user programmer_gui
 
 An existing Python 3.12+ virtual environment can instead use ``pip install --pre ultrazohm-cpld-user``.
 Its base Python must supply working Tk for the GUI; the CLI does not require Tk.
@@ -33,7 +33,7 @@ Driver setup
 
 Connect one programmer and run::
 
-   uz_cpld setup_drivers
+   ultrazohm-cpld-user setup_drivers
 
 On Windows this requests administrator approval only when the selected channel B needs its WinUSB binding changed.
 It preserves the other interfaces.
@@ -47,16 +47,16 @@ Select firmware and program
 
 The GUI supports firmware downloads, assignments, identification, and programming::
 
-   uz_cpld programmer_gui
+   ultrazohm-cpld-user programmer_gui
 
 Downloads show stable firmware by default.
 Enable **Include testing prereleases** to deliberately select testing firmware.
 The CLI has the same stable default::
 
-   uz_cpld firmware_download --output firmware.zip
-   uz_cpld firmware_select --firmware firmware.zip
-   uz_cpld init_programmer
-   uz_cpld program
+   ultrazohm-cpld-user firmware_download --output firmware.zip
+   ultrazohm-cpld-user firmware_select --firmware firmware.zip
+   ultrazohm-cpld-user init_programmer
+   ultrazohm-cpld-user program
 
 There is no automatic fallback to testing firmware when no stable release exists.
 For explicit branch testing, download with ``firmware_download --branch feature/add_heartbeat --output firmware.zip`` and select that ZIP.
@@ -70,7 +70,7 @@ Commands supplying a target and complete assignments can program immediately; us
 Prepare the board's physical JTAG access state for S3C or D-slots before each operation.
 
 Settings, selected firmware snapshots, and logs live in the user's application data directory.
-Use ``uz_cpld --workspace DIRECTORY ...`` to select another workspace.
+Use ``ultrazohm-cpld-user --workspace DIRECTORY ...`` to select another workspace.
 Neither installation nor upgrades require a source checkout or write into the installed packages.
 
 Optional Diamond backend
@@ -79,11 +79,11 @@ Optional Diamond backend
 Full Diamond is unnecessary for FOSS programming.
 To use an existing Diamond Programmer installation, configure its executable and select it explicitly::
 
-   uz_cpld programmer_path=PATH_TO_PGRCMD
-   uz_cpld doctor --programmer-backend diamond
-   uz_cpld scan --target dslot --programmer-backend diamond
+   ultrazohm-cpld-user programmer_path=PATH_TO_PGRCMD
+   ultrazohm-cpld-user doctor --programmer-backend diamond
+   ultrazohm-cpld-user scan --target dslot --programmer-backend diamond
 
-On Windows, ``uz_cpld setup_diamond_driver`` restores a compatible FTDI driver already installed in Windows.
+On Windows, ``ultrazohm-cpld-user setup_diamond_driver`` restores a compatible FTDI driver already installed in Windows.
 If none exists, install the Diamond/FTDI driver package first.
 Return to ``setup_drivers`` before using FOSS again.
 The bundled FOSS programmer remains available regardless of the selected backend.

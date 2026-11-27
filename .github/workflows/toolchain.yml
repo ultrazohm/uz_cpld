@@ -379,9 +379,10 @@ jobs:
         env:
           RELEASE_VERSION: ${{ steps.release.outputs.version }}
         run: |
-          for attempt in 1 2 3 4 5; do
-            if uv tool install --managed-python --python 3.12 "ultrazohm-cpld-user==$RELEASE_VERSION"; then break; fi
-            if [ "$attempt" = 5 ]; then exit 1; fi
+          # PyPI's index can lag the upload; refresh cached metadata on every retry.
+          for attempt in {1..12}; do
+            if uv tool install --managed-python --python 3.12 --refresh-package ultrazohm-cpld-user "ultrazohm-cpld-user==$RELEASE_VERSION"; then break; fi
+            if [ "$attempt" = 12 ]; then exit 1; fi
             sleep 10
           done
           uv tool run --from "ultrazohm-cpld-user==$RELEASE_VERSION" ultrazohm-cpld-user doctor

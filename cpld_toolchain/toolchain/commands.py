@@ -21,6 +21,7 @@ DIRECT_SELECTION = {'s3c_program', *(f'dslot{i}' for i in range(1, 6))}
 
 # The native Windows suite excludes Linux-only tool and shell integrations.
 WINDOWS_TESTS = (
+    'cpld_toolchain.toolchain.tests.test_wheels',
     'cpld_toolchain.toolchain.tests.test_driver_setup',
     'cpld_toolchain.toolchain.tests.test_driver_status',
     'cpld_toolchain.toolchain.tests.test_windows_terminal',

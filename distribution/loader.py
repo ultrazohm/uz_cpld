@@ -52,7 +52,7 @@ def linux_dependencies(binary):
         match = re.match(r'\s*(\S+) => (/\S+)', line)
         if match:
             name, path = match.groups()
-            # The application targets Ubuntu 24.04; its loader and glibc come from the OS.
+            # The host supplies glibc; wheels validate a glibc 2.28 floor below.
             if name not in {'libc.so.6', 'libm.so.6', 'libpthread.so.0', 'libdl.so.2',
                             'librt.so.1', 'libresolv.so.2'}:
                 dependencies.append(Path(path))
@@ -64,6 +64,37 @@ def notices(dependencies, destination):
     destination.mkdir()
     packages = {}
     for library in dependencies:
+        if not shutil.which('dpkg-query'):
+            package = output(['rpm', '-qf', '--qf', '%{NAME}', str(library.resolve())])
+            if package in packages:
+                continue
+            version = output(['rpm', '-q', '--qf', '%{NAME} %{VERSION}-%{RELEASE}', package])
+            folder = destination / package
+            folder.mkdir()
+            files = output(['rpm', '-ql', package]).splitlines()
+            licenses = [Path(p) for p in files if Path(p).is_file() and (
+                '/licenses/' in p or Path(p).name.upper().startswith(('COPYING', 'LICENSE', 'COPYRIGHT')))]
+            if not licenses and package == 'libstdc++':
+                # AlmaLinux ships the shared GCC runtime notices with gcc/libgcc.
+                licenses = list(Path('/usr/share/licenses/gcc').glob('COPYING*'))
+            if not licenses and package == 'libblkid':
+                # The manylinux image strips /usr/share/doc/libblkid/COPYING,
+                # but retains the parent util-linux package's license texts.
+                licenses = list(Path('/usr/share/licenses/util-linux').glob('COPYING*'))
+            if not licenses:
+                raise RuntimeError(f'Missing RPM license materials: {package}')
+            for index, path in enumerate(licenses):
+                shutil.copy2(path, folder / f'{index}-{path.name}')
+            sources = destination / 'sources'
+            sources.mkdir(exist_ok=True)
+            source_name = output(['rpm', '-q', '--qf', '%{SOURCERPM}', package])
+            if not (sources / source_name).is_file():
+                subprocess.run(['dnf', 'download', '--source', '--enablerepo=*source*',
+                                '--destdir', str(sources), version.replace(' ', '-')], check=True)
+            if not (sources / source_name).is_file():
+                raise RuntimeError(f'Missing corresponding RPM source: {version}')
+            packages[package] = version
+            continue
         ownership = output(['dpkg-query', '-S', str(library.resolve())])
         package = ownership.split(': ', 1)[0].splitlines()[0]
         candidates = [Path('/usr/share/doc') / package.split(':')[0] / 'copyright']
@@ -79,7 +110,7 @@ def notices(dependencies, destination):
             shutil.copy2(path, folder / f'{index}-{path.name}')
         packages[package] = version
     (destination / 'packages.json').write_text(json.dumps(packages, indent=2) + '\n')
-    if sys.platform != 'win32':
+    if Path('/usr/share/common-licenses').is_dir():
         shutil.copytree('/usr/share/common-licenses', destination / 'common-licenses')
     return packages
 
@@ -224,6 +255,15 @@ def build(destination, work, archive=None, jobs=2, target='linux'):
         raise RuntimeError('Loader does not report the pinned capability')
     subprocess.run([sys.executable, str(flasher.BASE / 'tests/native.py'),
                     str(destination / filename), '--portable'], check=True)
+    if output(['getconf', 'GNU_LIBC_VERSION']) == 'glibc 2.28':
+        # Check every shipped ELF, including the dependency closure, before
+        # advertising the same Linux floor as ultrazohm_sw.
+        for path in [destination / filename, *(destination / p.name for p in dependencies)]:
+            versions = re.findall(r'GLIBC_(\d+)\.(\d+)', output(['readelf', '--version-info', str(path)]))
+            if any(tuple(map(int, version)) > (2, 28) for version in versions):
+                raise RuntimeError(f'{path.name} requires glibc newer than 2.28')
+        (destination / 'linux-compatibility.json').write_text(json.dumps(dict(
+            platform='manylinux_2_28_x86_64', executable_sha256=flasher.digest(destination / filename))))
     print(destination)
 
 

@@ -11,16 +11,17 @@ jobs:
   windows-foss:
     uses: ./.github/workflows/foss-programmer.yml
 
-  standalone:
+  python-packages:
     needs: [windows-foss]
+    uses: ./.github/workflows/python-packages.yml
+
+  standalone:
+    needs: [python-packages]
     name: Standalone CLI (${{ matrix.platform }})
     strategy:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-24.04
-            platform: ubuntu-24.04-x64
-            executable: uz_cpld
           # GitHub's x64 Windows runners use Server; the application targets Windows 11.
           - os: windows-2025
             platform: windows-x64
@@ -34,36 +35,23 @@ jobs:
           python-version: '3.12'
           cache: pip
           cache-dependency-path: distribution/requirements.txt
-      - name: Install Linux programmer build dependencies
-        if: runner.os == 'Linux'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: python-wheel-*
+          path: build/wheels
+          merge-multiple: true
+      - name: Install the tested Windows wheel
+        shell: pwsh
         run: |
-          sudo sed -i 's/^Types: deb$/Types: deb deb-src/' /etc/apt/sources.list.d/ubuntu.sources
-          sudo apt-get update
-          sudo apt-get install -y cmake g++ pkg-config patch libftdi1-dev libusb-1.0-0-dev zlib1g-dev patchelf python3-tk tk8.6-dev tcl8.6-dev xvfb
-          # Refresh shipped runtimes so matching source versions remain in the indexes.
-          sudo apt-get install -y libbz2-1.0 libcap2 libexpat1 libffi8 liblzma5 libssl3t64 libudev1 libgcc-s1 libstdc++6
-      - name: Build and test the portable Linux programmer
-        if: runner.os == 'Linux'
-        run: python distribution/loader.py
-      - uses: actions/download-artifact@v4
-        if: runner.os == 'Windows'
-        with:
-          name: portable-loader-windows-x64
-          path: build/portable-loader
-      - uses: actions/download-artifact@v4
-        if: runner.os == 'Windows'
-        with:
-          name: windows-drivers
-          path: build/windows-drivers
+          $wheels = Get-ChildItem build/wheels/*.whl | Where-Object { $_.Name -notlike '*manylinux*' }
+          python -m pip install $wheels.FullName
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Install pinned packaging tools
         run: python -m pip install -r distribution/requirements.txt
       - name: Test standalone behavior
         env:
           UZ_CPLD_REQUIRE_GUI_TESTS: ${{ runner.os == 'Windows' && '1' || '0' }}
         run: python cpld_toolchain/toolchain/ci_summary.py --test-log build/standalone-tests.log --run-tests cpld_toolchain.toolchain.tests.test_standalone cpld_toolchain.toolchain.tests.test_distribution cpld_toolchain.toolchain.tests.test_windows_terminal cpld_toolchain.toolchain.tests.test_driver_status cpld_toolchain.toolchain.tests.test_driver_setup cpld_toolchain.toolchain.tests.test_programmer_gui -v
-      - name: Test Linux programmer window with a virtual display
-        if: runner.os == 'Linux'
-        run: xvfb-run -a env UZ_CPLD_REQUIRE_GUI_TESTS=1 python -m unittest cpld_toolchain.toolchain.tests.test_programmer_gui.ProgrammerWindowTests -v
       - name: Build native CLI
         run: python distribution/build.py
       - name: Test the executable outside the checkout
@@ -289,7 +277,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-24.04, windows-2025]
+        os: [windows-2025]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     steps:
@@ -307,7 +295,7 @@ jobs:
   publish-firmware:
     name: Publish testing firmware
     if: github.event_name == 'push' && github.ref_type == 'branch'
-    needs: [diamond-build, checks, windows-python, standalone, windows-foss, combined-smoke]
+    needs: [diamond-build, checks, windows-python, standalone, windows-foss, combined-smoke, python-packages]
     concurrency:
       group: firmware-release-${{ github.ref }}
       cancel-in-progress: false
@@ -343,7 +331,7 @@ jobs:
               'Standalone CLI and testing firmware from a push build.\n\n'
               f'Source commit: {os.environ["SOURCE_SHA"]}\n'
               f'Source ref: {os.environ["SOURCE_REF"]}\n\n'
-              'Downloads: tool only or tool + firmware for Windows 11 x64 and Ubuntu 24.04 x64; '
+              'Downloads: Windows x64 standalone tool or tool + firmware; Linux uses the Python packages. '
               'firmware only is the platform-independent uz-cpld-firmware.zip. '
               'The application includes Python and our verified patched openFPGALoader with its runtime libraries. '
               'FOSS is the default; no Diamond installation is required. See README.txt for USB setup and programming.\n\n'
@@ -357,6 +345,46 @@ jobs:
           gh release create "$tag" release-assets/* \
             --target "$SOURCE_SHA" --title "CPLD tools and testing firmware $tag" \
             --prerelease --latest=false --notes-file release-notes.txt
+
+  publish-python:
+    name: Publish branch prereleases to PyPI
+    needs: [python-packages, standalone, windows-python, checks]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/feature/add_heartbeat'
+    runs-on: ubuntu-24.04
+    environment: pypi
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: python-wheel-*
+          path: wheels
+          merge-multiple: true
+      - name: Validate the tested prerelease artifacts
+        id: release
+        run: |
+          version=$(python distribution/wheels.py publication-version --output wheels --commit "$GITHUB_SHA")
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # v1.14.3, same as ultrazohm_sw
+        with:
+          packages-dir: wheels/
+          skip-existing: true
+      - uses: astral-sh/setup-uv@v7
+        with:
+          version: '0.12.23'
+      - name: Verify public installation
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          for attempt in 1 2 3 4 5; do
+            if uv tool install --managed-python --python 3.12 "ultrazohm-cpld-user==$RELEASE_VERSION"; then break; fi
+            if [ "$attempt" = 5 ]; then exit 1; fi
+            sleep 10
+          done
+          uv tool run --from "ultrazohm-cpld-user==$RELEASE_VERSION" uz_cpld doctor
 
   deploy:
     needs: [checks, windows-python]

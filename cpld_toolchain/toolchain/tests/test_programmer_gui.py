@@ -336,7 +336,7 @@ class ProgrammerWindowTests(unittest.TestCase):
         self.start.assert_called_once_with('releases')
         prompt.assert_not_called()
 
-    def test_version_dropdown_downloads_the_selected_older_release(self):
+    def test_version_dropdown_requires_opt_in_and_downloads_selected_testing_release(self):
         versions = [dict(id=i, tag=f'firmware-ci-{i}-1', name=f'Build {i}',
                          published_at='2026-10-14T12:00:00Z', ref='refs/heads/master',
                          commit=str(i) * 40, prerelease=True) for i in (2, 1)]
@@ -346,23 +346,43 @@ class ProgrammerWindowTests(unittest.TestCase):
             return [child for node in widget.winfo_children() for child in [node, *descendants(node)]]
         widgets = descendants(popup)
         box = next(widget for widget in widgets if isinstance(widget, self.window.ttk.Combobox))
+        button = next(widget for widget in widgets if isinstance(widget, self.window.ttk.Button)
+                      and widget['text'] == 'Download & select')
+        self.assertEqual(box.current(), -1)
+        self.assertTrue(button.instate(['disabled']))
+        button.invoke()
+        self.start.assert_not_called()
+        testing = next(widget for widget in widgets if isinstance(widget, self.window.ttk.Checkbutton)
+                       and widget['text'] == 'Include testing prereleases')
+        testing.invoke()
         import gc
         gc.collect()
+        self.assertFalse(button.instate(['disabled']))
         self.assertEqual(box.current(), 0)
         self.assertIn('firmware-ci-2-1', box.get())
         box.current(1)
         box.event_generate('<<ComboboxSelected>>')
-        button = next(widget for widget in widgets if isinstance(widget, self.window.ttk.Button)
-                      and widget['text'] == 'Download & select')
         button.invoke()
         self.start.assert_called_once_with('download', release_id=1, release_commit='1' * 40)
+
+    def test_version_dropdown_defaults_to_stable_even_with_a_newer_testing_release(self):
+        versions = [dict(id=i, tag=f'release-{i}', name=f'Build {i}',
+                         published_at='2026-10-14T12:00:00Z', ref='refs/heads/master',
+                         commit=str(i) * 40, prerelease=i == 2) for i in (2, 1)]
+        self.window.release_picker(versions)
+        popup = next(child for child in self.root.winfo_children() if isinstance(child, self.window.tk.Toplevel))
+        frame = popup.winfo_children()[0]
+        box = next(child for child in frame.winfo_children() if isinstance(child, self.window.ttk.Combobox))
+        self.assertEqual(len(box['values']), 1)
+        self.assertIn('release-1', box.get())
+        self.assertNotIn('release-2', box.get())
 
     def test_cancel_version_picker_does_not_download(self):
         self.window.release_picker([dict(id=1, tag='firmware-ci-1-1', name='Build 1',
             published_at='2026-10-14T12:00:00Z', ref='refs/heads/master', commit='a' * 40, prerelease=True)])
         popup = next(child for child in self.root.winfo_children() if isinstance(child, self.window.tk.Toplevel))
         frame = popup.winfo_children()[0]
-        buttons = frame.winfo_children()[-1]
+        buttons = next(child for child in frame.winfo_children() if isinstance(child, self.window.ttk.Frame))
         next(button for button in buttons.winfo_children() if button['text'] == 'Cancel').invoke()
         self.start.assert_not_called()
 

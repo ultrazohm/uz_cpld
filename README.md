@@ -2,17 +2,16 @@
 
 Firmware and tooling for UltraZohm MachXO2 D-slot and S3C devices.
 
-Follow the [user guide and quick start](docs/user/index.rst) to clone the repository, download firmware binaries and program them with Diamond Programmer.
-This path requires Git, Python 3.8+ for setup, and Diamond Programmer with its cable drivers; no local firmware build is needed.
+Follow the [user guide](docs/user/index.rst) to install `ultrazohm-cpld-user` with uv and program existing firmware. It automatically installs our patched FOSS programmer; firmware downloads default to stable releases.
 
-- [Standalone CLI](docs/standalone.rst): Windows and Ubuntu application downloads with Python, the patched FOSS programmer and firmware included.
-- Optional desktop programmer: run `uz_cpld programmer_gui` after setup, or double-click `uz_cpld_gui.exe` in the Windows standalone download. The CLI remains available independently.
+- [Windows standalone application](docs/standalone.rst): an alternative with Python included, built from the same user wheel. Linux uses the Python package.
+- Run `uz_cpld programmer_gui` for the GUI, or `uz_cpld --help` for programmer commands.
 - [HDL developer guide](docs/developer/hdl.rst): create, simulate and build programs.
 - [Toolchain contribution guide](docs/developer/toolchain.rst): tooling, tests and CI.
 - [Release comparison](docs/releases.rst): program families and S3C/D-slot compatibility.
 - [Program catalog](programs/): firmware sources, constraints and testbenches.
 
-Run `uz_cpld help` after setup for the command overview.
+Developers can run `uz_cpld help` after checkout setup for the development command overview.
 To build the full documentation in a configured development environment, run `uz_cpld docs --release-cycle all` and open `docs/_build/html/index.html`.
 To run Linux CI checks locally with Bash and Docker, run `bash ci.sh`; see the [CI task inventory](docs/builds.rst) for coverage and logs.
 

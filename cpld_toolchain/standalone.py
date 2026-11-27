@@ -55,7 +55,7 @@ def doctor(root, backend='foss'):
         except (OSError, ValueError, subprocess.SubprocessError) as exc:
             print(f'MISSING or INVALID: {exc}')
             return 1
-        print('Loader verified without USB access. See README.txt for USB driver/permission setup.')
+        print('Loader verified without USB access. Run uz_cpld setup_drivers if USB access requires setup.')
         if included_firmware().is_file():
             print(f'Included firmware: {included_firmware()} (use firmware_select --included)')
         return 0
@@ -90,13 +90,13 @@ def parser():
     health = actions.add_parser('doctor', help='Verify programmer availability without accessing USB')
     health.add_argument('--programmer-backend', choices=('foss', 'diamond'), default='foss',
                         help='Default: foss (bundled patched openFPGALoader)')
-    for name in ('setup_foss_drivers', 'setup_diamond_driver'):
-        item = actions.add_parser(name, help='Configure the Windows programmer driver; requests administrator approval')
+    for name in ('setup_drivers', 'setup_foss_drivers', 'setup_diamond_driver'):
+        item = actions.add_parser(name, help='Configure programmer USB access; requests administrator approval')
         item.add_argument('--device-id', help='Windows device instance ID; required when multiple programmers are connected')
         item.add_argument('--dry-run', type=int, choices=(0, 1), default=0)
-    download = actions.add_parser('firmware_download', help='Download newest published master firmware; does not select it')
+    download = actions.add_parser('firmware_download', help='Download newest stable firmware; does not select it')
     download.add_argument('--git-url', default=DEFAULT_REPOSITORY)
-    download.add_argument('--branch', default=DEFAULT_BRANCH)
+    download.add_argument('--branch', help='Explicit testing branch; otherwise use stable releases')
     download.add_argument('--output', type=Path)
     for name in ('firmware_list', 'firmware_select'):
         item = actions.add_parser(name, help='Inspect firmware' if name.endswith('list') else 'Persist the selected firmware ZIP')
@@ -142,6 +142,12 @@ def main(argv=None):
             settings.set_programmer(args[0].split('=', 1)[1])
             return 0
         options = cli.parse_args(args)
+        if options.action == 'setup_drivers':
+            from .driver_setup import setup_default
+            if options.dry_run:
+                print('Preview only: configure the FOSS programmer USB driver/permissions.')
+                return 0
+            return setup_default(device_id=options.device_id)
         if options.action is None:
             cli.print_help()
             return 0
@@ -156,8 +162,11 @@ def main(argv=None):
             return doctor(root, options.programmer_backend)
         if options.action == 'firmware_download':
             workspace.prepare(root)
-            path = firmware_download.download(root, git_url=options.git_url, branch=options.branch,
-                                              output=options.output.expanduser().absolute() if options.output else None)
+            output = options.output.expanduser().absolute() if options.output else None
+            if options.branch:
+                path = firmware_download.download(root, git_url=options.git_url, branch=options.branch, output=output)
+            else:
+                path = firmware_download.download_stable(root, firmware_download.github_repository(options.git_url), output=output)
             print(f'Inspect with firmware_list --firmware "{path}"; select with firmware_select --firmware "{path}".')
             return 0
         if options.action in ('firmware_list', 'firmware_select'):
@@ -193,7 +202,7 @@ def main(argv=None):
                 prompt=options.action == 'program' and not options.dry_run)
             values.update(source='zip', firmware=str(path))
         return run(options.action, values, workspace=root)
-    except (BuildError, OSError, ValueError, KeyError, TypeError, BadZipFile, HTTPException, RuntimeError) as exc:
+    except (BuildError, OSError, ValueError, KeyError, TypeError, BadZipFile, HTTPException, RuntimeError, subprocess.SubprocessError) as exc:
         print(f'uz_cpld: {exc}', file=sys.stderr)
         return 2
     except KeyboardInterrupt:

@@ -1,16 +1,16 @@
 UltraZohm CPLD programmer (standalone CLI)
 
-Windows 11 x64 / Ubuntu 24.04 x64.
+Windows 11 x64. Linux users install ultrazohm-cpld-user with uv.
 Extract the complete archive before use; the executable needs its _internal directory.
 On Windows, double-click uz_cpld.exe to open a PowerShell programmer terminal
 that stays open. Type commands such as uz_cpld doctor, and type exit to close it.
 Running the executable from an existing terminal keeps ordinary CLI behavior.
-Optional desktop interface: double-click uz_cpld_gui.exe on Windows, run
-./uz_cpld_gui on Ubuntu, or type uz_cpld programmer_gui in the terminal.
+Optional desktop interface: double-click uz_cpld_gui.exe or type
+uz_cpld programmer_gui in the terminal.
 Choose a firmware ZIP (included firmware is offered automatically),
 or use Download to choose an available GitHub firmware version from a dropdown
-showing date, branch/tag, commit and release tag. Older versions and testing
-prereleases are included; no branch name is required. The exact selected
+showing date, branch/tag, commit and release tag. Stable versions are shown by
+default; enable "Include testing prereleases" to see testing firmware. The exact selected
 release is validated before selection, and no hardware is accessed.
 Then choose a release and programs for S3C and D1-D5.
 Save assignments initializes selection.toml;
@@ -23,14 +23,13 @@ The interface is optional: the existing CLI works without opening a window.
 CLI-only builds made with --without-gui omit the GUI launcher and Tcl/Tk runtime.
 Python, Git, MSYS2 and Diamond are not required for the default FOSS backend.
 The application includes our pinned patched openFPGALoader. On Windows the loader
-is statically linked and imports only Windows system DLLs. Ubuntu bundles its
-shared runtime libraries.
+is statically linked and imports only Windows system DLLs.
 
 One-time USB setup:
 Windows: first try uz_cpld scan --target dslot with the correct JTAG access state.
 If the expected chain is detected, keep the existing driver. Otherwise close
 Diamond and other programmer applications, then run:
-  uz_cpld setup_foss_drivers
+  uz_cpld setup_drivers
   uz_cpld doctor
   uz_cpld scan --target dslot
 Approve the Windows administrator prompt. The included static libwdi helper
@@ -53,13 +52,7 @@ Driver packages remain in Windows' driver store and may affect the default drive
 for newly connected devices with the same hardware ID.
 Doctor, scan and program do not change driver bindings.
 
-Ubuntu: install the included 99-openfpgaloader.rules from
-_internal/cpld_toolchain/bundled_tools/openFPGALoader/ into /etc/udev/rules.d/.
-Create the plugdev group if absent, add your user to it, reload udev rules,
-log out/in and reconnect USB. See docs/standalone.rst for commands.
-The default FOSS path includes libusb and does not require Bash or Diamond.
-
-Run in a terminal (use ./uz_cpld on Ubuntu or .\uz_cpld.exe in PowerShell):
+Run in a terminal (use .\uz_cpld.exe in PowerShell):
 
   uz_cpld doctor
   uz_cpld firmware_list --included
@@ -75,6 +68,9 @@ Use --included with a tool+firmware download. For a tool-only download:
   uz_cpld firmware_download
   uz_cpld firmware_select --firmware "path/to/uz-cpld-firmware.zip"
 
+Downloads default to stable firmware. For testing firmware, explicitly pass
+--branch feature/add_heartbeat to firmware_download, or enable testing in the GUI.
+
 init_programmer guides release/program selection in a terminal.
 An existing selection is preserved by default. Run init_programmer --override
 to select assignments again and replace it, or use --selection PATH --override
@@ -87,7 +83,6 @@ for one probe when multiple FT4232 devices are connected.
 
 Optional Diamond backend:
 Install Diamond Programmer 3.14.0.75.2 and its cable drivers separately.
-Ubuntu Diamond also requires Bash and libusb-1.0.
   uz_cpld programmer_path="C:\path\to\pgrcmd.exe"
   uz_cpld doctor --programmer-backend diamond
   uz_cpld program --target dslot --programmer-backend diamond

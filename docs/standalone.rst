@@ -1,10 +1,12 @@
-Standalone programming CLI
-==========================
+Windows standalone programmer
+=============================
 
 The standalone ``uz_cpld`` application downloads and programs published CPLD firmware using the included patched openFPGALoader by default.
 It includes Python and does not require Git, a source checkout or synthesis tools.
-The initial targets are Windows 11 x64 and Ubuntu 24.04 x64, using Diamond Programmer 3.14.0.75.2 as the validation baseline.
-The Windows FOSS download includes a statically linked native loader; the Ubuntu download bundles its shared runtime libraries.
+Standalone downloads target Windows 11 x64, using Diamond Programmer 3.14.0.75.2 as the validation baseline.
+Windows and Linux users can install the same application through Python packages; see :doc:`user/index`.
+The Windows FOSS download includes a statically linked native loader.
+Linux uses the Python wheels and their bundled shared runtime libraries; Linux standalone archives are no longer produced.
 MSYS2 and Diamond are unnecessary on the workstation.
 USB drivers/permissions require the one-time setup below. Diamond remains an optional backend.
 The repository CLI retains generation, builds, simulation, documentation and existing programming commands.
@@ -12,15 +14,13 @@ The repository CLI retains generation, builds, simulation, documentation and exi
 Downloads
 ---------
 
-Successful push workflows publish a testing GitHub Release with five downloads:
+Successful push workflows publish a testing GitHub Release with three downloads:
 
 * Windows tool-only ZIP.
-* Ubuntu tool-only TAR.GZ.
 * Windows tool plus firmware ZIP.
-* Ubuntu tool plus firmware TAR.GZ.
 * Platform-independent ``uz-cpld-firmware.zip``.
 
-``SHA256SUMS.txt`` covers all five assets.
+``SHA256SUMS.txt`` covers all three assets.
 The combined archives reuse the exact application files and firmware ZIP offered separately.
 ``application.json`` records the application version, source commit, runtime and platform.
 ``bundle.json`` additionally records the included firmware commit and checksum.
@@ -34,15 +34,15 @@ there; type ``exit`` to close it. No separate launcher is needed.
 Invocations from an existing PowerShell/cmd terminal retain normal CLI behavior,
 including printing help and returning immediately when no command is supplied.
 Redirected/noninteractive invocations never open another shell.
-Use ``.\uz_cpld.exe`` in PowerShell or ``./uz_cpld`` on Ubuntu when it is not on PATH.
-Ubuntu TAR archives preserve executable permissions and internal symbolic links.
+Use ``.\uz_cpld.exe`` in PowerShell when it is not on PATH.
+Linux wheels preserve the native programmer executable and library layout.
 The Windows executable is currently unsigned.
 
 Optional desktop programmer
 ---------------------------
 
 Double-click ``uz_cpld_gui.exe`` on Windows, or run ``uz_cpld programmer_gui``
-from the programmer terminal. Ubuntu also includes ``uz_cpld_gui``.
+from the programmer terminal. The Python package also provides ``uz_cpld_gui``.
 The CLI and its existing double-click terminal remain available independently.
 Opening the GUI does not change drivers or program hardware.
 
@@ -51,12 +51,12 @@ dropdowns, assignment saving, driver setup, chain scanning, identification and
 programming. The six program dropdowns represent S3C and D1 through D5.
 ``Download`` fetches a list of available GitHub firmware versions and opens a
 dropdown, newest first, with publication date, branch/tag, commit and release
-tag. It includes older versions and testing prereleases across all branches;
+tag. It shows stable firmware by default; enable **Include testing prereleases** to include testing releases across branches;
 no branch name is required. Only published releases with the firmware ZIP and
 recorded source commit are offered. Selecting ``Download & select`` downloads
 that exact release and validates its commit and checksums before saving the
 workspace snapshot. Cancellation or a failed download preserves selected
-firmware. The CLI's branch-based download behavior is unchanged.
+firmware. CLI downloads default to stable firmware; ``--branch`` explicitly selects testing firmware.
 Available programs come from the validated ZIP and are filtered by release and
 target. Changing release clears incompatible choices; no program is silently
 selected. D-slot programming operates on the complete five-device chain.
@@ -155,15 +155,8 @@ If a FOSS scan reports ``usb_open() failed``, close other probe users, run
 ``doctor``, and use ``setup_foss_drivers`` if the driver is incompatible.
 See the `libusb Windows guide <https://github.com/libusb/libusb/wiki/Windows>`_.
 
-On Ubuntu, use the included upstream rules as described in the
-`openFPGALoader installation guide <https://trabucayre.github.io/openFPGALoader/guide/install.html>`_::
-
-   # Run from the extracted uz_cpld directory:
-   getent group plugdev || sudo groupadd --system plugdev
-   sudo cp _internal/cpld_toolchain/bundled_tools/openFPGALoader/99-openfpgaloader.rules /etc/udev/rules.d/
-   sudo usermod -aG plugdev "$USER"
-   sudo udevadm control --reload-rules
-   sudo udevadm trigger
+Linux Python-package users run ``uz_cpld setup_drivers`` to install the packaged udev rules, then reconnect USB.
+See :doc:`user/index`.
 
 Log out/in after changing groups, then unplug/replug USB. Programming runs as
 your normal user. The FOSS bundle includes libusb for the channel-B driver guard;
@@ -181,7 +174,7 @@ Set the path to the actual ``pgrcmd`` executable, not the Diamond installation d
 
 On Ubuntu, for example::
 
-   ./uz_cpld programmer_path=/opt/diamond/programmer/bin/lin64/pgrcmd
+   uz_cpld programmer_path=/opt/diamond/programmer/bin/lin64/pgrcmd
 
 The command checks that the file is executable without starting it or contacting hardware.
 The path persists per user across application upgrades and workspaces.
@@ -327,72 +320,35 @@ To update the application, replace its extracted directory; configuration and wo
 Build and validation
 --------------------
 
-GitHub Actions builds native PyInstaller directory bundles on ``ubuntu-24.04`` and ``windows-2025`` using the pinned tools in ``distribution/requirements.txt``.
-The loader build verifies the upstream archive and patch pins, runs protocol tests,
-collects the dependency closure and notices, and tests the portable executable with a clean PATH.
-Windows uses upstream's ``Toolchain-x86_64-w64-mingw32.cmake`` cross-compilation
-route on Ubuntu, with ``WINDOWS_CROSSCOMPILE=ON``, ``CROSS_COMPILE_DEPS=ON``,
-``BUILD_STATIC=ON`` and ``WINDOWS_STATIC_ZLIB=ON``.
-The build checks the x64 PE import table and rejects every non-system DLL, including
-libusb, libftdi, zlib and MinGW runtime DLLs. The exact cross-built executable and
-protocol tests then run on a native Windows CI runner without MSYS2.
-Release assembly rejects Windows loaders with a dynamic runtime receipt.
-Linux bundles shared libraries with ``$ORIGIN`` runpaths and uses Ubuntu's glibc.
-The receipt covers the executable and every bundled Linux runtime library, and
-records the Windows system DLL imports and static linkage.
-Windows bundles also retain LGPL dependency sources, licenses, static archives and
-loader object files with relinking instructions.
-Upstream source, our patch, library notices and package versions are retained with the loader.
-Windows Server hosts the x64 CI job; passing that job is not a Windows 11 hardware test.
-The executable smoke test runs outside the checkout with Python/MSYS2 absent from PATH.
-It verifies loader discovery, executes the native parser, checks rejection of modified
-loader/runtime/firmware files, selects fixture firmware and exercises persistent settings.
-CI also extracts and tests the tool archives on each platform and both combined archives.
-The release publication job waits for both standalone jobs and the existing Diamond, Linux and Windows checks.
-Pull requests and manual workflow runs retain tool archives as CI artifacts without publishing a release.
-Physical programming and driver behavior still need acceptance testing on the intended workstation and boards.
+CI first builds and tests the ``ultrazohm-cpld-user`` wheel, including its bundled FOSS programmer.
+Windows standalone is frozen from that installed wheel, outside the checkout's import path.
+It is not built from a separate copy of application source.
+The native programmer and driver helper must match the same source commit.
+See :doc:`developer/python-packaging` for wheel builds and PyPI publication.
 
-To build the current platform locally in an isolated packaging environment::
+The Windows loader uses upstream's MinGW-w64 cross-compilation route on Ubuntu.
+It statically links its dependencies and rejects non-system DLL imports.
+The cross-built executable and protocol tests run on native Windows CI.
+Sources, licenses, static archives and object files are retained for relinking.
+Linux programmer wheels use bundled shared libraries with ``$ORIGIN`` runpaths and are built and exercised on glibc 2.28.
+
+After building and installing the Windows user wheel in an isolated Python 3.12 environment::
 
    python -m pip install -r distribution/requirements.txt
-   python distribution/loader.py
    python distribution/build.py
-   python distribution/smoke.py build/standalone/dist/uz_cpld/uz_cpld
+   python distribution/smoke.py build/standalone/dist/uz_cpld/uz_cpld.exe
    python distribution/archive.py pack --application build/standalone/dist/uz_cpld --output build/standalone/assets
 
-Use ``uz_cpld.exe`` in the smoke-test path on Windows.
-Build the Windows loader on Ubuntu/WSL using the upstream MinGW-w64 toolchain::
+These commands produce a directory bundle containing the executable and ``_internal``.
+The default includes the GUI launcher and Tcl/Tk runtime; ``--without-gui`` omits them.
+Windows packaging uses Python with working Tcl/Tk and retains its redistribution materials.
+Pinned upstream Tcl/Tk and zlib notices cover runtimes whose Python installation omits the notices.
+Unknown runtime versions or changed materials fail the build.
 
-   sudo apt-get install mingw-w64 libz-mingw-w64-dev cmake pkg-config p7zip-full g++ patch autoconf automake libtool
-   python distribution/loader.py --target windows-x64 --output build/windows-loader --work build/windows-loader-work
-   python distribution/windows_drivers/build.py
-
-The recipe verifies our source and patch pins before configuring upstream CMake.
-It uses the pinned source's libusb 1.0.27 and libftdi 1.5 dependency builds and
-sets libftdi's version components explicitly for the v1.1.1 cross-module workaround.
-Copy ``build/windows-loader`` and ``build/windows-drivers`` to Windows, then run native Windows Python::
-
-   python -m pip install -r distribution/requirements.txt
-   python distribution/build.py --loader path/to/windows-loader --drivers path/to/windows-drivers
-   python distribution/smoke.py build/standalone/dist/uz_cpld/uz_cpld.exe
-
-The earlier ``distribution/loader.py`` command is the native Linux loader build.
-Windows application packaging remains native; the loader and driver helper are cross-compiled.
-Ubuntu builds need CMake, g++, pkg-config, patch, libftdi1/libusb/zlib development packages and patchelf.
-These commands produce directory application bundles (the executable and ``_internal``), not a single-file executable; no Python wheel or PyPI publication is part of this distribution.
-The default build includes the optional GUI launcher and Tcl/Tk runtime.
-Use ``python distribution/build.py --without-gui`` to produce a CLI-only bundle.
-GUI availability is recorded in ``application.json``. Linux GUI packaging also
-requires ``python3-tk``, ``tcl8.6-dev`` and ``tk8.6-dev``; Windows requires Python
-with its Tcl/Tk feature installed. The dependency inventory retains Tcl/Tk
-license notices and, on Ubuntu, corresponding distribution sources.
-When Windows Python omits Tcl/Tk notices, packaging uses the exact upstream
-notices pinned in ``distribution/tcltk/licenses.json`` for the versions recorded
-by the bundled Tcl/Tk scripts. Unknown versions and modified notice files fail
-the build. ``licenses/Tcl-Tk-SOURCES.json`` records notice origins and checksums.
-The Windows Tcl/Tk compression DLL is attributed separately to zlib. Packaging
-reads its exported runtime version and retains the matching checksum-pinned
-upstream notice from ``distribution/zlib/licenses.json`` together with its origin.
+Smoke tests exercise the installed wheels and extracted Windows archives outside the checkout.
+They validate firmware selection, worker processes, programmer integrity and native parsing without USB writes.
+Windows Server hosts CI; passing CI does not establish physical Windows 11 programming or driver installation behavior.
+The existing hardware acceptance checks remain necessary on a programming station.
 
 Windows USB driver diagnostics
 ------------------------------

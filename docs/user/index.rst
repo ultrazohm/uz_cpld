@@ -1,88 +1,97 @@
-User guide
-==========
+Program existing firmware
+=========================
 
-The recommended path downloads published firmware binaries and programs them with Diamond Programmer, without local synthesis.
-Choose firmware for your adapter wiring and a matching S3C/D-slot protocol; see :doc:`../releases`.
-For an application with Python included and no checkout, use :doc:`../standalone`.
+Install the user application on Windows x64 or Linux x86-64 (glibc 2.28 or newer).
+It includes our patched FOSS programmer automatically; no checkout, compiler, or Diamond installation is required.
+Use a graphical desktop for the optional Tk GUI.
+Python 3.12 or newer with working Tcl/Tk is required; uv-managed Python 3.12 is the recommended runtime.
 
-Quick start reference
----------------------
+Install
+-------
 
-Install Git, Python 3.8+ for setup, and Diamond Programmer 3.14.0.75.2 with its cable drivers and runtime dependencies.
-Linux also needs Bash, libusb-1.0 and USB device permissions; see :doc:`../environments` for USB/container setup or :doc:`../windows` for native Windows setup.
-Run these commands in Bash or PowerShell::
+Install uv, then run in PowerShell or a Linux terminal::
 
-   git clone https://github.com/ultrazohm/uz_cpld.git
-   cd uz_cpld
-   python -m cpld_toolchain setup
-
-Use ``python3`` if Linux has no ``python`` command.
-Setup downloads pinned uv and Python 3.10.12, installs locked dependencies into ``.venv``, and opens an activated shell with ``uz_cpld`` available.
-Initial setup and firmware downloads require internet access.
-In later shells, activate with ``source .venv/bin/activate`` in Bash or ``& .\.venv\Scripts\Activate.ps1`` in PowerShell.
-
-Set ``CPLD_PGRCMD`` to your installed Programmer executable, adjusting the example path.
-In Bash::
-
-   export CPLD_PGRCMD="$HOME/lscc/programmer/diamond/3.14/bin/lin64/pgrcmd"
-
-In PowerShell::
-
-   $env:CPLD_PGRCMD = 'C:\lscc\programmer\diamond\3.14\bin\nt64\pgrcmd.exe'
-
-For full Diamond installations, the executable is normally under ``programmer/bin/lin64`` or ``programmer/bin/nt64`` within the installation root.
-Check discovery and download the newest published CI firmware for the checkout's branch::
-
+   uv tool install --managed-python --python 3.12 --prerelease allow ultrazohm-cpld-user
+   uz_cpld --version
    uz_cpld doctor
-   uz_cpld firmware_download --output build/firmware.zip
-   uz_cpld init_programmer --release heartbeat_cvg
 
-``doctor`` reports tool discovery without testing the license or hardware.
-The download validates the ZIP and checksums; it does not install Programmer or program hardware.
-If your branch has no published firmware, explicitly choose a published branch with ``--branch master``; see :doc:`../publishing` for repository and authentication options.
+This branch publishes prereleases only, so ``--prerelease allow`` is currently explicit.
+The wheel bundles the FOSS programmer, its native libraries and USB setup materials directly.
+uv selects the Windows or Linux wheel automatically; no separate programmer package is needed.
+If uv reports that its executable directory is absent from PATH, run ``uv tool update-shell`` and open a new terminal.
+For a one-off invocation::
 
-Edit ``selection.toml`` for your adapters and a release present in the downloaded ZIP.
-This example uses the ``heartbeat_cvg`` release and TX30 firmware in all five D-slots::
+   uvx --managed-python --python 3.12 --prerelease allow --from ultrazohm-cpld-user uz_cpld programmer_gui
 
-   release = "heartbeat_cvg"
-   s3c = "s3c_heartbeat"
+An existing Python 3.12+ virtual environment can instead use ``pip install --pre ultrazohm-cpld-user``.
+Its base Python must supply working Tk for the GUI; the CLI does not require Tk.
+Windows also has a standalone download with Python included; see :doc:`../standalone`.
+There is no Linux standalone archive.
 
-   [slots]
-   "1" = "cvg_tx30"
-   "2" = "cvg_tx30"
-   "3" = "cvg_tx30"
-   "4" = "cvg_tx30"
-   "5" = "cvg_tx30"
+Driver setup
+------------
 
-``init_programmer`` preserves existing files, so always check the selection.
-Slot numbers are physical JTAG chain positions.
-Prepare the UltraZohm for D-slot JTAG access, then run::
+Connect one programmer and run::
 
-   uz_cpld scan --target dslot
-   uz_cpld program --target dslot --source zip --firmware build/firmware.zip
+   uz_cpld setup_drivers
 
-``program`` immediately erases, writes and verifies Flash, then checks firmware identity readback.
-It validates the selected package and assignments before hardware access.
-Both chains use FT4232 channel B; Diamond uses ``FTUSB-1``.
-For S3C, change the hardware to its S3C JTAG access state and run::
+On Windows this requests administrator approval only when the selected channel B needs its WinUSB binding changed.
+It preserves the other interfaces.
+With multiple matching devices, specify ``--device-id`` using the identity shown by the diagnostic.
+On Linux this installs the packaged udev rules using sudo; reconnect USB afterward and ensure membership of any group named by those rules.
+Package installation never changes host drivers or permissions.
+Normal programming runs without administrator privileges once setup is complete.
 
-   uz_cpld scan --target s3c
-   uz_cpld program --target s3c --source zip --firmware build/firmware.zip
+Select firmware and program
+---------------------------
 
-Add ``--dry-run 1`` to preview a programming command without validating firmware or contacting hardware.
-To read identities later against the same package, use ``uz_cpld identify --target dslot --source zip --firmware build/firmware.zip`` (or ``--target s3c``).
+The GUI supports firmware downloads, assignments, identification, and programming::
 
-Build firmware locally
-----------------------
+   uz_cpld programmer_gui
 
-Install full Diamond 3.14.0.75.2 and its synthesis license only if you need local builds.
-Set ``DIAMOND_ROOT`` to the installation directory; see :doc:`../environments` or :doc:`../windows`.
-After editing ``selection.toml``::
+Downloads show stable firmware by default.
+Enable **Include testing prereleases** to deliberately select testing firmware.
+The CLI has the same stable default::
 
-   uz_cpld build_selection
-   uz_cpld program --target dslot
+   uz_cpld firmware_download --output firmware.zip
+   uz_cpld firmware_select --firmware firmware.zip
+   uz_cpld init_programmer
+   uz_cpld program
 
-``build_selection`` builds each distinct assignment once.
-Programming defaults to local firmware and requires current successful builds; it never builds automatically.
-Use ``--target s3c`` after preparing the S3C chain.
-See :doc:`../quick-start` to author programs, :doc:`../commands` for command options, and :doc:`../programmer` for programming details.
+There is no automatic fallback to testing firmware when no stable release exists.
+For explicit branch testing, download with ``firmware_download --branch feature/add_heartbeat --output firmware.zip`` and select that ZIP.
+Local firmware ZIPs produced by developers can also be selected.
+The application's PyPI prerelease status does not change firmware selection policy.
+
+Select the correct adapter routing and compatible S3C/D-slot programs; see :doc:`../releases`.
+The GUI confirms programming assignments before writing.
+The guided ``program`` command asks for assignments and confirmation.
+Commands supplying a target and complete assignments can program immediately; use ``--dry-run 1`` to preview first.
+Prepare the board's physical JTAG access state for S3C or D-slots before each operation.
+
+Settings, selected firmware snapshots, and logs live in the user's application data directory.
+Use ``uz_cpld --workspace DIRECTORY ...`` to select another workspace.
+Neither installation nor upgrades require a source checkout or write into the installed packages.
+
+Optional Diamond backend
+------------------------
+
+Full Diamond is unnecessary for FOSS programming.
+To use an existing Diamond Programmer installation, configure its executable and select it explicitly::
+
+   uz_cpld programmer_path=PATH_TO_PGRCMD
+   uz_cpld doctor --programmer-backend diamond
+   uz_cpld scan --target dslot --programmer-backend diamond
+
+On Windows, ``uz_cpld setup_diamond_driver`` restores a compatible FTDI driver already installed in Windows.
+If none exists, install the Diamond/FTDI driver package first.
+Return to ``setup_drivers`` before using FOSS again.
+The bundled FOSS programmer remains available regardless of the selected backend.
+
+Development
+-----------
+
+The public application programs existing firmware only.
+Generating, building, simulating, and changing firmware or the CLI still uses the checkout's developer environment.
+See :doc:`../developer/hdl`, :doc:`../developer/toolchain`, and :doc:`../windows` for native Windows Diamond builds.
+Do not install the checkout's editable ``cpld-toolchain`` package into the user application's uv tool environment.

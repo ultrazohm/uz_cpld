@@ -146,7 +146,8 @@ def resolve(root, value=None, *, included=None, standalone=False, prompt=True):
     if value:
         repository, ref = source(root, standalone)
         matches = [row for row in candidates(root)
-                   if row[1].get('repository') == repository and row[1].get('ref') == ref]
+                   if row[1].get('repository') == repository and
+                   (row[1].get('prerelease') is False if standalone else row[1].get('ref') == ref)]
         if not matches:
             raise BuildError(f'No recorded download for {repository} {ref}; run firmware_download or supply --firmware FILE.zip')
         print(f'Using latest downloaded firmware: {matches[0][2]}')
@@ -171,8 +172,11 @@ def resolve(root, value=None, *, included=None, standalone=False, prompt=True):
         path = paths[index]
     elif index == len(paths):
         repository, ref = source(root, standalone)
-        branch = ask(f'Branch [{ref.removeprefix("refs/heads/")}]: ') or ref
-        path = downloads.download(root, git_url='https://github.com/' + repository, branch=branch)
+        if standalone:
+            path = downloads.download_stable(root, repository)
+        else:
+            branch = ask(f'Branch [{ref.removeprefix("refs/heads/")}]: ') or ref
+            path = downloads.download(root, git_url='https://github.com/' + repository, branch=branch)
     else:
         path = Path(ask('Firmware ZIP path: ')).expanduser().resolve()
     return select(root, path)

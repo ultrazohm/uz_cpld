@@ -1,6 +1,6 @@
 """Tool discovery without importing workflows or starting external processes.
 
-Explicit overrides are authoritative. Standalone distributions populate ``bundled_tools`` with platform-specific
+Explicit overrides are authoritative. Wheels and standalone distributions populate ``bundled_tools`` with platform-specific
 executables, runtime libraries and their provenance receipts.
 """
 import os
@@ -13,7 +13,9 @@ from cpld_toolchain.toolchain.buildsystem.model import BuildError
 
 
 def bundled_directory():
-    return Path(os.environ.get('CPLD_BUNDLED_TOOLS', Path(__file__).with_name('bundled_tools')))
+    if os.environ.get('CPLD_BUNDLED_TOOLS'):
+        return Path(os.environ['CPLD_BUNDLED_TOOLS'])
+    return Path(__file__).with_name('bundled_tools')
 
 
 def executable(name, *, override=None, candidates=(), required=False):

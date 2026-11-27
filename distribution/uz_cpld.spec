@@ -4,11 +4,11 @@ import os
 import sys
 from PyInstaller.config import CONF
 
-root = Path(SPECPATH).parent
+root = Path(os.environ['UZ_CPLD_PACKAGE_ROOT'])
 data = root / 'cpld_toolchain/programmer_helper'
 with_gui = os.environ.get('UZ_CPLD_BUILD_GUI', '1') == '1'
 a = Analysis(
-    [str(root / 'distribution/entry.py')], pathex=[str(root)],
+    [str(Path(SPECPATH) / 'entry.py')], pathex=[str(root)],
     datas=[(str(root / 'cpld_toolchain/windows_driver_pin.json'), 'cpld_toolchain'),(str(data / 'templates'), 'cpld_toolchain/programmer_helper/templates'),
            (str(data / 'selection.example.toml'), 'cpld_toolchain/programmer_helper'),
            (str(data / 'diamond_program.sh'), 'cpld_toolchain/programmer_helper'),
@@ -34,7 +34,7 @@ exe = EXE(pyz, a.scripts, [], exclude_binaries=True, name='uz_cpld',
           debug=False, strip=False, upx=False, console=True)
 if with_gui:
     # Use the same runtime and module archive for both entry points.
-    gui_script = ('gui_entry', str(root / 'distribution/gui_entry.py'), 'PYSOURCE')
+    gui_script = ('gui_entry', str(Path(SPECPATH) / 'gui_entry.py'), 'PYSOURCE')
     gui_exe = EXE(pyz, [*a.scripts[:-1], gui_script], [], exclude_binaries=True,
                   name='uz_cpld_gui', debug=False, strip=False, upx=False,
                   console=sys.platform != 'win32')

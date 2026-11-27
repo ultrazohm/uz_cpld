@@ -83,15 +83,15 @@ class StandaloneTests(unittest.TestCase):
         self.assertEqual(settings.read()['programmer_path'], str(Path(sys.executable).resolve()))
 
     def test_download_defaults_and_partial_overrides_never_consult_git(self):
-        for flags, repository, branch in (
-            ([], standalone.DEFAULT_REPOSITORY, 'master'),
-            (['--branch', 'topic'], standalone.DEFAULT_REPOSITORY, 'topic'),
-            (['--git-url', 'https://github.com/owner/repo'], 'https://github.com/owner/repo', 'master'),
-        ):
-            with patch.object(standalone.firmware_download, 'download', return_value=self.fixture.zip) as download:
+        for flags, repository in (([], 'ultrazohm/uz_cpld'),
+                                 (['--git-url', 'https://github.com/owner/repo'], 'owner/repo')):
+            with patch.object(standalone.firmware_download, 'download_stable', return_value=self.fixture.zip) as download, \
+                    patch.object(standalone.firmware_download, 'git', side_effect=AssertionError('No Git')):
                 self.assertEqual(self.run_cli('firmware_download', *flags), 0)
-            self.assertEqual(download.call_args.kwargs['git_url'], repository)
-            self.assertEqual(download.call_args.kwargs['branch'], branch)
+            self.assertEqual(download.call_args.args[1], repository)
+        with patch.object(standalone.firmware_download, 'download', return_value=self.fixture.zip) as download:
+            self.assertEqual(self.run_cli('firmware_download', '--branch', 'topic'), 0)
+            self.assertEqual(download.call_args.kwargs['branch'], 'topic')
         self.assertFalse((self.data / 'workspace/firmware.json').exists())
 
     def test_identify_without_target_or_firmware_does_not_prompt_for_a_zip(self):
@@ -190,7 +190,7 @@ class StandaloneTests(unittest.TestCase):
     def test_release_contains_same_tool_and_firmware_in_both_variants(self):
         from distribution.archive import assemble, pack, unpack
         tools = self.root / 'tools'
-        for platform in ('windows-x64', 'ubuntu-24.04-x64'):
+        for platform in ('windows-x64',):
             from cpld_toolchain.toolchain.foss import flasher
             application = self.root / platform
             application.mkdir()
@@ -228,7 +228,7 @@ class StandaloneTests(unittest.TestCase):
         source_application = application
         output = self.root / 'release'
         assemble(tools, self.fixture.zip, output, 'a' * 40)
-        self.assertEqual(len(list(output.iterdir())), 6)
+        self.assertEqual(len(list(output.iterdir())), 4)
         for source in tools.iterdir():
             self.assertEqual(source.read_bytes(), (output / source.name).read_bytes())
         for archive in output.glob('*-with-firmware.*'):

@@ -14,6 +14,26 @@ CAPABILITY = 'uz-cpld-driver-helper 3'
 ACTIONS = ('setup_foss_drivers', 'setup_diamond_driver')
 
 
+def setup_default(*, device_id=None):
+    """Explicit host setup; never called by package installation."""
+    if sys.platform == 'win32':
+        return setup('setup_foss_drivers', device_id=device_id)
+    if sys.platform != 'linux':
+        raise BuildError('Driver setup supports Windows and Linux only.')
+    rule = tools.bundled_directory() / 'openFPGALoader/99-openfpgaloader.rules'
+    if not rule.is_file():
+        raise BuildError('Packaged udev rules are missing; reinstall ultrazohm-cpld-user.')
+    prefix = [] if os.geteuid() == 0 else ['sudo']
+    print('Installing programmer USB permission rules. Reconnect the programmer afterward.', flush=True)
+    for command in ([*prefix, 'install', '-D', '-m', '644', str(rule), '/etc/udev/rules.d/99-openfpgaloader.rules'],
+                    [*prefix, 'udevadm', 'control', '--reload-rules']):
+        subprocess.run(command, check=True)
+    print('Rules installed. Reconnect USB. If access is denied, create the plugdev group with '
+          'sudo groupadd -f plugdev, add your account with sudo usermod -aG plugdev USERNAME, '
+          'then log out and in again.')
+    return 0
+
+
 def verify(binary):
     record = json.loads(binary.with_name('driver-helper.json').read_text(encoding='utf-8'))
     pin = json.loads(Path(__file__).with_name('windows_driver_pin.json').read_text(encoding='utf-8'))
@@ -43,7 +63,7 @@ def helper_path():
         repository_root() / 'build/windows-drivers/uz-cpld-driver-helper.exe']
     binary = next((path.resolve() for path in candidates if path.is_file()), None)
     if binary is None:
-        raise BuildError('Bundled Windows driver helper is missing. Use a current Windows standalone download. '
+        raise BuildError('Bundled Windows driver helper is missing. Reinstall ultrazohm-cpld-user or use a current Windows standalone download. '
                          'Repository users can place the windows-drivers CI artifact in build/windows-drivers, '
                          'or set CPLD_DRIVER_HELPER to the helper inside that download.')
     try:

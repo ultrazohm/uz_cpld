@@ -99,4 +99,5 @@ Toolchain reference
    ../program-documentation
    ../publishing
    ci-review
+   python-packaging
    ../api

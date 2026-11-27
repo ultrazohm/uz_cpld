@@ -140,6 +140,10 @@ class FirmwareChoiceTests(unittest.TestCase):
     def test_standalone_latest_reaches_shared_runner_as_absolute_path(self):
         from cpld_toolchain import standalone
         path = self.download('new', '2026-02-01T00:00:00Z')
+        receipt = path.with_name(path.name + '.json')
+        data = json.loads(receipt.read_text())
+        data['prerelease'] = False
+        receipt.write_text(json.dumps(data))
         with patch.object(commands, 'run', return_value=0) as run:
             self.assertEqual(standalone.main(['--workspace', str(self.root), 'program',
                              '--target', 's3c', '--firmware', 'latest-downloaded']), 0)

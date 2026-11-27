@@ -353,32 +353,48 @@ class ProgrammerWindow:
         frame = self.ttk.Frame(window, padding=22)
         frame.pack(fill='both', expand=True)
         self.ttk.Label(frame, text='Choose a firmware version', style='Heading.TLabel').pack(anchor='w', pady=(0, 6))
-        self.ttk.Label(frame, text='ultrazohm/uz_cpld · All published firmware releases · Newest first',
+        self.ttk.Label(frame, text='ultrazohm/uz_cpld · Stable firmware by default · Newest first',
                        style='Muted.TLabel', wraplength=width - 44).pack(anchor='w', pady=(0, 14))
-        labels = [f"{row['published_at'][:10]} {row['published_at'][11:16]} UTC  ·  "
-                  f"{row['ref'].removeprefix('refs/heads/').removeprefix('refs/tags/')}  ·  "
-                  f"{row['commit'][:8]}  ·  {row['tag']}" for row in releases]
-        box = self.ttk.Combobox(frame, values=labels, state='readonly', width=1)
-        box.current(0)
+        show_testing = self.tk.BooleanVar(value=False)
+        visible = []
+        box = self.ttk.Combobox(frame, state='readonly', width=1)
         box.pack(fill='x', pady=(0, 14))
         detail = self.tk.StringVar()
         detail_label = self.ttk.Label(frame, textvariable=detail, wraplength=width - 44, style='Muted.TLabel')
         detail_label.pack(anchor='w', fill='x', pady=(0, 18))
         frame.bind('<Configure>', lambda event: detail_label.configure(wraplength=max(100, event.width - 44)))
         def update(event=None):
-            row = releases[box.current()]
+            if not visible:
+                detail.set('No stable firmware is available. Enable testing releases explicitly, or choose a local ZIP.')
+                return
+            row = visible[box.current()]
             detail.set(f"{row['name']}\n{'Testing prerelease' if row['prerelease'] else 'Published release'}"
                        '\nDownload validates and selects this package. Hardware is not accessed.')
         box.bind('<<ComboboxSelected>>', update)
-        update()
         buttons = self.ttk.Frame(frame)
         buttons.pack(fill='x')
         self.ttk.Button(buttons, text='Cancel', command=window.destroy).pack(side='left')
         def select():
-            row = releases[box.current()]
+            if not visible or box.current() < 0:
+                return
+            row = visible[box.current()]
             window.destroy()
             self.start('download', release_id=row['id'], release_commit=row['commit'])
-        self.ttk.Button(buttons, text='Download & select', command=select, style='Primary.TButton').pack(side='right')
+        download_button = self.ttk.Button(buttons, text='Download & select', command=select, style='Primary.TButton')
+        download_button.pack(side='right')
+        def filter_releases():
+            visible[:] = [row for row in releases if show_testing.get() or not row['prerelease']]
+            box.configure(values=[f"{row['published_at'][:10]} {row['published_at'][11:16]} UTC  ·  "
+                                  f"{row['ref'].removeprefix('refs/heads/').removeprefix('refs/tags/')}  ·  "
+                                  f"{row['commit'][:8]}  ·  {row['tag']}" for row in visible])
+            box.set('')
+            if visible:
+                box.current(0)
+            download_button.configure(state='normal' if visible else 'disabled')
+            update()
+        self.ttk.Checkbutton(frame, text='Include testing prereleases', variable=show_testing,
+                             command=filter_releases).pack(anchor='w', pady=(10, 0))
+        filter_releases()
         window.update_idletasks()
         window.geometry(f'{width}x{window.winfo_reqheight()}')
         window.grab_set()

@@ -86,10 +86,13 @@ class AssetRedirect(HTTPRedirectHandler):
 
 
 def tls_context():
-    """Keep OS trust and add packaged Mozilla roots in frozen distributions."""
+    """Keep OS trust and add Mozilla roots when provided by the distribution."""
     context = ssl.create_default_context()
-    if getattr(sys, 'frozen', False):
+    try:
         import certifi
+    except ModuleNotFoundError:
+        pass  # The repository's minimal bootstrap can use OS trust alone.
+    else:
         context.load_verify_locations(cafile=certifi.where())
     return context
 
@@ -243,6 +246,16 @@ def download(root, *, remote=None, output=None, git_url=None, branch=None):
     return download_asset(root, repository, ref, release, asset, commit, output=output)
 
 
+def download_stable(root, repository='ultrazohm/uz_cpld', *, output=None):
+    """Never substitute a testing prerelease when no stable firmware exists."""
+    matches = [row for row in published(repository) if not row[0].get('prerelease', False)]
+    if not matches:
+        raise BuildError('No stable firmware release is available. Choose a local ZIP or explicitly '
+                         'request testing firmware with firmware_download --branch BRANCH.')
+    release, asset, commit = matches[0]
+    return download_asset(root, repository, release_ref(release), release, asset, commit, output=output)
+
+
 def download_release(root, repository, release_id, *, expected_commit=None):
     if type(release_id) is not int or release_id <= 0:
         raise BuildError('Choose a valid published release.')
@@ -275,6 +288,7 @@ def download_asset(root, repository, ref, release, asset, commit, *, output=None
     atomic_json(destination.with_name(destination.name + '.json'), dict(
         schema_version=1, repository=repository, ref=ref, tag=release['tag_name'],
         release_id=release['id'], published_at=release['published_at'], git_revision=commit,
+        prerelease=bool(release.get('prerelease')),
         sha256=hashlib.sha256(destination.read_bytes()).hexdigest()))
     print(f'Downloaded: {destination}')
     return destination

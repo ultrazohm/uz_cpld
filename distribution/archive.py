@@ -29,24 +29,18 @@ def pack(application, output, *, combined=False):
     verify(application)
     info = json.loads((application / 'application.json').read_text())
     platform = info['platform']
-    if platform not in ('windows-x64', 'ubuntu-24.04-x64'):
+    if platform != 'windows-x64':
         raise BuildError(f'Unsupported application platform: {platform}')
     version = info['application_version']
     if not version or any(c not in '0123456789abcdefghijklmnopqrstuvwxyz.-' for c in version):
         raise BuildError('Invalid application version')
     name = f'uz_cpld-{version}-{platform}' + ('-with-firmware' if combined else '')
     output.mkdir(parents=True, exist_ok=True)
-    if platform == 'windows-x64':
-        destination = output / (name + '.zip')
-        with ZipFile(destination, 'w', ZIP_DEFLATED) as archive:
-            for path in sorted(application.rglob('*')):
-                if path.is_file():
-                    archive.write(path, Path('uz_cpld') / path.relative_to(application))
-    else:
-        destination = output / (name + '.tar.gz')
-        # TAR preserves executable modes and PyInstaller's internal symlinks.
-        with tarfile.open(destination, 'w:gz', dereference=False) as archive:
-            archive.add(application, arcname='uz_cpld')
+    destination = output / (name + '.zip')
+    with ZipFile(destination, 'w', ZIP_DEFLATED) as archive:
+        for path in sorted(application.rglob('*')):
+            if path.is_file():
+                archive.write(path, Path('uz_cpld') / path.relative_to(application))
     return destination
 
 
@@ -72,8 +66,8 @@ def assemble(tools, firmware, output, commit):
     if manifest['backend'] != 'diamond' or manifest['git_revision'] != commit:
         raise BuildError('Release firmware must be Diamond firmware from this workflow commit')
     archives = sorted([*tools.glob('*.zip'), *tools.glob('*.tar.gz')])
-    if len(archives) != 2:
-        raise BuildError('Release requires exactly one Windows and one Ubuntu tool archive')
+    if len(archives) != 1:
+        raise BuildError('Release requires exactly one Windows tool archive')
     output.mkdir(parents=True, exist_ok=True)
     platforms = set()
     for source in archives:
@@ -110,8 +104,8 @@ def assemble(tools, firmware, output, commit):
             (application / 'bundle.json').write_text(json.dumps(bundle, indent=2) + '\n')
             pack(application, output, combined=True)
         shutil.copy2(source, output / source.name)
-    if platforms != {'windows-x64', 'ubuntu-24.04-x64'}:
-        raise BuildError('Both Windows and Ubuntu artifacts are required')
+    if platforms != {'windows-x64'}:
+        raise BuildError('A Windows artifact is required')
     shutil.copy2(firmware, output / 'uz-cpld-firmware.zip')
     assets = sorted(p for p in output.iterdir() if p.name != 'SHA256SUMS.txt')
     (output / 'SHA256SUMS.txt').write_text(''.join(f'{digest(p)}  {p.name}\n' for p in assets))

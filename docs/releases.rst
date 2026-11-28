@@ -87,7 +87,7 @@ See the :doc:`user guide <user/index>` for programming and :doc:`developer/relea
 ispLEVER program collections
 ----------------------------
 
-``programs_LA4128V/`` and ``programs_LC256V/`` contain separate ispLEVER projects and JEDEC files for their device families.
+``archive/programs_LA4128V/`` and ``archive/programs_LC256V/`` contain separate ispLEVER projects and JEDEC files for their device families.
 They are outside the MachXO2 release-cycle catalog and are not selected by ``--release-cycle``.
 
 Program reference

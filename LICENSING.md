@@ -11,7 +11,7 @@ to libwdi remain LGPL-3.0-or-later; our openFPGALoader patch retains the upstrea
 Apache-2.0 license. The delivered application is a distribution of components
 under multiple licenses, not an exclusively Apache-2.0 binary.
 
-Historical files in archive/, programs_LA4128V/ and programs_LC256V/ include vendor
+Historical files in archive/ include vendor
 reference designs, IEEE material and generated artifacts. Their existing notices
 and restrictions remain in force. Examples include Lattice's i2c_slave.vhd and
 IEEE's _math_real.vhd files. These historical directories are excluded from the

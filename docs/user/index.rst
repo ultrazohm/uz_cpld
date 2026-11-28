@@ -95,3 +95,13 @@ The public application programs existing firmware only.
 Generating, building, simulating, and changing firmware or the CLI still uses the checkout's developer environment.
 See :doc:`../developer/hdl`, :doc:`../developer/toolchain`, and :doc:`../windows` for native Windows Diamond builds.
 Do not install the checkout's editable ``cpld-toolchain`` package into the user application's uv tool environment.
+
+Python and alternate interfaces
+-------------------------------
+
+Use the :doc:`python-api` to script programmer operations or build another interface.
+
+.. toctree::
+   :hidden:
+
+   python-api

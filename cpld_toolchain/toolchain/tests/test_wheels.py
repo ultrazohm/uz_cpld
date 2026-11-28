@@ -1,6 +1,8 @@
 """Public package boundaries, release policy and native asset ownership."""
 import json
 import os
+import subprocess
+import sys
 from pathlib import Path
 import tempfile
 import unittest
@@ -38,6 +40,23 @@ class WheelTests(unittest.TestCase):
             self.assertFalse(list(root.rglob('test_*.py')))
             self.assertFalse((root / 'programs').exists())
             self.assertIn('0.6.0.dev42', (root / 'cpld_toolchain/__init__.py').read_text())
+
+    def test_staged_package_exposes_python_api_without_cli_or_gui_dependencies(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / 'package'
+            root.mkdir()
+            wheels.stage_user(root, '0.6.0.dev42', 'a' * 40)
+            script = """import sys
+sys.path.insert(0, sys.argv[1])
+from cpld_toolchain.programmer import Programmer
+assert Programmer(sys.argv[2]).load()['cycles'] == {}
+assert 'tkinter' not in sys.modules
+assert 'typer' not in sys.modules
+"""
+            result = subprocess.run([sys.executable, '-I', '-c', script, str(root),
+                                     str(Path(directory) / 'workspace')],
+                                    cwd=directory, capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
 
     def test_prerelease_versions_are_distinct_on_reruns(self):
         with patch.dict(os.environ, GITHUB_RUN_ID='123', GITHUB_RUN_ATTEMPT='1'):

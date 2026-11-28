@@ -176,7 +176,8 @@ class ProgramTests(unittest.TestCase):
     def test_foss_scan_reports_unexpected_id_without_programming(self):
         output = 'index 0:\n  idcode 0x12345678\n'
         with patch.object(program, 'require_usb_bus'), patch.object(foss, 'run', return_value=output), \
-                patch.object(program, 'diamond_usb', return_value=nullcontext()):
+                patch('cpld_toolchain.programmer_helper.usb.diamond_usb', return_value=nullcontext()), \
+                patch('cpld_toolchain.programmer_helper.identify.programming_preflight'):
             self.assertEqual(program.main(['scan', '--target', 's3c', '--programmer-backend', 'foss', '--execute']), 0)
 
     def test_foss_targets_use_same_ft4232_channel_and_first_probe(self):

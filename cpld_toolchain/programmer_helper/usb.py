@@ -1,4 +1,6 @@
 """Temporarily release one Linux FTDI JTAG interface for Diamond."""
+from cpld_toolchain.diagnostics import emit
+
 from contextlib import contextmanager, ExitStack
 import ctypes as C
 from ctypes.util import find_library
@@ -171,7 +173,7 @@ def diamond_usb(port: int, *, serial=None):
                 if usb.active():
                     usb.detach()
                     detached = True
-                    print(f'Detached ftdi_sio: {interface.path.name} '
+                    emit(f'Detached ftdi_sio: {interface.path.name} '
                           f'(serial {interface.serial}, channel {chr(65 + interface.number)})', flush=True)
             yield
         except BaseException as exc:
@@ -192,7 +194,7 @@ def diamond_usb(port: int, *, serial=None):
                             original = f'Programmer operation failed: {operation_error}. ' if operation_error is not None else ''
                             raise BuildError(original + f'Could not restore ftdi_sio on {interface.path.name}: {exc}. '
                                              'Reconnect the USB device to restore its driver.') from exc
-                    print(f'Restored ftdi_sio: {interface.path.name}', flush=True)
+                    emit(f'Restored ftdi_sio: {interface.path.name}', flush=True)
             finally:
                 if usb is not None:
                     usb.close()

@@ -143,12 +143,15 @@ def main(argv=None):
             settings.set_programmer(args[0].split('=', 1)[1])
             return 0
         options = cli.parse_args(args)
+        from .programmer import Programmer
+        output_stream = sys.stdout
+        api = Programmer((options.workspace or settings.user_directory('data') / 'workspace'),
+                         on_event=lambda event: output_stream.write(event['text']) if event['phase'] == 'log' else None)
         if options.action == 'setup_drivers':
-            from .driver_setup import setup_default
             if options.dry_run:
                 print('Preview only: configure the FOSS programmer USB driver/permissions.')
                 return 0
-            return setup_default(device_id=options.device_id)
+            return api.setup_drivers(device_id=options.device_id, default=True).get('code', 0)
         if options.action is None:
             cli.print_help()
             return 0
@@ -165,9 +168,9 @@ def main(argv=None):
             workspace.prepare(root)
             output = options.output.expanduser().absolute() if options.output else None
             if options.branch:
-                path = firmware_download.download(root, git_url=options.git_url, branch=options.branch, output=output)
+                path = api.download_firmware(git_url=options.git_url, branch=options.branch, output=output)['firmware']
             else:
-                path = firmware_download.download_stable(root, firmware_download.github_repository(options.git_url), output=output)
+                path = api.download_firmware(git_url=options.git_url, output=output, stable=True)['firmware']
             print(f'Inspect with firmware_list --firmware "{path}"; select with firmware_select --firmware "{path}".')
             return 0
         if options.action in ('firmware_list', 'firmware_select'):
@@ -179,8 +182,7 @@ def main(argv=None):
                 path = selected_firmware(root)
             inspect_firmware(path)
             if options.action == 'firmware_select':
-                from .firmware_choice import select
-                select(root, path)
+                api.select_firmware(path)
                 print(f'Selected firmware in {root / "firmware.json"}; slot assignments are unchanged.')
             return 0
         # Preserve the shared CLI's validation, snapshots, USB locking and readback.

@@ -56,12 +56,12 @@ class ProgrammerServiceTests(unittest.TestCase):
         request.pop('target')
         with patch('cpld_toolchain.programmer_helper.identify.identify', return_value=[]) as identify:
             service.operate(request)
-        identify.assert_called_once_with(self.root, None, 'foss', serial=None)
+        identify.assert_called_once_with(self.root, None, 'foss', None, None, None)
 
     def test_identify_s3c_without_package_keeps_explicit_target(self):
         with patch('cpld_toolchain.programmer_helper.identify.identify', return_value=[]) as identify:
             service.operate(dict(self.request, action='identify', firmware=''))
-        identify.assert_called_once_with(self.root, 's3c', 'foss', serial=None)
+        identify.assert_called_once_with(self.root, 's3c', 'foss', None, None, None)
 
     def test_package_checksum_matches_the_firmware_reviewed_in_the_window(self):
         with patch('cpld_toolchain.programmer_helper.identify.identify') as identify:

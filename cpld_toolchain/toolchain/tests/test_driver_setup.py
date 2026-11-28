@@ -40,9 +40,12 @@ class DriverSetupTests(unittest.TestCase):
             call, = commands.plan(action, {'device_id': ID})
             self.assertEqual(call.module, 'cpld_toolchain.driver_setup')
             self.assertEqual(call.arguments, (action, '--device-id', ID))
-            with patch.object(driver_setup, 'setup', return_value=0) as setup, redirect_stdout(io.StringIO()):
+            with patch.object(driver_setup, 'setup', side_effect=lambda action, device_id, report: report(
+                    dict(already_bound=True, restart_required=False, device_id=device_id))) as setup, redirect_stdout(io.StringIO()):
                 self.assertEqual(commands.run(action, {'device_id': ID}), 0)
-                setup.assert_called_once_with(action, device_id=ID)
+                self.assertEqual(setup.call_args.args, (action,))
+                self.assertEqual(setup.call_args.kwargs['device_id'], ID)
+                self.assertTrue(callable(setup.call_args.kwargs['report']))
 
     def test_dry_run_does_not_discover_or_elevate(self):
         for action in driver_setup.ACTIONS:

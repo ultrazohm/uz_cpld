@@ -1,4 +1,6 @@
 """Download the newest CI firmware release for a GitHub repository and branch."""
+from cpld_toolchain.diagnostics import emit
+
 import argparse
 from datetime import datetime
 import hashlib
@@ -276,7 +278,7 @@ def download_asset(root, repository, ref, release, asset, commit, *, output=None
     destination = Path(output) if output else Path(root) / 'build/downloads' / folder / ASSET
     if destination.is_symlink():
         raise BuildError('Download output must not be a symlink')
-    print(f"Firmware: {repository} {ref} — {release['tag_name']} ({commit})")
+    emit(f"Firmware: {repository} {ref} — {release['tag_name']} ({commit})")
     destination.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix='.firmware-', dir=destination.parent) as temporary:
         staged = Path(temporary) / ASSET
@@ -290,7 +292,7 @@ def download_asset(root, repository, ref, release, asset, commit, *, output=None
         release_id=release['id'], published_at=release['published_at'], git_revision=commit,
         prerelease=bool(release.get('prerelease')),
         sha256=hashlib.sha256(destination.read_bytes()).hexdigest()))
-    print(f'Downloaded: {destination}')
+    emit(f'Downloaded: {destination}')
     return destination
 
 
@@ -303,10 +305,13 @@ def main(argv=None):
     parser.add_argument('--output', type=Path)
     args = parser.parse_args(argv)
     try:
-        download(args.root.resolve(), remote=args.remote, output=args.output, git_url=args.git_url, branch=args.branch)
+        from cpld_toolchain.programmer import Programmer
+        output = sys.stdout
+        api = Programmer(args.root, on_event=lambda event: output.write(event['text']) if event['phase'] == 'log' else None)
+        api.download_firmware(remote=args.remote, output=args.output, git_url=args.git_url, branch=args.branch)
         return 0
     except (BuildError, OSError, ValueError, KeyError, TypeError, BadZipFile, HTTPException, RuntimeError) as exc:
-        print(f'Firmware download failed: {exc}', file=sys.stderr)
+        emit(f'Firmware download failed: {exc}', file=sys.stderr)
         return 1
 
 

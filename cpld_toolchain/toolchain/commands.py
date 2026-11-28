@@ -26,6 +26,7 @@ WINDOWS_TESTS = (
     'cpld_toolchain.toolchain.tests.test_driver_status',
     'cpld_toolchain.toolchain.tests.test_windows_terminal',
     'cpld_toolchain.toolchain.tests.test_programmer_gui',
+    'cpld_toolchain.toolchain.tests.test_programmer_api',
     'cpld_toolchain.toolchain.tests.test_firmware_download',
     'cpld_toolchain.toolchain.tests.test_firmware_choice',
     'cpld_toolchain.toolchain.tests.test_capabilities', 'cpld_toolchain.toolchain.tests.test_doctor', 'cpld_toolchain.toolchain.tests.test_platform', 'cpld_toolchain.toolchain.tests.test_commands', 'cpld_toolchain.toolchain.tests.test_venv',

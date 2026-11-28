@@ -1,4 +1,6 @@
 """Explicit Windows driver setup commands shared by repository and standalone CLI."""
+from cpld_toolchain.diagnostics import emit
+
 import argparse
 import hashlib
 import json
@@ -24,11 +26,11 @@ def setup_default(*, device_id=None):
     if not rule.is_file():
         raise BuildError('Packaged udev rules are missing; reinstall ultrazohm-cpld-user.')
     prefix = [] if os.geteuid() == 0 else ['sudo']
-    print('Installing programmer USB permission rules. Reconnect the programmer afterward.', flush=True)
+    emit('Installing programmer USB permission rules. Reconnect the programmer afterward.', flush=True)
     for command in ([*prefix, 'install', '-D', '-m', '644', str(rule), '/etc/udev/rules.d/99-openfpgaloader.rules'],
                     [*prefix, 'udevadm', 'control', '--reload-rules']):
         subprocess.run(command, check=True)
-    print('Rules installed. Reconnect USB. If access is denied, create the plugdev group with '
+    emit('Rules installed. Reconnect USB. If access is denied, create the plugdev group with '
           'sudo groupadd -f plugdev, add your account with sudo usermod -aG plugdev USERNAME, '
           'then log out and in again.')
     return 0
@@ -88,7 +90,7 @@ def invoke(binary, *args, capture=True):
                     try:
                         return subprocess.CompletedProcess(argv, process.wait())
                     except KeyboardInterrupt:
-                        print('Waiting for Windows driver setup to finish before releasing the programmer.', flush=True)
+                        emit('Waiting for Windows driver setup to finish before releasing the programmer.', flush=True)
     except (OSError, subprocess.SubprocessError) as exc:
         raise BuildError(f'Windows driver helper could not run: {exc}') from exc
 
@@ -134,16 +136,16 @@ def setup(action, *, device_id=None, report=None):
         if selected['service'].casefold() == expected:
             if report:
                 report(dict(already_bound=True, restart_required=False, device_id=selected['device_id'], service=expected))
-            print(f'{selected["device_id"]}: {selected["service"]} is already bound. Run doctor or scan to check readiness.')
+            emit(f'{selected["device_id"]}: {selected["service"]} is already bound. Run doctor or scan to check readiness.')
             return 0
-        print(f'Selected programmer: {selected["device_id"]}', flush=True)
-        print(f'Channel B driver: {selected["service"] or "none"} -> {"WinUSB (FOSS)" if foss else "FTDI (Diamond)"}', flush=True)
-        print('Close Diamond and other programmer applications. Approve the Windows administrator prompt to continue.', flush=True)
+        emit(f'Selected programmer: {selected["device_id"]}', flush=True)
+        emit(f'Channel B driver: {selected["service"] or "none"} -> {"WinUSB (FOSS)" if foss else "FTDI (Diamond)"}', flush=True)
+        emit('Close Diamond and other programmer applications. Approve the Windows administrator prompt to continue.', flush=True)
         result = invoke(binary, '--foss' if foss else '--diamond', selected['device_id'], capture=False)
         if result.returncode == 3010:
             if report:
                 report(dict(already_bound=False, restart_required=True, device_id=selected['device_id'], service=expected))
-            print('Driver installed. Restart Windows before scanning or programming.')
+            emit('Driver installed. Restart Windows before scanning or programming.')
             return 0
         if result.returncode:
             raise BuildError(f'Driver setup did not complete (exit {result.returncode}). '
@@ -155,7 +157,7 @@ def setup(action, *, device_id=None, report=None):
                              'Reconnect the programmer and run doctor before programming.')
         if report:
             report(dict(already_bound=False, restart_required=False, device_id=selected['device_id'], service=expected))
-    print(f'Driver configured for {"FOSS" if foss else "Diamond"}. Run scan with the corresponding programmer backend.')
+    emit(f'Driver configured for {"FOSS" if foss else "Diamond"}. Run scan with the corresponding programmer backend.')
     return 0
 
 
@@ -164,12 +166,18 @@ def main(argv=None):
     parser.add_argument('action', choices=ACTIONS)
     parser.add_argument('--device-id')
     args = parser.parse_args(argv)
-    return setup(args.action, device_id=args.device_id)
+    from .programmer import Programmer
+    output = sys.stdout
+    from .workspace import current
+    api = Programmer(current(), backend='foss' if args.action == 'setup_foss_drivers' else 'diamond',
+                     on_event=lambda event: output.write(event['text']) if event['phase'] == 'log' else None)
+    api.setup_drivers(device_id=args.device_id)
+    return 0
 
 
 if __name__ == '__main__':
     try:
         raise SystemExit(main())
     except (BuildError, OSError, ValueError, subprocess.SubprocessError) as exc:
-        print(f'uz_cpld: {exc}', file=sys.stderr)
+        emit(f'uz_cpld: {exc}', file=sys.stderr)
         raise SystemExit(2)

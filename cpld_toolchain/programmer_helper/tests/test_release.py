@@ -24,9 +24,12 @@ class ReleaseTests(unittest.TestCase):
     def test_top_level_workspace_stages_zip_without_using_checkout(self):
         from cpld_toolchain.__main__ import main
         workspace = self.root / 'standalone workspace'
+        run = self.root / 'mock-run'
+        run.mkdir()
+        (run / 'result.json').write_text(json.dumps({'devices': []}))
         with working_directory(self.root), \
                 patch('cpld_toolchain.capabilities.require'), \
-                patch.object(program, 'execute') as execute, redirect_stdout(io.StringIO()):
+                patch.object(program, 'execute', return_value=run) as execute, redirect_stdout(io.StringIO()):
             self.assertEqual(main(['--workspace', str(workspace), 'program', '--target', 's3c',
                 '--source', 'zip', '--firmware', self.zip.name, '--release', 'published',
                 '--s3c-program', 'controller', '--programmer-backend', 'foss']), 0)

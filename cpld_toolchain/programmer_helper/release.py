@@ -1,4 +1,6 @@
 """Validate release ZIPs and stage selected firmware without local build records."""
+from cpld_toolchain.diagnostics import emit
+
 from dataclasses import dataclass
 import hashlib
 import json
@@ -210,7 +212,7 @@ def stage(root, selection, cycle_name, chain, programmer_backend, firmware, buil
                     selected.append((label, index, entry))
                 conflicts = registry_conflicts(root, [entry for _, _, entry in selected])
                 for warning in conflicts:
-                    print(f'Warning: {warning}')
+                    emit(f'Warning: {warning}')
                 base = root / 'build/programmer/packages'
                 for parent in (base, *base.parents):
                     if parent == root:

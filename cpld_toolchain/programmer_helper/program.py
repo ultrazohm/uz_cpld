@@ -1,4 +1,6 @@
 """Plan and explicitly execute CPLD programming from a container or native host."""
+from cpld_toolchain.diagnostics import emit
+
 from cpld_toolchain import programmer_command, repository_root
 import argparse
 from contextlib import ExitStack, nullcontext
@@ -83,28 +85,13 @@ def create_selection(destination: Path, *, release=None, s3c=None, slots=None, o
         template = re.sub(rf'(?m)^{re.escape(key)} = .*$',
                           lambda match: f'{key} = {json.dumps(value)}', template)
     existed = destination.exists()
-    if override:
-        if destination.is_symlink() or existed and not destination.is_file():
-            raise BuildError(f'Cannot override a symlink or non-file selection: {destination}')
-        temporary = None
-        try:
-            with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8', dir=destination.parent,
-                                             prefix=f'.{destination.name}-', delete=False) as stream:
-                temporary = Path(stream.name)
-                stream.write(template)
-            os.replace(temporary, destination)
-        finally:
-            if temporary is not None:
-                temporary.unlink(missing_ok=True)
-    else:
-        try:
-            with destination.open('x', encoding='utf-8') as stream:
-                stream.write(template)
-        except FileExistsError:
-            print(f'{destination} already exists; kept your selection. Use init_programmer --override to replace it.')
-            return
-    print(f'{"Replaced" if existed else "Created"} {destination} with selected programs. Edit the programs and release as needed.')
-    print(f'Review the selection before using {programmer_command()} program --target s3c or dslot.')
+    from cpld_toolchain.programmer.selection import write_file
+    if not write_file(destination, template, override=override):
+        emit(f'{destination} already exists; kept your selection. Use init_programmer --override to replace it.')
+        return dict(path=str(destination), changed=False)
+    emit(f'{"Replaced" if existed else "Created"} {destination} with selected programs. Edit the programs and release as needed.')
+    emit(f'Review the selection before using {programmer_command()} program --target s3c or dslot.')
+    return dict(path=str(destination), changed=True)
 
 
 def build_selection(root: Path, selection: Path, release_cycle=None, *, target=None,
@@ -120,9 +107,11 @@ def build_selection(root: Path, selection: Path, release_cycle=None, *, target=N
     from cpld_toolchain.toolchain.buildsystem.backends.diamond import preflight
     preflight(list(unique.values()))
     for build in unique.values():
-        print(build_program(build))
+        emit(build_program(build))
     from cpld_toolchain.toolchain.buildsystem.publication import publish
-    print(publish(root, list(unique.values())))
+    publication = publish(root, list(unique.values()))
+    emit(publication)
+    return dict(programs=[build.name for build in unique.values()], publication=str(publication))
 
 
 def loader_path() -> Path:
@@ -235,7 +224,7 @@ def run_command(command: tuple[str, ...], log: Path, *, env=None) -> str:
         lines = []
         try:
             for line in process.stdout:
-                print(line, end='')
+                emit(line, end='')
                 stream.write(line)
                 lines.append(line)
             result = process.wait()
@@ -496,7 +485,13 @@ def main(argv=None) -> int:
     parser.add_argument('--probe-index', type=int, help='Select an FTDI USB probe by index')
     parser.add_argument('--execute', action='store_true', help='Contact hardware (scan reads IDs; program writes Flash)')
     args = parser.parse_args(argv)
+    from cpld_toolchain.programmer import Programmer
+    def event(value):
+        if value['phase'] == 'log':
+            print(value['text'], end='')
     try:
+        api = Programmer(args.root, backend=args.programmer_backend, cable=args.cable,
+                         serial=args.usb_serial, probe_index=args.probe_index, on_event=event)
         if args.override and args.action != 'init_programmer':
             raise BuildError('--override applies only to init_programmer')
         slots = {i: getattr(args, f'dslot{i}') for i in range(1, 6) if getattr(args, f'dslot{i}') is not None}
@@ -520,17 +515,18 @@ def main(argv=None) -> int:
         if (args.source == 'zip') != (args.firmware is not None):
             raise BuildError('Use source=local without firmware, or source=zip with firmware=FILE.zip')
         if args.action == 'init_programmer':
-            create_selection(args.selection, release=args.release, s3c=args.s3c,
-                             slots={i: getattr(args, f'dslot_{i}') for i in range(1, 6)
-                                    if getattr(args, f'dslot_{i}') is not None}, override=args.override)
+            api.initialize_assignments(dict(release=args.release, s3c=args.s3c,
+                slots={i: getattr(args, f'dslot_{i}') for i in range(1, 6)
+                       if getattr(args, f'dslot_{i}') is not None}),
+                destination=args.selection, override=args.override)
             return 0
         if args.action == 'build_selection':
-            build_selection(args.root, args.selection, args.release_cycle,
-                            target=args.target, backend=args.build_backend or 'diamond')
+            api.build_selection(args.selection, release=args.release_cycle,
+                                target=args.target, backend=args.build_backend or 'diamond')
             return 0
         if args.action == 'program' and isinstance(args.selection, Path) and not args.selection.exists():
-            create_selection(args.selection)
-            print('Review the selection before programming; no hardware was accessed.')
+            api.initialize_assignments({}, destination=args.selection)
+            emit('Review the selection before programming; no hardware was accessed.')
             return 0
         args.chain = {'dslot': 'dslots', 's3c': 's3c'}.get(args.target)
         if not args.chain:
@@ -544,81 +540,53 @@ def main(argv=None) -> int:
         if args.programmer_backend == 'diamond' and (args.cable or args.usb_serial):
             raise BuildError('Diamond uses the USB2 cable; select its port with --probe-index')
         if args.action == 'identify':
-            from .identify import identify, DIAMOND_READS
+            from .identify import DIAMOND_READS
             if not args.execute:
                 if args.programmer_backend == 'foss':
                     from .foss import identity_command
-                    print(shlex.join(identity_command(loader_path(), args.chain, args.cable, args.usb_serial, args.probe_index)))
+                    emit(shlex.join(identity_command(loader_path(), args.chain, args.cable, args.usb_serial, args.probe_index)))
                 else:
                     port = DEFAULT_DIAMOND_PORT if args.probe_index is None else args.probe_index
-                    print(f'Diamond identify: {args.chain} on FTUSB-{port}')
+                    emit(f'Diamond identify: {args.chain} on FTUSB-{port}')
                     for _, _, operation, _, _ in DIAMOND_READS:
-                        print(f'  {operation}')
+                        emit(f'  {operation}')
             else:
-                identify(args.root, args.chain, args.programmer_backend, args.cable, args.usb_serial, args.probe_index,
-                         **({"firmware": args.firmware} if args.source == "zip" else {}))
+                api.identify(target=args.target, firmware=args.firmware)
             return 0
         if args.action == 'scan':
-            if args.programmer_backend == 'foss':
-                command = scan_command(args.chain, args.cable, args.usb_serial, args.probe_index)
-                if not args.execute:
-                    print(shlex.join(command))
-                    return 0
-                if not args.cable or args.cable.startswith(('ft2232', 'ft4232')):
-                    require_usb_bus()
-                from .foss import run
-                guard = (diamond_usb(DEFAULT_DIAMOND_PORT, serial=args.usb_serial)
-                         if args.cable in (None, DEFAULT_FOSS_CABLE) and args.probe_index in (None, 0)
-                         else nullcontext())
-                with guard:
-                    output = run(command, args.root.resolve() / 'build/programmer/scan.log')
-                print('Detected:', parse_scan(output))
-            else:
-                port = args.probe_index if args.probe_index is not None else DEFAULT_DIAMOND_PORT
-                print(f'Diamond FLASH Display ID scan: {args.chain} on FTUSB-{port}')
-                if not args.execute:
-                    return 0
-                require_usb_bus()
-                stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
-                run_dir = args.root.resolve() / 'build/programmer/scans' / stamp
-                run_dir.mkdir(parents=True)
-                xcf = run_dir / 'scan.xcf'
-                diamond_scan_xcf(args.root.resolve(), args.chain, xcf, port)
-                vendor_log = run_dir / 'pgrcmd.log'
-                command = diamond_command(args.root.resolve(), xcf, vendor_log)
-                try:
-                    output = run_diamond(command, run_dir / 'stdout.log', xcf)
-                finally:
-                    if vendor_log.exists():
-                        print(vendor_log.read_text(errors='replace'))
-                    print(f'Diamond scan logs: {run_dir}')
-                if not output.strip() and not vendor_log.exists():
-                    raise BuildError('Diamond produced no scan output')
+            if not args.execute:
+                if args.programmer_backend == 'foss':
+                    emit(shlex.join(scan_command(args.chain, args.cable, args.usb_serial, args.probe_index)))
+                else:
+                    port = args.probe_index if args.probe_index is not None else DEFAULT_DIAMOND_PORT
+                    emit(f'Diamond FLASH Display ID scan: {args.chain} on FTUSB-{port}')
+                return 0
+            result = api.scan(target=args.target or 'dslot')
+            emit(result['message'])
+            emit('Detected:', result['devices'])
             return 0
         if isinstance(args.selection, Path) and not args.selection.is_file():
             raise BuildError(f'{args.selection} is missing; run {programmer_command()} init_programmer, then fill in the target programs')
-        cycle, output, builds, steps = plan(args.root, args.selection, args.release_cycle,
-                                                  args.chain, args.programmer_backend,
-                                                  args.cable, args.usb_serial, args.probe_index,
-                                                  build_backend=args.build_backend, source=args.source, firmware=args.firmware)
-        print(f'Programming selection (release: {cycle}):')
+        prepared = api.prepare_programming(args.selection, target=args.target, release=args.release_cycle,
+                                           build_backend=args.build_backend, firmware=args.firmware)
+        cycle, output, builds, steps = prepared.release, prepared.output, prepared.builds, prepared.steps
+        emit(f'Programming selection (release: {cycle}):')
         for _, index, build in builds:
             target_label = 'S3C' if args.chain == 's3c' else f'D-slot {index + 1}'
             identity = firmware_identity(build)
-            print(f'  {target_label}: {build.name}, revision {identity["revision"]}, USERCODE 0x{identity["usercode"]}')
-        print(f'Firmware build backend: {builds[0][2].backend}; programmer backend: {args.programmer_backend}')
+            emit(f'  {target_label}: {build.name}, revision {identity["revision"]}, USERCODE 0x{identity["usercode"]}')
+        emit(f'Firmware build backend: {builds[0][2].backend}; programmer backend: {args.programmer_backend}')
         if args.source == 'zip':
             evidence = builds[0][2].package.evidence
-            print(f'Release ZIP: {evidence["archive"]} (sha256 {evidence["archive_sha256"]})')
-            print(f'Release commit: {evidence["git_revision"]}')
+            emit(f'Release ZIP: {evidence["archive"]} (sha256 {evidence["archive_sha256"]})')
+            emit(f'Release commit: {evidence["git_revision"]}')
         for step in steps:
-            print(f'{step.label}: {step.artifact} (sha256 {step.sha256})')
-            print('  ' + shlex.join(step.command))
+            emit(f'{step.label}: {step.artifact} (sha256 {step.sha256})')
+            emit('  ' + shlex.join(step.command))
         if args.execute:
             sys.stdout.flush()
-            run_dir = execute(args.root.resolve(), cycle, args.chain, args.programmer_backend,
-                              output, builds, steps, args.cable, args.usb_serial, args.probe_index)
-            print(f'Programming record: {run_dir / "result.json"}')
+            result = api.execute(prepared)
+            emit(f"Programming record: {result['record']}")
         return 0
     except KeyboardInterrupt:
         parser.exit(130, 'programmer_helper: interrupted\n')

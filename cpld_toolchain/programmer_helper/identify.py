@@ -1,4 +1,6 @@
 """Read MachXO2 identity registers through the UltraZohm FT4232 channel B."""
+from cpld_toolchain.diagnostics import emit
+
 from datetime import datetime, timezone
 from pathlib import Path
 import re
@@ -210,5 +212,5 @@ def identify(root, chain=None, backend='diamond', cable=None, serial=None, probe
             identity = device['identity']
             name = (f'{identity["program"]}, revision {identity["revision"]}' if identity and identity['known_build']
                     else f'{identity["program"]}, unknown revision {identity["revision"]}' if identity else 'unknown firmware')
-            print(f'{device["label"]}: USERCODE 0x{device["usercode"]}, TraceID 0x{device["traceid"]}: {name}')
+            emit(f'{device["label"]}: USERCODE 0x{device["usercode"]}, TraceID 0x{device["traceid"]}: {name}')
         return devices

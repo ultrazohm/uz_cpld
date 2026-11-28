@@ -28,7 +28,7 @@ def worker_command(request, result):
         executable = Path(sys.executable).with_name('uz_cpld.exe' if sys.platform == 'win32' else 'uz_cpld')
         return [str(executable), '--programmer-gui-worker', str(request), str(result)]
     return [os.environ.get('UZ_CPLD_GUI_WORKER_PYTHON', sys.executable), '-m',
-            'cpld_toolchain.programmer_service', str(request), str(result)]
+            'cpld_toolchain.programmer', str(request), str(result)]
 
 
 def display_rows(devices):
@@ -408,7 +408,7 @@ class ProgrammerWindow:
         self.start('save', override=exists)
 
     def program(self, target):
-        from .programmer_service import validate_assignments
+        from .programmer import validate_assignments
         try:
             validate_assignments({'cycles': self.catalog}, self.selection(), target)
         except Exception as exc:

@@ -3,6 +3,8 @@
 Indices are openFPGALoader indices (nearest TDI first), including programming.
 A session owns channel B across discovery, all writes, and readback.
 """
+from cpld_toolchain.diagnostics import emit
+
 from cpld_toolchain import programmer_command
 
 from contextlib import contextmanager
@@ -146,7 +148,7 @@ def execute(root, chain, builds, steps, identities, run_dir, record, cable, seri
             command = (str(binary), *step.command[1:-1], '--expected-chain', ','.join(expected_chain(chain)),
                        '--expected-silicon', before[index]['silicon_id'], str(snapshot))
             log = run_dir / f'{step.label}.log'
-            print(f'FOSS: programming {step.label}; log: {log}', flush=True)
+            emit(f'FOSS: programming {step.label}; log: {log}', flush=True)
             active.checked_run(command, log, timeout=180)
             record['steps'].append({'label': step.label, 'artifact': str(step.artifact), 'sha256': step.sha256,
                                     'command': list(command), 'log': str(log),

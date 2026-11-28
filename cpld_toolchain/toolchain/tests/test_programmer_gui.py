@@ -288,6 +288,22 @@ class ProgrammerWindowTests(unittest.TestCase):
             self.root.after_cancel(timer)
         self.root.destroy()
 
+    def test_poll_unwraps_shared_worker_result(self):
+        import io
+        from unittest.mock import Mock
+        self.window.process = Mock()
+        self.window.process.is_alive.return_value = False
+        self.window.log_stream = io.StringIO()
+        self.window.result_path = self.window.workspace / 'response.json'
+        self.window.worker_result = {'version': 1, 'id': 'test', 'type': 'result', 'ok': True,
+            'result': {'message': 'Loaded', 'cycles': {'A': {'s3c': ['controller'], 'dslot': ['adapter']}},
+                       'selection': {'release': 'A', 's3c': 'controller'}, 'firmware': '/test.zip'}}
+        self.window.poll()
+        self.assertEqual(self.window.status.get(), 'Loaded')
+        self.assertEqual(self.window.release.get(), 'A')
+        self.assertEqual(self.window.assignments['s3c'].get(), 'controller')
+        self.assertIsNone(self.window.process)
+
     def test_release_dropdown_filters_programs_without_silent_assignments(self):
         self.window.catalog = {'A': {'s3c': ['controller'], 'dslot': ['adapter']},
                                'B': {'s3c': ['other'], 'dslot': ['different']}}
@@ -306,7 +322,7 @@ class ProgrammerWindowTests(unittest.TestCase):
         self.window.release.set('A')
         self.window.assignments['s3c'].set('controller')
         with patch.object(self.window.message, 'askyesno', return_value=False) as confirm:
-            self.window.program('s3c')
+            self.window.confirm_review({'plan_id': 'plan', 'review_sha256': 'hash', 'summary': {'target': 's3c', 'release': 'A', 'backend': 'foss', 'assignments': [{'position': 'S3C', 'program': 'controller'}]}})
         self.assertEqual(confirm.call_args.kwargs['default'], 'no')
         self.start.assert_not_called()
 
@@ -317,18 +333,19 @@ class ProgrammerWindowTests(unittest.TestCase):
             button.invoke()
             self.start.assert_called_once_with('identify', target=target)
 
-    def test_program_buttons_keep_target_and_confirmation_assignments_together(self):
-        self.window.catalog = {'A': {'s3c': ['controller'], 'dslot': ['adapter']}}
-        self.window.release.set('A')
-        self.window.assignments['s3c'].set('controller')
-        for i in range(1, 6):
-            self.window.assignments[str(i)].set('adapter')
-        for target, text in (('s3c', 'S3C: controller'), ('dslot', 'D5: adapter')):
+    def test_program_prepares_before_confirming_reviewed_assignments(self):
+        for target in ('s3c', 'dslot'):
             self.start.reset_mock()
-            with patch.object(self.window.message, 'askyesno', return_value=True) as confirm:
-                self.window.program(target)
-            self.assertIn(text, confirm.call_args.args[1])
-            self.start.assert_called_once_with('program', target=target)
+            self.window.program(target)
+            self.start.assert_called_once_with('prepare', target=target)
+        self.start.reset_mock()
+        result = {'plan_id': 'plan', 'review_sha256': 'hash', 'summary': {
+            'target': 'dslot', 'release': 'A', 'backend': 'foss',
+            'assignments': [{'position': 'D5', 'program': 'reviewed-adapter'}]}}
+        with patch.object(self.window.message, 'askyesno', return_value=True) as confirm:
+            self.window.confirm_review(result)
+        self.assertIn('D5: reviewed-adapter', confirm.call_args.args[1])
+        self.start.assert_called_once_with('execute', plan_id='plan', review_sha256='hash')
 
     def test_download_fetches_versions_without_prompting_for_branch(self):
         with patch.object(self.window.prompt, 'askstring') as prompt:

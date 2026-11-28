@@ -170,3 +170,30 @@ All requests can specify ``backend``, ``serial``, ``cable``, and ``probe_index``
 execution must use the same configuration as preparation. ``drivers`` accepts
 ``device_id`` and ``default_driver`` and does not require a writable workspace.
 The existing ``cpld_toolchain.programmer_service`` entry point remains compatible.
+
+GUI worker protocol
+-------------------
+
+GUI hosts can launch ``python -u -m cpld_toolchain.programmer --stdio``.
+Send one UTF-8 JSON object on stdin, then close stdin::
+
+    {"version": 1, "id": "operation-1", "request": {"action": "scan", "workspace": "/path/to/workspace"}}
+
+Each stdout line is a JSON object containing the same ``version`` and ``id``.
+An ``event`` message contains an ``event`` dictionary from the Python API.
+A terminal ``result`` message contains ``ok`` and either ``result`` or
+``error`` (with ``code`` and ``message``). Stderr contains diagnostics.
+A successful operation requires a successful result and exit code zero.
+A missing result or inconsistent exit code means the outcome is unknown;
+clients must not automatically retry programming.
+
+Python GUI hosts can use ``cpld_toolchain.programmer.client.run(request,
+on_event)`` from a background thread. This client drains both output streams
+and checks the protocol. The packaged executable exposes the same transport
+as ``uz_cpld --programmer-worker``. The older request/result file entry point
+remains supported for compatibility.
+
+Normal GUI shutdown waits for active programming. Closing a VS Code view
+leaves its extension-host worker active. This protocol does not guarantee
+survival of an application or operating-system crash. Programming execution
+records remain available in the workspace for diagnosis and recovery.

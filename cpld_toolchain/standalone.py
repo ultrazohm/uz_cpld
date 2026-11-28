@@ -134,6 +134,9 @@ def parser():
 
 def main(argv=None):
     args = list(sys.argv[1:] if argv is None else argv)
+    if args and args[0] == '--programmer-worker':
+        from .programmer.worker import serve
+        return serve()
     if args and args[0] == '--programmer-gui-worker':
         from .programmer_service import worker
         return worker(*args[1:])

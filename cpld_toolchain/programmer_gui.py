@@ -8,6 +8,7 @@ import subprocess
 import shutil
 import sys
 import tempfile
+import threading
 
 from . import repository_root, settings
 
@@ -408,19 +409,7 @@ class ProgrammerWindow:
         self.start('save', override=exists)
 
     def program(self, target):
-        from .programmer import validate_assignments
-        try:
-            validate_assignments({'cycles': self.catalog}, self.selection(), target)
-        except Exception as exc:
-            self.message.showerror('Choose assignments', str(exc), parent=self.root)
-            return
-        names = ['S3C: ' + self.assignments['s3c'].get()] if target == 's3c' else [
-            f'D{i}: {self.assignments[str(i)].get()}' for i in range(1, 6)]
-        if self.message.askyesno('Program Flash?',
-                f'Target: {"S3C" if target == "s3c" else "D1–D5 chain"}\nRelease: {self.release.get()}\nBackend: {self.backend.get()}\n\n'
-                + '\n'.join(names) + '\n\nThis erases, programs and verifies Flash.\n'
-                'Confirm the physical JTAG access state is correct.', default='no', parent=self.root):
-            self.start('program', target=target)
+        self.start('prepare', target=target)
 
     def drivers(self):
         if sys.platform == 'linux':
@@ -477,7 +466,7 @@ class ProgrammerWindow:
     def start(self, action, **extra):
         if self.process is not None:
             return
-        if action in ('save', 'program') and not self.firmware:
+        if action in ('save', 'program', 'prepare') and not self.firmware:
             self.message.showinfo('Select firmware', 'Choose or download a firmware ZIP first.', parent=self.root)
             return
         try:
@@ -498,9 +487,16 @@ class ProgrammerWindow:
             # Retain the import path in repo mode even after selecting a new workspace.
             if not getattr(sys, 'frozen', False):
                 env['PYTHONPATH'] = os.pathsep.join(filter(None, [str(Path(__file__).resolve().parent.parent), env.get('PYTHONPATH')]))
-            self.process = subprocess.Popen(worker_command(request_path, self.result_path),
-                    stdout=self.log_stream, stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL, env=env,
-                    creationflags=subprocess.CREATE_NO_WINDOW if sys.platform == 'win32' else 0)
+            from .programmer.client import run
+            self.worker_result = None
+            def work():
+                try:
+                    self.worker_result = run(request, lambda event:
+                        self.log_stream.write(event.get('text', '')), env=env)
+                except Exception as exc:
+                    self.worker_result = dict(ok=False, message=str(exc))
+            self.process = threading.Thread(target=work)
+            self.process.start()
         except (OSError, ValueError) as exc:
             if self.log_stream:
                 self.log_stream.close()
@@ -520,10 +516,10 @@ class ProgrammerWindow:
         self.root.after(100, self.poll)
 
     def poll(self):
-        if self.process.poll() is None:
+        if self.process.is_alive():
             self.root.after(100, self.poll)
             return
-        code = self.process.returncode
+        code = 0 if self.worker_result and self.worker_result.get("ok") else 2
         self.process = None
         self.log_stream.close()
         self.log_stream = None
@@ -533,12 +529,17 @@ class ProgrammerWindow:
         for widget, state in self.controls:
             widget.configure(state=state)
         try:
-            result = json.loads(self.result_path.read_text())
+            response = self.worker_result
+            result = dict(ok=True, **response['result']) if response['ok'] else response
+            settings.atomic_json(self.result_path, result)
         except (OSError, ValueError):
             result = dict(ok=False, message=f'Operation stopped unexpectedly (exit {code}). Open diagnostics for details.')
-        self.status.set(result['message'])
+        self.status.set(result.get('message', 'Programming review ready.'))
         if not result['ok']:
             self.message.showerror('Operation failed', result['message'] + '\n\nFull details are saved in diagnostics.', parent=self.root)
+            return
+        if 'plan_id' in result:
+            self.confirm_review(result)
             return
         if 'releases' in result:
             self.release_picker(result['releases'])
@@ -558,6 +559,15 @@ class ProgrammerWindow:
             self.source_text.set(f"Commit {result.get('commit', '')[:12]} · {Path(self.firmware).name}" if self.firmware else 'No firmware selected')
         if 'devices' in result:
             self.show_devices(result['devices'])
+
+    def confirm_review(self, result):
+        summary = result['summary']
+        names = '\n'.join(f"{row['position']}: {row['program']}" for row in summary['assignments'])
+        if self.message.askyesno('Program reviewed Flash?',
+                f"Target: {summary['target']}\nRelease: {summary['release']}\nBackend: {summary['backend']}\n\n{names}\n\n"
+                'Confirm the physical JTAG access state. This erases, programs and verifies Flash.',
+                default='no', parent=self.root):
+            self.start('execute', plan_id=result['plan_id'], review_sha256=result['review_sha256'])
 
     def change_workspace(self):
         directory = self.dialog.askdirectory(parent=self.root, title='Choose programmer workspace', initialdir=self.workspace)

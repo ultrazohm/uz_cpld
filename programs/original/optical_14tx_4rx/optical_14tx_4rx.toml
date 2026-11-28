@@ -1,6 +1,7 @@
 name = "optical_14tx_4rx"
 top = "SignalRouter"
 standard = "1993"
+synthesis = "lse"
 targets = ["uz_dslot_xo2"]
 constraints = ["optical_14tx_4rx_constraints.lpf"]
 sources = [{path = "optical_14tx_4rx.vhdl", library = "work"}]

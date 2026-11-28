@@ -1,0 +1,157 @@
+{
+  "chain": "dslots",
+  "devices": [
+    {
+      "idcode": "012BB043",
+      "identity": {
+        "build": {
+          "artifacts": [
+            {
+              "completed_at": "2026-10-07T16:37:43.004236+00:00",
+              "firmware_sha256": {
+                "bit": "9c9255d2481867812994abe7e0640a3f6fcc5a380a7b8360bf32d346978e8e0d",
+                "jed": "2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914"
+              },
+              "git_revision": "febf4f13df55f02232735afc17fab7a00f2d354c"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "12a14b0bd9f11744e73a894b1497c1ed5bda59ebc547dca6137e2d6c10a7ce56",
+          "target": "uz_dslot_xo2"
+        },
+        "known_build": true,
+        "program": "heartbeat_cvg/cvg_tx30",
+        "program_number": 59,
+        "revision": 17
+      },
+      "index": 0,
+      "label": "slot1",
+      "silicon_id": "44381228405816",
+      "sram_usercode": "003B0011",
+      "traceid": "0144381228405816",
+      "usercode": "003B0011"
+    },
+    {
+      "idcode": "012BB043",
+      "identity": {
+        "build": {
+          "artifacts": [
+            {
+              "completed_at": "2026-10-07T16:37:43.004236+00:00",
+              "firmware_sha256": {
+                "bit": "9c9255d2481867812994abe7e0640a3f6fcc5a380a7b8360bf32d346978e8e0d",
+                "jed": "2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914"
+              },
+              "git_revision": "febf4f13df55f02232735afc17fab7a00f2d354c"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "12a14b0bd9f11744e73a894b1497c1ed5bda59ebc547dca6137e2d6c10a7ce56",
+          "target": "uz_dslot_xo2"
+        },
+        "known_build": true,
+        "program": "heartbeat_cvg/cvg_tx30",
+        "program_number": 59,
+        "revision": 17
+      },
+      "index": 1,
+      "label": "slot2",
+      "silicon_id": "4438122840581A",
+      "sram_usercode": "003B0011",
+      "traceid": "014438122840581A",
+      "usercode": "003B0011"
+    },
+    {
+      "idcode": "012BB043",
+      "identity": {
+        "build": {
+          "artifacts": [
+            {
+              "completed_at": "2026-10-07T16:37:43.004236+00:00",
+              "firmware_sha256": {
+                "bit": "9c9255d2481867812994abe7e0640a3f6fcc5a380a7b8360bf32d346978e8e0d",
+                "jed": "2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914"
+              },
+              "git_revision": "febf4f13df55f02232735afc17fab7a00f2d354c"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "12a14b0bd9f11744e73a894b1497c1ed5bda59ebc547dca6137e2d6c10a7ce56",
+          "target": "uz_dslot_xo2"
+        },
+        "known_build": true,
+        "program": "heartbeat_cvg/cvg_tx30",
+        "program_number": 59,
+        "revision": 17
+      },
+      "index": 2,
+      "label": "slot3",
+      "silicon_id": "443812283C5E02",
+      "sram_usercode": "003B0011",
+      "traceid": "01443812283C5E02",
+      "usercode": "003B0011"
+    },
+    {
+      "idcode": "012BB043",
+      "identity": {
+        "build": {
+          "artifacts": [
+            {
+              "completed_at": "2026-10-07T16:37:43.004236+00:00",
+              "firmware_sha256": {
+                "bit": "9c9255d2481867812994abe7e0640a3f6fcc5a380a7b8360bf32d346978e8e0d",
+                "jed": "2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914"
+              },
+              "git_revision": "febf4f13df55f02232735afc17fab7a00f2d354c"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "12a14b0bd9f11744e73a894b1497c1ed5bda59ebc547dca6137e2d6c10a7ce56",
+          "target": "uz_dslot_xo2"
+        },
+        "known_build": true,
+        "program": "heartbeat_cvg/cvg_tx30",
+        "program_number": 59,
+        "revision": 17
+      },
+      "index": 3,
+      "label": "slot4",
+      "silicon_id": "443812283C6005",
+      "sram_usercode": "003B0011",
+      "traceid": "01443812283C6005",
+      "usercode": "003B0011"
+    },
+    {
+      "idcode": "012BB043",
+      "identity": {
+        "build": {
+          "artifacts": [
+            {
+              "completed_at": "2026-10-07T16:37:43.004236+00:00",
+              "firmware_sha256": {
+                "bit": "9c9255d2481867812994abe7e0640a3f6fcc5a380a7b8360bf32d346978e8e0d",
+                "jed": "2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914"
+              },
+              "git_revision": "febf4f13df55f02232735afc17fab7a00f2d354c"
+            }
+          ],
+          "backend": "diamond",
+          "fingerprint": "12a14b0bd9f11744e73a894b1497c1ed5bda59ebc547dca6137e2d6c10a7ce56",
+          "target": "uz_dslot_xo2"
+        },
+        "known_build": true,
+        "program": "heartbeat_cvg/cvg_tx30",
+        "program_number": 59,
+        "revision": 17
+      },
+      "index": 4,
+      "label": "slot5",
+      "silicon_id": "443812283C6003",
+      "sram_usercode": "003B0011",
+      "traceid": "01443812283C6003",
+      "usercode": "003B0011"
+    }
+  ],
+  "programmer_backend": "foss",
+  "read_at": "2026-10-07T19:45:55.998187+00:00"
+}

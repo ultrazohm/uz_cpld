@@ -1,6 +1,7 @@
 name = "s3c_power_on_debounce"
 top = "Waiting_for_Powerbutton_pressed_V0"
 standard = "1993"
+synthesis = "lse"
 targets = ["uz_s3c_xo2"]
 backends = ["diamond", "foss"]
 constraints = ["s3c_power_on_debounce_constraints.lpf"]

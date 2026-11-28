@@ -1,0 +1,154 @@
+{
+  "started_at": "2026-10-07T16:37:21.466684+00:00",
+  "git_revision": "febf4f13df55f02232735afc17fab7a00f2d354c",
+  "scope": "Diamond builds; Diamond and FOSS programming of MachXO2 D-slot and S3C chains",
+  "status": "complete: Diamond builds and both-programmer cross-read/persistence matrix passed for D-slots and S3C",
+  "hardware_writes_this_test": true,
+  "builds": [
+    {
+      "program": "cvg_tx30",
+      "target": "uz_dslot_xo2",
+      "status": "success",
+      "identity": {
+        "fingerprint": "12a14b0bd9f11744e73a894b1497c1ed5bda59ebc547dca6137e2d6c10a7ce56",
+        "program": "heartbeat_cvg/cvg_tx30",
+        "program_number": 59,
+        "revision": 17,
+        "usercode": "003B0011"
+      },
+      "completed_at": "2026-10-07T16:37:43.004236+00:00",
+      "warnings": [
+        "premap completed with warnings",
+        "fpga_mapper completed with warnings",
+        "WARNING - ngdbuild: logical net 'oscillator_SEDSTDBY' has no load.",
+        "WARNING - ngdbuild: logical net 'pilot_in' has no load.",
+        "WARNING - ngdbuild: logical net 'i2c_scl' has no load.",
+        "WARNING - ngdbuild: logical net 'i2c_sda' has no load.",
+        "WARNING - ngdbuild: DRC complete with 4 warnings.",
+        "WARNING - map: /workspaces/uz_cpld/build/diamond/heartbeat_cvg/cvg_tx30/uz_dslot_xo2/project/constraints.lpf(125): Semantic error in \"IOBUF PORT \"i2c_scl\" IO_TYPE=LVCMOS18 PULLMODE=NONE ;\": Port \"i2c_scl\" does not exist in the design. This preference has been disabled.",
+        "WARNING - map: /workspaces/uz_cpld/build/diamond/heartbeat_cvg/cvg_tx30/uz_dslot_xo2/project/constraints.lpf(126): Semantic error in \"IOBUF PORT \"i2c_sda\" IO_TYPE=LVCMOS18 PULLMODE=NONE ;\": Port \"i2c_sda\" does not exist in the design. This preference has been disabled.",
+        "WARNING - map: /workspaces/uz_cpld/build/diamond/heartbeat_cvg/cvg_tx30/uz_dslot_xo2/project/constraints.lpf(129): Semantic error in \"IOBUF PORT \"pilot_in\" IO_TYPE=LVCMOS33 PULLMODE=NONE ;\": Port \"pilot_in\" does not exist in the design. This preference has been disabled.",
+        "WARNING - map: Using local reset signal 'reqsafestate_c' to infer global GSR net.",
+        "WARNING - map: IO buffer missing for top level port pilot_in...logic will be discarded.",
+        "WARNING - map: IO buffer missing for top level port i2c_scl...logic will be discarded.",
+        "WARNING - map: IO buffer missing for top level port i2c_sda...logic will be discarded.",
+        "   Number of warnings:  7",
+        "WARNING - par: The SN pin is not available for use as a general purpose I/O pin when the SLAVE_SPI_PORT attribute is enabled.  The SN pin should be tied high with an external pull-up if you are not using the Slave SPI port for configuration.",
+        "DRC detected 0 errors and 0 warnings.",
+        "DRC detected 0 errors and 0 warnings."
+      ],
+      "artifacts": {
+        "build/diamond/heartbeat_cvg/cvg_tx30/uz_dslot_xo2/cvg_tx30_uz_dslot_xo2_diamond.jed": "2dc64108800baf4c15bb9a60685133a6b0a0a0b1ece35d4e6e152544d4894914",
+        "build/diamond/heartbeat_cvg/cvg_tx30/uz_dslot_xo2/cvg_tx30_uz_dslot_xo2_diamond.bit": "9c9255d2481867812994abe7e0640a3f6fcc5a380a7b8360bf32d346978e8e0d"
+      },
+      "simulation_log": "build/hardware-test-20261007/sim-dslot.log",
+      "simulation_passed": true,
+      "timing_report": "build/diamond/heartbeat_cvg/cvg_tx30/uz_dslot_xo2/reports/firmware_impl.twr"
+    },
+    {
+      "program": "s3c_heartbeat",
+      "target": "uz_s3c_xo2",
+      "status": "success",
+      "identity": {
+        "fingerprint": "ab28077ec0b0c36d49a72cc02e8cc5aa9b317434fb45970d0837ac92f7eedc0d",
+        "program": "heartbeat_cvg/s3c_heartbeat",
+        "program_number": 81,
+        "revision": 9,
+        "usercode": "00510009"
+      },
+      "completed_at": "2026-10-07T16:38:11.227275+00:00",
+      "warnings": [
+        "premap completed with warnings",
+        "fpga_mapper completed with warnings",
+        "WARNING - ngdbuild: logical net 's3c_clkrst/OSCInst0_SEDSTDBY' has no load.",
+        "WARNING - ngdbuild: logical net 'dummy_signal' has no load.",
+        "WARNING - ngdbuild: DRC complete with 2 warnings.",
+        "WARNING - map: The JTAG port has been disabled in this project and JTAG pins will be configured as General Purpose IO.  You have to use JTAGENB pin in hardware to change the personality of the port from JTAG pins to general purpose IO.  Reference MachXO2 Handbook for details on dual function JTAG port.",
+        "   Number of warnings:  1",
+        "WARNING - par: The JTAG Port has been disabled in this project, and JTAG pins will be configured as General Purpose IO. You must use JTAGENB pin in hardware to change the personality of the port from JTAG pins to general purpose IO. This mux control pin is dedicated to the selection of JTAG pins for GPIO use by the user design.  Refer to the MachXO2 Handbook for details on dual-function JTAG ports.",
+        "WARNING - par: The SN pin is not available for use as a general purpose I/O pin when the SLAVE_SPI_PORT attribute is enabled.  The SN pin should be tied high with an external pull-up if you are not using the Slave SPI port for configuration.",
+        "WARNING - netcheck: no load pins found on signal dummy_signal.",
+        "DRC detected 0 errors and 1 warnings.",
+        "WARNING - netcheck: no load pins found on signal dummy_signal.",
+        "DRC detected 0 errors and 1 warnings."
+      ],
+      "artifacts": {
+        "build/diamond/heartbeat_cvg/s3c_heartbeat/uz_s3c_xo2/s3c_heartbeat_uz_s3c_xo2_diamond.bit": "829d4be0b1b300e4c2051ae012aa4efdf990ca6f6c88cc4fda9526656536a1a3",
+        "build/diamond/heartbeat_cvg/s3c_heartbeat/uz_s3c_xo2/s3c_heartbeat_uz_s3c_xo2_diamond.jed": "efe659bfa53141e85faef0303fd1ad2263b52e28e2572e637e27868375449339"
+      },
+      "simulation_log": "build/hardware-test-20261007/sim-s3c.log",
+      "simulation_passed": true,
+      "timing_report": "build/diamond/heartbeat_cvg/s3c_heartbeat/uz_s3c_xo2/reports/firmware_impl.twr"
+    }
+  ],
+  "operator_confirmation": "D-slot programming mode; slots described as empty. JTAG independently confirms five CPLDs present.",
+  "baseline_dslot_identity": "build/programmer/identification/read-aaj4of9o/identity.json",
+  "diamond_dslot": {
+    "status": "success",
+    "result": "build/programmer/heartbeat_cvg/dslots/plans/plan-pb7jmmrw/runs/20261007T170259283749Z/result.json",
+    "recorded_at": "2026-10-07T17:05:35.081076+00:00",
+    "power_cycle_verified": true,
+    "post_cycle_identity": "build/programmer/identification/read-hdzaj3jy/identity.json"
+  },
+  "foss_dslot": {
+    "status": "success",
+    "result": "build/programmer/heartbeat_cvg/runs/20261007T171243910255Z/result.json",
+    "power_cycle_verified": false,
+    "diamond_crosscheck": "build/programmer/identification/read-uigalkj6/identity.json"
+  },
+  "ordering_plan": "ordering-plan.json",
+  "same_image_test_limitation": "Earlier all-cvg_tx30 tests establish programming and readback but cannot establish slot ordering; FOSS same-image power-cycle persistence was not tested.",
+  "ordering_preflight": {
+    "status": "failed before programming",
+    "result": "build/programmer/heartbeat_cvg/dslots/plans/plan-i82tdwls/runs/20261007T194442807404Z/result.json",
+    "expected_idcode": "012BB043",
+    "observed_idcode": "012BC043"
+  },
+  "ordering_A": {
+    "programming": "pass",
+    "result": "build/programmer/heartbeat_cvg/dslots/plans/plan-62k5jsd4/runs/20261007T194604735047Z/result.json",
+    "crosscheck": "crosscheck-A-immediate.json",
+    "power_cycle_verified": true,
+    "post_cycle_crosscheck": "crosscheck-A-post-cycle.json"
+  },
+  "ordering_B": {
+    "programming": "pass",
+    "result": "build/programmer/heartbeat_cvg/runs/20261007T200433781624Z/result.json",
+    "crosscheck": "crosscheck-B-immediate.json",
+    "power_cycle_verified": true,
+    "post_cycle_crosscheck": "crosscheck-B-post-cycle.json"
+  },
+  "dslot_matrix": {
+    "status": "pass",
+    "checks": {
+      "crosscheck-A-immediate.json": "pass",
+      "crosscheck-A-post-cycle.json": "pass",
+      "crosscheck-B-immediate.json": "pass",
+      "crosscheck-B-post-cycle.json": "pass"
+    },
+    "scope": "Two distinct five-image assignments; all slots changed for B; both readers verified position, silicon and firmware before and after operator-confirmed power cycles. Physical signal routing and application behavior were not measured."
+  },
+  "s3c_diamond": {
+    "status": "pass",
+    "result": "build/programmer/heartbeat_cvg/s3c/plans/plan-cnwi7cc5/runs/20261007T201118456511Z/result.json",
+    "crosscheck": "crosscheck-s3c-diamond-immediate.json",
+    "power_cycle_verified": true,
+    "post_cycle_crosscheck": "crosscheck-s3c-diamond-post-cycle.json"
+  },
+  "s3c_foss": {
+    "status": "pass",
+    "result": "build/programmer/heartbeat_cvg/runs/20261007T201630503983Z/result.json",
+    "crosscheck": "crosscheck-s3c-foss-immediate.json",
+    "power_cycle_verified": true,
+    "post_cycle_crosscheck": "crosscheck-s3c-foss-post-cycle.json"
+  },
+  "completed_at": "2026-10-07T20:22:00.929488+00:00",
+  "matrix_summary": {
+    "crosscheck_records": 8,
+    "reader_checks": 16,
+    "status": "pass",
+    "scope": "Programming, per-slot identity mapping and identity persistence; application-level behavior not tested"
+  },
+  "final_dslot_assignment": "selection-B.toml",
+  "final_s3c_program": "heartbeat_cvg/s3c_heartbeat"
+}

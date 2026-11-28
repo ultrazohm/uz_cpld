@@ -1,0 +1,33 @@
+{
+  "branch": "feature/add_dig3v35v_configs_heartbeat",
+  "commit": "bcfc7ee37d79eb2068b7d0dab166f0fa2e8833f7",
+  "source_directory": "MACHXO2/S3C_CPLD_LCMXO2-4000HC-4TG144C/S3C_Rev06_beta/source",
+  "original_files": {
+    "s3c_heartbeat.vhdl": "UZ_S3C_toplevel.vhd",
+    "s3c_heartbeat_fsm.vhdl": "s3c_fsm.vhd",
+    "s3c_heartbeat_constraints.lpf": "UZ_S3C.lpf"
+  },
+  "sha256": {
+    "s3c_heartbeat.vhdl": "073c92b851df2404edeef1becb052f0443095b521bb9e324c374b6411353f119",
+    "s3c_heartbeat_fsm.vhdl": "2a238cbe24626a12f795a1656cc263dbe7b6e59597cc5b86fe3184e3a52e30f6",
+    "s3c_heartbeat_constraints.lpf": "9c85cca0e13bb292b6b44633ea4a63b2f7557ef497ba0393547a36b3af50d9ab",
+    "s3c_heartbeat_lib.vhdl": "9678bf6360b52296a6ca69e3f087f97f02159e944fe3d30aac2d6b0d6794a9ef"
+  },
+  "original_sha256": {
+    "s3c_heartbeat.vhdl": "073c92b851df2404edeef1becb052f0443095b521bb9e324c374b6411353f119",
+    "s3c_heartbeat_fsm.vhdl": "2a238cbe24626a12f795a1656cc263dbe7b6e59597cc5b86fe3184e3a52e30f6",
+    "s3c_heartbeat_constraints.lpf": "9c85cca0e13bb292b6b44633ea4a63b2f7557ef497ba0393547a36b3af50d9ab",
+    "s3c_heartbeat_lib.vhdl": "04cb964582a104355f958aa68bb434074f6ebb830e3fcbbefbb69939d9173cbd"
+  },
+  "modifications": {
+    "s3c_heartbeat_lib.vhdl": "Qualified USE sXc_hbgen_pkg.ALL with work for GHDL analysis; added an all-zero default to tickin so the original tickin => OPEN mapping is accepted by GHDL and Diamond LSE. In this program CASCADE=0, so tickin is a null vector and is not used. All other bytes are unchanged."
+  },
+  "dependencies": {
+    "s3c_heartbeat_lib.vhdl": {
+      "repository": "https://github.com/ultrazohm/xo2_libraries.git",
+      "commit": "74c74460171527ff17ce074ae38ac34e14e3baec",
+      "path": "lib_sXc.vhd",
+      "submodule": "xo2_libraries"
+    }
+  }
+}

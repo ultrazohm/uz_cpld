@@ -1,0 +1,13 @@
+name = "rx30"
+top = "SignalRouter"
+standard = "2008"
+synthesis = "synplify"
+targets = ["uz_dslot_xo2"]
+backends = ["diamond"]
+constraints = ["rx30_constraints.lpf"]
+sources = [
+    {path = "../../../xo2_library/s3c/s3c_logic.vhdl", library = "s3c"},
+    {path = "../../../xo2_library/s3c/heartbeat.vhdl", library = "s3c"},
+    {path = "rx30.vhdl", library = "work"},
+]
+testbench = "rx30_tb.py"

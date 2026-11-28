@@ -1,6 +1,7 @@
 name = "uz_d_voltage_013_tx30"
 top = "SignalRouter"
 standard = "1993"
+synthesis = "lse"
 targets = ["uz_dslot_xo2"]
 constraints = ["uz_d_voltage_013_tx30_constraints.lpf"]
 sources = [{path = "tx30.vhdl", library = "work"}]

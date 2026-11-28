@@ -1,0 +1,271 @@
+{
+  "commit": "bcfc7ee37d79eb2068b7d0dab166f0fa2e8833f7",
+  "programs": [
+    {
+      "name": "optical_14tx_4rx",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/optical_14tx_4rx/source/optical_14tx_4rx.vhdl",
+      "original_sha256": "ecfb319fa7f5fc10de86f454964687d0e5965c86fab4ae0351331e0e78e35a28",
+      "gated_outputs": 26,
+      "ungated_outputs": 4,
+      "undriven_outputs": []
+    },
+    {
+      "name": "rx30",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/rx30/source/rx30.vhdl",
+      "original_sha256": "cae6fbbfc9f8b3aeb88955123fc8a420a50da0061d2ebf7c310e47b44f85b413",
+      "gated_outputs": 0,
+      "ungated_outputs": 30,
+      "undriven_outputs": []
+    },
+    {
+      "name": "template_dslots",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/template_dslots/source/template_w_enable.vhdl",
+      "original_sha256": "d15e85a00787a68a7c75f5f6bdb21bf889a88e1047a74e2796bd515872974264",
+      "gated_outputs": 26,
+      "ungated_outputs": 0,
+      "undriven_outputs": [
+        "d_26",
+        "d_27",
+        "d_28",
+        "d_29"
+      ]
+    },
+    {
+      "name": "tx16_14rx",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx16_14rx/source/tx16_14rx.vhdl",
+      "original_sha256": "8adacdde5b44e2a271032bd4040ff87b74b61caf7d4c94c82c0fcb839e359492",
+      "gated_outputs": 16,
+      "ungated_outputs": 14,
+      "undriven_outputs": []
+    },
+    {
+      "name": "tx20_10rx",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx20_10rx/source/tx20_10rx.vhdl",
+      "original_sha256": "9d8704fb91646e13eb8fb05d2a3b73ecff6ed4d0b16d8bae4f3d60d1aee377c4",
+      "gated_outputs": 20,
+      "ungated_outputs": 10,
+      "undriven_outputs": []
+    },
+    {
+      "name": "tx26_w_enable",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx26_w_enable/source/tx26_w_enable.vhdl",
+      "original_sha256": "d8f920a4b907fb0165c5636b6d4093a752774f0b5cb3e0bfadaa73e9cba1763a",
+      "gated_outputs": 26,
+      "ungated_outputs": 0,
+      "undriven_outputs": [
+        "d_26",
+        "d_27",
+        "d_28",
+        "d_29"
+      ]
+    },
+    {
+      "name": "tx30",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30/source/tx30.vhdl",
+      "original_sha256": "072590b2b6a7ca953829811ce497562bc0df92717e80ae7030c37410d1ea119c",
+      "gated_outputs": 30,
+      "ungated_outputs": 0,
+      "undriven_outputs": []
+    },
+    {
+      "name": "tx30_hearbeattesting",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/tx30_hearbeattesting/source/tx30_hearbeattesting.vhdl",
+      "original_sha256": "e696702a967a34805ae30fcd9ff0c3f2a30c3fcd0403627f06065256280b7c38",
+      "gated_outputs": 28,
+      "ungated_outputs": 2,
+      "undriven_outputs": []
+    },
+    {
+      "name": "uz_d_3ph_inverter",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_3ph_inverter/source/uz_d_3ph_inverter.vhdl",
+      "original_sha256": "e72e8d905697460d5c6596965629dcf9468e01a90b5143ef30f66fb2b77d9fc5",
+      "gated_outputs": 0,
+      "ungated_outputs": 30,
+      "undriven_outputs": []
+    },
+    {
+      "name": "uz_d_abs_encoder",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_abs_encoder/source/uz_d_abs_encoder.vhdl",
+      "original_sha256": "d440cead3dfd828da037a59d4f461dcb261d9c45554fab854c9aeaa900239e0e",
+      "gated_outputs": 0,
+      "ungated_outputs": 15,
+      "undriven_outputs": []
+    },
+    {
+      "name": "uz_d_resolver_d1_to_d4",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_resolver_d1_to_d4/source/uz_d_resolver_d1_to_d4.vhdl",
+      "original_sha256": "fd0e149e81edc946a1153b6147bc49f6e9d12d355ce8a5a6eec3a56a97be60f6",
+      "gated_outputs": 0,
+      "ungated_outputs": 30,
+      "undriven_outputs": []
+    },
+    {
+      "name": "uz_d_resolver_d5",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_resolver_d5/source/uz_d_resolver_d5.vhdl",
+      "original_sha256": "6407bb8c27f6f95c95b57388fd9eb85ad7dd6aa442eaf48ee85b010686053b61",
+      "gated_outputs": 0,
+      "ungated_outputs": 18,
+      "undriven_outputs": [
+        "d_18",
+        "d_19",
+        "d_20",
+        "d_21",
+        "d_22",
+        "d_23",
+        "d_24",
+        "d_25",
+        "d_27",
+        "d_28",
+        "d_29",
+        "fpga_00",
+        "fpga_01",
+        "fpga_02",
+        "fpga_03",
+        "fpga_04",
+        "fpga_05",
+        "fpga_24",
+        "fpga_25",
+        "fpga_26",
+        "fpga_27",
+        "fpga_28",
+        "fpga_29"
+      ]
+    },
+    {
+      "name": "uz_d_temperature_ltc2983",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_temperature_ltc2983/source/uz_d_temperature_ltc2983.vhdl",
+      "original_sha256": "6f168cc88566ce46146190bd1e7e563cc36e468b363eb9f58582a630f6b01b97",
+      "gated_outputs": 11,
+      "ungated_outputs": 19,
+      "undriven_outputs": []
+    },
+    {
+      "name": "voltage_8rx_8rx_8rx_6rx",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/Voltage_3v3_5v/voltage_8rx_8rx_8rx_6rx/source/voltage_8rx_8rx_8rx_6rx.vhdl",
+      "original_sha256": "fdc4867b271a2f91983b95e2330a7ec97ff4ded11d7d85999e41473d308aba68",
+      "gated_outputs": 0,
+      "ungated_outputs": 30,
+      "undriven_outputs": []
+    },
+    {
+      "name": "voltage_8rx_8rx_8rx_6tx",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/Voltage_3v3_5v/voltage_8rx_8rx_8rx_6tx/source/voltage_8rx_8rx_8rx_6tx.vhdl",
+      "original_sha256": "6a61e72b90476d94846189f983f18709d42fb9046770c6b7b63a746bb5465988",
+      "gated_outputs": 6,
+      "ungated_outputs": 24,
+      "undriven_outputs": []
+    },
+    {
+      "name": "voltage_8rx_8rx_8tx_6rx",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/Voltage_3v3_5v/voltage_8rx_8rx_8tx_6rx/source/voltage_8rx_8rx_8tx_6rx.vhdl",
+      "original_sha256": "da0ca3e0679376756b1e351f16e105e45454225496a2d9cb8eb5a77ca2ff4e7e",
+      "gated_outputs": 8,
+      "ungated_outputs": 22,
+      "undriven_outputs": []
+    },
+    {
+      "name": "voltage_8rx_8rx_8tx_6tx",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/Voltage_3v3_5v/voltage_8rx_8rx_8tx_6tx/source/voltage_8rx_8rx_8tx_6tx.vhdl",
+      "original_sha256": "ed3ff3294b8e0ab85dcc61b99f3d7fff6ce00269c1b2e6ee5887cc3782ba7e59",
+      "gated_outputs": 14,
+      "ungated_outputs": 16,
+      "undriven_outputs": []
+    },
+    {
+      "name": "voltage_8rx_8tx_8rx_6rx",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/Voltage_3v3_5v/voltage_8rx_8tx_8rx_6rx/source/voltage_8rx_8tx_8rx_6rx.vhdl",
+      "original_sha256": "68cf89dba63cd06d36bc711ae05b90053c1c811ef9d72583c7dcb68c8c44af74",
+      "gated_outputs": 8,
+      "ungated_outputs": 22,
+      "undriven_outputs": []
+    },
+    {
+      "name": "voltage_8rx_8tx_8rx_6tx",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/Voltage_3v3_5v/voltage_8rx_8tx_8rx_6tx/source/voltage_8rx_8tx_8rx_6tx.vhdl",
+      "original_sha256": "9e015c506b3063affbcb32cbfbef28a59a1a31b9435da7e1435e69c860236cf2",
+      "gated_outputs": 14,
+      "ungated_outputs": 16,
+      "undriven_outputs": []
+    },
+    {
+      "name": "voltage_8rx_8tx_8tx_6rx",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/Voltage_3v3_5v/voltage_8rx_8tx_8tx_6rx/source/voltage_8rx_8tx_8tx_6rx.vhdl",
+      "original_sha256": "185a3e5de673177c7deacb5343a7a5b4495f10182e777fe3d861ee64d810f509",
+      "gated_outputs": 16,
+      "ungated_outputs": 14,
+      "undriven_outputs": []
+    },
+    {
+      "name": "voltage_8rx_8tx_8tx_6tx",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/Voltage_3v3_5v/voltage_8rx_8tx_8tx_6tx/source/voltage_8rx_8tx_8tx_6tx.vhdl",
+      "original_sha256": "0309d1d7e7ed63307ae31080096838accc28295a5f2b48873d160c3c2088690b",
+      "gated_outputs": 22,
+      "ungated_outputs": 8,
+      "undriven_outputs": []
+    },
+    {
+      "name": "voltage_8tx_8rx_8rx_6rx",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/Voltage_3v3_5v/voltage_8tx_8rx_8rx_6rx/source/voltage_8tx_8rx_8rx_6rx.vhdl",
+      "original_sha256": "b30761fe8a20285ece472daae0ef507180f96e9bca956f3c412519f265acea66",
+      "gated_outputs": 8,
+      "ungated_outputs": 22,
+      "undriven_outputs": []
+    },
+    {
+      "name": "voltage_8tx_8rx_8rx_6tx",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/Voltage_3v3_5v/voltage_8tx_8rx_8rx_6tx/source/voltage_8tx_8rx_8rx_6tx.vhdl",
+      "original_sha256": "b1104b94f54dcafd3f8d3273a116acf06f6e81d943671ea5d83d8f910aca43a8",
+      "gated_outputs": 14,
+      "ungated_outputs": 16,
+      "undriven_outputs": []
+    },
+    {
+      "name": "voltage_8tx_8rx_8tx_6rx",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/Voltage_3v3_5v/voltage_8tx_8rx_8tx_6rx/source/voltage_8tx_8rx_8tx_6rx.vhdl",
+      "original_sha256": "ed040c10de85faca1c70c1d1b8ecd716cc03b2d3928c6ef48d2314e0ff97e479",
+      "gated_outputs": 16,
+      "ungated_outputs": 14,
+      "undriven_outputs": []
+    },
+    {
+      "name": "voltage_8tx_8rx_8tx_6tx",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/Voltage_3v3_5v/voltage_8tx_8rx_8tx_6tx/source/voltage_8tx_8rx_8tx_6tx.vhdl",
+      "original_sha256": "36d5809480792b7d9020c19055f43fa64c657c8d124c982d376151fb620340bf",
+      "gated_outputs": 22,
+      "ungated_outputs": 8,
+      "undriven_outputs": []
+    },
+    {
+      "name": "voltage_8tx_8tx_8rx_6rx",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/Voltage_3v3_5v/voltage_8tx_8tx_8rx_6rx/source/voltage_8tx_8tx_8rx_6rx.vhdl",
+      "original_sha256": "aa8cfaac4ae53b9909d0c8c502369eede5479acc53fab7d514f4705f55bdcec1",
+      "gated_outputs": 16,
+      "ungated_outputs": 14,
+      "undriven_outputs": []
+    },
+    {
+      "name": "voltage_8tx_8tx_8rx_6tx",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/Voltage_3v3_5v/voltage_8tx_8tx_8rx_6tx/source/voltage_8tx_8tx_8rx_6tx.vhdl",
+      "original_sha256": "9b765292f64585af82bf090f6f8d3b4c2f92bd8ae6c378f1e70257507f0992b1",
+      "gated_outputs": 22,
+      "ungated_outputs": 8,
+      "undriven_outputs": []
+    },
+    {
+      "name": "voltage_8tx_8tx_8tx_6rx",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/Voltage_3v3_5v/voltage_8tx_8tx_8tx_6rx/source/voltage_8tx_8tx_8tx_6rx.vhdl",
+      "original_sha256": "b77f0c164b4545479e5a2473a132441fb6a0783c6eaca7d7e1eedbd322b9afab",
+      "gated_outputs": 24,
+      "ungated_outputs": 6,
+      "undriven_outputs": []
+    },
+    {
+      "name": "voltage_8tx_8tx_8tx_6tx",
+      "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/Voltage_3v3_5v/voltage_8tx_8tx_8tx_6tx/source/voltage_8tx_8tx_8tx_6tx.vhdl",
+      "original_sha256": "a3f16aa255c2a51605050f56e362b05ec304f5936ae9bf3a3889751fc7bbab77",
+      "gated_outputs": 30,
+      "ungated_outputs": 0,
+      "undriven_outputs": []
+    }
+  ]
+}

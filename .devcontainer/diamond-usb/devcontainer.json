@@ -1,0 +1,44 @@
+{
+  "name": "UltraZohm CPLD with Diamond image and USB programmer",
+  "build": {
+    "dockerfile": "../Dockerfile",
+    "context": "../..",
+    "options": [
+      "--platform=linux/amd64"
+    ],
+    "target": "toolchain",
+    "args": {
+      "TOOLCHAIN_BASE": "${localEnv:DIAMOND_IMAGE:lattice-diamond}:${localEnv:DIAMOND_TAG:3.14.0.75.2}"
+    }
+  },
+  "overrideCommand": false,
+  "containerEnv": {
+    "LM_LICENSE_FILE": "/opt/diamond/license/license.dat"
+  },
+  "remoteUser": "vscode",
+  "updateRemoteUserUID": true,
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "openai.chatgpt",
+        "teros-technology.teroshdl"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  },
+  "init": true,
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+  "postStartCommand": "bash .devcontainer/setup-network.sh",
+  "waitFor": "postStartCommand",
+  "runArgs": [
+    "--platform=linux/amd64",
+    "--network=name=bridge,mac-address=10:91:d1:3d:14:ae",
+    "--cap-add=NET_ADMIN",
+    "--mount",
+    "type=bind,source=/dev/bus/usb,target=/dev/bus/usb",
+    "--device-cgroup-rule=c 189:* rwm",
+    "--group-add=${localEnv:USB_DEVICE_GID:46}"
+  ]
+}

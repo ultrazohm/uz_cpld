@@ -1,6 +1,7 @@
 name = "template_dslots"
 top = "SignalRouter"
 standard = "1993"
+synthesis = "lse"
 targets = ["uz_dslot_xo2"]
 constraints = ["template_dslots_constraints.lpf"]
 sources = [{path = "template_w_enable.vhdl", library = "work"}]

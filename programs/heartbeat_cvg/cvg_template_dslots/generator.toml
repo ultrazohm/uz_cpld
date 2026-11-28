@@ -1,0 +1,10 @@
+schema_version = 3
+name = "cvg_template_dslots"
+routing = "routing.csv"
+contract = "s3c_heartbeat_v1"
+clock = "machxo2"
+pilot_policy = "unused"
+target = "uz_dslot_xo2"
+standard = "2008"
+synthesis = "synplify"
+enable = {fpga_26 = 0, fpga_27 = 0, fpga_28 = 1, fpga_29 = 1}

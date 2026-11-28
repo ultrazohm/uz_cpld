@@ -1,0 +1,24 @@
+{
+  "phase": "foss-post-cycle",
+  "expected": {
+    "idcode": "012BC043",
+    "traceid": "014437468658443B",
+    "usercode": "00510009",
+    "label": "s3c",
+    "index": 0
+  },
+  "status": "pass",
+  "readers": {
+    "diamond": {
+      "status": "pass",
+      "source": "/workspaces/uz_cpld/build/programmer/identification/read-0bjf_ued/identity.json",
+      "read_at": "2026-10-07T20:19:31.220894+00:00"
+    },
+    "foss": {
+      "status": "pass",
+      "source": "/workspaces/uz_cpld/build/programmer/identification/read-iubm52cy/identity.json",
+      "read_at": "2026-10-07T20:19:31.722056+00:00"
+    }
+  },
+  "completed_at": "2026-10-07T20:19:31.741313+00:00"
+}

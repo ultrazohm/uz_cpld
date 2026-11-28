@@ -1,0 +1,4 @@
+__pycache__/
+*.vsix
+.venv/
+test-results/

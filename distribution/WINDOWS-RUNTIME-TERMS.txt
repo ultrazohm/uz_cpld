@@ -1,0 +1,23 @@
+Terms for Microsoft Distributable Code in the Windows Python runtime
+
+Use and redistribution of the Microsoft Distributable Code included with this
+Windows build are subject to the following terms. By using or redistributing
+that code, you agree to these terms. If you do not agree, do not use or distribute
+this Windows runtime; the original Apache-licensed application source remains
+available to build with a different compatible runtime.
+
+These terms apply ONLY to Microsoft's Distributable Code, including the Visual C
+runtime and Microsoft's code incorporated in Python .exe, .dll and .pyd files.
+They do not restrict our Apache-licensed code, Python itself, or LGPL components.
+See Python-LICENSE.txt, "Additional Conditions for this Windows binary build".
+
+You must preserve Microsoft's copyright, trademark and patent notices. You must
+not use Microsoft's trademarks to suggest endorsement; distribute this code to
+run on platforms other than Microsoft operating systems, runtime technologies
+or application platforms; or include it in malicious, deceptive or unlawful
+programs. Downstream redistribution must retain these terms and require
+recipients to agree to terms protecting Microsoft's code to the same extent.
+
+No trademark rights or warranty are granted by this distribution. The applicable
+copyright owners' license terms and disclaimers remain in force. You remain
+responsible for your modifications and redistribution.

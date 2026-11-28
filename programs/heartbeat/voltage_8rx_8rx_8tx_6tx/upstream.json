@@ -1,0 +1,274 @@
+{
+  "branch": "feature/add_dig3v35v_configs_heartbeat",
+  "commit": "bcfc7ee37d79eb2068b7d0dab166f0fa2e8833f7",
+  "source": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/Voltage_3v3_5v/voltage_8rx_8rx_8tx_6tx/source/voltage_8rx_8rx_8tx_6tx.vhdl",
+  "constraints": "MACHXO2/D_Slot_CPLD_LCMXO2-2000HC-4TG100C/uz_d_slots/uz_d_slots.lpf",
+  "original_sha256": {
+    "source": "ed3ff3294b8e0ab85dcc61b99f3d7fff6ce00269c1b2e6ee5887cc3782ba7e59",
+    "constraints": "6332ac36a8eba09c1935688dbe2ebaf33306e2e619cf655a14f7ef1a4da8ae8c"
+  },
+  "ported_sha256": {
+    "source": "3d4353925547f8b02062af897f074becbcbd6bf169d55a1aaff25b336ebd85aa",
+    "constraints": "6332ac36a8eba09c1935688dbe2ebaf33306e2e619cf655a14f7ef1a4da8ae8c"
+  },
+  "source_patches": [
+    {
+      "original_start": 0,
+      "ported_start": 0,
+      "original": "bGlicmFyeSBJRUVFOw0K",
+      "ported": "bGlicmFyeSBJRUVFOwpsaWJyYXJ5IHMzYzsNCg=="
+    },
+    {
+      "original_start": 85,
+      "ported_start": 86,
+      "original": "ICAgIFNJR05BTCBoZWFydGJlYXRfaW52YWxpZCA6IFNURF9MT0dJQzsNCiAgICBTSUdOQUwgdHJpc3RhdGVfb3V0cHV0czogc3RkX2xvZ2ljOw0K",
+      "ported": ""
+    },
+    {
+      "original_start": 93,
+      "ported_start": 92,
+      "original": "YXJjaGl0ZWN0dXJlIEJlaGF2aW9yYWwgb2YgU2lnbmFsUm91dGVyIGlzDQo=",
+      "ported": "YXJjaGl0ZWN0dXJlIEJlaGF2aW9yYWwgb2YgU2lnbmFsUm91dGVyIGlzCiAgICBzaWduYWwgc3lzdGVtX2Vycm9yIDogc3RkX2xvZ2ljOw0K"
+    },
+    {
+      "original_start": 120,
+      "ported_start": 120,
+      "original": "ICAgIGRzbG90X2hlYXJ0YmVhdDogRU5USVRZIHdvcmsuZHNsb3RfaGVhcnRiZWF0X3JlY2VpdmVyDQogICAgICAgIFBPUlQgTUFQICgNCiAgICAgICAgICAgIGNsawkJCQkJPT4gY2xrLA0KICAgICAgICAgICAgaGVhcnRiZWF0X2luICAgICAgICA9PiBjYXJyaWVycmR5LA0KICAgICAgICAgICAgaGVhcnRiZWF0X2ludmFsaWQgID0+IGhlYXJ0YmVhdF9pbnZhbGlkDQo=",
+      "ported": "ICAgICAgICAtLSBTaGFyZWQgcmVjZWl2ZXI6IGFzeW5jaHJvbm91cyBzYWZlIGFzc2VydGlvbiwgdHdvLWNsb2NrIHJlY292ZXJ5LgogICAgZHNsb3RfaGVhcnRiZWF0OiBlbnRpdHkgczNjLnMzY19sb2dpYyhoZWFydGJlYXQpCiAgICAgICAgZ2VuZXJpYyBtYXAgKAogICAgICAgICAgICBSRVFVSVJFX1BJTE9UID0+IGZhbHNlLCBSRVFVRVNUX1NBRkVfTEVWRUwgPT4gJzEnLAogICAgICAgICAgICBTTE9UT0tfTk9STUFMID0+ICcxJywgU0xPVE9LX1NBRkUgPT4gJzAnLAogICAgICAgICAgICBSRVFPRV9OT1JNQUwgPT4gJzEnLCBSRVFPRV9TQUZFID0+ICcxJwogICAgICAgICkKICAgICAgICBwb3J0IG1hcCAoCiAgICAgICAgICAgIGNsayA9PiBjbGssIHJlc2V0ID0+ICcwJywKICAgICAgICAgICAgcmVxc2FmZXN0YXRlID0+IHJlcXNhZmVzdGF0ZSwgY2FycmllcnJkeSA9PiBjYXJyaWVycmR5LAogICAgICAgICAgICBwaWxvdF9pbiA9PiBwaWxvdF9pbiwgY2FyZF9lbmFibGUgPT4gdXNlcl9lbmFibGVfZm9yd2FyZGluZywKICAgICAgICAgICAgc3RhdGVfbm9ybWFsID0+IGVuYWJsZV9mb3J3YXJkaW5nLCBzdGF0ZV9zYWZlID0+IG9wZW4sCiAgICAgICAgICAgIHN0YXRlX3N5c3RlbV9lcnJvciA9PiBzeXN0ZW1fZXJyb3IsCiAgICAgICAgICAgIHNsb3RvayA9PiBzbG90b2ssIHJlcW9lID0+IHJlcW9lCg=="
+    },
+    {
+      "original_start": 128,
+      "ported_start": 137,
+      "original": "ICAgIHJlcW9lIDw9IE5PVCB0cmlzdGF0ZV9vdXRwdXRzOw0KICAgIGVuYWJsZV9mb3J3YXJkaW5nIDw9IHVzZXJfZW5hYmxlX2ZvcndhcmRpbmcgQU5EIE5PVCBoZWFydGJlYXRfaW52YWxpZCBBTkQgTk9UIHJlcXNhZmVzdGF0ZTsNCg==",
+      "ported": ""
+    },
+    {
+      "original_start": 132,
+      "ported_start": 139,
+      "original": "ICAgIHNsb3RvayA8PSBlbmFibGVfZm9yd2FyZGluZzsNCg==",
+      "ported": ""
+    },
+    {
+      "original_start": 134,
+      "ported_start": 140,
+      "original": "ICAgIHRyaXN0YXRlX291dHB1dHMgPD0gJzAnOw0K",
+      "ported": ""
+    },
+    {
+      "original_start": 140,
+      "ported_start": 145,
+      "original": "ICAgIGZwZ2FfMDAgPD0gZF8wMDsNCiAgICBmcGdhXzAxIDw9IGRfMDE7DQogICAgZnBnYV8wMiA8PSBkXzAyOw0KICAgIGZwZ2FfMDMgPD0gZF8wMzsNCiAgICBmcGdhXzA0IDw9IGRfMDQ7DQogICAgZnBnYV8wNSA8PSBkXzA1Ow0KICAgIGZwZ2FfMDYgPD0gZF8wNjsNCiAgICBmcGdhXzA3IDw9IGRfMDc7DQo=",
+      "ported": "ICAgIGZwZ2FfMDAgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZF8wMDsNCiAgICBmcGdhXzAxIDw9ICcwJyB3aGVuIHN5c3RlbV9lcnJvciA9ICcxJyBlbHNlIGRfMDE7DQogICAgZnBnYV8wMiA8PSAnMCcgd2hlbiBzeXN0ZW1fZXJyb3IgPSAnMScgZWxzZSBkXzAyOw0KICAgIGZwZ2FfMDMgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZF8wMzsNCiAgICBmcGdhXzA0IDw9ICcwJyB3aGVuIHN5c3RlbV9lcnJvciA9ICcxJyBlbHNlIGRfMDQ7DQogICAgZnBnYV8wNSA8PSAnMCcgd2hlbiBzeXN0ZW1fZXJyb3IgPSAnMScgZWxzZSBkXzA1Ow0KICAgIGZwZ2FfMDYgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZF8wNjsNCiAgICBmcGdhXzA3IDw9ICcwJyB3aGVuIHN5c3RlbV9lcnJvciA9ICcxJyBlbHNlIGRfMDc7DQo="
+    },
+    {
+      "original_start": 150,
+      "ported_start": 155,
+      "original": "ICAgIGZwZ2FfMDggPD0gZF8wODsNCiAgICBmcGdhXzA5IDw9IGRfMDk7DQogICAgZnBnYV8xMCA8PSBkXzEwOw0KICAgIGZwZ2FfMTEgPD0gZF8xMTsNCiAgICBmcGdhXzEyIDw9IGRfMTI7DQogICAgZnBnYV8xMyA8PSBkXzEzOw0KICAgIGZwZ2FfMTQgPD0gZF8xNDsNCiAgICBmcGdhXzE1IDw9IGRfMTU7DQo=",
+      "ported": "ICAgIGZwZ2FfMDggPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZF8wODsNCiAgICBmcGdhXzA5IDw9ICcwJyB3aGVuIHN5c3RlbV9lcnJvciA9ICcxJyBlbHNlIGRfMDk7DQogICAgZnBnYV8xMCA8PSAnMCcgd2hlbiBzeXN0ZW1fZXJyb3IgPSAnMScgZWxzZSBkXzEwOw0KICAgIGZwZ2FfMTEgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZF8xMTsNCiAgICBmcGdhXzEyIDw9ICcwJyB3aGVuIHN5c3RlbV9lcnJvciA9ICcxJyBlbHNlIGRfMTI7DQogICAgZnBnYV8xMyA8PSAnMCcgd2hlbiBzeXN0ZW1fZXJyb3IgPSAnMScgZWxzZSBkXzEzOw0KICAgIGZwZ2FfMTQgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZF8xNDsNCiAgICBmcGdhXzE1IDw9ICcwJyB3aGVuIHN5c3RlbV9lcnJvciA9ICcxJyBlbHNlIGRfMTU7DQo="
+    },
+    {
+      "original_start": 160,
+      "ported_start": 165,
+      "original": "ICAgIGRfMTYgPD0gZnBnYV8xNiBBTkQgZW5hYmxlX2ZvcndhcmRpbmc7DQogICAgZF8xNyA8PSBmcGdhXzE3IEFORCBlbmFibGVfZm9yd2FyZGluZzsNCiAgICBkXzE4IDw9IGZwZ2FfMTggQU5EIGVuYWJsZV9mb3J3YXJkaW5nOw0KICAgIGRfMTkgPD0gZnBnYV8xOSBBTkQgZW5hYmxlX2ZvcndhcmRpbmc7DQogICAgZF8yMCA8PSBmcGdhXzIwIEFORCBlbmFibGVfZm9yd2FyZGluZzsNCiAgICBkXzIxIDw9IGZwZ2FfMjEgQU5EIGVuYWJsZV9mb3J3YXJkaW5nOw0KICAgIGRfMjIgPD0gZnBnYV8yMiBBTkQgZW5hYmxlX2ZvcndhcmRpbmc7DQogICAgZF8yMyA8PSBmcGdhXzIzIEFORCBlbmFibGVfZm9yd2FyZGluZzsNCg==",
+      "ported": "ICAgIGRfMTYgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZnBnYV8xNiBBTkQgZW5hYmxlX2ZvcndhcmRpbmc7DQogICAgZF8xNyA8PSAnMCcgd2hlbiBzeXN0ZW1fZXJyb3IgPSAnMScgZWxzZSBmcGdhXzE3IEFORCBlbmFibGVfZm9yd2FyZGluZzsNCiAgICBkXzE4IDw9ICcwJyB3aGVuIHN5c3RlbV9lcnJvciA9ICcxJyBlbHNlIGZwZ2FfMTggQU5EIGVuYWJsZV9mb3J3YXJkaW5nOw0KICAgIGRfMTkgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZnBnYV8xOSBBTkQgZW5hYmxlX2ZvcndhcmRpbmc7DQogICAgZF8yMCA8PSAnMCcgd2hlbiBzeXN0ZW1fZXJyb3IgPSAnMScgZWxzZSBmcGdhXzIwIEFORCBlbmFibGVfZm9yd2FyZGluZzsNCiAgICBkXzIxIDw9ICcwJyB3aGVuIHN5c3RlbV9lcnJvciA9ICcxJyBlbHNlIGZwZ2FfMjEgQU5EIGVuYWJsZV9mb3J3YXJkaW5nOw0KICAgIGRfMjIgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZnBnYV8yMiBBTkQgZW5hYmxlX2ZvcndhcmRpbmc7DQogICAgZF8yMyA8PSAnMCcgd2hlbiBzeXN0ZW1fZXJyb3IgPSAnMScgZWxzZSBmcGdhXzIzIEFORCBlbmFibGVfZm9yd2FyZGluZzsNCg=="
+    },
+    {
+      "original_start": 170,
+      "ported_start": 175,
+      "original": "ICAgIGRfMjQgPD0gZnBnYV8yNCBBTkQgZW5hYmxlX2ZvcndhcmRpbmc7DQogICAgZF8yNSA8PSBmcGdhXzI1IEFORCBlbmFibGVfZm9yd2FyZGluZzsNCiAgICBkXzI2IDw9IGZwZ2FfMjYgQU5EIGVuYWJsZV9mb3J3YXJkaW5nOw0KICAgIGRfMjcgPD0gZnBnYV8yNyBBTkQgZW5hYmxlX2ZvcndhcmRpbmc7DQogICAgZF8yOCA8PSBmcGdhXzI4IEFORCBlbmFibGVfZm9yd2FyZGluZzsNCiAgICBkXzI5IDw9IGZwZ2FfMjkgQU5EIGVuYWJsZV9mb3J3YXJkaW5nOw0K",
+      "ported": "ICAgIGRfMjQgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZnBnYV8yNCBBTkQgZW5hYmxlX2ZvcndhcmRpbmc7DQogICAgZF8yNSA8PSAnMCcgd2hlbiBzeXN0ZW1fZXJyb3IgPSAnMScgZWxzZSBmcGdhXzI1IEFORCBlbmFibGVfZm9yd2FyZGluZzsNCiAgICBkXzI2IDw9ICcwJyB3aGVuIHN5c3RlbV9lcnJvciA9ICcxJyBlbHNlIGZwZ2FfMjYgQU5EIGVuYWJsZV9mb3J3YXJkaW5nOw0KICAgIGRfMjcgPD0gJzAnIHdoZW4gc3lzdGVtX2Vycm9yID0gJzEnIGVsc2UgZnBnYV8yNyBBTkQgZW5hYmxlX2ZvcndhcmRpbmc7DQogICAgZF8yOCA8PSAnMCcgd2hlbiBzeXN0ZW1fZXJyb3IgPSAnMScgZWxzZSBmcGdhXzI4IEFORCBlbmFibGVfZm9yd2FyZGluZzsNCiAgICBkXzI5IDw9ICcwJyB3aGVuIHN5c3RlbV9lcnJvciA9ICcxJyBlbHNlIGZwZ2FfMjkgQU5EIGVuYWJsZV9mb3J3YXJkaW5nOw0K"
+    }
+  ],
+  "ports": {
+    "fpga_00": "out",
+    "fpga_01": "out",
+    "fpga_02": "out",
+    "fpga_03": "out",
+    "fpga_04": "out",
+    "fpga_05": "out",
+    "fpga_06": "out",
+    "fpga_07": "out",
+    "fpga_08": "out",
+    "fpga_09": "out",
+    "fpga_10": "out",
+    "fpga_11": "out",
+    "fpga_12": "out",
+    "fpga_13": "out",
+    "fpga_14": "out",
+    "fpga_15": "out",
+    "fpga_16": "in",
+    "fpga_17": "in",
+    "fpga_18": "in",
+    "fpga_19": "in",
+    "fpga_20": "in",
+    "fpga_21": "in",
+    "fpga_22": "in",
+    "fpga_23": "in",
+    "fpga_24": "in",
+    "fpga_25": "in",
+    "fpga_26": "in",
+    "fpga_27": "in",
+    "fpga_28": "in",
+    "fpga_29": "in",
+    "d_00": "in",
+    "d_01": "in",
+    "d_02": "in",
+    "d_03": "in",
+    "d_04": "in",
+    "d_05": "in",
+    "d_06": "in",
+    "d_07": "in",
+    "d_08": "in",
+    "d_09": "in",
+    "d_10": "in",
+    "d_11": "in",
+    "d_12": "in",
+    "d_13": "in",
+    "d_14": "in",
+    "d_15": "in",
+    "d_16": "out",
+    "d_17": "out",
+    "d_18": "out",
+    "d_19": "out",
+    "d_20": "out",
+    "d_21": "out",
+    "d_22": "out",
+    "d_23": "out",
+    "d_24": "out",
+    "d_25": "out",
+    "d_26": "out",
+    "d_27": "out",
+    "d_28": "out",
+    "d_29": "out"
+  },
+  "routes": {
+    "fpga_00": {
+      "source": "d_00",
+      "gated": false
+    },
+    "fpga_01": {
+      "source": "d_01",
+      "gated": false
+    },
+    "fpga_02": {
+      "source": "d_02",
+      "gated": false
+    },
+    "fpga_03": {
+      "source": "d_03",
+      "gated": false
+    },
+    "fpga_04": {
+      "source": "d_04",
+      "gated": false
+    },
+    "fpga_05": {
+      "source": "d_05",
+      "gated": false
+    },
+    "fpga_06": {
+      "source": "d_06",
+      "gated": false
+    },
+    "fpga_07": {
+      "source": "d_07",
+      "gated": false
+    },
+    "fpga_08": {
+      "source": "d_08",
+      "gated": false
+    },
+    "fpga_09": {
+      "source": "d_09",
+      "gated": false
+    },
+    "fpga_10": {
+      "source": "d_10",
+      "gated": false
+    },
+    "fpga_11": {
+      "source": "d_11",
+      "gated": false
+    },
+    "fpga_12": {
+      "source": "d_12",
+      "gated": false
+    },
+    "fpga_13": {
+      "source": "d_13",
+      "gated": false
+    },
+    "fpga_14": {
+      "source": "d_14",
+      "gated": false
+    },
+    "fpga_15": {
+      "source": "d_15",
+      "gated": false
+    },
+    "d_16": {
+      "source": "fpga_16",
+      "gated": true
+    },
+    "d_17": {
+      "source": "fpga_17",
+      "gated": true
+    },
+    "d_18": {
+      "source": "fpga_18",
+      "gated": true
+    },
+    "d_19": {
+      "source": "fpga_19",
+      "gated": true
+    },
+    "d_20": {
+      "source": "fpga_20",
+      "gated": true
+    },
+    "d_21": {
+      "source": "fpga_21",
+      "gated": true
+    },
+    "d_22": {
+      "source": "fpga_22",
+      "gated": true
+    },
+    "d_23": {
+      "source": "fpga_23",
+      "gated": true
+    },
+    "d_24": {
+      "source": "fpga_24",
+      "gated": true
+    },
+    "d_25": {
+      "source": "fpga_25",
+      "gated": true
+    },
+    "d_26": {
+      "source": "fpga_26",
+      "gated": true
+    },
+    "d_27": {
+      "source": "fpga_27",
+      "gated": true
+    },
+    "d_28": {
+      "source": "fpga_28",
+      "gated": true
+    },
+    "d_29": {
+      "source": "fpga_29",
+      "gated": true
+    }
+  },
+  "enable": {},
+  "undriven_outputs": [],
+  "modifications": [
+    "Use s3c.s3c_logic(heartbeat), with a power-on-only latched system_error after the first qualified heartbeat.",
+    "Preserve original normal/safe routing, port declarations, enable decode, oscillator and constraints; system_error overrides every data output to zero.",
+    "SlotOK and ReqOE are zero in system_error. Pilot remains unused; ReqOE remains high in normal and safe states.",
+    "The undriven_outputs inventory records the upstream source. These outputs now drive Z in normal/safe and zero in system_error."
+  ]
+}

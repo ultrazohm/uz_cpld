@@ -1,6 +1,7 @@
 name = "cvg_tx30_stateful"
 top = "cvg_tx30_stateful"
 standard = "1993"
+synthesis = "lse"
 targets = ["uz_dslot_xo2"]
 backends = ["diamond", "foss"]
 constraints = ["cvg_tx30_stateful_constraints.lpf"]

@@ -1,0 +1,64 @@
+{
+  "contract": {
+    "carrier_ready": "heartbeat",
+    "compatible_s3c": [
+      "s3c_heartbeat"
+    ],
+    "heartbeat": {
+      "max_edge_clks": 52,
+      "min_edge_clks": 10,
+      "timeout_clks": 208,
+      "valid_edges_required": 16
+    },
+    "id": "s3c_heartbeat_v1",
+    "implementation": "heartbeat",
+    "reqoe": [
+      1,
+      1
+    ],
+    "request_mode": "active_high",
+    "slotok": [
+      1,
+      0
+    ]
+  },
+  "files": {
+    "cvg_tx16_14rx.toml": "64bc9e5e180ac646a251fb09038bfcc72a4e526d82636a5019abd13f4fccf34d",
+    "cvg_tx16_14rx.vhdl": "a3ea0e227ed792b04c7ac22e9a7a8ebc9853262cc52662fc904252d2c6294004",
+    "cvg_tx16_14rx_constraints.lpf": "6060943f4d67be17676d64e96af65b61e6fa5a6094bf1d1daf442780f402818b",
+    "cvg_tx16_14rx_tb.py": "d4ee2f63bb20d9108fdc6c972a5081ddd56fb4fd2d8475d93c4c06afff7ae2ad"
+  },
+  "generator_version": "0.5.0",
+  "inputs": {
+    "generator/__init__.py": "4f49b7897f98199120193f278915b7811674cda42e9deacf967620eccb83d259",
+    "generator/__main__.py": "47d0a830e20065dbcbd55789103a034578b993010c1daf5e2a2d0d25d2f15bbe",
+    "generator/contracts/s3c_heartbeat_v1.toml": "6b1c7978ac0ecb946914c88f97b5503159396258e34afbd55627112146b264f7",
+    "generator/generator.py": "cd97d004da7fffa3357bf9aa9774662f0fc5fefef6e0ece6dfdf2994f5593276",
+    "generator/project.py": "2fa458ced1fb1c920aef83b1c0450c82bbaa64586340ca163f7ebb3c998c8736",
+    "generator/targets/uz_dslot_xo2.lpf": "12fd46a1aaeb58b186fbccc8b06ecfe028fb33ed93d71ecee1206cc0f375e857",
+    "generator/toml.py": "4ca324c9b6ba5cb26a9b09adfe04b3e11d8aa6938ed8ecd50559fb82e860d29b",
+    "s3c_library/heartbeat.vhdl": "23c6bbf51e9e0cc6b2a9e7caead9dcd2aaa5baeca3af60f4bd5d1dd2525174b4",
+    "s3c_library/s3c_logic.vhdl": "888b55f2d9b78f5f24b119a689dba6c065e0cf917a82471154f3cf9de17229b2",
+    "spec/generator.toml": "fb4d246fae218b31c4b75f479e7101d9a590f49f02c3c38f6075f50c03d4eae6",
+    "spec/routing.csv": "00c6338da60a23ca184252227701f21d402afcbc13e10b27b591760a41073720"
+  },
+  "name": "cvg_tx16_14rx",
+  "schema_version": 1,
+  "sources": [
+    {
+      "base": "s3c_library",
+      "library": "s3c",
+      "path": "s3c_logic.vhdl"
+    },
+    {
+      "base": "s3c_library",
+      "library": "s3c",
+      "path": "heartbeat.vhdl"
+    },
+    {
+      "base": "output",
+      "library": "work",
+      "path": "cvg_tx16_14rx.vhdl"
+    }
+  ]
+}

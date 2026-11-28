@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="__CSP__">
+  <meta name="programmer-token" content="__TOKEN__">
+  <link rel="stylesheet" href="__STYLE__">
+  <title>UltraZohm CPLD programmer</title>
+</head>
+<body>
+<main>
+  <header>
+    <div><div class="eyebrow">ULTRAZOHM <span class="badge">PREVIEW</span> <span id="demo" class="badge" hidden>DEMO · NO HARDWARE</span></div>
+      <h1>CPLD programmer</h1><p class="muted">Prepare firmware, inspect the chain, and program your board.</p></div>
+    <button id="reload" class="secondary" title="Reload the workspace">↻ Reload</button>
+  </header>
+  <div class="workspace"><span class="muted">Workspace</span> <code id="workspace">Loading…</code><button id="workspace-pick" class="text-button">Change…</button></div>
+  <div class="status" role="status" aria-live="polite"><span id="status-dot"></span><span id="status">Connecting to the programmer…</span></div>
+  <div class="columns">
+    <section aria-labelledby="firmware-title">
+      <h2 id="firmware-title"><span class="step">1</span> Firmware</h2>
+      <label for="firmware-path">Firmware ZIP</label>
+      <div class="input-row"><input id="firmware-path" placeholder="Path to a published firmware ZIP" spellcheck="false"><button id="browse" class="secondary">Browse…</button></div>
+      <div class="actions"><button id="select" class="secondary">Use ZIP</button><button id="releases" class="text-button">Download a release…</button></div>
+      <p id="firmware-detail" class="muted metadata">No firmware selected.</p>
+      <label for="release">Release catalog</label><select id="release"><option value="">Select firmware first</option></select>
+    </section>
+    <section aria-labelledby="probe-title">
+      <h2 id="probe-title"><span class="step">2</span> Connection</h2>
+      <div class="two-fields"><div><label for="backend">Programmer</label><select id="backend"><option value="foss">FOSS · openFPGALoader</option><option value="diamond">Lattice Diamond</option></select></div>
+        <div><label for="target">JTAG chain</label><select id="target"><option value="s3c">S3C controller</option><option value="dslot">D1–D5 slots</option></select></div></div>
+      <details><summary>Probe options</summary><div class="two-fields"><div><label for="serial">USB serial</label><input id="serial" placeholder="Default probe"></div>
+        <div><label for="probe-index">Probe index</label><input id="probe-index" type="number" min="0" step="1" placeholder="Default"></div>
+        <div><label for="cable">FOSS cable</label><input id="cable" placeholder="Default cable"></div>
+        <div><label for="device-id">Driver device ID</label><input id="device-id" placeholder="Automatic"></div></div></details>
+      <div class="actions"><button id="scan" class="secondary">Scan chain</button><button id="identify" class="secondary">Read identities</button><button id="drivers" class="text-button">Driver setup…</button></div>
+      <p class="muted">Set the board’s physical JTAG access to the selected chain.</p>
+    </section>
+  </div>
+  <section aria-labelledby="assign-title">
+    <div class="section-heading"><h2 id="assign-title"><span class="step">3</span> Assignments</h2><span id="target-label" class="muted">S3C controller</span></div>
+    <div id="assignments" class="assignments"></div>
+    <div class="actions"><button id="prepare">Review programming…</button><button id="save" class="secondary">Save assignments</button><span class="muted">Review validates the firmware before accessing hardware.</span></div>
+  </section>
+  <section aria-labelledby="devices-title">
+    <div class="section-heading"><h2 id="devices-title">Device readback</h2><span class="muted">Last result from the selected chain</span></div>
+    <div class="table-scroll"><table><thead><tr><th>Position</th><th>IDCODE</th><th>Installed program</th><th>Revision</th><th>USERCODE</th></tr></thead><tbody id="devices"><tr><td colspan="5" class="empty">Scan or read identities to inspect the connected devices.</td></tr></tbody></table></div>
+  </section>
+  <details class="logs" id="log-panel"><summary>Operation log <span id="log-count" class="muted">0 entries</span></summary><pre id="log" tabindex="0" aria-label="Operation log"></pre></details>
+  <footer><span id="host-label">Shared programmer API</span><span id="theme-label">System theme</span></footer>
+</main>
+<dialog id="review-dialog" aria-labelledby="review-title"><div class="dialog-body"><h2 id="review-title">Review programming</h2><p id="review-meta"></p><div id="review-assignments"></div><details><summary>Firmware checksums</summary><pre id="review-hashes"></pre></details><p>This operation erases, programs, verifies, and reads back Flash.</p><label class="check"><input type="checkbox" id="physical-confirm"> The physical JTAG access is set to the selected chain.</label><div class="actions end"><button id="review-cancel" class="secondary">Cancel</button><button id="execute" disabled>Program Flash</button></div></div></dialog>
+<dialog id="release-dialog" aria-labelledby="download-title"><div class="dialog-body"><h2 id="download-title">Download firmware</h2><p class="muted">Published firmware from ultrazohm/uz_cpld.</p><label class="check"><input type="checkbox" id="testing"> Include testing prereleases</label><label for="published-release">Version</label><select id="published-release"></select><div class="actions end"><button id="download-cancel" class="secondary">Cancel</button><button id="download">Download & select</button></div></div></dialog>
+<dialog id="confirm-dialog" aria-labelledby="confirm-title"><div class="dialog-body"><h2 id="confirm-title">Confirm action</h2><p id="confirm-text"></p><div class="actions end"><button id="confirm-no" class="secondary">Cancel</button><button id="confirm-yes">Continue</button></div></div></dialog>
+<script type="module" nonce="__NONCE__" src="__SCRIPT__"></script>
+</body>
+</html>

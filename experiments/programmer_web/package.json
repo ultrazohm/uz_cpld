@@ -1,0 +1,30 @@
+{
+  "name": "uz-cpld-programmer-preview",
+  "displayName": "UltraZohm CPLD Programmer Preview",
+  "description": "Experimental programmer editor using the shared Python API.",
+  "version": "0.0.1",
+  "publisher": "ultrazohm-experiments",
+  "engines": { "vscode": "^1.90.0" },
+  "main": "./extension.js",
+  "extensionKind": ["ui"],
+  "categories": ["Other"],
+  "capabilities": {
+    "untrustedWorkspaces": { "supported": false },
+    "virtualWorkspaces": { "supported": false }
+  },
+  "contributes": {
+    "commands": [
+      { "command": "uzCpldPreview.open", "title": "UltraZohm: Open Programmer Preview" },
+      { "command": "uzCpldPreview.demo", "title": "UltraZohm: Open Programmer Demo" }
+    ],
+    "configuration": {
+      "title": "UltraZohm Programmer Preview",
+      "properties": {
+        "uzCpldPreview.pythonPath": {
+          "type": "string", "default": "",
+          "description": "Local Python executable with cpld_toolchain installed. Empty uses python3 on Linux/macOS or python on Windows."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+name = "voltage_8rx_8tx_8tx_6rx"
+top = "SignalRouter"
+standard = "2008"
+synthesis = "synplify"
+targets = ["uz_dslot_xo2"]
+backends = ["diamond"]
+constraints = ["voltage_8rx_8tx_8tx_6rx_constraints.lpf"]
+sources = [
+    {path = "../../../xo2_library/s3c/s3c_logic.vhdl", library = "s3c"},
+    {path = "../../../xo2_library/s3c/heartbeat.vhdl", library = "s3c"},
+    {path = "voltage_8rx_8tx_8tx_6rx.vhdl", library = "work"},
+]
+testbench = "voltage_8rx_8tx_8tx_6rx_tb.py"

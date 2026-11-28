@@ -1,0 +1,24 @@
+[/workspaces/uz_cpld] /opt/uz-cpld-env/bin/python -m cpld_toolchain.programmer_helper.program program --root /workspaces/uz_cpld --selection /workspaces/uz_cpld/build/hardware-test-20261007/selection-A.toml --programmer-backend diamond --build-backend diamond --target dslot --execute
+Programming selection (release: heartbeat_cvg):
+  D-slot 1: cvg_tx30, revision 17, USERCODE 0x003B0011
+  D-slot 2: cvg_rx30, revision 10, USERCODE 0x0036000A
+  D-slot 3: cvg_tx16_14rx, revision 10, USERCODE 0x0038000A
+  D-slot 4: cvg_tx20_10rx, revision 10, USERCODE 0x0039000A
+  D-slot 5: cvg_optical_14tx_4rx, revision 10, USERCODE 0x0035000A
+Firmware build backend: diamond; programmer backend: diamond
+dslots: /workspaces/uz_cpld/build/programmer/heartbeat_cvg/dslots/plans/plan-i82tdwls/dslots.xcf (sha256 7ab597104cb9c8c34ea8fa9eaa63bdd83b44251018659d0126d527b47199456e)
+  bash /workspaces/uz_cpld/cpld_toolchain/programmer_helper/diamond_program.sh /workspaces/uz_cpld/build/programmer/heartbeat_cvg/dslots/plans/plan-i82tdwls/dslots.xcf '<run-log>'
+Detached ftdi_sio: 3-3:1.1 (serial 0100106000045, channel B)
+Lattice Programmer Diamond (64-bit) 3.14.0.75.2 Command Line
+Argument check - OK
+Loading Programmer Device Database... Done.
+Writing log file to /workspaces/uz_cpld/build/programmer/heartbeat_cvg/dslots/plans/plan-i82tdwls/runs/20261007T194442807404Z/dslots-pgrcmd.log
+Opening XCF file... Done.
+Programming XCF Contents... INFO - Check configuration setup: Start.
+
+ERROR - Check configuration setup: Unsuccessful.
+
+Failed.
+Restored ftdi_sio: 3-3:1.1
+programmer_helper: Programmer failed with exit code 254; see /workspaces/uz_cpld/build/programmer/heartbeat_cvg/dslots/plans/plan-i82tdwls/runs/20261007T194442807404Z/dslots.log
+error: cpld_toolchain.programmer_helper.program failed (exit 2)

@@ -1,0 +1,230 @@
+[/workspaces/uz_cpld] /opt/uz-cpld-env/bin/python -m cpld_toolchain.programmer_helper.program program --root /workspaces/uz_cpld --selection /workspaces/uz_cpld/build/hardware-test-20261007/selection.toml --programmer-backend diamond --build-backend diamond --target dslot --execute
+Programming selection (release: heartbeat_cvg):
+  D-slot 1: cvg_tx30, revision 17, USERCODE 0x003B0011
+  D-slot 2: cvg_tx30, revision 17, USERCODE 0x003B0011
+  D-slot 3: cvg_tx30, revision 17, USERCODE 0x003B0011
+  D-slot 4: cvg_tx30, revision 17, USERCODE 0x003B0011
+  D-slot 5: cvg_tx30, revision 17, USERCODE 0x003B0011
+Firmware build backend: diamond; programmer backend: diamond
+dslots: /workspaces/uz_cpld/build/programmer/heartbeat_cvg/dslots/plans/plan-pb7jmmrw/dslots.xcf (sha256 ecdd35c36370c73e62e2d542e29dae5c27896010c0ee3d7d1e03b23aadff8642)
+  bash /workspaces/uz_cpld/cpld_toolchain/programmer_helper/diamond_program.sh /workspaces/uz_cpld/build/programmer/heartbeat_cvg/dslots/plans/plan-pb7jmmrw/dslots.xcf '<run-log>'
+Detached ftdi_sio: 3-3:1.1 (serial 0100106000045, channel B)
+Lattice Programmer Diamond (64-bit) 3.14.0.75.2 Command Line
+Argument check - OK
+Loading Programmer Device Database... Done.
+Writing log file to /workspaces/uz_cpld/build/programmer/heartbeat_cvg/dslots/plans/plan-pb7jmmrw/runs/20261007T170259283749Z/dslots-pgrcmd.log
+Opening XCF file... Done.
+Programming XCF Contents... INFO - Check configuration setup: Start.
+
+INFO - JTAG Chain Verification. No Errors.
+
+INFO - Check configuration setup: Successful.
+
+INFO - Device1 LCMXO2-2000HC: FLASH Erase,Program,Verify
+
+INFO - Operation Done. No errors.
+
+INFO - Elapsed time: 00 min : 16 sec
+
+INFO - Device2 LCMXO2-2000HC: FLASH Erase,Program,Verify
+
+INFO - Operation Done. No errors.
+
+INFO - Elapsed time: 00 min : 15 sec
+
+INFO - Device3 LCMXO2-2000HC: FLASH Erase,Program,Verify
+
+INFO - Operation Done. No errors.
+
+INFO - Elapsed time: 00 min : 16 sec
+
+INFO - Device4 LCMXO2-2000HC: FLASH Erase,Program,Verify
+
+INFO - Operation Done. No errors.
+
+INFO - Elapsed time: 00 min : 17 sec
+
+INFO - Device5 LCMXO2-2000HC: FLASH Erase,Program,Verify
+
+INFO - Operation Done. No errors.
+
+INFO - Elapsed time: 00 min : 16 sec
+
+INFO - Operation: successful.
+
+Done.
+Lattice Diamond Programmer has exited successfully.
+Restored ftdi_sio: 3-3:1.1
+Detached ftdi_sio: 3-3:1.1 (serial 0100106000045, channel B)
+Lattice Programmer Diamond (64-bit) 3.14.0.75.2 Command Line
+Argument check - OK
+Loading Programmer Device Database... Done.
+Writing log file to /workspaces/uz_cpld/build/programmer/heartbeat_cvg/dslots/plans/plan-pb7jmmrw/runs/20261007T170259283749Z/readback/idcode-pgrcmd.log
+Opening XCF file... Done.
+Programming XCF Contents... INFO - Check configuration setup: Start.
+
+INFO - JTAG Chain Verification. No Errors.
+
+INFO - Check configuration setup: Successful.
+
+INFO - Device1 LCMXO2-2000HC: FLASH Display ID
+
+INFO - ID: 0x012BB043
+
+INFO - Operation Done. No errors.
+
+INFO - Elapsed time: 00 min : 00 sec
+
+INFO - Device2 LCMXO2-2000HC: FLASH Display ID
+
+INFO - ID: 0x012BB043
+
+INFO - Operation Done. No errors.
+
+INFO - Elapsed time: 00 min : 00 sec
+
+INFO - Device3 LCMXO2-2000HC: FLASH Display ID
+
+INFO - ID: 0x012BB043
+
+INFO - Operation Done. No errors.
+
+INFO - Elapsed time: 00 min : 01 sec
+
+INFO - Device4 LCMXO2-2000HC: FLASH Display ID
+
+INFO - ID: 0x012BB043
+
+INFO - Operation Done. No errors.
+
+INFO - Elapsed time: 00 min : 00 sec
+
+INFO - Device5 LCMXO2-2000HC: FLASH Display ID
+
+INFO - ID: 0x012BB043
+
+INFO - Operation Done. No errors.
+
+INFO - Elapsed time: 00 min : 00 sec
+
+INFO - Operation: successful.
+
+Done.
+Lattice Diamond Programmer has exited successfully.
+Lattice Programmer Diamond (64-bit) 3.14.0.75.2 Command Line
+Argument check - OK
+Loading Programmer Device Database... Done.
+Writing log file to /workspaces/uz_cpld/build/programmer/heartbeat_cvg/dslots/plans/plan-pb7jmmrw/runs/20261007T170259283749Z/readback/usercode-pgrcmd.log
+Opening XCF file... Done.
+Programming XCF Contents... INFO - Check configuration setup: Start.
+
+INFO - JTAG Chain Verification. No Errors.
+
+INFO - Check configuration setup: Successful.
+
+INFO - Device1 LCMXO2-2000HC: XFLASH Display USERCODE
+
+INFO - USERCODE : 0x003B0011.
+
+INFO - Operation Done. No errors.
+
+INFO - Elapsed time: 00 min : 01 sec
+
+INFO - Device2 LCMXO2-2000HC: XFLASH Display USERCODE
+
+INFO - USERCODE : 0x003B0011.
+
+INFO - Operation Done. No errors.
+
+INFO - Elapsed time: 00 min : 02 sec
+
+INFO - Device3 LCMXO2-2000HC: XFLASH Display USERCODE
+
+INFO - USERCODE : 0x003B0011.
+
+INFO - Operation Done. No errors.
+
+INFO - Elapsed time: 00 min : 01 sec
+
+INFO - Device4 LCMXO2-2000HC: XFLASH Display USERCODE
+
+INFO - USERCODE : 0x003B0011.
+
+INFO - Operation Done. No errors.
+
+INFO - Elapsed time: 00 min : 01 sec
+
+INFO - Device5 LCMXO2-2000HC: XFLASH Display USERCODE
+
+INFO - USERCODE : 0x003B0011.
+
+INFO - Operation Done. No errors.
+
+INFO - Elapsed time: 00 min : 02 sec
+
+INFO - Operation: successful.
+
+Done.
+Lattice Diamond Programmer has exited successfully.
+Lattice Programmer Diamond (64-bit) 3.14.0.75.2 Command Line
+Argument check - OK
+Loading Programmer Device Database... Done.
+Writing log file to /workspaces/uz_cpld/build/programmer/heartbeat_cvg/dslots/plans/plan-pb7jmmrw/runs/20261007T170259283749Z/readback/traceid-pgrcmd.log
+Opening XCF file... Done.
+Programming XCF Contents... INFO - Check configuration setup: Start.
+
+INFO - JTAG Chain Verification. No Errors.
+
+INFO - Check configuration setup: Successful.
+
+INFO - Device1 LCMXO2-2000HC: Security Display TraceID
+
+INFO - ID: 0x0144381228405816
+
+INFO - Operation Done. No errors.
+
+INFO - Elapsed time: 00 min : 01 sec
+
+INFO - Device2 LCMXO2-2000HC: Security Display TraceID
+
+INFO - ID: 0x014438122840581A
+
+INFO - Operation Done. No errors.
+
+INFO - Elapsed time: 00 min : 00 sec
+
+INFO - Device3 LCMXO2-2000HC: Security Display TraceID
+
+INFO - ID: 0x01443812283C5E02
+
+INFO - Operation Done. No errors.
+
+INFO - Elapsed time: 00 min : 00 sec
+
+INFO - Device4 LCMXO2-2000HC: Security Display TraceID
+
+INFO - ID: 0x01443812283C6005
+
+INFO - Operation Done. No errors.
+
+INFO - Elapsed time: 00 min : 00 sec
+
+INFO - Device5 LCMXO2-2000HC: Security Display TraceID
+
+INFO - ID: 0x01443812283C6003
+
+INFO - Operation Done. No errors.
+
+INFO - Elapsed time: 00 min : 00 sec
+
+INFO - Operation: successful.
+
+Done.
+Lattice Diamond Programmer has exited successfully.
+Restored ftdi_sio: 3-3:1.1
+slot1: USERCODE 0x003B0011, TraceID 0x0144381228405816: heartbeat_cvg/cvg_tx30, revision 17
+slot2: USERCODE 0x003B0011, TraceID 0x014438122840581A: heartbeat_cvg/cvg_tx30, revision 17
+slot3: USERCODE 0x003B0011, TraceID 0x01443812283C5E02: heartbeat_cvg/cvg_tx30, revision 17
+slot4: USERCODE 0x003B0011, TraceID 0x01443812283C6005: heartbeat_cvg/cvg_tx30, revision 17
+slot5: USERCODE 0x003B0011, TraceID 0x01443812283C6003: heartbeat_cvg/cvg_tx30, revision 17
+Programming record: /workspaces/uz_cpld/build/programmer/heartbeat_cvg/dslots/plans/plan-pb7jmmrw/runs/20261007T170259283749Z/result.json

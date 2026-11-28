@@ -1,0 +1,43 @@
+UltraZohm CPLD programmer distribution
+
+Our original application and helper: Apache-2.0 (LICENSE and NOTICE).
+Third-party components retain their own terms. The release's
+licenses/inventory.json maps bundled runtime files to their providers, notice
+files and source material. Build-only packages are not automatically runtime
+dependencies. The full development container has a separate dependency set.
+
+openFPGALoader: Apache-2.0, copyright its upstream contributors. Modified by
+UltraZohm contributors for managed MachXO2 programming and identity verification.
+The bundle retains upstream source, our patch, licenses and build/relink inputs.
+https://github.com/trabucayre/openFPGALoader
+
+libwdi: LGPL-3.0-or-later, copyright Pete Batard and contributors. Used by the
+Windows driver helper. Our patch uses Windows 10/11's built-in WinUSB without
+redistributing Microsoft WDK coinstallers. GPL/LGPL texts, the exact source,
+patch, helper source/object files, static library and relinking instructions
+are included. You may modify and relink this component.
+https://github.com/pbatard/libwdi
+
+libftdi library: LGPL-2.1-only. Its source distribution also contains tools and
+build files with separately identified licenses; those licenses are preserved.
+libusb: LGPL-2.1-or-later. Sources, licenses and Windows relinking materials are
+included with the programmer. Linux package sources include distribution patches.
+https://www.intra2net.com/en/developer/libftdi/
+https://libusb.info/
+
+Python: PSF license and the additional licenses collected in Python-LICENSE.txt.
+Tomli: MIT. PyInstaller: GPL-2.0-or-later with its bootloader distribution
+exception, plus Apache-2.0 for identified files. Python's bundled native libraries
+retain their own licenses. See the file-level inventory and copied notices.
+https://www.python.org/psf/license/
+https://pyinstaller.org/en/stable/license.html
+
+GCC runtime: GPL with GCC Runtime Library Exception 3.1. MinGW-w64 runtime and
+headers carry their own notices. zlib: zlib license. Applicable notices accompany
+the native binaries. Linking does not relicense these dependencies.
+
+Windows runtime terms: Windows itself supplies WinUSB, UCRT and API-set DLLs.
+We do not redistribute these system DLLs. Any Microsoft Visual C runtime carried
+with Python retains Microsoft's terms reproduced in Python-LICENSE.txt.
+The additional terms in licenses/WINDOWS-RUNTIME-TERMS.txt apply only to those
+Microsoft runtime files, not to our Apache code or LGPL components.
